@@ -4283,6 +4283,24 @@ gtk-update-icon-cache -qtf /usr/share/icons/hicolor
 update-desktop-database -q
 cd ..
 rm -rf xarchiver-0.5.4.17
+# gtksourceview.
+tar -xf gtksourceview-4.8.1.tar.xz
+cd gtksourceview-4.8.1
+patch -Np1 -i ../patches/gtksourceview4-4.8.1-buildfix-1.patch
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf gtksourceview-4.8.1
+# Mousepad.
+tar -xf mousepad-0.5.6.tar.bz2
+cd mousepad-0.5.6
+./configure --prefix=/usr --enable-keyfile-settings
+make
+make install
+cd ..
+rm -rf mousepad-0.5.6
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
