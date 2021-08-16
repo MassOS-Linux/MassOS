@@ -310,6 +310,7 @@ rm -rf gmp-6.2.1
 # MPFR.
 tar -xf mpfr-4.1.0.tar.xz
 cd mpfr-4.1.0
+./configure --prefix=/usr --disable-static --enable-thread-safe --docdir=/usr/share/doc/mpfr-4.1.0
 make
 make html
 make install
@@ -1424,7 +1425,7 @@ cat > /etc/fuse.conf << END
 #
 #user_allow_other
 END
-cd ..
+cd ../..
 rm -rf fuse-3.10.4
 # cpio.
 tar -xf cpio-2.13.tar.bz2
@@ -3069,6 +3070,8 @@ session  optional    pam_systemd.so
 auth     required    pam_deny.so
 password required    pam_deny.so
 END
+cd ../..
+rm -rf systemd-249
 # D-Bus (rebuild for X support (dbus-launch)).
 tar -xf dbus-1.12.20.tar.gz
 cd dbus-1.12.20
@@ -3113,7 +3116,7 @@ mkdir epoxy-build; cd epoxy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-cd ..
+cd ../..
 rm -rf libepoxy-1.5.8
 # Xorg-Server.
 tar -xf xorg-server-1.20.13.tar.xz
@@ -3763,7 +3766,7 @@ mkdir pygo-build; cd pygo-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-cd ..
+cd ../..
 rm -rf pygobject-3.40.1
 # UPower.
 tar -xf upower-0.99.12.tar.xz
