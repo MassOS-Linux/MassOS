@@ -429,22 +429,18 @@ END
 cd ..
 rm -rf libcap-2.52
 # Shadow.
-tar -xf shadow-4.9.tar.xz
-cd shadow-4.9
+tar -xf shadow-4.8.1.tar.xz
+cd shadow-4.8.1
 sed -i 's/groups$(EXEEXT) //' src/Makefile.in
 find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
 find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
 find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
-sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' -e '/PATH=/{s@/sbin:@@;s@/bin:@@}' -i etc/login.defs                                
-sed -i.orig '/$(LIBTCB)/i $(LIBPAM) \\' libsubid/Makefile.am
-sed -i "224s/rounds/min_rounds/" libmisc/salt.c
+sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' -e '/PATH=/{s@/sbin:@@;s@/bin:@@}' -i etc/login.defs
+sed -i 's/1000/999/' etc/useradd
 touch /usr/bin/passwd
 ./configure --sysconfdir=/etc --with-group-name-max-length=32
 make
 make exec_prefix=/usr install
-make -C man install-man
-mkdir -p /etc/default
-useradd -D --gid 999
 sed -i 's/yes/no/' /etc/default/useradd
 pwconv
 grpconv
@@ -485,7 +481,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.9
+rm -rf shadow-4.8.1
 # GCC.
 tar -xf gcc-11.2.0.tar.xz
 sed -e '/static.*SIGSTKSZ/d' -e 's/return kAltStackSize/return SIGSTKSZ * 4/' -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
