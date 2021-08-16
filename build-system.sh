@@ -484,6 +484,7 @@ cd ..
 rm -rf shadow-4.8.1
 # GCC.
 tar -xf gcc-11.2.0.tar.xz
+cd gcc-11.2.0
 sed -e '/static.*SIGSTKSZ/d' -e 's/return kAltStackSize/return SIGSTKSZ * 4/' -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
