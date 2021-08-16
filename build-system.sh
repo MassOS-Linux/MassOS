@@ -289,12 +289,16 @@ sed -i '63d' etc/texi2pod.pl
 find -name \*.1 -delete
 sed -i '/@\tincremental_copy/d' gold/testsuite/Makefile.in
 mkdir build; cd build
+unset CFLAGS CXXFLAGS
 ../configure --prefix=/usr --enable-gold --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --with-system-zlib
 make tooldir=/usr
 make tooldir=/usr install -j1
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 cd ../..
 rm -rf binutils-2.37
+CFLAGS="-g0 -Os"
+CXXFLAGS="-g0 -Os"
+export CFLAGS CXXFLAGS
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
 cd gmp-6.2.1
