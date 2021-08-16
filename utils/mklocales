@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# Script to generate locales specified in '/etc/locales'.
+#
+# Exit on error.
+set -e
+# Ensure we are running as root.
+if [ $EUID != 0 ]; then
+  echo "Error: $0 must be run as root." >&2
+  exit 1
+fi
+
+LOCALEGEN=/etc/locales
+LOCALES=/usr/share/i18n/locales
+if [ -n "$POSIXLY_CORRECT" ]; then
+  unset POSIXLY_CORRECT
+fi
+
+
+[ -f $LOCALEGEN -a -s $LOCALEGEN ] || exit 0;
+
+# Remove all old locale dir and locale-archive before generating new
+# locale data.
+rm -rf /usr/lib/locale/* || true
+
+umask 022
+
+is_entry_ok() {
+  if [ -n "$locale" -a -n "$charset" ] ; then
+    true
+  else
+    echo "Error: Bad entry '$locale $charset'"
+    false
+  fi
+}
+
+while read locale charset; do
+	case $locale in
+    \#*) continue ;;
+    "") continue ;;
+  esac
+	is_entry_ok || continue
+	echo -n "Generating locale `echo $locale | sed 's/\([^.\@]*\).*/\1/'`"
+	echo -n ".$charset"
+	echo -n `echo $locale | sed 's/\([^\@]*\)\(\@.*\)*/\2/'`
+	echo -n '...'
+  if [ -f $LOCALES/$locale ]; then
+    input=$locale
+  else
+    input=`echo $locale | sed 's/\([^.]*\)[^@]*\(.*\)/\1\2/'`
+  fi
+	localedef -i $input -c -f $charset -A /usr/share/locale/locale.alias $locale
+	echo ' done'
+done < $LOCALEGEN
+echo "Locales successfully generated."

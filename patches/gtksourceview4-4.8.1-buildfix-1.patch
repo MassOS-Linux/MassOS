@@ -1,0 +1,36 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2021-03-03
+Initial Package Version: 4.8.1
+Origin:                  Self
+Upstream Status:         Unknown
+Description:             Fixes a race condition that occurs on some systems because
+                         gtksourceview_gresources.h is not generated before it
+                         is included.
+
+diff -Naurp gtksourceview-4.8.1.orig/gtksourceview/meson.build gtksourceview-4.8.1/gtksourceview/meson.build
+--- gtksourceview-4.8.1.orig/gtksourceview/meson.build	2021-03-02 13:07:09.498355900 -0600
++++ gtksourceview-4.8.1/gtksourceview/meson.build	2021-03-03 16:04:12.038226977 -0600
+@@ -5,6 +5,11 @@ core_marshallers = gnome.genmarshal('gtk
+   valist_marshallers: true,
+ )
+ 
++gtksource_res = gnome.compile_resources(
++  'gtksourceview-gresources',
++  'gtksourceview.gresource.xml'
++)
++
+ core_public_h = files([
+   'gtksource.h',
+   'gtksourceautocleanups.h',
+@@ -216,11 +221,6 @@ extra_public_sources = []
+ 
+ subdir('completion-providers')
+ 
+-gtksource_res = gnome.compile_resources(
+-  'gtksourceview-gresources',
+-  'gtksourceview.gresource.xml'
+-)
+-
+ 
+ # We can't use the static libs on Visual Studio builds
+ # to form our DLL here directly, so we must use

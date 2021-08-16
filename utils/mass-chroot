@@ -1,0 +1,55 @@
+#!/bin/bash
+# Enter a chroot environment for MassOS.
+
+set -e
+
+if [ $EUID -ne 0 ]; then
+  echo "Error: mass-chroot must be run as root." >&2
+  exit 1
+fi
+
+if [ -z "$1" ]; then
+  echo "Usage: mass-chroot <chroot dir> [optional custom command]"
+  exit 1
+fi
+
+if [ ! -d "$1" ]; then
+  echo "Error: $1 is not a directory I can chroot into." >&2
+  exit 1
+fi
+
+echo "Entering chroot environment in $1..."
+
+mount --bind /dev "$1"/dev
+mount --bind /dev/pts "$1"/dev/pts
+mount -t proc proc "$1"/proc
+mount -t sysfs sysfs "$1"/sys
+mount -t tmpfs tmpfs "$1"/run
+
+set +e
+
+if [ -z "$2" ]; then
+  chroot "$1"
+  STATUS=$?
+else
+  chroot "$1" "$2"
+  STATUS=$?
+fi
+
+set -e
+
+echo "Exiting chroot environment..."
+
+umount "$1"/dev/pts
+umount "$1"/dev
+umount "$1"/proc
+umount "$1"/sys
+umount "$1"/run
+
+if [ $STATUS -eq 0 ]; then
+  echo "Chroot exited successfully."
+else
+  echo "Chroot exited unsuccessfully (code $STATUS)."
+fi
+
+exit $STATUS

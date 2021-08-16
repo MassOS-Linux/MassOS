@@ -1,0 +1,264 @@
+Submitted By: Ken Moffat <ken at linuxfromscratch dot org>
+Date: 2021-05-23
+Initial Package Version: 1.18.4
+Upstream Status: Applied
+Origin: https://gitlab.freedesktop.org/ystreet/gst-plugins-good/-/commit/612102fdbc3f813bf9d3406165692b5f742
+e51a6
+Description: From Joe Locash, via blfs-dev.
+Fixes build failure with gcc-11 if certain dependencies
+such as Qt are present. See
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues/868
+
+--- gst-plugins-good-1.18.4.orig/ext/jack/gstjack.c	2021-03-15 13:48:30.609550700 -0400
++++ gst-plugins-good-1.18.4/ext/jack/gstjack.c	2021-05-20 12:08:02.051002222 -0400
+@@ -28,7 +28,7 @@
+ GType
+ gst_jack_connect_get_type (void)
+ {
+-  static volatile gsize jack_connect_type = 0;
++  static gsize jack_connect_type = 0;
+ 
+   if (g_once_init_enter (&jack_connect_type)) {
+     static const GEnumValue jack_connect_enums[] = {
+@@ -50,7 +50,7 @@
+ GType
+ gst_jack_transport_get_type (void)
+ {
+-  static volatile gsize type = 0;
++  static gsize type = 0;
+ 
+   if (g_once_init_enter (&type)) {
+     static const GFlagsValue flag_values[] = {
+@@ -84,7 +84,7 @@
+ GType
+ gst_jack_client_get_type (void)
+ {
+-  static volatile gsize jack_client_type = 0;
++  static gsize jack_client_type = 0;
+ 
+   if (g_once_init_enter (&jack_client_type)) {
+     /* hackish, but makes it show up nicely in gst-inspect */
+--- gst-plugins-good-1.18.4.orig/ext/jack/gstjackaudiosink.c	2021-03-15 13:48:30.609550700 -0400
++++ gst-plugins-good-1.18.4/ext/jack/gstjackaudiosink.c	2021-05-20 12:08:02.052002194 -0400
+@@ -131,7 +131,7 @@
+ static GType
+ gst_jack_ring_buffer_get_type (void)
+ {
+-  static volatile gsize ringbuffer_type = 0;
++  static gsize ringbuffer_type = 0;
+ 
+   if (g_once_init_enter (&ringbuffer_type)) {
+     static const GTypeInfo ringbuffer_info = {
+--- gst-plugins-good-1.18.4.orig/ext/jack/gstjackaudiosrc.c	2021-03-15 13:48:30.613550400 -0400
++++ gst-plugins-good-1.18.4/ext/jack/gstjackaudiosrc.c	2021-05-20 12:08:02.052002194 -0400
+@@ -151,7 +151,7 @@
+ static GType
+ gst_jack_ring_buffer_get_type (void)
+ {
+-  static volatile gsize ringbuffer_type = 0;
++  static gsize ringbuffer_type = 0;
+ 
+   if (g_once_init_enter (&ringbuffer_type)) {
+     static const GTypeInfo ringbuffer_info = { sizeof (GstJackRingBufferClass),
+--- gst-plugins-good-1.18.4.orig/ext/pulse/pulsesink.h	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/pulse/pulsesink.h	2021-05-20 12:08:02.052002194 -0400
+@@ -72,7 +72,7 @@
+   GstStructure *properties;
+   pa_proplist *proplist;
+ 
+-  volatile gint format_lost;
++  gint format_lost;
+   GstClockTime format_lost_time;
+ };
+ 
+--- gst-plugins-good-1.18.4.orig/ext/qt/gstqsgtexture.cc	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/qt/gstqsgtexture.cc	2021-05-20 12:08:02.052002194 -0400
+@@ -35,7 +35,7 @@
+ 
+ GstQSGTexture::GstQSGTexture ()
+ {
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   initializeOpenGLFunctions();
+ 
+--- gst-plugins-good-1.18.4.orig/ext/qt/gstqtglutility.cc	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/qt/gstqtglutility.cc	2021-05-20 12:08:02.053002167 -0400
+@@ -66,7 +66,7 @@
+ {
+   GstGLDisplay *display = NULL;
+   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   g_assert (app != NULL);
+ 
+--- gst-plugins-good-1.18.4.orig/ext/qt/qtglrenderer.cc	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/qt/qtglrenderer.cc	2021-05-20 12:08:02.053002167 -0400
+@@ -22,7 +22,7 @@
+ static void
+ init_debug (void)
+ {
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   if (g_once_init_enter (&_debug)) {
+     GST_DEBUG_CATEGORY_INIT (GST_CAT_DEFAULT, "qtglrenderer", 0,
+@@ -115,7 +115,7 @@
+ 
+ struct SharedRenderData
+ {
+-  volatile int refcount;
++  int refcount;
+   SharedRenderDataState state;
+   GMutex lock;
+   GCond cond;
+@@ -130,7 +130,7 @@
+ {
+   struct SharedRenderData *ret = g_new0 (struct SharedRenderData, 1);
+ 
+-  ret->refcount = 1;
++  g_atomic_int_set (&ret->refcount, 1);
+   g_mutex_init (&ret->lock);
+ 
+   return ret;
+--- gst-plugins-good-1.18.4.orig/ext/qt/qtitem.cc	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/qt/qtitem.cc	2021-05-20 12:08:02.053002167 -0400
+@@ -104,7 +104,7 @@
+ 
+ QtGLVideoItem::QtGLVideoItem()
+ {
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   if (g_once_init_enter (&_debug)) {
+     GST_DEBUG_CATEGORY_INIT (GST_CAT_DEFAULT, "qtglwidget", 0, "Qt GL Widget");
+--- gst-plugins-good-1.18.4.orig/ext/qt/qtwindow.cc	2021-03-15 13:48:30.617550100 -0400
++++ gst-plugins-good-1.18.4/ext/qt/qtwindow.cc	2021-05-20 12:08:02.053002167 -0400
+@@ -103,7 +103,7 @@
+   QQuickWindow( parent ), source (src)
+ {
+   QGuiApplication *app = static_cast<QGuiApplication *> (QCoreApplication::instance ());
+-  static volatile gsize _debug;
++  static gsize _debug;
+ 
+   g_assert (app != NULL);
+ 
+@@ -152,7 +152,7 @@
+ 
+   g_mutex_lock (&this->priv->lock);
+ 
+-  static volatile gsize once = 0;
++  static gsize once = 0;
+   if (g_once_init_enter(&once)) {
+     this->priv->start = QDateTime::currentDateTime().toMSecsSinceEpoch();
+     g_once_init_leave(&once,1);
+--- gst-plugins-good-1.18.4.orig/ext/vpx/gstvpxdec.c	2021-03-15 13:48:30.621550000 -0400
++++ gst-plugins-good-1.18.4/ext/vpx/gstvpxdec.c	2021-05-20 12:08:02.053002167 -0400
+@@ -79,7 +79,7 @@
+     {C_FLAGS (VP8_MFQE), "Multi-frame quality enhancement", "mfqe"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+--- gst-plugins-good-1.18.4.orig/ext/vpx/gstvpxenc.c	2021-03-15 13:48:30.621550000 -0400
++++ gst-plugins-good-1.18.4/ext/vpx/gstvpxenc.c	2021-05-20 12:08:02.054002139 -0400
+@@ -165,7 +165,7 @@
+     {VPX_CQ, "Constant Quality Mode (CQ) mode", "cq"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -188,7 +188,7 @@
+     {VPX_RC_LAST_PASS, "Last pass of multipass encoding", "last-pass"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -210,7 +210,7 @@
+     {VPX_KF_DISABLED, "Don't automatically place keyframes", "disabled"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -232,7 +232,7 @@
+     {VP8_TUNE_SSIM, "Tune for SSIM", "ssim"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -256,7 +256,7 @@
+     {VP8E_ONETWO, "1:2", "1:2"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -280,7 +280,7 @@
+     {VP8_EIGHT_TOKENPARTITION, "Eight token partitions", "8"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+@@ -303,7 +303,7 @@
+         "Allow partitions to be decoded independently", "partitions"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+ 
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+--- gst-plugins-good-1.18.4.orig/gst/audioparsers/gstac3parse.h	2021-03-15 13:48:30.629549500 -0400
++++ gst-plugins-good-1.18.4/gst/audioparsers/gstac3parse.h	2021-05-20 12:08:02.054002139 -0400
+@@ -62,7 +62,7 @@
+   gint                  blocks;
+   gboolean              eac;
+   gboolean              sent_codec_tag;
+-  volatile gint         align;
++  gint                  align;
+   GstPadChainFunction   baseparse_chainfunc;
+ };
+ 
+--- gst-plugins-good-1.18.4.orig/sys/rpicamsrc/gstrpicamsrc.c	2021-03-15 13:48:30.709545000 -0400
++++ gst-plugins-good-1.18.4/sys/rpicamsrc/gstrpicamsrc.c	2021-05-20 12:08:02.055002111 -0400
+@@ -292,7 +292,7 @@
+         "640x480 4:3 60.1-90fps", "640x480-fast"},
+     {0, NULL, NULL}
+   };
+-  static volatile GType id = 0;
++  static GType id = 0;
+   if (g_once_init_enter ((gsize *) & id)) {
+     GType _id;
+     _id = g_enum_register_static ("GstRpiCamSrcSensorMode", values);
+--- gst-plugins-good-1.18.4.orig/sys/ximage/ximageutil.c	2021-03-15 13:48:30.717544600 -0400
++++ gst-plugins-good-1.18.4/sys/ximage/ximageutil.c	2021-05-20 12:08:02.055002111 -0400
+@@ -26,7 +26,7 @@
+ GType
+ gst_meta_ximage_api_get_type (void)
+ {
+-  static volatile GType type;
++  static GType type;
+   static const gchar *tags[] = { "memory", NULL };
+ 
+   if (g_once_init_enter (&type)) {

@@ -1,0 +1,59 @@
+Submitted By:            Douglas R. Reno <renodr at linuxfromscratch dot org>
+Date:                    2021-07-22
+Initial Package Version: 249
+Origin:                  Upstream (https://github.com/systemd/systemd/pull/20256/)
+Upstream Status:         Applied
+Description:             This patch guards systemd-249 against CVE-2021-33910. A
+                         similar patch will be provided for systemd-246 (LFS
+                         10.0) and systemd-247 (LFS 10.1). The vulnerability is 
+                         described as "an attacker-controlled alloc() leads to 
+                         a crash in systemd and ultimately a kernel panic".
+                         This vulnerability pertains to the FUSE filesystem
+                         layer in the kernel, and depends on the patch in the
+                         kernel for CVE-2021-33909. 
+
+                         A local attacker who is able to mount a filesystem 
+                         with a very long path will be able to crash the entire
+                         system. It is also possible for this vulnerability to
+                         be exploited upon mounting, or automounting (such as
+                         via GVFS in XFCE/GNOME), an NTFS or SSHFS filesystem,
+                         since those filesystems use FUSE. The vulnerability
+                         triggers when reading /proc/self/mountinfo, which
+                         systemd does automatically upon a filesystem being
+                         mounted.
+
+diff -Naurp systemd-249.orig/src/basic/unit-name.c systemd-249/src/basic/unit-name.c
+--- systemd-249.orig/src/basic/unit-name.c	2021-07-07 12:41:29.000000000 -0500
++++ systemd-249/src/basic/unit-name.c	2021-07-22 14:11:15.615650306 -0500
+@@ -378,12 +378,13 @@ int unit_name_unescape(const char *f, ch
+ }
+ 
+ int unit_name_path_escape(const char *f, char **ret) {
+-        char *p, *s;
++        _cleanup_free_ char *p = NULL;
++        char *s;
+ 
+         assert(f);
+         assert(ret);
+ 
+-        p = strdupa(f);
++        p = strdup(f);
+         if (!p)
+                 return -ENOMEM;
+ 
+@@ -395,13 +396,10 @@ int unit_name_path_escape(const char *f,
+                 if (!path_is_normalized(p))
+                         return -EINVAL;
+ 
+-                /* Truncate trailing slashes */
++                /* Truncate trailing slashes and skip leading slashes*/
+                 delete_trailing_chars(p, "/");
+ 
+-                /* Truncate leading slashes */
+-                p = skip_leading_chars(p, "/");
+-
+-                s = unit_name_escape(p);
++                s = unit_name_escape(skip_leading_chars(p, "/"));
+         }
+         if (!s)
+                 return -ENOMEM;

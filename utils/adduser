@@ -1,0 +1,84 @@
+#!/bin/bash
+# User creation utility for MassOS.
+
+if [ $EUID -ne 0 ]; then
+  echo "Error: adduser must be run as root." >&2
+  exit 1
+fi
+
+read -p "Enter the full name of the new user: " fullname
+
+read -p "Enter the username of the new user: " username1
+username2=$(echo "$username1"  | head -n1 | cut -d " " -f1)
+username=$(echo $username2 | tr '[:upper:]' '[:lower:]')
+
+if [ -z "$fullname" ]; then
+  fullname=username
+fi
+
+read -p "Default login shell (/bin/bash): " shell
+if [ -z "$shell" ]; then
+  shell=/bin/bash
+elif [ ! -x "$shell" ]; then
+  echo "Warning: $shell is not a valid shell. Falling back to '/bin/bash'." >&2
+  shell=/bin/bash
+fi
+
+echo "Admin privileges adds the user to the groups 'wheel' and 'netdev'."
+read -p "Enable admin privileges for the user? [Y/n] " adminselect1
+adminselect=$(echo "$adminselect1" | tr '[:upper:]' '[:lower:]')
+if [ -z "$adminselect" ]; then
+  admin=y
+elif [ "$adminselect" != n ]; then
+  if [ "$adminselect" != no ]; then
+    admin=y
+  fi
+else
+  admin=n
+fi
+
+if [ $admin = y ]; then
+  groups="wheel,netdev"
+fi
+
+read -p "Enter a comma-separated list of any extra groups for the user: " g
+if [ ! -z "$g" ]; then
+  groups="$groups,$g"
+fi
+
+echo "Your user will be configured with the following settings:
+
+Full name: $fullname
+Username: $username
+Login shell: $shell
+Groups: $groups
+"
+read -p "Press Enter to continue or CTRL+C to abort: "
+
+if [ -z "$groups" ]; then
+  useradd -c "$fullname" -ms "$shell" $username
+  if [ $? -ne 0 ]; then
+    echo "Error creating user. Exiting..." >&2
+    exit 1
+  fi
+else
+  useradd -c "$fullname" -mG "$groups" -s "$shell" $username
+  if [ $? -ne 0 ]; then
+    echo "Error creating user. Exiting..." >&2
+    exit 1
+  fi
+fi
+return=1
+while [ $return = 1 ]; do
+  passwd $username
+  if [ $? -ne 0 ]; then
+    return=1
+  else
+    return=0
+  fi
+done
+for i in profile bash_profile bashrc bash_logout; do
+  cp /etc/skel/.$i /home/$username/
+  chown $username:$username /home/$username/.$i
+done
+echo "User $username created successfully."

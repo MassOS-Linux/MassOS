@@ -1,0 +1,3 @@
+# Valid login shells
+/bin/sh
+/bin/bash

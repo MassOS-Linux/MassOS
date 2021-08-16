@@ -1,0 +1,14 @@
+# File system table - list of filesystems to be automounted at boot time.
+
+# Uncomment the root filesystem line and any other lines you need.
+# BE SURE TO REPLACE THE 'x' PLACEHOLDERS WITH THE UUID OF YOUR PARTITION.
+# If unsure of the UUID, 'blkid' can be used to find them.
+
+# Root filesystem:
+#UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx / ext4 defaults 1 1
+
+# Swap (optional):
+#UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx swap swap pri=1 0 0
+
+# EFI system (UEFI only):
+#UUID=xxxx-xxxx /boot/efi vfat defaults 0 1

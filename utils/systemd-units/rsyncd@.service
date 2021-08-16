@@ -1,0 +1,7 @@
+[Unit]
+Description=A file transfer program to keep remote files in sync
+ConditionPathExists=/etc/rsyncd.conf
+
+[Service]
+ExecStart=/usr/bin/rsync --daemon --no-detach
+StandardInput=socket
