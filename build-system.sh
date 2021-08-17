@@ -1019,6 +1019,14 @@ PUBLIC "-//OASIS//DTD DocBook V4.0//EN" "docbook.dtd"
 END
 cd ..
 rm -rf docbook-4.5
+# libxml2.
+tar -xf libxml2-2.9.12.tar.gz
+cd libxml2-2.9.12
+./configure --prefix=/usr --disable-static --with-history --with-python=/usr/bin/python3
+make
+make install
+cd ..
+rm -rf libxml2-2.9.12
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 cd docbook-xml-4.5
@@ -1078,14 +1086,6 @@ xmlcatalog --noout --add "rewriteSystem" "http://docbook.sourceforge.net/release
 xmlcatalog --noout --add "rewriteURI" "http://docbook.sourceforge.net/release/xsl/current" "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" /etc/xml/catalog
 cd ..
 rm -rf docbook-xsl-nons-1.79.2
-# libxml2.
-tar -xf libxml2-2.9.12.tar.gz
-cd libxml2-2.9.12
-./configure --prefix=/usr --disable-static --with-history --with-python=/usr/bin/python3
-make
-make install
-cd ..
-rm -rf libxml2-2.9.12
 # libxslt.
 tar -xf libxslt-1.1.34.tar.gz
 cd libxslt-1.1.34
