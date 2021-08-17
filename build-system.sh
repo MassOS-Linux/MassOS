@@ -1398,6 +1398,13 @@ rm -rf dosfstools-4.2
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
+sed -i '58iAC_CHECK_FUNCS([closefrom])' configure.ac
+sed -i '25i#ifdef HAVE_CONFIG_H' util/ulockmgr_server.c
+sed -i '26i  #include "config.h"' util/ulockmgr_server.c
+sed -i '27i#endif' util/ulockmgr_server.c
+sed -i '130i#if !defined(HAVE_CLOSEFROM)' util/ulockmgr_server.c
+sed -i '148i#endif' util/ulockmgr_server.c
+autoreconf -fi
 UDEV_RULES_PATH=/usr/lib/udev/rules.d MOUNT_FUSE_PATH=/usr/bin ./configure --prefix=/usr --libdir=/usr/lib --enable-lib --enable-util --disable-example
 make
 make DESTDIR=$PWD/dest install
@@ -1502,6 +1509,7 @@ rm -rf ntfs-3g_ntfsprogs-2017.3.23
 # exfat-utils.
 tar -xf v1.3.0.tar.gz
 cd exfat-1.3.0
+autoreconf -fi
 ./configure --prefix=/usr
 make CCFLAGS="$CFLAGS -std=c99" LINKFLAGS="$LDFLAGS"
 make install
@@ -1630,7 +1638,6 @@ cd usbutils-014
 make
 make install
 install -dm755 /usr/share/hwdata
-wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
 cat > /usr/lib/systemd/system/update-usbids.service << END
 [Unit]
 Description=Update usb.ids file
@@ -1664,7 +1671,6 @@ cd pciutils-3.7.0
 make PREFIX=/usr SHAREDIR=/usr/share/hwdata SHARED=yes
 make PREFIX=/usr SHAREDIR=/usr/share/hwdata SHARED=yes install install-lib
 chmod 755 /usr/lib/libpci.so
-update-pciids
 cat > /usr/lib/systemd/system/update-pciids.service << END
 [Unit]
 Description=Update pci.ids file
@@ -1725,6 +1731,8 @@ cd make-ca-1.7
 make install
 install -dm755 /etc/ssl/local
 make-ca -g
+wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
+update-pciids
 systemctl enable update-pki.timer
 cd ..
 rm -rf make-ca-1.7
@@ -1778,7 +1786,7 @@ cd libassuan-2.5.5
 make
 make install
 cd ..
-rm -rf libassuan-2.5.5.tar.bz2
+rm -rf libassuan-2.5.5
 # Nettle.
 tar -xf nettle-3.7.3.tar.gz
 cd nettle-3.7.3
@@ -1935,21 +1943,33 @@ make install
 install -m644 autoconf213.info /usr/share/info
 install-info --info-dir=/usr/share/info autoconf213.info
 cd ..
-rm -rf autoconf-2.13.tar.gz
+rm -rf autoconf-2.13
 # Rust.
 tar -xf rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.54.0-x86_64-unknown-linux-gnu
 # We install rust to /opt/rust, so it can be removed later.
+mkdir -p /etc/ld.so.conf.d
 cat > /etc/ld.so.conf.d/rust.conf << END
 /opt/rust/lib
 END
-cat > /etc/profile.d/rust.sh << END
-pathprepend /opt/rust/bin PATH
-END
-source /etc/profile.d/rust.sh
+export PATH=/opt/rust/bin:$PATH
 ./install.sh --prefix=/opt/rust --without=rust-docs
 cd ..
 rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
+# LLVM.
+tar -xf llvm-12.0.1.src.tar.xz
+cd llvm-12.0.1.src
+tar -xf ../clang-12.0.1.src.tar.xz -C tools
+mv tools/clang-12.0.1.src tools/clang
+tar -xf ../compiler-rt-12.0.1.src.tar.xz -C projects
+mv projects/compiler-rt-12.0.1.src projects/compiler-rt
+grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+mkdir llvm-build; cd llvm-build
+CC=gcc CXX=g++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf llvm-12.0.1.src
 # JS78.
 tar -xf firefox-78.13.0esr.source.tar.xz
 cd firefox-78.13.0
@@ -2121,12 +2141,13 @@ mkdir build-pc; cd build-pc
 ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
 make
 cd ..
-mkdir build-efi; build-efi
+mkdir build-efi; cd build-efi
 ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=efi --disable-werror
 make
 make bashcompletiondir="/usr/share/bash-completion/completions" install
-cd ../grub-pc
+cd ../build-pc
 make bashcompletiondir="/usr/share/bash-completion/completions" install
+mkdir -p /etc/default
 cat > /etc/default/grub << END
 # Configuration file for GRUB bootloader
 
@@ -2261,15 +2282,6 @@ ninja
 ninja install
 cd ../..
 rm -rf libgudev-236
-# libgusb.
-tar -xf libgusb-0.3.7.tar.gz
-cd libgusb-0.3.7
-mkdir libgusb-build; cd libgusb-build
-meson --prefix=/usr --buildtype=release -Ddocs=false ..
-ninja
-ninja install
-cd ../..
-rm -rf libgusb-0.3.7
 # libmbim.
 tar -xf libmbim-1.26.0.tar.xz
 cd libmbim-1.26.0
@@ -2294,7 +2306,7 @@ sh autogen.sh
 make
 make install
 cd ..
-rm rf libuv-v1.42.0
+rm -rf libuv-v1.42.0
 # libwacom.
 tar -xf libwacom-1.11.tar.bz2
 cd libwacom-1.11
@@ -2481,20 +2493,6 @@ make -f makefile
 install -m755 unrar /usr/bin
 cd ..
 rm -rf unrar
-# LLVM.
-tar -xf llvm-12.0.1.src.tar.xz
-cd llvm-12.0.1.src
-tar -xf ../clang-12.0.1.src.tar.xz -C tools
-mv tools/clang-12.0.1.src tools/clang
-tar -xf ../compiler-rt-12.0.1.src.tar.xz -C projects
-mv projects/compiler-rt-12.0.1.src projects/compiler-rt
-grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
-mkdir llvm-build; cd llvm-build
-CC=gcc CXX=g++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=Release -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
-ninja
-ninja install
-cd ../..
-rm -rf llvm-12.0.1.src
 # Ruby.
 tar -xf ruby-3.0.2.tar.xz
 cd ruby-3.0.2
@@ -2508,7 +2506,7 @@ tar -xf slang-2.3.2.tar.bz2
 cd slang-2.3.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-readline=gnu
 make -j1
-make install_doc_dir=/usr/share/doc/slang-2.3.2 SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2/slsh install-all
+make -j1 install_doc_dir=/usr/share/doc/slang-2.3.2 SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2/slsh install-all
 chmod 755 /usr/lib/libslang.so.2.3.2 /usr/lib/slang/v2/modules/*.so
 cd ..
 rm -rf slang-2.3.2
@@ -2539,7 +2537,7 @@ require subnet-mask, domain-name-servers;
 END
 install -dm755 /var/lib/dhclient
 cd ..
-rm -rf dhcp-4.4.2-P1.tar.gz
+rm -rf dhcp-4.4.2-P1
 # libnl.
 tar -xf libnl-3.5.0.tar.gz
 cd libnl-3.5.0
@@ -2695,7 +2693,7 @@ rm -rf libvdpau-1.4
 # Mesa.
 tar -xf mesa-21.1.6.tar.xz
 cd mesa-21.1.6
-patch -Np1 -i mesa-21.1.6-add_xdemos-1.patch
+patch -Np1 -i ../patches/mesa-21.1.6-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
@@ -3189,6 +3187,7 @@ rm -rf xf86-video-amdgpu-21.0.0
 # xf86-video-ati.
 tar -xf xf86-video-ati-19.1.0.tar.bz2
 cd xf86-video-ati-19.1.0
+patch -Np1 -i ../patches/xf86-video-ati-19.1.0-upstream_fixes-1.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
@@ -3301,7 +3300,7 @@ ninja
 ninja install
 sed -i /Version/s/\$/$(cat ../VERSION)/ /usr/lib/pkgconfig/libtiff-4.pc
 cd ../..
-rm -rf tiff-4.3.0.tar.gz
+rm -rf tiff-4.3.0
 # ATK.
 tar -xf atk-2.36.0.tar.xz
 cd atk-2.36.0
@@ -3416,6 +3415,15 @@ make
 make install
 cd ..
 rm -rf vala-0.52.4
+# libgusb.
+tar -xf libgusb-0.3.7.tar.gz
+cd libgusb-0.3.7
+mkdir libgusb-build; cd libgusb-build
+meson --prefix=/usr --buildtype=release -Ddocs=false ..
+ninja
+ninja install
+cd ../..
+rm -rf libgusb-0.3.7
 # librsvg.
 tar -xf librsvg-2.50.7.tar.xz
 cd librsvg-2.50.7
@@ -3713,6 +3721,8 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.11
 # Python (rebuild to support SQLite and Tk).
+tar -xf Python-3.9.6.tar.xz
+cd Python-3.9.6
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -3782,8 +3792,10 @@ rm -rf upower-0.99.12
 # NetworkManager.
 tar -xf NetworkManager-1.32.8.tar.xz
 cd NetworkManager-1.32.8
+sed '/initrd/d' -i src/core/meson.build
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
+unset LDFLAGS
 meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dppp=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
@@ -3806,6 +3818,7 @@ END
 systemctl enable NetworkManager
 cd ../..
 rm -rf NetworkManager-1.32.8
+export LDFLAGS="-s"
 # libnma.
 tar -xf libnma-1.8.30.tar.xz
 cd libnma-1.8.30
@@ -3924,6 +3937,7 @@ rm -rf wpebackend-fdo-1.10.0
 # GeoClue.
 tar -xf geoclue-2.5.7.tar.bz2
 cd geoclue-2.5.7
+mkdir geoclue-build; cd geoclue-build
 meson --prefix=/usr --buildtype=release -Dgtk-doc=false ..
 ninja
 ninja install
@@ -4359,6 +4373,7 @@ make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
 cp arch/x86/boot/bzImage /boot/vmlinuz-5.13.11-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.13.11-massos/vmlinuz
 cp System.map /boot/System.map-5.13.11-massos
 cp .config /boot/config-5.13.11-massos
 cd ..
@@ -4370,7 +4385,6 @@ curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o
 chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
 rm -rf /opt/rust
-rm /etc/profile.d/rust.sh
 rm /etc/ld.so.conf.d/rust.conf
 # As a finishing touch, run ldconfig.
 ldconfig
