@@ -2,6 +2,10 @@
 Welcome to **MassOS**, a [free](https://www.gnu.org/philosophy/free-sw.html) GNU/Linux operating system which aims to be small, lightweight and uses the Xfce desktop environment. **It is currently only available for x86_64 and the build scripts will need editing for other architectures.**
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
+# Is MassOS Based On Any Existing Distro?
+No, MassOS is completely independant and compiled from _source_. It does **not** use the packages or package management techniques found in any major distribution.
+
+The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a traditional package manager, users of MassOS are able to compile any extra software they might want themselves, since the necessary development tools/headers are retained in the system.
 # Installing MassOS
 Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) has step-by-step instructions on how to install MassOS.
 # Releases
@@ -21,8 +25,13 @@ cd MassOS
 ```
 ./stage1.sh
 ```
-4. Build the full MassOS system (REQUIRES ROOT ACCESS):
+4. Build the full MassOS system (**REQUIRES ROOT ACCESS!**):
 ```
 sudo ./stage2.sh
 ```
-When the MassOS system is completely build and finished, an output tarball labelled **massos-YYYY.MM-rootfs-x86_64.tar.xz** will be created.
+When the MassOS system is completely build and finished, an output tarball labelled `massos-YYYY.MM-rootfs-x86_64.tar.xz` will be created. **It is highly recommended that you change ownership of the final output tarball back to the original user. You can do this with the following commands**:
+```
+non_root_user=$(whoami)
+sudo chown $non_root_user:$non_root_user massos-YYYY.MM-rootfs-x86_64.tar.xz
+unset non_root_user
+```
