@@ -1451,6 +1451,7 @@ cd dracut-055
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions
 make
 make install
+echo 'compress="xz"' >> /etc/dracut.conf
 cd ..
 rm -rf dracut-055
 # LZO.
@@ -2138,6 +2139,7 @@ curl -s https://unifoundry.com/pub/unifont/unifont-13.0.06/font-builds/unifont-1
 tar -xf grub-2.06.tar.xz
 cd grub-2.06
 mkdir build-pc; cd build-pc
+unset CFLAGS CXXFLAGS LDFLAGS
 ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
 make
 cd ..
@@ -2212,6 +2214,10 @@ GRUB_DISABLE_OS_PROBER="false"
 END
 cd ../..
 rm -rf grub-2.06
+CFLAGS="-g0 -Os"
+CXXFLAGS="-g0 -Os"
+LDFLAGS="-s"
+export CFLAGS CXXFLAGS LDFLAGS
 # os-prober.
 tar -xf os-prober_1.79.tar.xz
 cd os-prober
@@ -4090,7 +4096,7 @@ rm -rf libgdata-0.18.1
 tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dgphoto2=false -Dafc=false -Dbluray=false -Dnfs=false -Dmtp=false ..
+meson --prefix=/usr --buildtype=release -Dgphoto2=false -Dafc=false -Dbluray=false -Dnfs=false -Dsmb=false -Dmtp=false ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas

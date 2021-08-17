@@ -18,8 +18,11 @@ This is version 2021.08 of MassOS. It contains the following notable software:
 # Downloading The MassOS Rootfs
 Run the following command to download MassOS:
 ```
-curl -LO https://massos.thesonicmaster.net/download/massos-2021.08-rootfs-x86_64.tar.xz
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.08/massos-2021.08-rootfs-x86_64.tar.xz
 ```
+SHA256 checksum: `4e60f75f40ee0b6eede444bb36b86401cb9b04e588f5c104f0fd4a361fcde816`
+
+**Note: If you used the scripts to build your own rootfs, you can use that instead of downloading this rootfs.**
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -99,6 +102,8 @@ When you're finished, save and close the file. It may be worth double-checking y
 # Entering the chroot environment
 While your system has a built-in `chroot` tool, you should use `mass-chroot` from this repo. It's a wrapper around `chroot` which ensures all virtual kernel file systems are mounted correctly.
 ```
+wget -nc https://raw.githubusercontent.com/TheSonicMaster/MassOS/main/utils/mass-chroot
+chmod 755 mass-chroot
 sudo ./mass-chroot /mnt/massos
 ```
 # Setting the system locale and keyboard layout
@@ -148,24 +153,24 @@ dracut /boot/initrd.img-5.13.11-massos 5.13.11-massos
 
 On legacy systems, run the following command to install the GRUB bootloader, where `X` is your actual hard disk (NOT individual partition):
 ```
-sudo grub-install /dev/sdX
+grub-install /dev/sdX
 ```
 On UEFI systems, no additional parameters need to be passed. Install GRUB with the following command:
 ```
-sudo grub-install
+grub-install
 ```
 This installs the UEFI bootloader `EFI\massos\grubx64.efi` to the EFI system partition and creates a UEFI bootorder entry called `massos`.
 
 Alternatively (or as well as), you can install GRUB to the fallback location, `EFI\BOOT\BOOTX64.EFI`. This is only needed if you're installing MassOS to a removable drive, or if your UEFI firmware is buggy and doesn't support UEFI bootorder variables. Do not run this if another OS depends on the fallback bootloader:
 ```
-sudo grub-install --removable
+grub-install --removable
 ```
 # Generating grub.cfg
 You can customise your GRUB bootloader by editing the `/etc/default/grub` file. Comments in that file explain what the options do. Alternatively, leave it and use the MassOS recommended defaults.
 
 Generate `/boot/grub/grub.cfg` by running the following command:
 ```
-sudo grub-mkconfig -o /boot/grub/grub.cfg
+grub-mkconfig -o /boot/grub/grub.cfg
 ```
 # Unmounting and rebooting
 First, exit the chroot:
