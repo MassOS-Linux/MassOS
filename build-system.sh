@@ -736,7 +736,7 @@ cd ..
 rm -rf meson-0.59.0
 # Coreutils.
 tar -xf coreutils-8.32.tar.xz
-cd coreutils
+cd coreutils-8.32
 patch -Np1 -i ../patches/coreutils-8.32-i18n-1.patch
 autoreconf -fi
 # Coreutils doesn't support -Os.
