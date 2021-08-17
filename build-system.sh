@@ -1378,13 +1378,14 @@ rm -rf util-linux-2.37.1
 # e2fsprogs.
 tar -xf e2fsprogs-1.46.3.tar.gz
 cd e2fsprogs-1.46.3
+mkdir e2-build; cd e2-build
 ../configure --prefix=/usr --sysconfdir=/etc --enable-elf-shlibs --disable-libblkid --disable-libuuid --disable-uuidd --disable-fsck
 make
 make install
 rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
 gunzip /usr/share/info/libext2fs.info.gz
 install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
-cd ..
+cd ../..
 rm -rf e2fsprogs-1.46.3
 # dosfstools.
 tar -xf dosfstools-4.2.tar.gz
