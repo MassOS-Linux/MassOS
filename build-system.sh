@@ -3557,8 +3557,8 @@ tar -xf libical-3.0.10.tar.gz
 cd libical-3.0.10
 mkdir ical-build; cd ical-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true ..
-make
-make install
+make -j1
+make -j1 install
 cd ../..
 rm -rf libical-3.0.10
 # BlueZ.
