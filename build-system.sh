@@ -169,7 +169,6 @@ unset ZONEINFO
 ln -sf /usr/share/zoneinfo/Etc/UTC /etc/localtime
 cat > /etc/ld.so.conf << END
 /usr/local/lib
-/opt/lib
 include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
@@ -1948,13 +1947,8 @@ rm -rf autoconf-2.13
 # Rust.
 tar -xf rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.54.0-x86_64-unknown-linux-gnu
-# We install rust to /opt/rust, so it can be removed later.
-mkdir -p /etc/ld.so.conf.d
-cat > /etc/ld.so.conf.d/rust.conf << END
-/opt/rust/lib
-END
-export PATH=/opt/rust/bin:$PATH
-./install.sh --prefix=/opt/rust --without=rust-docs
+# We will uninstall Rust later.
+./install.sh --prefix=/usr --without=rust-docs
 cd ..
 rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
 # LLVM.
@@ -4390,8 +4384,7 @@ install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
-rm -rf /opt/rust
-rm /etc/ld.so.conf.d/rust.conf
+/usr/lib/rustlib/uninstall.sh
 # As a finishing touch, run ldconfig.
 ldconfig
 # Clean sources directory and self destruct.
