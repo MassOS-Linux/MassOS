@@ -1948,7 +1948,7 @@ rm -rf autoconf-2.13
 tar -xf rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.54.0-x86_64-unknown-linux-gnu
 # We will uninstall Rust later.
-./install.sh --prefix=/usr --without=rust-docs
+./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
 # LLVM.
