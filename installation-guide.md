@@ -143,10 +143,18 @@ Adding a separate user is strongly recommended for desktop use since logging in 
 adduser
 ```
 It will ask you a few questions, including whether the account should be an administrator or not. If you're the main user of the system, you should answer `y` here. By default, administrators are added to the `wheel` and `netdev` groups. Users in `wheel` can run commands as root with `sudo`, and users in `netdev` can manage network interfaces and connections with NetworkManager.
+# Installing additional firmware
+Some hardware, such as wireless or graphics cards, may require non-free firmware "blobs" in order to function properly. If you are the owner of such a device, you can install the most common non-free firmware using the following commands:
+```
+pushd /usr/lib/firmware
+git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git .
+rm -rf .git
+popd
+```
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut /boot/initrd.img-5.13.11-massos 5.13.11-massos
+dracut --force /boot/initrd.img-5.13.11-massos 5.13.11-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**

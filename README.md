@@ -1,5 +1,6 @@
 # Welcome To MassOS
 Welcome to **MassOS**, a [free](https://www.gnu.org/philosophy/free-sw.html) GNU/Linux operating system which aims to be small, lightweight and uses the Xfce desktop environment. **It is currently only available for x86_64 and the build scripts will need editing for other architectures.**
+![](massos-desktop-screenshot.png)
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
 # Is MassOS Based On Any Existing Distro?
