@@ -4,7 +4,7 @@ Welcome to **MassOS**, a [free](https://www.gnu.org/philosophy/free-sw.html) GNU
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
 # Is MassOS Based On Any Existing Distro?
-No, MassOS is completely independant and compiled from _source_. It does **not** use the packages or package management techniques found in any major distribution.
+No, MassOS is completely independent and compiled from _source_. It does **not** use the packages or package management techniques found in any major distribution.
 
 The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a traditional package manager, users of MassOS are able to compile any extra software they might want themselves, since the necessary development tools/headers are retained in the system.
 # Installing MassOS
@@ -13,7 +13,7 @@ Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Ins
 The latest release of MassOS is **2021.08**.
 
 Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `cat /etc/massos-release`. There is a new release of MassOS roughly once every 1-2 months. New releases will usually include updated software. You can upgrade an existing MassOS installation by extracting the updated rootfs tarball over the existing installation, however do note that this may overwrite any system configuration files you've modified, so it's generally easier and safer to do a fresh installation.
-# Building MassOS.
+# Building MassOS
 MassOS is built entirely using the scripts in this repo. Here's how to build MassOS yourself. **WARNING: At stage 2, the entire MassOS system will be built. This could take hours or even days to complete! Ensure you have enough time available.**
 1. Clone the repo:
 ```
