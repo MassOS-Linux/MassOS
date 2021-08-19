@@ -20,7 +20,7 @@ Run the following command to download MassOS:
 ```
 wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.08/massos-2021.08-rootfs-x86_64.tar.xz
 ```
-SHA256 checksum: `4e60f75f40ee0b6eede444bb36b86401cb9b04e588f5c104f0fd4a361fcde816`
+SHA256 checksum: `7af92352732d8e433c3d58f7f47f75f17d4ed386c5ee13c92e3192f781e5684e`
 
 **Note: If you used the scripts to build your own rootfs, you can use that instead of downloading this rootfs.**
 # Partitioning the disk
