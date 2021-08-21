@@ -8,19 +8,29 @@ MassOS is still in development/testing. Daily driver use is not recommended.
 - MassOS must be installed from an existing ("host") GNU/Linux system. If you
 don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version 2021.08 of MassOS. It contains the following notable software:
+This is version 2021.08.2 of MassOS. It contains the following changes since the previous version, 2021.08:
 
-- Linux Kernel 5.13.11
-- Systemd 249
-- GNU Glibc 2.34
-- Xfce 4.16
-- Firefox Web Browser 91.0
+- Fixed authentication errors with `sudo` and `polkit`.
+- Added CUPS support.
+- Binaries are now correctly stripped.
+
+It also includes the following upgraded software:
+
+- Firefox: `91.0 --> 91.0.1`
+- Git: `2.32.0 --> 2.33.0`
+- Grep: `3.6 --> 3.7`
+- libepoxy: `1.5.8 --> 1.5.9`
+- libgudev: `236 --> 237`
+- libwebp: `1.2.0 --> 1.2.1`
+- Linux Kernel: `5.13.11 --> 5.13.12`
+- Pango: `1.48.8 --> 1.48.9`
+- Vala: `0.52.4 --> 0.52.5`
 # Downloading The MassOS Rootfs
 Run the following command to download MassOS:
 ```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.08/massos-2021.08-rootfs-x86_64.tar.xz
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.08.2/massos-2021.08.2-rootfs-x86_64.tar.xz
 ```
-SHA256 checksum: `7af92352732d8e433c3d58f7f47f75f17d4ed386c5ee13c92e3192f781e5684e`
+SHA256 checksum: `9017b4dab5aa119fdca20fd4107b771fd024cf693b51fd056e29148e604809b6`
 
 **Note: If you used the scripts to build your own rootfs, you can use that instead of downloading this rootfs.**
 # Partitioning the disk
@@ -68,7 +78,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.08-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.08.2-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
@@ -147,14 +157,14 @@ It will ask you a few questions, including whether the account should be an admi
 Some hardware, such as wireless or graphics cards, may require non-free firmware "blobs" in order to function properly. If you are the owner of such a device, you can install the most common non-free firmware using the following commands:
 ```
 pushd /usr/lib/firmware
-git clone git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git .
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git .
 rm -rf .git
 popd
 ```
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.13.11-massos 5.13.11-massos
+dracut --force /boot/initrd.img-5.13.12-massos 5.13.12-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**

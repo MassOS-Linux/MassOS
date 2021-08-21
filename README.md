@@ -10,7 +10,7 @@ The MassOS base system itself already contains a large selection of software whi
 # Installing MassOS
 Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) has step-by-step instructions on how to install MassOS.
 # Releases
-The latest release of MassOS is **2021.08**.
+The latest release of MassOS is **2021.08.2**.
 
 Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `cat /etc/massos-release`. There is a new release of MassOS roughly once every 1-2 months. New releases will usually include updated software. A new release in the same month as an existing release will be in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by extracting the updated rootfs tarball over the existing installation, however do note that this may overwrite any system configuration files you've modified, so it's generally easier and safer to do a fresh installation.
 # Building MassOS
@@ -32,7 +32,7 @@ cd MassOS
 ```
 sudo ./stage2.sh
 ```
-When the MassOS system is completely build and finished, an output tarball labelled `massos-YYYY.MM-rootfs-x86_64.tar.xz` will be created. **It is highly recommended that you change ownership of the final output tarball back to the original user. You can do this with the following commands**:
+When the MassOS system is completely build and finished, an output tarball labelled `massos-YYYY.MM-rootfs-x86_64.tar.xz` will be created. **It is highly recommended that you change ownership of the final output tarball back to the original user. You can do this with the following commands:**
 ```
 non_root_user=$(whoami)
 sudo chown $non_root_user:$non_root_user massos-YYYY.MM-rootfs-x86_64.tar.xz
