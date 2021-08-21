@@ -4539,30 +4539,6 @@ chmod 755 /usr/bin/neofetch
 /usr/lib/rustlib/uninstall.sh
 # As a finishing touch, run ldconfig.
 ldconfig
-# Strip executables and libraries.
-set +e
-online_bin="bash find strip"
-online_lib="libbfd-2.37.so libhistory.so.8.1 libncursesw.so.6.2 libm.so.6 libreadline.so.8.1 libz.so.1.2.11 $(cd /usr/lib; find libnss*.so* -type f)"
-for BIN in $online_bin; do
-  cp /usr/bin/$BIN /tmp/$BIN
-  strip --strip-unneeded /tmp/$BIN
-  install -m755 /tmp/$BIN /usr/bin
-  rm /tmp/$BIN
-done
-for LIB in $online_lib; do
-  cp /usr/lib/$LIB /tmp/$LIB
-  strip --strip-unneeded /tmp/$LIB
-  install -m755 /tmp/$LIB /usr/lib
-  rm /tmp/$LIB
-done
-for i in $(find /usr/lib -type f -name \*.so*) $(find /usr/lib -type f -name \*.a) $(find /usr/{bin,sbin,libexec} -type f); do
-  case "$online_bin $online_lib" in
-    *$(basename $i)* ) ;;
-    * ) strip --strip-unneeded $i ;;
-  esac
-done
-unset online_bin online_lib
-set -e
 # Clean sources directory and self destruct.
 cd ..
 rm -rf /sources
