@@ -37,10 +37,12 @@ chmod 600 /var/log/btmp
 # Set the source directory correctly.
 export SRC=/sources
 cd $SRC
+# Set the PATH correctly.
+export PATH=/usr/bin:/usr/sbin
+# Set the locale correctly.
+export LC_ALL="POSIX"
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
-# Ensure resulting binaries are stripped.
-export LDFLAGS="-s"
 # Allow building some packages as root.
 export FORCE_UNSAFE_CONFIGURE=1
 # libstdc++ from GCC (Pass 2).
@@ -54,8 +56,8 @@ make install
 cd ../..
 rm -rf gcc-11.2.0
 # Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
@@ -129,6 +131,7 @@ rm -rf iana-etc-20210611
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
+sed -e '/NOTIFY_REMOVED)/s/)/ \&\& data.attr != NULL)/' -i sysdeps/unix/sysv/linux/mq_notify.c
 patch -Np1 -i ../patches/glibc-2.34-fhs-1.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
@@ -143,6 +146,8 @@ install -Dm644 ../nscd/nscd.tmpfiles /usr/lib/tmpfiles.d/nscd.conf
 install -Dm644 ../nscd/nscd.service /usr/lib/systemd/system/nscd.service
 mkdir -p /usr/lib/locale
 mklocales
+# Now the en_US.UTF-8 locale is installed, set it as the default.
+export LC_ALL="en_US.UTF-8"
 cat > /etc/nsswitch.conf << END
 passwd: files
 group: files
@@ -173,8 +178,8 @@ include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
 rm -rf glibc-2.34
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # zlib.
 tar -xf zlib-1.2.11.tar.xz
@@ -295,8 +300,8 @@ make tooldir=/usr install -j1
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 cd ../..
 rm -rf binutils-2.37
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
@@ -499,8 +504,8 @@ mkdir -p /usr/share/gdb/auto-load/usr/lib
 mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 cd ../..
 rm -rf gcc-11.2.0
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
@@ -561,13 +566,13 @@ make install
 cd ..
 rm -rf bison-3.7.6
 # Grep.
-tar -xf grep-3.6.tar.xz
-cd grep-3.6
+tar -xf grep-3.7.tar.xz
+cd grep-3.7
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf grep-3.6
+rm -rf grep-3.7
 # Bash.
 tar -xf bash-5.1.8.tar.gz
 cd bash-5.1.8
@@ -739,7 +744,7 @@ cd coreutils-8.32
 patch -Np1 -i ../patches/coreutils-8.32-i18n-1.patch
 autoreconf -fi
 # Coreutils doesn't support -Os.
-CFLAGS="-g0 -O2" ./configure --prefix=/usr --enable-no-install-program=kill,uptime
+CFLAGS="-O2" ./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
 make install
 mv /usr/bin/chroot /usr/sbin
@@ -931,6 +936,14 @@ make
 make install
 cd ../..
 rm -rf icu
+# Boost.
+tar -xf boost_1_77_0.tar.bz2
+cd boost_1_77_0
+./bootstrap.sh --prefix=/usr --with-python=python3
+./b2 stage -j$(nproc) threading=multi link=shared
+./b2 install threading=multi link=shared
+cd ..
+rm -rf boost_1_77_0
 # libgpg-error.
 tar -xf libgpg-error-1.42.tar.bz2
 cd libgpg-error-1.42
@@ -1094,6 +1107,18 @@ make
 make install
 cd ..
 rm -rf libxslt-1.1.34
+# Lynx.
+tar -xf lynx2.8.9rel.1.tar.bz2
+cd lynx2.8.9rel.1
+./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx-2.8.9rel.1 --with-zlib --with-bzlib --with-ssl --with-screen=ncursesw --enable-locale-charset
+make
+make install-full
+chgrp -R root /usr/share/doc/lynx-2.8.9rel.1/lynx_doc
+sed -e '/#LOCALE/     a LOCALE_CHARSET:TRUE' -i /etc/lynx/lynx.cfg
+sed -e '/#DEFAULT_ED/ a DEFAULT_EDITOR:vi' -i /etc/lynx/lynx.cfg
+sed -e '/#PERSIST/    a PERSISTENT_COOKIES:TRUE' -i /etc/lynx/lynx.cfg
+cd ..
+rm -rf lynx2.8.9rel.1
 # xmlto.
 tar -xf xmlto-0.0.28.tar.bz2
 cd xmlto-0.0.28
@@ -1511,7 +1536,7 @@ tar -xf v1.3.0.tar.gz
 cd exfat-1.3.0
 autoreconf -fi
 ./configure --prefix=/usr
-make CCFLAGS="$CFLAGS -std=c99" LINKFLAGS="$LDFLAGS"
+make CCFLAGS="$CFLAGS -std=c99"
 make install
 install -Dm644 */*.8 -t /usr/share/man/man8
 cd ..
@@ -1882,15 +1907,15 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf nss-3.69
 # Git.
-tar -xf git-2.32.0.tar.xz
-cd git-2.32.0
+tar -xf git-2.33.0.tar.xz
+cd git-2.33.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
 make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
-rm -rf git-2.32.0
+rm -rf git-2.33.0
 # GLib.
 tar -xf glib-2.68.3.tar.xz
 cd glib-2.68.3
@@ -1986,23 +2011,6 @@ fi
 unset beforemounted
 cd ../..
 rm -rf firefox-78.13.0
-# Polkit.
-tar -xf polkit-0.119.tar.gz
-cd polkit-0.119
-groupadd -fg 27 polkitd
-useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
-sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-os-type=massos
-make
-make install
-cat > /etc/pam.d/polkit-1 << END
-auth     include        system-auth
-account  include        system-account
-password include        system-password
-session  include        system-session
-END
-cd ..
-rm -rf polkit-0.119
 # Sudo.
 tar -xf sudo-1.9.7p2.tar.gz
 cd sudo-1.9.7p2
@@ -2133,7 +2141,7 @@ curl -s https://unifoundry.com/pub/unifont/unifont-13.0.06/font-builds/unifont-1
 tar -xf grub-2.06.tar.xz
 cd grub-2.06
 mkdir build-pc; cd build-pc
-unset CFLAGS CXXFLAGS LDFLAGS
+unset CFLAGS CXXFLAGS
 ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
 make
 cd ..
@@ -2208,10 +2216,9 @@ GRUB_DISABLE_OS_PROBER="false"
 END
 cd ../..
 rm -rf grub-2.06
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
-LDFLAGS="-s"
-export CFLAGS CXXFLAGS LDFLAGS
+CFLAGS="-Os"
+CXXFLAGS="-Os"
+export CFLAGS CXXFLAGS
 # os-prober.
 tar -xf os-prober_1.79.tar.xz
 cd os-prober
@@ -2274,14 +2281,14 @@ make docdir=/usr/share/doc/libdaemon-0.14 install
 cd ..
 rm -rf libdaemon-0.14
 # libgudev.
-tar -xf libgudev-236.tar.xz
-cd libgudev-236
+tar -xf libgudev-237.tar.xz
+cd libgudev-237
 mkdir libgudev-build; cd libgudev-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf libgudev-236
+rm -rf libgudev-237
 # libmbim.
 tar -xf libmbim-1.26.0.tar.xz
 cd libmbim-1.26.0
@@ -2428,6 +2435,14 @@ ninja
 ninja install
 cd ../..
 rm -rf pixman-0.40.0
+# Qpdf.
+tar -xf qpdf-10.3.2.tar.gz
+cd qpdf-10.3.2
+./configure --prefix=/usr --disable-static --docdir=/usr/share/doc/qpdf-10.3.2
+make
+make install
+cd ..
+rm -rf qpdf-10.3.2
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -2538,6 +2553,14 @@ END
 install -dm755 /var/lib/dhclient
 cd ..
 rm -rf dhcp-4.4.2-P1
+# xdg-utils.
+tar -xf xdg-utils-1.1.3.tar.gz
+cd xdg-utils-1.1.3
+./configure --prefix=/usr --mandir=/usr/share/man
+make
+make install
+cd ..
+rm -rf xdg-utils-1.1.3
 # libnl.
 tar -xf libnl-3.5.0.tar.gz
 cd libnl-3.5.0
@@ -3110,14 +3133,14 @@ make install
 cd ..
 rm -rf alsa-lib-1.2.5.1
 # libepoxy.
-tar -xf libepoxy-1.5.8.tar.xz
-cd libepoxy-1.5.8
+tar -xf libepoxy-1.5.9.tar.xz
+cd libepoxy-1.5.9
 mkdir epoxy-build; cd epoxy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf libepoxy-1.5.8
+rm -rf libepoxy-1.5.9
 # Xorg-Server.
 tar -xf xorg-server-1.20.13.tar.xz
 cd xorg-server-1.20.13
@@ -3244,6 +3267,23 @@ make install
 ldconfig
 cd ..
 rm -rf xinit-1.4.1
+# Polkit.
+tar -xf polkit-0.119.tar.gz
+cd polkit-0.119
+groupadd -fg 27 polkitd
+useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-os-type=massos
+make
+make install
+cat > /etc/pam.d/polkit-1 << END
+auth     include        system-auth
+account  include        system-account
+password include        system-password
+session  include        system-session
+END
+cd ..
+rm -rf polkit-0.119
 # OpenSSH.
 tar -xf openssh-8.6p1.tar.gz
 cd openssh-8.6p1
@@ -3301,6 +3341,14 @@ ninja install
 sed -i /Version/s/\$/$(cat ../VERSION)/ /usr/lib/pkgconfig/libtiff-4.pc
 cd ../..
 rm -rf tiff-4.3.0
+# lcms2.
+tar -xf lcms2-2.12.tar.gz
+cd lcms2-2.12
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf lcms2-2.12
 # ATK.
 tar -xf atk-2.36.0.tar.xz
 cd atk-2.36.0
@@ -3329,14 +3377,14 @@ make install
 cd ..
 rm -rf cairo-1.17.4
 # Pango.
-tar -xf pango-1.48.8.tar.xz
-cd pango-1.48.8
+tar -xf pango-1.48.9.tar.xz
+cd pango-1.48.9
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.48.8
+rm -rf pango-1.48.9
 # hicolor-icon-theme.
 tar -xf hicolor-icon-theme-0.17.tar.xz
 cd hicolor-icon-theme-0.17
@@ -3380,13 +3428,13 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # libwebp.
-tar -xf libwebp-1.2.0.tar.gz
-cd libwebp-1.2.0
+tar -xf libwebp-1.2.1.tar.gz
+cd libwebp-1.2.1
 ./configure --prefix=/usr --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder --enable-libwebpextras --enable-swap-16bit-csp --disable-static
 make
 make install
 cd ..
-rm -rf libwebp-1.2.0
+rm -rf libwebp-1.2.1
 # libglade.
 tar -xf libglade-2.6.4.tar.bz2
 cd libglade-2.6.4
@@ -3408,13 +3456,13 @@ ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.48.0
 cd ..
 rm -rf graphviz-2.48.0
 # Vala.
-tar -xf vala-0.52.4.tar.xz
-cd vala-0.52.4
+tar -xf vala-0.52.5.tar.xz
+cd vala-0.52.5
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf vala-0.52.4
+rm -rf vala-0.52.5
 # libgusb.
 tar -xf libgusb-0.3.7.tar.gz
 cd libgusb-0.3.7
@@ -3708,6 +3756,112 @@ AutostartCondition=GNOME3 unless-session gnome
 END
 cd ..
 rm -rf polkit-gnome-0.105
+# Colord.
+tar -xf colord-1.4.5.tar.xz
+cd colord-1.4.5
+groupadd -g 71 colord
+useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false colord
+mv po/fur.po po/ur.po
+sed -i 's/fur/ur/' po/LINGUAS
+mkdir colord-build; cd colord-build
+meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dbash_completion=false -Ddocs=false -Dman=false ..
+ninja
+ninja install
+cd ../..
+rm -rf colord-1.4.5
+# CUPS.
+tar -xf cups-2.3.3op2-source.tar.gz
+cd cups-2.3.3op2
+useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
+groupadd -g 19 lpadmin
+CC=gcc CXX=g++ ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc-2.3.3op2
+make
+make install
+ln -snf ../cups/doc-2.3.3op2 /usr/share/doc/cups-2.3.3op2
+echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf
+gtk-update-icon-cache -qtf /usr/share/icons/hicolor
+cat > /etc/pam.d/cups << END
+auth    include system-auth
+account include system-account
+session include system-session
+END
+systemctl enable cups
+cd ..
+rm -rf cups-2.3.3op2
+# Poppler.
+tar -xf poppler-21.08.0.tar.xz
+cd poppler-21.08.0
+mkdir poppler-build; cd poppler-build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON ..
+make
+make install
+tar -xf ../../poppler-data-0.4.10.tar.gz
+cd poppler-data-0.4.10
+make prefix=/usr install
+cd ../../..
+rm -rf poppler-21.08.0
+# Ghostscript.
+tar -xf ghostscript-9.54.0.tar.xz
+cd ghostscript-9.54.0
+rm -rf freetype lcms2mt jpeg libpng openjpeg zlib
+./configure --prefix=/usr --disable-compile-inits --enable-dynamic --with-system-libtiff
+make
+useradd -s /bin/bash tempuser
+chown -R tempuser:tempuser .
+su tempuser -c "make so"
+chown -R root:root .
+userdel -rf tempuser
+make install
+make soinstall
+install -m644 base/*.h /usr/include/ghostscript
+ln -sfn ghostscript /usr/include/ps
+mv /usr/share/doc/ghostscript/9.54.0 /usr/share/doc/ghostscript-9.54.0
+rm -rf /usr/share/doc/ghostscript
+cp -r examples/ /usr/share/ghostscript/9.54.0/
+tar --no-same-owner -xf ../ghostscript-fonts-std-8.11.tar.gz -C /usr/share/ghostscript
+tar --no-same-owner -xf ../gnu-gs-fonts-other-6.0.tar.gz -C /usr/share/ghostscript
+fc-cache /usr/share/ghostscript/fonts/
+cd ..
+rm -rf ghostscript-9.54.0
+# MuPDF.
+tar -xf mupdf-1.18.0-source.tar.gz
+cd mupdf-1.18.0-source
+sed -i '/MU.*_EXE. :/{
+        s/\(.(MUPDF_LIB)\)\(.*\)$/\2 | \1/
+        N
+        s/$/ -lmupdf -L$(OUT)/
+        }' Makefile
+cat > user.make << END
+USE_SYSTEM_FREETYPE := yes
+USE_SYSTEM_HARFBUZZ := yes
+USE_SYSTEM_JBIG2DEC := no
+USE_SYSTEM_JPEGXR := no
+USE_SYSTEM_LCMS2 := no
+USE_SYSTEM_LIBJPEG := yes
+USE_SYSTEM_MUJS := no
+USE_SYSTEM_OPENJPEG := yes
+USE_SYSTEM_ZLIB := yes
+USE_SYSTEM_GLUT := no
+USE_SYSTEM_CURL := yes
+USE_SYSTEM_GUMBO := no
+END
+patch -Np1 -i ../patches/mupdf-1.18.0-security_fix-1.patch
+XCFLAGS="-fPIC" make build=release shared=yes
+make prefix=/usr shared=yes docdir=/usr/share/doc/mupdf-1.18.0 install
+chmod 755 /usr/lib/libmupdf.so
+ln -sf mupdf-x11 /usr/bin/mupdf
+cd ..
+rm -rf mupdf-1.18.0-source
+# CUPS Filters.
+tar -xf cups-filters-1.28.9.tar.xz
+cd cups-filters-1.28.9
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --docdir=/usr/share/doc/cups-filters-1.28.9 --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
+make
+make install
+install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.service
+systemctl enable cups-browsed
+cd ..
+rm -rf cups-filters-1.28.9
 # Tk.
 tar -xf tk8.6.11.1-src.tar.gz
 cd tk8.6.11/unix
@@ -3795,7 +3949,6 @@ cd NetworkManager-1.32.8
 sed '/initrd/d' -i src/core/meson.build
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
-unset LDFLAGS
 meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dppp=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
@@ -3818,7 +3971,6 @@ END
 systemctl enable NetworkManager
 cd ../..
 rm -rf NetworkManager-1.32.8
-export LDFLAGS="-s"
 # libnma.
 tar -xf libnma-1.8.30.tar.xz
 cd libnma-1.8.30
@@ -4347,7 +4499,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-91.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-91.0.1.tar.bz2 -C /usr/lib
 ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
 mkdir -p /usr/share/{applications,pixmaps}
 cat > /usr/share/applications/firefox.desktop << END
@@ -4366,18 +4518,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Linux kernel.
-tar -xf linux-5.13.11.tar.xz
-cd linux-5.13.11
+tar -xf linux-5.13.12.tar.xz
+cd linux-5.13.12
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.13.11-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.13.11-massos/vmlinuz
-cp System.map /boot/System.map-5.13.11-massos
-cp .config /boot/config-5.13.11-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.13.12-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.13.12-massos/vmlinuz
+cp System.map /boot/System.map-5.13.12-massos
+cp .config /boot/config-5.13.12-massos
 cd ..
-rm -rf linux-5.13.11
+rm -rf linux-5.13.12
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 # Install Neofetch.
@@ -4387,6 +4539,30 @@ chmod 755 /usr/bin/neofetch
 /usr/lib/rustlib/uninstall.sh
 # As a finishing touch, run ldconfig.
 ldconfig
+# Strip executables and libraries.
+set +e
+online_bin="bash find strip"
+online_lib="libbfd-2.37.so libhistory.so.8.1 libncursesw.so.6.2 libm.so.6 libreadline.so.8.1 libz.so.1.2.11 $(cd /usr/lib; find libnss*.so* -type f)"
+for BIN in $online_bin; do
+  cp /usr/bin/$BIN /tmp/$BIN
+  strip --strip-unneeded /tmp/$BIN
+  install -m755 /tmp/$BIN /usr/bin
+  rm /tmp/$BIN
+done
+for LIB in $online_lib; do
+  cp /usr/lib/$LIB /tmp/$LIB
+  strip --strip-unneeded /tmp/$LIB
+  install -m755 /tmp/$LIB /usr/lib
+  rm /tmp/$LIB
+done
+for i in $(find /usr/lib -type f -name \*.so*) $(find /usr/lib -type f -name \*.a) $(find /usr/{bin,sbin,libexec} -type f); do
+  case "$online_bin $online_lib" in
+    *$(basename $i)* ) ;;
+    * ) strip --strip-unneeded $i ;;
+  esac
+done
+unset online_bin online_lib
+set -e
 # Clean sources directory and self destruct.
 cd ..
 rm -rf /sources

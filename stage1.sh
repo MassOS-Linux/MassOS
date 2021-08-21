@@ -14,8 +14,6 @@ CONFIG_SITE=$MASSOS/usr/share/config.site
 export MASSOS LC_ALL MASSOS_TGT PATH SRC CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
-# Ensure resulting binaries are stripped.
-export LDFLAGS="-s"
 # Setup the basic filesystem structure.
 mkdir -p $MASSOS/{etc,var}
 mkdir -p $MASSOS/usr/{bin,lib,sbin}
@@ -62,14 +60,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.13.11.tar.xz
-cd linux-5.13.11
+tar -xf linux-5.13.12.tar.xz
+cd linux-5.13.12
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.13.11
+rm -rf linux-5.13.12
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -181,13 +179,13 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf gawk-5.1.0
 # Grep.
-tar -xf grep-3.6.tar.xz
-cd grep-3.6
+tar -xf grep-3.7.tar.xz
+cd grep-3.7
 ./configure --prefix=/usr --host=$MASSOS_TGT
 make
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf grep-3.6
+rm -rf grep-3.7
 # Gzip.
 tar -xf gzip-1.10.tar.xz
 cd gzip-1.10
