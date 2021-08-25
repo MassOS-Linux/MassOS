@@ -20,6 +20,10 @@ MassOS is built entirely using the scripts in this repo. Here's how to build Mas
 git clone https://github.com/TheSonicMaster/MassOS.git
 cd MassOS
 ```
+By default, you will build the stable version of MassOS. If you instead want to build the *development version*, which contains unreleased changes which are being developed for the next version of MassOS, check out the "development" branch with the following command:
+```
+git checkout development
+```
 2. Retrieve the sources:
 ```
 ./retrieve-sources.sh
