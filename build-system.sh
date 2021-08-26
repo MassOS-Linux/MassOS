@@ -4573,6 +4573,7 @@ cd ..
 rm -rf gparted-1.3.1
 # mtools.
 tar -xf mtools-4.0.35.tar.gz
+cd mtools-4.0.35
 sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
 ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
 make
