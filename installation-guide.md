@@ -15,6 +15,7 @@ This is the testing branch for the next upcoming version of MassOS. It currently
 - Libtool archives (*.la) are now removed after the MassOS system is built.
 - The bootstrap compiler built in stage1 is now removed after the full compiler is built.
 - Switch sourceforge sources to cdn.thesonicmaster.net to avoid connection timeouts and other download problems.
+- Fixed incorrect permissions which prevented `fusermount` from working.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
@@ -115,6 +116,11 @@ wget -nc https://raw.githubusercontent.com/TheSonicMaster/MassOS/main/utils/mass
 chmod 755 mass-chroot
 sudo ./mass-chroot /mnt/massos
 ```
+# Set the path correctly.
+Entering the chroot by default keeps the same PATH as whatever your host system uses. This may be incorrect for MassOS, so set the path correctly now:
+```
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+```
 # Setting the system locale and keyboard layout
 A list of locales can be found in the `/etc/locales` file. Edit this file using `nano` or `vim`, and uncomment the lines of any locales you need. Note that if you're a US user that only requires the `en_US.UTF-8` locale, you don't need to edit this file since `en_US.UTF-8` is uncommented by default.
 
@@ -167,11 +173,13 @@ dracut --force /boot/initrd.img-5.13.12-massos 5.13.12-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
-
+## Legacy BIOS systems
 On legacy systems, run the following command to install the GRUB bootloader, where `X` is your actual hard disk (NOT individual partition):
 ```
 grub-install /dev/sdX
 ```
+No further steps are required for legacy BIOS systems. Proceed to "Generating grub.cfg" below.
+## UEFI systems
 On UEFI systems, no additional parameters need to be passed. Install GRUB with the following command:
 ```
 grub-install
@@ -182,6 +190,11 @@ Alternatively (or as well as), you can install GRUB to the fallback location, `E
 ```
 grub-install --removable
 ```
+NOTE: If the installation of GRUB fails, you need to mount `/sys/firmware/efi/efivars` first. Do so by running the following command:
+```
+mount -t efivarfs efivarfs /sys/firmware/efi/efivars
+```
+Then re-run the `grub-install` command above.
 # Generating grub.cfg
 You can customise your GRUB bootloader by editing the `/etc/default/grub` file. Comments in that file explain what the options do. Alternatively, leave it and use the MassOS recommended defaults.
 
@@ -190,7 +203,11 @@ Generate `/boot/grub/grub.cfg` by running the following command:
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 # Unmounting and rebooting
-First, exit the chroot:
+If you manually mounted `/sys/firmware/efi/efivars` to be able to successfully install GRUB for UEFI, unmount it before proceeding:
+```
+umount /sys/firmware/efi/efivars
+```
+Exit the chroot:
 ```
 exit
 ```
