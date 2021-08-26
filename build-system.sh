@@ -422,8 +422,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.52.tar.xz
-cd libcap-2.52
+tar -xf libcap-2.53.tar.xz
+cd libcap-2.53
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -432,7 +432,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.52
+rm -rf libcap-2.53
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
