@@ -102,14 +102,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.37.1.tar.xz
-cd util-linux-2.37.1
+tar -xf util-linux-2.37.2.tar.xz
+cd util-linux-2.37.2
 mkdir -p /var/lib/hwclock
-./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.1 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.2 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.1
+rm -rf util-linux-2.37.2
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -353,14 +353,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.52.tar.xz
-cd libcap-2.52
+tar -xf libcap-2.53.tar.xz
+cd libcap-2.53
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.52
+chmod 755 /usr/lib/lib{cap,psx}.so.2.53
 cd ..
-rm -rf libcap-2.52
+rm -rf libcap-2.53
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -731,14 +731,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.59.0.tar.gz
-cd meson-0.59.0
+tar -xf meson-0.59.1.tar.gz
+cd meson-0.59.1
 python3 setup.py build
 python3 setup.py install --root=dest
 cp -r dest/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.59.0
+rm -rf meson-0.59.1
 # Coreutils.
 tar -xf coreutils-8.32.tar.xz
 cd coreutils-8.32
@@ -1393,16 +1393,16 @@ make install
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.37.1.tar.xz
-cd util-linux-2.37.1
-./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.1 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
+tar -xf util-linux-2.37.2.tar.xz
+cd util-linux-2.37.2
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.2 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.1
+rm -rf util-linux-2.37.2
 # e2fsprogs.
-tar -xf e2fsprogs-1.46.3.tar.gz
-cd e2fsprogs-1.46.3
+tar -xf e2fsprogs-1.46.4.tar.gz
+cd e2fsprogs-1.46.4
 mkdir e2-build; cd e2-build
 ../configure --prefix=/usr --sysconfdir=/etc --enable-elf-shlibs --disable-libblkid --disable-libuuid --disable-uuidd --disable-fsck
 make
@@ -1411,7 +1411,7 @@ rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
 gunzip /usr/share/info/libext2fs.info.gz
 install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
 cd ../..
-rm -rf e2fsprogs-1.46.3
+rm -rf e2fsprogs-1.46.4
 # dosfstools.
 tar -xf dosfstools-4.2.tar.gz
 cd dosfstools-4.2

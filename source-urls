@@ -61,7 +61,7 @@ https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
 https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
 https://mirrors.edge.kernel.org/pub/linux/utils/boot/dracut/dracut-055.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
-https://cdn.thesonicmaster.net/sources/e2fsprogs-1.46.3.tar.gz
+https://cdn.thesonicmaster.net/sources/e2fsprogs-1.46.4.tar.gz
 https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
 https://sourceware.org/ftp/elfutils/0.185/elfutils-0.185.tar.bz2
@@ -167,7 +167,7 @@ http://0pointer.de/public/libatasmart-0.19.tar.xz
 https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libblockdev-2.26.tar.gz
 https://github.com/storaged-project/libbytesize/releases/download/2.6/libbytesize-2.6.tar.gz
 http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
-https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.52.tar.xz
+https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.53.tar.xz
 https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
 https://ftp.gnu.org/gnu/libcdio/libcdio-paranoia-10.2+2.0.1.tar.bz2
 http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz
@@ -284,7 +284,7 @@ https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.12.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
 https://mesa.freedesktop.org/archive/mesa-21.1.6.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.59.0/meson-0.59.0.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.59.1/meson-0.59.1.tar.gz
 https://www.x.org/pub/individual/app/mkfontscale-1.2.1.tar.bz2
 http://archive.ubuntu.com/ubuntu/pool/main/m/mobile-broadband-provider-info/mobile-broadband-provider-info_20201225.orig.tar.bz2
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.16.10.tar.xz
@@ -386,7 +386,7 @@ https://www.rarlab.com/rar/unrarsrc-6.0.7.tar.gz
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/uploads/244f5966c58773bbd3b4c507c549560f/upower-0.99.12.tar.xz
 https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
-https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.1.tar.xz
+https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
 https://github.com/relan/exfat/archive/v1.3.0.tar.gz
 https://github.com/vim/vim/archive/refs/tags/v8.2.3370.tar.gz

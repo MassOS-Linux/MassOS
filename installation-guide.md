@@ -19,11 +19,15 @@ This is the testing branch for the next upcoming version of MassOS. It currently
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
 - Cups Filters: `1.28.9 --> 1.28.10`
+- e2fsprogs: `1.46.3 --> 1.46.4`
 - Firefox: `91.0.1 --> 91.0.2`
+- libcap: `2.52 --> 2.53`
 - libnma: `1.8.30 --> 1.8.32`
+- Meson: `0.59.0 --> 0.59.1`
 - network-manager-applet: `1.22.0 --> 1.24.0`
 - NetworkManager: `1.32.8 --> 1.32.10`
 - OpenSSL: `1.1.1k --> 1.1.1l`
+- Util-Linux: `2.37.1 --> 2.37.2`
 - Vim: `8.2.3338 --> 8.2.3370`
 
 # Downloading The MassOS Rootfs
