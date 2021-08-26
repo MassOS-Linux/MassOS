@@ -157,7 +157,7 @@ Adding a separate user is strongly recommended for desktop use since logging in 
 ```
 adduser
 ```
-It will ask you a few questions, including whether the account should be an administrator or not. If you're the main user of the system, you should answer `y` here. By default, administrators are added to the `wheel` and `netdev` groups. Users in `wheel` can run commands as root with `sudo`, and users in `netdev` can manage network interfaces and connections with NetworkManager.
+It will ask you a few questions, including whether the account should be an administrator or not. If you're the main user of the system, you should answer `y` here. By default, administrators are added to the `wheel`, `netdev` and `lpadmin` groups. Users in `wheel` can run commands as root with `sudo`. Users in `netdev` can manage network interfaces and connections with NetworkManager. Users in `lpadmin` can manage printing with CUPS.
 # Installing additional firmware
 Some hardware, such as wireless or graphics cards, may require non-free firmware "blobs" in order to function properly. If you are the owner of such a device, you can install the most common non-free firmware using the following commands:
 ```

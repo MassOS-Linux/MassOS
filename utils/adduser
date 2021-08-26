@@ -24,7 +24,7 @@ elif [ ! -x "$shell" ]; then
   shell=/bin/bash
 fi
 
-echo "Admin privileges adds the user to the groups 'wheel' and 'netdev'."
+echo "Admin privileges adds the user to groups wheel, netdev and lpadmin."
 read -p "Enable admin privileges for the user? [Y/n] " adminselect1
 adminselect=$(echo "$adminselect1" | tr '[:upper:]' '[:lower:]')
 if [ -z "$adminselect" ]; then
@@ -38,7 +38,7 @@ else
 fi
 
 if [ $admin = y ]; then
-  groups="wheel,netdev"
+  groups="wheel,netdev,lpadmin"
 fi
 
 read -p "Enter a comma-separated list of any extra groups for the user: " g
