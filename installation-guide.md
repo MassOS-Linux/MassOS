@@ -104,7 +104,7 @@ UUID=539db496-6dfc-4c80-91b6-11cd278ba43c / ext4 defaults 1 1
 #UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx swap swap pri=1 0 0
 
 # EFI system (UEFI only):
-#UUID=xxxx-xxxx /boot/efi vfat defaults 0 1
+#UUID=xxxx-xxxx /boot/efi vfat umask=0077 0 1
 ```
 An example /etc/fstab file for a UEFI system with swap might look like this:
 ```
@@ -115,7 +115,7 @@ UUID=539db496-6dfc-4c80-91b6-11cd278ba43c / ext4 defaults 1 1
 UUID=6d31d057-df1e-4784-a287-019b310992a8 swap swap pri=1 0 0
 
 # EFI system (UEFI only):
-UUID=2712-B165 /boot/efi vfat defaults 0 1
+UUID=2712-B165 /boot/efi vfat umask=0077 0 1
 ```
 When you're finished, save and close the file. It may be worth double-checking you're entries are correct by running `cat /mnt/massos/etc/fstab` to view them. Mistakes in this file could prevent your system from booting.
 # Entering the chroot environment
