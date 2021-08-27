@@ -11,7 +11,7 @@ don't have one installed, you can use another distro's LiveCD instead.
 This is the testing branch for the next upcoming version of MassOS. It currently contains the following changes, however is subject to more changes before it's released:
 
 - Fixed bug in `/etc/vimrc` causing an annoying warning.
-- Added the following software: Galculator, Gparted, Gutenprint, pavucontrol, Thunderbird, xfce4-taskmanager, sl, cowsay, CMatrix, figlet.
+- Added the following software: CMatrix, cowsay, figlet, Galculator, Gparted, Gutenprint, htop, pavucontrol, Thunderbird, xfce4-taskmanager, sl.
 - Libtool archives (*.la) are now removed after the MassOS system is built.
 - The bootstrap compiler built in stage1 is now removed after the full compiler is built.
 - Switch sourceforge sources to cdn.thesonicmaster.net to avoid connection timeouts and other download problems.

@@ -4626,6 +4626,14 @@ make install
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
+# htop.
+tar -xf htop-3.0.5.tar.gz
+cd htop-3.0.5
+./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
+make
+make install
+cd ..
+rm -rf htop-3.0.5
 # sl.
 tar -xf 5.02.tar.gz
 cd sl-5.02
