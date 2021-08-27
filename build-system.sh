@@ -1585,6 +1585,15 @@ mv share/doc/cmake share/doc/cmake-3.21.1
 cp -R * /usr
 cd ..
 rm -rf cmake-3.21.1-linux-x86_64
+# c-ares.
+tar -xf c-ares-1.17.2.tar.gz
+cd c-ares-1.17.2
+mkdir c-ares-build; cd c-ares-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf c-ares-1.17.2
 # JSON-C.
 tar -xf json-c-0.15.tar.gz
 cd json-c-0.15
@@ -1654,7 +1663,7 @@ rm -rf libpsl-0.21.1
 # Wget.
 tar -xf wget-1.21.1.tar.gz
 cd wget-1.21.1
-./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
+./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
 make
 make install
 cd ..
@@ -1773,15 +1782,6 @@ make
 make install
 cd ..
 rm -rf libssh2-1.9.0
-# c-ares.
-tar -xf c-ares-1.17.2.tar.gz
-cd c-ares-1.17.2
-mkdir c-ares-build; cd c-ares-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
-ninja
-ninja install
-cd ../..
-rm -rf c-ares-1.17.2
 # Jansson.
 tar -xf jansson-2.13.1.tar.gz
 cd jansson-2.13.1
