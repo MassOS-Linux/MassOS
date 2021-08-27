@@ -19,17 +19,26 @@ This is the testing branch for the next upcoming version of MassOS. It currently
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- CMake: `3.21.1 --> 3.21.2`
 - Cups Filters: `1.28.9 --> 1.28.10`
 - e2fsprogs: `1.46.3 --> 1.46.4`
 - Firefox: `91.0.1 --> 91.0.2`
+- GLib: `2.68.3 --> 2.68.4`
+- HarfBuzz: `2.8.2 --> 2.9.0`
+- json-glib: `1.6.2 --> 1.6.6`
+- libarchive: `3.5.1 --> 3.5.2`
 - libcap: `2.52 --> 2.53`
+- libgcrypt: `1.9.3 --> 1.9.4`
 - libnma: `1.8.30 --> 1.8.32`
+- Mako: `1.1.4 --> 1.1.5`
+- Mesa: `21.1.6 --> 21.2.1`
 - Meson: `0.59.0 --> 0.59.1`
 - network-manager-applet: `1.22.0 --> 1.24.0`
 - NetworkManager: `1.32.8 --> 1.32.10`
+- OpenSSH: `8.6p1 --> 8.7p1`
 - OpenSSL: `1.1.1k --> 1.1.1l`
 - Util-Linux: `2.37.1 --> 2.37.2`
-- Vim: `8.2.3338 --> 8.2.3370`
+- Vim: `8.2.3338 --> 8.2.3377`
 
 # Downloading The MassOS Rootfs
 The development version of MassOS is not available to download. You can instead build it using the scripts in this repo. See the README.md for details on how to build.

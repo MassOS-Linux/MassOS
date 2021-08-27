@@ -916,11 +916,11 @@ python3 setup.py install --optimize=1
 cd ..
 rm -rf Jinja2-3.0.1
 # Mako.
-tar -xf Mako-1.1.4.tar.gz
-cd Mako-1.1.4
+tar -xf Mako-1.1.5.tar.gz
+cd Mako-1.1.5
 python3 setup.py install --optimize=1
 cd ..
-rm -rf Mako-1.1.4
+rm -rf Mako-1.1.5
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -954,13 +954,13 @@ make install
 cd ..
 rm -rf libgpg-error-1.42
 # libgcrypt.
-tar -xf libgcrypt-1.9.3.tar.bz2
-cd libgcrypt-1.9.3
+tar -xf libgcrypt-1.9.4.tar.bz2
+cd libgcrypt-1.9.4
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf libgcrypt-1.9.3
+rm -rf libgcrypt-1.9.4
 # Unzip.
 tar -xf unzip60.tar.gz
 cd unzip60
@@ -1578,13 +1578,13 @@ make install
 cd ..
 rm -rf rsync-3.2.3
 # CMake.
-tar --no-same-owner -xf cmake-3.21.1-linux-x86_64.tar.gz
-cd cmake-3.21.1-linux-x86_64
+tar --no-same-owner -xf cmake-3.21.2-linux-x86_64.tar.gz
+cd cmake-3.21.2-linux-x86_64
 mv doc man share
-mv share/doc/cmake share/doc/cmake-3.21.1
+mv share/doc/cmake share/doc/cmake-3.21.2
 cp -R * /usr
 cd ..
-rm -rf cmake-3.21.1-linux-x86_64
+rm -rf cmake-3.21.2-linux-x86_64
 # c-ares.
 tar -xf c-ares-1.17.2.tar.gz
 cd c-ares-1.17.2
@@ -1920,16 +1920,16 @@ make install-man
 cd ..
 rm -rf git-2.33.0
 # GLib.
-tar -xf glib-2.68.3.tar.xz
-cd glib-2.68.3
-patch -Np1 -i ../patches/glib-2.68.3-skip_warnings-1.patch
+tar -xf glib-2.68.4.tar.xz
+cd glib-2.68.4
+patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 sed 's/close_range (.[^)]*/&, 0/' -i glib/gspawn.c
 mkdir glib-build; cd glib-build
-meson --prefix=/usr --buildtype=release -Dman=true -Dselinux=disabled ..
+meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-2.68.3
+rm -rf glib-2.68.4
 # libsigc++
 tar -xf libsigc++-2.10.7.tar.xz
 cd libsigc++-2.10.7
@@ -2065,22 +2065,22 @@ make install
 cd ..
 rm -rf volume_key-volume_key-0.3.12
 # JSON-GLib.
-tar -xf json-glib-1.6.2.tar.xz
-cd json-glib-1.6.2
+tar -xf json-glib-1.6.6.tar.xz
+cd json-glib-1.6.6
 mkdir json-build; cd json-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf json-glib-1.6.2
+rm -rf json-glib-1.6.6
 # libarchive.
-tar -xf libarchive-3.5.1.tar.xz
-cd libarchive-3.5.1
+tar -xf libarchive-3.5.2.tar.xz
+cd libarchive-3.5.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libarchive-3.5.1
+rm -rf libarchive-3.5.2
 # efivar.
 tar -xf efivar-37.tar.bz2
 cd efivar-37
@@ -2127,14 +2127,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-2.8.2.tar.xz
-cd harfbuzz-2.8.2
+tar -xf harfbuzz-2.9.0.tar.xz
+cd harfbuzz-2.9.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite=enabled -Dbenchmark=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-2.8.2
+rm -rf harfbuzz-2.9.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -2735,16 +2735,16 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.1.6.tar.xz
-cd mesa-21.1.6
-patch -Np1 -i ../patches/mesa-21.1.6-add_xdemos-1.patch
+tar -xf mesa-21.2.1.tar.xz
+cd mesa-21.2.1
+patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.1.6
+rm -rf mesa-21.2.1
 # libva (rebuild to support Mesa).
 tar -xf libva-2.12.0.tar.bz2
 cd libva-2.12.0
@@ -3306,8 +3306,8 @@ END
 cd ..
 rm -rf polkit-0.119
 # OpenSSH.
-tar -xf openssh-8.6p1.tar.gz
-cd openssh-8.6p1
+tar -xf openssh-8.7p1.tar.gz
+cd openssh-8.7p1
 install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
@@ -3322,7 +3322,7 @@ chmod 644 /etc/pam.d/sshd
 sed -i 's/#UsePAM/UsePAM/' /etc/ssh/sshd_config
 sed -i 's/UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
 cd ..
-rm -rf openssh-8.6p1
+rm -rf openssh-8.7p1
 # sshfs.
 tar -xf sshfs-3.7.2.tar.xz
 cd sshfs-3.7.2
@@ -3712,8 +3712,8 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # Vim.
-tar -xf v8.2.3370.tar.gz
-cd vim-8.2.3370
+tar -xf v8.2.3377.tar.gz
+cd vim-8.2.3377
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -3731,9 +3731,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3370
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3377
 cd ..
-rm -rf vim-8.2.3370
+rm -rf vim-8.2.3377
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
@@ -4665,7 +4665,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.0.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.0.3.tar.bz2 -C /usr/lib
 ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
 cat > /usr/share/applications/thunderbird.desktop << END
 [Desktop Entry]
