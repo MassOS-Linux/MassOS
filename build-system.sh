@@ -900,6 +900,7 @@ make
 make install
 install -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-5.8
 cp doc/sample.nanorc /etc/nanorc
+sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 cd ..
 rm -rf nano-5.8
 # MarkupSafe.

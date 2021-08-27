@@ -8,12 +8,19 @@ fi
 
 read -p "Enter the full name of the new user: " fullname
 
-read -p "Enter the username of the new user: " username1
+while [ -z "$username1" ]; do
+  read -p "Enter the username of the new user: " username1
+  if [ -z "$fullname" -a -z "$username1" ]; then
+    echo "Username must not be empty."
+  elif [ -z "$username1" ]; then
+    username1="$fullname"
+  fi
+done
 username2=$(echo "$username1"  | head -n1 | cut -d " " -f1)
 username=$(echo $username2 | tr '[:upper:]' '[:lower:]')
 
 if [ -z "$fullname" ]; then
-  fullname=username
+  fullname="$username"
 fi
 
 read -p "Default login shell (/bin/bash): " shell
