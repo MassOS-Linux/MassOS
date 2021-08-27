@@ -3512,6 +3512,15 @@ make
 make install
 cd ..
 rm -rf vala-0.52.5
+# libhandy.
+tar -xf libhandy-1.2.3.tar.xz
+cd libhandy-1.2.3
+mkdir handy-build; cd handy-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libhandy-1.2.3
 # libgusb.
 tar -xf libgusb-0.3.7.tar.gz
 cd libgusb-0.3.7
@@ -4582,6 +4591,15 @@ make install
 install -m644 mtools.conf /etc/mtools.conf
 cd ..
 rm -rf mtools-4.0.35
+# Baobab (Disk Usage Analyser).
+tar -xf baobab-40.0.tar.xz
+cd baobab-40.0
+mkdir baobab-build; cd baobab-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf baobab-40.0
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
