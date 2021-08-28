@@ -139,7 +139,11 @@ mklocales
 ```
 If you require the default locale to be something other than `en_US.UTF-8`, edit the `/etc/locale.conf` file and replace `LANG=en_US.UTF-8` with your desired locale.
 
-The default keyboard layout is `us`, which is ideal for US residents. If you require a different layout, edit `/etc/vconsole.conf` and replace `KEYMAP=us` with any other keymap.
+The default keyboard layout is `us`, which is ideal for US residents. If you require a different layout, edit `/etc/vconsole.conf` and replace `KEYMAP=us` with any other keymap. A full list of available keymaps can be found with the following command:
+```
+ls /usr/share/keymaps/i386/qwerty | sed 's/.map.gz//'
+```
+For example: The keymap for British users is `uk`, so the entry would be `KEYMAP=uk`.
 # Setting the timezone
 You can run `tzselect` to find your timezone in the *Region/City* format. It will ask you a few questions about where you live, and return your timezone.
 
