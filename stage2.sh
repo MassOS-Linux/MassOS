@@ -22,6 +22,8 @@ utils/mass-chroot massos-rootfs /sources/build-system.sh
 find $MASSOS/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' || true
 find $MASSOS/usr/lib -type f -name \*.a -exec strip --strip-debug {} ';' || true
 find $MASSOS/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' || true
+# Compress executables to free up even more space.
+find $MASSOS/usr/{bin,libexec,sbin} -type f -exec $MASSOS/usr/bin/upx {} ';' || true
 # Finish the MassOS system.
 outfile="massos-$(cat utils/massos-release)-rootfs-x86_64.tar.xz"
 echo "Creating $outfile..."

@@ -4726,6 +4726,11 @@ install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
+# Install UPX.
+tar -xf upx-3.96-amd64_linux.tar.xz
+install -m755 upx-3.96-amd64_linux/upx /usr/bin/upx
+install -m755 upx-3.96-amd64_linux/upx.1 /usr/share/man/man1/upx.1
+rm -rf upx-3.96-amd64_linux
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /usr/share/doc/{cargo,clippy,rls,rust,rust-demangler,rustfmt}

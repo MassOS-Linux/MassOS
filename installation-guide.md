@@ -16,6 +16,7 @@ This is the testing branch for the next upcoming version of MassOS. It currently
 - The bootstrap compiler built in stage1 is now removed after the full compiler is built.
 - Switch sourceforge sources to cdn.thesonicmaster.net to avoid connection timeouts and other download problems.
 - Fixed incorrect permissions which prevented `fusermount` from working.
+- Executables are now self-compressed using UPX to free up more space.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
