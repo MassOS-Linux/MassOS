@@ -2492,13 +2492,13 @@ make install
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
-tar -xf iso-codes-4.6.0.tar.xz
-cd iso-codes-4.6.0
+tar -xf iso-codes_4.7.0.orig.tar.xz
+cd iso-codes-4.7.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf iso-codes-4.6.0
+rm -rf iso-codes-4.7.0
 # XDG-user-dirs.
 tar -xf xdg-user-dirs-0.17.tar.gz
 cd xdg-user-dirs-0.17
@@ -3677,8 +3677,8 @@ make -j1 install
 cd ../..
 rm -rf libical-3.0.10
 # BlueZ.
-tar -xf bluez-5.60.tar.xz
-cd bluez-5.60
+tar -xf bluez-5.61.tar.xz
+cd bluez-5.61
 sed 's/pause(/bluez_&/' -i profiles/audio/media.c
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-manpages --enable-library
 make
@@ -3687,8 +3687,9 @@ ln -sf ../libexec/bluetooth/bluetoothd /usr/sbin
 install -dm755 /etc/bluetooth
 install -m644 src/main.conf /etc/bluetooth/main.conf
 systemctl enable bluetooth
+systemctl enable --global obex
 cd ..
-rm -rf bluez-5.60
+rm -rf bluez-5.61
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -3785,13 +3786,13 @@ ninja install
 cd ../..
 rm -rf gcr-3.40.0
 # pinentry.
-tar -xf pinentry-1.1.1.tar.bz2
-cd pinentry-1.1.1
+tar -xf pinentry-1.2.0.tar.bz2
+cd pinentry-1.2.0
 ./configure --prefix=/usr --enable-pinentry-tty
 make
 make install
 cd ..
-rm -rf pinentry-1.1.1
+rm -rf pinentry-1.2.0
 # AccountsService.
 tar -xf accountsservice-0.6.55.tar.xz
 cd accountsservice-0.6.55
@@ -4120,15 +4121,14 @@ ninja install
 cd ../..
 rm -rf glib-networking-2.68.2
 # libsoup.
-tar -xf libsoup-2.72.0.tar.xz
-cd libsoup-2.72.0
-patch -Np1 -i ../patches/libsoup-2.72.0-testsuite_fix-1.patch
+tar -xf libsoup-2.74.0.tar.xz
+cd libsoup-2.74.0
 mkdir soup-build; cd soup-build
 meson --prefix=/usr --buildtype=release -Dvapi=enabled -Dgssapi=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libsoup-2.72.0
+rm -rf libsoup-2.74.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0

@@ -23,7 +23,7 @@ https://ftp.gnu.org/gnu/bash/bash-5.1.8.tar.gz
 https://github.com/gavinhoward/bc/releases/download/5.0.0/bc-5.0.0.tar.xz
 https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.xz
 https://ftp.gnu.org/gnu/bison/bison-3.7.6.tar.xz
-https://www.kernel.org/pub/linux/bluetooth/bluez-5.60.tar.xz
+https://www.kernel.org/pub/linux/bluetooth/bluez-5.61.tar.xz
 https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2
 https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.13.1.tar.xz
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
@@ -150,7 +150,7 @@ https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-
 https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
 https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.13.0.tar.xz
 http://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
-http://anduin.linuxfromscratch.org/BLFS/iso-codes/iso-codes-4.6.0.tar.xz
+https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.7.0.orig.tar.xz
 http://files.itstool.org/itstool/itstool-2.0.6.tar.bz2
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.0.1.tar.gz
@@ -215,7 +215,7 @@ https://download.gnome.org/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
 https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.7.tar.xz
 https://www.x.org/pub/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
-https://download.gnome.org/sources/libsoup/2.72/libsoup-2.72.0.tar.xz
+https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.0.tar.xz
 https://www.libssh2.org/download/libssh2-1.9.0.tar.gz
 https://ftp.gnu.org/gnu/libtasn1/libtasn1-4.17.0.tar.gz
 https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.xz
@@ -331,7 +331,7 @@ https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2
 https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.0.tar.xz
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
-https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.1.1.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 https://www.freedesktop.org/software/polkit/releases/polkit-0.119.tar.gz
 https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
