@@ -46,6 +46,7 @@ https://www.kernel.org/pub/linux/utils/cryptsetup/v2.3/cryptsetup-2.3.6.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.3.3op2/cups-2.3.3op2-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
 https://curl.se/download/curl-7.78.0.tar.xz
+https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
 https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
@@ -159,6 +160,7 @@ https://download.gnome.org/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
 https://www.kernel.org/pub/linux/utils/kbd/kbd-2.4.0.tar.xz
 https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
 https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-29.tar.xz
+https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz
 https://cdn.thesonicmaster.net/sources/lame-3.100.tar.gz
 https://cdn.thesonicmaster.net/sources/lcms2-2.12.tar.gz
 https://www.greenwoodsoftware.com/less/less-590.tar.gz
@@ -313,6 +315,7 @@ https://archive.mozilla.org/pub/security/nss/releases/NSS_3_69_RTM/src/nss-3.69.
 https://tuxera.com/opensource/ntfs-3g_ntfsprogs-2017.3.23.tgz
 https://cdn.thesonicmaster.net/sources/openjade-1.3.2.tar.gz
 https://github.com/uclouvain/openjpeg/archive/v2.4.0/openjpeg-2.4.0.tar.gz
+https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.7.tgz
 https://cdn.thesonicmaster.net/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.7p1.tar.gz
 https://www.openssl.org/source/openssl-1.1.1l.tar.gz

@@ -834,6 +834,14 @@ make docdir=/usr/share/doc/db-5.3.28 install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la} /usr/share/doc/db-5.3.28
 cd ../..
 rm -rf db-5.3.28
+# Cyrus SASL (will be rebuilt later to support krb5 and OpenLDAP).
+tar -xf cyrus-sasl-2.1.27.tar.gz
+cd cyrus-sasl-2.1.27
+./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
+make -j1
+make -j1 install
+cd ..
+rm -rf cyrus-sasl-2.1.27
 # iptables.
 tar -xf iptables-1.8.7.tar.bz2
 cd iptables-1.8.7
@@ -1799,7 +1807,7 @@ make
 make install
 cd ..
 rm -rf nghttp2-1.44.0
-# curl.
+# curl (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf curl-7.78.0.tar.xz
 cd curl-7.78.0
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
@@ -1833,6 +1841,17 @@ make
 make install
 cd ..
 rm -rf gnutls-3.7.2
+# OpenLDAP.
+tar -xf openldap-2.5.7.tgz
+cd openldap-2.5.7
+patch -Np1 -i ../patches/openldap-2.5.7-consolidated-1.patch
+autoconf
+./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning --disable-debug --disable-slapd
+make depend
+make
+make install
+cd ..
+rm -rf openldap-2.5.7
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -1858,6 +1877,26 @@ make
 make install
 cd ..
 rm -rf gnupg-2.2.29
+# krb5.
+tar -xf krb5-1.19.2.tar.gz
+cd krb5-1.19.2/src
+sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
+sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
+sed -i '/t_iprop.py/d' tests/Makefile.in
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
+make
+make install
+cd ../..
+rm -rf krb5-1.19.2
+# curl (rebuild to support krb5 and OpenLDAP).
+tar -xf curl-7.78.0.tar.xz
+cd curl-7.78.0
+grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
+./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
+make
+make install
+cd ..
+rm -rf curl-7.78.0
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -1883,6 +1922,14 @@ make
 make install
 cd ..
 rm -rf sqlite-autoconf-3360000
+# Cyrus SASL (rebuild to support krb5 and OpenLDAP).
+tar -xf cyrus-sasl-2.1.27.tar.gz
+cd cyrus-sasl-2.1.27
+./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-ldap --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
+make -j1
+make -j1 install
+cd ..
+rm -rf cyrus-sasl-2.1.27
 # NSPR.
 tar -xf nspr-4.32.tar.gz
 cd nspr-4.32/nspr
@@ -4124,7 +4171,7 @@ rm -rf glib-networking-2.68.2
 tar -xf libsoup-2.74.0.tar.xz
 cd libsoup-2.74.0
 mkdir soup-build; cd soup-build
-meson --prefix=/usr --buildtype=release -Dvapi=enabled -Dgssapi=disabled ..
+meson --prefix=/usr --buildtype=release -Dvapi=enabled ..
 ninja
 ninja install
 cd ../..
