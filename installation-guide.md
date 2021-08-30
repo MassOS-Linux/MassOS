@@ -189,7 +189,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.13.12-massos 5.13.12-massos
+dracut --force /boot/initrd.img-5.14.0-massos 5.14.0-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
