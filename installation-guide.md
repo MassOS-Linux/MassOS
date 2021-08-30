@@ -34,6 +34,7 @@ It also includes the following upgraded software, however there may be more upgr
 - libgcrypt: `1.9.3 --> 1.9.4`
 - libnma: `1.8.30 --> 1.8.32`
 - libsoup: `2.72.0 --> 2.74.0`
+- Linux Kernel: `5.13.12 --> 5.14.0`
 - Mako: `1.1.4 --> 1.1.5`
 - Mesa: `21.1.6 --> 21.2.1`
 - Meson: `0.59.0 --> 0.59.1`
@@ -42,6 +43,7 @@ It also includes the following upgraded software, however there may be more upgr
 - OpenSSH: `8.6p1 --> 8.7p1`
 - OpenSSL: `1.1.1k --> 1.1.1l`
 - pinentry: `1.1.1 --> 1.2.0`
+- SoundTouch: `2.2 --> 2.3.0`
 - Util-Linux: `2.37.1 --> 2.37.2`
 - Vim: `8.2.3338 --> 8.2.3377`
 

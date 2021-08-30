@@ -270,7 +270,7 @@ https://www.x.org/pub/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.13.12.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
@@ -367,7 +367,7 @@ https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.1/shared-mime-in
 https://ftp.gnu.org/gnu/sharutils/sharutils-4.15.2.tar.xz
 https://www.jedsoft.org/releases/slang/slang-2.3.2.tar.bz2
 https://www.x.org/pub/individual/app/smproxy-1.0.6.tar.bz2
-https://gitlab.com/soundtouch/soundtouch/-/archive/2.2/soundtouch-2.2.tar.bz2
+https://gitlab.com/soundtouch/soundtouch/-/archive/2.3.0/soundtouch-2.3.0.tar.bz2
 https://downloads.xiph.org/releases/speex/speex-1.2.0.tar.gz
 https://downloads.xiph.org/releases/speex/speexdsp-1.2.0.tar.gz
 https://sqlite.org/2021/sqlite-autoconf-3360000.tar.gz

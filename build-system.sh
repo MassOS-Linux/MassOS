@@ -4293,14 +4293,14 @@ ninja install
 cd ../..
 rm -rf gst-plugins-good-1.18.4
 # SoundTouch.
-tar -xf soundtouch-2.2.tar.bz2
-cd soundtouch-2.2
+tar -xf soundtouch-2.3.0.tar.bz2
+cd soundtouch-2.3.0
 ./bootstrap
-./configure --prefix=/usr --docdir=/usr/share/doc/soundtouch-2.2
+./configure --prefix=/usr --docdir=/usr/share/doc/soundtouch-2.3.0
 make
 make install
 cd ..
-rm -rf soundtouch-2.2
+rm -rf soundtouch-2.3.0
 # libdvdread.
 tar -xf libdvdread-6.1.2.tar.bz2
 cd libdvdread-6.1.2
@@ -4755,19 +4755,19 @@ MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;ap
 StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
-# Linux kernel.
-tar -xf linux-5.13.12.tar.xz
-cd linux-5.13.12
+# Linux Kernel.
+tar -xf linux-5.14.tar.xz
+cd linux-5.14
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.13.12-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.13.12-massos/vmlinuz
-cp System.map /boot/System.map-5.13.12-massos
-cp .config /boot/config-5.13.12-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.0-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.0-massos/vmlinuz
+cp System.map /boot/System.map-5.14.0-massos
+cp .config /boot/config-5.14.0-massos
 cd ..
-rm -rf linux-5.13.12
+rm -rf linux-5.14
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 # Install Neofetch.
