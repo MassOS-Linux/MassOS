@@ -117,11 +117,11 @@ find /usr/{lib,libexec} -name \*.la -delete
 # Remove temporary toolchain directory.
 rm -rf /tools
 # man-pages.
-tar -xf man-pages-5.12.tar.xz
-cd man-pages-5.12
+tar -xf man-pages-5.13.tar.xz
+cd man-pages-5.13
 make prefix=/usr install
 cd ..
-rm -rf man-pages-5.12
+rm -rf man-pages-5.13
 # iana-etc.
 tar -xf iana-etc-20210611.tar.gz
 cd iana-etc-20210611
@@ -1531,10 +1531,9 @@ make install
 cd ..
 rm -rf btrfs-progs-v5.13.1
 # ntfs-3g.
-tar -xf ntfs-3g_ntfsprogs-2017.3.23.tgz
-cd ntfs-3g_ntfsprogs-2017.3.23
-sed -i 's|/sbin|$(rootsbindir)|' {ntfsprogs,src}/Makefile.in
-./configure --prefix=/usr --disable-static --with-fuse=external --docdir=/usr/share/doc/ntfs-3g-2017.3.23
+tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
+cd ntfs-3g_ntfsprogs-2021.8.22
+./configure --prefix=/usr --disable-static --with-fuse=external --docdir=/usr/share/doc/ntfs-3g-2021.8.22
 make
 make install
 ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
@@ -1971,7 +1970,6 @@ rm -rf git-2.33.0
 tar -xf glib-2.68.4.tar.xz
 cd glib-2.68.4
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
-sed 's/close_range (.[^)]*/&, 0/' -i glib/gspawn.c
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
@@ -3559,15 +3557,6 @@ make
 make install
 cd ..
 rm -rf vala-0.52.5
-# libhandy.
-tar -xf libhandy-1.2.3.tar.xz
-cd libhandy-1.2.3
-mkdir handy-build; cd handy-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-cd ../..
-rm -rf libhandy-1.2.3
 # libgusb.
 tar -xf libgusb-0.3.7.tar.gz
 cd libgusb-0.3.7
@@ -3632,6 +3621,15 @@ ninja
 ninja install
 cd ../..
 rm -rf gtkmm-3.24.5
+# libhandy.
+tar -xf libhandy-1.2.3.tar.xz
+cd libhandy-1.2.3
+mkdir handy-build; cd handy-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libhandy-1.2.3
 # gnome-icon-theme.
 tar -xf gnome-icon-theme-3.12.0.tar.xz
 cd gnome-icon-theme-3.12.0

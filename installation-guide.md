@@ -36,10 +36,12 @@ It also includes the following upgraded software, however there may be more upgr
 - libsoup: `2.72.0 --> 2.74.0`
 - Linux Kernel: `5.13.12 --> 5.14.0`
 - Mako: `1.1.4 --> 1.1.5`
+- man-pages: `5.12 --> 5.13`
 - Mesa: `21.1.6 --> 21.2.1`
 - Meson: `0.59.0 --> 0.59.1`
 - network-manager-applet: `1.22.0 --> 1.24.0`
 - NetworkManager: `1.32.8 --> 1.32.10`
+- ntfs-3g: `2017.3.23 --> 2021.8.22`
 - OpenSSH: `8.6p1 --> 8.7p1`
 - OpenSSL: `1.1.1k --> 1.1.1l`
 - pinentry: `1.1.1 --> 1.2.0`
