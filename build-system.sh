@@ -85,13 +85,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -715,13 +715,13 @@ mv /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1l
 cd ..
 rm -rf openssl-1.1.1l
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -3997,13 +3997,13 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.11
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info_20201225.orig.tar.bz2
 cd mobile-broadband-provider-info-20201225
@@ -4772,11 +4772,6 @@ install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
-# Install UPX.
-tar -xf upx-3.96-amd64_linux.tar.xz
-install -m755 upx-3.96-amd64_linux/upx /usr/bin/upx
-install -m755 upx-3.96-amd64_linux/upx.1 /usr/share/man/man1/upx.1
-rm -rf upx-3.96-amd64_linux
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /usr/share/doc/{cargo,clippy,rls,rust,rust-demangler,rustfmt}

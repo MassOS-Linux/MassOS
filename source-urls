@@ -346,7 +346,7 @@ https://cdn.thesonicmaster.net/sources/psmisc-23.4.tar.xz
 https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
 https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz
 https://download.gnome.org/sources/pygobject/3.40/pygobject-3.40.1.tar.xz
-https://www.python.org/ftp/python/3.9.6/Python-3.9.6.tar.xz
+https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.3.2/qpdf-10.3.2.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://ftp.gnu.org/gnu/readline/readline-8.1.tar.gz
@@ -391,7 +391,6 @@ https://github.com/storaged-project/udisks/releases/download/udisks-2.9.3/udisks
 https://www.rarlab.com/rar/unrarsrc-6.0.7.tar.gz
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/uploads/244f5966c58773bbd3b4c507c549560f/upower-0.99.12.tar.xz
-https://github.com/upx/upx/releases/download/v3.96/upx-3.96-amd64_linux.tar.xz
 https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
