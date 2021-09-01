@@ -25,6 +25,7 @@ mkdir -p /usr/{,local/}share/{misc,terminfo,zoneinfo}
 mkdir -p /usr/{,local/}share/man/man{1..8}
 mkdir -p /var/{cache,local,log,mail,opt,spool}
 mkdir -p /var/lib/{color,misc,locate}
+ln -sf lib /usr/local/lib64
 ln -sf /run /var/run
 ln -sf /run/lock /var/lock
 install -dm0750 /root
@@ -84,13 +85,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -101,14 +102,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.37.1.tar.xz
-cd util-linux-2.37.1
+tar -xf util-linux-2.37.2.tar.xz
+cd util-linux-2.37.2
 mkdir -p /var/lib/hwclock
-./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.1 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.2 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.1
+rm -rf util-linux-2.37.2
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -116,11 +117,11 @@ find /usr/{lib,libexec} -name \*.la -delete
 # Remove temporary toolchain directory.
 rm -rf /tools
 # man-pages.
-tar -xf man-pages-5.12.tar.xz
-cd man-pages-5.12
+tar -xf man-pages-5.13.tar.xz
+cd man-pages-5.13
 make prefix=/usr install
 cd ..
-rm -rf man-pages-5.12
+rm -rf man-pages-5.13
 # iana-etc.
 tar -xf iana-etc-20210611.tar.gz
 cd iana-etc-20210611
@@ -352,14 +353,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.52.tar.xz
-cd libcap-2.52
+tar -xf libcap-2.53.tar.xz
+cd libcap-2.53
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.52
+chmod 755 /usr/lib/lib{cap,psx}.so.2.53
 cd ..
-rm -rf libcap-2.52
+rm -rf libcap-2.53
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -421,8 +422,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.52.tar.xz
-cd libcap-2.52
+tar -xf libcap-2.53.tar.xz
+cd libcap-2.53
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -431,7 +432,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.52
+rm -rf libcap-2.53
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -704,23 +705,23 @@ make install
 cd ..
 rm -rf libffi-3.4.2
 # OpenSSL.
-tar -xf openssl-1.1.1k.tar.gz
-cd openssl-1.1.1k
+tar -xf openssl-1.1.1l.tar.gz
+cd openssl-1.1.1l
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
-mv /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1k
+mv /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1l
 cd ..
-rm -rf openssl-1.1.1k
+rm -rf openssl-1.1.1l
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -730,14 +731,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.59.0.tar.gz
-cd meson-0.59.0
+tar -xf meson-0.59.1.tar.gz
+cd meson-0.59.1
 python3 setup.py build
 python3 setup.py install --root=dest
 cp -r dest/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.59.0
+rm -rf meson-0.59.1
 # Coreutils.
 tar -xf coreutils-8.32.tar.xz
 cd coreutils-8.32
@@ -833,6 +834,14 @@ make docdir=/usr/share/doc/db-5.3.28 install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la} /usr/share/doc/db-5.3.28
 cd ../..
 rm -rf db-5.3.28
+# Cyrus SASL (will be rebuilt later to support krb5 and OpenLDAP).
+tar -xf cyrus-sasl-2.1.27.tar.gz
+cd cyrus-sasl-2.1.27
+./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
+make -j1
+make -j1 install
+cd ..
+rm -rf cyrus-sasl-2.1.27
 # iptables.
 tar -xf iptables-1.8.7.tar.bz2
 cd iptables-1.8.7
@@ -899,6 +908,7 @@ make
 make install
 install -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-5.8
 cp doc/sample.nanorc /etc/nanorc
+sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 cd ..
 rm -rf nano-5.8
 # MarkupSafe.
@@ -915,11 +925,11 @@ python3 setup.py install --optimize=1
 cd ..
 rm -rf Jinja2-3.0.1
 # Mako.
-tar -xf Mako-1.1.4.tar.gz
-cd Mako-1.1.4
+tar -xf Mako-1.1.5.tar.gz
+cd Mako-1.1.5
 python3 setup.py install --optimize=1
 cd ..
-rm -rf Mako-1.1.4
+rm -rf Mako-1.1.5
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -953,13 +963,13 @@ make install
 cd ..
 rm -rf libgpg-error-1.42
 # libgcrypt.
-tar -xf libgcrypt-1.9.3.tar.bz2
-cd libgcrypt-1.9.3
+tar -xf libgcrypt-1.9.4.tar.bz2
+cd libgcrypt-1.9.4
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf libgcrypt-1.9.3
+rm -rf libgcrypt-1.9.4
 # Unzip.
 tar -xf unzip60.tar.gz
 cd unzip60
@@ -1081,10 +1091,10 @@ rm -rf docbook-xml-4.5
 tar -xf docbook-xsl-nons-1.79.2.tar.bz2
 cd docbook-xsl-nons-1.79.2
 patch -Np1 -i ../patches/docbook-xsl-nons-1.79.2-stack_fix-1.patch
-install -dm755 /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 
-cp -R VERSION assembly common eclipse epub epub3 extensions fo highlighting html htmlhelp images javahelp lib manpages params profiling roundtrip slides template tests tools webhelp website xhtml xhtml-1_1 xhtml5 /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 
-ln -s VERSION /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2/VERSION.xsl 
-install -Dm644 README /usr/share/doc/docbook-xsl-nons-1.79.2/README.txt 
+install -dm755 /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2
+cp -R VERSION assembly common eclipse epub epub3 extensions fo highlighting html htmlhelp images javahelp lib manpages params profiling roundtrip slides template tests tools webhelp website xhtml xhtml-1_1 xhtml5 /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2
+ln -s VERSION /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2/VERSION.xsl
+install -Dm644 README /usr/share/doc/docbook-xsl-nons-1.79.2/README.txt
 install -m644 RELEASE-NOTES* NEWS* /usr/share/doc/docbook-xsl-nons-1.79.2
 if [ ! -d /etc/xml ]; then install -dm755 /etc/xml; fi
 if [ ! -f /etc/xml/catalog ]; then
@@ -1392,16 +1402,16 @@ make install
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.37.1.tar.xz
-cd util-linux-2.37.1
-./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.1 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
+tar -xf util-linux-2.37.2.tar.xz
+cd util-linux-2.37.2
+./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --docdir=/usr/share/doc/util-linux-2.37.2 --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.1
+rm -rf util-linux-2.37.2
 # e2fsprogs.
-tar -xf e2fsprogs-1.46.3.tar.gz
-cd e2fsprogs-1.46.3
+tar -xf e2fsprogs-1.46.4.tar.gz
+cd e2fsprogs-1.46.4
 mkdir e2-build; cd e2-build
 ../configure --prefix=/usr --sysconfdir=/etc --enable-elf-shlibs --disable-libblkid --disable-libuuid --disable-uuidd --disable-fsck
 make
@@ -1410,7 +1420,7 @@ rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
 gunzip /usr/share/info/libext2fs.info.gz
 install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
 cd ../..
-rm -rf e2fsprogs-1.46.3
+rm -rf e2fsprogs-1.46.4
 # dosfstools.
 tar -xf dosfstools-4.2.tar.gz
 cd dosfstools-4.2
@@ -1436,6 +1446,7 @@ rm -rf dest/etc/init.d
 rm -rf dest/dev
 cp -R dest/* /
 ldconfig
+chmod 4755 /usr/bin/fusermount
 cd ..
 rm -rf fuse-2.9.9
 # fuse3.
@@ -1520,10 +1531,9 @@ make install
 cd ..
 rm -rf btrfs-progs-v5.13.1
 # ntfs-3g.
-tar -xf ntfs-3g_ntfsprogs-2017.3.23.tgz
-cd ntfs-3g_ntfsprogs-2017.3.23
-sed -i 's|/sbin|$(rootsbindir)|' {ntfsprogs,src}/Makefile.in
-./configure --prefix=/usr --disable-static --with-fuse=external --docdir=/usr/share/doc/ntfs-3g-2017.3.23
+tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
+cd ntfs-3g_ntfsprogs-2021.8.22
+./configure --prefix=/usr --disable-static --with-fuse=external --docdir=/usr/share/doc/ntfs-3g-2021.8.22
 make
 make install
 ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
@@ -1576,19 +1586,29 @@ make install
 cd ..
 rm -rf rsync-3.2.3
 # CMake.
-tar --no-same-owner -xf cmake-3.21.1-linux-x86_64.tar.gz
-cd cmake-3.21.1-linux-x86_64
+tar --no-same-owner -xf cmake-3.21.2-linux-x86_64.tar.gz
+cd cmake-3.21.2-linux-x86_64
 mv doc man share
+mv share/doc/cmake share/doc/cmake-3.21.2
 cp -R * /usr
 cd ..
-rm -rf cmake-3.21.1-linux-x86_64
+rm -rf cmake-3.21.2-linux-x86_64
+# c-ares.
+tar -xf c-ares-1.17.2.tar.gz
+cd c-ares-1.17.2
+mkdir c-ares-build; cd c-ares-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf c-ares-1.17.2
 # JSON-C.
 tar -xf json-c-0.15.tar.gz
 cd json-c-0.15
 mkdir json-c-build; cd json-c-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC_LIBS=OFF ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf json-c-0.15
 # cryptsetup.
@@ -1651,7 +1671,7 @@ rm -rf libpsl-0.21.1
 # Wget.
 tar -xf wget-1.21.1.tar.gz
 cd wget-1.21.1
-./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl
+./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
 make
 make install
 cd ..
@@ -1770,15 +1790,6 @@ make
 make install
 cd ..
 rm -rf libssh2-1.9.0
-# c-ares.
-tar -xf c-ares-1.17.2.tar.gz
-cd c-ares-1.17.2
-mkdir c-ares-build; cd c-ares-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
-make
-make install
-cd ../..
-rm -rf c-ares-1.17.2
 # Jansson.
 tar -xf jansson-2.13.1.tar.gz
 cd jansson-2.13.1
@@ -1795,7 +1806,7 @@ make
 make install
 cd ..
 rm -rf nghttp2-1.44.0
-# curl.
+# curl (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf curl-7.78.0.tar.xz
 cd curl-7.78.0
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
@@ -1829,6 +1840,17 @@ make
 make install
 cd ..
 rm -rf gnutls-3.7.2
+# OpenLDAP.
+tar -xf openldap-2.5.7.tgz
+cd openldap-2.5.7
+patch -Np1 -i ../patches/openldap-2.5.7-consolidated-1.patch
+autoconf
+./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning --disable-debug --disable-slapd
+make depend
+make
+make install
+cd ..
+rm -rf openldap-2.5.7
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -1854,6 +1876,26 @@ make
 make install
 cd ..
 rm -rf gnupg-2.2.29
+# krb5.
+tar -xf krb5-1.19.2.tar.gz
+cd krb5-1.19.2/src
+sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
+sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
+sed -i '/t_iprop.py/d' tests/Makefile.in
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
+make
+make install
+cd ../..
+rm -rf krb5-1.19.2
+# curl (rebuild to support krb5 and OpenLDAP).
+tar -xf curl-7.78.0.tar.xz
+cd curl-7.78.0
+grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
+./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
+make
+make install
+cd ..
+rm -rf curl-7.78.0
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -1879,6 +1921,14 @@ make
 make install
 cd ..
 rm -rf sqlite-autoconf-3360000
+# Cyrus SASL (rebuild to support krb5 and OpenLDAP).
+tar -xf cyrus-sasl-2.1.27.tar.gz
+cd cyrus-sasl-2.1.27
+./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-ldap --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
+make -j1
+make -j1 install
+cd ..
+rm -rf cyrus-sasl-2.1.27
 # NSPR.
 tar -xf nspr-4.32.tar.gz
 cd nspr-4.32/nspr
@@ -1917,16 +1967,33 @@ make install-man
 cd ..
 rm -rf git-2.33.0
 # GLib.
-tar -xf glib-2.68.3.tar.xz
-cd glib-2.68.3
-patch -Np1 -i ../patches/glib-2.68.3-skip_warnings-1.patch
-sed 's/close_range (.[^)]*/&, 0/' -i glib/gspawn.c
+tar -xf glib-2.68.4.tar.xz
+cd glib-2.68.4
+patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
-meson --prefix=/usr --buildtype=release -Dman=true -Dselinux=disabled ..
+meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-2.68.3
+rm -rf glib-2.68.4
+# libsigc++
+tar -xf libsigc++-2.10.7.tar.xz
+cd libsigc++-2.10.7
+mkdir sigc++-build; cd sigc++-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libsigc++-2.10.7
+# GLibmm
+tar -xf glibmm-2.66.1.tar.xz
+cd glibmm-2.66.1
+mkdir glibmm-build; cd glibmm-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf glibmm-2.66.1
 # gobject-introspection.
 tar -xf gobject-introspection-1.68.0.tar.xz
 cd gobject-introspection-1.68.0
@@ -2044,22 +2111,22 @@ make install
 cd ..
 rm -rf volume_key-volume_key-0.3.12
 # JSON-GLib.
-tar -xf json-glib-1.6.2.tar.xz
-cd json-glib-1.6.2
+tar -xf json-glib-1.6.6.tar.xz
+cd json-glib-1.6.6
 mkdir json-build; cd json-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf json-glib-1.6.2
+rm -rf json-glib-1.6.6
 # libarchive.
-tar -xf libarchive-3.5.1.tar.xz
-cd libarchive-3.5.1
+tar -xf libarchive-3.5.2.tar.xz
+cd libarchive-3.5.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libarchive-3.5.1
+rm -rf libarchive-3.5.2
 # efivar.
 tar -xf efivar-37.tar.bz2
 cd efivar-37
@@ -2100,20 +2167,20 @@ tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
 sed -i '/cmptest/d' tests/CMakeLists.txt
 mkdir graphite2-build; cd graphite2-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-2.8.2.tar.xz
-cd harfbuzz-2.8.2
+tar -xf harfbuzz-2.9.0.tar.xz
+cd harfbuzz-2.9.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite=enabled -Dbenchmark=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-2.8.2
+rm -rf harfbuzz-2.9.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -2129,9 +2196,9 @@ tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
 sed -i '/cmptest/d' tests/CMakeLists.txt
 mkdir graphite2-build; cd graphite2-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # Unifont.
@@ -2421,9 +2488,9 @@ rm -rf nasm-2.15.05
 tar -xf libjpeg-turbo-2.1.1.tar.gz
 cd libjpeg-turbo-2.1.1
 mkdir jpeg-build; cd jpeg-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libjpeg-turbo-2.1.1 -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DOCDIR=/usr/share/doc/libjpeg-turbo-2.1.1 -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf libjpeg-turbo-2.1.1
 # Pixman.
@@ -2470,13 +2537,13 @@ make install
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
-tar -xf iso-codes-4.6.0.tar.xz
-cd iso-codes-4.6.0
+tar -xf iso-codes_4.7.0.orig.tar.xz
+cd iso-codes-4.7.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf iso-codes-4.6.0
+rm -rf iso-codes-4.7.0
 # XDG-user-dirs.
 tar -xf xdg-user-dirs-0.17.tar.gz
 cd xdg-user-dirs-0.17
@@ -2714,16 +2781,16 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.1.6.tar.xz
-cd mesa-21.1.6
-patch -Np1 -i ../patches/mesa-21.1.6-add_xdemos-1.patch
+tar -xf mesa-21.2.1.tar.xz
+cd mesa-21.2.1
+patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.1.6
+rm -rf mesa-21.2.1
 # libva (rebuild to support Mesa).
 tar -xf libva-2.12.0.tar.bz2
 cd libva-2.12.0
@@ -3285,8 +3352,8 @@ END
 cd ..
 rm -rf polkit-0.119
 # OpenSSH.
-tar -xf openssh-8.6p1.tar.gz
-cd openssh-8.6p1
+tar -xf openssh-8.7p1.tar.gz
+cd openssh-8.7p1
 install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
@@ -3301,7 +3368,7 @@ chmod 644 /etc/pam.d/sshd
 sed -i 's/#UsePAM/UsePAM/' /etc/ssh/sshd_config
 sed -i 's/UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
 cd ..
-rm -rf openssh-8.6p1
+rm -rf openssh-8.7p1
 # sshfs.
 tar -xf sshfs-3.7.2.tar.xz
 cd sshfs-3.7.2
@@ -3326,9 +3393,9 @@ tar -xf freeglut-3.2.1.tar.gz
 cd freeglut-3.2.1
 patch -Np1 -i ../patches/freeglut-3.2.1-gcc10_fix-1.patch
 mkdir fg-build; cd fg-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DFREEGLUT_BUILD_DEMOS=OFF -DFREEGLUT_BUILD_STATIC_LIBS=OFF -Wno-dev ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DFREEGLUT_BUILD_DEMOS=OFF -DFREEGLUT_BUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf freeglut-3.2.1
 # libtiff.
@@ -3358,6 +3425,15 @@ ninja
 ninja install
 cd ../..
 rm -rf atk-2.36.0
+# Atkmm.
+tar -xf atkmm-2.28.2.tar.xz
+cd atkmm-2.28.2
+mkdir atkmm-build; cd atkmm-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf atkmm-2.28.2
 # GDK-Pixbuf.
 tar -xf gdk-pixbuf-2.42.6.tar.xz
 cd gdk-pixbuf-2.42.6
@@ -3376,6 +3452,15 @@ make
 make install
 cd ..
 rm -rf cairo-1.17.4
+# cairomm.
+tar -xf cairomm-1.14.0.tar.xz
+cd cairomm-1.14.0
+mkdir cmm-build; cd cmm-build
+meson --prefix=/usr --buildtype=release -Dbuild-tests=true -Dboost-shared=true ..
+ninja
+ninja install
+cd ../..
+rm -rf cmm-build
 # Pango.
 tar -xf pango-1.48.9.tar.xz
 cd pango-1.48.9
@@ -3385,6 +3470,15 @@ ninja
 ninja install
 cd ../..
 rm -rf pango-1.48.9
+# Pangomm.
+tar -xf pangomm-2.46.1.tar.xz
+cd pangomm-2.46.1
+mkdir pmm-build; cd pmm-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf pangomm-2.46.1
 # hicolor-icon-theme.
 tar -xf hicolor-icon-theme-0.17.tar.xz
 cd hicolor-icon-theme-0.17
@@ -3518,6 +3612,24 @@ gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ..
 rm -rf gtk+-3.24.30
+# Gtkmm.
+tar -xf gtkmm-3.24.5.tar.xz
+cd gtkmm-3.24.5
+mkdir gmm-build; cd gmm-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf gtkmm-3.24.5
+# libhandy.
+tar -xf libhandy-1.2.3.tar.xz
+cd libhandy-1.2.3
+mkdir handy-build; cd handy-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libhandy-1.2.3
 # gnome-icon-theme.
 tar -xf gnome-icon-theme-3.12.0.tar.xz
 cd gnome-icon-theme-3.12.0
@@ -3604,14 +3716,14 @@ rm -rf sbc-1.5
 tar -xf libical-3.0.10.tar.gz
 cd libical-3.0.10
 mkdir ical-build; cd ical-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true -Wno-dev ..
 make -j1
 make -j1 install
 cd ../..
 rm -rf libical-3.0.10
 # BlueZ.
-tar -xf bluez-5.60.tar.xz
-cd bluez-5.60
+tar -xf bluez-5.61.tar.xz
+cd bluez-5.61
 sed 's/pause(/bluez_&/' -i profiles/audio/media.c
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-manpages --enable-library
 make
@@ -3620,8 +3732,9 @@ ln -sf ../libexec/bluetooth/bluetoothd /usr/sbin
 install -dm755 /etc/bluetooth
 install -m644 src/main.conf /etc/bluetooth/main.conf
 systemctl enable bluetooth
+systemctl enable --global obex
 cd ..
-rm -rf bluez-5.60
+rm -rf bluez-5.61
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -3632,6 +3745,7 @@ patch -Np1 -i ../patches/avahi-0.8-ipv6_race_condition_fix-1.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-libevent --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --enable-core-docs --with-distro=none
 make
 make install
+systemctl enable avahi-daemon
 cd ..
 rm -rf avahi-0.8
 # PulseAudio.
@@ -3654,15 +3768,14 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # Vim.
-tar -xf v8.2.3338.tar.gz
-cd vim-8.2.3338
+tar -xf v8.2.3377.tar.gz
+cd vim-8.2.3377
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
 make
 make install
 cat > /etc/vimrc << END
-source $VIMRUNTIME/defaults.vim
 let skip_defaults_vim=1
 set nocompatible
 set backspace=2
@@ -3674,9 +3787,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3338
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3377
 cd ..
-rm -rf vim-8.2.3338
+rm -rf vim-8.2.3377
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
@@ -3690,9 +3803,9 @@ rm -rf libwpe-1.10.1
 tar -xf openjpeg-2.4.0.tar.gz
 cd openjpeg-2.4.0
 mkdir ojpg-build; cd ojpg-build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF ..
-make
-make install
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../doc
 for man in man/man?/*; do install -v -D -m 644 $man /usr/share/$man; done
 cd ../..
@@ -3718,13 +3831,13 @@ ninja install
 cd ../..
 rm -rf gcr-3.40.0
 # pinentry.
-tar -xf pinentry-1.1.1.tar.bz2
-cd pinentry-1.1.1
+tar -xf pinentry-1.2.0.tar.bz2
+cd pinentry-1.2.0
 ./configure --prefix=/usr --enable-pinentry-tty
 make
 make install
 cd ..
-rm -rf pinentry-1.1.1
+rm -rf pinentry-1.2.0
 # AccountsService.
 tar -xf accountsservice-0.6.55.tar.xz
 cd accountsservice-0.6.55
@@ -3792,9 +3905,9 @@ rm -rf cups-2.3.3op2
 tar -xf poppler-21.08.0.tar.xz
 cd poppler-21.08.0
 mkdir poppler-build; cd poppler-build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON ..
-make
-make install
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
 tar -xf ../../poppler-data-0.4.10.tar.gz
 cd poppler-data-0.4.10
 make prefix=/usr install
@@ -3853,15 +3966,24 @@ ln -sf mupdf-x11 /usr/bin/mupdf
 cd ..
 rm -rf mupdf-1.18.0-source
 # CUPS Filters.
-tar -xf cups-filters-1.28.9.tar.xz
-cd cups-filters-1.28.9
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --docdir=/usr/share/doc/cups-filters-1.28.9 --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
+tar -xf cups-filters-1.28.10.tar.xz
+cd cups-filters-1.28.10
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --docdir=/usr/share/doc/cups-filters-1.28.10 --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
 make
 make install
 install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.service
 systemctl enable cups-browsed
 cd ..
-rm -rf cups-filters-1.28.9
+rm -rf cups-filters-1.28.10
+# Gutenprint.
+tar -xf gutenprint-5.3.3.tar.xz
+cd gutenprint-5.3.3
+sed -i 's|$(PACKAGE)/doc|doc/$(PACKAGE)-$(VERSION)|' {,doc/,doc/developer/}Makefile.in
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf gutenprint-5.3.3
 # Tk.
 tar -xf tk8.6.11.1-src.tar.gz
 cd tk8.6.11/unix
@@ -3875,13 +3997,13 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.11
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.9.6.tar.xz
-cd Python-3.9.6
+tar -xf Python-3.9.7.tar.xz
+cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.9.6
+rm -rf Python-3.9.7
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info_20201225.orig.tar.bz2
 cd mobile-broadband-provider-info-20201225
@@ -3944,15 +4066,15 @@ systemctl enable upower
 cd ..
 rm -rf upower-0.99.12
 # NetworkManager.
-tar -xf NetworkManager-1.32.8.tar.xz
-cd NetworkManager-1.32.8
+tar -xf NetworkManager-1.32.10.tar.xz
+cd NetworkManager-1.32.10
 sed '/initrd/d' -i src/core/meson.build
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dppp=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
-mv /usr/share/doc/NetworkManager{,-1.32.8}
+mv /usr/share/doc/NetworkManager{,-1.32.10}
 cat >> /etc/NetworkManager/NetworkManager.conf << END
 [main]
 plugins=keyfile
@@ -3970,16 +4092,16 @@ polkit.addRule(function(action, subject) {
 END
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.32.8
+rm -rf NetworkManager-1.32.10
 # libnma.
-tar -xf libnma-1.8.30.tar.xz
-cd libnma-1.8.30
+tar -xf libnma-1.8.32.tar.xz
+cd libnma-1.8.32
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libnma-1.8.30
+rm -rf libnma-1.8.32
 # libnotify.
 tar -xf libnotify-0.7.9.tar.xz
 cd libnotify-0.7.9
@@ -4007,14 +4129,14 @@ ninja install
 cd ../..
 rm -rf libwnck-40.0
 # network-manager-applet.
-tar -xf network-manager-applet-1.22.0.tar.xz
-cd network-manager-applet-1.22.0
+tar -xf network-manager-applet-1.24.0.tar.xz
+cd network-manager-applet-1.24.0
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release -Dappindicator=no -Dselinux=false ..
 ninja
 ninja install
 cd ../..
-rm -rf network-manager-applet-1.22.0
+rm -rf network-manager-applet-1.24.0
 # UDisks.
 tar -xf udisks-2.9.3.tar.bz2
 cd udisks-2.9.3
@@ -4044,15 +4166,14 @@ ninja install
 cd ../..
 rm -rf glib-networking-2.68.2
 # libsoup.
-tar -xf libsoup-2.72.0.tar.xz
-cd libsoup-2.72.0
-patch -Np1 -i ../patches/libsoup-2.72.0-testsuite_fix-1.patch
+tar -xf libsoup-2.74.0.tar.xz
+cd libsoup-2.74.0
 mkdir soup-build; cd soup-build
-meson --prefix=/usr --buildtype=release -Dvapi=enabled -Dgssapi=disabled ..
+meson --prefix=/usr --buildtype=release -Dvapi=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libsoup-2.72.0
+rm -rf libsoup-2.74.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -4154,9 +4275,9 @@ rm -rf lame-3.100
 tar -xf taglib-1.12.tar.gz
 cd taglib-1.12
 mkdir taglib-build; cd taglib-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
-make
-make install
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
 cd ../..
 rm -rf taglib-1.12
 # gst-plugins-good.
@@ -4170,14 +4291,14 @@ ninja install
 cd ../..
 rm -rf gst-plugins-good-1.18.4
 # SoundTouch.
-tar -xf soundtouch-2.2.tar.bz2
-cd soundtouch-2.2
+tar -xf soundtouch-2.3.0.tar.bz2
+cd soundtouch-2.3.0
 ./bootstrap
-./configure --prefix=/usr --docdir=/usr/share/doc/soundtouch-2.2
+./configure --prefix=/usr --docdir=/usr/share/doc/soundtouch-2.3.0
 make
 make install
 cd ..
-rm -rf soundtouch-2.2
+rm -rf soundtouch-2.3.0
 # libdvdread.
 tar -xf libdvdread-6.1.2.tar.bz2
 cd libdvdread-6.1.2
@@ -4436,6 +4557,14 @@ make
 make install
 cd ..
 rm -rf xfce4-pulseaudio-plugin-0.4.3
+# pavucontrol.
+tar -xf pavucontrol-5.0.tar.xz
+cd pavucontrol-5.0
+./configure --prefix=/usr --docdir=/usr/share/doc/pavucontrol-5.0
+make
+make install
+cd ..
+rm -rf pavucontrol-5.0
 # xfce4-screenshooter.
 tar -xf xfce4-screenshooter-1.9.9.tar.bz2
 cd xfce4-screenshooter-1.9.9
@@ -4444,6 +4573,14 @@ make
 make install
 cd ..
 rm -rf xfce4-screenshooter-1.9.9
+# xfce4-taskmanager.
+tar -xf xfce4-taskmanager-1.5.2.tar.bz2
+cd xfce4-taskmanager-1.5.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
+make
+make install
+cd ..
+rm -rf xfce4-taskmanager-1.5.2
 # xarchiver.
 tar -xf xarchiver-0.5.4.17.tar.gz
 cd xarchiver-0.5.4.17
@@ -4472,6 +4609,42 @@ make
 make install
 cd ..
 rm -rf mousepad-0.5.6
+# galculator.
+tar -xf galculator-2.1.4.tar.gz
+cd galculator-2.1.4
+sed -i 's/s_preferences/extern s_preferences/' src/main.c
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf galculator-2.1.4
+# Gparted.
+tar -xf gparted-1.3.1.tar.gz
+cd gparted-1.3.1
+./configure --prefix=/usr --disable-doc --disable-static
+make
+make install
+cd ..
+rm -rf gparted-1.3.1
+# mtools.
+tar -xf mtools-4.0.35.tar.gz
+cd mtools-4.0.35
+sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
+./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
+make
+make install
+install -m644 mtools.conf /etc/mtools.conf
+cd ..
+rm -rf mtools-4.0.35
+# Baobab (Disk Usage Analyser).
+tar -xf baobab-40.0.tar.xz
+cd baobab-40.0
+mkdir baobab-build; cd baobab-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf baobab-40.0
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
@@ -4498,8 +4671,55 @@ make install
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
+# htop.
+tar -xf htop-3.0.5.tar.gz
+cd htop-3.0.5
+autoreconf -fi
+./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
+make
+make install
+cd ..
+rm -rf htop-3.0.5
+# sl.
+tar -xf 5.02.tar.gz
+cd sl-5.02
+gcc -Os sl.c -o sl -s -lcurses
+install -m755 sl /usr/bin/sl
+install -m644 sl.1 /usr/share/man/man1/sl.1
+cd ..
+rm -rf sl-5.02
+# cowsay.
+tar -xf cowsay-3.04.tar.gz
+cd rank-amateur-cowsay-cowsay-3.04
+curl -s https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/cowsay/trunk/cowsay.patch | patch -p1
+sed -i 's|/man/|/share/man/|' install.sh
+echo "/usr" | ./install.sh
+rm /usr/share/cows/mech-and-cow
+cd ..
+rm -rf rank-amateur-cowsay-cowsay-3.04
+# figlet.
+tar -xf figlet-2.2.5.tar.gz
+cd figlet-2.2.5
+make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts all
+make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts install
+cd ..
+rm -rf figlet-2.2.5
+# CMatrix.
+tar -xf cmatrix-v2.0-Butterscotch.tar
+cd cmatrix
+mkdir cmatrix-build; cd cmatrix-build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ..
+install -Dm644 mtx.pcf /usr/share/fonts/misc/mtx.pcf
+install -Dm644 matrix.fnt /usr/share/kbd/consolefonts/matrix.fnt
+install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
+install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
+cd ..
+rm -rf cmatrix
 # Firefox.
-tar --no-same-owner -xf firefox-91.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-91.0.2.tar.bz2 -C /usr/lib
 ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
 mkdir -p /usr/share/{applications,pixmaps}
 cat > /usr/share/applications/firefox.desktop << END
@@ -4517,19 +4737,36 @@ MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mo
 StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
-# Linux kernel.
-tar -xf linux-5.13.12.tar.xz
-cd linux-5.13.12
+# Thunderbird.
+tar --no-same-owner -xf thunderbird-91.0.3.tar.bz2 -C /usr/lib
+ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
+cat > /usr/share/applications/thunderbird.desktop << END
+[Desktop Entry]
+Name=Thunderbird Mail
+Comment=Send and receive mail with Thunderbird
+GenericName=Mail Client
+Exec=thunderbird %u
+Terminal=false
+Type=Application
+Icon=thunderbird
+Categories=Network;Email;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
+StartupNotify=true
+END
+ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
+# Linux Kernel.
+tar -xf linux-5.14.tar.xz
+cd linux-5.14
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.13.12-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.13.12-massos/vmlinuz
-cp System.map /boot/System.map-5.13.12-massos
-cp .config /boot/config-5.13.12-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.0-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.0-massos/vmlinuz
+cp System.map /boot/System.map-5.14.0-massos
+cp .config /boot/config-5.14.0-massos
 cd ..
-rm -rf linux-5.13.12
+rm -rf linux-5.14
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 # Install Neofetch.
@@ -4537,6 +4774,11 @@ curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o
 chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
+rm -rf /usr/share/doc/{cargo,clippy,rls,rust,rust-demangler,rustfmt}
+# Remove temporary compiler from stage1.
+find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
+# Remove libtool archives.
+find /usr/lib /usr/libexec -name \*.la -delete
 # As a finishing touch, run ldconfig.
 ldconfig
 # Clean sources directory and self destruct.

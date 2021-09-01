@@ -11,4 +11,4 @@
 #UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx swap swap pri=1 0 0
 
 # EFI system (UEFI only):
-#UUID=xxxx-xxxx /boot/efi vfat defaults 0 1
+#UUID=xxxx-xxxx /boot/efi vfat umask=0077 0 1
