@@ -720,6 +720,7 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
+pip3 install pyparsing
 cd ..
 rm -rf Python-3.9.7
 # Ninja.
@@ -834,6 +835,14 @@ make docdir=/usr/share/doc/db-5.3.28 install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la} /usr/share/doc/db-5.3.28
 cd ../..
 rm -rf db-5.3.28
+# LMDB.
+tar -xf LMDB_0.9.29.tar.gz
+cd lmdb-LMDB_0.9.29/libraries/liblmdb
+make
+sed -i 's| liblmdb.a||' Makefile
+make prefix=/usr install
+cd ../../..
+rm -rf lmdb-LMDB_0.9.29
 # Cyrus SASL (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.27.tar.gz
 cd cyrus-sasl-2.1.27
@@ -930,6 +939,12 @@ cd Mako-1.1.5
 python3 setup.py install --optimize=1
 cd ..
 rm -rf Mako-1.1.5
+# Pygments.
+tar -xf Pygments-2.10.0.tar.gz
+cd Pygments-2.10.0
+python3 setup.py install --optimize=1
+cd ..
+rm -rf Pygments-2.10.0
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -1966,6 +1981,18 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
 rm -rf git-2.33.0
+# libstemmer.
+tar -xf v2.1.0.tar.gz
+cd snowball-2.1.0
+patch -Np1 -i ../patches/libstemmer-2.1.0-dynamiclib-1.patch
+make
+install -m755 libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0.0.0
+ln -s libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0
+ln -s libstemmer.so.0 /usr/lib/libstemmer.so
+install -m644 include/libstemmer.h /usr/include/libstemmer.h
+ldconfig
+cd ..
+rm -rf snowball-2.1.0
 # GLib.
 tar -xf glib-2.68.4.tar.xz
 cd glib-2.68.4
@@ -1976,6 +2003,15 @@ ninja
 ninja install
 cd ../..
 rm -rf glib-2.68.4
+# GTK-Doc.
+tar -xf gtk-doc-1.33.2.tar.xz
+cd gtk-doc-1.33.2
+autoreconf -fi
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf gtk-doc-1.33.2
 # libsigc++
 tar -xf libsigc++-2.10.7.tar.xz
 cd libsigc++-2.10.7
@@ -1985,6 +2021,14 @@ ninja
 ninja install
 cd ../..
 rm -rf libsigc++-2.10.7
+# libseccomp.
+tar -xf libseccomp-2.5.1.tar.gz
+cd libseccomp-2.5.1
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libseccomp-2.5.1
 # GLibmm
 tar -xf glibmm-2.66.1.tar.xz
 cd glibmm-2.66.1
@@ -2334,7 +2378,7 @@ rm -rf libbytesize-2.6
 # libblockdev.
 tar -xf libblockdev-2.26.tar.gz
 cd libblockdev-2.26
-./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-gtk-doc --without-nvdimm --without-dm
+./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm --without-dm
 make
 make install
 cd ..
@@ -3438,7 +3482,7 @@ rm -rf atkmm-2.28.2
 tar -xf gdk-pixbuf-2.42.6.tar.xz
 cd gdk-pixbuf-2.42.6
 mkdir pixbuf-build; cd pixbuf-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 gdk-pixbuf-query-loaders --update-cache
@@ -3814,7 +3858,7 @@ rm -rf openjpeg-2.4.0
 tar -xf libsecret-0.20.4.tar.xz
 cd libsecret-0.20.4
 mkdir secret-build; cd secret-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -3825,7 +3869,7 @@ cd gcr-3.40.0
 sed -i 's:"/desktop:"/org:' schema/*.xml
 sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
 mkdir gcr-build; cd gcr-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -4097,7 +4141,7 @@ rm -rf NetworkManager-1.32.10
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
 mkdir nma-build; cd nma-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -4106,7 +4150,7 @@ rm -rf libnma-1.8.32
 tar -xf libnotify-0.7.9.tar.xz
 cd libnotify-0.7.9
 mkdir notify-build; cd notify-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dman=false ..
+meson --prefix=/usr --buildtype=release -Dman=false ..
 ninja
 ninja install
 cd ../..
@@ -4174,6 +4218,42 @@ ninja
 ninja install
 cd ../..
 rm -rf libsoup-2.74.0
+# libostree.
+tar -xf libostree-2021.3.tar.xz
+cd libostree-2021.3
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-builtin-grub2-mkconfig --with-dracut --with-openssl --enable-experimental-api --disable-static
+make
+make install
+cd ..
+rm -rf libostree-2021.3
+# appstream-glib.
+tar -xf appstream_glib_0_7_18.tar.gz
+cd appstream-glib-appstream_glib_0_7_18
+mkdir appstream-glib-build; cd appstream-glib-build
+meson --prefix=/usr --buildtype=release -Drpm=false ..
+ninja
+ninja install
+cd ../..
+rm -rf appstream-glib-appstream_glib_0_7_18
+# Flatpak.
+tar -xf flatpak-1.11.3.tar.xz
+cd flatpak-1.11.3
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-dbus-config-dir=/usr/share/dbus-1/system.d
+make
+make install
+cat > /etc/profile.d/flatpak.sh << END
+if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
+  pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
+elif [ -n "\$HOME" ] && [ -d "\$HOME/.local/share/flatpak/exports/bin" ]; then
+  pathappend "\$HOME/.local/share/flatpak/exports/bin"
+fi
+if [ -d /var/lib/flatpak/exports/bin ]; then
+  pathappend /var/lib/flatpak/exports/bin
+fi
+END
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+cd ..
+rm -rf flatpak-1.11.3
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -4211,7 +4291,7 @@ rm -rf wpebackend-fdo-1.10.0
 tar -xf geoclue-2.5.7.tar.bz2
 cd geoclue-2.5.7
 mkdir geoclue-build; cd geoclue-build
-meson --prefix=/usr --buildtype=release -Dgtk-doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -4354,7 +4434,7 @@ rm -rf gnome-online-accounts-3.40.0
 tar -xf libgdata-0.18.1.tar.xz
 cd libgdata-0.18.1
 mkdir gdata-build; cd gdata-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dalways_build_tests=false ..
+meson --prefix=/usr --buildtype=release -Dalways_build_tests=false ..
 ninja
 ninja install
 cd ../..
@@ -4636,15 +4716,15 @@ make install
 install -m644 mtools.conf /etc/mtools.conf
 cd ..
 rm -rf mtools-4.0.35
-# Baobab (Disk Usage Analyser).
-tar -xf baobab-40.0.tar.xz
-cd baobab-40.0
-mkdir baobab-build; cd baobab-build
-meson --prefix=/usr --buildtype=release ..
+# Gnome Software.
+tar -xf gnome-software-40.4.tar.xz
+cd gnome-software-40.4
+mkdir gnome-software-build; cd gnome-software-build
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dgspell=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf baobab-40.0
+rm -rf gnome-software-40.4
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
@@ -4718,42 +4798,10 @@ install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
 install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
-# Firefox.
-tar --no-same-owner -xf firefox-91.0.2.tar.bz2 -C /usr/lib
-ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
-mkdir -p /usr/share/{applications,pixmaps}
-cat > /usr/share/applications/firefox.desktop << END
-[Desktop Entry]
-Encoding=UTF-8
-Name=Firefox Web Browser
-Comment=Browse the World Wide Web
-GenericName=Web Browser
-Exec=firefox %u
-Terminal=false
-Type=Application
-Icon=firefox
-Categories=GNOME;GTK;Network;WebBrowser;
-MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
-StartupNotify=true
-END
-ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
-# Thunderbird.
-tar --no-same-owner -xf thunderbird-91.0.3.tar.bz2 -C /usr/lib
-ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
-cat > /usr/share/applications/thunderbird.desktop << END
-[Desktop Entry]
-Name=Thunderbird Mail
-Comment=Send and receive mail with Thunderbird
-GenericName=Mail Client
-Exec=thunderbird %u
-Terminal=false
-Type=Application
-Icon=thunderbird
-Categories=Network;Email;
-MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
-StartupNotify=true
-END
-ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
+# Extra software from Flatpak.
+flatpak install org.mozilla.firefox -y
+flatpak install org.mozilla.thunderbird -y
+flatpak install org.gnome.baobab -y
 # Linux Kernel.
 tar -xf linux-5.14.tar.xz
 cd linux-5.14
@@ -4775,6 +4823,11 @@ chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /usr/share/doc/{cargo,clippy,rls,rust,rust-demangler,rustfmt}
+# Move any misplaced files.
+cp -r /usr/etc /
+rm -rf /usr/etc
+cp -r /usr/man /usr/share
+rm -rf /usr/man
 # Remove temporary compiler from stage1.
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.

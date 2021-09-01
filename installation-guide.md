@@ -6,53 +6,16 @@ This guide aims to guide you through the installation of MassOS.
 - MassOS must be installed from an existing ("host") GNU/Linux system. If you
 don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version 2021.09 of MassOS. It contains the following changes since the previous version, 2021.08.2:
+This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS. Note that this is subject to change:
 
-- Fixed bug in `/etc/vimrc` causing an annoying warning.
-- Added the following software: CMatrix, cowsay, figlet, Galculator, Gparted, Gutenprint, htop, pavucontrol, Thunderbird, xfce4-taskmanager, sl.
-- Libtool archives (*.la) are now removed after the MassOS system is built.
-- The bootstrap compiler built in stage1 is now removed after the full compiler is built.
-- Switch sourceforge sources to cdn.thesonicmaster.net to avoid connection timeouts and other download problems.
-- Fixed incorrect permissions which prevented `fusermount` from working.
-- Syntax highlighting is now enabled in Nano by default.
+- Added Flatpak and Gnome Software support (EXPERIMENTAL/TESTING).
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
-- BlueZ: `5.6.0 --> 5.6.1`
-- CMake: `3.21.1 --> 3.21.2`
-- Cups Filters: `1.28.9 --> 1.28.10`
-- e2fsprogs: `1.46.3 --> 1.46.4`
-- Firefox: `91.0.1 --> 91.0.2`
-- GLib: `2.68.3 --> 2.68.4`
-- HarfBuzz: `2.8.2 --> 2.9.0`
-- ISO-Codes: `4.6.0 --> 4.7.0`
-- json-glib: `1.6.2 --> 1.6.6`
-- libarchive: `3.5.1 --> 3.5.2`
-- libcap: `2.52 --> 2.53`
-- libgcrypt: `1.9.3 --> 1.9.4`
-- libnma: `1.8.30 --> 1.8.32`
-- libsoup: `2.72.0 --> 2.74.0`
-- Linux Kernel: `5.13.12 --> 5.14.0`
-- Mako: `1.1.4 --> 1.1.5`
-- man-pages: `5.12 --> 5.13`
-- Mesa: `21.1.6 --> 21.2.1`
-- Meson: `0.59.0 --> 0.59.1`
-- network-manager-applet: `1.22.0 --> 1.24.0`
-- NetworkManager: `1.32.8 --> 1.32.10`
-- ntfs-3g: `2017.3.23 --> 2021.8.22`
-- OpenSSH: `8.6p1 --> 8.7p1`
-- OpenSSL: `1.1.1k --> 1.1.1l`
-- pinentry: `1.1.1 --> 1.2.0`
-- Python: `3.9.6 --> 3.9.7`
-- SoundTouch: `2.2 --> 2.3.0`
-- Util-Linux: `2.37.1 --> 2.37.2`
-- Vim: `8.2.3338 --> 8.2.3377`
+- Nothing here yet, we're still early in the development stage. Check back later!
 
 # Downloading The MassOS Rootfs
-Run the following command to download MassOS:
-```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.09/massos-2021.09-rootfs-x86_64.tar.xz
-```
+The development version of MassOS cannot be downloaded. Instead, you can compile it yourself using the scripts in this repo. Check the README.md for more information.
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -98,7 +61,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.09-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file

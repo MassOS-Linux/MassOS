@@ -8,7 +8,7 @@ No, MassOS is completely independent and compiled from _source_. It does **not**
 
 The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a traditional package manager, users of MassOS are able to compile any extra software they might want themselves, since the necessary development tools/headers are retained in the system.
 # Installing MassOS
-Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) has step-by-step instructions on how to install MassOS.
+Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/development/installation-guide.md) has step-by-step instructions on how to install MassOS.
 # Releases
 The latest release of MassOS is **2021.09**.
 
