@@ -4250,6 +4250,8 @@ fi
 if [ -d /var/lib/flatpak/exports/bin ]; then
   pathappend /var/lib/flatpak/exports/bin
 fi
+pathprepend /var/lib/flatpak/exports/share" XDG_DATA_DIRS
+pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 cd ..
@@ -4798,10 +4800,6 @@ install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
 install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
-# Extra software from Flatpak.
-flatpak install org.mozilla.firefox -y
-flatpak install org.mozilla.thunderbird -y
-flatpak install org.gnome.baobab -y
 # Linux Kernel.
 tar -xf linux-5.14.tar.xz
 cd linux-5.14

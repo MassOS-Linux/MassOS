@@ -211,3 +211,5 @@ Now reboot your system, either graphically or with the following command:
 sudo shutdown -r now
 ```
 Congratulations, MassOS is installed! We hope you enjoy your MassOS experience!
+# What next?
+For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/development/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
