@@ -19,9 +19,11 @@ mknod -m 666 $MASSOS/dev/null c 1 3
 # Chroot into the MassOS environment and continue the build.
 utils/mass-chroot massos-rootfs /sources/build-system.sh
 # Strip executables and libraries to free up space.
+printf "Stripping binaries and libraries... "
 find $MASSOS/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' &> /dev/null || true
 find $MASSOS/usr/lib -type f -name \*.a -exec strip --strip-debug {} ';' &> /dev/null || true
 find $MASSOS/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &> /dev/null || true
+echo "Done!"
 # Finish the MassOS system.
 outfile="massos-$(cat utils/massos-release)-rootfs-x86_64.tar"
 printf "Creating $outfile... "
