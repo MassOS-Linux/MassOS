@@ -4583,6 +4583,7 @@ cd xfwm4-4.16.1
 ./configure --prefix=/usr
 make
 make install
+sudo sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
 cd ..
 rm -rf xfwm4-4.16.1
 # xfce4-session.
