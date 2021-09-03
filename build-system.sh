@@ -3670,7 +3670,7 @@ sudo tar --no-same-owner -xf arc-theme-20210412.tar.xz -C /usr/share --strip-com
 sudo gtk-update-icon-cache /usr/share/icons/Arc
 mkdir -p /etc/gtk-2.0
 cat > /etc/gtk-2.0/gtkrc << END
-include "/usr/share/themes/Arc-Dark/gtk-2.0/gtkrc"
+gtk-theme-name = "Arc-Dark"
 gtk-icon-theme-name = "Arc"
 END
 mkdir -p /etc/gtk-3.0
@@ -4264,7 +4264,7 @@ fi
 if [ -d /var/lib/flatpak/exports/bin ]; then
   pathappend /var/lib/flatpak/exports/bin
 fi
-pathprepend /var/lib/flatpak/exports/share" XDG_DATA_DIRS
+pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
