@@ -3674,14 +3674,6 @@ ninja
 ninja install
 cd ../..
 rm -rf libhandy-1.2.3
-# gnome-icon-theme.
-tar -xf gnome-icon-theme-3.12.0.tar.xz
-cd gnome-icon-theme-3.12.0
-./configure --prefix=/usr
-make
-make install
-cd ..
-rm -rf gnome-icon-theme-3.12.0
 # libogg.
 tar -xf libogg-1.3.5.tar.xz
 cd libogg-1.3.5
