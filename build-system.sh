@@ -3672,6 +3672,7 @@ mkdir -p /etc/gtk-2.0
 cat > /etc/gtk-2.0/gtkrc << END
 gtk-theme-name = "Arc-Dark"
 gtk-icon-theme-name = "Arc"
+gtk-cursor-theme-name = "Adwaita"
 END
 mkdir -p /etc/gtk-3.0
 cat > /etc/gtk-3.0/settings.ini << END
@@ -3685,7 +3686,7 @@ gtk-xft-antialias = 1
 gtk-xft-hinting = 1
 gtk-xft-hintstyle = hintnone
 gtk-xft-rgba = rgb
-gtk-cursor-theme-name = Arc
+gtk-cursor-theme-name = Adwaita
 END
 # libhandy.
 tar -xf libhandy-1.2.3.tar.xz
