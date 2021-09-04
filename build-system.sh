@@ -1600,6 +1600,17 @@ make
 make install
 cd ..
 rm -rf rsync-3.2.3
+# Brotli.
+tar -xf brotli-1.0.9.tar.gz
+cd brotli-1.0.9
+./bootstrap
+./configure --prefix=/usr
+make
+python3 setup.py build
+make install
+python3 setup.py install --optimize=1
+cd ..
+rm -rf brotli-1.0.9
 # CMake.
 tar --no-same-owner -xf cmake-3.21.2-linux-x86_64.tar.gz
 cd cmake-3.21.2-linux-x86_64
