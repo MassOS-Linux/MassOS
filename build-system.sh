@@ -4830,8 +4830,8 @@ cd ..
 rm -rf linux-5.14
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
-mv /usr/share/backgrounds/xfce-verticals.png /usr/share/backgrounds/xfce-verticals1.png
-ln -s MassOS-Dark.png /usr/share/backgrounds/xfce-verticals.png
+mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
+ln -s MassOS-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
