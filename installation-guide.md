@@ -9,10 +9,13 @@ don't have one installed, you can use another distro's LiveCD instead.
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS. Note that this is subject to change:
 
 - Added Flatpak and Gnome Software support (EXPERIMENTAL/TESTING).
+- Complete theme overhaul, to make MassOS look cleaner and more modern.
+- Remove CMake GUI.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
-- Nothing here yet, we're still early in the development stage. Check back later!
+- Linux Kernel: `5.14.0 --> 5.14.1`
+- make-ca: `1.7 --> 1.8.1`
 
 # Downloading The MassOS Rootfs
 The development version of MassOS cannot be downloaded. Instead, you can compile it yourself using the scripts in this repo. Check the README.md for more information.
@@ -156,7 +159,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.0-massos 5.14.0-massos
+dracut --force /boot/initrd.img-5.14.1-massos 5.14.1-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**

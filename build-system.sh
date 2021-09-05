@@ -1555,7 +1555,7 @@ ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
 chmod 4755 /usr/bin/ntfs-3g
 cd ..
-rm -rf ntfs-3g_ntfsprogs-2017.3.23
+rm -rf ntfs-3g_ntfsprogs-2021.8.22
 # exfat-utils.
 tar -xf v1.3.0.tar.gz
 cd exfat-1.3.0
@@ -1617,6 +1617,10 @@ cd cmake-3.21.2-linux-x86_64
 mv doc man share
 mv share/doc/cmake share/doc/cmake-3.21.2
 cp -R * /usr
+rm /usr/bin/cmake-gui
+rm /usr/share/applications/cmake-gui.desktop
+rm /usr/share/icons/hicolor/32x32/apps/CMakeSetup.png
+rm /usr/share/icons/hicolor/128x128/apps/CMakeSetup.png
 cd ..
 rm -rf cmake-3.21.2-linux-x86_64
 # c-ares.
@@ -1797,8 +1801,8 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf p11-kit-0.24.0
 # make-ca.
-tar -xf make-ca-1.7.tar.xz
-cd make-ca-1.7
+tar -xf make-ca-1.8.1.tar.xz
+cd make-ca-1.8.1
 make install
 install -dm755 /etc/ssl/local
 make-ca -g
@@ -1806,7 +1810,7 @@ wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
 update-pciids
 systemctl enable update-pki.timer
 cd ..
-rm -rf make-ca-1.7
+rm -rf make-ca-1.8.1
 # libssh2.
 tar -xf libssh2-1.9.0.tar.gz
 cd libssh2-1.9.0
@@ -4829,18 +4833,18 @@ install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
 # Linux Kernel.
-tar -xf linux-5.14.tar.xz
-cd linux-5.14
+tar -xf linux-5.14.1.tar.xz
+cd linux-5.14.1
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.0-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.0-massos/vmlinuz
-cp System.map /boot/System.map-5.14.0-massos
-cp .config /boot/config-5.14.0-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.1-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.1-massos/vmlinuz
+cp System.map /boot/System.map-5.14.1-massos
+cp .config /boot/config-5.14.1-massos
 cd ..
-rm -rf linux-5.14
+rm -rf linux-5.14.1
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

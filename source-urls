@@ -275,7 +275,7 @@ https://www.x.org/pub/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.1/Linux-PAM-1.5.1-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
@@ -286,7 +286,7 @@ https://sourceware.org/ftp/lvm2/LVM2.2.03.13.tgz
 https://files.pythonhosted.org/packages/source/l/lxml/lxml-4.6.3.tar.gz
 https://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9rel.1.tar.bz2
 https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz
-https://github.com/djlucas/make-ca/releases/download/v1.7/make-ca-1.7.tar.xz
+https://github.com/djlucas/make-ca/releases/download/v1.8.1/make-ca-1.8.1.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
 https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.5.tar.gz
