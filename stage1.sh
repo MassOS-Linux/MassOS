@@ -187,13 +187,13 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf grep-3.7
 # Gzip.
-tar -xf gzip-1.10.tar.xz
-cd gzip-1.10
+tar -xf gzip-1.11.tar.xz
+cd gzip-1.11
 ./configure --prefix=/usr --host=$MASSOS_TGT
 make
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf gzip-1.10
+rm -rf gzip-1.11
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3

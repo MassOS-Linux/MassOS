@@ -796,13 +796,13 @@ make install
 cd ..
 rm -rf groff-1.22.4
 # Gzip.
-tar -xf gzip-1.10.tar.xz
-cd gzip-1.10
+tar -xf gzip-1.11.tar.xz
+cd gzip-1.11
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf gzip-1.10
+rm -rf gzip-1.11
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -2037,13 +2037,13 @@ ninja install
 cd ../..
 rm -rf libsigc++-2.10.7
 # libseccomp.
-tar -xf libseccomp-2.5.1.tar.gz
-cd libseccomp-2.5.1
+tar -xf libseccomp-2.5.2.tar.gz
+cd libseccomp-2.5.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libseccomp-2.5.1
+rm -rf libseccomp-2.5.2
 # GLibmm
 tar -xf glibmm-2.66.1.tar.xz
 cd glibmm-2.66.1
@@ -3598,16 +3598,16 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.48.0.tar.gz
-cd graphviz-2.48.0
+tar -xf graphviz-2.49.0.tar.gz
+cd graphviz-2.49.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
-ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.48.0
+ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.0
 cd ..
-rm -rf graphviz-2.48.0
+rm -rf graphviz-2.49.0
 # Vala.
 tar -xf vala-0.52.5.tar.xz
 cd vala-0.52.5
@@ -4079,13 +4079,13 @@ make install
 cd ..
 rm -rf Python-3.9.7
 # mobile-broadband-provider-info.
-tar -xf mobile-broadband-provider-info_20201225.orig.tar.bz2
-cd mobile-broadband-provider-info-20201225
+tar -xf mobile-broadband-provider-info-20210805.tar.xz
+cd mobile-broadband-provider-info-20210805
 ./autogen.sh --prefix=/usr
 make
 make install
 cd ..
-rm -rf mobile-broadband-provider-info-20201225
+rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
 tar -xf ModemManager-1.16.10.tar.xz
 cd ModemManager-1.16.10
@@ -4705,15 +4705,14 @@ update-desktop-database -q
 cd ..
 rm -rf xarchiver-0.5.4.17
 # gtksourceview.
-tar -xf gtksourceview-4.8.1.tar.xz
-cd gtksourceview-4.8.1
-patch -Np1 -i ../patches/gtksourceview4-4.8.1-buildfix-1.patch
+tar -xf gtksourceview-4.8.2.tar.xz
+cd gtksourceview-4.8.2
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf gtksourceview-4.8.1
+rm -rf gtksourceview-4.8.2
 # Mousepad.
 tar -xf mousepad-0.5.6.tar.bz2
 cd mousepad-0.5.6

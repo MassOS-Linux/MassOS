@@ -14,8 +14,13 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- Graphviz: `2.48.0 --> 2.49.0`
+- gtksourceview: `4.8.1 --> 4.8.2`
+- Gzip: `1.10 --> 1.11`
+- libseccomp: `2.5.1 --> 2.5.2`
 - Linux Kernel: `5.14.0 --> 5.14.1`
 - make-ca: `1.7 --> 1.8.1`
+- mobile-broadband-provider-info: `20201225 --> 20210805`
 
 # Downloading The MassOS Rootfs
 The development version of MassOS cannot be downloaded. Instead, you can compile it yourself using the scripts in this repo. Check the README.md for more information.
