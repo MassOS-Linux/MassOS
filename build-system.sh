@@ -2441,14 +2441,14 @@ make install
 cd ..
 rm -rf libuv-v1.42.0
 # libwacom.
-tar -xf libwacom-1.11.tar.bz2
-cd libwacom-1.11
+tar -xf libwacom-1.12.tar.bz2
+cd libwacom-1.12
 mkdir wacom-build; cd wacom-build
 meson --prefix=/usr --buildtype=release -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libwacom-1.11
+rm -rf libwacom-1.12
 # mtdev.
 tar -xf mtdev-1.1.6.tar.bz2
 cd mtdev-1.1.6

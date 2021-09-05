@@ -18,6 +18,7 @@ It also includes the following upgraded software, however there may be more upgr
 - gtksourceview: `4.8.1 --> 4.8.2`
 - Gzip: `1.10 --> 1.11`
 - libseccomp: `2.5.1 --> 2.5.2`
+- libwacom: `1.11 --> 1.12`
 - Linux Kernel: `5.14.0 --> 5.14.1`
 - make-ca: `1.7 --> 1.8.1`
 - mobile-broadband-provider-info: `20201225 --> 20210805`
