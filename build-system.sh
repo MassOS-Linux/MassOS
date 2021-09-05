@@ -4777,6 +4777,7 @@ cd lightdm-gtk-greeter-2.0.8
 ./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode --docdir=/usr/share/doc/lightdm-gtk-greeter-2.0.8
 make
 make install
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
