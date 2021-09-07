@@ -376,10 +376,10 @@ create-cracklib-dict /usr/share/dict/cracklib-words /usr/share/dict/cracklib-ext
 cd ..
 rm -rf cracklib-2.9.7
 # Linux-PAM.
-tar -xf Linux-PAM-1.5.1.tar.xz
-cd Linux-PAM-1.5.1
-tar -xf ../Linux-PAM-1.5.1-docs.tar.xz --strip-components=1
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --docdir=/usr/share/doc/Linux-PAM-1.5.1
+tar -xf Linux-PAM-1.5.2.tar.xz
+cd Linux-PAM-1.5.2
+tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --docdir=/usr/share/doc/Linux-PAM-1.5.2
 make
 make install
 chmod 4755 /usr/sbin/unix_chkpwd
@@ -401,7 +401,7 @@ session     required        pam_warn.so
 session     required        pam_deny.so
 END
 cd ..
-rm -rf Linux-PAM-1.5.1
+rm -rf Linux-PAM-1.5.2
 # libpwquality.
 tar -xf libpwquality-1.4.4.tar.bz2
 cd libpwquality-1.4.4
@@ -1553,7 +1553,6 @@ make
 make install
 ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
-chmod 4755 /usr/bin/ntfs-3g
 cd ..
 rm -rf ntfs-3g_ntfsprogs-2021.8.22
 # exfat-utils.
@@ -1812,14 +1811,13 @@ systemctl enable update-pki.timer
 cd ..
 rm -rf make-ca-1.8.1
 # libssh2.
-tar -xf libssh2-1.9.0.tar.gz
-cd libssh2-1.9.0
-patch -Np1 -i ../patches/libssh2-1.9.0-security_fixes-1.patch
+tar -xf libssh2-1.10.0.tar.gz
+cd libssh2-1.10.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libssh2-1.9.0
+rm -rf libssh2-1.10.0
 # Jansson.
 tar -xf jansson-2.13.1.tar.gz
 cd jansson-2.13.1
@@ -1970,8 +1968,8 @@ make install
 cd ../..
 rm -rf nspr-4.32
 # NSS.
-tar -xf nss-3.69.tar.gz
-cd nss-3.69
+tar -xf nss-3.69.1.tar.gz
+cd nss-3.69.1
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -1985,7 +1983,7 @@ install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
 install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
-rm -rf nss-3.69
+rm -rf nss-3.69.1
 # Git.
 tar -xf git-2.33.0.tar.xz
 cd git-2.33.0

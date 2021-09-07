@@ -11,6 +11,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added Flatpak and Gnome Software support (EXPERIMENTAL/TESTING).
 - Complete theme overhaul, to make MassOS look cleaner and more modern.
 - Remove CMake GUI.
+- The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
@@ -18,10 +19,13 @@ It also includes the following upgraded software, however there may be more upgr
 - gtksourceview: `4.8.1 --> 4.8.2`
 - Gzip: `1.10 --> 1.11`
 - libseccomp: `2.5.1 --> 2.5.2`
+- libssh2: `1.9.0 --> 1.10.0`
 - libwacom: `1.11 --> 1.12`
 - Linux Kernel: `5.14.0 --> 5.14.1`
+- Linux-PAM: `1.5.1 --> 1.5.2`
 - make-ca: `1.7 --> 1.8.1`
 - mobile-broadband-provider-info: `20201225 --> 20210805`
+- NSS: `3.69 --> 3.69.1`
 
 # Downloading The MassOS Rootfs
 The development version of MassOS cannot be downloaded. Instead, you can compile it yourself using the scripts in this repo. Check the README.md for more information.

@@ -75,6 +75,7 @@ else
     exit 1
   fi
 fi
+
 return=1
 while [ $return = 1 ]; do
   passwd $username
@@ -84,8 +85,10 @@ while [ $return = 1 ]; do
     return=0
   fi
 done
-for i in profile bash_profile bashrc bash_logout; do
-  cp /etc/skel/.$i /home/$username/
-  chown $username:$username /home/$username/.$i
+
+for i in $(ls -A /etc/skel); do
+  cp -r /etc/skel/$i /home/$username
+  chown -R $username:$username /home/$username/$i
 done
+
 echo "User $username created successfully."
