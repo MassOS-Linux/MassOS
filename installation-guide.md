@@ -10,7 +10,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - Added Flatpak and Gnome Software support (EXPERIMENTAL/TESTING).
 - Complete theme overhaul, to make MassOS look cleaner and more modern.
-- Remove CMake GUI.
+- Removed Qt-based CMake GUI.
 - The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
@@ -18,9 +18,11 @@ It also includes the following upgraded software, however there may be more upgr
 - Graphviz: `2.48.0 --> 2.49.0`
 - gtksourceview: `4.8.1 --> 4.8.2`
 - Gzip: `1.10 --> 1.11`
+- JS78: `78.13.0 --> 78.14.0`
 - libseccomp: `2.5.1 --> 2.5.2`
 - libssh2: `1.9.0 --> 1.10.0`
 - libwacom: `1.11 --> 1.12`
+- libxfce4ui: `4.16.0 --> 4.16.1`
 - Linux Kernel: `5.14.0 --> 5.14.1`
 - Linux-PAM: `1.5.1 --> 1.5.2`
 - make-ca: `1.7 --> 1.8.1`

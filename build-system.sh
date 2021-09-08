@@ -2115,8 +2115,8 @@ ninja install
 cd ../..
 rm -rf llvm-12.0.1.src
 # JS78.
-tar -xf firefox-78.13.0esr.source.tar.xz
-cd firefox-78.13.0
+tar -xf firefox-78.14.0esr.source.tar.xz
+cd firefox-78.14.0
 mkdir obj; cd obj
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2124,7 +2124,7 @@ else
   mount -t tmpfs devshm /dev/shm
   beforemounted="false"
 fi
-CC=gcc CXX=g++ SHELL=/bin/sh ../js/src/configure --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
+SHELL=/bin/sh ../js/src/configure --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
 rm /usr/lib/libjs_static.ajs
@@ -2134,7 +2134,7 @@ if [ "$beforemounted" = "false" ]; then
 fi
 unset beforemounted
 cd ../..
-rm -rf firefox-78.13.0
+rm -rf firefox-78.14.0
 # Sudo.
 tar -xf sudo-1.9.7p2.tar.gz
 cd sudo-1.9.7p2
@@ -3959,7 +3959,8 @@ tar -xf cups-2.3.3op2-source.tar.gz
 cd cups-2.3.3op2
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
-CC=gcc CXX=g++ ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc-2.3.3op2
+sed -e "s/-Wno-format-truncation//" -i configure -i config-scripts/cups-compiler.m4
+./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc-2.3.3op2
 make
 make install
 ln -snf ../cups/doc-2.3.3op2 /usr/share/doc/cups-2.3.3op2
@@ -4282,6 +4283,7 @@ pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
 rm -rf flatpak-1.11.3
 # libcdio.
@@ -4496,13 +4498,13 @@ make install
 cd ..
 rm -rf xfconf-4.16.0
 # libxfce4ui.
-tar -xf libxfce4ui-4.16.0.tar.bz2
-cd libxfce4ui-4.16.0
+tar -xf libxfce4ui-4.16.1.tar.bz2
+cd libxfce4ui-4.16.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 cd ..
-rm -rf libxfce4ui-4.16.0
+rm -rf libxfce4ui-4.16.1
 # Exo.
 tar -xf exo-4.16.2.tar.bz2
 cd exo-4.16.2

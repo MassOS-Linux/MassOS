@@ -5,16 +5,13 @@ MassOS has the Flatpak package manager built in. Flatpak provides a nice way of 
 
 There are two ways you can install Flatpak apps on MassOS. You can either do so from the GUI software center, or from the terminal.
 ## Installing Flatpak software from the GUI software center
-The software center on MassOS is called "Software". You can launch it from the apps menu like this:
-![](postinst1.png)
-The front page of the store contains some recommended aopps. You can browse through the categories, or click the search button at the top left hand corner.
+The software center on MassOS is called "Software". You can launch it from the apps menu or search for it with the Xfce appfinder. Once opened, the front page of the store contains some recommended aopps. You can browse through the categories, or click the search button at the top left hand corner.
 ![](postinst2.png)
 For example: To install Firefox, we will search for "firefox", and select the corresponding result that appears.
 ![](postinst3.png)
 Then click "Install" and wait patiently.
 ![](postinst4.png)
-When the app is installed, it will be in your apps list. You can also launch it by clicking the "Launch" button in the software center. **NOTE: If it doesn't show up immediately, you may need to restart your desktop session (i.e. logging out and logging back in).**
-![](postinst5.png)
+When the app is installed, it will be available from your apps list. You can also launch it by clicking the "Launch" button in the software center.
 ## Installing Flatpak software from the command-line
 Press Control+Alt+T to open the terminal, or find the terminal in your apps list.
 
