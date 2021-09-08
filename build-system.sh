@@ -1672,6 +1672,14 @@ make
 make install
 cd ..
 rm -rf pcre2-10.37
+# Grep (rebuild for PCRE support).
+tar -xf grep-3.7.tar.xz
+cd grep-3.7
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf grep-3.7
 # libunistring.
 tar -xf libunistring-0.9.10.tar.xz
 cd libunistring-0.9.10
