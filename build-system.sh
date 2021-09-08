@@ -4832,18 +4832,18 @@ install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
 # Linux Kernel.
-tar -xf linux-5.14.1.tar.xz
-cd linux-5.14.1
+tar -xf linux-5.14.2.tar.xz
+cd linux-5.14.2
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.1-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.1-massos/vmlinuz
-cp System.map /boot/System.map-5.14.1-massos
-cp .config /boot/config-5.14.1-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.2-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.2-massos/vmlinuz
+cp System.map /boot/System.map-5.14.2-massos
+cp .config /boot/config-5.14.2-massos
 cd ..
-rm -rf linux-5.14.1
+rm -rf linux-5.14.2
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

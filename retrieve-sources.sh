@@ -9,6 +9,7 @@ wget -nc --continue --input-file=../source-urls
 STATUS=$?
 # Ensure everything downloaded successfully.
 if [ $STATUS -ne 0 ]; then
-  echo "Note: One or more download(s) may have failed." >&2
+  echo "One or more download(s) failed." >&2
+  echo "Consider checking the above output, or try to re-run this command." >&2
   exit $STATUS
 fi
