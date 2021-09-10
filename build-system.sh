@@ -353,14 +353,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.53.tar.xz
-cd libcap-2.53
+tar -xf libcap-2.56.tar.xz
+cd libcap-2.56
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.53
+chmod 755 /usr/lib/lib{cap,psx}.so.2.56
 cd ..
-rm -rf libcap-2.53
+rm -rf libcap-2.56
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -422,8 +422,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.53.tar.xz
-cd libcap-2.53
+tar -xf libcap-2.56.tar.xz
+cd libcap-2.56
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -432,7 +432,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.53
+rm -rf libcap-2.56
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -592,13 +592,13 @@ rm -f /usr/lib/libltdl.a
 cd ..
 rm -rf libtool-2.4.6
 # GDBM.
-tar -xf gdbm-1.20.tar.gz
-cd gdbm-1.20
+tar -xf gdbm-1.21.tar.gz
+cd gdbm-1.21
 ./configure --prefix=/usr --disable-static --enable-libgdbm-compat
 make
 make install
 cd ..
-rm -rf gdbm-1.20
+rm -rf gdbm-1.21
 # gperf.
 tar -xf gperf-3.1.tar.gz
 cd gperf-3.1
@@ -616,14 +616,14 @@ make install
 cd ..
 rm -rf expat-2.4.1
 # Inetutils.
-tar -xf inetutils-2.1.tar.xz
-cd inetutils-2.1
+tar -xf inetutils-2.2.tar.xz
+cd inetutils-2.2
 ./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-logger --disable-whois --disable-rcp --disable-rexec --disable-rlogin --disable-rsh --disable-servers
 make
 make install
 mv /usr/{,s}bin/ifconfig
 cd ..
-rm -rf inetutils-2.1
+rm -rf inetutils-2.2
 # Less.
 tar -xf less-590.tar.gz
 cd less-590
@@ -720,6 +720,8 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
+pip3 install --upgrade pip
+pip3 install --upgrade setuptools
 pip3 install pyparsing
 cd ..
 rm -rf Python-3.9.7
@@ -1465,8 +1467,8 @@ chmod 4755 /usr/bin/fusermount
 cd ..
 rm -rf fuse-2.9.9
 # fuse3.
-tar -xf fuse-3.10.4.tar.xz
-cd fuse-3.10.4
+tar -xf fuse-3.10.5.tar.xz
+cd fuse-3.10.5
 sed -i '/^udev/,$ s/^/#/' util/meson.build
 mkdir fuse3-build; cd fuse3-build
 meson --prefix=/usr --buildtype=release ..
@@ -1485,7 +1487,7 @@ cat > /etc/fuse.conf << END
 #user_allow_other
 END
 cd ../..
-rm -rf fuse-3.10.4
+rm -rf fuse-3.10.5
 # cpio.
 tar -xf cpio-2.13.tar.bz2
 cd cpio-2.13
@@ -1555,16 +1557,15 @@ ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
 cd ..
 rm -rf ntfs-3g_ntfsprogs-2021.8.22
-# exfat-utils.
-tar -xf v1.3.0.tar.gz
-cd exfat-1.3.0
+# exfatprogs.
+tar -xf exfatprogs-1.1.2.tar.gz
+cd exfatprogs-1.1.2
 autoreconf -fi
 ./configure --prefix=/usr
-make CCFLAGS="$CFLAGS -std=c99"
+make
 make install
-install -Dm644 */*.8 -t /usr/share/man/man8
 cd ..
-rm -rf exfat-1.3.0
+rm -rf exfatprogs-1.1.2
 # Parted.
 tar -xf parted-3.4.tar.xz
 cd parted-3.4
@@ -1696,6 +1697,15 @@ make
 make install
 cd ..
 rm -rf libidn2-2.3.2
+# whois.
+tar -xf whois-5.4.3.tar.gz
+cd whois-5.4.3
+make
+make prefix=/usr install-whois
+make prefix=/usr install-mkpasswd
+make prefix=/usr install-pos
+cd ..
+rm -rf whois-5.4.3
 # libpsl.
 tar -xf libpsl-0.21.1.tar.gz
 cd libpsl-0.21.1
@@ -1706,13 +1716,13 @@ make install
 cd ..
 rm -rf libpsl-0.21.1
 # Wget.
-tar -xf wget-1.21.1.tar.gz
-cd wget-1.21.1
+tar -xf wget-1.21.2.tar.gz
+cd wget-1.21.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
 make
 make install
 cd ..
-rm -rf wget-1.21.1
+rm -rf wget-1.21.2
 # usbutils.
 tar -xf usbutils-014.tar.xz
 cd usbutils-014
@@ -1976,8 +1986,8 @@ make install
 cd ../..
 rm -rf nspr-4.32
 # NSS.
-tar -xf nss-3.69.1.tar.gz
-cd nss-3.69.1
+tar -xf nss-3.70.tar.gz
+cd nss-3.70
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -1991,7 +2001,7 @@ install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
 install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
-rm -rf nss-3.69.1
+rm -rf nss-3.70
 # Git.
 tar -xf git-2.33.0.tar.xz
 cd git-2.33.0
@@ -2003,9 +2013,8 @@ make install-man
 cd ..
 rm -rf git-2.33.0
 # libstemmer.
-tar -xf v2.1.0.tar.gz
-cd snowball-2.1.0
-patch -Np1 -i ../patches/libstemmer-2.1.0-dynamiclib-1.patch
+tar -xf libstemmer-2.1.0.tar.xz
+cd libstemmer-2.1.0
 make
 install -m755 libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0.0.0
 ln -s libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0
@@ -2013,7 +2022,7 @@ ln -s libstemmer.so.0 /usr/lib/libstemmer.so
 install -m644 include/libstemmer.h /usr/include/libstemmer.h
 ldconfig
 cd ..
-rm -rf snowball-2.1.0
+rm -rf libstemmer-2.1.0
 # GLib.
 tar -xf glib-2.68.4.tar.xz
 cd glib-2.68.4
@@ -2238,14 +2247,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-2.9.0.tar.xz
-cd harfbuzz-2.9.0
+tar -xf harfbuzz-2.9.1.tar.xz
+cd harfbuzz-2.9.1
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite=enabled -Dbenchmark=disabled ..
+meson --prefix=/usr --buildtype=release -Dgraphite=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-2.9.0
+rm -rf harfbuzz-2.9.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -2430,13 +2439,13 @@ make install
 cd ..
 rm -rf libmbim-1.26.0
 # libqmi.
-tar -xf libqmi-1.30.0.tar.xz
-cd libqmi-1.30.0
+tar -xf libqmi-1.30.2.tar.xz
+cd libqmi-1.30.2
 PYTHON=python3 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libqmi-1.30.0
+rm -rf libqmi-1.30.2
 # libuv.
 tar -xf libuv-v1.42.0.tar.gz
 cd libuv-v1.42.0
@@ -2473,13 +2482,13 @@ ninja install
 cd ../..
 rm -rf wayland-1.19.0
 # Wayland-Protocols.
-tar -xf wayland-protocols-1.21.tar.xz
-cd wayland-protocols-1.21
+tar -xf wayland-protocols-1.22.tar.xz
+cd wayland-protocols-1.22
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf wayland-protocols-1.21
+rm -rf wayland-protocols-1.22
 # Aspell.
 tar -xf aspell-0.60.8.tar.gz
 cd aspell-0.60.8
@@ -2745,6 +2754,15 @@ install -m644 dbus/dbus-wpa_supplicant.conf /etc/dbus-1/system.d/wpa_supplicant.
 systemctl enable wpa_supplicant
 cd ../..
 rm -rf wpa_supplicant-2.9
+# libzip.
+tar -xf libzip-1.8.0.tar.xz
+cd libzip-1.8.0
+mkdir libzip-build; cd libzip-build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf libzip-1.8.0
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
@@ -2907,284 +2925,9 @@ install -dm755 /usr/share/fonts
 ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
 ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
-mkdir noto-fonts
-tar -xf 2b1fbc36600ccd8becb9f894922f644bff2cbc9b.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -Dm644 unhinted/ttf/Noto*/*.tt[fc] -t /usr/share/fonts/noto
-install -Dm644 hinted/ttf/Noto*/*.tt[fc] -t /usr/share/fonts/noto
-mkdir -p /usr/share/fontconfig/conf.avail
-mkdir -p /usr/share/fontconfig/conf.default
-cat > /usr/share/fontconfig/conf.avail/46-noto-mono.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Sans Mono</family>
-    <default>
-      <family>monospace</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/46-noto-sans.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Sans</family>
-    <default>
-      <family>sans-serif</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/46-noto-serif.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Serif</family>
-    <default>
-      <family>serif</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-mono.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>monospace</family>
-    <prefer>
-      <family>Noto Sans Mono</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-sans.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>sans-serif</family>
-    <prefer>
-      <family>Noto Sans</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-serif.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>serif</family>
-    <prefer>
-      <family>Noto Serif</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cd ..
+tar --no-same-owner -xf noto-fonts.tar.xz
+cp -r noto-fonts/usr /
 rm -rf noto-fonts
-mkdir noto-fonts
-tar -xf 782eab531e724779772302b835661b7b12a6b3a8.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -Dm644 *.ttc -t /usr/share/fonts/noto-cjk
-cat > /usr/share/fontconfig/conf.avail/70-noto-cjk.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK HK</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK HK</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK HK</string>
-        </edit>
-    </match>
-</fontconfig>
-END
-ln -sr /usr/share/fontconfig/conf.avail/* /usr/share/fontconfig/conf.default
-cd ..
-rm -rf noto-fonts
-mkdir noto-fonts
-tar -xf 6f11c8db698594bd982b90b5a07b2c0ee62bb145.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -m644 fonts/NotoColorEmoji.ttf /usr/share/fonts/noto
-cd ..
 fc-cache
 rm -rf noto-fonts
 # XKeyboardConfig.
@@ -3710,14 +3453,14 @@ gtk-xft-rgba = rgb
 gtk-cursor-theme-name = Adwaita
 END
 # libhandy.
-tar -xf libhandy-1.2.3.tar.xz
-cd libhandy-1.2.3
+tar -xf libhandy-1.4.0.tar.xz
+cd libhandy-1.4.0
 mkdir handy-build; cd handy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf libhandy-1.2.3
+rm -rf libhandy-1.4.0
 # libogg.
 tar -xf libogg-1.3.5.tar.xz
 cd libogg-1.3.5
@@ -3848,8 +3591,8 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # Vim.
-tar -xf v8.2.3377.tar.gz
-cd vim-8.2.3377
+tar -xf vim-8.2.3424.tar.gz
+cd vim-8.2.3424
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -3867,9 +3610,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3377
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3424
 cd ..
-rm -rf vim-8.2.3377
+rm -rf vim-8.2.3424
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
@@ -4256,13 +3999,13 @@ ninja install
 cd ../..
 rm -rf libsoup-2.74.0
 # libostree.
-tar -xf libostree-2021.3.tar.xz
-cd libostree-2021.3
+tar -xf libostree-2021.4.tar.xz
+cd libostree-2021.4
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-builtin-grub2-mkconfig --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 cd ..
-rm -rf libostree-2021.3
+rm -rf libostree-2021.4
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -4366,13 +4109,13 @@ ninja install
 cd ../..
 rm -rf gst-plugins-base-1.18.4
 # mpg123.
-tar -xf mpg123-1.28.2.tar.bz2
-cd mpg123-1.28.2
+tar -xf mpg123-1.29.0.tar.bz2
+cd mpg123-1.29.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf mpg123-1.28.2
+rm -rf mpg123-1.29.0
 # libvpx.
 tar -xf libvpx-1.10.0.tar.gz
 cd libvpx-1.10.0
@@ -4802,7 +4545,7 @@ make install
 cd ..
 rm -rf htop-3.0.5
 # sl.
-tar -xf 5.02.tar.gz
+tar -xf sl-5.02.tar.gz
 cd sl-5.02
 gcc -Os sl.c -o sl -s -lcurses
 install -m755 sl /usr/bin/sl
