@@ -3740,6 +3740,7 @@ rm -rf poppler-21.08.0
 # Ghostscript.
 tar -xf ghostscript-9.54.0.tar.xz
 cd ghostscript-9.54.0
+patch -Np1 -i ../patches/ghostscript-9.54.0-CVE-2021-3781.patch
 rm -rf freetype lcms2mt jpeg libpng openjpeg zlib
 ./configure --prefix=/usr --disable-compile-inits --enable-dynamic --with-system-libtiff
 make
