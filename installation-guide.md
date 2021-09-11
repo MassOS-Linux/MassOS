@@ -14,6 +14,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
 - exfatprogs is now used instead of exfat-utils (allows exFAT support in Gparted).
 - Patched Ghostscript to fix security vulnerability CVE-2021-3781.
+- Added Busybox (will ***NOT*** replace any of the better GNU alternatives, however the standalone binary will be installed).
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 

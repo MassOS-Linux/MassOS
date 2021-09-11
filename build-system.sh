@@ -9,7 +9,9 @@ set -e
 set +h
 # Ensure we're running as root.
 if [ $EUID -ne 0 ]; then
-  echo "Error: Must be run as root." >&2
+  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM."
+  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE."
+  echo "YOU HAVE BEEN WARNED!!!"
   exit 1
 fi
 # Setup the full filesystem structure.
@@ -1426,6 +1428,14 @@ make
 make install
 cd ..
 rm -rf util-linux-2.37.2
+# Busybox.
+tar -xf busybox-1.34.0.tar.bz2
+cd busybox-1.34.0
+cp ../busybox-config .config
+make
+install -m755 busybox /usr/bin/busybox
+cd ..
+rm -rf busybox-1.34.0
 # e2fsprogs.
 tar -xf e2fsprogs-1.46.4.tar.gz
 cd e2fsprogs-1.46.4

@@ -268,9 +268,11 @@ cd ../..
 # Copy extra utilities and configuration files into the environment.
 cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
-cp utils/kernel-config $SRC
+cp utils/{busybox,kernel}-config $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
 cp -r backgrounds $SRC
 cp build-system.sh $SRC
+echo -e "\nThe bootstrap system was built successfully."
+echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."
