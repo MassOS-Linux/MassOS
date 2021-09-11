@@ -1619,6 +1619,7 @@ make
 python3 setup.py build
 make install
 python3 setup.py install --optimize=1
+mv /usr/share/doc/brotli{,-1.0.9}
 cd ..
 rm -rf brotli-1.0.9
 # CMake.
@@ -2804,6 +2805,7 @@ mkdir xorgproto-build; cd xorgproto-build
 meson --prefix=/usr -Dlegacy=true ..
 ninja
 ninja install
+mv /usr/share/doc/xorgproto{,-2021.4}
 cd ../..
 rm -rf xorgproto-2021.4
 # libXau.
@@ -3961,6 +3963,7 @@ mkdir notify-build; cd notify-build
 meson --prefix=/usr --buildtype=release -Dman=false ..
 ninja
 ninja install
+mv /usr/share/doc/libnotify{,-0.7.9}
 cd ../..
 rm -rf libnotify-0.7.9
 # startup-notification.
@@ -4049,6 +4052,7 @@ cd flatpak-1.11.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
+mv /usr/share/doc/flatpak{,-1.11.3}
 cat > /etc/profile.d/flatpak.sh << END
 if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
   pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
@@ -4222,6 +4226,7 @@ patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
 ./configure --prefix=/usr --disable-oss
 make
 make install
+mv /usr/share/doc/libcanberra{,-0.30}
 cd ..
 rm -rf libcanberra-0.30
 # WebKitGTK.
@@ -4559,6 +4564,7 @@ cd lightdm-gtk-greeter-2.0.8
 ./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode --docdir=/usr/share/doc/lightdm-gtk-greeter-2.0.8
 make
 make install
+mv /usr/share/doc/lightdm-gtk-greeter{,-2.0.8}
 sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
