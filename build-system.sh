@@ -1896,6 +1896,15 @@ make
 make install
 cd ..
 rm -rf gnutls-3.7.2
+# rtmpdump.
+tar -xf rtmpdump_2.4+20151223.gitfa8646d.1.orig.tar.gz
+cd rtmpdump-20151223
+sed -e 's/^CRYPTO=OPENSSL/#CRYPTO=OPENSSL/' -e 's/#CRYPTO=GNUTLS/CRYPTO=GNUTLS/' -i Makefile -i librtmp/Makefile
+make -j1 OPT="-Os"
+make -j1 prefix=/usr mandir=/usr/share/man install
+rm -f /usr/lib/librtmp.a
+cd ..
+rm -rf rtmpdump-20151223
 # OpenLDAP.
 tar -xf openldap-2.5.7.tgz
 cd openldap-2.5.7
@@ -1943,7 +1952,15 @@ make
 make install
 cd ../..
 rm -rf krb5-1.19.2
-# curl (rebuild to support krb5 and OpenLDAP).
+# gsasl.
+tar -xf gsasl-1.10.0.tar.gz
+cd gsasl-1.10.0
+./configure --prefix=/usr --disable-static --with-gssapi-impl=mit
+make
+make install
+cd ..
+rm -rf gsasl-1.10.0
+# curl (rebuild to support gsasl, krb5 and OpenLDAP).
 tar -xf curl-7.78.0.tar.xz
 cd curl-7.78.0
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
