@@ -2383,6 +2383,7 @@ GRUB_SAVEDEFAULT="true"
 # Uncomment to enable detection of other OSes when generating grub.cfg
 GRUB_DISABLE_OS_PROBER="false"
 END
+sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
 rm -rf grub-2.06
 CFLAGS="-Os"
