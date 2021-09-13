@@ -71,13 +71,13 @@ cp gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 cd ..
 rm -rf gettext-0.21
 # Bison.
-tar -xf bison-3.7.6.tar.xz
-cd bison-3.7.6
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.7.6
+tar -xf bison-3.8.1.tar.xz
+cd bison-3.8.1
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.1
 make
 make install
 cd ..
-rm -rf bison-3.7.6
+rm -rf bison-3.8.1
 # Perl.
 tar -xf perl-5.34.0.tar.xz
 cd perl-5.34.0
@@ -355,14 +355,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.56.tar.xz
-cd libcap-2.56
+tar -xf libcap-2.57.tar.xz
+cd libcap-2.57
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.56
+chmod 755 /usr/lib/lib{cap,psx}.so.2.57
 cd ..
-rm -rf libcap-2.56
+rm -rf libcap-2.57
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -424,8 +424,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.56.tar.xz
-cd libcap-2.56
+tar -xf libcap-2.57.tar.xz
+cd libcap-2.57
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -434,7 +434,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.56
+rm -rf libcap-2.57
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -561,13 +561,13 @@ chmod 0755 /usr/lib/preloadable_libintl.so
 cd ..
 rm -rf gettext-0.21
 # Bison.
-tar -xf bison-3.7.6.tar.xz
-cd bison-3.7.6
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.7.6
+tar -xf bison-3.8.1.tar.xz
+cd bison-3.8.1
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.1
 make
 make install
 cd ..
-rm -rf bison-3.7.6
+rm -rf bison-3.8.1
 # Grep.
 tar -xf grep-3.7.tar.xz
 cd grep-3.7
@@ -1550,13 +1550,13 @@ make install_systemd_units
 cd ..
 rm -rf LVM2.2.03.13
 # btrfs-progs.
-tar -xf btrfs-progs-v5.13.1.tar.xz
-cd btrfs-progs-v5.13.1
+tar -xf btrfs-progs-v5.14.tar.xz
+cd btrfs-progs-v5.14
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.13.1
+rm -rf btrfs-progs-v5.14
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -2571,14 +2571,13 @@ rm -f /usr/lib/libgif.a
 cd ..
 rm -rf giflib-5.2.1
 # libexif.
-tar -xf libexif-0.6.22.tar.xz
-cd libexif-0.6.22
-patch -Np1 -i ../patches/libexif-0.6.22-security_fixes-1.patch
-./configure --prefix=/usr --disable-static --with-doc-dir=/usr/share/doc/libexif-0.6.22
+tar -xf libexif-0.6.23.tar.xz
+cd libexif-0.6.23
+./configure --prefix=/usr --disable-static --with-doc-dir=/usr/share/doc/libexif-0.6.23
 make
 make install
 cd ..
-rm -rf libexif-0.6.22
+rm -rf libexif-0.6.23
 # NASM.
 tar -xf nasm-2.15.05.tar.xz
 cd nasm-2.15.05
@@ -2969,14 +2968,14 @@ make install
 cd ..
 rm -rf xkeyboard-config-2.33
 # libxkbcommon.
-tar -xf libxkbcommon-1.3.0.tar.xz
-cd libxkbcommon-1.3.0
+tar -xf libxkbcommon-1.3.1.tar.xz
+cd libxkbcommon-1.3.1
 mkdir xkb-build; cd xkb-build
 meson --prefix=/usr --buildtype=release -Denable-docs=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libxkbcommon-1.3.0
+rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
@@ -3300,14 +3299,14 @@ ninja install
 cd ../..
 rm -rf cmm-build
 # Pango.
-tar -xf pango-1.48.9.tar.xz
-cd pango-1.48.9
+tar -xf pango-1.48.10.tar.xz
+cd pango-1.48.10
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.48.9
+rm -rf pango-1.48.10
 # Pangomm.
 tar -xf pangomm-2.46.1.tar.xz
 cd pangomm-2.46.1
@@ -3868,13 +3867,13 @@ make install
 cd ..
 rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
-tar -xf ModemManager-1.16.10.tar.xz
-cd ModemManager-1.16.10
+tar -xf ModemManager-1.18.0.tar.xz
+cd ModemManager-1.18.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 cd ..
-rm -rf ModemManager-1.16.10
+rm -rf ModemManager-1.18.0
 # libndp.
 tar -xf libndp-1.8.tar.gz
 cd libndp-1.8
@@ -4136,7 +4135,7 @@ tar -xf gst-plugins-base-1.18.4.tar.xz
 cd gst-plugins-base-1.18.4
 sed -i 's|implicit_include_directories : false||' gst-libs/gst/gl/meson.build
 mkdir gstbase-build; cd gstbase-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" --wrap-mode=nodownload ..
+meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
 ninja
 ninja install
 cd ../..
@@ -4307,13 +4306,13 @@ make install
 cd ..
 rm -rf garcon-4.16.1
 # Thunar.
-tar -xf thunar-4.16.8.tar.bz2
-cd thunar-4.16.8
-./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/Thunar-4.16.8
+tar -xf thunar-4.16.9.tar.bz2
+cd thunar-4.16.9
+./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/thunar-4.16.9
 make
 make install
 cd ..
-rm -rf thunar-4.16.8
+rm -rf thunar-4.16.9
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
@@ -4617,19 +4616,71 @@ install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
 install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
+# Firefox.
+tar --no-same-owner -xf firefox-92.0.tar.bz2 -C /usr/lib
+mkdir -p /usr/lib/firefox/distribution
+cat > /usr/lib/firefox/distribution/policies.json << END
+{
+  "policies": {
+    "DisableAppUpdate": true
+  }
+}
+END
+ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
+mkdir -p /usr/share/{applications,pixmaps}
+cat > /usr/share/applications/firefox.desktop << END
+[Desktop Entry]
+Encoding=UTF-8
+Name=Firefox Web Browser
+Comment=Browse the World Wide Web
+GenericName=Web Browser
+Exec=firefox %u
+Terminal=false
+Type=Application
+Icon=firefox
+Categories=GNOME;GTK;Network;WebBrowser;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/vnd.mozilla.xul+xml;text/mml;x-scheme-handler/http;x-scheme-handler/https;
+StartupNotify=true
+END
+ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
+# Thunderbird.
+tar --no-same-owner -xf thunderbird-91.1.0.tar.bz2 -C /usr/lib
+mkdir -p /usr/lib/thunderbird/distribution
+cat > /usr/lib/thunderbird/distribution/policies.json << END
+{
+  "policies": {
+    "DisableAppUpdate": true
+  }
+}
+END
+ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
+cat > /usr/share/applications/thunderbird.desktop << END
+[Desktop Entry]
+Name=Thunderbird Mail
+Comment=Send and receive mail with Thunderbird
+GenericName=Mail Client
+Exec=thunderbird %u
+Terminal=false
+Type=Application
+Icon=thunderbird
+Categories=Network;Email;
+MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
+StartupNotify=true
+END
+ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.2.tar.xz
-cd linux-5.14.2
+tar -xf linux-5.14.3.tar.xz
+cd linux-5.14.3
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.2-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.2-massos/vmlinuz
-cp System.map /boot/System.map-5.14.2-massos
-cp .config /boot/config-5.14.2-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.3-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.3-massos/vmlinuz
+cp System.map /boot/System.map-5.14.3-massos
+cp .config /boot/config-5.14.3-massos
 cd ..
-rm -rf linux-5.14.2
+rm -rf linux-5.14.3
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

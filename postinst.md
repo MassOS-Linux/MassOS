@@ -5,13 +5,16 @@ MassOS has the Flatpak package manager built in. Flatpak provides a nice way of 
 
 There are two ways you can install Flatpak apps on MassOS. You can either do so from the GUI software center, or from the terminal.
 ## Installing Flatpak software from the GUI software center
-The software center on MassOS is called "Software". You can launch it from the apps menu or search for it with the Xfce appfinder. Once opened, the front page of the store contains some recommended aopps. You can browse through the categories, or click the search button at the top left hand corner.
-![](postinst2.png)
-For example: To install Firefox, we will search for "firefox", and select the corresponding result that appears.
-![](postinst3.png)
+The software center on MassOS is called "Software". You can launch it from the apps menu or search for it with the Xfce appfinder:
+![](software1.png)
+Once opened, the front page of the store contains some recommended apps. You can browse through the categories, or click the search button at the top left hand corner:
+![](software2.png)
+For example: To install VLC Media Player, we will search for "vlc":
+![](software3.png)
 Then click "Install" and wait patiently.
-![](postinst4.png)
+![](software4.png)
 When the app is installed, it will be available from your apps list. You can also launch it by clicking the "Launch" button in the software center.
+![](software5.png)
 ## Installing Flatpak software from the command-line
 Press Control+Alt+T to open the terminal, or find the terminal in your apps list.
 
@@ -19,9 +22,9 @@ You can type the following command to install Flatpak software:
 ```
 flatpak install <name of package>
 ```
-For example, to install Firefox:
+For example, to install VLC Media Player:
 ```
-flatpak install org.mozilla.firefox
+flatpak install org.videolan.VLC
 ```
 To search for software, replace `install` with `search`:
 ```
@@ -32,21 +35,25 @@ To list installed software:
 flatpak list
 ```
 ## Suggested software
-MassOS is designed to be minimal. It does not include a default web browser or mail client. It's easy to install one using the steps below. Here are some recommended open-source programs. Do not forget that this list barely scratches the surface of what is available with Flatpak:
-### Web browsers
-- Firefox
+MassOS comes preinstalled with the Firefox Web Browser and Thunderbird Mail Client. If you'd prefer to use something else, it's easy to install a different one using the steps below. There are also some other common apps you may want, such as media players and text editors. Here are some recommended open-source programs. Do not forget that this list barely scratches the surface of what is available with Flatpak:
+### Alternative web browsers
+- LibreWolf
 - Chromium
+- Midori
 - GNOME Web (Epiphany)
-### Mail clients
-- Thunderbird
+### Alternative mail clients
 - Evolution
 - Geary
+- Claws Mail
 ### Media players
 - VLC Media Player
 - Celluloid
+- Clapper
+- mpv
 ### Advanced text editors
 - Atom
 - Visual Studio Code
+- Brackets
 # Tips.
 - While Flatpak is the default and prefered package manager, many software packages can also be run on MassOS via the use of AppImages.
 - Most development tools and headers are preserved in the MassOS system, allowing the user to easily compile any missing command-line software they might need. Autotools, Meson, and CMake build systems are supported.

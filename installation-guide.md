@@ -18,6 +18,8 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- btrfs-progs: `5.13.1 --> 5.14`
+- Firefox: `91.0.2 --> 92.0`
 - FUSE3: `3.10.4 --> 3.10.5`
 - GDBM: `1.20 --> 1.21`
 - Graphviz: `2.48.0 --> 2.49.0`
@@ -26,19 +28,25 @@ It also includes the following upgraded software, however there may be more upgr
 - HarfBuzz: `2.9.0 --> 2.9.1`
 - Inetutils: `2.1 --> 2.2`
 - JS78: `78.13.0 --> 78.14.0`
-- libcap: `2.53 --> 2.56`
+- libcap: `2.53 --> 2.57`
+- libexif: `0.6.22 --> 0.6.23`
 - libhandy: `1.2.3 --> 1.4.0`
 - libqmi: `1.30.0 --> 1.30.2`
 - libseccomp: `2.5.1 --> 2.5.2`
 - libssh2: `1.9.0 --> 1.10.0`
 - libwacom: `1.11 --> 1.12`
 - libxfce4ui: `4.16.0 --> 4.16.1`
-- Linux Kernel: `5.14.0 --> 5.14.2`
+- libxkbcommon: `1.3.0 --> 1.3.1`
+- Linux Kernel: `5.14.0 --> 5.14.3`
 - Linux-PAM: `1.5.1 --> 1.5.2`
 - make-ca: `1.7 --> 1.8.1`
 - mobile-broadband-provider-info: `20201225 --> 20210805`
+- ModemManager: `1.16.10 --> 1.18.0`
 - mpg123: `1.28.2 --> 1.29.0`
 - NSS: `3.69 --> 3.70`
+- Pango: `1.48.9 --> 1.48.10`
+- Thunar: `4.16.8 --> 4.16.9`
+- Thunderbird: `91.0.3 --> 91.1.0`
 - Vim: `8.2.3377 --> 8.2.3424`
 - wayland-protocols: `1.21 --> 1.22`
 - Wget: `1.21.1 --> 1.21.2`
@@ -185,7 +193,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.2-massos 5.14.2-massos
+dracut --force /boot/initrd.img-5.14.3-massos 5.14.3-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
