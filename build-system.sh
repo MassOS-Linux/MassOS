@@ -2181,9 +2181,9 @@ unset beforemounted
 cd ../..
 rm -rf firefox-78.14.0
 # Sudo.
-tar -xf sudo-1.9.7p2.tar.gz
-cd sudo-1.9.7p2
-./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.7p2 --with-passprompt="[sudo] password for %p: "
+tar -xf sudo-1.9.8.tar.gz
+cd sudo-1.9.8
+./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8 --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
@@ -2202,7 +2202,7 @@ session   required    pam_env.so
 session   include     system-session
 END
 cd ..
-rm -rf sudo-1.9.7p2
+rm -rf sudo-1.9.8
 # volume_key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3459,8 +3459,8 @@ ninja install
 cd ../..
 rm -rf gtkmm-3.24.5
 # Arc (GTK Theme).
-sudo tar --no-same-owner -xf arc-theme-20210412.tar.xz -C /usr/share --strip-components=1
-sudo gtk-update-icon-cache /usr/share/icons/Arc
+tar --no-same-owner -xf arc-theme-20210412.tar.xz -C /usr/share --strip-components=1
+gtk-update-icon-cache /usr/share/icons/Arc
 mkdir -p /etc/gtk-2.0
 cat > /etc/gtk-2.0/gtkrc << END
 gtk-theme-name = "Arc-Dark"
@@ -4383,7 +4383,7 @@ cd xfwm4-4.16.1
 ./configure --prefix=/usr
 make
 make install
-sudo sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
+sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
 cd ..
 rm -rf xfwm4-4.16.1
 # xfce4-session.

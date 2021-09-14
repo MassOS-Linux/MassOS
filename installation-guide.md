@@ -45,6 +45,7 @@ It also includes the following upgraded software, however there may be more upgr
 - mpg123: `1.28.2 --> 1.29.0`
 - NSS: `3.69 --> 3.70`
 - Pango: `1.48.9 --> 1.48.10`
+- Sudo: `1.9.7p2 --> 1.9.8`
 - Thunar: `4.16.8 --> 4.16.9`
 - Thunderbird: `91.0.3 --> 91.1.0`
 - Vim: `8.2.3377 --> 8.2.3424`
