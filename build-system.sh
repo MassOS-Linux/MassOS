@@ -4669,18 +4669,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.3.tar.xz
-cd linux-5.14.3
+tar -xf linux-5.14.4.tar.xz
+cd linux-5.14.4
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.3-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.3-massos/vmlinuz
-cp System.map /boot/System.map-5.14.3-massos
-cp .config /boot/config-5.14.3-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.4-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.4-massos/vmlinuz
+cp System.map /boot/System.map-5.14.4-massos
+cp .config /boot/config-5.14.4-massos
 cd ..
-rm -rf linux-5.14.3
+rm -rf linux-5.14.4
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

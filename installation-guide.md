@@ -37,7 +37,7 @@ It also includes the following upgraded software, however there may be more upgr
 - libwacom: `1.11 --> 1.12`
 - libxfce4ui: `4.16.0 --> 4.16.1`
 - libxkbcommon: `1.3.0 --> 1.3.1`
-- Linux Kernel: `5.14.0 --> 5.14.3`
+- Linux Kernel: `5.14.0 --> 5.14.4`
 - Linux-PAM: `1.5.1 --> 1.5.2`
 - make-ca: `1.7 --> 1.8.1`
 - mobile-broadband-provider-info: `20201225 --> 20210805`
@@ -194,7 +194,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.3-massos 5.14.3-massos
+dracut --force /boot/initrd.img-5.14.4-massos 5.14.4-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
