@@ -1,58 +1,62 @@
 # Installation Guide
 This guide aims to guide you through the installation of MassOS.
 # System Requirements
-- At least 8GB of free disk space (16GB+ recommended).
+- At least 8GB of free disk space (16GB recommended).
 - At least 1GB of RAM (2GB recommended).
-- MassOS must be installed from an existing ("host") GNU/Linux system. If you
-don't have one installed, you can use another distro's LiveCD instead.
+- MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version 2021.09 of MassOS. It contains the following changes since the previous version, 2021.08.2:
+This is version **2021.09.2** of MassOS. It contains the following changes since the previous version, **2021.09**:
 
-- Fixed bug in `/etc/vimrc` causing an annoying warning.
-- Added the following software: CMatrix, cowsay, figlet, Galculator, Gparted, Gutenprint, htop, pavucontrol, Thunderbird, xfce4-taskmanager, sl.
-- Libtool archives (*.la) are now removed after the MassOS system is built.
-- The bootstrap compiler built in stage1 is now removed after the full compiler is built.
-- Switch sourceforge sources to cdn.thesonicmaster.net to avoid connection timeouts and other download problems.
-- Fixed incorrect permissions which prevented `fusermount` from working.
-- Syntax highlighting is now enabled in Nano by default.
+- Added Flatpak package manager and GUI Gnome Software program.
+- Complete theme overhaul, to make MassOS look cleaner and more modern.
+- Removed Qt-based CMake GUI.
+- The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
+- exfatprogs is now used instead of exfat-utils (allows exFAT support in Gparted).
+- Patched Ghostscript to fix security vulnerability CVE-2021-3781.
+- Added Busybox (will ***NOT*** replace any of the better GNU alternatives, however the standalone binary will be installed).
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
-- BlueZ: `5.6.0 --> 5.6.1`
-- CMake: `3.21.1 --> 3.21.2`
-- Cups Filters: `1.28.9 --> 1.28.10`
-- e2fsprogs: `1.46.3 --> 1.46.4`
-- Firefox: `91.0.1 --> 91.0.2`
-- GLib: `2.68.3 --> 2.68.4`
-- HarfBuzz: `2.8.2 --> 2.9.0`
-- ISO-Codes: `4.6.0 --> 4.7.0`
-- json-glib: `1.6.2 --> 1.6.6`
-- libarchive: `3.5.1 --> 3.5.2`
-- libcap: `2.52 --> 2.53`
-- libgcrypt: `1.9.3 --> 1.9.4`
-- libnma: `1.8.30 --> 1.8.32`
-- libsoup: `2.72.0 --> 2.74.0`
-- Linux Kernel: `5.13.12 --> 5.14.0`
-- Mako: `1.1.4 --> 1.1.5`
-- man-pages: `5.12 --> 5.13`
-- Mesa: `21.1.6 --> 21.2.1`
-- Meson: `0.59.0 --> 0.59.1`
-- network-manager-applet: `1.22.0 --> 1.24.0`
-- NetworkManager: `1.32.8 --> 1.32.10`
-- ntfs-3g: `2017.3.23 --> 2021.8.22`
-- OpenSSH: `8.6p1 --> 8.7p1`
-- OpenSSL: `1.1.1k --> 1.1.1l`
-- pinentry: `1.1.1 --> 1.2.0`
-- Python: `3.9.6 --> 3.9.7`
-- SoundTouch: `2.2 --> 2.3.0`
-- Util-Linux: `2.37.1 --> 2.37.2`
-- Vim: `8.2.3338 --> 8.2.3377`
+- btrfs-progs: `5.13.1 --> 5.14`
+- Firefox: `91.0.2 --> 92.0`
+- FUSE3: `3.10.4 --> 3.10.5`
+- GDBM: `1.20 --> 1.21`
+- Graphviz: `2.48.0 --> 2.49.0`
+- gtksourceview: `4.8.1 --> 4.8.2`
+- Gzip: `1.10 --> 1.11`
+- HarfBuzz: `2.9.0 --> 2.9.1`
+- Inetutils: `2.1 --> 2.2`
+- JS78: `78.13.0 --> 78.14.0`
+- libcap: `2.53 --> 2.57`
+- libexif: `0.6.22 --> 0.6.23`
+- libhandy: `1.2.3 --> 1.4.0`
+- libqmi: `1.30.0 --> 1.30.2`
+- libseccomp: `2.5.1 --> 2.5.2`
+- libssh2: `1.9.0 --> 1.10.0`
+- libwacom: `1.11 --> 1.12`
+- libxfce4ui: `4.16.0 --> 4.16.1`
+- libxkbcommon: `1.3.0 --> 1.3.1`
+- Linux Kernel: `5.14.0 --> 5.14.4`
+- Linux-PAM: `1.5.1 --> 1.5.2`
+- make-ca: `1.7 --> 1.8.1`
+- mobile-broadband-provider-info: `20201225 --> 20210805`
+- ModemManager: `1.16.10 --> 1.18.0`
+- mpg123: `1.28.2 --> 1.29.0`
+- NSS: `3.69 --> 3.70`
+- Pango: `1.48.9 --> 1.48.10`
+- Sudo: `1.9.7p2 --> 1.9.8`
+- Thunar: `4.16.8 --> 4.16.9`
+- Thunderbird: `91.0.3 --> 91.1.0`
+- Vim: `8.2.3377 --> 8.2.3424`
+- wayland-protocols: `1.21 --> 1.22`
+- Wget: `1.21.1 --> 1.21.2`
 
 # Downloading The MassOS Rootfs
 Run the following command to download MassOS:
 ```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.09/massos-2021.09-rootfs-x86_64.tar.xz
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.09.2/massos-2021.09.2-rootfs-x86_64.tar.xz
 ```
+SHA256 checksum: `ddf2f7a2acbb5cf2eebba6dbf0bfc36b62e3b0363e95558fbbc570c05d5310a1`
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -98,7 +102,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.09-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.09.2-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
@@ -193,7 +197,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.0-massos 5.14.0-massos
+dracut --force /boot/initrd.img-5.14.4-massos 5.14.4-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
@@ -248,3 +252,5 @@ Now reboot your system, either graphically or with the following command:
 sudo shutdown -r now
 ```
 Congratulations, MassOS is installed! We hope you enjoy your MassOS experience!
+# What next?
+For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.

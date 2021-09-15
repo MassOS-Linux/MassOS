@@ -19,15 +19,22 @@ mknod -m 666 $MASSOS/dev/null c 1 3
 # Chroot into the MassOS environment and continue the build.
 utils/mass-chroot massos-rootfs /sources/build-system.sh
 # Strip executables and libraries to free up space.
-find $MASSOS/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' || true
-find $MASSOS/usr/lib -type f -name \*.a -exec strip --strip-debug {} ';' || true
-find $MASSOS/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' || true
+printf "Stripping binaries and libraries... "
+find $MASSOS/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' &> /dev/null || true
+find $MASSOS/usr/lib -type f -name \*.a -exec strip --strip-debug {} ';' &> /dev/null || true
+find $MASSOS/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &> /dev/null || true
+echo "Done!"
 # Finish the MassOS system.
-outfile="massos-$(cat utils/massos-release)-rootfs-x86_64.tar.xz"
-echo "Creating $outfile..."
+outfile="massos-$(cat utils/massos-release)-rootfs-x86_64.tar"
+printf "Creating $outfile... "
 cd $MASSOS
-tar -cJpf ../$outfile *
+tar -cpf ../$outfile *
 cd ..
-echo "$outfile created successfully."
+echo "Done!"
+echo "Compressing $outfile with XZ (using $(nproc) threads)..."
+xz -v --threads=$(nproc) $outfile
+echo "Successfully created $outfile.xz."
+printf "SHA256: "
+sha256sum $outfile.xz | sed "s/  $outfile.xz//"
 # Clean up.
 rm -rf $MASSOS

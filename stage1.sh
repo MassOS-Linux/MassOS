@@ -60,14 +60,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.tar.xz
-cd linux-5.14
+tar -xf linux-5.14.4.tar.xz
+cd linux-5.14.4
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14
+rm -rf linux-5.14.4
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -187,13 +187,13 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf grep-3.7
 # Gzip.
-tar -xf gzip-1.10.tar.xz
-cd gzip-1.10
+tar -xf gzip-1.11.tar.xz
+cd gzip-1.11
 ./configure --prefix=/usr --host=$MASSOS_TGT
 make
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf gzip-1.10
+rm -rf gzip-1.11
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3
@@ -268,9 +268,11 @@ cd ../..
 # Copy extra utilities and configuration files into the environment.
 cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
-cp utils/kernel-config $SRC
+cp utils/{busybox,kernel}-config $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
 cp -r backgrounds $SRC
 cp build-system.sh $SRC
+echo -e "\nThe bootstrap system was built successfully."
+echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."

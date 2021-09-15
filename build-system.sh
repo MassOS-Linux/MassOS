@@ -9,7 +9,9 @@ set -e
 set +h
 # Ensure we're running as root.
 if [ $EUID -ne 0 ]; then
-  echo "Error: Must be run as root." >&2
+  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM."
+  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE."
+  echo "YOU HAVE BEEN WARNED!!!"
   exit 1
 fi
 # Setup the full filesystem structure.
@@ -69,13 +71,13 @@ cp gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 cd ..
 rm -rf gettext-0.21
 # Bison.
-tar -xf bison-3.7.6.tar.xz
-cd bison-3.7.6
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.7.6
+tar -xf bison-3.8.1.tar.xz
+cd bison-3.8.1
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.1
 make
 make install
 cd ..
-rm -rf bison-3.7.6
+rm -rf bison-3.8.1
 # Perl.
 tar -xf perl-5.34.0.tar.xz
 cd perl-5.34.0
@@ -353,14 +355,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.53.tar.xz
-cd libcap-2.53
+tar -xf libcap-2.57.tar.xz
+cd libcap-2.57
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.53
+chmod 755 /usr/lib/lib{cap,psx}.so.2.57
 cd ..
-rm -rf libcap-2.53
+rm -rf libcap-2.57
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -376,10 +378,10 @@ create-cracklib-dict /usr/share/dict/cracklib-words /usr/share/dict/cracklib-ext
 cd ..
 rm -rf cracklib-2.9.7
 # Linux-PAM.
-tar -xf Linux-PAM-1.5.1.tar.xz
-cd Linux-PAM-1.5.1
-tar -xf ../Linux-PAM-1.5.1-docs.tar.xz --strip-components=1
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --docdir=/usr/share/doc/Linux-PAM-1.5.1
+tar -xf Linux-PAM-1.5.2.tar.xz
+cd Linux-PAM-1.5.2
+tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --docdir=/usr/share/doc/Linux-PAM-1.5.2
 make
 make install
 chmod 4755 /usr/sbin/unix_chkpwd
@@ -401,7 +403,7 @@ session     required        pam_warn.so
 session     required        pam_deny.so
 END
 cd ..
-rm -rf Linux-PAM-1.5.1
+rm -rf Linux-PAM-1.5.2
 # libpwquality.
 tar -xf libpwquality-1.4.4.tar.bz2
 cd libpwquality-1.4.4
@@ -422,8 +424,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.53.tar.xz
-cd libcap-2.53
+tar -xf libcap-2.57.tar.xz
+cd libcap-2.57
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -432,7 +434,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.53
+rm -rf libcap-2.57
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -559,13 +561,13 @@ chmod 0755 /usr/lib/preloadable_libintl.so
 cd ..
 rm -rf gettext-0.21
 # Bison.
-tar -xf bison-3.7.6.tar.xz
-cd bison-3.7.6
-./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.7.6
+tar -xf bison-3.8.1.tar.xz
+cd bison-3.8.1
+./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.1
 make
 make install
 cd ..
-rm -rf bison-3.7.6
+rm -rf bison-3.8.1
 # Grep.
 tar -xf grep-3.7.tar.xz
 cd grep-3.7
@@ -592,13 +594,13 @@ rm -f /usr/lib/libltdl.a
 cd ..
 rm -rf libtool-2.4.6
 # GDBM.
-tar -xf gdbm-1.20.tar.gz
-cd gdbm-1.20
+tar -xf gdbm-1.21.tar.gz
+cd gdbm-1.21
 ./configure --prefix=/usr --disable-static --enable-libgdbm-compat
 make
 make install
 cd ..
-rm -rf gdbm-1.20
+rm -rf gdbm-1.21
 # gperf.
 tar -xf gperf-3.1.tar.gz
 cd gperf-3.1
@@ -616,14 +618,14 @@ make install
 cd ..
 rm -rf expat-2.4.1
 # Inetutils.
-tar -xf inetutils-2.1.tar.xz
-cd inetutils-2.1
+tar -xf inetutils-2.2.tar.xz
+cd inetutils-2.2
 ./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-logger --disable-whois --disable-rcp --disable-rexec --disable-rlogin --disable-rsh --disable-servers
 make
 make install
 mv /usr/{,s}bin/ifconfig
 cd ..
-rm -rf inetutils-2.1
+rm -rf inetutils-2.2
 # Less.
 tar -xf less-590.tar.gz
 cd less-590
@@ -720,6 +722,9 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
+pip3 install --upgrade pip
+pip3 install --upgrade setuptools
+pip3 install pyparsing
 cd ..
 rm -rf Python-3.9.7
 # Ninja.
@@ -795,13 +800,13 @@ make install
 cd ..
 rm -rf groff-1.22.4
 # Gzip.
-tar -xf gzip-1.10.tar.xz
-cd gzip-1.10
+tar -xf gzip-1.11.tar.xz
+cd gzip-1.11
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf gzip-1.10
+rm -rf gzip-1.11
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -834,6 +839,14 @@ make docdir=/usr/share/doc/db-5.3.28 install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la} /usr/share/doc/db-5.3.28
 cd ../..
 rm -rf db-5.3.28
+# LMDB.
+tar -xf LMDB_0.9.29.tar.gz
+cd lmdb-LMDB_0.9.29/libraries/liblmdb
+make
+sed -i 's| liblmdb.a||' Makefile
+make prefix=/usr install
+cd ../../..
+rm -rf lmdb-LMDB_0.9.29
 # Cyrus SASL (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.27.tar.gz
 cd cyrus-sasl-2.1.27
@@ -930,6 +943,12 @@ cd Mako-1.1.5
 python3 setup.py install --optimize=1
 cd ..
 rm -rf Mako-1.1.5
+# Pygments.
+tar -xf Pygments-2.10.0.tar.gz
+cd Pygments-2.10.0
+python3 setup.py install --optimize=1
+cd ..
+rm -rf Pygments-2.10.0
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -1409,6 +1428,14 @@ make
 make install
 cd ..
 rm -rf util-linux-2.37.2
+# Busybox.
+tar -xf busybox-1.34.0.tar.bz2
+cd busybox-1.34.0
+cp ../busybox-config .config
+make
+install -m755 busybox /usr/bin/busybox
+cd ..
+rm -rf busybox-1.34.0
 # e2fsprogs.
 tar -xf e2fsprogs-1.46.4.tar.gz
 cd e2fsprogs-1.46.4
@@ -1450,8 +1477,8 @@ chmod 4755 /usr/bin/fusermount
 cd ..
 rm -rf fuse-2.9.9
 # fuse3.
-tar -xf fuse-3.10.4.tar.xz
-cd fuse-3.10.4
+tar -xf fuse-3.10.5.tar.xz
+cd fuse-3.10.5
 sed -i '/^udev/,$ s/^/#/' util/meson.build
 mkdir fuse3-build; cd fuse3-build
 meson --prefix=/usr --buildtype=release ..
@@ -1470,7 +1497,7 @@ cat > /etc/fuse.conf << END
 #user_allow_other
 END
 cd ../..
-rm -rf fuse-3.10.4
+rm -rf fuse-3.10.5
 # cpio.
 tar -xf cpio-2.13.tar.bz2
 cd cpio-2.13
@@ -1523,13 +1550,13 @@ make install_systemd_units
 cd ..
 rm -rf LVM2.2.03.13
 # btrfs-progs.
-tar -xf btrfs-progs-v5.13.1.tar.xz
-cd btrfs-progs-v5.13.1
+tar -xf btrfs-progs-v5.14.tar.xz
+cd btrfs-progs-v5.14
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.13.1
+rm -rf btrfs-progs-v5.14
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -1538,19 +1565,17 @@ make
 make install
 ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
-chmod 4755 /usr/bin/ntfs-3g
 cd ..
-rm -rf ntfs-3g_ntfsprogs-2017.3.23
-# exfat-utils.
-tar -xf v1.3.0.tar.gz
-cd exfat-1.3.0
+rm -rf ntfs-3g_ntfsprogs-2021.8.22
+# exfatprogs.
+tar -xf exfatprogs-1.1.2.tar.gz
+cd exfatprogs-1.1.2
 autoreconf -fi
 ./configure --prefix=/usr
-make CCFLAGS="$CFLAGS -std=c99"
+make
 make install
-install -Dm644 */*.8 -t /usr/share/man/man8
 cd ..
-rm -rf exfat-1.3.0
+rm -rf exfatprogs-1.1.2
 # Parted.
 tar -xf parted-3.4.tar.xz
 cd parted-3.4
@@ -1585,12 +1610,28 @@ make
 make install
 cd ..
 rm -rf rsync-3.2.3
+# Brotli.
+tar -xf brotli-1.0.9.tar.gz
+cd brotli-1.0.9
+./bootstrap
+./configure --prefix=/usr
+make
+python3 setup.py build
+make install
+python3 setup.py install --optimize=1
+mv /usr/share/doc/brotli{,-1.0.9}
+cd ..
+rm -rf brotli-1.0.9
 # CMake.
 tar --no-same-owner -xf cmake-3.21.2-linux-x86_64.tar.gz
 cd cmake-3.21.2-linux-x86_64
 mv doc man share
 mv share/doc/cmake share/doc/cmake-3.21.2
 cp -R * /usr
+rm /usr/bin/cmake-gui
+rm /usr/share/applications/cmake-gui.desktop
+rm /usr/share/icons/hicolor/32x32/apps/CMakeSetup.png
+rm /usr/share/icons/hicolor/128x128/apps/CMakeSetup.png
 cd ..
 rm -rf cmake-3.21.2-linux-x86_64
 # c-ares.
@@ -1643,6 +1684,14 @@ make
 make install
 cd ..
 rm -rf pcre2-10.37
+# Grep (rebuild for PCRE support).
+tar -xf grep-3.7.tar.xz
+cd grep-3.7
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf grep-3.7
 # libunistring.
 tar -xf libunistring-0.9.10.tar.xz
 cd libunistring-0.9.10
@@ -1659,6 +1708,15 @@ make
 make install
 cd ..
 rm -rf libidn2-2.3.2
+# whois.
+tar -xf whois-5.4.3.tar.gz
+cd whois-5.4.3
+make
+make prefix=/usr install-whois
+make prefix=/usr install-mkpasswd
+make prefix=/usr install-pos
+cd ..
+rm -rf whois-5.4.3
 # libpsl.
 tar -xf libpsl-0.21.1.tar.gz
 cd libpsl-0.21.1
@@ -1669,13 +1727,13 @@ make install
 cd ..
 rm -rf libpsl-0.21.1
 # Wget.
-tar -xf wget-1.21.1.tar.gz
-cd wget-1.21.1
+tar -xf wget-1.21.2.tar.gz
+cd wget-1.21.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
 make
 make install
 cd ..
-rm -rf wget-1.21.1
+rm -rf wget-1.21.2
 # usbutils.
 tar -xf usbutils-014.tar.xz
 cd usbutils-014
@@ -1771,8 +1829,8 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf p11-kit-0.24.0
 # make-ca.
-tar -xf make-ca-1.7.tar.xz
-cd make-ca-1.7
+tar -xf make-ca-1.8.1.tar.xz
+cd make-ca-1.8.1
 make install
 install -dm755 /etc/ssl/local
 make-ca -g
@@ -1780,16 +1838,15 @@ wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
 update-pciids
 systemctl enable update-pki.timer
 cd ..
-rm -rf make-ca-1.7
+rm -rf make-ca-1.8.1
 # libssh2.
-tar -xf libssh2-1.9.0.tar.gz
-cd libssh2-1.9.0
-patch -Np1 -i ../patches/libssh2-1.9.0-security_fixes-1.patch
+tar -xf libssh2-1.10.0.tar.gz
+cd libssh2-1.10.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libssh2-1.9.0
+rm -rf libssh2-1.10.0
 # Jansson.
 tar -xf jansson-2.13.1.tar.gz
 cd jansson-2.13.1
@@ -1840,6 +1897,15 @@ make
 make install
 cd ..
 rm -rf gnutls-3.7.2
+# rtmpdump.
+tar -xf rtmpdump_2.4+20151223.gitfa8646d.1.orig.tar.gz
+cd rtmpdump-20151223
+sed -e 's/^CRYPTO=OPENSSL/#CRYPTO=OPENSSL/' -e 's/#CRYPTO=GNUTLS/CRYPTO=GNUTLS/' -i Makefile -i librtmp/Makefile
+make -j1 OPT="-Os"
+make -j1 prefix=/usr mandir=/usr/share/man install
+rm -f /usr/lib/librtmp.a
+cd ..
+rm -rf rtmpdump-20151223
 # OpenLDAP.
 tar -xf openldap-2.5.7.tgz
 cd openldap-2.5.7
@@ -1887,7 +1953,15 @@ make
 make install
 cd ../..
 rm -rf krb5-1.19.2
-# curl (rebuild to support krb5 and OpenLDAP).
+# gsasl.
+tar -xf gsasl-1.10.0.tar.gz
+cd gsasl-1.10.0
+./configure --prefix=/usr --disable-static --with-gssapi-impl=mit
+make
+make install
+cd ..
+rm -rf gsasl-1.10.0
+# curl (rebuild to support gsasl, krb5 and OpenLDAP).
 tar -xf curl-7.78.0.tar.xz
 cd curl-7.78.0
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
@@ -1940,8 +2014,8 @@ make install
 cd ../..
 rm -rf nspr-4.32
 # NSS.
-tar -xf nss-3.69.tar.gz
-cd nss-3.69
+tar -xf nss-3.70.tar.gz
+cd nss-3.70
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -1955,7 +2029,7 @@ install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
 install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
-rm -rf nss-3.69
+rm -rf nss-3.70
 # Git.
 tar -xf git-2.33.0.tar.xz
 cd git-2.33.0
@@ -1966,6 +2040,17 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
 rm -rf git-2.33.0
+# libstemmer.
+tar -xf libstemmer-2.1.0.tar.xz
+cd libstemmer-2.1.0
+make
+install -m755 libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0.0.0
+ln -s libstemmer.so.0.0.0 /usr/lib/libstemmer.so.0
+ln -s libstemmer.so.0 /usr/lib/libstemmer.so
+install -m644 include/libstemmer.h /usr/include/libstemmer.h
+ldconfig
+cd ..
+rm -rf libstemmer-2.1.0
 # GLib.
 tar -xf glib-2.68.4.tar.xz
 cd glib-2.68.4
@@ -1976,6 +2061,15 @@ ninja
 ninja install
 cd ../..
 rm -rf glib-2.68.4
+# GTK-Doc.
+tar -xf gtk-doc-1.33.2.tar.xz
+cd gtk-doc-1.33.2
+autoreconf -fi
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf gtk-doc-1.33.2
 # libsigc++
 tar -xf libsigc++-2.10.7.tar.xz
 cd libsigc++-2.10.7
@@ -1985,6 +2079,14 @@ ninja
 ninja install
 cd ../..
 rm -rf libsigc++-2.10.7
+# libseccomp.
+tar -xf libseccomp-2.5.2.tar.gz
+cd libseccomp-2.5.2
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libseccomp-2.5.2
 # GLibmm
 tar -xf glibmm-2.66.1.tar.xz
 cd glibmm-2.66.1
@@ -2058,8 +2160,8 @@ ninja install
 cd ../..
 rm -rf llvm-12.0.1.src
 # JS78.
-tar -xf firefox-78.13.0esr.source.tar.xz
-cd firefox-78.13.0
+tar -xf firefox-78.14.0esr.source.tar.xz
+cd firefox-78.14.0
 mkdir obj; cd obj
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2067,7 +2169,7 @@ else
   mount -t tmpfs devshm /dev/shm
   beforemounted="false"
 fi
-CC=gcc CXX=g++ SHELL=/bin/sh ../js/src/configure --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
+SHELL=/bin/sh ../js/src/configure --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
 rm /usr/lib/libjs_static.ajs
@@ -2077,11 +2179,11 @@ if [ "$beforemounted" = "false" ]; then
 fi
 unset beforemounted
 cd ../..
-rm -rf firefox-78.13.0
+rm -rf firefox-78.14.0
 # Sudo.
-tar -xf sudo-1.9.7p2.tar.gz
-cd sudo-1.9.7p2
-./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.7p2 --with-passprompt="[sudo] password for %p: "
+tar -xf sudo-1.9.8.tar.gz
+cd sudo-1.9.8
+./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8 --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
@@ -2100,7 +2202,7 @@ session   required    pam_env.so
 session   include     system-session
 END
 cd ..
-rm -rf sudo-1.9.7p2
+rm -rf sudo-1.9.8
 # volume_key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -2173,14 +2275,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-2.9.0.tar.xz
-cd harfbuzz-2.9.0
+tar -xf harfbuzz-2.9.1.tar.xz
+cd harfbuzz-2.9.1
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite=enabled -Dbenchmark=disabled ..
+meson --prefix=/usr --buildtype=release -Dgraphite=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-2.9.0
+rm -rf harfbuzz-2.9.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -2281,6 +2383,7 @@ GRUB_SAVEDEFAULT="true"
 # Uncomment to enable detection of other OSes when generating grub.cfg
 GRUB_DISABLE_OS_PROBER="false"
 END
+sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
 rm -rf grub-2.06
 CFLAGS="-Os"
@@ -2334,7 +2437,7 @@ rm -rf libbytesize-2.6
 # libblockdev.
 tar -xf libblockdev-2.26.tar.gz
 cd libblockdev-2.26
-./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-gtk-doc --without-nvdimm --without-dm
+./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm --without-dm
 make
 make install
 cd ..
@@ -2365,13 +2468,13 @@ make install
 cd ..
 rm -rf libmbim-1.26.0
 # libqmi.
-tar -xf libqmi-1.30.0.tar.xz
-cd libqmi-1.30.0
+tar -xf libqmi-1.30.2.tar.xz
+cd libqmi-1.30.2
 PYTHON=python3 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libqmi-1.30.0
+rm -rf libqmi-1.30.2
 # libuv.
 tar -xf libuv-v1.42.0.tar.gz
 cd libuv-v1.42.0
@@ -2382,14 +2485,14 @@ make install
 cd ..
 rm -rf libuv-v1.42.0
 # libwacom.
-tar -xf libwacom-1.11.tar.bz2
-cd libwacom-1.11
+tar -xf libwacom-1.12.tar.bz2
+cd libwacom-1.12
 mkdir wacom-build; cd wacom-build
 meson --prefix=/usr --buildtype=release -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libwacom-1.11
+rm -rf libwacom-1.12
 # mtdev.
 tar -xf mtdev-1.1.6.tar.bz2
 cd mtdev-1.1.6
@@ -2408,13 +2511,13 @@ ninja install
 cd ../..
 rm -rf wayland-1.19.0
 # Wayland-Protocols.
-tar -xf wayland-protocols-1.21.tar.xz
-cd wayland-protocols-1.21
+tar -xf wayland-protocols-1.22.tar.xz
+cd wayland-protocols-1.22
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf wayland-protocols-1.21
+rm -rf wayland-protocols-1.22
 # Aspell.
 tar -xf aspell-0.60.8.tar.gz
 cd aspell-0.60.8
@@ -2468,14 +2571,13 @@ rm -f /usr/lib/libgif.a
 cd ..
 rm -rf giflib-5.2.1
 # libexif.
-tar -xf libexif-0.6.22.tar.xz
-cd libexif-0.6.22
-patch -Np1 -i ../patches/libexif-0.6.22-security_fixes-1.patch
-./configure --prefix=/usr --disable-static --with-doc-dir=/usr/share/doc/libexif-0.6.22
+tar -xf libexif-0.6.23.tar.xz
+cd libexif-0.6.23
+./configure --prefix=/usr --disable-static --with-doc-dir=/usr/share/doc/libexif-0.6.23
 make
 make install
 cd ..
-rm -rf libexif-0.6.22
+rm -rf libexif-0.6.23
 # NASM.
 tar -xf nasm-2.15.05.tar.xz
 cd nasm-2.15.05
@@ -2680,6 +2782,15 @@ install -m644 dbus/dbus-wpa_supplicant.conf /etc/dbus-1/system.d/wpa_supplicant.
 systemctl enable wpa_supplicant
 cd ../..
 rm -rf wpa_supplicant-2.9
+# libzip.
+tar -xf libzip-1.8.0.tar.xz
+cd libzip-1.8.0
+mkdir libzip-build; cd libzip-build
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf libzip-1.8.0
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
@@ -2694,6 +2805,7 @@ mkdir xorgproto-build; cd xorgproto-build
 meson --prefix=/usr -Dlegacy=true ..
 ninja
 ninja install
+mv /usr/share/doc/xorgproto{,-2021.4}
 cd ../..
 rm -rf xorgproto-2021.4
 # libXau.
@@ -2842,284 +2954,9 @@ install -dm755 /usr/share/fonts
 ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
 ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
-mkdir noto-fonts
-tar -xf 2b1fbc36600ccd8becb9f894922f644bff2cbc9b.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -Dm644 unhinted/ttf/Noto*/*.tt[fc] -t /usr/share/fonts/noto
-install -Dm644 hinted/ttf/Noto*/*.tt[fc] -t /usr/share/fonts/noto
-mkdir -p /usr/share/fontconfig/conf.avail
-mkdir -p /usr/share/fontconfig/conf.default
-cat > /usr/share/fontconfig/conf.avail/46-noto-mono.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Sans Mono</family>
-    <default>
-      <family>monospace</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/46-noto-sans.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Sans</family>
-    <default>
-      <family>sans-serif</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/46-noto-serif.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>Noto Serif</family>
-    <default>
-      <family>serif</family>
-    </default>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-mono.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>monospace</family>
-    <prefer>
-      <family>Noto Sans Mono</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-sans.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>sans-serif</family>
-    <prefer>
-      <family>Noto Sans</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cat > /usr/share/fontconfig/conf.avail/66-noto-serif.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-  <alias>
-    <family>serif</family>
-    <prefer>
-      <family>Noto Serif</family>
-    </prefer>
-  </alias>
-</fontconfig>
-END
-cd ..
+tar --no-same-owner -xf noto-fonts.tar.xz
+cp -r noto-fonts/usr /
 rm -rf noto-fonts
-mkdir noto-fonts
-tar -xf 782eab531e724779772302b835661b7b12a6b3a8.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -Dm644 *.ttc -t /usr/share/fonts/noto-cjk
-cat > /usr/share/fontconfig/conf.avail/70-noto-cjk.conf << END
-<?xml version="1.0"?>
-<!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-<fontconfig>
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Serif CJK HK</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>sans-serif</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans CJK HK</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ja</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK JP</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>ko</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK KR</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-cn</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK SC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-tw</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK TC</string>
-        </edit>
-    </match>
-
-    <match target="pattern">
-        <test name="lang">
-            <string>zh-hk</string>
-        </test>
-        <test name="family">
-            <string>monospace</string>
-        </test>
-        <edit name="family" mode="prepend">
-            <string>Noto Sans Mono CJK HK</string>
-        </edit>
-    </match>
-</fontconfig>
-END
-ln -sr /usr/share/fontconfig/conf.avail/* /usr/share/fontconfig/conf.default
-cd ..
-rm -rf noto-fonts
-mkdir noto-fonts
-tar -xf 6f11c8db698594bd982b90b5a07b2c0ee62bb145.tar.gz -C noto-fonts --strip-components=1
-cd noto-fonts
-install -m644 fonts/NotoColorEmoji.ttf /usr/share/fonts/noto
-cd ..
 fc-cache
 rm -rf noto-fonts
 # XKeyboardConfig.
@@ -3131,14 +2968,14 @@ make install
 cd ..
 rm -rf xkeyboard-config-2.33
 # libxkbcommon.
-tar -xf libxkbcommon-1.3.0.tar.xz
-cd libxkbcommon-1.3.0
+tar -xf libxkbcommon-1.3.1.tar.xz
+cd libxkbcommon-1.3.1
 mkdir xkb-build; cd xkb-build
 meson --prefix=/usr --buildtype=release -Denable-docs=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libxkbcommon-1.3.0
+rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
@@ -3438,7 +3275,7 @@ rm -rf atkmm-2.28.2
 tar -xf gdk-pixbuf-2.42.6.tar.xz
 cd gdk-pixbuf-2.42.6
 mkdir pixbuf-build; cd pixbuf-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 gdk-pixbuf-query-loaders --update-cache
@@ -3462,14 +3299,14 @@ ninja install
 cd ../..
 rm -rf cmm-build
 # Pango.
-tar -xf pango-1.48.9.tar.xz
-cd pango-1.48.9
+tar -xf pango-1.48.10.tar.xz
+cd pango-1.48.10
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.48.9
+rm -rf pango-1.48.10
 # Pangomm.
 tar -xf pangomm-2.46.1.tar.xz
 cd pangomm-2.46.1
@@ -3539,16 +3376,16 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.48.0.tar.gz
-cd graphviz-2.48.0
+tar -xf graphviz-2.49.0.tar.gz
+cd graphviz-2.49.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
-ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.48.0
+ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.0
 cd ..
-rm -rf graphviz-2.48.0
+rm -rf graphviz-2.49.0
 # Vala.
 tar -xf vala-0.52.5.tar.xz
 cd vala-0.52.5
@@ -3621,23 +3458,38 @@ ninja
 ninja install
 cd ../..
 rm -rf gtkmm-3.24.5
+# Arc (GTK Theme).
+tar --no-same-owner -xf arc-theme-20210412.tar.xz -C /usr/share --strip-components=1
+gtk-update-icon-cache /usr/share/icons/Arc
+mkdir -p /etc/gtk-2.0
+cat > /etc/gtk-2.0/gtkrc << END
+gtk-theme-name = "Arc-Dark"
+gtk-icon-theme-name = "Arc"
+gtk-cursor-theme-name = "Adwaita"
+END
+mkdir -p /etc/gtk-3.0
+cat > /etc/gtk-3.0/settings.ini << END
+[Settings]
+gtk-theme-name = Arc-Dark
+gtk-icon-theme-name = Arc
+gtk-font-name = Sans 10
+gtk-cursor-theme-size = 0
+gtk-toolbar-style = GTK_TOOLBAR_ICONS
+gtk-xft-antialias = 1
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = hintnone
+gtk-xft-rgba = rgb
+gtk-cursor-theme-name = Adwaita
+END
 # libhandy.
-tar -xf libhandy-1.2.3.tar.xz
-cd libhandy-1.2.3
+tar -xf libhandy-1.4.0.tar.xz
+cd libhandy-1.4.0
 mkdir handy-build; cd handy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf libhandy-1.2.3
-# gnome-icon-theme.
-tar -xf gnome-icon-theme-3.12.0.tar.xz
-cd gnome-icon-theme-3.12.0
-./configure --prefix=/usr
-make
-make install
-cd ..
-rm -rf gnome-icon-theme-3.12.0
+rm -rf libhandy-1.4.0
 # libogg.
 tar -xf libogg-1.3.5.tar.xz
 cd libogg-1.3.5
@@ -3768,8 +3620,8 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # Vim.
-tar -xf v8.2.3377.tar.gz
-cd vim-8.2.3377
+tar -xf vim-8.2.3424.tar.gz
+cd vim-8.2.3424
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -3787,9 +3639,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3377
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3424
 cd ..
-rm -rf vim-8.2.3377
+rm -rf vim-8.2.3424
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
@@ -3814,7 +3666,7 @@ rm -rf openjpeg-2.4.0
 tar -xf libsecret-0.20.4.tar.xz
 cd libsecret-0.20.4
 mkdir secret-build; cd secret-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -3825,7 +3677,7 @@ cd gcr-3.40.0
 sed -i 's:"/desktop:"/org:' schema/*.xml
 sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
 mkdir gcr-build; cd gcr-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -3887,7 +3739,8 @@ tar -xf cups-2.3.3op2-source.tar.gz
 cd cups-2.3.3op2
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
-CC=gcc CXX=g++ ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc-2.3.3op2
+sed -e "s/-Wno-format-truncation//" -i configure -i config-scripts/cups-compiler.m4
+./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc-2.3.3op2
 make
 make install
 ln -snf ../cups/doc-2.3.3op2 /usr/share/doc/cups-2.3.3op2
@@ -3916,6 +3769,7 @@ rm -rf poppler-21.08.0
 # Ghostscript.
 tar -xf ghostscript-9.54.0.tar.xz
 cd ghostscript-9.54.0
+patch -Np1 -i ../patches/ghostscript-9.54.0-CVE-2021-3781.patch
 rm -rf freetype lcms2mt jpeg libpng openjpeg zlib
 ./configure --prefix=/usr --disable-compile-inits --enable-dynamic --with-system-libtiff
 make
@@ -4005,21 +3859,21 @@ make install
 cd ..
 rm -rf Python-3.9.7
 # mobile-broadband-provider-info.
-tar -xf mobile-broadband-provider-info_20201225.orig.tar.bz2
-cd mobile-broadband-provider-info-20201225
+tar -xf mobile-broadband-provider-info-20210805.tar.xz
+cd mobile-broadband-provider-info-20210805
 ./autogen.sh --prefix=/usr
 make
 make install
 cd ..
-rm -rf mobile-broadband-provider-info-20201225
+rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
-tar -xf ModemManager-1.16.10.tar.xz
-cd ModemManager-1.16.10
+tar -xf ModemManager-1.18.0.tar.xz
+cd ModemManager-1.18.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 cd ..
-rm -rf ModemManager-1.16.10
+rm -rf ModemManager-1.18.0
 # libndp.
 tar -xf libndp-1.8.tar.gz
 cd libndp-1.8
@@ -4097,7 +3951,7 @@ rm -rf NetworkManager-1.32.10
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
 mkdir nma-build; cd nma-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -4106,9 +3960,10 @@ rm -rf libnma-1.8.32
 tar -xf libnotify-0.7.9.tar.xz
 cd libnotify-0.7.9
 mkdir notify-build; cd notify-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dman=false ..
+meson --prefix=/usr --buildtype=release -Dman=false ..
 ninja
 ninja install
+mv /usr/share/doc/libnotify{,-0.7.9}
 cd ../..
 rm -rf libnotify-0.7.9
 # startup-notification.
@@ -4174,6 +4029,46 @@ ninja
 ninja install
 cd ../..
 rm -rf libsoup-2.74.0
+# libostree.
+tar -xf libostree-2021.4.tar.xz
+cd libostree-2021.4
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-builtin-grub2-mkconfig --with-dracut --with-openssl --enable-experimental-api --disable-static
+make
+make install
+cd ..
+rm -rf libostree-2021.4
+# appstream-glib.
+tar -xf appstream_glib_0_7_18.tar.gz
+cd appstream-glib-appstream_glib_0_7_18
+mkdir appstream-glib-build; cd appstream-glib-build
+meson --prefix=/usr --buildtype=release -Drpm=false ..
+ninja
+ninja install
+cd ../..
+rm -rf appstream-glib-appstream_glib_0_7_18
+# Flatpak.
+tar -xf flatpak-1.11.3.tar.xz
+cd flatpak-1.11.3
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-dbus-config-dir=/usr/share/dbus-1/system.d
+make
+make install
+mv /usr/share/doc/flatpak{,-1.11.3}
+cat > /etc/profile.d/flatpak.sh << END
+if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
+  pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
+elif [ -n "\$HOME" ] && [ -d "\$HOME/.local/share/flatpak/exports/bin" ]; then
+  pathappend "\$HOME/.local/share/flatpak/exports/bin"
+fi
+if [ -d /var/lib/flatpak/exports/bin ]; then
+  pathappend /var/lib/flatpak/exports/bin
+fi
+pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
+pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
+END
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
+cd ..
+rm -rf flatpak-1.11.3
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -4211,7 +4106,7 @@ rm -rf wpebackend-fdo-1.10.0
 tar -xf geoclue-2.5.7.tar.bz2
 cd geoclue-2.5.7
 mkdir geoclue-build; cd geoclue-build
-meson --prefix=/usr --buildtype=release -Dgtk-doc=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
@@ -4240,19 +4135,19 @@ tar -xf gst-plugins-base-1.18.4.tar.xz
 cd gst-plugins-base-1.18.4
 sed -i 's|implicit_include_directories : false||' gst-libs/gst/gl/meson.build
 mkdir gstbase-build; cd gstbase-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" --wrap-mode=nodownload ..
+meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
 ninja
 ninja install
 cd ../..
 rm -rf gst-plugins-base-1.18.4
 # mpg123.
-tar -xf mpg123-1.28.2.tar.bz2
-cd mpg123-1.28.2
+tar -xf mpg123-1.29.0.tar.bz2
+cd mpg123-1.29.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf mpg123-1.28.2
+rm -rf mpg123-1.29.0
 # libvpx.
 tar -xf libvpx-1.10.0.tar.gz
 cd libvpx-1.10.0
@@ -4331,6 +4226,7 @@ patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
 ./configure --prefix=/usr --disable-oss
 make
 make install
+mv /usr/share/doc/libcanberra{,-0.30}
 cd ..
 rm -rf libcanberra-0.30
 # WebKitGTK.
@@ -4354,7 +4250,7 @@ rm -rf gnome-online-accounts-3.40.0
 tar -xf libgdata-0.18.1.tar.xz
 cd libgdata-0.18.1
 mkdir gdata-build; cd gdata-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dalways_build_tests=false ..
+meson --prefix=/usr --buildtype=release -Dalways_build_tests=false ..
 ninja
 ninja install
 cd ../..
@@ -4386,13 +4282,13 @@ make install
 cd ..
 rm -rf xfconf-4.16.0
 # libxfce4ui.
-tar -xf libxfce4ui-4.16.0.tar.bz2
-cd libxfce4ui-4.16.0
+tar -xf libxfce4ui-4.16.1.tar.bz2
+cd libxfce4ui-4.16.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 cd ..
-rm -rf libxfce4ui-4.16.0
+rm -rf libxfce4ui-4.16.1
 # Exo.
 tar -xf exo-4.16.2.tar.bz2
 cd exo-4.16.2
@@ -4410,13 +4306,13 @@ make install
 cd ..
 rm -rf garcon-4.16.1
 # Thunar.
-tar -xf thunar-4.16.8.tar.bz2
-cd thunar-4.16.8
-./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/Thunar-4.16.8
+tar -xf thunar-4.16.9.tar.bz2
+cd thunar-4.16.9
+./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/thunar-4.16.9
 make
 make install
 cd ..
-rm -rf thunar-4.16.8
+rm -rf thunar-4.16.9
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
@@ -4487,6 +4383,7 @@ cd xfwm4-4.16.1
 ./configure --prefix=/usr
 make
 make install
+sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
 cd ..
 rm -rf xfwm4-4.16.1
 # xfce4-session.
@@ -4592,15 +4489,14 @@ update-desktop-database -q
 cd ..
 rm -rf xarchiver-0.5.4.17
 # gtksourceview.
-tar -xf gtksourceview-4.8.1.tar.xz
-cd gtksourceview-4.8.1
-patch -Np1 -i ../patches/gtksourceview4-4.8.1-buildfix-1.patch
+tar -xf gtksourceview-4.8.2.tar.xz
+cd gtksourceview-4.8.2
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf gtksourceview-4.8.1
+rm -rf gtksourceview-4.8.2
 # Mousepad.
 tar -xf mousepad-0.5.6.tar.bz2
 cd mousepad-0.5.6
@@ -4636,15 +4532,15 @@ make install
 install -m644 mtools.conf /etc/mtools.conf
 cd ..
 rm -rf mtools-4.0.35
-# Baobab (Disk Usage Analyser).
-tar -xf baobab-40.0.tar.xz
-cd baobab-40.0
-mkdir baobab-build; cd baobab-build
-meson --prefix=/usr --buildtype=release ..
+# Gnome Software.
+tar -xf gnome-software-40.4.tar.xz
+cd gnome-software-40.4
+mkdir gnome-software-build; cd gnome-software-build
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dgspell=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf baobab-40.0
+rm -rf gnome-software-40.4
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
@@ -4668,6 +4564,8 @@ cd lightdm-gtk-greeter-2.0.8
 ./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode --docdir=/usr/share/doc/lightdm-gtk-greeter-2.0.8
 make
 make install
+mv /usr/share/doc/lightdm-gtk-greeter{,-2.0.8}
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
@@ -4681,7 +4579,7 @@ make install
 cd ..
 rm -rf htop-3.0.5
 # sl.
-tar -xf 5.02.tar.gz
+tar -xf sl-5.02.tar.gz
 cd sl-5.02
 gcc -Os sl.c -o sl -s -lcurses
 install -m755 sl /usr/bin/sl
@@ -4719,7 +4617,15 @@ install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
 # Firefox.
-tar --no-same-owner -xf firefox-91.0.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-92.0.tar.bz2 -C /usr/lib
+mkdir -p /usr/lib/firefox/distribution
+cat > /usr/lib/firefox/distribution/policies.json << END
+{
+  "policies": {
+    "DisableAppUpdate": true
+  }
+}
+END
 ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
 mkdir -p /usr/share/{applications,pixmaps}
 cat > /usr/share/applications/firefox.desktop << END
@@ -4738,7 +4644,15 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.0.3.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.1.0.tar.bz2 -C /usr/lib
+mkdir -p /usr/lib/thunderbird/distribution
+cat > /usr/lib/thunderbird/distribution/policies.json << END
+{
+  "policies": {
+    "DisableAppUpdate": true
+  }
+}
+END
 ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
 cat > /usr/share/applications/thunderbird.desktop << END
 [Desktop Entry]
@@ -4755,26 +4669,33 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.tar.xz
-cd linux-5.14
+tar -xf linux-5.14.4.tar.xz
+cd linux-5.14.4
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.0-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.0-massos/vmlinuz
-cp System.map /boot/System.map-5.14.0-massos
-cp .config /boot/config-5.14.0-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.4-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.4-massos/vmlinuz
+cp System.map /boot/System.map-5.14.4-massos
+cp .config /boot/config-5.14.4-massos
 cd ..
-rm -rf linux-5.14
+rm -rf linux-5.14.4
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
+mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
+ln -s MassOS-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /usr/share/doc/{cargo,clippy,rls,rust,rust-demangler,rustfmt}
+# Move any misplaced files.
+cp -r /usr/etc /
+rm -rf /usr/etc
+cp -r /usr/man /usr/share
+rm -rf /usr/man
 # Remove temporary compiler from stage1.
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.
