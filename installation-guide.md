@@ -1,14 +1,13 @@
 # Installation Guide
 This guide aims to guide you through the installation of MassOS.
 # System Requirements
-- At least 8GB of free disk space (16GB+ recommended).
+- At least 8GB of free disk space (16GB recommended).
 - At least 1GB of RAM (2GB recommended).
-- MassOS must be installed from an existing ("host") GNU/Linux system. If you
-don't have one installed, you can use another distro's LiveCD instead.
+- MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS. Note that this is subject to change:
+This is version **2021.09.2** of MassOS. It contains the following changes since the previous version, **2021.09**:
 
-- Added Flatpak and Gnome Software support (EXPERIMENTAL/TESTING).
+- Added Flatpak package manager and GUI Gnome Software program.
 - Complete theme overhaul, to make MassOS look cleaner and more modern.
 - Removed Qt-based CMake GUI.
 - The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
@@ -53,7 +52,11 @@ It also includes the following upgraded software, however there may be more upgr
 - Wget: `1.21.1 --> 1.21.2`
 
 # Downloading The MassOS Rootfs
-The development version of MassOS cannot be downloaded. Instead, you can compile it yourself using the scripts in this repo. Check the README.md for more information.
+Run the following command to download MassOS:
+```
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.09.2/massos-2021.09.2-rootfs-x86_64.tar.xz
+```
+SHA256 checksum: `ddf2f7a2acbb5cf2eebba6dbf0bfc36b62e3b0363e95558fbbc570c05d5310a1`
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -99,7 +102,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.09.2-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
@@ -250,4 +253,4 @@ sudo shutdown -r now
 ```
 Congratulations, MassOS is installed! We hope you enjoy your MassOS experience!
 # What next?
-For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/development/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
+For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
