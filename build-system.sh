@@ -219,6 +219,14 @@ make
 make install
 cd ..
 rm -rf xz-5.2.5
+# LZ4.
+tar -xf lz4-1.9.3.tar.xz
+cd lz4-1.9.3
+make PREFIX=/usr -C lib
+make PREFIX=/usr -C programs lz4 lz4c
+make PREFIX=/usr install
+cd ..
+rm -rf lz4-1.9.3
 # ZSTD.
 tar -xf zstd-1.5.0.tar.gz
 cd zstd-1.5.0
@@ -678,16 +686,6 @@ make
 make install
 cd ..
 rm -rf automake-1.16.4
-# Kmod.
-tar -xf kmod-29.tar.xz
-cd kmod-29
-./configure --prefix=/usr --sysconfdir=/etc --with-xz --with-zstd --with-zlib
-make
-make install
-for target in depmod insmod modinfo modprobe rmmod; do ln -sf ../bin/kmod /usr/sbin/$target; done
-ln -sf kmod /usr/bin/lsmod
-cd ..
-rm -rf kmod-29
 # elfutils.
 tar -xf elfutils-0.185.tar.bz2
 cd elfutils-0.185
@@ -715,6 +713,16 @@ make MANSUFFIX=ssl install
 mv /usr/share/doc/openssl /usr/share/doc/openssl-1.1.1l
 cd ..
 rm -rf openssl-1.1.1l
+# kmod.
+tar -xf kmod-29.tar.xz
+cd kmod-29
+./configure --prefix=/usr --sysconfdir=/etc --with-xz --with-zstd --with-zlib --with-openssl
+make
+make install
+for target in depmod insmod modinfo modprobe rmmod; do ln -sf ../bin/kmod /usr/sbin/$target; done
+ln -sf kmod /usr/bin/lsmod
+cd ..
+rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
 tar -xf Python-3.9.7.tar.xz
 cd Python-3.9.7
@@ -1523,6 +1531,23 @@ make
 make install
 cd ..
 rm -rf lzo-2.10
+# squashfs-tools.
+tar -xf squashfs-tools-4.5.tar.xz
+cd squashfs-tools-4.5
+make GZIP_SUPPORT=1 XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1 XATTR_SUPPORT=1
+make INSTALL_DIR=/usr/bin install
+cd ..
+rm -rf squashfs-tools-4.5
+# squashfuse.
+tar -xf squashfuse-0.1.104.tar.gz
+cd squashfuse-0.1.104
+./configure --prefix=/usr
+sed -e 's/ -shared / -Wl,-O1,--as-needed\0/g' -i libtool
+make
+make install
+install -Dm644 *.h /usr/include/squashfuse
+cd ..
+rm -rf squashfuse-0.1.104
 # libaio.
 tar -xf libaio_0.3.112.orig.tar.xz
 cd libaio-0.3.112
@@ -1652,13 +1677,13 @@ ninja install
 cd ../..
 rm -rf json-c-0.15
 # cryptsetup.
-tar -xf cryptsetup-2.3.6.tar.xz
-cd cryptsetup-2.3.6
+tar -xf cryptsetup-2.4.1.tar.xz
+cd cryptsetup-2.4.1
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf cryptsetup-2.3.6
+rm -rf cryptsetup-2.4.1
 # libusb.
 tar -xf libusb-1.0.24.tar.bz2
 cd libusb-1.0.24
@@ -1863,14 +1888,15 @@ make install
 cd ..
 rm -rf nghttp2-1.44.0
 # curl (will be rebuilt later to support krb5 and OpenLDAP).
-tar -xf curl-7.78.0.tar.xz
-cd curl-7.78.0
+tar -xf curl-7.79.0.tar.xz
+cd curl-7.79.0
+patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.78.0
+rm -rf curl-7.79.0
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
@@ -1961,14 +1987,15 @@ make install
 cd ..
 rm -rf gsasl-1.10.0
 # curl (rebuild to support gsasl, krb5 and OpenLDAP).
-tar -xf curl-7.78.0.tar.xz
-cd curl-7.78.0
+tar -xf curl-7.79.0.tar.xz
+cd curl-7.79.0
+patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
 grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.78.0
+rm -rf curl-7.79.0
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2798,15 +2825,15 @@ make install
 cd ..
 rm -rf util-macros-1.19.3
 # xorgproto.
-tar -xf xorgproto-2021.4.tar.bz2
-cd xorgproto-2021.4
+tar -xf xorgproto-2021.5.tar.bz2
+cd xorgproto-2021.5
 mkdir xorgproto-build; cd xorgproto-build
 meson --prefix=/usr -Dlegacy=true ..
 ninja
 ninja install
-mv /usr/share/doc/xorgproto{,-2021.4}
+if [ -d /usr/share/doc/xorgproto ]; then mv /usr/share/doc/xorgproto /usr/share/doc/xorgproto-2021.5; fi
 cd ../..
-rm -rf xorgproto-2021.4
+rm -rf xorgproto-2021.5
 # libXau.
 tar -xf libXau-1.0.9.tar.bz2
 cd libXau-1.0.9
@@ -2839,7 +2866,7 @@ make install
 cd ..
 rm -rf libxcb-1.14
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.2 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.7.10 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.12 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.7.2 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.12 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.bz2
   cd $i
   case $i in
@@ -3070,14 +3097,14 @@ make install
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.18.1.tar.xz
-cd libinput-1.18.1
+tar -xf libinput-1.19.0.tar.xz
+cd libinput-1.19.0
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libinput-1.18.1
+rm -rf libinput-1.19.0
 # xf86-input-libinput.
 tar -xf xf86-input-libinput-1.1.0.tar.bz2
 cd xf86-input-libinput-1.1.0
@@ -3405,14 +3432,14 @@ ninja install
 cd ../..
 rm -rf libgusb-0.3.7
 # librsvg.
-tar -xf librsvg-2.50.7.tar.xz
-cd librsvg-2.50.7
-./configure --prefix=/usr --enable-vala --disable-static --docdir=/usr/share/doc/librsvg-2.50.7
+tar -xf librsvg-2.52.0.tar.xz
+cd librsvg-2.52.0
+./configure --prefix=/usr --enable-vala --disable-static --docdir=/usr/share/doc/librsvg-2.52.0
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 cd ..
-rm -rf librsvg-2.50.7
+rm -rf librsvg-2.52.0
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-40.1.1.tar.xz
 cd adwaita-icon-theme-40.1.1
@@ -3868,13 +3895,13 @@ make install
 cd ..
 rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
-tar -xf ModemManager-1.18.0.tar.xz
-cd ModemManager-1.18.0
+tar -xf ModemManager-1.18.2.tar.xz
+cd ModemManager-1.18.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 cd ..
-rm -rf ModemManager-1.18.0
+rm -rf ModemManager-1.18.2
 # libndp.
 tar -xf libndp-1.8.tar.gz
 cd libndp-1.8
@@ -3912,14 +3939,14 @@ ninja install
 cd ../..
 rm -rf pygobject-3.40.1
 # UPower.
-tar -xf upower-0.99.12.tar.xz
-cd upower-0.99.12
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-deprecated --disable-static
+tar -xf upower-UPOWER_0_99_13.tar.bz2
+cd upower-UPOWER_0_99_13
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-deprecated --disable-static --enable-gtk-doc
 make
 make install
 systemctl enable upower
 cd ..
-rm -rf upower-0.99.12
+rm -rf upower-UPOWER_0_99_13
 # NetworkManager.
 tar -xf NetworkManager-1.32.10.tar.xz
 cd NetworkManager-1.32.10
@@ -4113,34 +4140,33 @@ ninja install
 cd ../..
 rm -rf geoclue-2.5.7
 # gstreamer.
-tar -xf gstreamer-1.18.4.tar.xz
-cd gstreamer-1.18.4
+tar -xf gstreamer-1.18.5.tar.xz
+cd gstreamer-1.18.5
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
-rm -rf gstreamer-1.18.4
+rm -rf gstreamer-1.18.5
 # CDParanoia-III.
 tar -xf cdparanoia-III-10.2.src.tgz
 cd cdparanoia-III-10.2
 patch -Np1 -i ../patches/cdparanoia-III-10.2-gcc_fixes-1.patch
 ./configure --prefix=/usr --mandir=/usr/share/man
 make -j1
-make install
+make -j1 install
 chmod 755 /usr/lib/libcdda_*.so.0.10.2
 cd ..
 rm -rf cdparanoia-III-10.2
 # gst-plugins-base.
-tar -xf gst-plugins-base-1.18.4.tar.xz
-cd gst-plugins-base-1.18.4
-sed -i 's|implicit_include_directories : false||' gst-libs/gst/gl/meson.build
+tar -xf gst-plugins-base-1.18.5.tar.xz
+cd gst-plugins-base-1.18.5
 mkdir gstbase-build; cd gstbase-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
+meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
-rm -rf gst-plugins-base-1.18.4
+rm -rf gst-plugins-base-1.18.5
 # mpg123.
 tar -xf mpg123-1.29.0.tar.bz2
 cd mpg123-1.29.0
@@ -4177,15 +4203,14 @@ ninja install
 cd ../..
 rm -rf taglib-1.12
 # gst-plugins-good.
-tar -xf gst-plugins-good-1.18.4.tar.xz
-cd gst-plugins-good-1.18.4
-patch -Np1 -i ../patches/gst-plugins-good-1.18.4-upstream_fixes-1.patch
+tar -xf gst-plugins-good-1.18.5.tar.xz
+cd gst-plugins-good-1.18.5
 mkdir gstgood-build; cd gstgood-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
+meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
-rm -rf gst-plugins-good-1.18.4
+rm -rf gst-plugins-good-1.18.5
 # SoundTouch.
 tar -xf soundtouch-2.3.0.tar.bz2
 cd soundtouch-2.3.0
@@ -4212,14 +4237,14 @@ make install
 cd ..
 rm -rf libdvdnav-6.1.1
 # gst-plugins-bad.
-tar -xf gst-plugins-bad-1.18.4.tar.xz
-cd gst-plugins-bad-1.18.4
+tar -xf gst-plugins-bad-1.18.5.tar.xz
+cd gst-plugins-bad-1.18.5
 mkdir gstbad-build; cd gstbad-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.4 MassOS" ..
+meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
-rm -rf gst-plugins-bad-1.18.4
+rm -rf gst-plugins-bad-1.18.5
 # libcanberra.
 tar -xf libcanberra-0.30.tar.xz
 cd libcanberra-0.30
@@ -4670,18 +4695,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.4.tar.xz
-cd linux-5.14.4
+tar -xf linux-5.14.5.tar.xz
+cd linux-5.14.5
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.4-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.4-massos/vmlinuz
-cp System.map /boot/System.map-5.14.4-massos
-cp .config /boot/config-5.14.4-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.5-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.5-massos/vmlinuz
+cp System.map /boot/System.map-5.14.5-massos
+cp .config /boot/config-5.14.5-massos
 cd ..
-rm -rf linux-5.14.4
+rm -rf linux-5.14.5
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

@@ -9,6 +9,11 @@ if [ $EUID -ne 0 ]; then
 fi
 # Setup the environment.
 export MASSOS=$PWD/massos-rootfs
+# Ensure stage1 has been run first.
+if [ ! -d $MASSOS ]; then
+  echo "Error: You must run stage1.sh first!" >&2
+  exit 1
+fi
 # Ensure the MassOS environment is owned by root.
 chown -R root:root $MASSOS
 # Create pseudo-filesystem mount directories.
@@ -19,8 +24,10 @@ mknod -m 666 $MASSOS/dev/null c 1 3
 # Chroot into the MassOS environment and continue the build.
 utils/mass-chroot massos-rootfs /sources/build-system.sh
 # Strip executables and libraries to free up space.
-printf "Stripping binaries and libraries... "
+printf "Stripping binaries... "
 find $MASSOS/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' &> /dev/null || true
+echo "Done!"
+printf "Stripping libraries... "
 find $MASSOS/usr/lib -type f -name \*.a -exec strip --strip-debug {} ';' &> /dev/null || true
 find $MASSOS/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &> /dev/null || true
 echo "Done!"

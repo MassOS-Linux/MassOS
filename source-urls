@@ -41,10 +41,10 @@ https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
-https://www.kernel.org/pub/linux/utils/cryptsetup/v2.3/cryptsetup-2.3.6.tar.xz
+https://www.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.1.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.3.3op2/cups-2.3.3op2-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
-https://curl.se/download/curl-7.78.0.tar.xz
+https://curl.se/download/curl-7.79.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
 https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
@@ -130,10 +130,10 @@ https://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz
 https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
 https://ftp.gnu.org/gnu/gsasl/gsasl-1.10.0.tar.gz
 https://download.gnome.org/sources/gsettings-desktop-schemas/40/gsettings-desktop-schemas-40.0.tar.xz
-https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.4.tar.xz
-https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.4.tar.xz
-https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.4.tar.xz
-https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.4.tar.xz
+https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
+https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.5.tar.xz
+https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.5.tar.xz
+https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.5.tar.xz
 https://download.gnome.org/sources/gtk-doc/1.33/gtk-doc-1.33.2.tar.xz
 https://download.gnome.org/sources/gtk+/2.24/gtk+-2.24.33.tar.xz
 https://download.gnome.org/sources/gtk+/3.24/gtk+-3.24.30.tar.xz
@@ -199,7 +199,7 @@ https://download.gnome.org/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
 https://github.com/libical/libical/releases/download/v3.0.10/libical-3.0.10.tar.gz
 https://www.x.org/pub/individual/lib/libICE-1.0.10.tar.bz2
 https://ftp.gnu.org/gnu/libidn/libidn2-2.3.2.tar.gz
-https://www.freedesktop.org/software/libinput/libinput-1.18.1.tar.xz
+https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
 https://cdn.thesonicmaster.net/sources/libjpeg-turbo-2.1.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.0.tar.xz
@@ -215,7 +215,7 @@ https://cdn.thesonicmaster.net/sources/libpng-1.6.37.tar.xz
 https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.gz
 https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.2.tar.xz
-https://download.gnome.org/sources/librsvg/2.50/librsvg-2.50.7.tar.xz
+https://download.gnome.org/sources/librsvg/2.52/librsvg-2.52.0.tar.xz
 https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.2/libseccomp-2.5.2.tar.gz
 https://download.gnome.org/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
@@ -256,7 +256,7 @@ https://www.x.org/pub/individual/lib/libXft-2.3.4.tar.bz2
 https://xkbcommon.org/download/libxkbcommon-1.3.1.tar.xz
 https://www.x.org/pub/individual/lib/libxkbfile-1.1.0.tar.bz2
 https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
-https://www.x.org/pub/individual/lib/libXi-1.7.10.tar.bz2
+https://www.x.org/pub/individual/lib/libXi-1.8.tar.bz2
 https://www.x.org/pub/individual/lib/libXinerama-1.1.4.tar.bz2
 http://xmlsoft.org/sources/libxml2-2.9.12.tar.gz
 https://www.x.org/pub/individual/lib/libXmu-1.1.3.tar.bz2
@@ -277,7 +277,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.5.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
@@ -287,6 +287,7 @@ https://www.x.org/pub/individual/app/luit-1.1.1.tar.bz2
 https://sourceware.org/ftp/lvm2/LVM2.2.03.13.tgz
 https://files.pythonhosted.org/packages/source/l/lxml/lxml-4.6.3.tar.gz
 https://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9rel.1.tar.bz2
+https://cdn.thesonicmaster.net/sources/lz4-1.9.3.tar.xz
 https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz
 https://cdn.thesonicmaster.net/sources/make-ca-1.8.1.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
@@ -300,7 +301,7 @@ https://mesa.freedesktop.org/archive/mesa-21.2.1.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.59.1/meson-0.59.1.tar.gz
 https://www.x.org/pub/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
-https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.0.tar.xz
+https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.2.tar.xz
 https://archive.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.6.tar.bz2
 https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
@@ -383,6 +384,8 @@ https://gitlab.com/soundtouch/soundtouch/-/archive/2.3.0/soundtouch-2.3.0.tar.bz
 https://downloads.xiph.org/releases/speex/speex-1.2.0.tar.gz
 https://downloads.xiph.org/releases/speex/speexdsp-1.2.0.tar.gz
 https://sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
+https://cdn.thesonicmaster.net/sources/squashfs-tools-4.5.tar.xz
+https://github.com/vasi/squashfuse/releases/download/0.1.104/squashfuse-0.1.104.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.2/sshfs-3.7.2.tar.xz
 https://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
 https://www.sudo.ws/dist/sudo-1.9.8.tar.gz
@@ -402,7 +405,7 @@ https://www.iana.org/time-zones/repository/releases/tzdata2021a.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.3/udisks-2.9.3.tar.bz2
 https://www.rarlab.com/rar/unrarsrc-6.0.7.tar.gz
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz
-https://gitlab.freedesktop.org/upower/upower/uploads/244f5966c58773bbd3b4c507c549560f/upower-0.99.12.tar.xz
+https://gitlab.freedesktop.org/upower/upower/-/archive/UPOWER_0_99_13/upower-UPOWER_0_99_13.tar.bz2
 https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
@@ -478,7 +481,7 @@ https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-2.25.tar.gz
 https://releases.pagure.org/xmlto/xmlto-0.0.28.tar.bz2
 https://www.x.org/pub/individual/app/xmodmap-1.0.10.tar.bz2
 https://www.x.org/pub/individual/xserver/xorg-server-1.20.13.tar.xz
-https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2021.4.tar.bz2
+https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2021.5.tar.bz2
 https://www.x.org/pub/individual/app/xpr-1.0.5.tar.bz2
 https://www.x.org/pub/individual/app/xprop-1.2.5.tar.bz2
 https://www.x.org/pub/individual/app/xrandr-1.5.1.tar.xz

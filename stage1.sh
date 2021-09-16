@@ -4,6 +4,11 @@
 set -e
 # Disabling hashing is useful so the newly built tools are detected.
 set +h
+# Ensure retrieve-sources.sh has been run first.
+if [ ! -d sources ]; then
+  echo "Error: You must run retrieve-sources.sh first!" >&2
+  exit 1
+fi
 # Setup the environment.
 MASSOS=$PWD/massos-rootfs
 LC_ALL=POSIX
@@ -60,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.4.tar.xz
-cd linux-5.14.4
+tar -xf linux-5.14.5.tar.xz
+cd linux-5.14.5
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.4
+rm -rf linux-5.14.5
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -93,8 +98,8 @@ make DESTDIR=$MASSOS install
 cd ../..
 rm -rf gcc-11.2.0
 # Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # m4.
 tar -xf m4-1.4.19.tar.xz

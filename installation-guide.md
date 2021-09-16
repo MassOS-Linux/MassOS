@@ -5,58 +5,33 @@ This guide aims to guide you through the installation of MassOS.
 - At least 1GB of RAM (2GB recommended).
 - MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version **2021.09.2** of MassOS. It contains the following changes since the previous version, **2021.09**:
+This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Added Flatpak package manager and GUI Gnome Software program.
-- Complete theme overhaul, to make MassOS look cleaner and more modern.
-- Removed Qt-based CMake GUI.
-- The `adduser` utility now copies all files present in `/etc/skel` to the new user's home directory.
-- exfatprogs is now used instead of exfat-utils (allows exFAT support in Gparted).
-- Patched Ghostscript to fix security vulnerability CVE-2021-3781.
-- Added Busybox (will ***NOT*** replace any of the better GNU alternatives, however the standalone binary will be installed).
+- Prefer the libinput driver over the evdev and synaptics drivers. Fixes buggy Elan touchpads.
+- Fixed the defult cursor theme.
+- Added LZ4, squashfs-tools, squashfuse.
+- Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
-- btrfs-progs: `5.13.1 --> 5.14`
-- Firefox: `91.0.2 --> 92.0`
-- FUSE3: `3.10.4 --> 3.10.5`
-- GDBM: `1.20 --> 1.21`
-- Graphviz: `2.48.0 --> 2.49.0`
-- gtksourceview: `4.8.1 --> 4.8.2`
-- Gzip: `1.10 --> 1.11`
-- HarfBuzz: `2.9.0 --> 2.9.1`
-- Inetutils: `2.1 --> 2.2`
-- JS78: `78.13.0 --> 78.14.0`
-- libcap: `2.53 --> 2.57`
-- libexif: `0.6.22 --> 0.6.23`
-- libhandy: `1.2.3 --> 1.4.0`
-- libqmi: `1.30.0 --> 1.30.2`
-- libseccomp: `2.5.1 --> 2.5.2`
-- libssh2: `1.9.0 --> 1.10.0`
-- libwacom: `1.11 --> 1.12`
-- libxfce4ui: `4.16.0 --> 4.16.1`
-- libxkbcommon: `1.3.0 --> 1.3.1`
-- Linux Kernel: `5.14.0 --> 5.14.4`
-- Linux-PAM: `1.5.1 --> 1.5.2`
-- make-ca: `1.7 --> 1.8.1`
-- mobile-broadband-provider-info: `20201225 --> 20210805`
-- ModemManager: `1.16.10 --> 1.18.0`
-- mpg123: `1.28.2 --> 1.29.0`
-- NSS: `3.69 --> 3.70`
-- Pango: `1.48.9 --> 1.48.10`
-- Sudo: `1.9.7p2 --> 1.9.8`
-- Thunar: `4.16.8 --> 4.16.9`
-- Thunderbird: `91.0.3 --> 91.1.0`
-- Vim: `8.2.3377 --> 8.2.3424`
-- wayland-protocols: `1.21 --> 1.22`
-- Wget: `1.21.1 --> 1.21.2`
+- cryptsetup: `2.3.6 --> 2.4.1`
+- curl: `7.78.0 --> 7.79.0`
+- gst-plugins-bad: `1.18.4 --> 1.18.5`
+- gst-plugins-base: `1.18.4 --> 1.18.5`
+- gst-plugins-good: `1.18.4 --> 1.18.5`
+- gstreamer: `1.18.4 --> 1.18.5`
+- libinput: `1.18.1 --> 1.19.0`
+- librsvg: `2.50.7 --> 2.52.0`
+- libXi: `1.7.10 --> 1.8`
+- Linux Kernel: `5.14.4 --> 5.14.5`
+- ModemManager: `1.18.0 --> 1.18.2`
+- UPower: `0.99.12 --> 0.99.13`
+- xorgproto: `2021.4 --> 2021.5`
 
 # Downloading The MassOS Rootfs
-Run the following command to download MassOS:
-```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.09.2/massos-2021.09.2-rootfs-x86_64.tar.xz
-```
-SHA256 checksum: `ddf2f7a2acbb5cf2eebba6dbf0bfc36b62e3b0363e95558fbbc570c05d5310a1`
+Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.
+
+You can either [Install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md), or [Build MassOS yourself](https://github.com/TheSonicMaster/MassOS/blob/development/building.md).
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -102,7 +77,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.09.2-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
@@ -197,7 +172,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.4-massos 5.14.4-massos
+dracut --force /boot/initrd.img-5.14.5-massos 5.14.5-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**

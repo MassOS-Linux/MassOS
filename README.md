@@ -10,11 +10,11 @@ No, MassOS is completely independent and compiled from _source_. It does not use
 The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a traditional package manager, the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
 ![](software2.png)
 # Installing MassOS
-Please see the [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) for installation instructions.
+Please see the [installation guide](https://github.com/TheSonicMaster/MassOS/blob/development/installation-guide.md) for installation instructions.
 
-Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) has step-by-step instructions on how to install MassOS.
+Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Instead, you download the root filesystem tarball and extract/install it manually. The latest release can be found on the [releases page](https://github.com/TheSonicMaster/MassOS/releases). If this seems complicated, don't worry! The [installation guide](https://github.com/TheSonicMaster/MassOS/blob/development/installation-guide.md) has step-by-step instructions on how to install MassOS.
 
-Some developers may also wish to [build MassOS themselves](https://github.com/TheSonicMaster/MassOS/blob/main/building.md) using the scripts in this repo. This is not recommended for most users.
+Some developers may also wish to [build MassOS themselves](https://github.com/TheSonicMaster/MassOS/blob/development/building.md) using the scripts in this repo. This is not recommended for most users.
 # Releases
 The latest release of MassOS is **2021.09.2**.
 
