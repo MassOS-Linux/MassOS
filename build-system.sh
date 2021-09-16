@@ -688,14 +688,13 @@ for target in depmod insmod modinfo modprobe rmmod; do ln -sf ../bin/kmod /usr/s
 ln -sf kmod /usr/bin/lsmod
 cd ..
 rm -rf kmod-29
-# libelf from elfutils.
+# elfutils.
 tar -xf elfutils-0.185.tar.bz2
 cd elfutils-0.185
-./configure --prefix=/usr --disable-debuginfod --enable-libdebuginfod=dummy
+./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
 make
-make -C libelf install
-install -m644 config/libelf.pc /usr/lib/pkgconfig
-rm /usr/lib/libelf.a
+make install
+rm /usr/lib/lib{asm,dw,elf}.a
 cd ..
 rm -rf elfutils-0.185
 # libffi.
