@@ -3171,6 +3171,8 @@ make install
 ldconfig
 cd ..
 rm -rf xinit-1.4.1
+# Prefer libinput for handling input devices.
+ln -sr /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
 # Polkit.
 tar -xf polkit-0.119.tar.gz
 cd polkit-0.119
