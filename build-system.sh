@@ -2980,11 +2980,8 @@ install -dm755 /usr/share/fonts
 ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
 ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
-tar --no-same-owner -xf noto-fonts.tar.xz
-cp -r noto-fonts/usr /
-rm -rf noto-fonts
+tar --no-same-owner -xf noto-fonts.tar.xz -C /usr --strip-components=2
 fc-cache
-rm -rf noto-fonts
 # XKeyboardConfig.
 tar -xf xkeyboard-config-2.33.tar.bz2
 cd xkeyboard-config-2.33
