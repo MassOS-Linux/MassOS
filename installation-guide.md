@@ -25,6 +25,7 @@ It also includes the following upgraded software, however there may be more upgr
 - libXi: `1.7.10 --> 1.8`
 - Linux Kernel: `5.14.4 --> 5.14.5`
 - ModemManager: `1.18.0 --> 1.18.2`
+- Sudo: `1.9.8 --> 1.9.8p1`
 - UPower: `0.99.12 --> 0.99.13`
 - xorgproto: `2021.4 --> 2021.5`
 

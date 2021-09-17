@@ -2207,9 +2207,9 @@ unset beforemounted
 cd ../..
 rm -rf firefox-78.14.0
 # Sudo.
-tar -xf sudo-1.9.8.tar.gz
-cd sudo-1.9.8
-./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8 --with-passprompt="[sudo] password for %p: "
+tar -xf sudo-1.9.8p1.tar.gz
+cd sudo-1.9.8p1
+./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8p1 --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
@@ -2228,7 +2228,7 @@ session   required    pam_env.so
 session   include     system-session
 END
 cd ..
-rm -rf sudo-1.9.8
+rm -rf sudo-1.9.8p1
 # volume_key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
