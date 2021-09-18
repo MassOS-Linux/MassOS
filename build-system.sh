@@ -2393,7 +2393,7 @@ GRUB_GFXPAYLOAD_LINUX="keep"
 #GRUB_COLOR_HIGHLIGHT="light-cyan/blue"
 
 # Uncomment one of them for the gfx desired, a image background or a gfxtheme
-GRUB_BACKGROUND="/usr/share/backgrounds/xfce/MassOS-Dark.png"
+GRUB_BACKGROUND="/usr/share/backgrounds/xfce/MassOS-Contemporary.png"
 #GRUB_THEME="/path/to/theme"
 
 # Uncomment to get a beep at GRUB start
@@ -4588,7 +4588,7 @@ cd lightdm-gtk-greeter-2.0.8
 make
 make install
 mv /usr/share/doc/lightdm-gtk-greeter{,-2.0.8}
-sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Comtemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
@@ -4692,22 +4692,22 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.5.tar.xz
-cd linux-5.14.5
+tar -xf linux-5.14.6.tar.xz
+cd linux-5.14.6
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.5-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.5-massos/vmlinuz
-cp System.map /boot/System.map-5.14.5-massos
-cp .config /boot/config-5.14.5-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.6-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.6-massos/vmlinuz
+cp System.map /boot/System.map-5.14.6-massos
+cp .config /boot/config-5.14.6-massos
 cd ..
-rm -rf linux-5.14.5
+rm -rf linux-5.14.6
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
-ln -s MassOS-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
+ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch

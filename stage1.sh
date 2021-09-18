@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.5.tar.xz
-cd linux-5.14.5
+tar -xf linux-5.14.6.tar.xz
+cd linux-5.14.6
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.5
+rm -rf linux-5.14.6
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
