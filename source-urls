@@ -106,7 +106,7 @@ https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/g
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
 https://www.kernel.org/pub/software/scm/git/git-2.33.0.tar.xz
-https://download.gnome.org/sources/glib/2.68/glib-2.68.4.tar.xz
+https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
 https://download.gnome.org/sources/glib-networking/2.68/glib-networking-2.68.2.tar.xz
 https://ftp.gnu.org/gnu/glibc/glibc-2.34.tar.xz
 https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.1.tar.xz
@@ -142,7 +142,7 @@ https://download.gnome.org/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz
 https://cdn.thesonicmaster.net/sources/gutenprint-5.3.3.tar.xz
 https://download.gnome.org/sources/gvfs/1.48/gvfs-1.48.1.tar.xz
 https://ftp.gnu.org/gnu/gzip/gzip-1.11.tar.xz
-https://github.com/harfbuzz/harfbuzz/releases/download/2.9.1/harfbuzz-2.9.1.tar.xz
+https://github.com/harfbuzz/harfbuzz/releases/download/3.0.0/harfbuzz-3.0.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://github.com/htop-dev/htop/archive/3.0.5/htop-3.0.5.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20210611/iana-etc-20210611.tar.gz
@@ -415,7 +415,7 @@ https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.64.2/vte-0.64.2.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.22.tar.xz
-https://webkitgtk.org/releases/webkitgtk-2.32.3.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.32.4.tar.xz
 https://ftp.gnu.org/gnu/wget/wget-1.21.2.tar.gz
 https://ftp.gnu.org/gnu/which/which-2.21.tar.gz
 https://github.com/rfc1036/whois/archive/v5.4.3/whois-5.4.3.tar.gz

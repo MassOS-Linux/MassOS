@@ -2078,15 +2078,15 @@ ldconfig
 cd ..
 rm -rf libstemmer-2.1.0
 # GLib.
-tar -xf glib-2.68.4.tar.xz
-cd glib-2.68.4
+tar -xf glib-2.70.0.tar.xz
+cd glib-2.70.0
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-2.68.4
+rm -rf glib-2.70.0
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -2301,14 +2301,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-2.9.1.tar.xz
-cd harfbuzz-2.9.1
+tar -xf harfbuzz-3.0.0.tar.xz
+cd harfbuzz-3.0.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-2.9.1
+rm -rf harfbuzz-3.0.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -4253,14 +4253,14 @@ mv /usr/share/doc/libcanberra{,-0.30}
 cd ..
 rm -rf libcanberra-0.30
 # WebKitGTK.
-tar -xf webkitgtk-2.32.3.tar.xz
-cd webkitgtk-2.32.3
+tar -xf webkitgtk-2.32.4.tar.xz
+cd webkitgtk-2.32.4
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -DENABLE_BUBBLEWRAP_SANDBOX=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf webkitgtk-2.32.3
+rm -rf webkitgtk-2.32.4
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.40.0.tar.xz
 cd gnome-online-accounts-3.40.0
