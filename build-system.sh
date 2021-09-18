@@ -1679,7 +1679,7 @@ rm -rf json-c-0.15
 # cryptsetup.
 tar -xf cryptsetup-2.4.1.tar.xz
 cd cryptsetup-2.4.1
-./configure --prefix=/usr
+./configure --prefix=/usr --disable-ssh-token
 make
 make install
 cd ..

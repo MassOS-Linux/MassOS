@@ -149,7 +149,7 @@ For example: For *America/New_York*:
 ```
 ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime
 ```
-# Create /etc/adjtime
+# Setting the hardware clock
 ```
 hwclock --systohc
 ```
