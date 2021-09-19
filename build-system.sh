@@ -2537,13 +2537,14 @@ ninja install
 cd ../..
 rm -rf wayland-1.19.0
 # Wayland-Protocols.
-tar -xf wayland-protocols-1.22.tar.xz
-cd wayland-protocols-1.22
-./configure --prefix=/usr
-make
-make install
-cd ..
-rm -rf wayland-protocols-1.22
+tar -xf wayland-protocols-1.23.tar.xz
+cd wayland-protocols-1.23
+mkdir wayland-protocols-build; cd wayland-protocols-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf wayland-protocols-1.23
 # Aspell.
 tar -xf aspell-0.60.8.tar.gz
 cd aspell-0.60.8

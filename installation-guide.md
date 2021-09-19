@@ -29,6 +29,7 @@ It also includes the following upgraded software, however there may be more upgr
 - ModemManager: `1.18.0 --> 1.18.2`
 - Sudo: `1.9.8 --> 1.9.8p1`
 - UPower: `0.99.12 --> 0.99.13`
+- wayland-protocols: `1.22 --> 1.23`
 - WebKitGTK: `2.32.3 --> 2.32.4`
 - xorgproto: `2021.4 --> 2021.5`
 
