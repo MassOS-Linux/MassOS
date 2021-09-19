@@ -1891,7 +1891,6 @@ rm -rf nghttp2-1.44.0
 tar -xf curl-7.79.0.tar.xz
 cd curl-7.79.0
 patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
-grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
@@ -1990,7 +1989,6 @@ rm -rf gsasl-1.10.0
 tar -xf curl-7.79.0.tar.xz
 cd curl-7.79.0
 patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
-grep -rl '#!.*python$' | xargs sed -i '1s/python/&3/'
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
