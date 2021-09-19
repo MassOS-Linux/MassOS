@@ -4587,7 +4587,7 @@ cd lightdm-gtk-greeter-2.0.8
 make
 make install
 mv /usr/share/doc/lightdm-gtk-greeter{,-2.0.8}
-sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Comtemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Contemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
