@@ -17,11 +17,13 @@ It also includes the following upgraded software, however there may be more upgr
 - cryptsetup: `2.3.6 --> 2.4.1`
 - curl: `7.78.0 --> 7.79.0`
 - GLib: `2.68.4 --> 2.70.0`
+- glib-networking: `2.68.2 --> 2.70.0`
 - gst-plugins-bad: `1.18.4 --> 1.18.5`
 - gst-plugins-base: `1.18.4 --> 1.18.5`
 - gst-plugins-good: `1.18.4 --> 1.18.5`
 - gstreamer: `1.18.4 --> 1.18.5`
 - HarfBuzz: `2.9.1 --> 3.0.0`
+- libcap: `2.57 --> 2.58`
 - libinput: `1.18.1 --> 1.19.0`
 - librsvg: `2.50.7 --> 2.52.0`
 - libXi: `1.7.10 --> 1.8`

@@ -107,7 +107,7 @@ https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
 https://www.kernel.org/pub/software/scm/git/git-2.33.0.tar.xz
 https://download.gnome.org/sources/glib/2.70/glib-2.70.0.tar.xz
-https://download.gnome.org/sources/glib-networking/2.68/glib-networking-2.68.2.tar.xz
+https://download.gnome.org/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz
 https://ftp.gnu.org/gnu/glibc/glibc-2.34.tar.xz
 https://download.gnome.org/sources/glibmm/2.66/glibmm-2.66.1.tar.xz
 https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.xz
@@ -174,7 +174,7 @@ http://0pointer.de/public/libatasmart-0.19.tar.xz
 https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libblockdev-2.26.tar.gz
 https://github.com/storaged-project/libbytesize/releases/download/2.6/libbytesize-2.6.tar.gz
 http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
-https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.57.tar.xz
+https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.58.tar.xz
 https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
 https://ftp.gnu.org/gnu/libcdio/libcdio-paranoia-10.2+2.0.1.tar.bz2
 http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz

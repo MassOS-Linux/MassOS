@@ -363,14 +363,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.57.tar.xz
-cd libcap-2.57
+tar -xf libcap-2.58.tar.xz
+cd libcap-2.58
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.57
+chmod 755 /usr/lib/lib{cap,psx}.so.2.58
 cd ..
-rm -rf libcap-2.57
+rm -rf libcap-2.58
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -432,8 +432,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.57.tar.xz
-cd libcap-2.57
+tar -xf libcap-2.58.tar.xz
+cd libcap-2.58
 make -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -442,7 +442,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.57
+rm -rf libcap-2.58
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -4036,14 +4036,14 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
 rm -rf gsettings-desktop-schemas-40.0
 # glib-networking.
-tar -xf glib-networking-2.68.2.tar.xz
-cd glib-networking-2.68.2
+tar -xf glib-networking-2.70.0.tar.xz
+cd glib-networking-2.70.0
 mkdir glibnet-build; cd glibnet-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-networking-2.68.2
+rm -rf glib-networking-2.70.0
 # libsoup.
 tar -xf libsoup-2.74.0.tar.xz
 cd libsoup-2.74.0
