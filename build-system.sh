@@ -3643,15 +3643,44 @@ make
 make install
 cd ..
 rm -rf SDL-1.2.15
+# libpcap.
+tar -xf libpcap-1.10.1.tar.gz
+cd libpcap-1.10.1
+autoreconf -fi
+./configure --prefix='/usr' --enable-ipv6 --enable-bluetooth --enable-usb --with-libnl
+make
+make install
+cd ..
+rm -rf libpcap-1.10.1
+# ppp.
+tar -xf ppp-2.4.9.tar.gz
+cd ppp-2.4.9
+sed -i "s:^#FILTER=y:FILTER=y:" pppd/Makefile.linux
+sed -i "s:^#HAVE_INET6=y:HAVE_INET6=y:" pppd/Makefile.linux
+sed -i "s:^#CBCP=y:CBCP=y:" pppd/Makefile.linux
+CFLAGS="$CFLAGS -D_GNU_SOURCE" ./configure --prefix=/usr
+make
+make install
+install -dm755 /etc/ppp
+tar --no-same-owner -xf ../ppp-2.4.9-extra-files.tar.xz -C /etc/ppp --strip-components=1
+install -m755 scripts/{pon,poff,plog} /usr/bin
+install -m644 scripts/pon.1 /usr/share/man/man1/pon.1
+install -m600 etc.ppp/pap-secrets /etc/ppp/pap-secrets
+install -m600 etc.ppp/chap-secrets /etc/ppp/chap-secrets
+install -dm755 /etc/ppp/peers
+chmod 0755 /usr/lib/pppd/2.4.9/*.so
+cd ..
+rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3424.tar.gz
-cd vim-8.2.3424
+tar -xf vim-8.2.3451.tar.xz
+cd vim-8.2.3451
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
 make
 make install
 cat > /etc/vimrc << END
+source \$VIMRUNTIME/defaults.vim
 let skip_defaults_vim=1
 set nocompatible
 set backspace=2
@@ -3663,9 +3692,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3424
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3451
 cd ..
-rm -rf vim-8.2.3424
+rm -rf vim-8.2.3451
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
@@ -3949,7 +3978,7 @@ cd NetworkManager-1.32.10
 sed '/initrd/d' -i src/core/meson.build
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dppp=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
+meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
 mv /usr/share/doc/NetworkManager{,-1.32.10}
@@ -4666,7 +4695,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.1.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.1.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {

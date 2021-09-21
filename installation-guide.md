@@ -9,7 +9,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - Prefer the libinput driver over the evdev and synaptics drivers. Fixes buggy Elan touchpads.
 - Fixed the defult cursor theme.
-- Added LZ4, squashfs-tools, squashfuse.
+- Added LZ4, ppp, squashfs-tools, squashfuse.
 - Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
@@ -30,7 +30,9 @@ It also includes the following upgraded software, however there may be more upgr
 - Linux Kernel: `5.14.4 --> 5.14.6`
 - ModemManager: `1.18.0 --> 1.18.2`
 - Sudo: `1.9.8 --> 1.9.8p1`
+- Thunderbird: `91.1.0 --> 91.1.1`
 - UPower: `0.99.12 --> 0.99.13`
+- Vim: `8.2.3424 --> 8.2.3451`
 - wayland-protocols: `1.22 --> 1.23`
 - WebKitGTK: `2.32.3 --> 2.32.4`
 - xorgproto: `2021.4 --> 2021.5`
