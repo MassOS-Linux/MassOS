@@ -271,6 +271,7 @@ cd ../..
 rm -rf gcc-11.2.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
+cp utils/massos-release-bin $MASSOS/usr/bin/massos-release
 cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
