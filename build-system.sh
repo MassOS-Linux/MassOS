@@ -729,9 +729,9 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
-pip3 install --upgrade pip
-pip3 install --upgrade setuptools
-pip3 install pyparsing
+pip3 --no-color install --upgrade pip
+pip3 --no-color install --upgrade setuptools
+pip3 --no-color install pyparsing
 cd ..
 rm -rf Python-3.9.7
 # Ninja.
