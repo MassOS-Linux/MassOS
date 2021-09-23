@@ -4672,7 +4672,7 @@ install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
 # Firefox.
-tar --no-same-owner -xf firefox-92.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-92.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -4724,18 +4724,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.6.tar.xz
-cd linux-5.14.6
+tar -xf linux-5.14.7.tar.xz
+cd linux-5.14.7
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.6-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.6-massos/vmlinuz
-cp System.map /boot/System.map-5.14.6-massos
-cp .config /boot/config-5.14.6-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.7-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.7-massos/vmlinuz
+cp System.map /boot/System.map-5.14.7-massos
+cp .config /boot/config-5.14.7-massos
 cd ..
-rm -rf linux-5.14.6
+rm -rf linux-5.14.7
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

@@ -18,6 +18,7 @@ It also includes the following upgraded software, however there may be more upgr
 - cryptsetup: `2.3.6 --> 2.4.1`
 - CMake: `3.21.2 --> 3.12.3`
 - curl: `7.78.0 --> 7.79.1`
+- Firefox: `92.0 --> 92.0.1`
 - GLib: `2.68.4 --> 2.70.0`
 - glib-networking: `2.68.2 --> 2.70.0`
 - gobject-introspection: `1.68.0 --> 1.70.0`
@@ -32,7 +33,7 @@ It also includes the following upgraded software, however there may be more upgr
 - libinput: `1.18.1 --> 1.19.0`
 - librsvg: `2.50.7 --> 2.52.0`
 - libXi: `1.7.10 --> 1.8`
-- Linux Kernel: `5.14.4 --> 5.14.6`
+- Linux Kernel: `5.14.4 --> 5.14.7`
 - Mesa: `21.2.1 --> 21.2.2`
 - ModemManager: `1.18.0 --> 1.18.2`
 - NetworkManager: `1.32.10 --> 1.32.12`
@@ -190,7 +191,7 @@ popd
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-dracut --force /boot/initrd.img-5.14.6-massos 5.14.6-massos
+dracut --force /boot/initrd.img-5.14.7-massos 5.14.7-massos
 ```
 # Installing the GRUB bootloader
 **WARNING: Incorrectly configuring GRUB can leave your system unbootable. Make sure you have a backup boot device available to be able to recover your system in case this happens.**
