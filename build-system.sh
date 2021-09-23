@@ -1574,13 +1574,13 @@ make install_systemd_units
 cd ..
 rm -rf LVM2.2.03.13
 # btrfs-progs.
-tar -xf btrfs-progs-v5.14.tar.xz
-cd btrfs-progs-v5.14
+tar -xf btrfs-progs-v5.14.1.tar.xz
+cd btrfs-progs-v5.14.1
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.14
+rm -rf btrfs-progs-v5.14.1
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -1647,17 +1647,17 @@ mv /usr/share/doc/brotli{,-1.0.9}
 cd ..
 rm -rf brotli-1.0.9
 # CMake.
-tar --no-same-owner -xf cmake-3.21.2-linux-x86_64.tar.gz
-cd cmake-3.21.2-linux-x86_64
+tar --no-same-owner -xf cmake-3.21.3-linux-x86_64.tar.gz
+cd cmake-3.21.3-linux-x86_64
 mv doc man share
-mv share/doc/cmake share/doc/cmake-3.21.2
+mv share/doc/cmake share/doc/cmake-3.21.3
 cp -R * /usr
 rm /usr/bin/cmake-gui
 rm /usr/share/applications/cmake-gui.desktop
 rm /usr/share/icons/hicolor/32x32/apps/CMakeSetup.png
 rm /usr/share/icons/hicolor/128x128/apps/CMakeSetup.png
 cd ..
-rm -rf cmake-3.21.2-linux-x86_64
+rm -rf cmake-3.21.3-linux-x86_64
 # c-ares.
 tar -xf c-ares-1.17.2.tar.gz
 cd c-ares-1.17.2
@@ -1880,22 +1880,21 @@ make install
 cd ..
 rm -rf jansson-2.13.1
 # nghttp2.
-tar -xf nghttp2-1.44.0.tar.xz
-cd nghttp2-1.44.0
-./configure --prefix=/usr --disable-static --enable-lib-only --docdir=/usr/share/doc/nghttp2-1.44.0
+tar -xf nghttp2-1.45.0.tar.xz
+cd nghttp2-1.45.0
+./configure --prefix=/usr --disable-static --enable-lib-only --docdir=/usr/share/doc/nghttp2-1.45.0
 make
 make install
 cd ..
-rm -rf nghttp2-1.44.0
+rm -rf nghttp2-1.45.0
 # curl (will be rebuilt later to support krb5 and OpenLDAP).
-tar -xf curl-7.79.0.tar.xz
-cd curl-7.79.0
-patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
+tar -xf curl-7.79.1.tar.xz
+cd curl-7.79.1
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.79.0
+rm -rf curl-7.79.1
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
@@ -1986,14 +1985,13 @@ make install
 cd ..
 rm -rf gsasl-1.10.0
 # curl (rebuild to support gsasl, krb5 and OpenLDAP).
-tar -xf curl-7.79.0.tar.xz
-cd curl-7.79.0
-patch -Np1 -i ../patches/curl-7.79.0-upstream_fixes-1.patch
+tar -xf curl-7.79.1.tar.xz
+cd curl-7.79.1
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.79.0
+rm -rf curl-7.79.1
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2121,14 +2119,14 @@ ninja install
 cd ../..
 rm -rf glibmm-2.66.1
 # gobject-introspection.
-tar -xf gobject-introspection-1.68.0.tar.xz
-cd gobject-introspection-1.68.0
+tar -xf gobject-introspection-1.70.0.tar.xz
+cd gobject-introspection-1.70.0
 mkdir gobj-build; cd gobj-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf gobject-introspection-1.68.0
+rm -rf gobject-introspection-1.70.0
 # shared-mime-info.
 tar -xf shared-mime-info-2.1.tar.gz
 cd shared-mime-info-2.1
@@ -2205,9 +2203,9 @@ unset beforemounted
 cd ../..
 rm -rf firefox-78.14.0
 # Sudo.
-tar -xf sudo-1.9.8p1.tar.gz
-cd sudo-1.9.8p1
-./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8p1 --with-passprompt="[sudo] password for %p: "
+tar -xf sudo-1.9.8p2.tar.gz
+cd sudo-1.9.8p2
+./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --docdir=/usr/share/doc/sudo-1.9.8p2 --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
@@ -2226,7 +2224,7 @@ session   required    pam_env.so
 session   include     system-session
 END
 cd ..
-rm -rf sudo-1.9.8p1
+rm -rf sudo-1.9.8p2
 # volume_key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -2918,8 +2916,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.2.1.tar.xz
-cd mesa-21.2.1
+tar -xf mesa-21.2.2.tar.xz
+cd mesa-21.2.2
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -2927,7 +2925,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.2.1
+rm -rf mesa-21.2.2
 # libva (rebuild to support Mesa).
 tar -xf libva-2.12.0.tar.bz2
 cd libva-2.12.0
@@ -3411,13 +3409,13 @@ ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.0
 cd ..
 rm -rf graphviz-2.49.0
 # Vala.
-tar -xf vala-0.52.5.tar.xz
-cd vala-0.52.5
+tar -xf vala-0.54.1.tar.xz
+cd vala-0.54.1
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf vala-0.52.5
+rm -rf vala-0.54.1
 # libgusb.
 tar -xf libgusb-0.3.7.tar.gz
 cd libgusb-0.3.7
@@ -3973,15 +3971,14 @@ systemctl enable upower
 cd ..
 rm -rf upower-UPOWER_0_99_13
 # NetworkManager.
-tar -xf NetworkManager-1.32.10.tar.xz
-cd NetworkManager-1.32.10
-sed '/initrd/d' -i src/core/meson.build
+tar -xf NetworkManager-1.32.12.tar.xz
+cd NetworkManager-1.32.12
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
-mv /usr/share/doc/NetworkManager{,-1.32.10}
+if [ -d /usr/share/doc/NetworkManager ]; then mv /usr/share/doc/NetworkManager{,-1.32.12}; fi
 cat >> /etc/NetworkManager/NetworkManager.conf << END
 [main]
 plugins=keyfile
@@ -3999,7 +3996,7 @@ polkit.addRule(function(action, subject) {
 END
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.32.10
+rm -rf NetworkManager-1.32.12
 # libnma.
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
@@ -4054,8 +4051,8 @@ make install
 cd ..
 rm -rf udisks-2.9.3
 # gsettings-desktop-schemas.
-tar -xf gsettings-desktop-schemas-40.0.tar.xz
-cd gsettings-desktop-schemas-40.0
+tar -xf gsettings-desktop-schemas-41.0.tar.xz
+cd gsettings-desktop-schemas-41.0
 sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
 mkdir gsds-build; cd gsds-build
 meson --prefix=/usr --buildtype=release ..
@@ -4063,7 +4060,7 @@ ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
-rm -rf gsettings-desktop-schemas-40.0
+rm -rf gsettings-desktop-schemas-41.0
 # glib-networking.
 tar -xf glib-networking-2.70.0.tar.xz
 cd glib-networking-2.70.0
@@ -4621,14 +4618,14 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # htop.
-tar -xf htop-3.0.5.tar.gz
-cd htop-3.0.5
+tar -xf htop-3.1.0.tar.gz
+cd htop-3.1.0
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install
 cd ..
-rm -rf htop-3.0.5
+rm -rf htop-3.1.0
 # sl.
 tar -xf sl-5.02.tar.gz
 cd sl-5.02

@@ -23,7 +23,7 @@ https://ftp.gnu.org/gnu/bison/bison-3.8.1.tar.xz
 https://www.kernel.org/pub/linux/bluetooth/bluez-5.61.tar.xz
 https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2
 https://github.com/google/brotli/archive/v1.0.9/brotli-1.0.9.tar.gz
-https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.14.tar.xz
+https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.14.1.tar.xz
 https://www.busybox.net/downloads/busybox-1.34.0.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 https://c-ares.haxx.se/download/c-ares-1.17.2.tar.gz
@@ -32,7 +32,7 @@ https://www.cairographics.org/releases/cairomm-1.14.0.tar.xz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/clang-12.0.1.src.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.21.2/cmake-3.21.2-linux-x86_64.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.21.3/cmake-3.21.3-linux-x86_64.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/compiler-rt-12.0.1.src.tar.xz
@@ -44,7 +44,7 @@ https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9
 https://www.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.1.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.3.3op2/cups-2.3.3op2-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
-https://curl.se/download/curl-7.79.0.tar.xz
+https://curl.se/download/curl-7.79.1.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
 https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
@@ -118,7 +118,7 @@ https://cdn.thesonicmaster.net/sources/gnu-efi-3.0.13.tar.bz2
 https://cdn.thesonicmaster.net/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.29.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.2.tar.xz
-https://download.gnome.org/sources/gobject-introspection/1.68/gobject-introspection-1.68.0.tar.xz
+https://download.gnome.org/sources/gobject-introspection/1.70/gobject-introspection-1.70.0.tar.xz
 https://cdn.thesonicmaster.net/sources/gparted-1.3.1.tar.gz
 https://ftp.gnu.org/gnu/gperf/gperf-3.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.16.0.tar.bz2
@@ -129,7 +129,7 @@ https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
 https://ftp.gnu.org/gnu/groff/groff-1.22.4.tar.gz
 https://ftp.gnu.org/gnu/grub/grub-2.06.tar.xz
 https://ftp.gnu.org/gnu/gsasl/gsasl-1.10.0.tar.gz
-https://download.gnome.org/sources/gsettings-desktop-schemas/40/gsettings-desktop-schemas-40.0.tar.xz
+https://download.gnome.org/sources/gsettings-desktop-schemas/41/gsettings-desktop-schemas-41.0.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.5.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.5.tar.xz
@@ -144,7 +144,7 @@ https://download.gnome.org/sources/gvfs/1.48/gvfs-1.48.1.tar.xz
 https://ftp.gnu.org/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/3.0.0/harfbuzz-3.0.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
-https://github.com/htop-dev/htop/archive/3.0.5/htop-3.0.5.tar.gz
+https://github.com/htop-dev/htop/archive/3.1.0/htop-3.1.0.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20210611/iana-etc-20210611.tar.gz
 https://www.x.org/pub/individual/app/iceauth-1.0.8.tar.bz2
 http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.bz2
@@ -298,7 +298,7 @@ https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
 https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
-https://mesa.freedesktop.org/archive/mesa-21.2.1.tar.xz
+https://mesa.freedesktop.org/archive/mesa-21.2.2.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.59.1/meson-0.59.1.tar.gz
 https://www.x.org/pub/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -315,9 +315,9 @@ https://fossies.org/linux/misc/nasm-2.15.05.tar.xz
 https://ftp.gnu.org/gnu/ncurses/ncurses-6.2.tar.gz
 https://ftp.gnu.org/gnu/nettle/nettle-3.7.3.tar.gz
 https://download.gnome.org/sources/network-manager-applet/1.24/network-manager-applet-1.24.0.tar.xz
-https://download.gnome.org/sources/NetworkManager/1.32/NetworkManager-1.32.10.tar.xz
+https://download.gnome.org/sources/NetworkManager/1.32/NetworkManager-1.32.12.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
-https://github.com/nghttp2/nghttp2/releases/download/v1.44.0/nghttp2-1.44.0.tar.xz
+https://github.com/nghttp2/nghttp2/releases/download/v1.45.0/nghttp2-1.45.0.tar.xz
 https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/main/noto-fonts.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
@@ -391,7 +391,7 @@ https://cdn.thesonicmaster.net/sources/squashfs-tools-4.5.tar.xz
 https://github.com/vasi/squashfuse/releases/download/0.1.104/squashfuse-0.1.104.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.2/sshfs-3.7.2.tar.xz
 https://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
-https://fossies.org/linux/misc/sudo-1.9.8p1.tar.gz
+https://fossies.org/linux/misc/sudo-1.9.8p2.tar.gz
 https://cdn.thesonicmaster.net/sources/swig-4.0.2.tar.gz
 https://github.com/systemd/systemd/archive/v249/systemd-249.tar.gz
 https://taglib.github.io/releases/taglib-1.12.tar.gz
@@ -413,7 +413,7 @@ https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
 https://cdn.thesonicmaster.net/sources/vim-8.2.3451.tar.xz
-https://download.gnome.org/sources/vala/0.52/vala-0.52.5.tar.xz
+https://download.gnome.org/sources/vala/0.54/vala-0.54.1.tar.xz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.64.2/vte-0.64.2.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz

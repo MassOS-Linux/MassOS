@@ -14,24 +14,33 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- btrfs-progs: `5.14 --> 5.14.1`
 - cryptsetup: `2.3.6 --> 2.4.1`
-- curl: `7.78.0 --> 7.79.0`
+- CMake: `3.21.2 --> 3.12.3`
+- curl: `7.78.0 --> 7.79.1`
 - GLib: `2.68.4 --> 2.70.0`
 - glib-networking: `2.68.2 --> 2.70.0`
+- gobject-introspection: `1.68.0 --> 1.70.0`
+- gsettings-desktop-schemas: `40.0 --> 41.0`
 - gst-plugins-bad: `1.18.4 --> 1.18.5`
 - gst-plugins-base: `1.18.4 --> 1.18.5`
 - gst-plugins-good: `1.18.4 --> 1.18.5`
 - gstreamer: `1.18.4 --> 1.18.5`
 - HarfBuzz: `2.9.1 --> 3.0.0`
+- htop: `3.0.5 --> 3.1.0`
 - libcap: `2.57 --> 2.58`
 - libinput: `1.18.1 --> 1.19.0`
 - librsvg: `2.50.7 --> 2.52.0`
 - libXi: `1.7.10 --> 1.8`
 - Linux Kernel: `5.14.4 --> 5.14.6`
+- Mesa: `21.2.1 --> 21.2.2`
 - ModemManager: `1.18.0 --> 1.18.2`
-- Sudo: `1.9.8 --> 1.9.8p1`
+- NetworkManager: `1.32.10 --> 1.32.12`
+- nghttp2: `1.44.0 --> 1.45.0`
+- Sudo: `1.9.8 --> 1.9.8p2`
 - Thunderbird: `91.1.0 --> 91.1.1`
 - UPower: `0.99.12 --> 0.99.13`
+- Vala: `0.52.5 --> 0.54.1`
 - Vim: `8.2.3424 --> 8.2.3451`
 - wayland-protocols: `1.22 --> 1.23`
 - WebKitGTK: `2.32.3 --> 2.32.4`
