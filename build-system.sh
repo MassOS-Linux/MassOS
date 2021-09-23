@@ -2814,6 +2814,13 @@ ninja
 ninja install
 cd ../..
 rm -rf libzip-1.8.0
+# gz2xz.
+tar -xf gz2xz-1.0.2.tar.gz
+cd gz2xz-1.0.2
+make INSTALL_DIR=/usr/bin install
+gz2xz --install-symlinks
+cd ..
+rm -rf gz2xz-1.0.2
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
