@@ -752,10 +752,8 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 cd ..
 rm -rf meson-0.59.1
 # Coreutils.
-tar -xf coreutils-8.32.tar.xz
-cd coreutils-8.32
-patch -Np1 -i ../patches/coreutils-8.32-i18n-1.patch
-autoreconf -fi
+tar -xf coreutils-9.0.tar.xz
+cd coreutils-9.0
 # Coreutils doesn't support -Os.
 CFLAGS="-O2" ./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
@@ -764,7 +762,7 @@ mv /usr/bin/chroot /usr/sbin
 mv /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
 cd ..
-rm -rf coreutils-8.32
+rm -rf coreutils-9.0
 # Check.
 tar -xf check-0.15.2.tar.gz
 cd check-0.15.2
@@ -4553,13 +4551,13 @@ ninja install
 cd ../..
 rm -rf gtksourceview-4.8.2
 # Mousepad.
-tar -xf mousepad-0.5.6.tar.bz2
-cd mousepad-0.5.6
+tar -xf mousepad-0.5.7.tar.bz2
+cd mousepad-0.5.7
 ./configure --prefix=/usr --enable-keyfile-settings
 make
 make install
 cd ..
-rm -rf mousepad-0.5.6
+rm -rf mousepad-0.5.7
 # galculator.
 tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4

@@ -17,6 +17,7 @@ It also includes the following upgraded software, however there may be more upgr
 - btrfs-progs: `5.14 --> 5.14.1`
 - cryptsetup: `2.3.6 --> 2.4.1`
 - CMake: `3.21.2 --> 3.12.3`
+- Coreutils: `8.32 --> 9.0`
 - curl: `7.78.0 --> 7.79.1`
 - Firefox: `92.0 --> 92.0.1`
 - GLib: `2.68.4 --> 2.70.0`
@@ -36,6 +37,7 @@ It also includes the following upgraded software, however there may be more upgr
 - Linux Kernel: `5.14.4 --> 5.14.7`
 - Mesa: `21.2.1 --> 21.2.2`
 - ModemManager: `1.18.0 --> 1.18.2`
+- Mousepad: `0.5.6 --> 0.5.7`
 - NetworkManager: `1.32.10 --> 1.32.12`
 - nghttp2: `1.44.0 --> 1.45.0`
 - Sudo: `1.9.8 --> 1.9.8p2`
