@@ -754,7 +754,7 @@ rm -rf meson-0.59.1
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
-./configure --prefix=/usr --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --enable-no-install-program=kill,uptimen
 make
 make install
 mv /usr/bin/chroot /usr/sbin
@@ -2022,6 +2022,97 @@ make -j1
 make -j1 install
 cd ..
 rm -rf cyrus-sasl-2.1.27
+# Audit.
+tar -xf audit-3.0.5.tar.gz
+cd audit-3.0.5
+./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
+make
+make install
+install -dm0700 /var/log/audit
+systemctl enable auditd
+cd ..
+rm -rf audit-3.0.5
+# AppArmor.
+tar -xf apparmor_3.0.3.orig.tar.gz
+cd apparmor-3.0.3/libraries/libapparmor
+./configure --prefix=/usr --with-perl --with-python
+make
+cd ../..
+make -C binutils
+make -C parser
+make -C profiles
+make -C utils
+make -C changehat/pam_apparmor
+make -C libraries/libapparmor install
+make -C changehat/pam_apparmor install
+make -C parser -j1 install install-systemd
+make -C profiles install
+make -C utils install
+chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
+systemctl enable apparmor
+cd ..
+rm -rf apparmor-3.0.3
+# Linux-PAM (rebuild to support Audit).
+tar -xf Linux-PAM-1.5.2.tar.xz
+cd Linux-PAM-1.5.2
+tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --docdir=/usr/share/doc/Linux-PAM-1.5.2
+make
+make install
+chmod 4755 /usr/sbin/unix_chkpwd
+cd ..
+rm -rf Linux-PAM-1.5.2
+# Shadow (rebuild to support Audit).
+tar -xf shadow-4.8.1.tar.xz
+cd shadow-4.8.1
+sed -i 's/groups$(EXEEXT) //' src/Makefile.in
+find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
+find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
+sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' -e '/PATH=/{s@/sbin:@@;s@/bin:@@}' -i etc/login.defs
+sed -i 's/1000/999/' etc/useradd
+./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-audit
+make
+make exec_prefix=/usr install
+sed -i 's/yes/no/' /etc/default/useradd
+for FUNCTION in FAIL_DELAY FAILLOG_ENAB LASTLOG_ENAB MAIL_CHECK_ENAB OBSCURE_CHECKS_ENAB PORTTIME_CHECKS_ENAB QUOTAS_ENAB CONSOLE MOTD_FILE FTMP_FILE NOLOGINS_FILE ENV_HZ PASS_MIN_LEN SU_WHEEL_ONLY CRACKLIB_DICTPATH PASS_CHANGE_TRIES PASS_ALWAYS_WARN CHFN_AUTH ENCRYPT_METHOD ENVIRON_FILE; do sed -i "s/^${FUNCTION}/# &/" /etc/login.defs; done
+cat > /etc/pam.d/login << END
+auth      optional    pam_faildelay.so  delay=3000000
+auth      requisite   pam_nologin.so
+auth      include     system-auth
+account   required    pam_access.so
+account   include     system-account
+session   required    pam_env.so
+session   required    pam_limits.so
+session   optional    pam_lastlog.so
+session   include     system-session
+password  include     system-password
+END
+cat > /etc/pam.d/passwd << END
+password  include     system-password
+END
+cat > /etc/pam.d/su << END
+auth      sufficient  pam_rootok.so
+auth      include     system-auth
+auth      required    pam_wheel.so use_uid
+account   include     system-account
+session   required    pam_env.so
+session   include     system-session
+END
+cat > /etc/pam.d/chage << END
+auth      sufficient  pam_rootok.so
+auth      include     system-auth
+account   include     system-account
+session   include     system-session
+password  required    pam_permit.so
+END
+for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod newusers useradd userdel usermod; do
+  install -m644 /etc/pam.d/chage /etc/pam.d/${PROGRAM}
+  sed -i "s/chage/$PROGRAM/" /etc/pam.d/${PROGRAM}
+done
+rm -f /etc/login.access /etc/limits
+cd ..
+rm -rf shadow-4.8.1
 # NSPR.
 tar -xf nspr-4.32.tar.gz
 cd nspr-4.32/nspr
@@ -3026,7 +3117,7 @@ rm -rf systemd-249
 # D-Bus (rebuild for X support (dbus-launch)).
 tar -xf dbus-1.12.20.tar.gz
 cd dbus-1.12.20
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-user-session --disable-doxygen-docs --docdir=/usr/share/doc/dbus-1.12.20 --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-libaudit --enable-user-session --disable-doxygen-docs --docdir=/usr/share/doc/dbus-1.12.20 --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
 chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
@@ -3979,7 +4070,7 @@ tar -xf NetworkManager-1.32.12.tar.xz
 cd NetworkManager-1.32.12
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dlibaudit=no -Dnmtui=true -Dovs=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
+meson --prefix=/usr --buildtype=release -Dnmtui=true -Dovs=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
 ninja
 ninja install
 if [ -d /usr/share/doc/NetworkManager ]; then mv /usr/share/doc/NetworkManager{,-1.32.12}; fi

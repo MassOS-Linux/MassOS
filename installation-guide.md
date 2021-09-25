@@ -11,6 +11,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Fixed the defult cursor theme.
 - Added LZ4, ppp, squashfs-tools, squashfuse.
 - Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
+- Added Audit and AppArmor support.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
