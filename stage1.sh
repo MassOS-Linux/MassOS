@@ -136,8 +136,7 @@ rm -rf bash-5.1.8
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
-# Coreutils oopses with -Os.
-CFLAGS="-O2" ./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
 make
 make DESTDIR=$MASSOS install
 mv $MASSOS/usr/bin/chroot $MASSOS/usr/sbin

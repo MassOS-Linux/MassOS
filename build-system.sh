@@ -754,8 +754,7 @@ rm -rf meson-0.59.1
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
-# Coreutils doesn't support -Os.
-CFLAGS="-O2" ./configure --prefix=/usr --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
 make install
 mv /usr/bin/chroot /usr/sbin
