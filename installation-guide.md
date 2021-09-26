@@ -9,12 +9,13 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - Prefer the libinput driver over the evdev and synaptics drivers. Fixes buggy Elan touchpads.
 - Fixed the defult cursor theme.
-- Added libgphoto2, libmtp, libnfs, LZ4, Netcat, ppp, squashfs-tools, squashfuse.
+- Added Bubblewrap, libgphoto2, libmtp, libnfs, LZ4, Netcat, ppp, squashfs-tools, squashfuse, xdg-dbus-proxy.
 - Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
 - Added Audit and AppArmor support.
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- Asciidoc: `9.1.0 --> 9.1.1`
 - bc: `5.0.0 --> 5.0.2`
 - btrfs-progs: `5.14 --> 5.14.1`
 - cryptsetup: `2.3.6 --> 2.4.1`
@@ -25,6 +26,7 @@ It also includes the following upgraded software, however there may be more upgr
 - GLib: `2.68.4 --> 2.70.0`
 - glib-networking: `2.68.2 --> 2.70.0`
 - gobject-introspection: `1.68.0 --> 1.70.0`
+- Graphviz: `2.49.0 --> 2.49.1`
 - gsettings-desktop-schemas: `40.0 --> 41.0`
 - gst-plugins-bad: `1.18.4 --> 1.18.5`
 - gst-plugins-base: `1.18.4 --> 1.18.5`
@@ -38,18 +40,22 @@ It also includes the following upgraded software, however there may be more upgr
 - librsvg: `2.50.7 --> 2.52.0`
 - libXi: `1.7.10 --> 1.8`
 - Linux Kernel: `5.14.4 --> 5.14.7`
+- make-ca: `1.8.1 --> 1.9`
 - Mesa: `21.2.1 --> 21.2.2`
 - ModemManager: `1.18.0 --> 1.18.2`
 - Mousepad: `0.5.6 --> 0.5.7`
 - NetworkManager: `1.32.10 --> 1.32.12`
-- nghttp2: `1.44.0 --> 1.45.0`
+- nghttp2: `1.44.0 --> 1.45.1`
+- Poppler: `21.08.0 --> 21.09.0`
 - Sudo: `1.9.8 --> 1.9.8p2`
 - Thunderbird: `91.1.0 --> 91.1.1`
 - UPower: `0.99.12 --> 0.99.13`
 - Vala: `0.52.5 --> 0.54.1`
 - Vim: `8.2.3424 --> 8.2.3455`
+- VTE: `0.64.2 --> 0.66.0`
 - wayland-protocols: `1.22 --> 1.23`
-- WebKitGTK: `2.32.3 --> 2.32.4`
+- WebKitGTK: `2.32.3 --> 2.34.0`
+- xf86-input-libinput: `1.1.0 --> 1.2.0`
 - xorgproto: `2021.4 --> 2021.5`
 
 # Downloading The MassOS Rootfs

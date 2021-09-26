@@ -1354,16 +1354,16 @@ make install
 cd ..
 rm -rf itstool-2.0.6
 # Asciidoc.
-tar -xf asciidoc-9.1.0.tar.gz
-cd asciidoc-9.1.0
+tar -xf asciidoc-9.1.1.tar.gz
+cd asciidoc-9.1.1
 sed -i 's:doc/testasciidoc.1::' Makefile.in
 rm doc/testasciidoc.1.txt
-./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/asciidoc-9.1.0
+./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/asciidoc-9.1.1
 make
 make install
 make docs
 cd ..
-rm -rf asciidoc-9.1.0
+rm -rf asciidoc-9.1.1
 # GNU-EFI.
 tar -xf gnu-efi-3.0.13.tar.bz2
 cd gnu-efi-3.0.13
@@ -1862,10 +1862,7 @@ tar -xf p11-kit-0.24.0.tar.xz
 cd p11-kit-0.24.0
 sed '20,$ d' -i trust/trust-extract-compat
 cat >> trust/trust-extract-compat << END
-# Copy existing anchor modifications to /etc/ssl/local
 /usr/libexec/make-ca/copy-trust-modifications
-
-# Generate a new trust store
 /usr/sbin/make-ca -f -g
 END
 mkdir p11-build; cd p11-build
@@ -1877,16 +1874,16 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf p11-kit-0.24.0
 # make-ca.
-tar -xf make-ca-1.8.1.tar.xz
-cd make-ca-1.8.1
+tar -xf make-ca-1.9.tar.xz
+cd make-ca-1.9
 make install
 install -dm755 /etc/ssl/local
 make-ca -g
+systemctl enable update-pki.timer
 wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
 update-pciids
-systemctl enable update-pki.timer
 cd ..
-rm -rf make-ca-1.8.1
+rm -rf make-ca-1.9
 # libssh2.
 tar -xf libssh2-1.10.0.tar.gz
 cd libssh2-1.10.0
@@ -1904,13 +1901,13 @@ make install
 cd ..
 rm -rf jansson-2.13.1
 # nghttp2.
-tar -xf nghttp2-1.45.0.tar.xz
-cd nghttp2-1.45.0
-./configure --prefix=/usr --disable-static --enable-lib-only --docdir=/usr/share/doc/nghttp2-1.45.0
+tar -xf nghttp2-1.45.1.tar.xz
+cd nghttp2-1.45.1
+./configure --prefix=/usr --disable-static --enable-lib-only --docdir=/usr/share/doc/nghttp2-1.45.1
 make
 make install
 cd ..
-rm -rf nghttp2-1.45.0
+rm -rf nghttp2-1.45.1
 # curl (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf curl-7.79.1.tar.xz
 cd curl-7.79.1
@@ -3230,13 +3227,13 @@ ninja install
 cd ../..
 rm -rf libinput-1.19.0
 # xf86-input-libinput.
-tar -xf xf86-input-libinput-1.1.0.tar.bz2
-cd xf86-input-libinput-1.1.0
+tar -xf xf86-input-libinput-1.2.0.tar.bz2
+cd xf86-input-libinput-1.2.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 cd ..
-rm -rf xf86-input-libinput-1.1.0
+rm -rf xf86-input-libinput-1.2.0
 # xf86-input-synaptics.
 tar -xf xf86-input-synaptics-1.9.1.tar.bz2
 cd xf86-input-synaptics-1.9.1
@@ -3528,16 +3525,16 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.49.0.tar.gz
-cd graphviz-2.49.0
+tar -xf graphviz-2.49.1.tar.gz
+cd graphviz-2.49.1
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
-ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.0
+ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.1
 cd ..
-rm -rf graphviz-2.49.0
+rm -rf graphviz-2.49.1
 # Vala.
 tar -xf vala-0.54.1.tar.xz
 cd vala-0.54.1
@@ -3936,17 +3933,17 @@ systemctl enable cups
 cd ..
 rm -rf cups-2.3.3op2
 # Poppler.
-tar -xf poppler-21.08.0.tar.xz
-cd poppler-21.08.0
+tar -xf poppler-21.09.0.tar.xz
+cd poppler-21.09.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
-tar -xf ../../poppler-data-0.4.10.tar.gz
-cd poppler-data-0.4.10
+tar -xf ../../poppler-data-0.4.11.tar.gz
+cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-21.08.0
+rm -rf poppler-21.09.0
 # Ghostscript.
 tar -xf ghostscript-9.54.0.tar.xz
 cd ghostscript-9.54.0
@@ -4226,10 +4223,26 @@ ninja
 ninja install
 cd ../..
 rm -rf appstream-glib-appstream_glib_0_7_18
+# Bubblewrap.
+tar -xf bubblewrap-0.5.0.tar.xz
+cd bubblewrap-0.5.0
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf bubblewrap-0.5.0
+# xdg-dbus-proxy.
+tar -xf xdg-dbus-proxy-0.1.2.tar.xz
+cd xdg-dbus-proxy-0.1.2
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
 tar -xf flatpak-1.11.3.tar.xz
 cd flatpak-1.11.3
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-dbus-config-dir=/usr/share/dbus-1/system.d
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
 mv /usr/share/doc/flatpak{,-1.11.3}
@@ -4245,7 +4258,7 @@ fi
 pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
 rm -rf flatpak-1.11.3
@@ -4408,14 +4421,14 @@ mv /usr/share/doc/libcanberra{,-0.30}
 cd ..
 rm -rf libcanberra-0.30
 # WebKitGTK.
-tar -xf webkitgtk-2.32.4.tar.xz
-cd webkitgtk-2.32.4
+tar -xf webkitgtk-2.34.0.tar.xz
+cd webkitgtk-2.34.0
 mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -DENABLE_BUBBLEWRAP_SANDBOX=OFF -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf webkitgtk-2.32.4
+rm -rf webkitgtk-2.34.0
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.40.0.tar.xz
 cd gnome-online-accounts-3.40.0
@@ -4583,15 +4596,15 @@ make install
 cd ..
 rm -rf parole-4.16.0
 # VTE.
-tar -xf vte-0.64.2.tar.gz
-cd vte-0.64.2
+tar -xf vte-0.66.0.tar.gz
+cd vte-0.66.0
 mkdir vte-build; cd vte-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 rm -f /etc/profile.d/vte.*
 cd ../..
-rm -rf vte-0.64.2
+rm -rf vte-0.66.0
 # xfce4-terminal.
 tar -xf xfce4-terminal-0.8.10.tar.bz2
 cd xfce4-terminal-0.8.10
