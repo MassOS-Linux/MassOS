@@ -1917,15 +1917,6 @@ make
 make install
 cd ..
 rm -rf gnutls-3.7.2
-# rtmpdump.
-tar -xf rtmpdump_2.4+20151223.gitfa8646d.1.orig.tar.gz
-cd rtmpdump-20151223
-sed -e 's/^CRYPTO=OPENSSL/#CRYPTO=OPENSSL/' -e 's/#CRYPTO=GNUTLS/CRYPTO=GNUTLS/' -i Makefile -i librtmp/Makefile
-make -j1 OPT="-Os"
-make -j1 prefix=/usr mandir=/usr/share/man install
-rm -f /usr/lib/librtmp.a
-cd ..
-rm -rf rtmpdump-20151223
 # OpenLDAP.
 tar -xf openldap-2.5.7.tgz
 cd openldap-2.5.7
