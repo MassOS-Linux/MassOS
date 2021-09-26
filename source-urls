@@ -196,6 +196,7 @@ https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.9.4.tar.bz2
 https://download.gnome.org/sources/libgdata/0.18/libgdata-0.18.1.tar.xz
 https://download.gnome.org/sources/libglade/2.6/libglade-2.6.4.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.42.tar.bz2
+https://github.com/gphoto/libgphoto2/releases/download/v2.5.27/libgphoto2-2.5.27.tar.xz
 https://download.gnome.org/sources/libgudev/237/libgudev-237.tar.xz
 https://github.com/hughsie/libgusb/archive/0.3.7/libgusb-0.3.7.tar.gz
 https://download.gnome.org/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
@@ -206,7 +207,9 @@ https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
 https://cdn.thesonicmaster.net/sources/libjpeg-turbo-2.1.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.0.tar.xz
+https://cdn.thesonicmaster.net/sources/libmtp-1.1.19.tar.gz
 http://libndp.org/files/libndp-1.8.tar.gz
+https://github.com/sahlberg/libnfs/archive/libnfs-4.0.0.tar.gz
 https://github.com/thom311/libnl/releases/download/libnl3_5_0/libnl-3.5.0.tar.gz
 https://download.gnome.org/sources/libnma/1.8/libnma-1.8.32.tar.xz
 https://download.gnome.org/sources/libnotify/0.7/libnotify-0.7.9.tar.xz

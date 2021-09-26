@@ -9,7 +9,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - Prefer the libinput driver over the evdev and synaptics drivers. Fixes buggy Elan touchpads.
 - Fixed the defult cursor theme.
-- Added LZ4, ppp, squashfs-tools, squashfuse.
+- Added libgphoto2, libmtp, libnfs, LZ4, ppp, squashfs-tools, squashfuse.
 - Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
 - Added Audit and AppArmor support.
 

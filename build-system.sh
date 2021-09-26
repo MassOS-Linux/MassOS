@@ -1689,6 +1689,25 @@ make
 make install
 cd ..
 rm -rf libusb-1.0.24
+# libmtp.
+tar -xf libmtp-1.1.19.tar.gz
+cd libmtp-1.1.19
+./configure --prefix=/usr --with-udev=/usr/lib/udev
+make
+make install
+rm -f /usr/lib/libmtp.a
+cd ..
+rm -rf libmtp-1.1.19
+# libnfs.
+tar -xf libnfs-4.0.0.tar.gz
+cd libnfs-libnfs-4.0.0
+./bootstrap
+./configure --prefix=/usr
+make
+make install
+rm -f /usr/lib/libnfs.a
+cd ..
+rm -rf libnfs-libnfs-4.0.0
 # PCRE.
 tar -xf pcre-8.45.tar.bz2
 cd pcre-8.45
@@ -2705,6 +2724,15 @@ ninja
 ninja install
 cd ../..
 rm -rf libjpeg-turbo-2.1.1
+# libgphoto2
+tar -xf libgphoto2-2.5.27.tar.xz
+cd libgphoto2-2.5.27
+./configure --prefix=/usr --disable-rpath
+make
+make install
+for i in /usr/share/doc/libgphoto2{,_port}; do mv $i $i-2.5.27; done
+cd ..
+rm -rf libgphoto2-2.5.27
 # Pixman.
 tar -xf pixman-0.40.0.tar.gz
 cd pixman-0.40.0
@@ -3096,7 +3124,7 @@ cd systemd-249
 patch -Np1 -i ../patches/systemd-249-upstream_fixes-1.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir sysd-build; cd sysd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Ddocdir=/usr/share/doc/systemd-249 ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Ddocdir=/usr/share/doc/systemd-249 ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4401,7 +4429,7 @@ rm -rf libgdata-0.18.1
 tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dgphoto2=false -Dafc=false -Dbluray=false -Dnfs=false -Dsmb=false -Dmtp=false ..
+meson --prefix=/usr --buildtype=release -Dafc=false -Dbluray=false -Dsmb=false ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
