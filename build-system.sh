@@ -634,6 +634,14 @@ make install
 mv /usr/{,s}bin/ifconfig
 cd ..
 rm -rf inetutils-2.2
+# Netcat.
+tar -xf netcat-0.7.1.tar.xz
+cd netcat-0.7.1
+./configure --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info
+make
+make install
+cd ..
+rm -rf netcat-0.7.1
 # Less.
 tar -xf less-590.tar.gz
 cd less-590
