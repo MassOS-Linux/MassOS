@@ -2020,6 +2020,14 @@ cd audit-3.0.5
 make
 make install
 install -dm0700 /var/log/audit
+install -dm0750 /etc/audit/rules.d
+cat > /etc/audit/rules.d/default.rules << END
+-w /etc/passwd -p rwxa
+-w /etc/security -p rwxa
+-A always,exclude -F msgtype=BPF
+-A always,exclude -F msgtype=SERVICE_STOP
+-A always,exclude -F msgtype=SERVICE_START
+END
 systemctl enable auditd
 cd ..
 rm -rf audit-3.0.5
