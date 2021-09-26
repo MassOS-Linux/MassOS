@@ -15,6 +15,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however there may be more upgrades before the next version of MassOS is released:
 
+- bc: `5.0.0 --> 5.0.2`
 - btrfs-progs: `5.14 --> 5.14.1`
 - cryptsetup: `2.3.6 --> 2.4.1`
 - CMake: `3.21.2 --> 3.12.3`
@@ -31,6 +32,7 @@ It also includes the following upgraded software, however there may be more upgr
 - gstreamer: `1.18.4 --> 1.18.5`
 - HarfBuzz: `2.9.1 --> 3.0.0`
 - htop: `3.0.5 --> 3.1.0`
+- IPRoute2: `5.13.0 --> 5.14.0`
 - libcap: `2.57 --> 2.58`
 - libinput: `1.18.1 --> 1.19.0`
 - librsvg: `2.50.7 --> 2.52.0`
@@ -45,7 +47,7 @@ It also includes the following upgraded software, however there may be more upgr
 - Thunderbird: `91.1.0 --> 91.1.1`
 - UPower: `0.99.12 --> 0.99.13`
 - Vala: `0.52.5 --> 0.54.1`
-- Vim: `8.2.3424 --> 8.2.3451`
+- Vim: `8.2.3424 --> 8.2.3455`
 - wayland-protocols: `1.22 --> 1.23`
 - WebKitGTK: `2.32.3 --> 2.32.4`
 - xorgproto: `2021.4 --> 2021.5`

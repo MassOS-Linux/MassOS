@@ -19,7 +19,7 @@ https://ftp.gnu.org/gnu/autoconf/autoconf-2.71.tar.xz
 https://ftp.gnu.org/gnu/automake/automake-1.16.4.tar.xz
 https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
 https://ftp.gnu.org/gnu/bash/bash-5.1.8.tar.gz
-https://github.com/gavinhoward/bc/releases/download/5.0.0/bc-5.0.0.tar.xz
+https://github.com/gavinhoward/bc/releases/download/5.0.2/bc-5.0.2.tar.xz
 https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.xz
 https://ftp.gnu.org/gnu/bison/bison-3.8.1.tar.xz
 https://www.kernel.org/pub/linux/bluetooth/bluez-5.61.tar.xz
@@ -155,7 +155,7 @@ https://github.com/unicode-org/icu/releases/download/release-69-1/icu4c-69_1-src
 https://ftp.gnu.org/gnu/inetutils/inetutils-2.2.tar.xz
 https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/intltool-0.51.0.tar.gz
-https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.13.0.tar.xz
+https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.14.0.tar.xz
 http://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.7.0.orig.tar.xz
 http://files.itstool.org/itstool/itstool-2.0.6.tar.bz2
@@ -418,7 +418,7 @@ https://gitlab.freedesktop.org/upower/upower/-/archive/UPOWER_0_99_13/upower-UPO
 https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
-https://cdn.thesonicmaster.net/sources/vim-8.2.3451.tar.xz
+https://cdn.thesonicmaster.net/sources/vim-8.2.3455.tar.xz
 https://download.gnome.org/sources/vala/0.54/vala-0.54.1.tar.xz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.64.2/vte-0.64.2.tar.gz

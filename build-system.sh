@@ -262,13 +262,13 @@ make install
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.0.0.tar.xz
-cd bc-5.0.0
+tar -xf bc-5.0.2.tar.xz
+cd bc-5.0.2
 CC=gcc ./configure --prefix=/usr -G -Os
 make
 make install
 cd ..
-rm -rf bc-5.0.0
+rm -rf bc-5.0.2
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -876,12 +876,12 @@ make install
 cd ..
 rm -rf iptables-1.8.7
 # IPRoute2.
-tar -xf iproute2-5.13.0.tar.xz
-cd iproute2-5.13.0
+tar -xf iproute2-5.14.0.tar.xz
+cd iproute2-5.14.0
 make
 make SBINDIR=/usr/sbin install
 cd ..
-rm -rf iproute2-5.13.0
+rm -rf iproute2-5.14.0
 # Kbd.
 tar -xf kbd-2.4.0.tar.xz
 cd kbd-2.4.0
@@ -3800,8 +3800,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3451.tar.xz
-cd vim-8.2.3451
+tar -xf vim-8.2.3455.tar.xz
+cd vim-8.2.3455
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -3820,9 +3820,9 @@ endif
 END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
-ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3451
+ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3455
 cd ..
-rm -rf vim-8.2.3451
+rm -rf vim-8.2.3455
 # libwpe.
 tar -xf libwpe-1.10.1.tar.xz
 cd libwpe-1.10.1
