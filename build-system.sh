@@ -4432,16 +4432,11 @@ rm -rf webkitgtk-2.34.0
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.40.0.tar.xz
 cd gnome-online-accounts-3.40.0
-# IMPORTANT: The keys here are specific for MassOS only.
-# If you are using these instructions for another distro, or a derivative of
-# MassOS, you MUST obtain your own API keys, by following the instructions
-# located at <http://www.chromium.org/developers/how-tos/api-keys>.
-GOOGLE_CLIENT="588966509699-tbreap86733gdd30s6ihk087eakfhr0i.apps.googleusercontent.com"
-GOOGLE_SECRET="xqLYmyQuIjCOEF4wceoqgRet"
-./configure --prefix=/usr --disable-static --with-google-client-id=$GOOGLE_CLIENT --with-google-client-secret=$GOOGLE_SECRET
+mkdir goa-build; cd goa-build
+../configure --prefix=/usr --disable-static
 make
 make install
-cd ..
+cd ../..
 rm -rf gnome-online-accounts-3.40.0
 # libgdata.
 tar -xf libgdata-0.18.1.tar.xz
