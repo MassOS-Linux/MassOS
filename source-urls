@@ -66,6 +66,7 @@ https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/d
 https://mirrors.edge.kernel.org/pub/linux/utils/boot/dracut/dracut-055.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://cdn.thesonicmaster.net/sources/e2fsprogs-1.46.4.tar.gz
+https://cdn.thesonicmaster.net/sources/ed-1.17.tar.xz
 https://github.com/rhboot/efibootmgr/archive/17/efibootmgr-17.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
 https://sourceware.org/ftp/elfutils/0.185/elfutils-0.185.tar.bz2
@@ -179,6 +180,7 @@ https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libbloc
 https://github.com/storaged-project/libbytesize/releases/download/2.6/libbytesize-2.6.tar.gz
 http://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
 https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.58.tar.xz
+https://github.com/PJK/libcbor/archive/v0.8.0/libcbor-0.8.0.tar.gz
 https://ftp.gnu.org/gnu/libcdio/libcdio-2.1.0.tar.bz2
 https://ftp.gnu.org/gnu/libcdio/libcdio-paranoia-10.2+2.0.1.tar.bz2
 http://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz
@@ -191,6 +193,7 @@ https://www.freedesktop.org/software/libevdev/libevdev-1.11.0.tar.xz
 https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 https://github.com/libexif/libexif/releases/download/v0.6.23/libexif-0.6.23.tar.xz
 https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
+https://developers.yubico.com/libfido2/Releases/libfido2-1.8.0.tar.gz
 https://www.x.org/pub/individual/lib/libfontenc-1.1.4.tar.bz2
 https://www.x.org/pub/individual/lib/libFS-1.0.8.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.9.4.tar.bz2
@@ -228,6 +231,7 @@ https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.2/libseccomp-2.5.2.tar.gz
 https://download.gnome.org/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
 https://download.gnome.org/sources/libsigc++/2.10/libsigc++-2.10.7.tar.xz
+https://ftp.gnu.org/gnu/libsigsegv/libsigsegv-2.13.tar.gz
 https://www.x.org/pub/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
 https://download.gnome.org/sources/libsoup/2.74/libsoup-2.74.0.tar.xz
@@ -285,7 +289,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.7.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.8.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
@@ -353,6 +357,7 @@ https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2
 https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.0.tar.xz
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
+https://zlib.net/pigz/pigz-2.6.tar.gz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 https://www.freedesktop.org/software/polkit/releases/polkit-0.119.tar.gz

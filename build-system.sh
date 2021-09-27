@@ -235,14 +235,17 @@ make prefix=/usr install
 rm -f /usr/lib/libzstd.a
 cd ..
 rm -rf zstd-1.5.0
-# File.
-tar -xf file-5.40.tar.gz
-cd file-5.40
-./configure --prefix=/usr
+# pigz.
+tar -xf pigz-2.6.tar.gz
+cd pigz-2.6
+sed -i 's/O3/Os/' Makefile
+sed -i 's/LDFLAGS=/LDFLAGS=-s/' Makefile
 make
-make install
+install -m755 pigz /usr/bin/pigz
+install -m755 unpigz /usr/bin/unpigz
+install -m644 pigz.1 /usr/share/man/man1/pigz.1
 cd ..
-rm -rf file-5.40
+rm -rf pigz-2.6
 # Readline.
 tar -xf readline-8.1.tar.gz
 cd readline-8.1
@@ -543,6 +546,14 @@ ln -sf libncurses.so /usr/lib/libcurses.so
 rm -f /usr/lib/libncurses++w.a
 cd ..
 rm -rf ncurses-6.2
+# libsigsegv.
+tar -xf libsigsegv-2.13.tar.gz
+cd libsigsegv-2.13
+./configure --prefix=/usr --enable-shared --disable-static
+make
+make install
+cd ..
+rm -rf libsigsegv-2.13
 # Sed.
 tar -xf sed-4.8.tar.xz
 cd sed-4.8
@@ -759,6 +770,22 @@ cp -r dest/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
 rm -rf meson-0.59.1
+# libseccomp.
+tar -xf libseccomp-2.5.2.tar.gz
+cd libseccomp-2.5.2
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libseccomp-2.5.2
+# File.
+tar -xf file-5.40.tar.gz
+cd file-5.40
+./configure --prefix=/usr --enable-libseccomp
+make
+make install
+cd ..
+rm -rf file-5.40
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
@@ -909,6 +936,14 @@ make
 make install
 cd ..
 rm -rf make-4.3
+# Ed.
+tar -xf ed-1.17.tar.xz
+cd ed-1.17
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf ed-1.17
 # Patch.
 tar -xf patch-2.7.6.tar.xz
 cd patch-2.7.6
@@ -1740,6 +1775,14 @@ make
 make install
 cd ..
 rm -rf grep-3.7
+# Less (rebuild for PCRE2 support).
+tar -xf less-590.tar.gz
+cd less-590
+./configure --prefix=/usr --sysconfdir=/etc --with-regex=pcre2
+make
+make install
+cd ..
+rm -rf less-590
 # libunistring.
 tar -xf libunistring-0.9.10.tar.xz
 cd libunistring-0.9.10
@@ -2212,14 +2255,6 @@ ninja
 ninja install
 cd ../..
 rm -rf libsigc++-2.10.7
-# libseccomp.
-tar -xf libseccomp-2.5.2.tar.gz
-cd libseccomp-2.5.2
-./configure --prefix=/usr --disable-static
-make
-make install
-cd ..
-rm -rf libseccomp-2.5.2
 # GLibmm
 tar -xf glibmm-2.66.1.tar.xz
 cd glibmm-2.66.1
@@ -3123,6 +3158,25 @@ ninja
 ninja install
 cd ../..
 rm -rf libxkbcommon-1.3.1
+# libcbor.
+tar -xf libcbor-0.8.0.tar.gz
+cd libcbor-0.8.0
+mkdir cbor-build; cd cbor-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf libcbor-0.8.0
+# libfido2.
+tar -xf libfido2-1.8.0.tar.gz
+cd libfido2-1.8.0
+mkdir fido2-build; cd fido2-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -Wno-dev -G Ninja ..
+ninja
+ninja install
+rm -f /usr/lib/libfido2.a
+cd ../..
+rm -rf libfido2-1.8.0
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
@@ -4861,18 +4915,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.7.tar.xz
-cd linux-5.14.7
+tar -xf linux-5.14.8.tar.xz
+cd linux-5.14.8
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.7-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.7-massos/vmlinuz
-cp System.map /boot/System.map-5.14.7-massos
-cp .config /boot/config-5.14.7-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.8-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.8-massos/vmlinuz
+cp System.map /boot/System.map-5.14.8-massos
+cp .config /boot/config-5.14.8-massos
 cd ..
-rm -rf linux-5.14.7
+rm -rf linux-5.14.8
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
