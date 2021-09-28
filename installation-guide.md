@@ -23,6 +23,7 @@ It also includes the following upgraded software, however there may be more upgr
 - Coreutils: `8.32 --> 9.0`
 - curl: `7.78.0 --> 7.79.1`
 - Firefox: `92.0 --> 92.0.1`
+- Ghostscript: `9.54.0 --> 9.55.0`
 - GLib: `2.68.4 --> 2.70.0`
 - glib-networking: `2.68.2 --> 2.70.0`
 - gobject-introspection: `1.68.0 --> 1.70.0`
@@ -35,8 +36,9 @@ It also includes the following upgraded software, however there may be more upgr
 - HarfBuzz: `2.9.1 --> 3.0.0`
 - htop: `3.0.5 --> 3.1.0`
 - IPRoute2: `5.13.0 --> 5.14.0`
+- itstool: `2.0.6 --> 2.0.7`
 - libcap: `2.57 --> 2.58`
-- libinput: `1.18.1 --> 1.19.0`
+- libinput: `1.18.1 --> 1.19.1`
 - librsvg: `2.50.7 --> 2.52.0`
 - libXi: `1.7.10 --> 1.8`
 - Linux Kernel: `5.14.4 --> 5.14.8`

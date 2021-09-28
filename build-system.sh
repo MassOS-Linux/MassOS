@@ -1381,13 +1381,13 @@ python3 setup.py install --optimize=1
 cd ..
 rm -rf lxml-4.6.3
 # itstool.
-tar -xf itstool-2.0.6.tar.bz2
-cd itstool-2.0.6
+tar -xf itstool-2.0.7.tar.bz2
+cd itstool-2.0.7
 PYTHON=/usr/bin/python3 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf itstool-2.0.6
+rm -rf itstool-2.0.7
 # Asciidoc.
 tar -xf asciidoc-9.1.1.tar.gz
 cd asciidoc-9.1.1
@@ -3272,14 +3272,14 @@ make install
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.19.0.tar.xz
-cd libinput-1.19.0
+tar -xf libinput-1.19.1.tar.xz
+cd libinput-1.19.1
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libinput-1.19.0
+rm -rf libinput-1.19.1
 # xf86-input-libinput.
 tar -xf xf86-input-libinput-1.2.0.tar.bz2
 cd xf86-input-libinput-1.2.0
@@ -3999,9 +3999,9 @@ make prefix=/usr install
 cd ../../..
 rm -rf poppler-21.09.0
 # Ghostscript.
-tar -xf ghostscript-9.54.0.tar.xz
-cd ghostscript-9.54.0
-patch -Np1 -i ../patches/ghostscript-9.54.0-CVE-2021-3781.patch
+tar -xf ghostscript-9.55.0.tar.xz
+cd ghostscript-9.55.0
+sed -i 's/gscms_transformm_color_const/gscms_transform_color_const/' base/gsicc_lcms2.c
 rm -rf freetype lcms2mt jpeg libpng openjpeg zlib
 ./configure --prefix=/usr --disable-compile-inits --enable-dynamic --with-system-libtiff
 make
@@ -4014,14 +4014,14 @@ make install
 make soinstall
 install -m644 base/*.h /usr/include/ghostscript
 ln -sfn ghostscript /usr/include/ps
-mv /usr/share/doc/ghostscript/9.54.0 /usr/share/doc/ghostscript-9.54.0
+mv /usr/share/doc/ghostscript/9.55.0 /usr/share/doc/ghostscript-9.55.0
 rm -rf /usr/share/doc/ghostscript
-cp -r examples/ /usr/share/ghostscript/9.54.0/
+cp -r examples/ /usr/share/ghostscript/9.55.0/
 tar --no-same-owner -xf ../ghostscript-fonts-std-8.11.tar.gz -C /usr/share/ghostscript
 tar --no-same-owner -xf ../gnu-gs-fonts-other-6.0.tar.gz -C /usr/share/ghostscript
 fc-cache /usr/share/ghostscript/fonts/
 cd ..
-rm -rf ghostscript-9.54.0
+rm -rf ghostscript-9.55.0
 # MuPDF.
 tar -xf mupdf-1.18.0-source.tar.gz
 cd mupdf-1.18.0-source

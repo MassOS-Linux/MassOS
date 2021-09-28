@@ -106,7 +106,7 @@ https://ftp.gnu.org/gnu/gdbm/gdbm-1.21.tar.gz
 https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.5.7/geoclue-2.5.7.tar.bz2
 https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
-https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9540/ghostscript-9.54.0.tar.xz
+https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.xz
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
 https://www.kernel.org/pub/software/scm/git/git-2.33.0.tar.xz
@@ -160,7 +160,7 @@ https://cdn.thesonicmaster.net/sources/intltool-0.51.0.tar.gz
 https://www.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.14.0.tar.xz
 http://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.7.0.orig.tar.xz
-http://files.itstool.org/itstool/itstool-2.0.6.tar.bz2
+http://files.itstool.org/itstool/itstool-2.0.7.tar.bz2
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.0.1.tar.gz
 https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
@@ -207,7 +207,7 @@ https://download.gnome.org/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
 https://github.com/libical/libical/releases/download/v3.0.10/libical-3.0.10.tar.gz
 https://www.x.org/pub/individual/lib/libICE-1.0.10.tar.bz2
 https://ftp.gnu.org/gnu/libidn/libidn2-2.3.2.tar.gz
-https://www.freedesktop.org/software/libinput/libinput-1.19.0.tar.xz
+https://www.freedesktop.org/software/libinput/libinput-1.19.1.tar.xz
 https://cdn.thesonicmaster.net/sources/libjpeg-turbo-2.1.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.0.tar.xz
