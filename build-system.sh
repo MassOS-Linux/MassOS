@@ -789,6 +789,7 @@ rm -rf file-5.40
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
+patch -Np1 -i ../patches/coreutils-9.0-bugfix-1.patch
 ./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
 make install
