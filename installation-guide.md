@@ -74,7 +74,7 @@ Run the following command to download MassOS:
 ```
 wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.10/massos-2021.10-rootfs-x86_64.tar.xz
 ```
-SHA256 checksum: `<Coming Soon>`
+SHA256 checksum: `47729bf11bdd93433bb8474f48a7d9c33155838302c1d295d3bf43bc2d2305b8`
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -120,7 +120,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.10-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
