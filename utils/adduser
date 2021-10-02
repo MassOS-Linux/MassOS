@@ -1,5 +1,6 @@
 #!/bin/bash
 # User creation utility for MassOS.
+# Copyright (C) 2021 The Sonic Master.
 
 if [ $EUID -ne 0 ]; then
   echo "Error: adduser must be run as root." >&2
@@ -63,13 +64,13 @@ Groups: $groups
 read -p "Press Enter to continue or CTRL+C to abort: "
 
 if [ -z "$groups" ]; then
-  useradd -c "$fullname" -ms "$shell" $username
+  useradd -mc "$fullname" -s "$shell" $username
   if [ $? -ne 0 ]; then
     echo "Error creating user. Exiting..." >&2
     exit 1
   fi
 else
-  useradd -c "$fullname" -mG "$groups" -s "$shell" $username
+  useradd -mc "$fullname" -G "$groups" -s "$shell" $username
   if [ $? -ne 0 ]; then
     echo "Error creating user. Exiting..." >&2
     exit 1

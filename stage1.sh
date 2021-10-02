@@ -4,6 +4,11 @@
 set -e
 # Disabling hashing is useful so the newly built tools are detected.
 set +h
+# Ensure retrieve-sources.sh has been run first.
+if [ ! -d sources ]; then
+  echo "Error: You must run retrieve-sources.sh first!" >&2
+  exit 1
+fi
 # Setup the environment.
 MASSOS=$PWD/massos-rootfs
 LC_ALL=POSIX
@@ -60,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.4.tar.xz
-cd linux-5.14.4
+tar -xf linux-5.14.9.tar.xz
+cd linux-5.14.9
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.4
+rm -rf linux-5.14.9
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -93,8 +98,8 @@ make DESTDIR=$MASSOS install
 cd ../..
 rm -rf gcc-11.2.0
 # Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-g0 -Os"
-CXXFLAGS="-g0 -Os"
+CFLAGS="-Os"
+CXXFLAGS="-Os"
 export CFLAGS CXXFLAGS
 # m4.
 tar -xf m4-1.4.19.tar.xz
@@ -129,10 +134,9 @@ ln -s bash $MASSOS/bin/sh
 cd ..
 rm -rf bash-5.1.8
 # Coreutils.
-tar -xf coreutils-8.32.tar.xz
-cd coreutils-8.32
-# Coreutils oopses with -Os.
-CFLAGS="-g0 -O2" ./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
+tar -xf coreutils-9.0.tar.xz
+cd coreutils-9.0
+./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
 make
 make DESTDIR=$MASSOS install
 mv $MASSOS/usr/bin/chroot $MASSOS/usr/sbin
@@ -140,7 +144,7 @@ mkdir -p $MASSOS/usr/share/man/man8
 mv $MASSOS/usr/share/man/man1/chroot.1 $MASSOS/usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' $MASSOS/usr/share/man/man8/chroot.8
 cd ..
-rm -rf coreutils-8.32
+rm -rf coreutils-9.0
 # Diffutils.
 tar -xf diffutils-3.8.tar.xz
 cd diffutils-3.8
@@ -269,6 +273,7 @@ cd ../..
 cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
+cp utils/massos-release.c $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
