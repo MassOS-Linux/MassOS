@@ -1,7 +1,7 @@
 # Building MassOS
 If you're a developer, you may wish to compile the MassOS system yourself. This guide shows you how to use the scripts in this repo to do so.
 
-**Important: Most users won't want to compile MassOS themselves. The [releases page](https://github.com/TheSonicMaster/MassOS/releases) has the latest released version precompiled, and can be installed simply using the [installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md).**
+**Important: Most users won't want to compile MassOS themselves. The [releases page](https://github.com/TheSonicMaster/MassOS/releases) has the latest released version precompiled, and can be installed simply using the [installation guide](installation-guide.md).**
 # Important Notes (READ BEFORE ATTEMPTING TO COMPILE)
 - The second part of the build (Stage 2) needs **ROOT ACCESS**. This is because it uses a chroot environment. Fakeroot is not supported.
 - Building MassOS is no quick task. The build speed will vary massively depending on your CPU. The fastest CPUs will take no longer than a few hours to compile MassOS, however the build could take **several days** on slower systems. The majority of the build process cannot be paused and resumed later, therefore **ensure you have enough time available**.
@@ -29,7 +29,7 @@ git checkout development
 ```
 sudo ./stage2.sh
 ```
-### Finishing up
+### Finishing up:
 When the MassOS system is completely build and finished, an output tarball labelled `massos-<VERSION>-rootfs-x86_64.tar.xz` will be created. **It is highly recommended that you change ownership of the final output tarball back to the original user. You can do this with the following commands:**
 ```
 non_root_user=$(whoami)

@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.8.tar.xz
-cd linux-5.14.8
+tar -xf linux-5.14.9.tar.xz
+cd linux-5.14.9
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.8
+rm -rf linux-5.14.9
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -270,10 +270,10 @@ cd ../..
 rm -rf gcc-11.2.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
-cp utils/massos-release-bin $MASSOS/usr/bin/massos-release
 cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
+cp utils/massos-release.c $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d

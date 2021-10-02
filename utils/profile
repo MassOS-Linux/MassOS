@@ -35,20 +35,7 @@ pathappend () {
 export -f pathremove pathprepend pathappend
 
 # Set the initial path
-export PATH=/usr/bin
-
-# Attempt to provide backward compatibility with LFS earlier than 11
-if [ ! -L /bin ]; then
-  pathappend /bin
-fi
-
-if [ $EUID -eq 0 ] ; then
-  pathappend /usr/sbin
-  if [ ! -L /sbin ]; then
-    pathappend /sbin
-  fi
-  unset HISTFILE
-fi
+export PATH=/usr/bin:/usr/sbin
 
 # Setup some environment variables.
 export HISTSIZE=1000
@@ -76,5 +63,4 @@ for script in /etc/profile.d/*.sh ; do
   fi
 done
 
-unset script RED GREEN BLUE NORMAL
-
+unset script NORMAL RED GREEN BLUE
