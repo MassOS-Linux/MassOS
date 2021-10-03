@@ -5,76 +5,20 @@ This guide aims to guide you through the installation of MassOS.
 - At least 1GB of RAM (2GB recommended).
 - MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version **2021.10** of MassOS. It contains the following changes since the previous version, **2021.09.2**:
+This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Prefer the libinput driver over the evdev and synaptics drivers. Fixes buggy Elan touchpads.
-- Fixed the defult cursor theme.
-- Added Bubblewrap, Ed, libgphoto2, libmtp, libnfs, libsigsegv, LZ4, Netcat, ppp, squashfs-tools, squashfuse, xdg-dbus-proxy.
-- Build kmod after OpenSSL, so kmod can be built with OpenSSL support.
-- Added Audit and AppArmor support.
-- Build CMake packages with `-DCMAKE_BUILD_TYPE=MinSizeRel`
+- Added AppStream.
+- Use external `dhclient` for DHCP in NetworkManager
 
 It also includes the following upgraded software:
 
-- Asciidoc: `9.1.0 --> 9.1.1`
-- bc: `5.0.0 --> 5.0.2`
-- Bison: `3.8.1 --> 3.8.2`
-- btrfs-progs: `5.14 --> 5.14.1`
-- cryptsetup: `2.3.6 --> 2.4.1`
-- CMake: `3.21.2 --> 3.21.3`
-- Coreutils: `8.32 --> 9.0`
-- curl: `7.78.0 --> 7.79.1`
-- Firefox: `92.0 --> 92.0.1`
-- Ghostscript: `9.54.0 --> 9.55.0`
-- GLib: `2.68.4 --> 2.70.0`
-- glib-networking: `2.68.2 --> 2.70.0`
-- gnome-software: `40.4 --> 41.0`
-- gobject-introspection: `1.68.0 --> 1.70.0`
-- Graphviz: `2.49.0 --> 2.49.1`
-- gsettings-desktop-schemas: `40.0 --> 41.0`
-- gst-plugins-bad: `1.18.4 --> 1.18.5`
-- gst-plugins-base: `1.18.4 --> 1.18.5`
-- gst-plugins-good: `1.18.4 --> 1.18.5`
-- gstreamer: `1.18.4 --> 1.18.5`
-- HarfBuzz: `2.9.1 --> 3.0.0`
-- htop: `3.0.5 --> 3.1.0`
-- iana-etc: `20210611 --> 20210924`
-- IPRoute2: `5.13.0 --> 5.14.0`
-- itstool: `2.0.6 --> 2.0.7`
-- libcap: `2.57 --> 2.59`
-- libinput: `1.18.1 --> 1.19.1`
-- librsvg: `2.50.7 --> 2.52.0`
-- libva: `2.12.0 --> 2.13.0`
-- libXi: `1.7.10 --> 1.8`
-- Linux Kernel: `5.14.4 --> 5.14.9`
-- make-ca: `1.8.1 --> 1.9`
-- Mesa: `21.2.1 --> 21.2.3`
-- Meson: `0.59.1 --> 0.59.2`
-- ModemManager: `1.18.0 --> 1.18.2`
-- Mousepad: `0.5.6 --> 0.5.7`
-- NetworkManager: `1.32.10 --> 1.32.12`
-- nghttp2: `1.44.0 --> 1.45.1`
-- NSS: `3.70 --> 3.71`
-- Poppler: `21.08.0 --> 21.09.0`
-- Sudo: `1.9.8 --> 1.9.8p2`
-- Thunderbird: `91.1.0 --> 91.1.2`
-- tzdata: `2021a --> 2021b`
-- UDisks: `2.9.3 --> 2.9.4`
-- UPower: `0.99.12 --> 0.99.13`
-- Vala: `0.52.5 --> 0.54.1`
-- Vim: `8.2.3424 --> 8.2.3458`
-- VTE: `0.64.2 --> 0.66.0`
-- wayland-protocols: `1.22 --> 1.23`
-- WebKitGTK: `2.32.3 --> 2.34.0`
-- xf86-input-libinput: `1.1.0 --> 1.2.0`
-- xorgproto: `2021.4 --> 2021.5`
+- LLVM/Clang: `12.0.1 --> 13.0.0`
+- tzdata: `2021b --> 2021c`
 
 # Downloading The MassOS Rootfs
-Run the following command to download MassOS:
-```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.10/massos-2021.10-rootfs-x86_64.tar.xz
-```
-SHA256 checksum: `47729bf11bdd93433bb8474f48a7d9c33155838302c1d295d3bf43bc2d2305b8`
+Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.
+
+You can either [Install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md), or [Build MassOS yourself](building.md).
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -120,7 +64,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.10-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file

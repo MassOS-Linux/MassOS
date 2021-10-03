@@ -3,6 +3,7 @@ https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.5.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
+https://www.freedesktop.org/software/appstream/releases/AppStream-0.14.5.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
 https://cdn.thesonicmaster.net/sources/arc-theme-20210412.tar.xz
 https://github.com/asciidoc/asciidoc-py3/releases/download/9.1.1/asciidoc-9.1.1.tar.gz
@@ -34,11 +35,10 @@ https://www.cairographics.org/snapshots/cairo-1.17.4.tar.xz
 https://www.cairographics.org/releases/cairomm-1.14.0.tar.xz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/clang-12.0.1.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz
 https://github.com/Kitware/CMake/releases/download/v3.21.3/cmake-3.21.3-linux-x86_64.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/compiler-rt-12.0.1.src.tar.xz
 https://mirrors.gethosted.online/gnu/coreutils/coreutils-9.0.tar.xz
 https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://mirrors.gethosted.online/gnu/cpio/cpio-2.13.tar.bz2
@@ -290,7 +290,7 @@ https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-gre
 https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.9.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-12.0.1/llvm-12.0.1.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
 https://github.com/LMDB/lmdb/archive/LMDB_0.9.29.tar.gz
 https://mirror.fileplanet.com/lfs/pub/blfs/11.0/l/LSB-Tools-0.9.tar.gz
 https://www.x.org/pub/individual/app/luit-1.1.1.tar.bz2
@@ -414,7 +414,7 @@ https://archive.mozilla.org/pub/thunderbird/releases/91.1.2/linux-x86_64/en-US/t
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
 https://cdn.thesonicmaster.net/sources/tk8.6.11.1-src.tar.gz
 https://archive.xfce.org/src/xfce/tumbler/4.16/tumbler-4.16.0.tar.bz2
-https://www.iana.org/time-zones/repository/releases/tzdata2021b.tar.gz
+https://www.iana.org/time-zones/repository/releases/tzdata2021c.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
 https://www.rarlab.com/rar/unrarsrc-6.0.7.tar.gz
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz

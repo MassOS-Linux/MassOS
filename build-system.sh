@@ -58,9 +58,9 @@ make
 make install
 cd ../..
 rm -rf gcc-11.2.0
-# Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+# Compiler flags for MassOS. We prefer to optimise for size.
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
@@ -162,7 +162,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2021b.tar.gz
+tar -xf ../../tzdata2021c.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -181,8 +181,8 @@ include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
 rm -rf glibc-2.34
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # zlib.
 tar -xf zlib-1.2.11.tar.xz
@@ -225,6 +225,7 @@ cd lz4-1.9.3
 make PREFIX=/usr -C lib
 make PREFIX=/usr -C programs lz4 lz4c
 make PREFIX=/usr install
+rm -f /usr/lib/liblz4.a
 cd ..
 rm -rf lz4-1.9.3
 # ZSTD.
@@ -314,8 +315,8 @@ make tooldir=/usr install -j1
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 cd ../..
 rm -rf binutils-2.37
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
@@ -522,8 +523,8 @@ cd ../..
 rm -rf gcc-11.2.0
 unset LD
 # Re-set compiler flags.
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
@@ -1414,6 +1415,7 @@ make -C inc
 make -C apps
 make PREFIX=/usr install
 install -Dm 644 apps/*.efi -t /usr/share/gnu-efi/apps/x86_64
+rm -f /usr/lib/libgnuefi.a
 cd ..
 rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
@@ -1523,6 +1525,7 @@ make
 make DESTDIR=$PWD/dest install
 rm -rf dest/etc/init.d
 rm -rf dest/dev
+rm -f dest/usr/lib/libfuse.a
 cp -R dest/* /
 ldconfig
 chmod 4755 /usr/bin/fusermount
@@ -1689,6 +1692,7 @@ python3 setup.py build
 make install
 python3 setup.py install --optimize=1
 mv /usr/share/doc/brotli{,-1.0.9}
+rm -f /usr/lib/libbrotlidec.a
 cd ..
 rm -rf brotli-1.0.9
 # CMake.
@@ -2311,6 +2315,18 @@ install -m644 autoconf213.info /usr/share/info
 install-info --info-dir=/usr/share/info autoconf213.info
 cd ..
 rm -rf autoconf-2.13
+# LLVM.
+tar -xf llvm-13.0.0.src.tar.xz
+cd llvm-13.0.0.src
+mkdir -p tools/clang
+tar -xf ../clang-13.0.0.src.tar.xz -C tools/clang --strip-components=1
+grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
+mkdir llvm-build; cd llvm-build
+CC=gcc CXX=g++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf llvm-13.0.0.src
 # Rust.
 tar -xf rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.54.0-x86_64-unknown-linux-gnu
@@ -2318,20 +2334,6 @@ cd rust-1.54.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
-# LLVM.
-tar -xf llvm-12.0.1.src.tar.xz
-cd llvm-12.0.1.src
-tar -xf ../clang-12.0.1.src.tar.xz -C tools
-mv tools/clang-12.0.1.src tools/clang
-tar -xf ../compiler-rt-12.0.1.src.tar.xz -C projects
-mv projects/compiler-rt-12.0.1.src projects/compiler-rt
-grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
-mkdir llvm-build; cd llvm-build
-CC=gcc CXX=g++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
-ninja
-ninja install
-cd ../..
-rm -rf llvm-12.0.1.src
 # JS78.
 tar -xf firefox-78.14.0esr.source.tar.xz
 cd firefox-78.14.0
@@ -2404,7 +2406,7 @@ rm -rf libarchive-3.5.2
 tar -xf efivar-37.tar.bz2
 cd efivar-37
 patch -Np1 -i ../patches/efivar-37-gcc_9-1.patch
-make CFLAGS="$CFLAGS -Wno-stringop-truncation"
+make CFLAGS="$CFLAGS"
 make install LIBDIR=/usr/lib
 cd ..
 rm -rf efivar-37
@@ -2414,6 +2416,7 @@ cd efibootmgr-17
 sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
 make EFIDIR=massos EFI_LOADER=grubx64.efi
 make EFIDIR=massos install
+rm -f /usr/lib/libefi.a
 cd ..
 rm -rf efibootmgr-17
 # libpng.
@@ -2557,8 +2560,8 @@ END
 sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
 rm -rf grub-2.06
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # os-prober.
 tar -xf os-prober_1.79.tar.xz
@@ -2873,6 +2876,7 @@ cd slang-2.3.2
 make -j1
 make -j1 install_doc_dir=/usr/share/doc/slang-2.3.2 SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2/slsh install-all
 chmod 755 /usr/lib/libslang.so.2.3.2 /usr/lib/slang/v2/modules/*.so
+rm -f /usr/lib/libslang.a
 cd ..
 rm -rf slang-2.3.2
 # dhclient.
@@ -2880,7 +2884,7 @@ tar -xf dhcp-4.4.2-P1.tar.gz
 cd dhcp-4.4.2-P1
 sed -i '/o.*dhcp_type/d' server/mdb.c
 sed -r '/u.*(local|remote)_port/d' -i client/dhclient.c relay/dhcrelay.c
-CFLAGS="$CFLAGS -Wall -fno-strict-aliasing -D_PATH_DHCLIENT_SCRIPT='\"/usr/sbin/dhclient-script\"' -D_PATH_DHCPD_CONF='\"/etc/dhcp/dhcpd.conf\"' -D_PATH_DHCLIENT_CONF='\"/etc/dhcp/dhclient.conf\"'" ./configure --prefix=/usr --sysconfdir=/etc/dhcp --localstatedir=/var --with-srv-lease-file=/var/lib/dhcpd/dhcpd.leases --with-srv6-lease-file=/var/lib/dhcpd/dhcpd6.leases --with-cli-lease-file=/var/lib/dhclient/dhclient.leases --with-cli6-lease-file=/var/lib/dhclient/dhclient6.leases
+CFLAGS="$CFLAGS -fno-strict-aliasing -D_PATH_DHCLIENT_SCRIPT='\"/usr/sbin/dhclient-script\"' -D_PATH_DHCPD_CONF='\"/etc/dhcp/dhcpd.conf\"' -D_PATH_DHCLIENT_CONF='\"/etc/dhcp/dhclient.conf\"'" ./configure --prefix=/usr --sysconfdir=/etc/dhcp --localstatedir=/var --with-srv-lease-file=/var/lib/dhcpd/dhcpd.leases --with-srv6-lease-file=/var/lib/dhcpd/dhcpd6.leases --with-cli-lease-file=/var/lib/dhclient/dhclient.leases --with-cli6-lease-file=/var/lib/dhclient/dhclient6.leases
 make -j1
 make -C client install
 install -m755 client/scripts/linux /usr/sbin/dhclient-script
@@ -3813,6 +3817,7 @@ autoreconf -fi
 ./configure --prefix='/usr' --enable-ipv6 --enable-bluetooth --enable-usb --with-libnl
 make
 make install
+rm -f /usr/lib/libpcap.a
 cd ..
 rm -rf libpcap-1.10.1
 # ppp.
@@ -4152,6 +4157,10 @@ cat > /etc/NetworkManager/conf.d/polkit.conf << END
 [main]
 auth-polkit=true
 END
+cat > /etc/NetworkManager/conf.d/dhcp.conf << END
+[main]
+dhcp=dhclient
+END
 cat > /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << END
 polkit.addRule(function(action, subject) {
     if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
@@ -4252,6 +4261,16 @@ make
 make install
 cd ..
 rm -rf libostree-2021.4
+# AppStream.
+tar -xf AppStream-0.14.5.tar.xz
+cd AppStream-0.14.5
+mkdir appstream-build; cd appstream-build
+meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
+ninja
+ninja install
+mv /usr/share/doc/appstream{,-0.14.5}
+cd ../..
+rm -rf AppStream-0.14.5
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -4400,7 +4419,7 @@ rm -rf lame-3.100
 tar -xf taglib-1.12.tar.gz
 cd taglib-1.12
 mkdir taglib-build; cd taglib-build
-CFLAGS="$CFLAGS -Wno-deprecated-declarations -Wno-sign-compare -Wno-delete-non-virtual-dtor" CXXFLAGS="$CXXFLAGS -Wno-deprecated-declarations -Wno-sign-compare -Wno-delete-non-virtual-dtor" cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
@@ -4766,7 +4785,7 @@ rm -rf mtools-4.0.35
 tar -xf gnome-software-41.0.tar.xz
 cd gnome-software-41.0
 mkdir gnome-software-build; cd gnome-software-build
-CFLAGS="$CFLAGS -Wno-deprecated-declarations -Wno-inline" CXXFLAGS="$CFLAGS -Wno-deprecated-declarations -Wno-inline" meson --prefix=/usr --buildtype=release -Dfwupd=false -Dgspell=false -Dpackagekit=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dgspell=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
@@ -4819,7 +4838,7 @@ rm -rf sl-5.02
 # cowsay.
 tar -xf cowsay-3.04.tar.gz
 cd rank-amateur-cowsay-cowsay-3.04
-curl -s https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/cowsay/trunk/cowsay.patch | patch -p1
+patch -Np1 -i ../patches/cowsay-3.04-prefix.patch
 sed -i 's|/man/|/share/man/|' install.sh
 echo "/usr" | ./install.sh
 rm /usr/share/cows/mech-and-cow
@@ -4934,6 +4953,8 @@ rm -rf /usr/man
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.
 find /usr/lib /usr/libexec -name \*.la -delete
+# Remove any temporary files.
+rm -rf /tmp/*
 # As a finishing touch, run ldconfig.
 ldconfig
 # Clean sources directory and self destruct.

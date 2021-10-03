@@ -97,9 +97,9 @@ make
 make DESTDIR=$MASSOS install
 cd ../..
 rm -rf gcc-11.2.0
-# Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+# Compiler flags for MassOS. We prefer to optimise for size.
+CFLAGS="-w -Os"
+CXXFLAGS="-w -Os"
 export CFLAGS CXXFLAGS
 # m4.
 tar -xf m4-1.4.19.tar.xz
