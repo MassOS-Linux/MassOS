@@ -1002,6 +1002,14 @@ cd Pygments-2.10.0
 python3 setup.py install --optimize=1
 cd ..
 rm -rf Pygments-2.10.0
+# acpi.
+tar -xf acpi-1.7.tar.gz
+cd acpi-1.7
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf acpi-1.7
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -3785,7 +3793,7 @@ groupadd -fg 84 avahi
 useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi
 groupadd -fg 86 netdev
 patch -Np1 -i ../patches/avahi-0.8-ipv6_race_condition_fix-1.patch
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-libevent --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --enable-core-docs --with-distro=none
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-libevent --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --enable-core-docs --with-distro=massos
 make
 make install
 systemctl enable avahi-daemon
@@ -3810,6 +3818,41 @@ make
 make install
 cd ..
 rm -rf SDL-1.2.15
+# dmidecode.
+tar -xf dmidecode-3.3.tar.xz
+cd dmidecode-3.3
+make prefix=/usr CFLAGS="$CFLAGS"
+make prefix=/usr install
+mv /usr/share/doc/dmidecode{,-3.3}
+cd ..
+rm -rf dmidecode-3.3
+# laptop-detect.
+tar -xf laptop-detect_0.16.tar.xz
+cd laptop-detect-0.16
+sed -e "s/@VERSION@/0.16/g" < laptop-detect.in > laptop-detect
+install -Dm755 laptop-detect /usr/bin/laptop-detect
+install -Dm644 laptop-detect.1 /usr/share/man/man1/laptop-detect.1
+cd ..
+rm -rf laptop-detect-0.16
+# rrdtool.
+tar -xf rrdtool-1.7.2.tar.gz
+cd rrdtool-1.7.2
+sed -e 's/$(RUBY) ${abs_srcdir}\/ruby\/extconf.rb/& --vendor/' -i bindings/Makefile.am
+aclocal
+automake
+./configure --prefix=/usr --localstatedir=/var --disable-rpath --enable-perl --enable-perl-site-install --with-perl-options='INSTALLDIRS=vendor' --enable-ruby --enable-ruby-site-install --enable-python --enable-tcl --disable-libwrap
+make
+make install
+rm -f /usr/lib/librrd.a
+cd ..
+rm -rf rrdtool-1.7.2
+# lm-sensors.
+tar -xf lm-sensors-3-6-0.tar.gz
+cd lm-sensors-3-6-0
+make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord
+make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord install
+cd ..
+rm -rf lm-sensors-3-6-0
 # libpcap.
 tar -xf libpcap-1.10.1.tar.gz
 cd libpcap-1.10.1

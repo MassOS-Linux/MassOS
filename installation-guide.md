@@ -7,7 +7,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Added AppStream.
+- Added acpi, AppStream, dmidecode, laptop-detect, lm-sensors.
 - Use external `dhclient` for DHCP in NetworkManager
 
 It also includes the following upgraded software:

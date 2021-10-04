@@ -1,5 +1,6 @@
 https://www.freedesktop.org/software/accountsservice/accountsservice-0.6.55.tar.xz
 https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
+https://cdn.thesonicmaster.net/sources/acpi-1.7.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.5.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
@@ -55,6 +56,7 @@ https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
 https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz
 https://ftp.isc.org/isc/dhcp/4.4.2-P1/dhcp-4.4.2-P1.tar.gz
 https://mirrors.gethosted.online/gnu/diffutils/diffutils-3.8.tar.xz
+https://download.savannah.nongnu.org/releases/dmidecode/dmidecode-3.3.tar.xz
 https://www.docbook.org/sgml/3.1/docbk31.zip
 https://www.docbook.org/sgml/4.5/docbook-4.5.zip
 https://docbook.org/xml/5.0/docbook-5.0.zip
@@ -170,6 +172,7 @@ https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3
 https://www.kernel.org/pub/linux/utils/kernel/kmod/kmod-29.tar.xz
 https://kerberos.org/dist/krb5/1.19/krb5-1.19.2.tar.gz
 https://cdn.thesonicmaster.net/sources/lame-3.100.tar.gz
+https://deb.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_0.16.tar.xz
 https://cdn.thesonicmaster.net/sources/lcms2-2.12.tar.gz
 https://www.greenwoodsoftware.com/less/less-590.tar.gz
 https://ftp.debian.org/debian/pool/main/liba/libaio/libaio_0.3.112.orig.tar.xz
@@ -291,6 +294,7 @@ https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.9.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
+https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://github.com/LMDB/lmdb/archive/LMDB_0.9.29.tar.gz
 https://mirror.fileplanet.com/lfs/pub/blfs/11.0/l/LSB-Tools-0.9.tar.gz
 https://www.x.org/pub/individual/app/luit-1.1.1.tar.bz2
@@ -377,6 +381,7 @@ https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirrors.gethosted.online/gnu/readline/readline-8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://archive.xfce.org/src/apps/ristretto/0.11/ristretto-0.11.0.tar.bz2
+https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
 https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.xz
 https://static.rust-lang.org/dist/rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
