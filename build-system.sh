@@ -703,20 +703,20 @@ make install
 cd ..
 rm -rf autoconf-2.71
 # Automake.
-tar -xf automake-1.16.4.tar.xz
-cd automake-1.16.4
-./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.4
+tar -xf automake-1.16.5.tar.xz
+cd automake-1.16.5
+./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.5
 make
 make install
 cd ..
-rm -rf automake-1.16.4
+rm -rf automake-1.16.5
 # elfutils.
 tar -xf elfutils-0.185.tar.bz2
 cd elfutils-0.185
 ./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
 make
 make install
-rm /usr/lib/lib{asm,dw,elf}.a
+rm -f /usr/lib/lib{asm,dw,elf}.a
 cd ..
 rm -rf elfutils-0.185
 # libffi.
@@ -753,15 +753,20 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
-pip3 --no-color install --upgrade pip
-pip3 --no-color install --upgrade setuptools
-pip3 --no-color install pyparsing
+ln -sf python3 /usr/bin/python
+ln -sf pydoc3 /usr/bin/pydoc
+ln -sf idle3 /usr/bin/idle
+ln -sf python3-config /usr/bin/python-config
+ln -sf pip3 /usr/bin/pip
+pip --no-color install --upgrade pip
+pip --no-color install --upgrade setuptools
+pip --no-color install pyparsing
 cd ..
 rm -rf Python-3.9.7
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
-python3 configure.py --bootstrap
+python configure.py --bootstrap
 install -m755 ninja /usr/bin
 install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
@@ -769,8 +774,8 @@ rm -rf ninja-1.10.2
 # Meson.
 tar -xf meson-0.59.2.tar.gz
 cd meson-0.59.2
-python3 setup.py build
-python3 setup.py install --root=meson-destination-directory
+python setup.py build
+python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
@@ -980,26 +985,26 @@ rm -rf nano-5.8
 # MarkupSafe.
 tar -xf MarkupSafe-2.0.1.tar.gz
 cd MarkupSafe-2.0.1
-python3 setup.py build
-python3 setup.py install --optimize=1
+python setup.py build
+python setup.py install --optimize=1
 cd ..
 rm -rf MarkupSafe-2.0.1
 # Jinja2.
 tar -xf Jinja2-3.0.1.tar.gz
 cd Jinja2-3.0.1
-python3 setup.py install --optimize=1
+python setup.py install --optimize=1
 cd ..
 rm -rf Jinja2-3.0.1
 # Mako.
 tar -xf Mako-1.1.5.tar.gz
 cd Mako-1.1.5
-python3 setup.py install --optimize=1
+python setup.py install --optimize=1
 cd ..
 rm -rf Mako-1.1.5
 # Pygments.
 tar -xf Pygments-2.10.0.tar.gz
 cd Pygments-2.10.0
-python3 setup.py install --optimize=1
+python setup.py install --optimize=1
 cd ..
 rm -rf Pygments-2.10.0
 # acpi.
@@ -1010,6 +1015,14 @@ make
 make install
 cd ..
 rm -rf acpi-1.7
+# rpcsvc-proto.
+tar -xf rpcsvc-proto-1.4.2.tar.xz
+cd rpcsvc-proto-1.4.2
+./configure --sysconfdir=/etc
+make
+make install
+cd ..
+rm -rf rpcsvc-proto-1.4.2
 # Which.
 tar -xf which-2.21.tar.gz
 cd which-2.21
@@ -1390,8 +1403,8 @@ rm -rf docbook-5.1
 # lxml.
 tar -xf lxml-4.6.3.tar.gz
 cd lxml-4.6.3
-python3 setup.py build
-python3 setup.py install --optimize=1
+python setup.py build
+python setup.py install --optimize=1
 cd ..
 rm -rf lxml-4.6.3
 # itstool.
@@ -1620,10 +1633,19 @@ make
 make BINDIR=/usr/sbin install
 cd ..
 rm -rf mdadm-4.1
+# thin-provisioning-tools.
+tar -xf thin-provisioning-tools-0.9.0.tar.gz
+cd thin-provisioning-tools-0.9.0
+autoconf
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf thin-provisioning-tools-0.9.0
 # LVM2.
 tar -xf LVM2.2.03.13.tgz
 cd LVM2.2.03.13
-./configure --prefix=/usr --enable-cmdlib --enable-pkgconfig --enable-udev_sync
+./configure --prefix=/usr --enable-cmdlib --enable-dmeventd --enable-pkgconfig --enable-udev_sync
 make
 make install
 make install_systemd_units
@@ -1696,9 +1718,9 @@ cd brotli-1.0.9
 ./bootstrap
 ./configure --prefix=/usr
 make
-python3 setup.py build
+python setup.py build
 make install
-python3 setup.py install --optimize=1
+python setup.py install --optimize=1
 mv /usr/share/doc/brotli{,-1.0.9}
 rm -f /usr/lib/libbrotlidec.a
 cd ..
@@ -1768,6 +1790,15 @@ make install
 rm -f /usr/lib/libnfs.a
 cd ..
 rm -rf libnfs-libnfs-4.0.0
+# libieee1284.
+tar -xf libieee1284-0.2.11.tar.xz
+cd libieee1284-0.2.11
+./configure --prefix=/usr --mandir=/usr/share/man --with-python
+make
+make install
+rm -f /usr/lib/libieee1284.a
+cd ..
+rm -rf libieee1284-0.2.11
 # PCRE.
 tar -xf pcre-8.45.tar.bz2
 cd pcre-8.45
@@ -2097,6 +2128,22 @@ make -j1
 make -j1 install
 cd ..
 rm -rf cyrus-sasl-2.1.27
+# libtirpc.
+tar -xf libtirpc-1.3.2.tar.bz2
+cd libtirpc-1.3.2
+./configure --prefix=/usr --sysconfdir=/etc --disable-static
+make
+make install
+cd ..
+rm -rf libtirpc-1.3.2
+# libnsl.
+tar -xf libnsl-2.0.0.tar.xz
+cd libnsl-2.0.0
+./configure --sysconfdir=/etc --disable-static
+make
+make install
+cd ..
+rm -rf libnsl-2.0.0
 # Audit.
 tar -xf audit-3.0.5.tar.gz
 cd audit-3.0.5
@@ -2328,7 +2375,6 @@ tar -xf llvm-13.0.0.src.tar.xz
 cd llvm-13.0.0.src
 mkdir -p tools/clang
 tar -xf ../clang-13.0.0.src.tar.xz -C tools/clang --strip-components=1
-grep -rl '#!.*python' | xargs sed -i '1s/python$/python3/'
 mkdir llvm-build; cd llvm-build
 CC=gcc CXX=g++ cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
 ninja
@@ -2737,14 +2783,14 @@ make install
 cd ..
 rm -rf fontconfig-2.13.1
 # Fribidi.
-tar -xf fribidi-1.0.9.tar.xz
-cd fribidi-1.0.9
-mkdir fribidi-build; cd fribidi-build
+tar -xf fribidi-1.0.11.tar.xz
+cd fribidi-1.0.11
+mkdir BIDIRECTIONAL-build; cd BIDIRECTIONAL-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf fribidi-1.0.9
+rm -rf fribidi-1.0.11
 # giflib.
 tar -xf giflib-5.2.1.tar.gz
 cd giflib-5.2.1
@@ -2849,8 +2895,8 @@ rm -rf xdg-user-dirs-0.17
 # LSB-Tools.
 tar -xf LSB-Tools-0.9.tar.gz
 cd LSB-Tools-0.9
-python3 setup.py build
-python3 setup.py install --optimize=1
+python setup.py build
+python setup.py install --optimize=1
 cd ..
 rm -rf LSB-Tools-0.9
 # p7zip.
@@ -3586,13 +3632,13 @@ ln -sr /usr/share/graphviz/doc /usr/share/doc/graphviz-2.49.1
 cd ..
 rm -rf graphviz-2.49.1
 # Vala.
-tar -xf vala-0.54.1.tar.xz
-cd vala-0.54.1
+tar -xf vala-0.54.2.tar.xz
+cd vala-0.54.2
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf vala-0.54.1
+rm -rf vala-0.54.2
 # libgusb.
 tar -xf libgusb-0.3.7.tar.gz
 cd libgusb-0.3.7
@@ -3863,6 +3909,19 @@ make install
 rm -f /usr/lib/libpcap.a
 cd ..
 rm -rf libpcap-1.10.1
+# Net-SNMP.
+tar -xf net-snmp-5.9.1.tar.xz
+cd net-snmp-5.9.1
+./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --enable-ucd-snmp-compatibility --enable-ipv6 --with-python-modules --with-default-snmp-version="3" --with-sys-contact="root@localhost" --with-sys-location="Unknown" --with-logfile="/var/log/snmpd.log" --with-mib-modules="host misc/ipfwacc ucd-snmp/diskio tunnel ucd-snmp/dlmod ucd-snmp/lmsensorsMib" --with-persistent-directory="/var/net-snmp"
+make NETSNMP_DONT_CHECK_VERSION=1
+make INSTALLDIRS=vendor install
+install -m644 systemd-units/snmpd.service /usr/lib/systemd/system/snmpd.service
+install -m644 systemd-units/snmptrapd.service /usr/lib/systemd/system/snmptrapd.service
+for i in libnetsnmp libnetsnmpmibs libsnmp libnetsnmphelpers libnetsnmptrapd libnetsnmpagent; do
+  rm -f /usr/lib/$i.a
+done
+cd ..
+rm -rf net-snmp-5.9.1
 # ppp.
 tar -xf ppp-2.4.9.tar.gz
 cd ppp-2.4.9
@@ -3904,6 +3963,7 @@ END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 ln -s ../vim/vim82/doc /usr/share/doc/vim-8.2.3458
+rm -f /usr/share/applications/vim.desktop
 cd ..
 rm -rf vim-8.2.3458
 # libwpe.
@@ -4016,6 +4076,7 @@ account include system-account
 session include system-session
 END
 systemctl enable cups
+rm -f /usr/share/applications/cups.desktop
 cd ..
 rm -rf cups-2.3.3op2
 # Poppler.
@@ -4102,6 +4163,35 @@ make
 make install
 cd ..
 rm -rf gutenprint-5.3.3
+# SANE.
+tar -xf sane-backends-1.0.32.tar.gz
+cd sane-backends-1.0.32
+groupadd -g 70 scanner
+mkdir inSANE-build; cd inSANE-build
+sg scanner -c "../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-group=scanner --docdir=/usr/share/doc/sane-backends-1.0.32"
+make
+make install
+install -m644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
+chgrp scanner /var/lock/sane
+cd ../..
+rm -rf sane-backends-1.0.32
+# hplip.
+tar -xf hplip-3.21.8.tar.xz
+cd hplip-3.21.8
+./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
+make
+make -j1 rulesdir=/usr/lib/udev/rules.d DESTDIR=$PWD/destination-tmp install
+rm -rf destination-tmp/etc/{sane.d,xdg}
+rm -rf destination-tmp/usr/share/hal
+rm -rf destination-tmp/etc/init.d
+rm -f destination-tmp/usr/share/applications/hp-uiscan.desktop
+rm -f destination-tmp/usr/share/applications/hplip.desktop
+install -dm755 destination-tmp/etc/sane.d/dll.d
+echo hpaio > destination-tmp/etc/sane.d/dll.d/hpaio
+cp -a destination-tmp/* /
+ldconfig
+cd ..
+rm -rf hplip-3.21.8
 # Tk.
 tar -xf tk8.6.11.1-src.tar.gz
 cd tk8.6.11/unix
@@ -4120,6 +4210,9 @@ cd Python-3.9.7
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
+pip install cython
+pip install requests
+pip install tldr
 cd ..
 rm -rf Python-3.9.7
 # mobile-broadband-provider-info.
@@ -4158,10 +4251,10 @@ rm -rf newt-0.52.21
 # PyCairo.
 tar -xf pycairo-1.20.1.tar.gz
 cd pycairo-1.20.1
-python3 setup.py build
-python3 setup.py install --optimize=1
-python3 setup.py install_pycairo_header
-python3 setup.py install_pkgconfig
+python setup.py build
+python setup.py install --optimize=1
+python setup.py install_pycairo_header
+python setup.py install_pkgconfig
 cd ..
 rm -rf pycairo-1.20.1
 # PyGObject.
@@ -4174,6 +4267,14 @@ ninja
 ninja install
 cd ../..
 rm -rf pygobject-3.40.1
+# D-Bus Python.
+tar -xf dbus-python-1.2.18.tar.gz
+cd dbus-python-1.2.18
+PYTHON=/usr/bin/python3 ./configure --prefix=/usr --docdir=/usr/share/doc/dbus-python-1.2.18
+make
+make install
+cd ..
+rm -rf dbus-python-1.2.18
 # UPower.
 tar -xf upower-UPOWER_0_99_13.tar.bz2
 cd upower-UPOWER_0_99_13
@@ -4203,6 +4304,10 @@ END
 cat > /etc/NetworkManager/conf.d/dhcp.conf << END
 [main]
 dhcp=dhclient
+END
+cat > /etc/NetworkManager/conf.d/dns.conf << END
+[main]
+dns=systemd-resolved
 END
 cat > /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << END
 polkit.addRule(function(action, subject) {
@@ -4754,6 +4859,40 @@ make
 make install
 cd ..
 rm -rf pavucontrol-5.0
+# Blueman.
+tar -xf blueman-2.2.2.tar.xz
+cd blueman-2.2.2
+sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
+./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/blueman-2.2.2 --with-dhcp-config='/etc/dhcp/dhclient.conf'
+make
+make install
+mv /etc/xdg/autostart/blueman.desktop /usr/share/blueman/autostart.destkop
+cat > /sbin/blueman-autostart << "END"
+#!/bin/bash
+
+not_root() {
+  echo "Error: $(basename $0) must be run as root." >&2
+  exit 1
+}
+
+usage() {
+  echo "Usage: $(basename $0) [enable|disable]" >&2
+  exit 1
+}
+
+[ $EUID -eq 0 ] || not_root
+
+[ ! -z "$1" ] || usage
+
+case "$1" in
+  enable) cp -af /usr/share/blueman/autostart.desktop /etc/xdg/autostart/blueman.desktop ;;
+  disable) rm -f /etc/xdg/autostart/blueman.desktop ;;
+  *) usage ;;
+esac
+END
+chmod 755 /sbin/blueman-autostart
+cd ..
+rm -rf blueman-2.2.2
 # xfce4-screenshooter.
 tar -xf xfce4-screenshooter-1.9.9.tar.bz2
 cd xfce4-screenshooter-1.9.9
@@ -4868,6 +5007,7 @@ autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install
+rm -f /usr/share/applications/htop.desktop
 cd ..
 rm -rf htop-3.1.0
 # sl.
@@ -4909,7 +5049,7 @@ install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
 # Firefox.
-tar --no-same-owner -xf firefox-92.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-93.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

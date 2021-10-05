@@ -54,7 +54,7 @@ MassOS comes preinstalled with the Firefox Web Browser and Thunderbird Mail Clie
 - Atom
 - Visual Studio Code
 - Brackets
-# Tips.
+# Tips
 - While Flatpak is the default and prefered package manager, many software packages can also be run on MassOS via the use of AppImages.
 - Most development tools and headers are preserved in the MassOS system, allowing the user to easily compile any missing command-line software they might need. Autotools, Meson, and CMake build systems are supported.
 - Many programs store customisable configuration files in `/etc`. If you know what you're doing, feel free to customise the configuration files here.
