@@ -703,13 +703,13 @@ make install
 cd ..
 rm -rf autoconf-2.71
 # Automake.
-tar -xf automake-1.16.5.tar.xz
-cd automake-1.16.5
-./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.5
+tar -xf automake-1.16.4.tar.xz
+cd automake-1.16.4
+./configure --prefix=/usr --docdir=/usr/share/doc/automake-1.16.4
 make
 make install
 cd ..
-rm -rf automake-1.16.5
+rm -rf automake-1.16.4
 # elfutils.
 tar -xf elfutils-0.185.tar.bz2
 cd elfutils-0.185
@@ -800,7 +800,6 @@ rm -rf file-5.40
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
 patch -Np1 -i ../patches/coreutils-9.0-bugfix-1.patch
-autoreconf -fi
 ./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
 make install

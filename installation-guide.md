@@ -18,7 +18,6 @@ It also includes the following upgraded software:
 
 - adwaita-icon-theme: `40.1.1 --> 41.0`
 - at-spi2-core: `2.40.3 --> 2.42.0`
-- Automake: `1.16.4 --> 1.16.5`
 - Firefox: `92.0.1 --> 93.0`
 - Fribidi: `1.0.9 --> 1.0.11`
 - Gcr: `3.40.0 --> 3.41.0`
