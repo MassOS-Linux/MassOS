@@ -4971,6 +4971,15 @@ make install
 install -m644 mtools.conf /etc/mtools.conf
 cd ..
 rm -rf mtools-4.0.35
+# Baobab.
+tar -xf baobab-41.0.tar.xz
+cd baobab-41.0
+mkdir baobab-build; cd baobab-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf baobab-41.0
 # Gnome Software.
 tar -xf gnome-software-41.0.tar.xz
 cd gnome-software-41.0
