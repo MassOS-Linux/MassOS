@@ -13,6 +13,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added a wrapper tool to generate an initramfs: `mkinitramfs`.
 - Fixed a possible DNS-resolve bug with NetworkManager.
 - Added Microcode information/installation instructions.
+- Tried to center windows by default.
 
 It also includes the following upgraded software:
 
