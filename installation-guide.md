@@ -16,12 +16,18 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- adwaita-icon-theme: `40.1.1 --> 41.0`
+- at-spi2-core: `2.40.3 --> 2.42.0`
 - Automake: `1.16.4 --> 1.16.5`
 - Firefox: `92.0.1 --> 93.0`
 - Fribidi: `1.0.9 --> 1.0.11`
+- Gcr: `3.40.0 --> 3.41.0`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
+- Nano: `5.8 --> 5.9`
+- PyGObject: `3.40.1 --> 3.42.0`
 - tzdata: `2021b --> 2021c`
 - Vala: `0.54.1 --> 0.54.2`
+- XKeyboard-Config: `2.33 --> 2.34`
 
 # Downloading The MassOS Rootfs
 Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.

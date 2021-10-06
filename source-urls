@@ -1,7 +1,7 @@
 https://www.freedesktop.org/software/accountsservice/accountsservice-0.6.55.tar.xz
 https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
 https://cdn.thesonicmaster.net/sources/acpi-1.7.tar.gz
-https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/40/adwaita-icon-theme-40.1.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.5.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
 https://www.freedesktop.org/software/appstream/releases/AppStream-0.14.5.tar.xz
@@ -11,7 +11,7 @@ https://github.com/asciidoc/asciidoc-py3/releases/download/9.1.1/asciidoc-9.1.1.
 https://mirrors.gethosted.online/gnu/aspell/aspell-0.60.8.tar.gz
 https://mirrors.gethosted.online/gnu/aspell/dict/en/aspell6-en-2020.12.07-0.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/at-spi2-core/2.40/at-spi2-core-2.40.3.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/at-spi2-core/2.42/at-spi2-core-2.42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/atk/2.36/atk-2.36.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/atkmm/2.28/atkmm-2.28.2.tar.xz
 https://download.savannah.gnu.org/releases/attr/attr-2.5.1.tar.gz
@@ -105,7 +105,7 @@ http://galculator.mnim.org/downloads/galculator-2.1.4.tar.gz
 https://archive.xfce.org/src/xfce/garcon/4.16/garcon-4.16.1.tar.bz2
 https://mirrors.gethosted.online/gnu/gawk/gawk-5.1.0.tar.xz
 https://mirrors.gethosted.online/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.40/gcr-3.40.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
 https://mirrors.gethosted.online/gnu/gdbm/gdbm-1.21.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.5.7/geoclue-2.5.7.tar.bz2
@@ -138,6 +138,7 @@ https://mirrors.gethosted.online/gnu/groff/groff-1.22.4.tar.gz
 https://mirrors.gethosted.online/gnu/grub/grub-2.06.tar.xz
 https://mirrors.gethosted.online/gnu/gsasl/gsasl-1.10.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/41/gsettings-desktop-schemas-41.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gspell/1.9/gspell-1.9.1.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.18.5.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.18.5.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.18.5.tar.xz
@@ -329,7 +330,7 @@ https://cdn.thesonicmaster.net/sources/mpg123-1.29.0.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
 https://ftp.gnu.org/gnu/mtools/mtools-4.0.35.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
-https://www.nano-editor.org/dist/v5/nano-5.8.tar.xz
+https://nano-editor.org/dist/v5/nano-5.9.tar.xz
 https://fossies.org/linux/misc/nasm-2.15.05.tar.xz
 https://mirrors.gethosted.online/gnu/ncurses/ncurses-6.2.tar.gz
 https://cdn.thesonicmaster.net/sources/net-snmp-5.9.1.tar.xz
@@ -381,7 +382,7 @@ https://cdn.thesonicmaster.net/sources/psmisc-23.4.tar.xz
 https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
 https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.10.0.tar.gz
-https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.40/pygobject-3.40.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://www.python.org/ftp/python/3.9.7/Python-3.9.7.tar.xz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.3.2/qpdf-10.3.2.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
@@ -499,7 +500,7 @@ https://www.x.org/pub/individual/app/xinput-1.6.3.tar.bz2
 https://www.x.org/pub/individual/app/xkbcomp-1.4.5.tar.bz2
 https://www.x.org/pub/individual/app/xkbevd-1.1.4.tar.bz2
 https://www.x.org/pub/individual/app/xkbutils-1.0.4.tar.bz2
-https://www.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.33.tar.bz2
+https://www.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.34.tar.bz2
 https://www.x.org/pub/individual/app/xkill-1.0.5.tar.bz2
 https://www.x.org/pub/individual/app/xinit-1.4.1.tar.bz2
 https://www.x.org/pub/individual/app/xlsatoms-1.1.3.tar.bz2

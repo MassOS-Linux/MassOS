@@ -972,16 +972,16 @@ make install
 cd ..
 rm -rf tar-1.34
 # Nano (Vim will be installed later, after Xorg, to support a GUI).
-tar -xf nano-5.8.tar.xz
-cd nano-5.8
-./configure --prefix=/usr --sysconfdir=/etc --enable-utf8 --docdir=/usr/share/doc/nano-5.8
+tar -xf nano-5.9.tar.xz
+cd nano-5.9
+./configure --prefix=/usr --sysconfdir=/etc --enable-utf8 --docdir=/usr/share/doc/nano-5.9
 make
 make install
-install -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-5.8
+install -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-5.9
 cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 cd ..
-rm -rf nano-5.8
+rm -rf nano-5.9
 # MarkupSafe.
 tar -xf MarkupSafe-2.0.1.tar.gz
 cd MarkupSafe-2.0.1
@@ -3202,14 +3202,14 @@ ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
 tar --no-same-owner -xf noto-fonts.tar.xz -C /usr --strip-components=2
 fc-cache
-# XKeyboardConfig.
-tar -xf xkeyboard-config-2.33.tar.bz2
-cd xkeyboard-config-2.33
+# XKeyboard-Config.
+tar -xf xkeyboard-config-2.34.tar.bz2
+cd xkeyboard-config-2.34
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-xkb-rules-symlink=xorg
 make
 make install
 cd ..
-rm -rf xkeyboard-config-2.33
+rm -rf xkeyboard-config-2.34
 # libxkbcommon.
 tar -xf libxkbcommon-1.3.1.tar.xz
 cd libxkbcommon-1.3.1
@@ -3658,22 +3658,22 @@ gdk-pixbuf-query-loaders --update-cache
 cd ..
 rm -rf librsvg-2.52.0
 # adwaita-icon-theme.
-tar -xf adwaita-icon-theme-40.1.1.tar.xz
-cd adwaita-icon-theme-40.1.1
+tar -xf adwaita-icon-theme-41.0.tar.xz
+cd adwaita-icon-theme-41.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf adwaita-icon-theme-40.1.1
+rm -rf adwaita-icon-theme-41.0
 # at-spi2-core.
-tar -xf at-spi2-core-2.40.3.tar.xz
-cd at-spi2-core-2.40.3
+tar -xf at-spi2-core-2.42.0.tar.xz
+cd at-spi2-core-2.42.0
 mkdir spi2-build; cd spi2-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf at-spi2-core-2.40.3
+rm -rf at-spi2-core-2.42.0
 # at-spi2-atk.
 tar -xf at-spi2-atk-2.38.0.tar.xz
 cd at-spi2-atk-2.38.0
@@ -3996,8 +3996,8 @@ ninja install
 cd ../..
 rm -rf libsecret-0.20.4
 # Gcr.
-tar -xf gcr-3.40.0.tar.xz
-cd gcr-3.40.0
+tar -xf gcr-3.41.0.tar.xz
+cd gcr-3.41.0
 sed -i 's:"/desktop:"/org:' schema/*.xml
 sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
 mkdir gcr-build; cd gcr-build
@@ -4005,7 +4005,7 @@ meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf gcr-3.40.0
+rm -rf gcr-3.41.0
 # pinentry.
 tar -xf pinentry-1.2.0.tar.bz2
 cd pinentry-1.2.0
@@ -4258,15 +4258,15 @@ python setup.py install_pkgconfig
 cd ..
 rm -rf pycairo-1.20.1
 # PyGObject.
-tar -xf pygobject-3.40.1.tar.xz
-cd pygobject-3.40.1
+tar -xf pygobject-3.42.0.tar.xz
+cd pygobject-3.42.0
 mv tests/test_gdbus.py{,.nouse}
 mkdir pygo-build; cd pygo-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pygobject-3.40.1
+rm -rf pygobject-3.42.0
 # D-Bus Python.
 tar -xf dbus-python-1.2.18.tar.gz
 cd dbus-python-1.2.18
@@ -4634,6 +4634,14 @@ ninja
 ninja install
 cd ../..
 rm -rf webkitgtk-2.34.0
+# gspell.
+tar -xf gspell-1.9.1.tar.xz
+cd gspell-1.9.1
+./configure --prefix=/usr --enable-gtk-doc
+make
+make install
+cd ..
+rm -rf gspell-1.9.1
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.40.0.tar.xz
 cd gnome-online-accounts-3.40.0
@@ -4967,7 +4975,7 @@ rm -rf mtools-4.0.35
 tar -xf gnome-software-41.0.tar.xz
 cd gnome-software-41.0
 mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dgspell=false -Dpackagekit=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
