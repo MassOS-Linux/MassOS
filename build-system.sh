@@ -5118,18 +5118,18 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.9.tar.xz
-cd linux-5.14.9
+tar -xf linux-5.14.10.tar.xz
+cd linux-5.14.10
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.9-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.9-massos/vmlinuz
-cp System.map /boot/System.map-5.14.9-massos
-cp .config /boot/config-5.14.9-massos
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.10-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.10-massos/vmlinuz
+cp System.map /boot/System.map-5.14.10-massos
+cp .config /boot/config-5.14.10-massos
 cd ..
-rm -rf linux-5.14.9
+rm -rf linux-5.14.10
 # MassOS release detection utility.
 gcc -Os -s massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
