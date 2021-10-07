@@ -5091,7 +5091,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.1.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.2.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
