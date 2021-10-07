@@ -1436,7 +1436,6 @@ make -C inc
 make -C apps
 make PREFIX=/usr install
 install -Dm 644 apps/*.efi -t /usr/share/gnu-efi/apps/x86_64
-rm -f /usr/lib/libgnuefi.a
 cd ..
 rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
