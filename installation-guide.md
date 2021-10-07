@@ -26,6 +26,7 @@ It also includes the following upgraded software:
 - JS78: `78.14.0 --> 78.15.0`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
 - Nano: `5.8 --> 5.9`
+- OpenSSH: `8.7p1 --> 8.8p1`
 - Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
 - tzdata: `2021b --> 2021c`

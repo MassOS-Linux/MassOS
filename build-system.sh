@@ -3434,8 +3434,8 @@ END
 cd ..
 rm -rf polkit-0.120
 # OpenSSH.
-tar -xf openssh-8.7p1.tar.gz
-cd openssh-8.7p1
+tar -xf openssh-8.8p1.tar.gz
+cd openssh-8.8p1
 install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
@@ -3450,7 +3450,7 @@ chmod 644 /etc/pam.d/sshd
 sed -i 's/#UsePAM/UsePAM/' /etc/ssh/sshd_config
 sed -i 's/UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
 cd ..
-rm -rf openssh-8.7p1
+rm -rf openssh-8.8p1
 # sshfs.
 tar -xf sshfs-3.7.2.tar.xz
 cd sshfs-3.7.2
