@@ -2469,7 +2469,6 @@ cd efibootmgr-17
 sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
 make EFIDIR=massos EFI_LOADER=grubx64.efi
 make EFIDIR=massos install
-rm -f /usr/lib/libefi.a
 cd ..
 rm -rf efibootmgr-17
 # libpng.
