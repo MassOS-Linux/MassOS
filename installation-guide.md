@@ -30,6 +30,7 @@ It also includes the following upgraded software:
 - PyGObject: `3.40.1 --> 3.42.0`
 - tzdata: `2021b --> 2021c`
 - Vala: `0.54.1 --> 0.54.2`
+- xf86-video-intel: `20210222 --> 20211007`
 - XKeyboard-Config: `2.33 --> 2.34`
 
 # Downloading The MassOS Rootfs

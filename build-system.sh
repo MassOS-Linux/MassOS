@@ -3372,15 +3372,15 @@ make install
 cd ..
 rm -rf xf86-video-fbdev-0.5.0
 # xf86-video-intel.
-tar -xf xf86-video-intel-20210222.tar.xz
-cd xf86-video-intel-20210222
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-kms-only --enable-uxa --mandir=/usr/share/man
+tar -xf xf86-video-intel-20211007.tar.xz
+cd xf86-video-intel-20211007
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-kms-only --enable-uxa --mandir=/usr/share/man
 make
 make install
 mv -v /usr/share/man/man4/intel-virtual-output.4 /usr/share/man/man1/intel-virtual-output.1
 sed -i '/\.TH/s/4/1/' /usr/share/man/man1/intel-virtual-output.1
 cd ..
-rm -rf xf86-video-intel-20210222
+rm -rf xf86-video-intel-20211007
 # xf86-video-nouveau.
 tar -xf xf86-video-nouveau-1.0.17.tar.bz2
 cd xf86-video-nouveau-1.0.17
