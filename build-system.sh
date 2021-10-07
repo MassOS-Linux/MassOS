@@ -59,8 +59,8 @@ make install
 cd ../..
 rm -rf gcc-11.2.0
 # Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-w -Os"
-CXXFLAGS="-w -Os"
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
@@ -181,8 +181,8 @@ include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
 rm -rf glibc-2.34
-CFLAGS="-w -Os"
-CXXFLAGS="-w -Os"
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # zlib.
 tar -xf zlib-1.2.11.tar.xz
@@ -315,8 +315,8 @@ make tooldir=/usr install -j1
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 cd ../..
 rm -rf binutils-2.37
-CFLAGS="-w -Os"
-CXXFLAGS="-w -Os"
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
@@ -523,8 +523,8 @@ cd ../..
 rm -rf gcc-11.2.0
 unset LD
 # Re-set compiler flags.
-CFLAGS="-w -Os"
-CXXFLAGS="-w -Os"
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
@@ -2320,14 +2320,14 @@ ninja install
 cd ../..
 rm -rf libsigc++-2.10.7
 # GLibmm
-tar -xf glibmm-2.66.1.tar.xz
-cd glibmm-2.66.1
+tar -xf glibmm-2.66.2.tar.xz
+cd glibmm-2.66.2
 mkdir glibmm-build; cd glibmm-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf glibmm-2.66.1
+rm -rf glibmm-2.66.2
 # gobject-introspection.
 tar -xf gobject-introspection-1.70.0.tar.xz
 cd gobject-introspection-1.70.0
@@ -2389,8 +2389,8 @@ cd rust-1.54.0-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
 # JS78.
-tar -xf firefox-78.14.0esr.source.tar.xz
-cd firefox-78.14.0
+tar -xf firefox-78.15.0esr.source.tar.xz
+cd firefox-78.15.0
 mkdir obj; cd obj
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2408,7 +2408,7 @@ if [ "$beforemounted" = "false" ]; then
 fi
 unset beforemounted
 cd ../..
-rm -rf firefox-78.14.0
+rm -rf firefox-78.15.0
 # Sudo.
 tar -xf sudo-1.9.8p2.tar.gz
 cd sudo-1.9.8p2
@@ -2614,8 +2614,8 @@ END
 sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
 rm -rf grub-2.06
-CFLAGS="-w -Os"
-CXXFLAGS="-w -Os"
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # os-prober.
 tar -xf os-prober_1.79.tar.xz
@@ -3417,12 +3417,12 @@ rm -rf xinit-1.4.1
 # Prefer libinput for handling input devices.
 ln -sr /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
 # Polkit.
-tar -xf polkit-0.119.tar.gz
-cd polkit-0.119
+tar -xf polkit-0.120.tar.gz
+cd polkit-0.120
 groupadd -fg 27 polkitd
 useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
 sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-os-type=massos
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-os-type=massos --enable-gtk-doc
 make
 make install
 cat > /etc/pam.d/polkit-1 << END
@@ -3432,7 +3432,7 @@ password include        system-password
 session  include        system-session
 END
 cd ..
-rm -rf polkit-0.119
+rm -rf polkit-0.120
 # OpenSSH.
 tar -xf openssh-8.7p1.tar.gz
 cd openssh-8.7p1

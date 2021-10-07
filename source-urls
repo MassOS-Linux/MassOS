@@ -83,7 +83,7 @@ https://cdn.thesonicmaster.net/sources/expat-2.4.1.tar.xz
 http://ftp.figlet.org/pub/figlet/program/unix/figlet-2.2.5.tar.gz
 https://astron.com/pub/file/file-5.40.tar.gz
 https://mirrors.gethosted.online/gnu/findutils/findutils-4.8.0.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/78.14.0esr/source/firefox-78.14.0esr.source.tar.xz
+https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/93.0/linux-x86_64/en-US/firefox-93.0.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.11.3/flatpak-1.11.3.tar.xz
@@ -118,7 +118,7 @@ https://www.kernel.org/pub/software/scm/git/git-2.33.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz
 https://mirrors.gethosted.online/gnu/glibc/glibc-2.34.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
 https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.xz
 https://mirrors.gethosted.online/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.0.tar.xz
@@ -371,7 +371,7 @@ https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://zlib.net/pigz/pigz-2.6.tar.gz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
-https://www.freedesktop.org/software/polkit/releases/polkit-0.119.tar.gz
+https://www.freedesktop.org/software/polkit/releases/polkit-0.120.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
 https://poppler.freedesktop.org/poppler-21.09.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz

@@ -22,8 +22,11 @@ It also includes the following upgraded software:
 - Firefox: `92.0.1 --> 93.0`
 - Fribidi: `1.0.9 --> 1.0.11`
 - Gcr: `3.40.0 --> 3.41.0`
+- GLibmm: `2.66.1 --> 2.66.2`
+- JS78: `78.14.0 --> 78.15.0`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
 - Nano: `5.8 --> 5.9`
+- Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
 - tzdata: `2021b --> 2021c`
 - Vala: `0.54.1 --> 0.54.2`
