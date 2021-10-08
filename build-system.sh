@@ -3837,7 +3837,7 @@ groupadd -fg 84 avahi
 useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi
 groupadd -fg 86 netdev
 patch -Np1 -i ../patches/avahi-0.8-ipv6_race_condition_fix-1.patch
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-libevent --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --enable-core-docs --with-distro=massos
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-libevent --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --enable-core-docs --with-distro=none
 make
 make install
 systemctl enable avahi-daemon
