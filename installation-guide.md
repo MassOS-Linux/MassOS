@@ -14,6 +14,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Fixed a possible DNS-resolve bug with NetworkManager.
 - Added Microcode information/installation instructions.
 - Tried to center windows by default.
+- Use `bsdtar` (from `libarchive`) as the default `tar` implementation. It supports far more compression formats (even non-tar ones) than GNU tar. GNU tar will still be installed however, as `gtar`, in case it is needed.
 
 It also includes the following upgraded software:
 

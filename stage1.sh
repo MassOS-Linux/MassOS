@@ -225,9 +225,10 @@ rm -rf sed-4.8
 # Tar.
 tar -xf tar-1.34.tar.xz
 cd tar-1.34
-./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess)
+./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --program-prefix=g
 make
 make DESTDIR=$MASSOS install
+ln -sf gtar $MASSOS/usr/bin/tar
 cd ..
 rm -rf tar-1.34
 # XZ.

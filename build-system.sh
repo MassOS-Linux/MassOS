@@ -966,7 +966,7 @@ rm -rf patch-2.7.6
 # Tar.
 tar -xf tar-1.34.tar.xz
 cd tar-1.34
-./configure --prefix=/usr
+./configure --prefix=/usr --program-prefix=g
 make
 make install
 cd ..
@@ -1142,6 +1142,18 @@ make
 make install
 cd ..
 rm -rf libxml2-2.9.12
+# libarchive.
+tar -xf libarchive-3.5.2.tar.xz
+cd libarchive-3.5.2
+./configure --prefix=/usr --disable-static
+make
+make install
+ln -sf bsdtar /usr/bin/tar
+ln -sf bsdcpio /usr/bin/cpio
+ln -sf bsdtar.1 /usr/share/man/man1/tar.1
+ln -sf bsdcpio.1 /usr/share/man/man1/cpio.1
+cd ..
+rm -rf libarchive-3.5.2
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 cd docbook-xml-4.5
@@ -1573,15 +1585,6 @@ cat > /etc/fuse.conf << END
 END
 cd ../..
 rm -rf fuse-3.10.5
-# cpio.
-tar -xf cpio-2.13.tar.bz2
-cd cpio-2.13
-sed -i '/The name/,+2 d' src/global.c
-./configure --prefix=/usr --enable-mt --with-rmt=/usr/libexec/rmt
-make
-make install
-cd ..
-rm -rf cpio-2.13
 # dracut.
 tar -xf dracut-055.tar.gz
 cd dracut-055
@@ -2447,14 +2450,6 @@ ninja
 ninja install
 cd ../..
 rm -rf json-glib-1.6.6
-# libarchive.
-tar -xf libarchive-3.5.2.tar.xz
-cd libarchive-3.5.2
-./configure --prefix=/usr --disable-static
-make
-make install
-cd ..
-rm -rf libarchive-3.5.2
 # efivar.
 tar -xf efivar-37.tar.bz2
 cd efivar-37
