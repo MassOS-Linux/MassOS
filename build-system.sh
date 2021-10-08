@@ -4213,6 +4213,30 @@ pip install requests
 pip install tldr
 cd ..
 rm -rf Python-3.9.7
+# libplist.
+tar -xf libplist-2.2.0.tar.bz2
+cd libplist-2.2.0
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libplist-2.2.0
+# libusbmuxd.
+tar -xf libusbmuxd-2.0.2.tar.bz2
+cd libusbmuxd-2.0.2
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libusbmuxd-2.0.2
+# libimobiledevice.
+tar -xf libimobiledevice-1.3.0.tar.bz2
+cd libimobiledevice-1.3.0
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libimobiledevice-1.3.0
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20210805.tar.xz
 cd mobile-broadband-provider-info-20210805
@@ -4662,7 +4686,7 @@ rm -rf libgdata-0.18.1
 tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dafc=false -Dbluray=false -Dsmb=false ..
+meson --prefix=/usr --buildtype=release -Dbluray=false -Dsmb=false ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
