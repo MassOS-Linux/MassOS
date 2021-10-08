@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -748,8 +748,8 @@ ln -sf kmod /usr/bin/lsmod
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -762,7 +762,7 @@ pip --no-color install --upgrade pip
 pip --no-color install --upgrade setuptools
 pip --no-color install pyparsing
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -4198,8 +4198,8 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.11
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -4207,7 +4207,7 @@ pip install cython
 pip install requests
 pip install tldr
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0

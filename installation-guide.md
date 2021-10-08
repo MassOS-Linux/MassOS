@@ -32,6 +32,7 @@ It also includes the following upgraded software:
 - OpenSSH: `8.7p1 --> 8.8p1`
 - Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
+- Python: `3.9.7 --> 3.10.0`
 - Thunar: `4.16.9 --> 4.16.10`
 - Thunderbird: `91.1.2 --> 91.2.0`
 - tzdata: `2021b --> 2021c`
