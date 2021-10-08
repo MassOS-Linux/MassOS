@@ -4733,13 +4733,13 @@ make install
 cd ..
 rm -rf garcon-4.16.1
 # Thunar.
-tar -xf thunar-4.16.9.tar.bz2
-cd thunar-4.16.9
-./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/thunar-4.16.9
+tar -xf thunar-4.16.10.tar.bz2
+cd thunar-4.16.10
+./configure --prefix=/usr --sysconfdir=/etc --docdir=/usr/share/doc/thunar-4.16.10
 make
 make install
 cd ..
-rm -rf thunar-4.16.9
+rm -rf thunar-4.16.10
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
