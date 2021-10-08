@@ -7,7 +7,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Added acpi, AppStream, Baobab, dmidecode, laptop-detect, libimobiledevice, lm-sensors.
+- Added acpi, AppStream, Baobab, dmidecode, laptop-detect, libimobiledevice, lm-sensors, thunar-archive-plugin.
 - Added HP printer support in CUPS (HPLIP).
 - Added scanning capability (SANE).
 - Added a wrapper tool to generate an initramfs: `mkinitramfs`.
@@ -20,6 +20,7 @@ It also includes the following upgraded software:
 - adwaita-icon-theme: `40.1.1 --> 41.0`
 - at-spi2-core: `2.40.3 --> 2.42.0`
 - Firefox: `92.0.1 --> 93.0`
+- Flatpak: `1.11.3 --> 1.20.0`
 - Fribidi: `1.0.9 --> 1.0.11`
 - Gcr: `3.40.0 --> 3.41.0`
 - GLibmm: `2.66.1 --> 2.66.2`

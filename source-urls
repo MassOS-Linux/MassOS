@@ -86,7 +86,7 @@ https://mirrors.gethosted.online/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/93.0/linux-x86_64/en-US/firefox-93.0.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
-https://github.com/flatpak/flatpak/releases/download/1.11.3/flatpak-1.11.3.tar.xz
+https://github.com/flatpak/flatpak/releases/download/1.12.0/flatpak-1.12.0.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://www.x.org/pub/individual/font/font-alias-1.0.4.tar.bz2
 https://www.x.org/pub/individual/font/font-adobe-utopia-type1-1.0.4.tar.bz2
@@ -429,6 +429,7 @@ https://cdn.thesonicmaster.net/sources/tcl8.6.11-src.tar.gz
 https://mirrors.gethosted.online/gnu/texinfo/texinfo-6.8.tar.xz
 https://cdn.thesonicmaster.net/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.xfce.org/src/xfce/thunar/4.16/thunar-4.16.9.tar.bz2
+https://archive.xfce.org/src/thunar-plugins/thunar-archive-plugin/0.4/thunar-archive-plugin-0.4.0.tar.bz2
 https://archive.xfce.org/src/xfce/thunar-volman/4.16/thunar-volman-4.16.0.tar.bz2
 https://archive.mozilla.org/pub/thunderbird/releases/91.2.0/linux-x86_64/en-US/thunderbird-91.2.0.tar.bz2
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz

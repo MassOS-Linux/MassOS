@@ -4467,12 +4467,12 @@ make install
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.11.3.tar.xz
-cd flatpak-1.11.3
+tar -xf flatpak-1.12.0.tar.xz
+cd flatpak-1.12.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
-mv /usr/share/doc/flatpak{,-1.11.3}
+mv /usr/share/doc/flatpak{,-1.12.0}
 cat > /etc/profile.d/flatpak.sh << END
 if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
   pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
@@ -4488,7 +4488,7 @@ END
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
-rm -rf flatpak-1.11.3
+rm -rf flatpak-1.12.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -4949,6 +4949,14 @@ gtk-update-icon-cache -qtf /usr/share/icons/hicolor
 update-desktop-database -q
 cd ..
 rm -rf xarchiver-0.5.4.17
+# thunar-archive-plugin.
+tar -xf thunar-archive-plugin-0.4.0.tar.bz2
+cd thunar-archive-plugin-0.4.0
+./configure --prefix=/usr --sysconfdir=/etc  --libexecdir=/usr/lib/xfce4 --localstatedir=/var --disable-static
+make
+make install
+cd ..
+rm -rf thunar-archive-plugin-0.4.0
 # gtksourceview.
 tar -xf gtksourceview-4.8.2.tar.xz
 cd gtksourceview-4.8.2
