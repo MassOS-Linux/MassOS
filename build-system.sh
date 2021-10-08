@@ -1792,15 +1792,6 @@ make install
 rm -f /usr/lib/libnfs.a
 cd ..
 rm -rf libnfs-libnfs-4.0.0
-# libieee1284.
-tar -xf libieee1284-0.2.11.tar.xz
-cd libieee1284-0.2.11
-./configure --prefix=/usr --mandir=/usr/share/man --with-python
-make
-make install
-rm -f /usr/lib/libieee1284.a
-cd ..
-rm -rf libieee1284-0.2.11
 # PCRE.
 tar -xf pcre-8.45.tar.bz2
 cd pcre-8.45
