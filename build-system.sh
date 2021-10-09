@@ -4163,6 +4163,7 @@ rm -rf gutenprint-5.3.3
 # SANE.
 tar -xf sane-backends-1.0.32.tar.gz
 cd sane-backends-1.0.32
+[ -d /run/lock ] || mkdir -p /run/lock
 groupadd -g 70 scanner
 mkdir inSANE-build; cd inSANE-build
 sg scanner -c "../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-group=scanner"
