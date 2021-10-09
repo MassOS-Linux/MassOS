@@ -1654,13 +1654,13 @@ make install_systemd_units
 cd ..
 rm -rf LVM2.2.03.13
 # btrfs-progs.
-tar -xf btrfs-progs-v5.14.1.tar.xz
-cd btrfs-progs-v5.14.1
+tar -xf btrfs-progs-v5.14.2.tar.xz
+cd btrfs-progs-v5.14.2
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.14.1
+rm -rf btrfs-progs-v5.14.2
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -4064,8 +4064,8 @@ rm -f /usr/share/applications/cups.desktop
 cd ..
 rm -rf cups-2.3.3op2
 # Poppler.
-tar -xf poppler-21.09.0.tar.xz
-cd poppler-21.09.0
+tar -xf poppler-21.10.0.tar.xz
+cd poppler-21.10.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -4074,7 +4074,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-21.09.0
+rm -rf poppler-21.10.0
 # Ghostscript.
 tar -xf ghostscript-9.55.0.tar.xz
 cd ghostscript-9.55.0
@@ -4418,15 +4418,15 @@ make install
 cd ..
 rm -rf libostree-2021.4
 # AppStream.
-tar -xf AppStream-0.14.5.tar.xz
-cd AppStream-0.14.5
+tar -xf AppStream-0.14.6.tar.xz
+cd AppStream-0.14.6
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
-mv /usr/share/doc/appstream{,-0.14.5}
+mv /usr/share/doc/appstream{,-0.14.6}
 cd ../..
-rm -rf AppStream-0.14.5
+rm -rf AppStream-0.14.6
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -4453,12 +4453,12 @@ make install
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.0.tar.xz
-cd flatpak-1.12.0
+tar -xf flatpak-1.12.1.tar.xz
+cd flatpak-1.12.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
-mv /usr/share/doc/flatpak{,-1.12.0}
+mv /usr/share/doc/flatpak{,-1.12.1}
 cat > /etc/profile.d/flatpak.sh << END
 if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
   pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
@@ -4474,7 +4474,7 @@ END
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
-rm -rf flatpak-1.12.0
+rm -rf flatpak-1.12.1
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
