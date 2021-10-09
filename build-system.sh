@@ -2158,7 +2158,7 @@ rm -rf audit-3.0.5
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3/libraries/libapparmor
-./configure --prefix=/usr --with-perl --with-python
+./configure --prefix=/usr --with-perl
 make
 cd ../..
 make -C binutils
