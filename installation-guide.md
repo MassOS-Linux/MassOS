@@ -28,6 +28,7 @@ It also includes the following upgraded software:
 - Gcr: `3.40.0 --> 3.41.0`
 - GLibmm: `2.66.1 --> 2.66.2`
 - JS78: `78.14.0 --> 78.15.0`
+- libical: `3.0.10 --> 3.0.11`
 - Linux Kernel: `5.14.9 --> 5.14.11`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
 - Nano: `5.8 --> 5.9`

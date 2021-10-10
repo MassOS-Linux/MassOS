@@ -3812,14 +3812,14 @@ make install
 cd ..
 rm -rf sbc-1.5
 # libical.
-tar -xf libical-3.0.10.tar.gz
-cd libical-3.0.10
-mkdir ical-build; cd ical-build
+tar -xf libical-3.0.11.tar.gz
+cd libical-3.0.11
+mkdir build-with-CMAKE; cd build-with-CMAKE
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true -Wno-dev ..
 make -j1
 make -j1 install
 cd ../..
-rm -rf libical-3.0.10
+rm -rf libical-3.0.11
 # BlueZ.
 tar -xf bluez-5.61.tar.xz
 cd bluez-5.61
