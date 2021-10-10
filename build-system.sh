@@ -4170,7 +4170,7 @@ sg scanner -c "../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
 make install
 install -m644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
-chgrp scanner /var/lock/sane
+[ ! -e /var/lock/sane ] || chgrp scanner /var/lock/sane
 cd ../..
 rm -rf sane-backends-1.0.32
 # hplip.
