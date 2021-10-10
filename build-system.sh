@@ -5005,6 +5005,15 @@ ninja
 ninja install
 cd ../..
 rm -rf baobab-41.0
+# libxmlb.
+tar -xf libxmlb-0.3.3.tar.gz
+cd libxmlb-0.3.3
+mkdir xmlb-build; cd xmlb-build
+meson --prefix=/usr --buildtype=release -Dstemmer=true ..
+ninja
+ninja install
+cd ../..
+rm -rf libxmlb-0.3.3
 # Gnome Software.
 tar -xf gnome-software-41.0.tar.xz
 cd gnome-software-41.0
