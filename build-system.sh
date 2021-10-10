@@ -5162,8 +5162,9 @@ cp arch/x86/boot/bzImage /usr/lib/modules/5.14.11-massos/vmlinuz
 cp System.map /boot/System.map-5.14.11-massos
 cp .config /boot/config-5.14.11-massos
 rm /usr/lib/modules/5.14.11-massos/{source,build}
+make -s kernelrelease > version
 builddir=/usr/lib/modules/5.14.11-massos/build
-install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map localversion.* version vmlinux
+install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
 cp -t "$builddir" -a scripts
