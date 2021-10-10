@@ -2925,6 +2925,7 @@ cd ruby-3.0.2
 ./configure --prefix=/usr --enable-shared
 make
 make install
+gem install lolcat
 cd ..
 rm -rf ruby-3.0.2
 # slang.
