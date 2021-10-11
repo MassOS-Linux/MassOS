@@ -2912,13 +2912,6 @@ make all3
 make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip-17.04 install
 cd ..
 rm -rf p7zip-17.04
-# UnRAR.
-tar -xf unrarsrc-6.0.7.tar.gz
-cd unrar
-make -f makefile
-install -m755 unrar /usr/bin
-cd ..
-rm -rf unrar
 # Ruby.
 tar -xf ruby-3.0.2.tar.xz
 cd ruby-3.0.2
@@ -3643,14 +3636,14 @@ make install
 cd ..
 rm -rf vala-0.54.2
 # libgusb.
-tar -xf libgusb-0.3.7.tar.gz
-cd libgusb-0.3.7
-mkdir libgusb-build; cd libgusb-build
+tar -xf libgusb-0.3.8.tar.gz
+cd libgusb-0.3.8
+mkdir GUSB-build; cd GUSB-build
 meson --prefix=/usr --buildtype=release -Ddocs=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libgusb-0.3.7
+rm -rf libgusb-0.3.8
 # librsvg.
 tar -xf librsvg-2.52.0.tar.xz
 cd librsvg-2.52.0
@@ -4846,13 +4839,14 @@ make install
 cd ..
 rm -rf xfce4-terminal-0.8.10
 # Ristretto.
-tar -xf ristretto-0.11.0.tar.bz2
-cd ristretto-0.11.0
-./configure --prefix=/usr
+tar -xf ristretto-0.12.0.tar.bz2
+cd ristretto-0.12.0
+mkdir RISTORANTE-build; cd RISTORANTE-build
+../configure --prefix=/usr
 make
 make install
-cd ..
-rm -rf ristretto-0.11.0
+cd ../..
+rm -rf ristretto-0.12.0
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.2.tar.bz2
 cd xfce4-notifyd-0.6.2

@@ -28,6 +28,7 @@ It also includes the following upgraded software:
 - Gcr: `3.40.0 --> 3.41.0`
 - GLibmm: `2.66.1 --> 2.66.2`
 - JS78: `78.14.0 --> 78.15.0`
+- libgusb: `0.3.7 --> 0.3.8`
 - libical: `3.0.10 --> 3.0.11`
 - Linux Kernel: `5.14.9 --> 5.14.11`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
@@ -35,6 +36,7 @@ It also includes the following upgraded software:
 - OpenSSH: `8.7p1 --> 8.8p1`
 - Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
+- Ristretto: `0.11.0 --> 0.12.0`
 - Thunar: `4.16.9 --> 4.16.10`
 - Thunderbird: `91.1.2 --> 91.2.0`
 - tzdata: `2021b --> 2021c`

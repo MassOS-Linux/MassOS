@@ -208,7 +208,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.42.tar.bz2
 https://github.com/gphoto/libgphoto2/releases/download/v2.5.27/libgphoto2-2.5.27.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
-https://github.com/hughsie/libgusb/archive/0.3.7/libgusb-0.3.7.tar.gz
+https://github.com/hughsie/libgusb/archive/0.3.8/libgusb-0.3.8.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
 https://github.com/libical/libical/releases/download/v3.0.11/libical-3.0.11.tar.gz
 https://www.x.org/pub/individual/lib/libICE-1.0.10.tar.bz2
@@ -394,7 +394,7 @@ https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.3.2/qpdf-10.3.2.t
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirrors.gethosted.online/gnu/readline/readline-8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
-https://archive.xfce.org/src/apps/ristretto/0.11/ristretto-0.11.0.tar.bz2
+https://archive.xfce.org/src/apps/ristretto/0.12/ristretto-0.12.0.tar.bz2
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.2/rpcsvc-proto-1.4.2.tar.xz
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
@@ -439,7 +439,6 @@ https://cdn.thesonicmaster.net/sources/tk8.6.11.1-src.tar.gz
 https://archive.xfce.org/src/xfce/tumbler/4.16/tumbler-4.16.0.tar.bz2
 https://www.iana.org/time-zones/repository/releases/tzdata2021c.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
-https://www.rarlab.com/rar/unrarsrc-6.0.7.tar.gz
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/UPOWER_0_99_13/upower-UPOWER_0_99_13.tar.bz2
 https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
