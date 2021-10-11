@@ -11,12 +11,11 @@ if [ ! -d sources ]; then
 fi
 # Setup the environment.
 MASSOS=$PWD/massos-rootfs
-LC_ALL=POSIX
 MASSOS_TGT=x86_64-massos-linux-gnu
 PATH=$MASSOS/tools/bin:$PATH
 SRC=$MASSOS/sources
 CONFIG_SITE=$MASSOS/usr/share/config.site
-export MASSOS LC_ALL MASSOS_TGT PATH SRC CONFIG_SITE
+export MASSOS MASSOS_TGT PATH SRC CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Setup the basic filesystem structure.
