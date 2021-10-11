@@ -938,6 +938,15 @@ make
 make install
 cd ..
 rm -rf libpipeline-1.5.3
+# libuv.
+tar -xf libuv-v1.42.0.tar.gz
+cd libuv-v1.42.0
+./autogen.sh
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libuv-v1.42.0
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3
@@ -1724,18 +1733,32 @@ python setup.py install --optimize=1
 rm -f /usr/lib/libbrotlidec.a
 cd ..
 rm -rf brotli-1.0.9
-# CMake.
-tar --no-same-owner -xf cmake-3.21.3-linux-x86_64.tar.gz
-cd cmake-3.21.3-linux-x86_64
-rm -rf doc
-mv man share
-cp -R * /usr
-rm /usr/bin/cmake-gui
-rm /usr/share/applications/cmake-gui.desktop
-rm /usr/share/icons/hicolor/32x32/apps/CMakeSetup.png
-rm /usr/share/icons/hicolor/128x128/apps/CMakeSetup.png
+# nghttp2.
+tar -xf nghttp2-1.45.1.tar.xz
+cd nghttp2-1.45.1
+./configure --prefix=/usr --disable-static --enable-lib-only
+make
+make install
 cd ..
-rm -rf cmake-3.21.3-linux-x86_64
+rm -rf nghttp2-1.45.1
+# curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
+tar -xf curl-7.79.1.tar.xz
+cd curl-7.79.1
+./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
+make
+make install
+cd ..
+rm -rf curl-7.79.1
+# CMake.
+tar -xf cmake-3.21.3.tar.gz
+cd cmake-3.21.3
+sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
+./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
+ninja
+ninja install
+rm -rf /usr/share/doc/cmake
+cd ..
+rm -rf cmake-3.21.3
 # c-ares.
 tar -xf c-ares-1.17.2.tar.gz
 cd c-ares-1.17.2
@@ -1990,7 +2013,7 @@ make
 make install
 cd ..
 rm -rf jansson-2.13.1
-# nghttp2.
+# nghttp2 (rebuild to support more features).
 tar -xf nghttp2-1.45.1.tar.xz
 cd nghttp2-1.45.1
 ./configure --prefix=/usr --disable-static --enable-lib-only
@@ -1998,14 +2021,6 @@ make
 make install
 cd ..
 rm -rf nghttp2-1.45.1
-# curl (will be rebuilt later to support krb5 and OpenLDAP).
-tar -xf curl-7.79.1.tar.xz
-cd curl-7.79.1
-./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
-make
-make install
-cd ..
-rm -rf curl-7.79.1
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
@@ -2086,7 +2101,7 @@ make
 make install
 cd ..
 rm -rf gsasl-1.10.0
-# curl (rebuild to support gsasl, krb5 and OpenLDAP).
+# curl (rebuild to support more features).
 tar -xf curl-7.79.1.tar.xz
 cd curl-7.79.1
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
@@ -2708,15 +2723,6 @@ make
 make install
 cd ..
 rm -rf libqmi-1.30.2
-# libuv.
-tar -xf libuv-v1.42.0.tar.gz
-cd libuv-v1.42.0
-sh autogen.sh
-./configure --prefix=/usr --disable-static
-make
-make install
-cd ..
-rm -rf libuv-v1.42.0
 # libwacom.
 tar -xf libwacom-1.12.tar.bz2
 cd libwacom-1.12
