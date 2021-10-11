@@ -41,6 +41,7 @@ It also includes the following upgraded software:
 - Thunderbird: `91.1.2 --> 91.2.0`
 - tzdata: `2021b --> 2021c`
 - Vala: `0.54.1 --> 0.54.2`
+- Vim: `8.2.3458 --> 8.2.3496`
 - xf86-video-intel: `20210222 --> 20211007`
 - XKeyboard-Config: `2.33 --> 2.34`
 
