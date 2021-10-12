@@ -2260,6 +2260,25 @@ done
 rm -f /etc/login.access /etc/limits
 cd ..
 rm -rf shadow-4.8.1
+# fcron.
+tar -xf fcron-3.2.1.src.tar.gz
+cd fcron-3.2.1
+groupadd -g 22 fcron
+useradd -d /dev/null -c "Fcron User" -g fcron -s /bin/false -u 22 fcron
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-sendmail --with-piddir=/run --with-boot-install=no --with-editor=/usr/bin/nano
+make
+make install
+for i in crondyn cronsighup crontab; do ln -sf f$i /usr/bin/$i; done
+ln -sf fcron /usr/sbin/cron
+for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/man1/$i; done
+for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/fr/man1/$i; done
+for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/man5/$i; done
+for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/fr/man5/$i; done
+ln -sf fcron.8 /usr/share/man/man8/cron.8
+ln -sf fcron.8 /usr/share/man/fr/man8/cron.8
+systemctl enable fcron
+cd ..
+rm -rf fcron-3.2.1
 # NSPR.
 tar -xf nspr-4.32.tar.gz
 cd nspr-4.32/nspr
@@ -5249,6 +5268,8 @@ chmod 755 /usr/bin/neofetch
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /root/.cargo
+# Install symlinks to busybox for any programs not otherwise provided.
+busybox --install -s
 # Move any misplaced files.
 cp -r /usr/etc /
 rm -rf /usr/etc
