@@ -16,6 +16,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Tried to center windows by default.
 - Use `bsdtar` (from `libarchive`) as the default `tar` implementation. It supports far more compression formats (even non-tar ones) than GNU tar. GNU tar will still be installed however, as `gtar`, in case it is needed.
 - Added Linux-Headers and DKMS (custom kernel modules) support.
+- Added CD/DVD support to Parole, and MPEG/MP4/H264/H265 decoding support for programs.
 
 It also includes the following upgraded software:
 
@@ -30,6 +31,7 @@ It also includes the following upgraded software:
 - JS78: `78.14.0 --> 78.15.0`
 - libgusb: `0.3.7 --> 0.3.8`
 - libical: `3.0.10 --> 3.0.11`
+- libvpx: `1.10.0 --> 1.11.0`
 - Linux Kernel: `5.14.9 --> 5.14.11`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
 - Nano: `5.8 --> 5.9`

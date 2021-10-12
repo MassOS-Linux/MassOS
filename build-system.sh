@@ -4530,7 +4530,7 @@ rm -rf geoclue-2.5.7
 # gstreamer.
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
-mkdir gstreamer-build; cd gstreamer-build
+mkdir UPSTREAMTOXIC-build; cd UPSTREAMTOXIC-build
 meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
@@ -4549,8 +4549,8 @@ rm -rf cdparanoia-III-10.2
 # gst-plugins-base.
 tar -xf gst-plugins-base-1.18.5.tar.xz
 cd gst-plugins-base-1.18.5
-mkdir gstbase-build; cd gstbase-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+mkdir G-STREAMER-BASIC-build; cd G-STREAMER-BASIC-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
@@ -4564,15 +4564,15 @@ make install
 cd ..
 rm -rf mpg123-1.29.0
 # libvpx.
-tar -xf libvpx-1.10.0.tar.gz
-cd libvpx-1.10.0
+tar -xf libvpx-1.11.0.tar.gz
+cd libvpx-1.11.0
 sed -i 's/cp -p/cp/' build/make/Makefile
-mkdir libvpx-build; cd libvpx-build
+mkdir WEBMPROJECT-VPX-build; cd WEBMPROJECT-VPX-build
 ../configure --prefix=/usr --enable-shared --disable-static
 make
 make install
 cd ../..
-rm -rf libvpx-1.10.0
+rm -rf libvpx-1.11.0
 # LAME.
 tar -xf lame-3.100.tar.gz
 cd lame-3.100
@@ -4593,8 +4593,8 @@ rm -rf taglib-1.12
 # gst-plugins-good.
 tar -xf gst-plugins-good-1.18.5.tar.xz
 cd gst-plugins-good-1.18.5
-mkdir gstgood-build; cd gstgood-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+mkdir excellent-build; cd excellent-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
@@ -4627,8 +4627,8 @@ rm -rf libdvdnav-6.1.1
 # gst-plugins-bad.
 tar -xf gst-plugins-bad-1.18.5.tar.xz
 cd gst-plugins-bad-1.18.5
-mkdir gstbad-build; cd gstbad-build
-meson  --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+mkdir horrible-build; cd horrible-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
@@ -4642,6 +4642,51 @@ make
 make install
 cd ..
 rm -rf libcanberra-0.30
+# x264.
+tar -xf x264-0.164-3075-66a5bc1.tar.xz
+cd x264-0.164-3075-66a5bc1
+./configure --prefix=/usr --enable-shared --disable-cli
+make
+make install
+cd ..
+rm -rf x264-0.164-3075-66a5bc1
+# x265.
+tar -xf x265-3.5-19-g747a079f7.tar.xz
+cd x265-3.5-19-g747a079f7
+mkdir the-real-build-directory-for-x265; cd the-real-build-directory-for-x265
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ../source
+ninja
+ninja install
+rm -f /usr/lib/libx265.a
+cd ../..
+rm -rf x265-3.5-19-g747a079f7
+# a52dec.
+tar -xf a52dec-0.7.4.tar.gz
+cd a52dec-0.7.4
+CFLAGS="$CFLAGS -fPIC" ./configure --prefix=/usr --mandir=/usr/share/man --enable-shared --disable-static
+make
+make install
+install -Dt /usr/include/a52dec -m644 liba52/a52_internal.h
+cd ..
+rm -rf a52dec-0.7.4
+# libmpeg2.
+tar -xf libmpeg2-0.5.1.tar.gz
+cd libmpeg2-0.5.1
+sed -i 's/static const/static/' libmpeg2/idct_mmx.c
+./configure --prefix=/usr --enable-shared --disable-static
+make
+make install
+cd ..
+rm -rf libmpeg2-0.5.1
+# gst-plugins-ugly.
+tar -xf gst-plugins-ugly-1.18.5.tar.xz
+cd gst-plugins-ugly-1.18.5
+mkdir UR-UGLY-NGL-build; cd UR-UGLY-NGL-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+ninja
+ninja install
+cd ..
+rm -rf gst-plugins-ugly-1.18.5
 # WebKitGTK.
 tar -xf webkitgtk-2.34.0.tar.xz
 cd webkitgtk-2.34.0
