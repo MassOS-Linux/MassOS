@@ -198,9 +198,9 @@ tar -xf bzip2-1.0.8.tar.gz
 cd bzip2-1.0.8
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
 sed -i "s@(PREFIX)/man@(PREFIX)/share/man@g" Makefile
-make -f Makefile-libbz2_so
+make -f Makefile-libbz2_so CFLAGS="$CFLAGS -fPIC"
 make clean
-make
+make CFLAGS="$CFLAGS"
 make PREFIX=/usr install
 cp -a libbz2.so.* /usr/lib
 ln -s libbz2.so.1.0.8 /usr/lib/libbz2.so
@@ -222,8 +222,8 @@ rm -rf xz-5.2.5
 # LZ4.
 tar -xf lz4-1.9.3.tar.xz
 cd lz4-1.9.3
-make PREFIX=/usr -C lib
-make PREFIX=/usr -C programs lz4 lz4c
+make PREFIX=/usr CFLAGS="$CFLAGS" -C lib
+make PREFIX=/usr CFLAGS="$CFLAGS" -C programs lz4 lz4c
 make PREFIX=/usr install
 rm -f /usr/lib/liblz4.a
 cd ..
@@ -231,7 +231,7 @@ rm -rf lz4-1.9.3
 # ZSTD.
 tar -xf zstd-1.5.0.tar.gz
 cd zstd-1.5.0
-make
+make CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr install
 rm -f /usr/lib/libzstd.a
 cd ..
@@ -370,7 +370,7 @@ rm -rf acl-2.3.1
 tar -xf libcap-2.59.tar.xz
 cd libcap-2.59
 sed -i '/install -m.*STA/d' libcap/Makefile
-make prefix=/usr lib=lib
+make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
 chmod 755 /usr/lib/lib{cap,psx}.so.2.59
 cd ..
@@ -438,7 +438,7 @@ rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
 tar -xf libcap-2.59.tar.xz
 cd libcap-2.59
-make -C pam_cap
+make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
 cat > /etc/pam.d/system-auth << END
@@ -891,7 +891,7 @@ rm -rf db-5.3.28
 # LMDB.
 tar -xf LMDB_0.9.29.tar.gz
 cd lmdb-LMDB_0.9.29/libraries/liblmdb
-make
+make CFLAGS="$CFLAGS"
 sed -i 's| liblmdb.a||' Makefile
 make prefix=/usr install
 cd ../../..
@@ -1074,6 +1074,8 @@ rm -rf libgcrypt-1.9.4
 tar -xf unzip60.tar.gz
 cd unzip60
 patch -Np1 -i ../patches/unzip-6.0-consolidated_fixes-1.patch
+sed -i 's/O3/Os/' unix/configure
+sed -i 's/O3/Os/' unix/Makefile
 make -f unix/Makefile generic
 make prefix=/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
 cd ..
@@ -1081,6 +1083,7 @@ rm -rf unzip60
 # Zip.
 tar -xf zip30.tar.gz
 cd zip30
+sed -i 's/O3/Os/' unix/configure
 make -f unix/Makefile generic_gcc
 make prefix=/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
 cd ..
@@ -2914,7 +2917,7 @@ tar -xf p7zip-17.04.tar.gz
 cd p7zip-17.04
 sed '/^gzip/d' -i install.sh
 sed -i '160a if(_buffer == nullptr || _size == _pos) return E_FAIL;' CPP/7zip/Common/StreamObjects.cpp
-make all3
+make OPTFLAGS="-s $CFLAGS" all3
 make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip-17.04 install
 cd ..
 rm -rf p7zip-17.04
@@ -3896,7 +3899,7 @@ rm -rf rrdtool-1.7.2
 # lm-sensors.
 tar -xf lm-sensors-3-6-0.tar.gz
 cd lm-sensors-3-6-0
-make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord
+make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord CFLAGS="$CFLAGS"
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord install
 cd ..
 rm -rf lm-sensors-3-6-0
