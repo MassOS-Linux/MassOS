@@ -7,14 +7,14 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Added acpi, AppStream, Baobab, dmidecode, laptop-detect, libimobiledevice, lm-sensors, thunar-archive-plugin.
+- Added acpi, AppStream, Baobab, dmidecode, fcron, laptop-detect, libimobiledevice, lm-sensors, thunar-archive-plugin.
 - Added HP printer support in CUPS (HPLIP).
 - Added scanning capability (SANE).
 - Added a wrapper tool to generate an initramfs: `mkinitramfs`.
 - Fixed a possible DNS-resolve bug with NetworkManager.
 - Added Microcode information/installation instructions.
 - Tried to center windows by default.
-- Use `bsdtar` (from `libarchive`) as the default `tar` implementation. It supports far more compression formats (even non-tar ones) than GNU tar. GNU tar will still be installed however, as `gtar`, in case it is needed.
+- Use `bsdtar` (from `libarchive`) as the default `tar` implementation. It supports far more compression formats (even non-tar ones) than GNU tar. GNU tar will still be installed (as `gtar`) however, in case it is needed.
 - Added Linux-Headers and DKMS (custom kernel modules) support.
 - Added CD/DVD support to Parole, and MPEG/MP4/H264/H265 decoding support for programs.
 
@@ -23,18 +23,21 @@ It also includes the following upgraded software:
 - adwaita-icon-theme: `40.1.1 --> 41.0`
 - at-spi2-core: `2.40.3 --> 2.42.0`
 - btrfs-progs: `5.14.1 --> 5.14.2`
+- Busybox: `1.34.0 --> 1.34.1`
 - Firefox: `92.0.1 --> 93.0`
 - Flatpak: `1.11.3 --> 1.12.1`
 - Fribidi: `1.0.9 --> 1.0.11`
 - Gcr: `3.40.0 --> 3.41.0`
+- Git: `2.33.0 --> 2.33.1`
 - GLibmm: `2.66.1 --> 2.66.2`
 - JS78: `78.14.0 --> 78.15.0`
 - libgusb: `0.3.7 --> 0.3.8`
 - libical: `3.0.10 --> 3.0.11`
 - libvpx: `1.10.0 --> 1.11.0`
-- Linux Kernel: `5.14.9 --> 5.14.11`
+- Linux Kernel: `5.14.9 --> 5.14.12`
 - LLVM/Clang: `12.0.1 --> 13.0.0`
 - Nano: `5.8 --> 5.9`
+- OpenLDAP: `2.5.7 --> 2.5.8`
 - OpenSSH: `8.7p1 --> 8.8p1`
 - Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
@@ -216,7 +219,7 @@ unset MVER
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.14.11-massos
+mkinitramfs 5.14.12-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 # Installing the GRUB bootloader
@@ -228,6 +231,8 @@ grub-install /dev/sdX
 ```
 No further steps are required for legacy BIOS systems. Proceed to "Generating grub.cfg" below.
 ## UEFI systems
+**NOTE: Secure Boot must be disabled in the UEFI firmware settings to be able to boot MassOS.**
+
 On UEFI systems, you must first make sure `/sys/firmware/efi/efivars` is mounted in the chroot environment. If it isn't, the `grub-install` command below will fail:
 ```
 mountpoint -q /sys/firmware/efi/efivars || (mount -t efivarfs efivarfs /sys/firmware/efi/efivars && touch /tmp/beforemounted)

@@ -1463,9 +1463,9 @@ rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-upstream_fixes-1.patch
+patch -Np1 -i ../patches/systemd-249-backports-5.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
-mkdir sysd-build; cd sysd-build
+mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
@@ -1525,13 +1525,13 @@ make install
 cd ..
 rm -rf util-linux-2.37.2
 # Busybox.
-tar -xf busybox-1.34.0.tar.bz2
-cd busybox-1.34.0
+tar -xf busybox-1.34.1.tar.bz2
+cd busybox-1.34.1
 cp ../busybox-config .config
 make
 install -m755 busybox /usr/bin/busybox
 cd ..
-rm -rf busybox-1.34.0
+rm -rf busybox-1.34.1
 # e2fsprogs.
 tar -xf e2fsprogs-1.46.4.tar.gz
 cd e2fsprogs-1.46.4
@@ -2050,8 +2050,8 @@ make install
 cd ..
 rm -rf gnutls-3.7.2
 # OpenLDAP.
-tar -xf openldap-2.5.7.tgz
-cd openldap-2.5.7
+tar -xf openldap-2.5.8.tgz
+cd openldap-2.5.8
 patch -Np1 -i ../patches/openldap-2.5.7-consolidated-1.patch
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning --disable-debug --disable-slapd
@@ -2059,7 +2059,7 @@ make depend
 make
 make install
 cd ..
-rm -rf openldap-2.5.7
+rm -rf openldap-2.5.8
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -2307,15 +2307,15 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf nss-3.71
 # Git.
-tar -xf git-2.33.0.tar.xz
-cd git-2.33.0
+tar -xf git-2.33.1.tar.xz
+cd git-2.33.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
 make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
-rm -rf git-2.33.0
+rm -rf git-2.33.1
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -3247,9 +3247,9 @@ rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-upstream_fixes-1.patch
+patch -Np1 -i ../patches/systemd-249-backports-5.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
-mkdir sysd-build; cd sysd-build
+mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
@@ -5219,19 +5219,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.11.tar.xz
-cd linux-5.14.11
+tar -xf linux-5.14.12.tar.xz
+cd linux-5.14.12
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.11-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.11-massos/vmlinuz
-cp System.map /boot/System.map-5.14.11-massos
-cp .config /boot/config-5.14.11-massos
-rm /usr/lib/modules/5.14.11-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.12-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.12-massos/vmlinuz
+cp System.map /boot/System.map-5.14.12-massos
+cp .config /boot/config-5.14.12-massos
+rm /usr/lib/modules/5.14.12-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.14.11-massos/build
+builddir=/usr/lib/modules/5.14.12-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5254,7 +5254,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.14.11
+rm -rf linux-5.14.12
 # MassOS release detection utility.
 gcc -Os -s massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
@@ -5270,6 +5270,8 @@ chmod 755 /usr/bin/neofetch
 rm -rf /root/.cargo
 # Install symlinks to busybox for any programs not otherwise provided.
 busybox --install -s
+# Redundant since we use systemd.
+rm -f /linuxrc
 # Move any misplaced files.
 cp -r /usr/etc /
 rm -rf /usr/etc
