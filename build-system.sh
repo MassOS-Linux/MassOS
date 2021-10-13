@@ -644,7 +644,7 @@ rm -rf expat-2.4.1
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
-./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-logger --disable-whois --disable-rcp --disable-rexec --disable-rlogin --disable-rsh --disable-servers
+./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-logger --disable-whois --disable-rcp --disable-rexec --disable-rlogin --disable-rsh
 make
 make install
 mv /usr/{,s}bin/ifconfig
