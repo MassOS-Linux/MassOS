@@ -4620,7 +4620,7 @@ ninja install
 cd ../..
 rm -rf gst-plugins-good-1.18.5
 # SoundTouch.
-tar -xf soundtouch-2.3.0.tar.bz2
+tar -xf soundtouch-2.3.0.tar.gz
 cd soundtouch-2.3.0
 ./bootstrap
 ./configure --prefix=/usr
