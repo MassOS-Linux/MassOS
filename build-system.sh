@@ -1814,15 +1814,6 @@ make install
 rm -f /usr/lib/libnfs.a
 cd ..
 rm -rf libnfs-libnfs-4.0.0
-# libieee1284.
-tar -xf libieee1284-0.2.11.tar.xz
-cd libieee1284-0.2.11
-./configure --prefix=/usr --mandir=/usr/share/man --with-python
-make
-make install
-rm -f /usr/lib/libieee1284.a
-cd ..
-rm -rf libieee1284-0.2.11
 # PCRE.
 tar -xf pcre-8.45.tar.bz2
 cd pcre-8.45
@@ -4620,14 +4611,14 @@ ninja install
 cd ../..
 rm -rf gst-plugins-good-1.18.5
 # SoundTouch.
-tar -xf soundtouch-2.3.0.tar.gz
-cd soundtouch-2.3.0
+tar -xf soundtouch-2.3.1.tar.gz
+cd soundtouch-2.3.1
 ./bootstrap
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf soundtouch-2.3.0
+rm -rf soundtouch-2.3.1
 # libdvdread.
 tar -xf libdvdread-6.1.2.tar.bz2
 cd libdvdread-6.1.2

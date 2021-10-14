@@ -46,6 +46,7 @@ It also includes the following upgraded software:
 - Polkit: `0.119 --> 0.120`
 - PyGObject: `3.40.1 --> 3.42.0`
 - Ristretto: `0.11.0 --> 0.12.0`
+- SoundTouch: `2.3.0 --> 2.3.1`
 - Thunar: `4.16.9 --> 4.16.10`
 - Thunderbird: `91.1.2 --> 91.2.0`
 - tzdata: `2021b --> 2021c`
