@@ -1,6 +1,6 @@
 NAME="MassOS"
-VERSION="development"
+VERSION="2021.10.2"
 ID=massos
-PRETTY_NAME="MassOS development"
-BUILD_ID=development
-VERSION_CODENAME="development"
+PRETTY_NAME="MassOS 2021.10.2"
+BUILD_ID=2021.10.2
+VERSION_CODENAME="2021.10.2"

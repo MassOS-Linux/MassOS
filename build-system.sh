@@ -266,13 +266,13 @@ make install
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.0.2.tar.xz
-cd bc-5.0.2
+tar -xf bc-5.1.1.tar.xz
+cd bc-5.1.1
 CC=gcc ./configure --prefix=/usr -G -Os
 make
 make install
 cd ..
-rm -rf bc-5.0.2
+rm -rf bc-5.1.1
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -703,13 +703,13 @@ make install
 cd ..
 rm -rf autoconf-2.71
 # Automake.
-tar -xf automake-1.16.4.tar.xz
-cd automake-1.16.4
+tar -xf automake-1.16.5.tar.xz
+cd automake-1.16.5
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf automake-1.16.4
+rm -rf automake-1.16.5
 # elfutils.
 tar -xf elfutils-0.185.tar.bz2
 cd elfutils-0.185
@@ -1752,15 +1752,15 @@ make install
 cd ..
 rm -rf curl-7.79.1
 # CMake.
-tar -xf cmake-3.21.3.tar.gz
-cd cmake-3.21.3
+tar -xf cmake-3.22.0-rc1.tar.gz
+cd cmake-3.22.0-rc1
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
 ninja install
 rm -rf /usr/share/doc/cmake
 cd ..
-rm -rf cmake-3.21.3
+rm -rf cmake-3.22.0-rc1
 # c-ares.
 tar -xf c-ares-1.17.2.tar.gz
 cd c-ares-1.17.2
@@ -3842,9 +3842,8 @@ make -j1 install
 cd ../..
 rm -rf libical-3.0.11
 # BlueZ.
-tar -xf bluez-5.61.tar.xz
-cd bluez-5.61
-sed 's/pause(/bluez_&/' -i profiles/audio/media.c
+tar -xf bluez-5.62.tar.xz
+cd bluez-5.62
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-manpages --enable-library
 make
 make install
@@ -3854,7 +3853,7 @@ install -m644 src/main.conf /etc/bluetooth/main.conf
 systemctl enable bluetooth
 systemctl enable --global obex
 cd ..
-rm -rf bluez-5.61
+rm -rf bluez-5.62
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -4485,8 +4484,8 @@ make install
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.1.tar.xz
-cd flatpak-1.12.1
+tar -xf flatpak-1.12.2.tar.xz
+cd flatpak-1.12.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -4505,7 +4504,7 @@ END
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
-rm -rf flatpak-1.12.1
+rm -rf flatpak-1.12.2
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0

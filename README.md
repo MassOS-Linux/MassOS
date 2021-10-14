@@ -16,8 +16,8 @@ Unlike most GNU/Linux distributions, MassOS is not installed from a live CD. Ins
 
 Some developers may also wish to [build MassOS themselves](building.md) using the scripts in this repo. This is not recommended for most users.
 # Releases
-The latest release of MassOS is **2021.10**.
+The latest release of MassOS is **2021.10.2**.
 
-Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will be in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by extracting the updated rootfs tarball over the existing installation, however do note that this may overwrite any system configuration files you've modified, so it's generally easier and safer to do a fresh installation.
+Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will be in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by using the [MassOS Upgrade Utility](https://github.com/TheSonicMaster/massos-upgrade).
 
-Developers who wish to test out some of the latest and greatest in-development features in MassOS can take a look at the [development branch](https://github.com/TheSonicMaster/MassOS/tree/development).
+Developers who wish to test out some of the latest in-development features for the next version MassOS can take a look at the [development branch](https://github.com/TheSonicMaster/MassOS/tree/development).
