@@ -4697,7 +4697,7 @@ mkdir UR-UGLY-NGL-build; cd UR-UGLY-NGL-build
 meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
-cd ..
+cd ../..
 rm -rf gst-plugins-ugly-1.18.5
 # WebKitGTK.
 tar -xf webkitgtk-2.34.0.tar.xz
