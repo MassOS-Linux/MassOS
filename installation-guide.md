@@ -60,7 +60,7 @@ Run the following command to download MassOS:
 ```
 wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.10.2/massos-2021.10.2-rootfs-x86_64.tar.xz
 ```
-SHA256 checksum: `<coming soon>`
+SHA256 checksum: `8fb7aa8fbe84389a3baa50d534c60a01d5820849b98a83de6183e392eba359c2`
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
