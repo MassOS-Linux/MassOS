@@ -4187,6 +4187,7 @@ rm -rf sane-backends-1.0.32
 # hplip.
 tar -xf hplip-3.21.8.tar.xz
 cd hplip-3.21.8
+AUTOMAKE="automake --foreign" autoreconf -fi
 ./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
 make
 make -j1 rulesdir=/usr/lib/udev/rules.d DESTDIR=$PWD/destination-tmp install
