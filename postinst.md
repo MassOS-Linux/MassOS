@@ -54,9 +54,38 @@ MassOS comes preinstalled with the Firefox Web Browser and Thunderbird Mail Clie
 - Atom
 - Visual Studio Code
 - Brackets
-# Tips.
+# Upgrading MassOS.
+You can use the [MassOS upgrade utility](https://github.com/TheSonicMaster/MassOS) to upgrade an installed version of MassOS.
+# Using systemd-boot instead of GRUB.
+While GRUB is the default and recommended bootloader, MassOS also supports systemd-boot on UEFI systems. Compared to GRUB, systemd-boot is not a full bootloader, instead it is an extremely small and lightweight "boot manager". It can chainload other EFI applications as well as loading Linux kernels which have EFISTUB enabled (like the kernel in MassOS).
+
+systemd-boot requires the kernel and initramfs to be on the same partition as the EFI system partition. The easiest way to achieve this is by mounting the EFI system partition to `/boot` instead of the standard GRUB-recommended `/boot/efi` location. If desired, change the mountpoint of the EFI system partition to `/boot` in your `/etc/fstab`, and ensure the kernel and initramfs located in `/boot` are placed on the EFI system partition. The rest of this guide assumes the EFI system partition is mounted to `/boot`.
+
+Install systemd-boot to the EFI system partition, and create a bootorder entry named "Linux Boot Manager", by running the following command:
+```
+bootctl install --esp-path=/boot
+```
+Unlike GRUB, the configuration file cannot be generated automatically. You must manually create and/or edit the following files.
+
+Create/modify `/boot/loader/loader.conf`, and add the following contents:
+```
+default massos.conf
+timeout 3
+console-mode keep
+editor no
+```
+Create/modify `/boot/loader/entries/massos.conf`, and add the following contents:
+```
+title MassOS
+linux /vmlinuz-<kernel-version>
+initrd /initrd.img-<kernel-version>
+options root="UUID=<root-filesystem-UUID>" ro quiet
+```
+REMEMBER TO REPLACE `<kernel-version>` with the kernel version, e.g. `5.14.12-massos`, and `<root-filesystem-UUID>` with the full UUID of the root filesystem as defined in `/etc/fstab`.
+
+For more information about systemd-boot, the Arch Wiki has very detailed documentation available at https://wiki.archlinux.org/title/systemd-boot.
+# Other tips
 - While Flatpak is the default and prefered package manager, many software packages can also be run on MassOS via the use of AppImages.
 - Most development tools and headers are preserved in the MassOS system, allowing the user to easily compile any missing command-line software they might need. Autotools, Meson, and CMake build systems are supported.
 - Many programs store customisable configuration files in `/etc`. If you know what you're doing, feel free to customise the configuration files here.
 - MassOS has an SSH server built in. To enable the SSH server, run `sudo systemctl enable --now sshd`. This will allow remote connections to your MassOS machine over SSH.
-- While GRUB is the default and recommended bootloader, it also supports systemd-boot. If you know what you're doing, you can use this extremely minimal boot manager instead of the full GRUB bootloader.

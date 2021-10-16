@@ -11,12 +11,11 @@ if [ ! -d sources ]; then
 fi
 # Setup the environment.
 MASSOS=$PWD/massos-rootfs
-LC_ALL=POSIX
 MASSOS_TGT=x86_64-massos-linux-gnu
 PATH=$MASSOS/tools/bin:$PATH
 SRC=$MASSOS/sources
 CONFIG_SITE=$MASSOS/usr/share/config.site
-export MASSOS LC_ALL MASSOS_TGT PATH SRC CONFIG_SITE
+export MASSOS MASSOS_TGT PATH SRC CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Setup the basic filesystem structure.
@@ -65,14 +64,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.9.tar.xz
-cd linux-5.14.9
+tar -xf linux-5.14.12.tar.xz
+cd linux-5.14.12
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.9
+rm -rf linux-5.14.12
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -97,9 +96,9 @@ make
 make DESTDIR=$MASSOS install
 cd ../..
 rm -rf gcc-11.2.0
-# Compiler flags for MassOS. We prefer to optimise for size and avoid debug.
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+# Compiler flags for MassOS. We prefer to optimise for size.
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # m4.
 tar -xf m4-1.4.19.tar.xz
@@ -225,9 +224,10 @@ rm -rf sed-4.8
 # Tar.
 tar -xf tar-1.34.tar.xz
 cd tar-1.34
-./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess)
+./configure --prefix=/usr --host=$MASSOS_TGT --build=$(build-aux/config.guess) --program-prefix=g
 make
 make DESTDIR=$MASSOS install
+ln -sf gtar $MASSOS/usr/bin/tar
 cd ..
 rm -rf tar-1.34
 # XZ.
@@ -270,7 +270,7 @@ cd ../..
 rm -rf gcc-11.2.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
-cp utils/{adduser,mass-chroot,mklocales} $MASSOS/usr/sbin
+cp utils/{adduser,mass-chroot,mkinitramfs,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
 cp utils/massos-release.c $SRC
