@@ -7,6 +7,9 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
+- Added some very small command-line games (bsd-games).
+- Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
+
 It also includes the following upgraded software, however is also subject to change before the final release:
 
 - Graphviz: `2.49.1 --> 2.49.2`

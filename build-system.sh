@@ -2977,6 +2977,19 @@ END
 install -dm755 /var/lib/dhclient
 cd ..
 rm -rf dhcp-4.4.2-P1
+# 'dig', 'host' and 'nslookup' from ISC BIND.
+tar -xf bind-9.16.21.tar.xz
+cd bind-9.16.21
+./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
+make -C lib/dns
+make -C lib/isc
+make -C lib/bind9
+make -C lib/isccfg
+make -C lib/irs
+make -C bin/dig
+make -C bin/dig install
+cd ..
+rm -rf bind-9.16.21
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -5118,6 +5131,14 @@ make install
 rm -f /usr/share/applications/htop.desktop
 cd ..
 rm -rf htop-3.1.1
+# bsd-games.
+tar -xf bsd-games-3.1.tar.gz
+cd bsd-games-3.1
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf bsd-games-3.1
 # sl.
 tar -xf sl-5.02.tar.gz
 cd sl-5.02
