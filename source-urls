@@ -159,7 +159,7 @@ https://mirrors.gethosted.online/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/3.0.0/harfbuzz-3.0.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://cdn.thesonicmaster.net/sources/hplip-3.21.8.tar.xz
-https://github.com/htop-dev/htop/archive/3.1.0/htop-3.1.0.tar.gz
+https://github.com/htop-dev/htop/archive/3.1.1/htop-3.1.1.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20210924/iana-etc-20210924.tar.gz
 https://www.x.org/pub/individual/app/iceauth-1.0.8.tar.bz2
 http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.bz2
@@ -305,7 +305,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.12.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.14.13.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -440,7 +440,7 @@ https://archive.mozilla.org/pub/thunderbird/releases/91.2.0/linux-x86_64/en-US/t
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
 https://cdn.thesonicmaster.net/sources/tk8.6.11.1-src.tar.gz
 https://archive.xfce.org/src/xfce/tumbler/4.16/tumbler-4.16.0.tar.bz2
-https://www.iana.org/time-zones/repository/releases/tzdata2021c.tar.gz
+https://www.iana.org/time-zones/repository/releases/tzdata2021d.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
 https://cdn.thesonicmaster.net/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/UPOWER_0_99_13/upower-UPOWER_0_99_13.tar.bz2

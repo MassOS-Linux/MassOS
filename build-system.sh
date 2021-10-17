@@ -162,7 +162,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2021c.tar.gz
+tar -xf ../../tzdata2021d.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -5109,15 +5109,15 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # htop.
-tar -xf htop-3.1.0.tar.gz
-cd htop-3.1.0
+tar -xf htop-3.1.1.tar.gz
+cd htop-3.1.1
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install
 rm -f /usr/share/applications/htop.desktop
 cd ..
-rm -rf htop-3.1.0
+rm -rf htop-3.1.1
 # sl.
 tar -xf sl-5.02.tar.gz
 cd sl-5.02
@@ -5209,19 +5209,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.12.tar.xz
-cd linux-5.14.12
+tar -xf linux-5.14.13.tar.xz
+cd linux-5.14.13
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.12-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.12-massos/vmlinuz
-cp System.map /boot/System.map-5.14.12-massos
-cp .config /boot/config-5.14.12-massos
-rm /usr/lib/modules/5.14.12-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.13-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.13-massos/vmlinuz
+cp System.map /boot/System.map-5.14.13-massos
+cp .config /boot/config-5.14.13-massos
+rm /usr/lib/modules/5.14.13-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.14.12-massos/build
+builddir=/usr/lib/modules/5.14.13-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5244,7 +5244,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.14.12
+rm -rf linux-5.14.13
 # MassOS release detection utility.
 gcc -Os -s massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
@@ -5270,6 +5270,7 @@ rm -rf /usr/man
 # Remove documentation.
 rm -rf /usr/share/doc/*
 rm -rf /usr/doc
+rm -rf /usr/docs
 # Remove temporary compiler from stage1.
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.

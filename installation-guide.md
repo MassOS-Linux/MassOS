@@ -5,62 +5,18 @@ This guide aims to guide you through the installation of MassOS.
 - At least 1GB of RAM (2GB recommended).
 - MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
 # Release Notes
-This is version **2021.10.2** of MassOS. It contains the following changes since the previous version, **2021.10**:
+This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Added acpi, AppStream, Baobab, dmidecode, fcron, laptop-detect, libimobiledevice, lm-sensors, thunar-archive-plugin.
-- Added HP printer support in CUPS (HPLIP).
-- Added scanning capability (SANE).
-- Added a wrapper tool to generate an initramfs: `mkinitramfs`.
-- Fixed a possible DNS-resolve bug with NetworkManager.
-- Added Microcode information/installation instructions.
-- Tried to center windows by default.
-- Use `bsdtar` (from `libarchive`) as the default `tar` implementation. It supports far more compression formats (even non-tar ones) than GNU tar. GNU tar will still be installed (as `gtar`) however, in case it is needed.
-- Added Linux-Headers and DKMS (custom kernel modules) support.
-- Added support for additional media codecs.
+It also includes the following upgraded software, however is also subject to change before the final release:
 
-It also includes the following upgraded software:
-
-- adwaita-icon-theme: `40.1.1 --> 41.0`
-- at-spi2-core: `2.40.3 --> 2.42.0`
-- Automake: `1.16.4 --> 1.16.5`
-- bc: `5.0.2 --> 5.1.1`
-- Bluez: `5.61 --> 5.62`
-- btrfs-progs: `5.14.1 --> 5.14.2`
-- Busybox: `1.34.0 --> 1.34.1`
-- CMake: `3.21.3 --> 3.22.0-rc1`
-- Firefox: `92.0.1 --> 93.0`
-- Flatpak: `1.11.3 --> 1.12.2`
-- Fribidi: `1.0.9 --> 1.0.11`
-- Gcr: `3.40.0 --> 3.41.0`
-- Git: `2.33.0 --> 2.33.1`
-- GLibmm: `2.66.1 --> 2.66.2`
-- JS78: `78.14.0 --> 78.15.0`
-- libgusb: `0.3.7 --> 0.3.8`
-- libical: `3.0.10 --> 3.0.11`
-- libvpx: `1.10.0 --> 1.11.0`
-- Linux Kernel: `5.14.9 --> 5.14.12`
-- LLVM/Clang: `12.0.1 --> 13.0.0`
-- Nano: `5.8 --> 5.9`
-- OpenLDAP: `2.5.7 --> 2.5.8`
-- OpenSSH: `8.7p1 --> 8.8p1`
-- Polkit: `0.119 --> 0.120`
-- PyGObject: `3.40.1 --> 3.42.0`
-- Ristretto: `0.11.0 --> 0.12.0`
-- SoundTouch: `2.3.0 --> 2.3.1`
-- Thunar: `4.16.9 --> 4.16.10`
-- Thunderbird: `91.1.2 --> 91.2.0`
-- tzdata: `2021b --> 2021c`
-- Vala: `0.54.1 --> 0.54.2`
-- Vim: `8.2.3458 --> 8.2.3496`
-- xf86-video-intel: `20210222 --> 20211007`
-- XKeyboard-Config: `2.33 --> 2.34`
+- htop: `3.1.0 --> 3.1.1`
+- Linux Kernel: `5.14.12 --> 5.14.13`
+- tzdata: `2021c --> 2021d`
 
 # Downloading The MassOS Rootfs
-Run the following command to download MassOS:
-```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.10.2/massos-2021.10.2-rootfs-x86_64.tar.xz
-```
-SHA256 checksum: `8fb7aa8fbe84389a3baa50d534c60a01d5820849b98a83de6183e392eba359c2`
+Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.
+
+You can either [install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md), or [build MassOS yourself](building.md).
 # Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4 and BTRFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -106,7 +62,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 # Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.10.2-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 # Generating the /etc/fstab file
@@ -226,7 +182,7 @@ unset MVER
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.14.12-massos
+mkinitramfs 5.14.13-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 # Installing the GRUB bootloader
