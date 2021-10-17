@@ -3636,15 +3636,15 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.49.1.tar.gz
-cd graphviz-2.49.1
+tar -xf graphviz-2.49.2.tar.gz
+cd graphviz-2.49.2
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
 cd ..
-rm -rf graphviz-2.49.1
+rm -rf graphviz-2.49.2
 # Vala.
 tar -xf vala-0.54.2.tar.xz
 cd vala-0.54.2
@@ -5247,7 +5247,9 @@ cd ..
 rm -rf linux-5.14.13
 # MassOS release detection utility.
 gcc -Os -s massos-release.c -o massos-release
+gcc -Os -s very-important.c -o give-me-the-secret-codes
 install -m755 massos-release /usr/bin/massos-release
+install -m755 give-me-the-secret-codes /usr/bin/give-me-the-secret-codes
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png

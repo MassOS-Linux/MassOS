@@ -9,6 +9,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
+- Graphviz: `2.49.1 --> 2.49.2`
 - htop: `3.1.0 --> 3.1.1`
 - Linux Kernel: `5.14.12 --> 5.14.13`
 - tzdata: `2021c --> 2021d`
