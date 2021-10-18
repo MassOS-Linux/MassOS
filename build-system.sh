@@ -1013,6 +1013,17 @@ cd Pygments-2.10.0
 python setup.py install --optimize=1
 cd ..
 rm -rf Pygments-2.10.0
+# dialog.
+tar -xf dialog-1.3-20210621.tgz
+cd dialog-1.3-20210621
+./configure --prefix=/usr --enable-nls --with-libtool --with-ncursesw
+make
+make install
+rm -f /usr/lib/libdialog.a
+chmod 755 /usr/lib/libdialog.so.15.0.0
+chmod 755 /usr/lib/libdialog.la
+cd ..
+rm -rf dialog-1.3-20210621
 # acpi.
 tar -xf acpi-1.7.tar.gz
 cd acpi-1.7
