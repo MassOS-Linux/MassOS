@@ -7,14 +7,20 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
+- Updated the default MassOS wallpaper.
 - Added some very small command-line games (bsd-games).
 - Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
+- Patched krb5 against security vulnerability CVE-2021-37750.
 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
+- File: `5.40 --> 5.41`
 - Graphviz: `2.49.1 --> 2.49.2`
 - htop: `3.1.0 --> 3.1.1`
+- iana-etc: `20210924 --> 20211004`
 - Linux Kernel: `5.14.12 --> 5.14.13`
+- Mesa: `21.2.3 --> 21.2.4`
+- mpg123: `1.29.0 --> 1.29.1`
 - tzdata: `2021c --> 2021d`
 
 # Downloading The MassOS Rootfs

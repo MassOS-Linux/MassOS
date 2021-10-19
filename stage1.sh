@@ -153,8 +153,8 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf diffutils-3.8
 # File
-tar -xf file-5.40.tar.gz
-cd file-5.40
+tar -xf file-5.41.tar.gz
+cd file-5.41
 mkdir build; cd build
 ../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib
 make
@@ -163,7 +163,7 @@ cd ..
 make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf file-5.40
+rm -rf file-5.41
 # Findutils.
 tar -xf findutils-4.8.0.tar.xz
 cd findutils-4.8.0

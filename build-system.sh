@@ -125,11 +125,11 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20210924.tar.gz
-cd iana-etc-20210924
+tar -xf iana-etc-20211004.tar.gz
+cd iana-etc-20211004
 cp services protocols /etc
 cd ..
-rm -rf iana-etc-20210924
+rm -rf iana-etc-20211004
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.34.tar.xz
@@ -788,13 +788,13 @@ make install
 cd ..
 rm -rf libseccomp-2.5.2
 # File.
-tar -xf file-5.40.tar.gz
-cd file-5.40
+tar -xf file-5.41.tar.gz
+cd file-5.41
 ./configure --prefix=/usr --enable-libseccomp
 make
 make install
 cd ..
-rm -rf file-5.40
+rm -rf file-5.41
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
@@ -2089,6 +2089,7 @@ rm -rf gnupg-2.2.29
 # krb5.
 tar -xf krb5-1.19.2.tar.gz
 cd krb5-1.19.2/src
+patch -Np2 -i ../../patches/krb5-1.19.2-CVE-2021-37750.patch
 sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
 sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
 sed -i '/t_iprop.py/d' tests/Makefile.in
@@ -3178,8 +3179,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.2.3.tar.xz
-cd mesa-21.2.3
+tar -xf mesa-21.2.4.tar.xz
+cd mesa-21.2.4
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3187,7 +3188,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.2.3
+rm -rf mesa-21.2.4
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -4592,13 +4593,13 @@ ninja install
 cd ../..
 rm -rf gst-plugins-base-1.18.5
 # mpg123.
-tar -xf mpg123-1.29.0.tar.bz2
-cd mpg123-1.29.0
+tar -xf mpg123-1.29.1.tar.bz2
+cd mpg123-1.29.1
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf mpg123-1.29.0
+rm -rf mpg123-1.29.1
 # libvpx.
 tar -xf libvpx-1.11.0.tar.gz
 cd libvpx-1.11.0

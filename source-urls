@@ -86,7 +86,7 @@ https://archive.xfce.org/src/xfce/exo/4.16/exo-4.16.2.tar.bz2
 https://cdn.thesonicmaster.net/sources/expat-2.4.1.tar.xz
 http://fcron.free.fr/archives/fcron-3.2.1.src.tar.gz
 http://ftp.figlet.org/pub/figlet/program/unix/figlet-2.2.5.tar.gz
-https://astron.com/pub/file/file-5.40.tar.gz
+https://astron.com/pub/file/file-5.41.tar.gz
 https://mirrors.gethosted.online/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/93.0/linux-x86_64/en-US/firefox-93.0.tar.bz2
@@ -163,7 +163,7 @@ https://github.com/harfbuzz/harfbuzz/releases/download/3.0.0/harfbuzz-3.0.0.tar.
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://cdn.thesonicmaster.net/sources/hplip-3.21.8.tar.xz
 https://github.com/htop-dev/htop/archive/3.1.1/htop-3.1.1.tar.gz
-https://github.com/Mic92/iana-etc/releases/download/20210924/iana-etc-20210924.tar.gz
+https://github.com/Mic92/iana-etc/releases/download/20211004/iana-etc-20211004.tar.gz
 https://www.x.org/pub/individual/app/iceauth-1.0.8.tar.bz2
 http://tango.freedesktop.org/releases/icon-naming-utils-0.8.90.tar.bz2
 https://github.com/unicode-org/icu/releases/download/release-69-1/icu4c-69_1-src.tgz
@@ -329,7 +329,7 @@ https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
 https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
-https://mesa.freedesktop.org/archive/mesa-21.2.3.tar.xz
+https://mesa.freedesktop.org/archive/mesa-21.2.4.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.59.2/meson-0.59.2.tar.gz
 https://www.x.org/pub/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -337,7 +337,7 @@ https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.2.tar.xz
 https://archive.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.7.tar.bz2
 https://mirrors.gethosted.online/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
-https://cdn.thesonicmaster.net/sources/mpg123-1.29.0.tar.bz2
+https://cdn.thesonicmaster.net/sources/mpg123-1.29.1.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
 https://ftp.gnu.org/gnu/mtools/mtools-4.0.35.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
