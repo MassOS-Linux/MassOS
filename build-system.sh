@@ -4518,6 +4518,8 @@ fi
 pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
+groupadd -g 69 flatpak
+useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /sbin/nologin flatpak
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
