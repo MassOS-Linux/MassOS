@@ -618,13 +618,13 @@ rm -f /usr/lib/libltdl.a
 cd ..
 rm -rf libtool-2.4.6
 # GDBM.
-tar -xf gdbm-1.21.tar.gz
-cd gdbm-1.21
+tar -xf gdbm-1.22.tar.gz
+cd gdbm-1.22
 ./configure --prefix=/usr --disable-static --enable-libgdbm-compat
 make
 make install
 cd ..
-rm -rf gdbm-1.21
+rm -rf gdbm-1.22
 # gperf.
 tar -xf gperf-3.1.tar.gz
 cd gperf-3.1
@@ -5244,19 +5244,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.13.tar.xz
-cd linux-5.14.13
+tar -xf linux-5.14.14.tar.xz
+cd linux-5.14.14
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.13-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.13-massos/vmlinuz
-cp System.map /boot/System.map-5.14.13-massos
-cp .config /boot/config-5.14.13-massos
-rm /usr/lib/modules/5.14.13-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.14-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.14-massos/vmlinuz
+cp System.map /boot/System.map-5.14.14-massos
+cp .config /boot/config-5.14.14-massos
+rm /usr/lib/modules/5.14.14-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.14.13-massos/build
+builddir=/usr/lib/modules/5.14.14-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5279,7 +5279,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.14.13
+rm -rf linux-5.14.14
 # MassOS release detection utility.
 gcc -Os -s massos-release.c -o massos-release
 gcc -Os -s very-important.c -o give-me-the-secret-codes

@@ -15,10 +15,11 @@ This is the development version of MassOS. It contains the upcoming changes for 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
 - File: `5.40 --> 5.41`
+- GDBM: `1.21 --> 1.22`
 - Graphviz: `2.49.1 --> 2.49.2`
 - htop: `3.1.0 --> 3.1.1`
 - iana-etc: `20210924 --> 20211004`
-- Linux Kernel: `5.14.12 --> 5.14.13`
+- Linux Kernel: `5.14.12 --> 5.14.14`
 - Mesa: `21.2.3 --> 21.2.4`
 - mpg123: `1.29.0 --> 1.29.1`
 - tzdata: `2021c --> 2021d`
@@ -192,7 +193,7 @@ unset MVER
 # Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.14.13-massos
+mkinitramfs 5.14.14-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 # Installing the GRUB bootloader
