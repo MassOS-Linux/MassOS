@@ -5299,6 +5299,8 @@ rm -rf /root/.cargo
 busybox --install -s
 # Redundant since we use systemd.
 rm -f /linuxrc
+# Conflicts with /usr/sbin/lspci.
+rm -f /usr/bin/lspci
 # Move any misplaced files.
 cp -r /usr/etc /
 rm -rf /usr/etc
