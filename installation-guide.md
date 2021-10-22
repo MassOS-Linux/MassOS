@@ -23,7 +23,8 @@ It also includes the following upgraded software, however is also subject to cha
 - Linux Kernel: `5.14.12 --> 5.14.14`
 - Mesa: `21.2.3 --> 21.2.4`
 - mpg123: `1.29.0 --> 1.29.1`
-- tzdata: `2021c --> 2021d`
+- Thunderbird: `91.2.0 --> 91.2.1`
+- tzdata: `2021c --> 2021e`
 
 # Downloading The MassOS Rootfs
 Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.

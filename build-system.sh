@@ -162,7 +162,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2021d.tar.gz
+tar -xf ../../tzdata2021e.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -5219,7 +5219,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.2.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.2.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
