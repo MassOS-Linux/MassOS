@@ -3354,14 +3354,14 @@ make install
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.19.1.tar.xz
-cd libinput-1.19.1
+tar -xf libinput-1.19.2.tar.xz
+cd libinput-1.19.2
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libinput-1.19.1
+rm -rf libinput-1.19.2
 # xf86-input-libinput.
 tar -xf xf86-input-libinput-1.2.0.tar.bz2
 cd xf86-input-libinput-1.2.0
