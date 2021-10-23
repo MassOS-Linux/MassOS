@@ -19,6 +19,7 @@ It also includes the following upgraded software, however is also subject to cha
 - Graphviz: `2.49.1 --> 2.49.2`
 - htop: `3.1.0 --> 3.1.1`
 - iana-etc: `20210924 --> 20211004`
+- libdrm: `2.4.107 --> 2.4.107-32-gd77ccdf3`
 - libinput: `1.19.1 --> 1.19.2`
 - Linux Kernel: `5.14.12 --> 5.14.14`
 - Mesa: `21.2.3 --> 21.2.4`

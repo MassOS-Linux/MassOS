@@ -3153,14 +3153,14 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.107.tar.xz
-cd libdrm-2.4.107
-mkdir libdrm-build; cd libdrm-build
+tar -xf libdrm-2.4.107-32-gd77ccdf3.tar.xz
+cd libdrm-2.4.107-32-gd77ccdf3
+mkdir no-digital-restrictions-management; cd no-digital-restrictions-management
 meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libdrm-2.4.107
+rm -rf libdrm-2.4.107-32-gd77ccdf3
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
