@@ -5281,10 +5281,8 @@ ln -sr "$builddir" "/usr/src/linux"
 cd ..
 rm -rf linux-5.14.14
 # MassOS release detection utility.
-gcc -Os -s massos-release.c -o massos-release
-gcc -Os -s very-important.c -o give-me-the-secret-codes
+gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
-install -m755 give-me-the-secret-codes /usr/bin/give-me-the-secret-codes
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
