@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -367,18 +367,20 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.59.tar.xz
-cd libcap-2.59
+tar -xf libcap-2.60.tar.xz
+cd libcap-2.60
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.59
+chmod 755 /usr/lib/lib{cap,psx}.so.2.60
 cd ..
-rm -rf libcap-2.59
+rm -rf libcap-2.60
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
-PYTHON=python3 CPPFLAGS=-I/usr/include/python3.9 ./configure --prefix=/usr --disable-static --with-default-dict=/usr/lib/cracklib/pw_dict
+sed -i '/skipping/d' util/packer.c
+sed -i '15209 s/.*/am_cv_python_version=3.10/' configure
+PYTHON=python3 CPPFLAGS=-I/usr/include/python3.10 ./configure --prefix=/usr --disable-static --with-default-dict=/usr/lib/cracklib/pw_dict
 make
 make install
 install -Dm644 ../cracklib-words-2.9.7.bz2 /usr/share/dict/cracklib-words.bz2
@@ -436,8 +438,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.59.tar.xz
-cd libcap-2.59
+tar -xf libcap-2.60.tar.xz
+cd libcap-2.60
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -446,7 +448,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.59
+rm -rf libcap-2.60
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -747,8 +749,8 @@ ln -sf kmod /usr/bin/lsmod
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -761,7 +763,7 @@ pip --no-color install --upgrade pip
 pip --no-color install --upgrade setuptools
 pip --no-color install pyparsing
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -2126,6 +2128,7 @@ rm -rf swig-4.0.2
 tar -xf gpgme-1.16.0.tar.bz2
 cd gpgme-1.16.0
 sed 's/defined(__sun.*$/1/' -i src/posix-io.c
+sed -e 's/3\.9/3.10/' -e 's/:3/:4/' -e '23657 s/distutils"/setuptools"/' -i configure
 ./configure --prefix=/usr
 make
 make install
@@ -2184,7 +2187,7 @@ rm -rf audit-3.0.5
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3/libraries/libapparmor
-./configure --prefix=/usr --with-perl --with-python
+./configure --prefix=/usr --with-perl
 make
 cd ../..
 make -C binutils
@@ -2336,7 +2339,7 @@ mkdir pahole-build; cd pahole-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
-mv /usr/share/dwarves/runtime/python/ostra.py /usr/lib/python3.9/ostra.py
+mv /usr/share/dwarves/runtime/python/ostra.py /usr/lib/python3.10/ostra.py
 rm -rf /usr/share/dwarves/runtime/python
 cd ../..
 rm -rf pahole-1.22-5-ge38e89e
@@ -2444,6 +2447,7 @@ rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
 # JS78.
 tar -xf firefox-78.15.0esr.source.tar.xz
 cd firefox-78.15.0
+patch -Np1 -i ../patches/js78-78.15.0-python310.patch
 mkdir obj; cd obj
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -4240,8 +4244,8 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.11
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.9.7.tar.xz
-cd Python-3.9.7
+tar -xf Python-3.10.0.tar.xz
+cd Python-3.10.0
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -4249,7 +4253,7 @@ pip install cython
 pip install requests
 pip install tldr
 cd ..
-rm -rf Python-3.9.7
+rm -rf Python-3.10.0
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0
@@ -4302,7 +4306,7 @@ rm -rf libndp-1.8
 tar -xf newt-0.52.21.tar.gz
 cd newt-0.52.21
 sed -e 's/^LIBNEWT =/#&/' -e '/install -m 644 $(LIBNEWT)/ s/^/#/' -e 's/$(LIBNEWT)/$(LIBNEWTSONAME)/g' -i Makefile.in
-./configure --prefix=/usr --with-gpm-support --with-python=python3.9
+./configure --prefix=/usr --with-gpm-support --with-python=python3.10
 make
 make install
 cd ..
