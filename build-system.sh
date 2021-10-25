@@ -773,14 +773,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.59.3.tar.gz
-cd meson-0.59.3
+tar -xf meson-0.60.0.tar.gz
+cd meson-0.60.0
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.59.3
+rm -rf meson-0.60.0
 # libseccomp.
 tar -xf libseccomp-2.5.2.tar.gz
 cd libseccomp-2.5.2
@@ -3665,15 +3665,15 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.49.2.tar.gz
-cd graphviz-2.49.2
+tar -xf graphviz-2.49.3.tar.gz
+cd graphviz-2.49.3
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
 cd ..
-rm -rf graphviz-2.49.2
+rm -rf graphviz-2.49.3
 # Vala.
 tar -xf vala-0.54.2.tar.xz
 cd vala-0.54.2
@@ -4454,14 +4454,14 @@ ninja install
 cd ../..
 rm -rf glib-networking-2.70.0
 # libsoup.
-tar -xf libsoup-2.74.0.tar.xz
-cd libsoup-2.74.0
+tar -xf libsoup-2.74.1.tar.xz
+cd libsoup-2.74.1
 mkdir soup-build; cd soup-build
 meson --prefix=/usr --buildtype=release -Dvapi=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libsoup-2.74.0
+rm -rf libsoup-2.74.1
 # libostree.
 tar -xf libostree-2021.4.tar.xz
 cd libostree-2021.4
@@ -4599,13 +4599,13 @@ ninja install
 cd ../..
 rm -rf gst-plugins-base-1.18.5
 # mpg123.
-tar -xf mpg123-1.29.1.tar.bz2
-cd mpg123-1.29.1
+tar -xf mpg123-1.29.2.tar.bz2
+cd mpg123-1.29.2
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf mpg123-1.29.1
+rm -rf mpg123-1.29.2
 # libvpx.
 tar -xf libvpx-1.11.0.tar.gz
 cd libvpx-1.11.0

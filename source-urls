@@ -139,7 +139,7 @@ https://mirrors.gethosted.online/gnu/gperf/gperf-3.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.16.0.tar.bz2
 https://cdn.thesonicmaster.net/sources/gptfdisk-1.0.8.tar.gz
 https://github.com/silnrsi/graphite/releases/download/1.3.14/graphite2-1.3.14.tgz
-https://gitlab.com/graphviz/graphviz/-/archive/2.49.2/graphviz-2.49.2.tar.gz
+https://gitlab.com/graphviz/graphviz/-/archive/2.49.3/graphviz-2.49.3.tar.gz
 https://mirrors.gethosted.online/gnu/grep/grep-3.7.tar.xz
 https://mirrors.gethosted.online/gnu/groff/groff-1.22.4.tar.gz
 https://mirrors.gethosted.online/gnu/grub/grub-2.06.tar.xz
@@ -251,7 +251,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libsigc++/2.10/libsigc++-2.10.7.tar.xz
 https://mirrors.gethosted.online/gnu/libsigsegv/libsigsegv-2.13.tar.gz
 https://www.x.org/pub/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.1.tar.xz
 https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 https://cdn.thesonicmaster.net/sources/libstemmer-2.1.0.tar.xz
 https://mirrors.gethosted.online/gnu/libtasn1/libtasn1-4.17.0.tar.gz
@@ -331,14 +331,14 @@ https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
 https://mesa.freedesktop.org/archive/mesa-21.2.4.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.59.3/meson-0.59.3.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.60.0/meson-0.60.0.tar.gz
 https://www.x.org/pub/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.2.tar.xz
 https://archive.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.7.tar.bz2
 https://mirrors.gethosted.online/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
-https://cdn.thesonicmaster.net/sources/mpg123-1.29.1.tar.bz2
+https://mpg123.org/download/mpg123-1.29.2.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
 https://ftp.gnu.org/gnu/mtools/mtools-4.0.35.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
