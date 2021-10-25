@@ -5112,6 +5112,30 @@ ninja
 ninja install
 cd ../..
 rm -rf gnome-software-41.0
+# MassOS Welcome (modified version of Gnome Tour).
+tar -xf gnome-tour-40.0-MassOS.tar.xz
+cd gnome-tour-40.0-MassOS
+mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+rm -f /usr/share/applications/org.gnome.Tour.desktop
+rm -f /usr/share/metainfo/org.gnome.Tour.metainfo.xml
+cat > /usr/bin/firstlogin << "END"
+#!/bin/sh
+/usr/bin/gnome-tour
+rm -f ~/.config/autostart/firstlogin.desktop
+END
+chmod 755 /usr/bin/firstlogin
+install -dm755 /etc/skel/.config/autostart
+cat > /etc/skel/.config/autostart/firstlogin.desktop << "END"
+[Desktop Entry]
+Type=Application
+Name=First Login Welcome Program
+Exec=/usr/bin/firstlogin
+END
+cd ../..
+rm -rf gnome-tour-40.0-MassOS
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0

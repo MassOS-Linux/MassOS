@@ -7,6 +7,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
+- Added a welcome/introduction program which is run on the user's first login.
 - Updated the default MassOS wallpaper.
 - Added some very small command-line games (bsd-games).
 - Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
