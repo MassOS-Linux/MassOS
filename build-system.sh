@@ -5174,6 +5174,8 @@ autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install
+ln -sf htop /usr/bin/top
+ln -sf htop.1 /usr/share/man/man1/top.1
 rm -f /usr/share/applications/htop.desktop
 cd ..
 rm -rf htop-3.1.1
@@ -5223,6 +5225,21 @@ install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
 install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
 cd ..
 rm -rf cmatrix
+# vitetris.
+tar -xf vitetris_0.59.1.orig.tar.gz
+cd vitetris-0.59.1
+sed -i 's|#define CONFIG_FILENAME ".vitetris"|#define CONFIG_FILENAME ".config/vitetris"|' src/config2.h
+./configure --prefix=/usr --with-ncurses --without-x
+make
+make gameserver
+make install
+mv /usr/bin/tetris /usr/bin/vitetris
+install -m755 gameserver /usr/bin/vitetris-gameserver
+for i in tetris tetris-gameserver; do ln -sf vi$i /usr/bin/$i; done
+rm -f /usr/share/applications/vitetris.desktop
+rm -f /usr/share/pixmaps/vitetris.xpm
+cd ..
+rm -rf vitetris-0.59.1
 # Firefox.
 tar --no-same-owner -xf firefox-93.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution

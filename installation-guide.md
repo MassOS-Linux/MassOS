@@ -5,7 +5,7 @@ This guide aims to guide you through the installation of MassOS.
 # System Requirements
 - At least 8GB of free disk space (16GB recommended).
 - At least 1GB of RAM (2GB recommended).
-- MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead.
+- MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead. If you use a LiveCD, its live filesystem must have at least ~1.2GB of free disk space for the MassOS rootfs image to be downloaded.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
@@ -13,7 +13,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added a welcome/introduction program which is run on the user's first login.
 - Updated the default MassOS wallpaper.
 - Added Vulkan support to Mesa.
-- Added some very small command-line games (bsd-games).
+- Added some very small command-line games (bsd-games and vitetris).
 - Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
 - Patched krb5 against security vulnerability CVE-2021-37750.
 
