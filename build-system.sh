@@ -2075,14 +2075,14 @@ make install
 cd ..
 rm -rf libksba-1.6.0
 # GNUPG.
-tar -xf gnupg-2.2.29.tar.bz2
-cd gnupg-2.2.29
+tar -xf gnupg-2.2.32.tar.bz2
+cd gnupg-2.2.32
 sed -e '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' -i tools/Makefile.in
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
 make install
 cd ..
-rm -rf gnupg-2.2.29
+rm -rf gnupg-2.2.32
 # krb5.
 tar -xf krb5-1.19.2.tar.gz
 cd krb5-1.19.2/src

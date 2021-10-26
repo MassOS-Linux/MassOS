@@ -22,6 +22,7 @@ It also includes the following upgraded software, however is also subject to cha
 - c-ares: `1.17.2 --> 1.18.0`
 - File: `5.40 --> 5.41`
 - GDBM: `1.21 --> 1.22`
+- GNUPG: `2.2.29 --> 2.2.32`
 - Graphviz: `2.49.1 --> 2.49.3`
 - htop: `3.1.0 --> 3.1.1`
 - iana-etc: `20210924 --> 20211004`
