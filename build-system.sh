@@ -1567,12 +1567,7 @@ rm -rf dosfstools-4.2
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
-sed -i '58iAC_CHECK_FUNCS([closefrom])' configure.ac
-sed -i '25i#ifdef HAVE_CONFIG_H' util/ulockmgr_server.c
-sed -i '26i  #include "config.h"' util/ulockmgr_server.c
-sed -i '27i#endif' util/ulockmgr_server.c
-sed -i '130i#if !defined(HAVE_CLOSEFROM)' util/ulockmgr_server.c
-sed -i '148i#endif' util/ulockmgr_server.c
+patch -Np1 -i ../patches/fuse-2.9.9-glibc234.patch
 autoreconf -fi
 UDEV_RULES_PATH=/usr/lib/udev/rules.d MOUNT_FUSE_PATH=/usr/bin ./configure --prefix=/usr --libdir=/usr/lib --enable-lib --enable-util --disable-example
 make
@@ -1667,14 +1662,14 @@ make install
 cd ..
 rm -rf thin-provisioning-tools-0.9.0
 # LVM2.
-tar -xf LVM2.2.03.13.tgz
-cd LVM2.2.03.13
+tar -xf LVM2.2.03.14.tgz
+cd LVM2.2.03.14
 ./configure --prefix=/usr --enable-cmdlib --enable-dmeventd --enable-pkgconfig --enable-udev_sync
 make
 make install
 make install_systemd_units
 cd ..
-rm -rf LVM2.2.03.13
+rm -rf LVM2.2.03.14
 # btrfs-progs.
 tar -xf btrfs-progs-v5.14.2.tar.xz
 cd btrfs-progs-v5.14.2
@@ -1775,14 +1770,14 @@ rm -rf /usr/share/doc/cmake
 cd ..
 rm -rf cmake-3.22.0-rc1
 # c-ares.
-tar -xf c-ares-1.17.2.tar.gz
-cd c-ares-1.17.2
+tar -xf c-ares-1.18.0.tar.gz
+cd c-ares-1.18.0
 mkdir c-ares-build; cd c-ares-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf c-ares-1.17.2
+rm -rf c-ares-1.18.0
 # JSON-C.
 tar -xf json-c-0.15.tar.gz
 cd json-c-0.15
@@ -2657,7 +2652,7 @@ GRUB_SAVEDEFAULT="true"
 #GRUB_DISABLE_SUBMENU="y"
 
 # Uncomment to enable detection of other OSes when generating grub.cfg
-GRUB_DISABLE_OS_PROBER="false"
+#GRUB_DISABLE_OS_PROBER="false"
 END
 sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
@@ -2956,15 +2951,15 @@ gem install lolcat
 cd ..
 rm -rf ruby-3.0.2
 # slang.
-tar -xf slang-2.3.2.tar.bz2
-cd slang-2.3.2
+tar -xf slang-2.3.2-60-g3d8eb6c.tar.xz
+cd slang-2.3.2-60-g3d8eb6c
 ./configure --prefix=/usr --sysconfdir=/etc --with-readline=gnu
 make -j1
-make -j1 install_doc_dir=/usr/share/doc/slang-2.3.2 SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2/slsh install-all
-chmod 755 /usr/lib/libslang.so.2.3.2 /usr/lib/slang/v2/modules/*.so
+make -j1 install_doc_dir=/usr/share/doc/slang-2.3.2-60-g3d8eb6c SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2-60-g3d8eb6c/slsh install-all
+chmod 755 /usr/lib/libslang.so.2.3.3 /usr/lib/slang/v2/modules/*.so
 rm -f /usr/lib/libslang.a
 cd ..
-rm -rf slang-2.3.2
+rm -rf slang-2.3.2-60-g3d8eb6c
 # dhclient.
 tar -xf dhcp-4.4.2-P1.tar.gz
 cd dhcp-4.4.2-P1
@@ -3165,6 +3160,15 @@ ninja
 ninja install
 cd ../..
 rm -rf libdrm-2.4.107-32-gd77ccdf3
+# glslang (required for Vulkan support in Mesa).
+tar -xf glslang-11.6.0.tar.xz
+cd glslang-11.6.0
+mkdir build-shared-release; cd build-shared-release
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf glslang-11.6.0
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3188,7 +3192,7 @@ cd mesa-21.2.4
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
+meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
 ninja
 ninja install
 cd ../..
@@ -4553,14 +4557,14 @@ make install
 cd ..
 rm -rf rest-0.8.1
 # wpebackend-fdo.
-tar -xf wpebackend-fdo-1.10.0.tar.xz
-cd wpebackend-fdo-1.10.0
+tar -xf wpebackend-fdo-1.12.0.tar.xz
+cd wpebackend-fdo-1.12.0
 mkdir fdo-build; cd fdo-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf wpebackend-fdo-1.10.0
+rm -rf wpebackend-fdo-1.12.0
 # GeoClue.
 tar -xf geoclue-2.5.7.tar.bz2
 cd geoclue-2.5.7
@@ -4731,14 +4735,14 @@ ninja install
 cd ../..
 rm -rf gst-plugins-ugly-1.18.5
 # WebKitGTK.
-tar -xf webkitgtk-2.34.0.tar.xz
-cd webkitgtk-2.34.0
+tar -xf webkitgtk-2.34.1.tar.xz
+cd webkitgtk-2.34.1
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf webkitgtk-2.34.0
+rm -rf webkitgtk-2.34.1
 # gspell.
 tar -xf gspell-1.9.1.tar.xz
 cd gspell-1.9.1
@@ -5332,10 +5336,12 @@ cp -r /usr/etc /
 rm -rf /usr/etc
 cp -r /usr/man /usr/share
 rm -rf /usr/man
-# Remove documentation.
+# Remove documentation to free up space.
 rm -rf /usr/share/doc/*
 rm -rf /usr/doc
 rm -rf /usr/docs
+rm -f /usr/share/gtk-doc/html/appstream
+rm -rf /usr/share/gtk-doc/html/*
 # Remove temporary compiler from stage1.
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.
