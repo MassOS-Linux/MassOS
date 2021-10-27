@@ -1000,6 +1000,13 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 cd ..
 rm -rf nano-5.9
+# dos2unix.
+tar -xf dos2unix-7.4.2.tar.gz
+cd dos2unix-7.4.2
+make
+make install
+cd ..
+rm -rf dos2unix-7.4.2
 # MarkupSafe.
 tar -xf MarkupSafe-2.0.1.tar.gz
 cd MarkupSafe-2.0.1
