@@ -20,7 +20,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
-- c-ares: `1.17.2 --> 1.18.0`
+- c-ares: `1.17.2 --> 1.18.1`
 - File: `5.40 --> 5.41`
 - GDBM: `1.21 --> 1.22`
 - GNUPG: `2.2.29 --> 2.2.32`
@@ -30,7 +30,9 @@ It also includes the following upgraded software, however is also subject to cha
 - libcap: `2.59 --> 2.60`
 - libdrm: `2.4.107 --> 2.4.107-32-gd77ccdf3`
 - libinput: `1.19.1 --> 1.19.2`
+- librsvg: `2.52.0 --> 2.52.3`
 - libsoup: `2.74.0 --> 2.74.1`
+- libwpe: `1.10.1 --> 1.12.0`
 - Linux Kernel: `5.14.12 --> 5.14.14`
 - LVM2: `2.03.13 --> 2.03.14`
 - Mesa: `21.2.3 --> 21.2.4`
@@ -40,6 +42,7 @@ It also includes the following upgraded software, however is also subject to cha
 - slang: `2.3.2 --> 2.3.2-60-g3d8eb6c`
 - Thunderbird: `91.2.0 --> 91.2.1`
 - tzdata: `2021c --> 2021e`
+- Vim: `8.2.3496 --> 8.2.3565`
 - WebKitGTK: `2.34.0 --> 2.34.1`
 - wpebackend-fdo: `1.10.0 --> 1.12.0`
 

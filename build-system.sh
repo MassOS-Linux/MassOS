@@ -1776,14 +1776,14 @@ rm -rf /usr/share/doc/cmake
 cd ..
 rm -rf cmake-3.22.0-rc1
 # c-ares.
-tar -xf c-ares-1.18.0.tar.gz
-cd c-ares-1.18.0
+tar -xf c-ares-1.18.1.tar.gz
+cd c-ares-1.18.1
 mkdir c-ares-build; cd c-ares-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf c-ares-1.18.0
+rm -rf c-ares-1.18.1
 # JSON-C.
 tar -xf json-c-0.15.tar.gz
 cd json-c-0.15
@@ -3702,14 +3702,14 @@ ninja install
 cd ../..
 rm -rf libgusb-0.3.8
 # librsvg.
-tar -xf librsvg-2.52.0.tar.xz
-cd librsvg-2.52.0
+tar -xf librsvg-2.52.3.tar.xz
+cd librsvg-2.52.3
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 cd ..
-rm -rf librsvg-2.52.0
+rm -rf librsvg-2.52.3
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -3993,8 +3993,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3496.tar.xz
-cd vim-8.2.3496
+tar -xf vim-8.2.3565.tar.xz
+cd vim-8.2.3565
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -4015,16 +4015,16 @@ ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 cd ..
-rm -rf vim-8.2.3496
+rm -rf vim-8.2.3565
 # libwpe.
-tar -xf libwpe-1.10.1.tar.xz
-cd libwpe-1.10.1
+tar -xf libwpe-1.12.0.tar.xz
+cd libwpe-1.12.0
 mkdir wpe-build; cd wpe-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf libwpe-1.10.1
+rm -rf libwpe-1.12.0
 # OpenJPEG.
 tar -xf openjpeg-2.4.0.tar.gz
 cd openjpeg-2.4.0

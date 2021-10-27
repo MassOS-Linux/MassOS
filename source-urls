@@ -36,7 +36,7 @@ https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.
 https://github.com/projectatomic/bubblewrap/releases/download/v0.5.0/bubblewrap-0.5.0.tar.xz
 https://www.busybox.net/downloads/busybox-1.34.1.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
-https://c-ares.haxx.se/download/c-ares-1.18.0.tar.gz
+https://c-ares.org/download/c-ares-1.18.1.tar.gz
 https://www.cairographics.org/snapshots/cairo-1.17.4.tar.xz
 https://www.cairographics.org/releases/cairomm-1.14.0.tar.xz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
@@ -244,7 +244,7 @@ https://cdn.thesonicmaster.net/sources/libpng-1.6.37.tar.xz
 https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.gz
 https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.52/librsvg-2.52.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.52/librsvg-2.52.3.tar.xz
 https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.2/libseccomp-2.5.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
@@ -270,7 +270,7 @@ https://github.com/webmproject/libvpx/archive/v1.11.0/libvpx-1.11.0.tar.gz
 https://github.com/linuxwacom/libwacom/releases/download/libwacom-1.12/libwacom-1.12.tar.bz2
 http://downloads.webmproject.org/releases/webp/libwebp-1.2.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libwnck/40/libwnck-40.0.tar.xz
-https://wpewebkit.org/releases/libwpe-1.10.1.tar.xz
+https://wpewebkit.org/releases/libwpe-1.12.0.tar.xz
 https://www.x.org/pub/individual/lib/libX11-1.7.2.tar.bz2
 https://www.x.org/pub/individual/lib/libXau-1.0.9.tar.bz2
 https://www.x.org/pub/individual/lib/libXaw-1.0.14.tar.bz2
@@ -454,7 +454,7 @@ https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.2.tar.xz
-https://cdn.thesonicmaster.net/sources/vim-8.2.3496.tar.xz
+https://cdn.thesonicmaster.net/sources/vim-8.2.3565.tar.xz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.0/vte-0.66.0.tar.gz
