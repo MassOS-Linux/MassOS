@@ -1671,15 +1671,11 @@ make
 make install
 cd ..
 rm -rf thin-provisioning-tools-0.9.0
-# LVM2.
-tar -xf LVM2.2.03.14.tgz
-cd LVM2.2.03.14
-./configure --prefix=/usr --enable-cmdlib --enable-dmeventd --enable-pkgconfig --enable-udev_sync
-make
-make install
-make install_systemd_units
-cd ..
-rm -rf LVM2.2.03.14
+# LVM2 (precompiled package, to avoid a segfault at runtime).
+tar --no-same-owner -xpf lvm2-2.03.14-x86_64-precompiled-MassOS.tar.xz
+cp -r lvm2-2.03.14-x86_64-precompiled-MassOS/{etc,usr} /
+ldconfig
+rm -rf lvm2-2.03.14-x86_64-precompiled-MassOS
 # btrfs-progs.
 tar -xf btrfs-progs-v5.14.2.tar.xz
 cd btrfs-progs-v5.14.2

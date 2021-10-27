@@ -16,6 +16,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added some very small command-line games (bsd-games and vitetris).
 - Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
 - Patched krb5 against security vulnerability CVE-2021-37750.
+- Switched to using a precompiled for LVM2 (for now), to avoid a segfault which occurred at runtime if the package was built in chroot.
 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
