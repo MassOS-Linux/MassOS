@@ -808,6 +808,16 @@ mv /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
 cd ..
 rm -rf coreutils-9.0
+# Moreutils.
+tar -xf moreutils-0.66.tar.xz
+cd moreutils-0.66
+patch -Np1 -i ../patches/moreutils-0.66-pregenerated-manpages.patch
+make CFLAGS="$CFLAGS"
+make install
+for i in chronic combine errno ifdata ifne isutf8 lckdo mispipe pee sponge vidir vipe zrun; do chmod 644 /usr/share/man/man1/$i.1; done
+chmod 644 /usr/share/man/man1/ts.1moreutils
+cd ..
+rm -rf moreutils-0.66
 # Check.
 tar -xf check-0.15.2.tar.gz
 cd check-0.15.2
