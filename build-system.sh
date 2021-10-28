@@ -2665,7 +2665,7 @@ GRUB_SAVEDEFAULT="true"
 #GRUB_DISABLE_SUBMENU="y"
 
 # Uncomment to enable detection of other OSes when generating grub.cfg
-#GRUB_DISABLE_OS_PROBER="false"
+#RUB_DISABLE_OS_PROBER="false"
 END
 sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
@@ -5306,19 +5306,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.14.14.tar.xz
-cd linux-5.14.14
+tar -xf linux-5.14.15.tar.xz
+cd linux-5.14.15
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.14-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.14.14-massos/vmlinuz
-cp System.map /boot/System.map-5.14.14-massos
-cp .config /boot/config-5.14.14-massos
-rm /usr/lib/modules/5.14.14-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.14.15-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.14.15-massos/vmlinuz
+cp System.map /boot/System.map-5.14.15-massos
+cp .config /boot/config-5.14.15-massos
+rm /usr/lib/modules/5.14.15-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.14.14-massos/build
+builddir=/usr/lib/modules/5.14.15-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5341,7 +5341,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.14.14
+rm -rf linux-5.14.15
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
