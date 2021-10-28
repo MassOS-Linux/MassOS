@@ -2665,7 +2665,7 @@ GRUB_SAVEDEFAULT="true"
 #GRUB_DISABLE_SUBMENU="y"
 
 # Uncomment to enable detection of other OSes when generating grub.cfg
-#RUB_DISABLE_OS_PROBER="false"
+GRUB_DISABLE_OS_PROBER="false"
 END
 sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
