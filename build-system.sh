@@ -841,6 +841,7 @@ sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr
 make
 make install
+ln -sf gawk.1 /usr/share/man/man1/awk.1
 cd ..
 rm -rf gawk-5.1.1
 # Findutils.
@@ -5362,6 +5363,8 @@ busybox --install -s
 rm -f /linuxrc
 # Conflicts with /usr/sbin/lspci.
 rm -f /usr/bin/lspci
+# Unused package managers, potentially dangerous on MassOS.
+rm -f /usr/bin/{dpkg,rpm}
 # Move any misplaced files.
 cp -r /usr/etc /
 rm -rf /usr/etc
