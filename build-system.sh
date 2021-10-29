@@ -2612,7 +2612,7 @@ cat > /etc/default/grub << END
 GRUB_DEFAULT="0"
 GRUB_TIMEOUT="5"
 GRUB_DISTRIBUTOR="MassOS"
-GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 GRUB_CMDLINE_LINUX=""
 
 # Preload both GPT and MBR modules so that they are not missed
@@ -5181,6 +5181,18 @@ sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Cont
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
+# Plymouth.
+tar -xf plymouth-0.9.5.tar.gz
+cd plymouth-0.9.5
+LDFLAGS="$LDFLAGS -ludev" ./autogen.sh --prefix=/usr --exec-prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --enable-systemd-integration --enable-drm --enable-pango --with-release-file=/etc/os-release --with-logo=/usr/share/plymouth/massos-logo.png --with-background-color=0x000000 --with-background-start-color-stop=0x000000 --with-background-end-color-stop=0x4D4D4D --without-rhgb-compat-link --without-system-root-install --with-runtimedir=/run
+make
+make install
+install -m644 ../plymouth.png /usr/share/plymouth/massos-logo.png
+cp /usr/share/plymouth/massos-logo.png /usr/share/plymouth/themes/spinner/watermark.png
+sed -i 's/WatermarkVerticalAlignment=.96/WatermarkVerticalAlignment=.5/' /usr/share/plymouth/themes/spinner/spinner.plymouth
+plymouth-set-default-theme spinner
+cd ..
+rm -rf plymouth-0.9.5
 # htop.
 tar -xf htop-3.1.1.tar.gz
 cd htop-3.1.1

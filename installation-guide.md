@@ -11,6 +11,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - MassOS now has a guided installer! You can use this to install MassOS
 - Added a welcome/introduction program which is run on the user's first login.
+- Added a graphical boot splash screen (Plymouth).
 - Updated the default MassOS wallpaper.
 - Added Vulkan support to Mesa.
 - Added some very small command-line games (bsd-games and vitetris).
