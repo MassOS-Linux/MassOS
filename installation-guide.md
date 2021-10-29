@@ -22,6 +22,7 @@ It also includes the following upgraded software, however is also subject to cha
 
 - c-ares: `1.17.2 --> 1.18.1`
 - File: `5.40 --> 5.41`
+- Gawk: `5.1.0 --> 5.1.1`
 - GDBM: `1.21 --> 1.22`
 - GNUPG: `2.2.29 --> 2.2.32`
 - Graphviz: `2.49.1 --> 2.49.3`
@@ -35,7 +36,7 @@ It also includes the following upgraded software, however is also subject to cha
 - libwpe: `1.10.1 --> 1.12.0`
 - Linux Kernel: `5.14.12 --> 5.14.15`
 - LVM2: `2.03.13 --> 2.03.14`
-- Mesa: `21.2.3 --> 21.2.4`
+- Mesa: `21.2.3 --> 21.2.5`
 - Meson: `0.59.2 --> 0.60.0`
 - mpg123: `1.29.0 --> 1.29.2`
 - Python: `3.9.7 --> 3.10.0`

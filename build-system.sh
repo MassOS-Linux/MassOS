@@ -835,14 +835,14 @@ make install
 cd ..
 rm -rf diffutils-3.8
 # Gawk.
-tar -xf gawk-5.1.0.tar.xz
-cd gawk-5.1.0
+tar -xf gawk-5.1.1.tar.xz
+cd gawk-5.1.1
 sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf gawk-5.1.0
+rm -rf gawk-5.1.1
 # Findutils.
 tar -xf findutils-4.8.0.tar.xz
 cd findutils-4.8.0
@@ -3002,8 +3002,8 @@ install -dm755 /var/lib/dhclient
 cd ..
 rm -rf dhcp-4.4.2-P1
 # 'dig', 'host' and 'nslookup' from ISC BIND.
-tar -xf bind-9.16.21.tar.xz
-cd bind-9.16.21
+tar -xf bind-9.16.22.tar.xz
+cd bind-9.16.22
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
 make -C lib/dns
 make -C lib/isc
@@ -3013,7 +3013,7 @@ make -C lib/irs
 make -C bin/dig
 make -C bin/dig install
 cd ..
-rm -rf bind-9.16.21
+rm -rf bind-9.16.22
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -3200,8 +3200,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.2.4.tar.xz
-cd mesa-21.2.4
+tar -xf mesa-21.2.5.tar.xz
+cd mesa-21.2.5
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3209,7 +3209,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.2.4
+rm -rf mesa-21.2.5
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
