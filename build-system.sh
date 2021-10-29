@@ -5396,6 +5396,12 @@ find /usr/lib /usr/libexec -name \*.la -delete
 rm -rf /tmp/*
 # As a finishing touch, run ldconfig.
 ldconfig
+# For massos-upgrade.
+cat > /tmp/postupgrade << "END"
+# Fix plymouth support after upgrading from pre-Plymouth version.
+sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/' /etc/default/grub
+test ! -f /boot/grub/grub.cfg || grub-mkconfig -o /boot/grub/grub.cfg
+END
 # Clean sources directory and self destruct.
 cd ..
 rm -rf /sources
