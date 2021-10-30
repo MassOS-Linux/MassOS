@@ -4709,6 +4709,7 @@ cd x264-0.164-3075-66a5bc1
 ./configure --prefix=/usr --enable-shared --disable-cli
 make
 make install
+sudo ln -sf libx264.so.164 /usr/lib/libx264.so
 cd ..
 rm -rf x264-0.164-3075-66a5bc1
 # x265.
@@ -4719,6 +4720,8 @@ cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninj
 ninja
 ninja install
 rm -f /usr/lib/libx265.a
+ln -sf libx265.so.203 /usr/lib/libx265.so
+ldconfig
 cd ../..
 rm -rf x265-3.5-19-g747a079f7
 # a52dec.
