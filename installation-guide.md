@@ -41,6 +41,7 @@ It also includes the following upgraded software, however is also subject to cha
 - Mesa: `21.2.3 --> 21.2.5`
 - Meson: `0.59.2 --> 0.60.0`
 - mpg123: `1.29.0 --> 1.29.2`
+- nghttp2: `1.45.1 --> 1.46.0`
 - Python: `3.9.7 --> 3.10.0`
 - slang: `2.3.2 --> 2.3.2-60-g3d8eb6c`
 - Thunderbird: `91.2.0 --> 91.2.1`

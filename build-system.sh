@@ -1758,13 +1758,13 @@ rm -f /usr/lib/libbrotlidec.a
 cd ..
 rm -rf brotli-1.0.9
 # nghttp2.
-tar -xf nghttp2-1.45.1.tar.xz
-cd nghttp2-1.45.1
+tar -xf nghttp2-1.46.0.tar.xz
+cd nghttp2-1.46.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 cd ..
-rm -rf nghttp2-1.45.1
+rm -rf nghttp2-1.46.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.79.1.tar.xz
 cd curl-7.79.1
@@ -2029,13 +2029,13 @@ make install
 cd ..
 rm -rf jansson-2.13.1
 # nghttp2 (rebuild to support more features).
-tar -xf nghttp2-1.45.1.tar.xz
-cd nghttp2-1.45.1
+tar -xf nghttp2-1.46.0.tar.xz
+cd nghttp2-1.46.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 cd ..
-rm -rf nghttp2-1.45.1
+rm -rf nghttp2-1.46.0
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
