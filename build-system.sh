@@ -4709,7 +4709,7 @@ cd x264-0.164-3075-66a5bc1
 ./configure --prefix=/usr --enable-shared --disable-cli
 make
 make install
-sudo ln -sf libx264.so.164 /usr/lib/libx264.so
+ln -sf libx264.so.164 /usr/lib/libx264.so
 cd ..
 rm -rf x264-0.164-3075-66a5bc1
 # x265.
