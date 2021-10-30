@@ -5398,6 +5398,13 @@ rm -rf /tmp/*
 ldconfig
 # For massos-upgrade.
 cat > /tmp/postupgrade << "END"
+# Conflicts with /usr/sbin/lspci.
+test ! -L /usr/bin/lspci || rm -f /usr/bin/lspci
+# Unused and potentially dangerous PM implementations by Busybox.
+test ! -L /usr/bin/dpkg || rm -f /usr/bin/dpkg
+test ! -L /usr/bin/rpm || rm -f /usr/bin/rpm
+# Not FHS-compliant, nor needed.
+rm -rf /usr/docs
 # Fix plymouth support after upgrading from pre-Plymouth version.
 sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="quiet"/GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"/' /etc/default/grub
 test ! -f /boot/grub/grub.cfg || grub-mkconfig -o /boot/grub/grub.cfg
