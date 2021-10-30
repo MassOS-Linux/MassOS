@@ -3862,6 +3862,14 @@ make
 make install
 cd ..
 rm -rf libsndfile-1.0.31
+# libsamplerate.
+tar -xf libsamplerate-0.2.2.tar.xz
+cd libsamplerate-0.2.2
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libsamplerate-0.2.2
 # SBC.
 tar -xf sbc-1.5.tar.xz
 cd sbc-1.5
@@ -3924,6 +3932,15 @@ make
 make install
 cd ..
 rm -rf SDL-1.2.15
+# SDL2.
+tar -xf SDL2-2.0.16.tar.gz
+cd SDL2-2.0.16
+./configure --prefix=/usr
+make
+make install
+rm -f /usr/lib/libSDL2*.a
+cd ..
+rm -rf SDL2-2.0.16
 # dmidecode.
 tar -xf dmidecode-3.3.tar.xz
 cd dmidecode-3.3
@@ -4588,6 +4605,14 @@ ninja
 ninja install
 cd ../..
 rm -rf geoclue-2.5.7
+# libass.
+tar -xf libass-0.15.2.tar.xz
+cd libass-0.15.2
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libass-0.15.2
 # gstreamer.
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
@@ -4751,6 +4776,16 @@ ninja
 ninja install
 cd ../..
 rm -rf gst-plugins-ugly-1.18.5
+# FFmpeg.
+tar -xf ffmpeg-4.4.1.tar.xz
+cd ffmpeg-4.4.1
+./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
+make
+gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
+make install
+install -m755 tools/qt-faststart /usr/bin
+cd ..
+rm -rf ffmpeg-4.4.1
 # WebKitGTK.
 tar -xf webkitgtk-2.34.1.tar.xz
 cd webkitgtk-2.34.1

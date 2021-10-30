@@ -14,6 +14,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added a graphical boot splash screen (Plymouth).
 - Updated the default MassOS wallpaper.
 - Added Vulkan support to Mesa.
+- Added FFmpeg, for MP4/H264/H265 support/playback in Firefox.
 - Added some very small command-line games (bsd-games and vitetris).
 - Added the 'dig', 'host' and 'nslookup' utilities from ISC BIND.
 - Patched krb5 against security vulnerability CVE-2021-37750.

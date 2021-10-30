@@ -86,6 +86,7 @@ https://github.com/exfatprogs/exfatprogs/archive/1.1.2/exfatprogs-1.1.2.tar.gz
 https://archive.xfce.org/src/xfce/exo/4.16/exo-4.16.2.tar.bz2
 https://cdn.thesonicmaster.net/sources/expat-2.4.1.tar.xz
 http://fcron.free.fr/archives/fcron-3.2.1.src.tar.gz
+https://ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz
 http://ftp.figlet.org/pub/figlet/program/unix/figlet-2.2.5.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirrors.gethosted.online/gnu/findutils/findutils-4.8.0.tar.xz
@@ -191,6 +192,7 @@ https://cdn.thesonicmaster.net/sources/lcms2-2.12.tar.gz
 https://www.greenwoodsoftware.com/less/less-590.tar.gz
 https://ftp.debian.org/debian/pool/main/liba/libaio/libaio_0.3.112.orig.tar.xz
 https://github.com/libarchive/libarchive/releases/download/v3.5.2/libarchive-3.5.2.tar.xz
+https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2
 http://0pointer.de/public/libatasmart-0.19.tar.xz
 https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libblockdev-2.26.tar.gz
@@ -246,6 +248,7 @@ https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.
 https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.52/librsvg-2.52.3.tar.xz
+https://github.com/libsndfile/libsamplerate/releases/download/0.2.2/libsamplerate-0.2.2.tar.xz
 https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.2/libseccomp-2.5.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
@@ -415,6 +418,7 @@ https://cdn.thesonicmaster.net/sources/sane-backends-1.0.32.tar.gz
 https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
 https://www.kernel.org/pub/linux/bluetooth/sbc-1.5.tar.xz
 https://www.libsdl.org/release/SDL-1.2.15.tar.gz
+https://www.libsdl.org/release/SDL2-2.0.16.tar.gz
 https://mirrors.gethosted.online/gnu/sed/sed-4.8.tar.xz
 https://www.x.org/pub/individual/app/sessreg-1.1.2.tar.bz2
 https://www.x.org/pub/individual/app/setxkbmap-1.3.2.tar.bz2
