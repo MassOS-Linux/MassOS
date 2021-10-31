@@ -23,6 +23,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 It also includes the following upgraded software, however is also subject to change before the final release:
 
 - c-ares: `1.17.2 --> 1.18.1`
+- CMake: `3.22.0-rc1 --> 3.22.0-rc2`
 - File: `5.40 --> 5.41`
 - Gawk: `5.1.0 --> 5.1.1`
 - GDBM: `1.21 --> 1.22`

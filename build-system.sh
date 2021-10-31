@@ -1774,15 +1774,15 @@ make install
 cd ..
 rm -rf curl-7.79.1
 # CMake.
-tar -xf cmake-3.22.0-rc1.tar.gz
-cd cmake-3.22.0-rc1
+tar -xf cmake-3.22.0-rc2.tar.gz
+cd cmake-3.22.0-rc2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
 ninja install
 rm -rf /usr/share/doc/cmake
 cd ..
-rm -rf cmake-3.22.0-rc1
+rm -rf cmake-3.22.0-rc2
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
