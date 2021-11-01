@@ -173,14 +173,14 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf findutils-4.8.0
 # Gawk.
-tar -xf gawk-5.1.1.tar.xz
-cd gawk-5.1.1
+tar -xf gawk-5.1.0.tar.xz
+cd gawk-5.1.0
 sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr --host=$MASSOS_TGT --build=$(./config.guess)
 make
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf gawk-5.1.1
+rm -rf gawk-5.1.0
 # Grep.
 tar -xf grep-3.7.tar.xz
 cd grep-3.7

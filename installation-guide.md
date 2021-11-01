@@ -25,7 +25,6 @@ It also includes the following upgraded software:
 - c-ares: `1.17.2 --> 1.18.1`
 - CMake: `3.22.0-rc1 --> 3.22.0-rc2`
 - File: `5.40 --> 5.41`
-- Gawk: `5.1.0 --> 5.1.1`
 - GDBM: `1.21 --> 1.22`
 - GNUPG: `2.2.29 --> 2.2.32`
 - Graphviz: `2.49.1 --> 2.49.3`
