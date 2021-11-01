@@ -22,6 +22,7 @@ This is version **2021.11** of MassOS. It contains the following changes since t
 
 It also includes the following upgraded software:
 
+- Audit: `3.0.5 --> 3.0.6`
 - c-ares: `1.17.2 --> 1.18.1`
 - CMake: `3.22.0-rc1 --> 3.22.0-rc2`
 - File: `5.40 --> 5.41`

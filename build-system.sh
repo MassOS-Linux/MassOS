@@ -2176,8 +2176,8 @@ make install
 cd ..
 rm -rf libnsl-2.0.0
 # Audit.
-tar -xf audit-3.0.5.tar.gz
-cd audit-3.0.5
+tar -xf audit-3.0.6.tar.gz
+cd audit-3.0.6
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 make
 make install
@@ -2192,7 +2192,7 @@ cat > /etc/audit/rules.d/default.rules << END
 END
 systemctl enable auditd
 cd ..
-rm -rf audit-3.0.5
+rm -rf audit-3.0.6
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3/libraries/libapparmor
