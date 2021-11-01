@@ -835,15 +835,15 @@ make install
 cd ..
 rm -rf diffutils-3.8
 # Gawk.
-tar -xf gawk-5.1.1.tar.xz
-cd gawk-5.1.1
+tar -xf gawk-5.1.0.tar.xz
+cd gawk-5.1.0
 sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr
 make
 make install
 ln -sf gawk.1 /usr/share/man/man1/awk.1
 cd ..
-rm -rf gawk-5.1.1
+rm -rf gawk-5.1.0
 # Findutils.
 tar -xf findutils-4.8.0.tar.xz
 cd findutils-4.8.0
