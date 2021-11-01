@@ -40,7 +40,6 @@ It also includes the following upgraded software:
 - Linux Kernel: `5.14.12 --> 5.15.0`
 - LVM2: `2.03.13 --> 2.03.14`
 - Mesa: `21.2.3 --> 21.2.5`
-- Meson: `0.59.2 --> 0.60.0`
 - mpg123: `1.29.0 --> 1.29.2`
 - nghttp2: `1.45.1 --> 1.46.0`
 - NSS: `3.71 --> 3.72`

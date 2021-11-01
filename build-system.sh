@@ -773,14 +773,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.60.0.tar.gz
-cd meson-0.60.0
+tar -xf meson-0.59.2.tar.gz
+cd meson-0.59.2
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.60.0
+rm -rf meson-0.59.2
 # libseccomp.
 tar -xf libseccomp-2.5.2.tar.gz
 cd libseccomp-2.5.2
