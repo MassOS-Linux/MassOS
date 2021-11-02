@@ -761,7 +761,6 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 pip --no-color install --upgrade pip
 pip --no-color install --upgrade setuptools
-pip --no-color install pyparsing
 cd ..
 rm -rf Python-3.10.0
 # Ninja.
@@ -781,6 +780,13 @@ cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
 rm -rf meson-0.59.2
+# PyParsing.
+tar -xf pyparsing_2.4.7.tar.gz
+cd pyparsing-pyparsing_2.4.7
+python setup.py build
+python setup.py install --prefix=/usr --optimize=1
+cd ..
+rm -rf pyparsing-pyparsing_2.4.7
 # libseccomp.
 tar -xf libseccomp-2.5.2.tar.gz
 cd libseccomp-2.5.2
