@@ -11,10 +11,8 @@ Once opened, the front page of the store contains some recommended apps. You can
 ![](software2.png)
 For example: To install VLC Media Player, we will search for "vlc":
 ![](software3.png)
-Then click "Install" and wait patiently.
+Now click "Install" and wait patiently. When the app is installed, it will be available from your apps list. You can also launch it by clicking the "Launch" button in the software center.
 ![](software4.png)
-When the app is installed, it will be available from your apps list. You can also launch it by clicking the "Launch" button in the software center.
-![](software5.png)
 ## Installing Flatpak software from the command-line
 Press Control+Alt+T to open the terminal, or find the terminal in your apps list.
 

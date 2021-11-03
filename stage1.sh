@@ -64,14 +64,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.14.12.tar.xz
-cd linux-5.14.12
+tar -xf linux-5.15.tar.xz
+cd linux-5.15
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.14.12
+rm -rf linux-5.15
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -153,8 +153,8 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf diffutils-3.8
 # File
-tar -xf file-5.40.tar.gz
-cd file-5.40
+tar -xf file-5.41.tar.gz
+cd file-5.41
 mkdir build; cd build
 ../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib
 make
@@ -163,7 +163,7 @@ cd ..
 make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR=$MASSOS install
 cd ..
-rm -rf file-5.40
+rm -rf file-5.41
 # Findutils.
 tar -xf findutils-4.8.0.tar.xz
 cd findutils-4.8.0
@@ -274,6 +274,7 @@ cp utils/{adduser,mass-chroot,mkinitramfs,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
 cp utils/massos-release.c $SRC
+cp utils/plymouth.png $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
