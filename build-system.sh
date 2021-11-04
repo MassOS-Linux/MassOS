@@ -931,12 +931,12 @@ make install
 cd ..
 rm -rf iptables-1.8.7
 # IPRoute2.
-tar -xf iproute2-5.14.0.tar.xz
-cd iproute2-5.14.0
+tar -xf iproute2-5.15.0.tar.xz
+cd iproute2-5.15.0
 make
 make SBINDIR=/usr/sbin install
 cd ..
-rm -rf iproute2-5.14.0
+rm -rf iproute2-5.15.0
 # Kbd.
 tar -xf kbd-2.4.0.tar.xz
 cd kbd-2.4.0
@@ -1091,13 +1091,13 @@ cd boost_1_77_0
 cd ..
 rm -rf boost_1_77_0
 # libgpg-error.
-tar -xf libgpg-error-1.42.tar.bz2
-cd libgpg-error-1.42
+tar -xf libgpg-error-1.43.tar.bz2
+cd libgpg-error-1.43
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf libgpg-error-1.42
+rm -rf libgpg-error-1.43
 # libgcrypt.
 tar -xf libgcrypt-1.9.4.tar.bz2
 cd libgcrypt-1.9.4
@@ -1698,6 +1698,21 @@ make
 make install
 cd ..
 rm -rf btrfs-progs-v5.14.2
+# inih.
+tar -xf inih-r53.tar.gz
+cd inih-r53
+mkdir inih-build; cd inih-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf inih-r53
+# xfsprogs.
+tar -xf xfsprogs-5.13.0.tar.xz
+make -C xfsprogs-5.13.0 DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
+make -C xfsprogs-5.13.0 install
+make -C xfsprogs-5.13.0 install-dev
+rm -rf xfsprogs-5.13.0
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -2201,8 +2216,11 @@ cd ..
 rm -rf audit-3.0.6
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
-cd apparmor-3.0.3/libraries/libapparmor
-./configure --prefix=/usr --with-perl
+cd apparmor-3.0.3
+patch -Np1 -i ../patches/apparmor-3.0.3-python310.patch
+cd libraries/libapparmor
+autoreconf -fi
+./configure --prefix=/usr --with-perl --with-python
 make
 cd ../..
 make -C binutils
@@ -2363,15 +2381,15 @@ tar -xf dkms-2.8.7.tar.gz
 make -C dkms-2.8.7 BASHDIR=/usr/share/bash-completion/completions install
 rm -rf dkms-2.8.7
 # GLib.
-tar -xf glib-2.70.0.tar.xz
-cd glib-2.70.0
+tar -xf glib-2.70.1.tar.xz
+cd glib-2.70.1
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-2.70.0
+rm -rf glib-2.70.1
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -2566,14 +2584,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.0.0.tar.xz
-cd harfbuzz-3.0.0
+tar -xf harfbuzz-3.1.0.tar.xz
+cd harfbuzz-3.1.0
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite=enabled ..
+meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.0.0
+rm -rf harfbuzz-3.1.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -3268,7 +3286,7 @@ install -dm755 /usr/share/fonts
 ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
 ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
-tar --no-same-owner -xf noto-fonts.tar.xz -C /usr --strip-components=2
+tar --no-same-owner -xf noto-fonts2.tar.xz -C /usr --strip-components=2
 fc-cache
 # XKeyboard-Config.
 tar -xf xkeyboard-config-2.34.tar.bz2
@@ -3611,6 +3629,15 @@ ninja
 ninja install
 cd ../..
 rm -rf cairomm-1.14.0
+# HarfBuzz (rebuild to support Cairo).
+tar -xf harfbuzz-3.1.0.tar.xz
+cd harfbuzz-3.1.0
+mkdir hb-build; cd hb-build
+meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
+ninja
+ninja install
+cd ../..
+rm -rf harfbuzz-3.1.0
 # Pango.
 tar -xf pango-1.48.10.tar.xz
 cd pango-1.48.10
@@ -4160,8 +4187,8 @@ rm -f /usr/share/applications/cups.desktop
 cd ..
 rm -rf cups-2.3.3op2
 # Poppler.
-tar -xf poppler-21.10.0.tar.xz
-cd poppler-21.10.0
+tar -xf poppler-21.11.0.tar.xz
+cd poppler-21.11.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -4170,7 +4197,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-21.10.0
+rm -rf poppler-21.11.0
 # Ghostscript.
 tar -xf ghostscript-9.55.0.tar.xz
 cd ghostscript-9.55.0
@@ -4810,14 +4837,14 @@ make install
 cd ..
 rm -rf gspell-1.9.1
 # gnome-online-accounts.
-tar -xf gnome-online-accounts-3.40.0.tar.xz
-cd gnome-online-accounts-3.40.0
-mkdir goa-build; cd goa-build
+tar -xf gnome-online-accounts-3.40.1.tar.xz
+cd gnome-online-accounts-3.40.1
+mkdir GNOME-ONLINE-xbuild; cd GNOME-ONLINE-xbuild
 ../configure --prefix=/usr --disable-static
 make
 make install
 cd ../..
-rm -rf gnome-online-accounts-3.40.0
+rm -rf gnome-online-accounts-3.40.1
 # libgdata.
 tar -xf libgdata-0.18.1.tar.xz
 cd libgdata-0.18.1
@@ -5311,7 +5338,7 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-93.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-94.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -5338,7 +5365,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.2.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.3.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
