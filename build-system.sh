@@ -5437,6 +5437,9 @@ ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
 curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch.1 -o /usr/share/man/man1/neofetch.1
+# MassOS container tool.
+curl -s https://raw.githubusercontent.com/ClickNinYT/mct/9d7f3703531eb8c184b492a9b68f1ef38b9e9598/mct -o /usr/sbin/mct
+chmod 755 /usr/sbin/mct
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /root/.cargo

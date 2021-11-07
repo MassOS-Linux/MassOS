@@ -12,6 +12,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added xfsprogs (for XFS filesystem support).
 - Fixed AppArmor Python bindings with Python 3.10+.
 - Added MassOS ASCII art for Neofetch.
+- Added MassOS container tool, which is a utility for creating/managing containers for several GNU/Linux distributions.
 
 It also includes the following upgraded software:
 
