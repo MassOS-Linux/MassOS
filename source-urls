@@ -32,7 +32,7 @@ https://www.kernel.org/pub/linux/bluetooth/bluez-5.62.tar.xz
 https://boostorg.jfrog.io/artifactory/main/release/1.77.0/source/boost_1_77_0.tar.bz2
 https://github.com/google/brotli/archive/v1.0.9/brotli-1.0.9.tar.gz
 https://cdn.thesonicmaster.net/sources/bsd-games-3.1.tar.gz
-https://www.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.14.2.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.15.tar.xz
 https://github.com/projectatomic/bubblewrap/releases/download/v0.5.0/bubblewrap-0.5.0.tar.xz
 https://www.busybox.net/downloads/busybox-1.34.1.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
@@ -165,7 +165,7 @@ https://cdn.thesonicmaster.net/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/3.1.0/harfbuzz-3.1.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
-https://cdn.thesonicmaster.net/sources/hplip-3.21.8.tar.xz
+https://fossies.org/linux/misc/hplip-3.21.10.tar.gz
 https://github.com/htop-dev/htop/archive/3.1.1/htop-3.1.1.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20211004/iana-etc-20211004.tar.gz
 https://www.x.org/pub/individual/app/iceauth-1.0.8.tar.bz2
@@ -177,7 +177,7 @@ https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-
 https://cdn.thesonicmaster.net/sources/intltool-0.51.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.15.0.tar.xz
 http://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
-https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.7.0.orig.tar.xz
+https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.8.0.orig.tar.xz
 http://files.itstool.org/itstool/itstool-2.0.7.tar.bz2
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.0.1.tar.gz
@@ -191,7 +191,7 @@ https://cdn.thesonicmaster.net/sources/lame-3.100.tar.gz
 https://deb.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_0.16.tar.xz
 https://cdn.thesonicmaster.net/sources/lcms2-2.12.tar.gz
 https://www.greenwoodsoftware.com/less/less-590.tar.gz
-https://ftp.debian.org/debian/pool/main/liba/libaio/libaio_0.3.112.orig.tar.xz
+https://deb.debian.org/debian/pool/main/liba/libaio/libaio_0.3.112.orig.tar.xz
 https://github.com/libarchive/libarchive/releases/download/v3.5.2/libarchive-3.5.2.tar.xz
 https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2
@@ -282,6 +282,7 @@ https://www.x.org/pub/individual/lib/libXaw-1.0.14.tar.bz2
 https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.14.tar.xz
 https://www.x.org/pub/individual/lib/libXcomposite-0.4.5.tar.bz2
 https://www.x.org/pub/individual/lib/libXcursor-1.2.0.tar.bz2
+https://www.x.org/archive/individual/lib/libxcvt-0.1.1.tar.xz
 https://www.x.org/pub/individual/lib/libXdamage-1.1.5.tar.bz2
 https://www.x.org/pub/individual/lib/libXdmcp-1.1.3.tar.bz2
 https://www.x.org/pub/individual/lib/libXext-1.3.4.tar.bz2
@@ -315,7 +316,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -444,7 +445,7 @@ https://cdn.thesonicmaster.net/sources/swig-4.0.2.tar.gz
 https://github.com/systemd/systemd/archive/v249/systemd-249.tar.gz
 https://taglib.github.io/releases/taglib-1.12.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.34.tar.xz
-https://cdn.thesonicmaster.net/sources/tcl8.6.11-src.tar.gz
+https://cdn.thesonicmaster.net/sources/tcl8.6.12-src.tar.gz
 https://mirror.lyrahosting.com/gnu/texinfo/texinfo-6.8.tar.xz
 https://cdn.thesonicmaster.net/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.xfce.org/src/xfce/thunar/4.16/thunar-4.16.10.tar.bz2
@@ -452,7 +453,7 @@ https://archive.xfce.org/src/thunar-plugins/thunar-archive-plugin/0.4/thunar-arc
 https://archive.xfce.org/src/xfce/thunar-volman/4.16/thunar-volman-4.16.0.tar.bz2
 https://archive.mozilla.org/pub/thunderbird/releases/91.3.0/linux-x86_64/en-US/thunderbird-91.3.0.tar.bz2
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
-https://cdn.thesonicmaster.net/sources/tk8.6.11.1-src.tar.gz
+https://cdn.thesonicmaster.net/sources/tk8.6.12-src.tar.gz
 https://archive.xfce.org/src/xfce/tumbler/4.16/tumbler-4.16.0.tar.bz2
 https://www.iana.org/time-zones/repository/releases/tzdata2021e.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
@@ -465,7 +466,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.3.tar.xz
 https://cdn.thesonicmaster.net/sources/vim-8.2.3565.tar.xz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
-https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.0/vte-0.66.0.tar.gz
+https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.1/vte-0.66.1.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.23.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.34.1.tar.xz
@@ -537,7 +538,7 @@ https://cpan.metacpan.org/authors/id/T/TO/TODDR/XML-Parser-2.46.tar.gz
 https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-2.25.tar.gz
 https://releases.pagure.org/xmlto/xmlto-0.0.28.tar.bz2
 https://www.x.org/pub/individual/app/xmodmap-1.0.10.tar.bz2
-https://www.x.org/pub/individual/xserver/xorg-server-1.20.13.tar.xz
+https://www.x.org/archive/individual/xserver/xorg-server-21.1.1.tar.xz
 https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2021.5.tar.bz2
 https://www.x.org/pub/individual/app/xpr-1.0.5.tar.bz2
 https://www.x.org/pub/individual/app/xprop-1.2.5.tar.bz2

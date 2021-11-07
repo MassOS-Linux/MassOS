@@ -283,15 +283,15 @@ ln -s flex /usr/bin/lex
 cd ..
 rm -rf flex-2.6.4
 # Tcl.
-tar -xf tcl8.6.11-src.tar.gz
-cd tcl8.6.11
+tar -xf tcl8.6.12-src.tar.gz
+cd tcl8.6.12
 SRCDIR=$(pwd)
 cd unix
 ./configure --prefix=/usr --mandir=/usr/share/man --enable-64bit
 make
 sed -e "s|$SRCDIR/unix|/usr/lib|" -e "s|$SRCDIR|/usr/include|" -i tclConfig.sh
-sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.2|/usr/lib/tdbc1.1.2|" -e "s|$SRCDIR/pkgs/tdbc1.1.2/generic|/usr/include|" -e "s|$SRCDIR/pkgs/tdbc1.1.2/library|/usr/lib/tcl8.6|" -e "s|$SRCDIR/pkgs/tdbc1.1.2|/usr/include|" -i pkgs/tdbc1.1.2/tdbcConfig.sh
-sed -e "s|$SRCDIR/unix/pkgs/itcl4.2.1|/usr/lib/itcl4.2.1|" -e "s|$SRCDIR/pkgs/itcl4.2.1/generic|/usr/include|" -e "s|$SRCDIR/pkgs/itcl4.2.1|/usr/include|" -i pkgs/itcl4.2.1/itclConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/tdbc1.1.3|/usr/lib/tdbc1.1.3|" -e "s|$SRCDIR/pkgs/tdbc1.1.3/generic|/usr/include|" -e "s|$SRCDIR/pkgs/tdbc1.1.3/library|/usr/lib/tcl8.6|" -e "s|$SRCDIR/pkgs/tdbc1.1.3|/usr/include|" -i pkgs/tdbc1.1.3/tdbcConfig.sh
+sed -e "s|$SRCDIR/unix/pkgs/itcl4.2.2|/usr/lib/itcl4.2.2|" -e "s|$SRCDIR/pkgs/itcl4.2.2/generic|/usr/include|" -e "s|$SRCDIR/pkgs/itcl4.2.2|/usr/include|" -i pkgs/itcl4.2.2/itclConfig.sh
 unset SRCDIR
 make install
 chmod u+w /usr/lib/libtcl8.6.so
@@ -299,7 +299,7 @@ make install-private-headers
 ln -sf tclsh8.6 /usr/bin/tclsh
 mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
 cd ../..
-rm -rf tcl8.6.11
+rm -rf tcl8.6.12
 # Binutils.
 tar -xf binutils-2.37.tar.xz
 cd binutils-2.37
@@ -1691,13 +1691,13 @@ cp -r lvm2-2.03.14-x86_64-precompiled-MassOS/{etc,usr} /
 ldconfig
 rm -rf lvm2-2.03.14-x86_64-precompiled-MassOS
 # btrfs-progs.
-tar -xf btrfs-progs-v5.14.2.tar.xz
-cd btrfs-progs-v5.14.2
+tar -xf btrfs-progs-v5.15.tar.xz
+cd btrfs-progs-v5.15
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.14.2
+rm -rf btrfs-progs-v5.15
 # inih.
 tar -xf inih-r53.tar.gz
 cd inih-r53
@@ -2948,13 +2948,13 @@ make install
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
-tar -xf iso-codes_4.7.0.orig.tar.xz
-cd iso-codes-4.7.0
+tar -xf iso-codes_4.8.0.orig.tar.xz
+cd iso-codes-4.8.0
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf iso-codes-4.7.0
+rm -rf iso-codes-4.8.0
 # XDG-user-dirs.
 tar -xf xdg-user-dirs-0.17.tar.gz
 cd xdg-user-dirs-0.17
@@ -3374,15 +3374,24 @@ ninja
 ninja install
 cd ../..
 rm -rf libepoxy-1.5.9
+# libxcvt (dependency of Xorg-Server since 21.1.1).
+tar -xf libxcvt-0.1.1.tar.xz
+cd libxcvt-0.1.1
+mkdir xcvt-build; cd xcvt-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libxcvt-0.1.1
 # Xorg-Server.
-tar -xf xorg-server-1.20.13.tar.xz
-cd xorg-server-1.20.13
+tar -xf xorg-server-21.1.1.tar.xz
+cd xorg-server-21.1.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-glamor --enable-suid-wrapper --enable-kdrive --with-xkb-output=/var/lib/xkb
 make
 make install
 mkdir -p /etc/X11/xorg.conf.d
 cd ..
-rm -rf xorg-server-1.20.13
+rm -rf xorg-server-21.1.1
 # libevdev.
 tar -xf libevdev-1.11.0.tar.xz
 cd libevdev-1.11.0
@@ -4281,9 +4290,10 @@ install -m644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
 [ ! -e /var/lock/sane ] || chgrp scanner /var/lock/sane
 cd ../..
 rm -rf sane-backends-1.0.32
-# hplip.
-tar -xf hplip-3.21.8.tar.xz
-cd hplip-3.21.8
+# HPLIP.
+tar -xf hplip-3.21.10.tar.gz
+cd hplip-3.21.10
+patch -Np1 -i ../patches/hplip-3.21.10-fix_too_many_bugs.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 ./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
 make
@@ -4298,10 +4308,10 @@ echo hpaio > destination-tmp/etc/sane.d/dll.d/hpaio
 cp -a destination-tmp/* /
 ldconfig
 cd ..
-rm -rf hplip-3.21.8
+rm -rf hplip-3.21.10
 # Tk.
-tar -xf tk8.6.11.1-src.tar.gz
-cd tk8.6.11/unix
+tar -xf tk8.6.12-src.tar.gz
+cd tk8.6.12/unix
 ./configure --prefix=/usr --mandir=/usr/share/man --enable-64bit
 make
 sed -e "s@^\(TK_SRC_DIR='\).*@\1/usr/include'@" -e "/TK_B/s@='\(-L\)\?.*unix@='\1/usr/lib@" -i tkConfig.sh
@@ -4310,7 +4320,7 @@ make install-private-headers
 ln -sf wish8.6 /usr/bin/wish
 chmod 755 /usr/lib/libtk8.6.so
 cd ../..
-rm -rf tk8.6.11
+rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
 tar -xf Python-3.10.0.tar.xz
 cd Python-3.10.0
@@ -5004,15 +5014,15 @@ make install
 cd ..
 rm -rf parole-4.16.0
 # VTE.
-tar -xf vte-0.66.0.tar.gz
-cd vte-0.66.0
+tar -xf vte-0.66.1.tar.gz
+cd vte-0.66.1
 mkdir vte-build; cd vte-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 rm -f /etc/profile.d/vte.*
 cd ../..
-rm -rf vte-0.66.0
+rm -rf vte-0.66.1
 # xfce4-terminal.
 tar -xf xfce4-terminal-0.8.10.tar.bz2
 cd xfce4-terminal-0.8.10
@@ -5390,19 +5400,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.tar.xz
-cd linux-5.15
+tar -xf linux-5.15.1.tar.xz
+cd linux-5.15.1
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.0-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.0-massos/vmlinuz
-cp System.map /boot/System.map-5.15.0-massos
-cp .config /boot/config-5.15.0-massos
-rm /usr/lib/modules/5.15.0-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.1-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.1-massos/vmlinuz
+cp System.map /boot/System.map-5.15.1-massos
+cp .config /boot/config-5.15.1-massos
+rm /usr/lib/modules/5.15.1-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.0-massos/build
+builddir=/usr/lib/modules/5.15.1-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5425,7 +5435,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15
+rm -rf linux-5.15.1
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release

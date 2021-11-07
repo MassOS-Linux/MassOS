@@ -5,7 +5,7 @@ This guide aims to guide you through the installation of MassOS.
 # System Requirements
 - At least 8GB of free disk space (16GB recommended).
 - At least 1GB of RAM (2GB recommended).
-- MassOS must be installed from an existing ("host") GNU/Linux system. If you don't have one installed, you can use another distro's LiveCD instead. If you use a LiveCD, its live filesystem must have at least ~1.2GB of free disk space for the MassOS rootfs image to be downloaded.
+- MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu). The live filesystem must be large enough to download the MassOS image (~1.2GB of free space).
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
@@ -16,14 +16,22 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- btrfs-progs: `5.14.2 --> 5.15`
 - Firefox: `93.0 --> 94.0.1`
 - GLib: `2.70.0 --> 2.70.1`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
 - Harfbuzz: `3.0.0 --> 3.1.0`
+- HPLIP: `3.21.8 --> 3.21.10`
 - IPRoute2: `5.14.0 --> 5.15.0`
+- ISO-Codes: `4.7.0 --> 4.8.0`
 - libgpg-error: `1.42 --> 1.43`
+- Linux Kernel: `5.15.0 --> 5.15.1`
 - Poppler: `21.10.0 --> 21.11.0`
 - Thunderbird: `91.2.1 --> 91.3.0`
+- Tcl: `8.6.11 --> 8.6.12`
+- Tk: `8.6.11 --> 8.6.12`
+- VTE: `0.66.0 --> 0.66.1`
+- Xorg-Server: `1.20.13 --> 21.1.1`
 
 # Installing MassOS Using The Installation Program
 Starting from version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.
@@ -216,7 +224,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.0-massos
+mkinitramfs 5.15.1-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader
