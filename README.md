@@ -1,4 +1,6 @@
 # Welcome To MassOS
+[![Discord link](https://discord.com/api/guilds/581195383661920278/embed.png)](https://discord.gg/EfshNrt)
+
 Welcome to **MassOS**, a [free](https://www.gnu.org/philosophy/free-sw.html) GNU/Linux operating system for x86_64 devices, which aims to be minimal and lightweight, without compromising features. It uses the [Xfce](https://xfce.org) desktop environment.
 ![](massos-desktop-screenshot.png)
 The MassOS system itself is under 5 gigabytes. Quite impressive for a GNU/Linux distribution containing a full desktop environment and common programs, as well as development tools/headers. Some distributions are able to achieve minimalism by using smaller replacements for common GNU software, at the cost of some features. With MassOS, you get the minimal size, without compromising the advanced features exclusive to GNU software.
