@@ -5434,9 +5434,9 @@ install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
 ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Install Neofetch.
-curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch -o /usr/bin/neofetch
+curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
-curl -s https://raw.githubusercontent.com/dylanaraps/neofetch/master/neofetch.1 -o /usr/share/man/man1/neofetch.1
+curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch.1 -o /usr/share/man/man1/neofetch.1
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 rm -rf /root/.cargo
