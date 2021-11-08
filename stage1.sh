@@ -274,7 +274,9 @@ cp utils/{adduser,mass-chroot,mkinitramfs,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
 cp utils/massos-release.c $SRC
-cp utils/plymouth.png $SRC
+cp utils/massos-logo.png $SRC
+cp utils/massos-logo-small.png $SRC
+cp utils/builtins $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
