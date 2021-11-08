@@ -788,13 +788,13 @@ python setup.py install --prefix=/usr --optimize=1
 cd ..
 rm -rf pyparsing-pyparsing_2.4.7
 # libseccomp.
-tar -xf libseccomp-2.5.2.tar.gz
-cd libseccomp-2.5.2
+tar -xf libseccomp-2.5.3.tar.gz
+cd libseccomp-2.5.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libseccomp-2.5.2
+rm -rf libseccomp-2.5.3
 # File.
 tar -xf file-5.41.tar.gz
 cd file-5.41
@@ -1075,7 +1075,7 @@ make install
 cd ..
 rm -rf which-2.21
 # ICU.
-tar -xf icu4c-69_1-src.tgz
+tar -xf icu4c-70_1-src.tgz
 cd icu/source
 ./configure --prefix=/usr
 make
@@ -1459,12 +1459,12 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 cd ..
 rm -rf docbook-5.1
 # lxml.
-tar -xf lxml-4.6.3.tar.gz
-cd lxml-4.6.3
+tar -xf lxml-4.6.4.tar.gz
+cd lxml-4.6.4
 python setup.py build
 python setup.py install --optimize=1
 cd ..
-rm -rf lxml-4.6.3
+rm -rf lxml-4.6.4
 # itstool.
 tar -xf itstool-2.0.7.tar.bz2
 cd itstool-2.0.7
@@ -2584,14 +2584,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.1.0.tar.xz
-cd harfbuzz-3.1.0
+tar -xf harfbuzz-3.1.1.tar.xz
+cd harfbuzz-3.1.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.0
+rm -rf harfbuzz-3.1.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -3639,14 +3639,14 @@ ninja install
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.1.0.tar.xz
-cd harfbuzz-3.1.0
+tar -xf harfbuzz-3.1.1.tar.xz
+cd harfbuzz-3.1.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.0
+rm -rf harfbuzz-3.1.1
 # Pango.
 tar -xf pango-1.48.10.tar.xz
 cd pango-1.48.10

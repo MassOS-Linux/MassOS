@@ -20,12 +20,15 @@ It also includes the following upgraded software:
 - Firefox: `93.0 --> 94.0.1`
 - GLib: `2.70.0 --> 2.70.1`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
-- Harfbuzz: `3.0.0 --> 3.1.0`
+- Harfbuzz: `3.0.0 --> 3.1.1`
 - HPLIP: `3.21.8 --> 3.21.10`
+- ICU: `69.1 --> 70.1`
 - IPRoute2: `5.14.0 --> 5.15.0`
 - ISO-Codes: `4.7.0 --> 4.8.0`
 - libgpg-error: `1.42 --> 1.43`
+- libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.1`
+- lxml: `4.6.3 --> 4.6.4`
 - Poppler: `21.10.0 --> 21.11.0`
 - Thunderbird: `91.2.1 --> 91.3.0`
 - Tcl: `8.6.11 --> 8.6.12`
