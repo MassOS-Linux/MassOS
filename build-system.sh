@@ -1866,13 +1866,13 @@ make install
 cd ..
 rm -rf pcre-8.45
 # PCRE2.
-tar -xf pcre2-10.37.tar.bz2
-cd pcre2-10.37
+tar -xf pcre2-10.39.tar.bz2
+cd pcre2-10.39
 ./configure --prefix=/usr --enable-unicode --enable-jit --enable-pcre2-16 --enable-pcre2-32 --enable-pcre2grep-libz --enable-pcre2grep-libbz2 --enable-pcre2test-libreadline --disable-static
 make
 make install
 cd ..
-rm -rf pcre2-10.37
+rm -rf pcre2-10.39
 # Grep (rebuild for PCRE support).
 tar -xf grep-3.7.tar.xz
 cd grep-3.7

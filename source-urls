@@ -384,8 +384,8 @@ https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
 https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
 https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz
 https://www.kernel.org/pub/software/utils/pciutils/pciutils-3.7.0.tar.xz
-https://ftp.pcre.org/pub/pcre/pcre-8.45.tar.bz2
-https://ftp.pcre.org/pub/pcre/pcre2-10.37.tar.bz2
+https://fossies.org/linux/misc/pcre-8.45.tar.bz2
+https://fossies.org/linux/misc/pcre2-10.39.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.0.tar.xz
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://zlib.net/pigz/pigz-2.6.tar.gz

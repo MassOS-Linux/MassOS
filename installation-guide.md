@@ -29,6 +29,7 @@ It also includes the following upgraded software:
 - libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.1`
 - lxml: `4.6.3 --> 4.6.4`
+- PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
 - Thunderbird: `91.2.1 --> 91.3.0`
 - Tcl: `8.6.11 --> 8.6.12`
