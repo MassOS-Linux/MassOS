@@ -2345,15 +2345,15 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf nss-3.72
 # Git.
-tar -xf git-2.33.1.tar.xz
-cd git-2.33.1
+tar -xf git-2.34.0.rc1.tar.xz
+cd git-2.34.0.rc1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
 make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
-rm -rf git-2.33.1
+rm -rf git-2.34.0.rc1
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -3393,13 +3393,14 @@ mkdir -p /etc/X11/xorg.conf.d
 cd ..
 rm -rf xorg-server-21.1.1
 # libevdev.
-tar -xf libevdev-1.11.0.tar.xz
-cd libevdev-1.11.0
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
-make
-make install
-cd ..
-rm -rf libevdev-1.11.0
+tar -xf libevdev-1.12.0.tar.xz
+cd libevdev-1.12.0
+mkdir EVDEV-build; cd EVDEV-build
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var -Ddocumentation=disabled ..
+ninja
+ninja install
+cd ../..
+rm -rf libevdev-1.12.0
 # xf86-input-evdev.
 tar -xf xf86-input-evdev-2.10.6.tar.bz2
 cd xf86-input-evdev-2.10.6

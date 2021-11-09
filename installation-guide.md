@@ -18,6 +18,7 @@ It also includes the following upgraded software:
 
 - btrfs-progs: `5.14.2 --> 5.15`
 - Firefox: `93.0 --> 94.0.1`
+- Git: `2.33.1 --> 2.34.0.rc1`
 - GLib: `2.70.0 --> 2.70.1`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
 - Harfbuzz: `3.0.0 --> 3.1.1`
@@ -25,6 +26,7 @@ It also includes the following upgraded software:
 - ICU: `69.1 --> 70.1`
 - IPRoute2: `5.14.0 --> 5.15.0`
 - ISO-Codes: `4.7.0 --> 4.8.0`
+- libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
 - libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.1`
