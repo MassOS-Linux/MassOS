@@ -16,7 +16,9 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- bc: `5.1.1 --> 5.2.0`
 - btrfs-progs: `5.14.2 --> 5.15`
+- curl: `7.79.1 --> 7.80.0`
 - Firefox: `93.0 --> 94.0.1`
 - Git: `2.33.1 --> 2.34.0.rc1`
 - GLib: `2.70.0 --> 2.70.1`
@@ -31,6 +33,7 @@ It also includes the following upgraded software:
 - libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.1`
 - lxml: `4.6.3 --> 4.6.4`
+- Meson: `0.59.2 --> 0.60.1`
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
 - Thunderbird: `91.2.1 --> 91.3.0`

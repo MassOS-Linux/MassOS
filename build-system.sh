@@ -266,13 +266,13 @@ make install
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.1.1.tar.xz
-cd bc-5.1.1
+tar -xf bc-5.2.0.tar.xz
+cd bc-5.2.0
 CC=gcc ./configure --prefix=/usr -G -Os
 make
 make install
 cd ..
-rm -rf bc-5.1.1
+rm -rf bc-5.2.0
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -772,14 +772,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.59.2.tar.gz
-cd meson-0.59.2
+tar -xf meson-0.60.1.tar.gz
+cd meson-0.60.1
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.59.2
+rm -rf meson-0.60.1
 # PyParsing.
 tar -xf pyparsing_2.4.7.tar.gz
 cd pyparsing-pyparsing_2.4.7
@@ -1499,7 +1499,7 @@ rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-5.patch
+patch -Np1 -i ../patches/systemd-249-backports-6.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
@@ -1787,13 +1787,13 @@ make install
 cd ..
 rm -rf nghttp2-1.46.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
-tar -xf curl-7.79.1.tar.xz
-cd curl-7.79.1
+tar -xf curl-7.80.0.tar.xz
+cd curl-7.80.0
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.79.1
+rm -rf curl-7.80.0
 # CMake.
 tar -xf cmake-3.22.0-rc2.tar.gz
 cd cmake-3.22.0-rc2
@@ -2139,13 +2139,13 @@ make install
 cd ..
 rm -rf gsasl-1.10.0
 # curl (rebuild to support more features).
-tar -xf curl-7.79.1.tar.xz
-cd curl-7.79.1
+tar -xf curl-7.80.0.tar.xz
+cd curl-7.80.0
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.79.1
+rm -rf curl-7.80.0
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2429,6 +2429,7 @@ rm -rf gobject-introspection-1.70.0
 # shared-mime-info.
 tar -xf shared-mime-info-2.1.tar.gz
 cd shared-mime-info-2.1
+patch -Np1 -i ../patches/shared-mime-info-2.1-mesonfix.patch
 mkdir smi-build; cd smi-build
 meson --prefix=/usr --buildtype=release -Dupdate-mimedb=true ..
 ninja
@@ -3308,7 +3309,7 @@ rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-5.patch
+patch -Np1 -i ../patches/systemd-249-backports-6.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
