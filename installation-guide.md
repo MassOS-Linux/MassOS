@@ -13,14 +13,16 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Fixed AppArmor Python bindings with Python 3.10+.
 - Added MassOS ASCII art for Neofetch.
 - Added MassOS container tool, which is a utility for creating/managing containers for several GNU/Linux distributions.
+- Added dmg2img, a very small utility for converting Apple DMG disk images to standard disk image files.
 
 It also includes the following upgraded software:
 
 - bc: `5.1.1 --> 5.2.0`
 - btrfs-progs: `5.14.2 --> 5.15`
 - curl: `7.79.1 --> 7.80.0`
+- elfutils: `0.185 --> 0.186`
 - Firefox: `93.0 --> 94.0.1`
-- Git: `2.33.1 --> 2.34.0.rc1`
+- Git: `2.33.1 --> 2.34.0.rc2`
 - GLib: `2.70.0 --> 2.70.1`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
 - Harfbuzz: `3.0.0 --> 3.1.1`

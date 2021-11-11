@@ -713,14 +713,14 @@ make install
 cd ..
 rm -rf automake-1.16.5
 # elfutils.
-tar -xf elfutils-0.185.tar.bz2
-cd elfutils-0.185
+tar -xf elfutils-0.186.tar.bz2
+cd elfutils-0.186
 ./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
 make
 make install
 rm -f /usr/lib/lib{asm,dw,elf}.a
 cd ..
-rm -rf elfutils-0.185
+rm -rf elfutils-0.186
 # libffi.
 tar -xf libffi-3.4.2.tar.gz
 cd libffi-3.4.2
@@ -1181,7 +1181,7 @@ END
 cd ..
 rm -rf docbook-4.5
 # libxml2.
-tar -xf libxml2-2.9.12.tar.gz
+tar -xf libxml2_2.9.12+dfsg.orig.tar.xz
 cd libxml2-2.9.12
 ./configure --prefix=/usr --disable-static --with-history --with-python=/usr/bin/python3
 make
@@ -1260,7 +1260,7 @@ xmlcatalog --noout --add "rewriteURI" "http://docbook.sourceforge.net/release/xs
 cd ..
 rm -rf docbook-xsl-nons-1.79.2
 # libxslt.
-tar -xf libxslt-1.1.34.tar.gz
+tar -xf libxslt_1.1.34.orig.tar.gz
 cd libxslt-1.1.34
 sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.{1,xml}
 ./configure --prefix=/usr --disable-static --without-python
@@ -2345,15 +2345,15 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf nss-3.72
 # Git.
-tar -xf git-2.34.0.rc1.tar.xz
-cd git-2.34.0.rc1
+tar -xf git-2.34.0.rc2.tar.xz
+cd git-2.34.0.rc2
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
 make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
-rm -rf git-2.34.0.rc1
+rm -rf git-2.34.0.rc2
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -2377,9 +2377,9 @@ rm -rf /usr/share/dwarves/runtime/python
 cd ../..
 rm -rf pahole-1.22-5-ge38e89e
 # DKMS.
-tar -xf dkms-2.8.7.tar.gz
-make -C dkms-2.8.7 BASHDIR=/usr/share/bash-completion/completions install
-rm -rf dkms-2.8.7
+tar -xf dkms-3.0.0.tar.gz
+make -C dkms-3.0.0 BASHDIR=/usr/share/bash-completion/completions install
+rm -rf dkms-3.0.0
 # GLib.
 tar -xf glib-2.70.1.tar.xz
 cd glib-2.70.1
@@ -2729,7 +2729,7 @@ make install
 cd ..
 rm -rf libyaml-0.2.5
 # libatasmart.
-tar -xf libatasmart-0.19.tar.xz
+tar -xf libatasmart_0.19.orig.tar.xz
 cd libatasmart-0.19
 ./configure --prefix=/usr --disable-static
 make
@@ -2753,7 +2753,7 @@ make install
 cd ..
 rm -rf libblockdev-2.26
 # libdaemon.
-tar -xf libdaemon-0.14.tar.gz
+tar -xf libdaemon_0.14.orig.tar.gz
 cd libdaemon-0.14
 ./configure --prefix=/usr --disable-static
 make
@@ -3116,6 +3116,14 @@ make INSTALL_DIR=/usr/bin install
 gz2xz --install-symlinks
 cd ..
 rm -rf gz2xz-1.0.2
+# dmg2img.
+tar -xf dmg2img_1.6.7.orig.tar.gz
+cd dmg2img-1.6.7
+patch --ignore-whitespace -Np1 -i ../patches/dmg2img-1.6.7-openssl.patch
+make PREFIX=/usr CFLAGS="$CFLAGS"
+install -m755 dmg2img vfdecrypt /usr/bin
+cd ..
+rm -rf dmg2img-1.6.7
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
@@ -3683,7 +3691,7 @@ make install
 cd ..
 rm -rf XML-Simple-2.25
 # icon-naming-utils.
-tar -xf icon-naming-utils-0.8.90.tar.bz2
+tar -xf icon-naming-utils_0.8.90.orig.tar.gz
 cd icon-naming-utils-0.8.90
 ./configure --prefix=/usr
 make
@@ -4375,7 +4383,7 @@ make install
 cd ..
 rm -rf ModemManager-1.18.2
 # libndp.
-tar -xf libndp-1.8.tar.gz
+tar -xf libndp_1.8.orig.tar.gz
 cd libndp-1.8
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
@@ -4765,7 +4773,7 @@ ninja install
 cd ../..
 rm -rf gst-plugins-bad-1.18.5
 # libcanberra.
-tar -xf libcanberra-0.30.tar.xz
+tar -xf libcanberra_0.30.orig.tar.xz
 cd libcanberra-0.30
 patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
 ./configure --prefix=/usr --disable-oss
@@ -5160,7 +5168,7 @@ make install
 cd ..
 rm -rf mousepad-0.5.7
 # galculator.
-tar -xf galculator-2.1.4.tar.gz
+tar -xf galculator_2.1.4.orig.tar.gz
 cd galculator-2.1.4
 sed -i 's/s_preferences/extern s_preferences/' src/main.c
 ./configure --prefix=/usr
@@ -5314,7 +5322,7 @@ rm /usr/share/cows/mech-and-cow
 cd ..
 rm -rf rank-amateur-cowsay-cowsay-3.04
 # figlet.
-tar -xf figlet-2.2.5.tar.gz
+tar -xf figlet_2.2.5.orig.tar.gz
 cd figlet-2.2.5
 make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts all
 make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts install
@@ -5465,6 +5473,8 @@ rm -f /linuxrc
 rm -f /usr/bin/lspci
 # Unused package managers, potentially dangerous on MassOS.
 rm -f /usr/bin/{dpkg,rpm}
+# Remove Debian stuff.
+rm -rf /etc/kernel
 # Move any misplaced files.
 cp -r /usr/etc /
 rm -rf /usr/etc
