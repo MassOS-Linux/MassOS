@@ -2217,7 +2217,7 @@ rm -rf audit-3.0.6
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3
-patch -Np1 -i ../patches/apparmor-3.0.3-python310.patch
+patch -Np1 -i ../patches/apparmor-3.0.3-backport_python310_fix.patch
 cd libraries/libapparmor
 autoreconf -fi
 ./configure --prefix=/usr --with-perl --with-python
@@ -3521,6 +3521,13 @@ cd ..
 rm -rf xinit-1.4.1
 # Prefer libinput for handling input devices.
 ln -sr /usr/share/X11/xorg.conf.d/40-libinput.conf /etc/X11/xorg.conf.d/40-libinput.conf
+# cdrtools.
+tar -xf cdrtools-3.02a09.tar.gz
+cd cdrtools-3.02
+make -j1 GMAKE_NOWARN=true INS_BASE=/usr DEFINSUSR=root DEFINSGRP=root
+make -j1 GMAKE_NOWARN=true INS_BASE=/usr MANSUFF_LIB=3cdr DEFINSUSR=root DEFINSGRP=root install
+cd ..
+rm -rf cdrtools-3.02
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
@@ -4611,7 +4618,7 @@ pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
 groupadd -g 69 flatpak
-useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /sbin/nologin flatpak
+useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
@@ -5132,6 +5139,15 @@ make
 make install
 cd ..
 rm -rf xfce4-taskmanager-1.5.2
+# xfce4-whiskermenu-plugin.
+tar -xf xfce4-whiskermenu-plugin-2.6.1.tar.bz2
+cd xfce4-whiskermenu-plugin-2.6.1
+mkdir whisker-build; cd whisker-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf xfce4-whiskermenu-plugin-2.6.1
 # xarchiver.
 tar -xf xarchiver-0.5.4.17.tar.gz
 cd xarchiver-0.5.4.17
@@ -5222,8 +5238,8 @@ ninja install
 cd ../..
 rm -rf gnome-software-41.0
 # MassOS Welcome (modified version of Gnome Tour).
-tar -xf gnome-tour-40.0-MassOS.tar.xz
-cd gnome-tour-40.0-MassOS
+tar -xf gnome-tour-40.0-MassOS-2.tar.xz
+cd gnome-tour-40.0-MassOS-2
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5244,7 +5260,7 @@ Name=First Login Welcome Program
 Exec=/usr/bin/firstlogin
 END
 cd ../..
-rm -rf gnome-tour-40.0-MassOS
+rm -rf gnome-tour-40.0-MassOS-2
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
@@ -5410,19 +5426,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.1.tar.xz
-cd linux-5.15.1
+tar -xf linux-5.15.2.tar.xz
+cd linux-5.15.2
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.1-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.1-massos/vmlinuz
-cp System.map /boot/System.map-5.15.1-massos
-cp .config /boot/config-5.15.1-massos
-rm /usr/lib/modules/5.15.1-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.2-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.2-massos/vmlinuz
+cp System.map /boot/System.map-5.15.2-massos
+cp .config /boot/config-5.15.2-massos
+rm /usr/lib/modules/5.15.2-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.1-massos/build
+builddir=/usr/lib/modules/5.15.2-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5445,7 +5461,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.1
+rm -rf linux-5.15.2
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
@@ -5454,7 +5470,7 @@ install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
 ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
-install -Dt /usr/share/massos -m644 builtins massos-logo.png massos-logo-small.png
+install -Dt /usr/share/massos -m644 builtins massos-logo.png massos-logo-small.png massos-logo-notext.png
 # Install Neofetch.
 curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch

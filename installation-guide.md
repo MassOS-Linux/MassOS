@@ -9,10 +9,12 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
+- Switched the default application menu to Whisker Menu.
 - Added xfsprogs (for XFS filesystem support).
 - Fixed AppArmor Python bindings with Python 3.10+.
 - Added MassOS ASCII art for Neofetch.
 - Added MassOS container tool, which is a utility for creating/managing containers for several GNU/Linux distributions.
+- Added cdrtools, a collection of small utilities for working with ISO9660 images.
 - Added dmg2img, a very small utility for converting Apple DMG disk images to standard disk image files.
 
 It also includes the following upgraded software:
@@ -33,7 +35,7 @@ It also includes the following upgraded software:
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
 - libseccomp: `2.5.2 --> 2.5.3`
-- Linux Kernel: `5.15.0 --> 5.15.1`
+- Linux Kernel: `5.15.0 --> 5.15.2`
 - lxml: `4.6.3 --> 4.6.4`
 - Meson: `0.59.2 --> 0.60.1`
 - PCRE2: `10.37 --> 10.39`
@@ -235,7 +237,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.1-massos
+mkinitramfs 5.15.2-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

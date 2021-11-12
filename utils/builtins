@@ -39,6 +39,7 @@ c-ares
 cairo
 cairomm
 cdparanoia
+cdrtools
 check
 clang
 cmake
@@ -62,6 +63,7 @@ dhclient
 dialog
 diffutils
 dkms
+dmg2img
 dmidecode
 docbook-dsssl
 docbook-sgml
