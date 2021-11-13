@@ -5232,6 +5232,15 @@ ninja
 ninja install
 cd ../..
 rm -rf libxmlb-0.3.3
+# libglib-testing.
+tar -xf libglib-testing-0.1.0.tar.xz
+cd libglib-testing-0.1.0
+mkdir GLIBTEST-build; cd GLIBTEST-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libglib-testing-0.1.0
 # Gnome Software.
 tar -xf gnome-software-41.0.tar.xz
 cd gnome-software-41.0
