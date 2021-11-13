@@ -5190,6 +5190,7 @@ rm -rf mousepad-0.5.7
 tar -xf galculator_2.1.4.orig.tar.gz
 cd galculator-2.1.4
 sed -i 's/s_preferences/extern s_preferences/' src/main.c
+autoreconf -fi
 ./configure --prefix=/usr
 make
 make install
