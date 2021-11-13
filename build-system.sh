@@ -3489,6 +3489,7 @@ rm -rf xf86-video-intel-20211007
 # xf86-video-nouveau.
 tar -xf xf86-video-nouveau-1.0.17.tar.bz2
 cd xf86-video-nouveau-1.0.17
+patch -Np1 -i ../patches/xf86-video-nouveau-1.0.17-XORGSERVER21.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
