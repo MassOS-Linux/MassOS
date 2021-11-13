@@ -4966,6 +4966,14 @@ make
 make install
 cd ..
 rm -rf xfce4-appfinder-4.16.1
+# xfce4-artwork.
+tar -xf xfce4-artwork_0.1.1a~git+20110420.orig.tar.gz
+cd xfce4-artwork-0.1.1a
+./configure --prefix=/usr
+make
+make backdropsdir=/usr/share/backgrounds/xfce install
+cd ..
+rm -rf xfce4-artwork-0.1.1a
 # xfce4-panel.
 tar -xf xfce4-panel-4.16.3.tar.bz2
 cd xfce4-panel-4.16.3
