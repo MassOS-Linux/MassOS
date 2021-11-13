@@ -4394,6 +4394,7 @@ rm -rf ModemManager-1.18.2
 # libndp.
 tar -xf libndp_1.8.orig.tar.gz
 cd libndp-1.8
+./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
