@@ -2378,6 +2378,7 @@ cd ../..
 rm -rf pahole-1.22-5-ge38e89e
 # DKMS.
 tar -xf dkms-3.0.0.tar.gz
+patch -Np0 -i patches/dkms-3.0.0-fixbuilddir.patch
 make -C dkms-3.0.0 BASHDIR=/usr/share/bash-completion/completions install
 rm -rf dkms-3.0.0
 # GLib.

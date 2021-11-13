@@ -1,0 +1,12 @@
+diff -aruN dkms-3.0.0.old/dkms.in dkms-3.0.0/dkms.in
+--- dkms-3.0.0.old/dkms.in
++++ dkms-3.0.0/dkms.in
+@@ -872,7 +872,7 @@ prepare_build()
+ 
+     # Set up temporary build directory for build
+     rm -rf "$build_dir"
+-    cp -a "$source_dir" "$build_dir"
++    cp -a "$source_dir/" "$build_dir"
+ 
+     cd "$build_dir"
+ 
