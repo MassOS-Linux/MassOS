@@ -7,7 +7,7 @@ show-button-icon=true
 launcher-show-name=true
 launcher-show-description=true
 launcher-show-tooltip=true
-item-icon-size=3
+item-icon-size=2
 hover-switch-category=true
 category-show-name=true
 category-icon-size=1
@@ -77,4 +77,3 @@ name=Open URI
 pattern=^(file|http|https):\\/\\/(.*)$
 command=exo-open \\0
 regex=true
-
