@@ -43,7 +43,7 @@ https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://fossies.org/linux/misc/cdrtools-3.02a09.tar.gz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.22.0-rc2/cmake-3.22.0-rc2.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.22.0-rc3/cmake-3.22.0-rc3.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
 https://mirror.lyrahosting.com/gnu/coreutils/coreutils-9.0.tar.xz
@@ -466,7 +466,7 @@ https://www.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://www.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/pub/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.3.tar.xz
-https://cdn.thesonicmaster.net/sources/vim-8.2.3565.tar.xz
+https://fossies.org/linux/misc/vim-8.2.3592.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.1/vte-0.66.1.tar.gz

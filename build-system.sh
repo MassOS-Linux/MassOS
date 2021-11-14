@@ -1795,15 +1795,15 @@ make install
 cd ..
 rm -rf curl-7.80.0
 # CMake.
-tar -xf cmake-3.22.0-rc2.tar.gz
-cd cmake-3.22.0-rc2
+tar -xf cmake-3.22.0-rc3.tar.gz
+cd cmake-3.22.0-rc3
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
 ninja install
 rm -rf /usr/share/doc/cmake
 cd ..
-rm -rf cmake-3.22.0-rc2
+rm -rf cmake-3.22.0-rc3
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -4079,8 +4079,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3565.tar.xz
-cd vim-8.2.3565
+tar -xf vim-8.2.3592.tar.gz
+cd vim-8.2.3592
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -4102,7 +4102,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3565
+rm -rf vim-8.2.3592
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
