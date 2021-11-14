@@ -35,6 +35,7 @@ It also includes the following upgraded software:
 - ISO-Codes: `4.7.0 --> 4.8.0`
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
+- librsvg: `2.52.3 --> 2.52.4`
 - libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.2`
 - lxml: `4.6.3 --> 4.6.4`

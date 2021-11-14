@@ -3771,14 +3771,14 @@ ninja install
 cd ../..
 rm -rf libgusb-0.3.8
 # librsvg.
-tar -xf librsvg-2.52.3.tar.xz
-cd librsvg-2.52.3
+tar -xf librsvg-2.52.4.tar.xz
+cd librsvg-2.52.4
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 cd ..
-rm -rf librsvg-2.52.3
+rm -rf librsvg-2.52.4
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
