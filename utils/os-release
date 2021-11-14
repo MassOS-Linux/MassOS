@@ -1,5 +1,6 @@
 NAME="MassOS"
 VERSION="development"
+VERSION_ID="development"
 ID=massos
 PRETTY_NAME="MassOS development"
 BUILD_ID=development
