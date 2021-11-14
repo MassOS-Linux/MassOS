@@ -4100,6 +4100,7 @@ END
 ln -s vim /usr/bin/vi
 for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
+rm -f /usr/share/applications/gvim.desktop
 cd ..
 rm -rf vim-8.2.3565
 # libwpe.
