@@ -382,6 +382,24 @@ while [ $return = 1 ]; do
 done
 # Exit on error from here on.
 set -e
+# Decide whether to install some additional wallpapers.
+printf "\nMassOS already includes a selection of background images, however\n"
+echo "an optional collection of 30 extra landscape wallpapers are available."
+printf "Downloading and installing these will take ~80 MiB of disk space.\n\n"
+read -p "Would you like to download and install them now? [y/N] " wpchs
+wpchs="${wpchs:0:1}"
+wpchs=$(echo "$wpchs" | tr '[:upper:]' '[:lower:]')
+if [ "$wpchs" = "y" ]; then
+  for i in 1 2 3 4 5 6; do
+    curl -o /tmp/wp-$i.tar.zst -L \
+    https://cdn.thesonicmaster.net/wallpapers/MassOS-Wallpapers-Pack$i.tar.zst
+  done
+  for i in 1 2 3 4 5 6; do
+    tar --no-same-owner --strip-components=1 -xf /tmp/wp-$i.tar.zst -C \
+    /usr/share/backgrounds/xfce
+  done
+  rm -f /tmp/wp-{1,2,3,4,5,6}.tar.zst
+fi
 # Decide whether Bluetooth shall be autostarted on boot.
 printf "\nIf your system supports Bluetooth, the Blueman graphical utility\n"
 echo "and applet can help you manage it in a graphical environment. Note that"
