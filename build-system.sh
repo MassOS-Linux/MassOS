@@ -4892,7 +4892,7 @@ rm -rf gspell-1.9.1
 tar -xf gnome-online-accounts-3.40.1.tar.xz
 cd gnome-online-accounts-3.40.1
 mkdir GNOME-ONLINE-xbuild; cd GNOME-ONLINE-xbuild
-../configure --prefix=/usr --disable-static
+../configure --prefix=/usr --disable-static --enable-kerberos
 make
 make install
 cd ../..
