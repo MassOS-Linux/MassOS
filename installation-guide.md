@@ -17,6 +17,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Updated some of the included landscape wallpapers.
 - Added cdrtools, a collection of small utilities for working with ISO9660 images.
 - Added dmg2img, a very small utility for converting Apple DMG disk images to standard disk image files.
+- Added a clipboard manager and plugin for the Xfce panel (xfce4-clipman-plugin).
 
 It also includes the following upgraded software:
 
@@ -28,19 +29,25 @@ It also includes the following upgraded software:
 - Firefox: `93.0 --> 94.0.1`
 - Git: `2.33.1 --> 2.34.0.rc2`
 - GLib: `2.70.0 --> 2.70.1`
+- glslang: `11.6.0 --> 11.7.0`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
 - Harfbuzz: `3.0.0 --> 3.1.1`
 - HPLIP: `3.21.8 --> 3.21.10`
+- iana-etc: `20211004 --> 20211112`
 - ICU: `69.1 --> 70.1`
 - IPRoute2: `5.14.0 --> 5.15.0`
 - ISO-Codes: `4.7.0 --> 4.8.0`
+- Jinja2: `3.0.1 --> 3.0.3`
+- libdrm: `2.4.107 --> 2.4.108`
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
+- libpipeline: `1.5.3 --> 1.5.4`
 - librsvg: `2.52.3 --> 2.52.4`
 - libseccomp: `2.5.2 --> 2.5.3`
 - Linux Kernel: `5.15.0 --> 5.15.2`
 - lxml: `4.6.3 --> 4.6.4`
 - Meson: `0.59.2 --> 0.60.1`
+- Ncurses: `6.2 --> 6.3`
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
 - Thunderbird: `91.2.1 --> 91.3.0`

@@ -109,9 +109,9 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf m4-1.4.19
 # Ncurses.
-tar -xf ncurses-6.2.tar.gz
-cd ncurses-6.2
-sed -i s/mawk// configure
+tar -xf ncurses-6.3.tar.gz
+cd ncurses-6.3
+sed -i 's/mawk//' configure
 mkdir build; cd build
 ../configure
 make -C include
@@ -122,7 +122,7 @@ make
 make DESTDIR=$MASSOS TIC_PATH=$(pwd)/build/progs/tic install
 echo "INPUT(-lncursesw)" > $MASSOS/usr/lib/libncurses.so
 cd ..
-rm -rf ncurses-6.2
+rm -rf ncurses-6.3
 # Bash.
 tar -xf bash-5.1.8.tar.gz
 cd bash-5.1.8

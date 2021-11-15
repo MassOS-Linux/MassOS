@@ -125,11 +125,11 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20211004.tar.gz
-cd iana-etc-20211004
+tar -xf iana-etc-20211112.tar.gz
+cd iana-etc-20211112
 cp services protocols /etc
 cd ..
-rm -rf iana-etc-20211004
+rm -rf iana-etc-20211112
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.34.tar.xz
@@ -247,6 +247,14 @@ install -m755 unpigz /usr/bin/unpigz
 install -m644 pigz.1 /usr/share/man/man1/pigz.1
 cd ..
 rm -rf pigz-2.6
+# lzip.
+tar -xf lzip-1.22.tar.gz
+cd lzip-1.22
+./configure CXXFLAGS="$CXXFLAGS" --prefix=/usr
+make
+make install
+cd ..
+rm -rf lzip-1.22
 # Readline.
 tar -xf readline-8.1.tar.gz
 cd readline-8.1
@@ -537,9 +545,9 @@ make install
 cd ..
 rm -rf pkg-config-0.29.2
 # Ncurses.
-tar -xf ncurses-6.2.tar.gz
-cd ncurses-6.2
-./configure --prefix=/usr --mandir=/usr/share/man --with-shared --without-debug --without-normal --enable-pc-files --enable-widec
+tar -xf ncurses-6.3.tar.gz
+cd ncurses-6.3
+./configure --prefix=/usr --mandir=/usr/share/man --with-shared --without-debug --without-normal --enable-pc-files --enable-widec --with-pkg-config-libdir=/usr/lib/pkgconfig
 make
 make install
 for lib in ncurses form panel menu; do
@@ -552,7 +560,7 @@ echo "INPUT(-lncursesw)" > /usr/lib/libcursesw.so
 ln -sf libncurses.so /usr/lib/libcurses.so
 rm -f /usr/lib/libncurses++w.a
 cd ..
-rm -rf ncurses-6.2
+rm -rf ncurses-6.3
 # libsigsegv.
 tar -xf libsigsegv-2.13.tar.gz
 cd libsigsegv-2.13
@@ -949,13 +957,13 @@ make install
 cd ..
 rm -rf kbd-2.4.0
 # libpipeline.
-tar -xf libpipeline-1.5.3.tar.gz
-cd libpipeline-1.5.3
+tar -xf libpipeline-1.5.4.tar.gz
+cd libpipeline-1.5.4
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf libpipeline-1.5.3
+rm -rf libpipeline-1.5.4
 # libuv.
 tar -xf libuv-v1.42.0.tar.gz
 cd libuv-v1.42.0
@@ -1022,11 +1030,11 @@ python setup.py install --optimize=1
 cd ..
 rm -rf MarkupSafe-2.0.1
 # Jinja2.
-tar -xf Jinja2-3.0.1.tar.gz
-cd Jinja2-3.0.1
+tar -xf Jinja2-3.0.3.tar.gz
+cd Jinja2-3.0.3
 python setup.py install --optimize=1
 cd ..
-rm -rf Jinja2-3.0.1
+rm -rf Jinja2-3.0.3
 # Mako.
 tar -xf Mako-1.1.5.tar.gz
 cd Mako-1.1.5
@@ -2029,7 +2037,7 @@ make install
 install -dm755 /etc/ssl/local
 make-ca -g
 systemctl enable update-pki.timer
-wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
+curl -L http://www.linux-usb.org/usb.ids -o /usr/share/hwdata/usb.ids
 update-pciids
 cd ..
 rm -rf make-ca-1.9
@@ -2154,6 +2162,15 @@ make
 make install
 cd ..
 rm -rf swig-4.0.2
+# libevent.
+tar -xf libevent-2.1.12-stable.tar.gz
+cd libevent-2.1.12-stable
+mkdir EVENT-build; cd EVENT-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DEVENT__LIBRARY_TYPE=SHARED -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf libevent-2.1.12-stable
 # GPGME.
 tar -xf gpgme-1.16.0.tar.bz2
 cd gpgme-1.16.0
@@ -2377,10 +2394,9 @@ rm -rf /usr/share/dwarves/runtime/python
 cd ../..
 rm -rf pahole-1.22-5-ge38e89e
 # DKMS.
-tar -xf dkms-3.0.0.tar.gz
-patch -Np0 -i patches/dkms-3.0.0-fixbuilddir.patch
-make -C dkms-3.0.0 BASHDIR=/usr/share/bash-completion/completions install
-rm -rf dkms-3.0.0
+tar -xf dkms-3.0.1.tar.gz
+make -C dkms-3.0.1 BASHDIR=/usr/share/bash-completion/completions install
+rm -rf dkms-3.0.1
 # GLib.
 tar -xf glib-2.70.1.tar.xz
 cd glib-2.70.1
@@ -3200,23 +3216,28 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.107-32-gd77ccdf3.tar.xz
-cd libdrm-2.4.107-32-gd77ccdf3
+tar -xf libdrm-2.4.108.tar.xz
+cd libdrm-2.4.108
 mkdir no-digital-restrictions-management; cd no-digital-restrictions-management
 meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libdrm-2.4.107-32-gd77ccdf3
+rm -rf libdrm-2.4.108
 # glslang (required for Vulkan support in Mesa).
-tar -xf glslang-11.6.0.tar.xz
-cd glslang-11.6.0
-mkdir build-shared-release; cd build-shared-release
+tar -xf glslang-11.7.0.tar.xz
+cd glslang-11.7.0
+mkdir static-release; cd static-release
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ..
+mkdir shared-release; cd shared-release
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf glslang-11.6.0
+rm -rf glslang-11.7.0
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -5151,6 +5172,14 @@ make
 make install
 cd ..
 rm -rf xfce4-taskmanager-1.5.2
+# xfce4-clipman-plugin.
+tar -xf xfce4-clipman-plugin-1.6.2.tar.bz2
+cd xfce4-clipman-plugin-1.6.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
+make
+make install
+cd ..
+rm -rf xfce4-clipman-plugin-1.6.2
 # xfce4-whiskermenu-plugin.
 tar -xf xfce4-whiskermenu-plugin-2.6.1.tar.bz2
 cd xfce4-whiskermenu-plugin-2.6.1
