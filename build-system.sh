@@ -1082,6 +1082,14 @@ make
 make install
 cd ..
 rm -rf which-2.21
+# tree.
+tar -xf tree-1.8.0.tgz
+cd tree-1.8.0
+make CFLAGS="$CFLAGS"
+make MANDIR=/usr/share/man/man1 install
+chmod 644 /usr/share/man/man1/tree.1
+cd ..
+rm -rf tree-1.8.0
 # ICU.
 tar -xf icu4c-70_1-src.tgz
 cd icu/source

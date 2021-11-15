@@ -15,8 +15,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Added MassOS ASCII art for Neofetch.
 - Added MassOS container tool, which is a utility for creating/managing containers for several GNU/Linux distributions.
 - Updated some of the included landscape wallpapers.
-- Added cdrtools, a collection of small utilities for working with ISO9660 images.
-- Added dmg2img, a very small utility for converting Apple DMG disk images to standard disk image files.
+- Added cdrtools, dmg2img, tree.
 - Added a clipboard manager and plugin for the Xfce panel (xfce4-clipman-plugin).
 
 It also includes the following upgraded software:
