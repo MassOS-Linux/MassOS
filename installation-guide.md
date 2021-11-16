@@ -10,6 +10,7 @@ This guide aims to guide you through the installation of MassOS.
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
 - Switched the default application menu to Whisker Menu.
+- Set the default font family to Noto Sans.
 - Added xfsprogs (for XFS filesystem support).
 - Fixed AppArmor Python bindings with Python 3.10+.
 - Added MassOS ASCII art for Neofetch.
