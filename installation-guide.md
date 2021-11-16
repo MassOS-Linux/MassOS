@@ -26,7 +26,7 @@ It also includes the following upgraded software:
 - curl: `7.79.1 --> 7.80.0`
 - elfutils: `0.185 --> 0.186`
 - Firefox: `93.0 --> 94.0.1`
-- Git: `2.33.1 --> 2.34.0.rc2`
+- Git: `2.33.1 --> 2.34.0`
 - GLib: `2.70.0 --> 2.70.1`
 - glslang: `11.6.0 --> 11.7.0`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
@@ -49,7 +49,7 @@ It also includes the following upgraded software:
 - Ncurses: `6.2 --> 6.3`
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
-- Thunderbird: `91.2.1 --> 91.3.0`
+- Thunderbird: `91.2.1 --> 91.3.1`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
 - Vim: `8.2.3565 --> 8.2.3592`

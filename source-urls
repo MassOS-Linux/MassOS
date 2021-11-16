@@ -123,7 +123,7 @@ https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.xz
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
-https://fossies.org/linux/misc/git-2.34.0.rc2.tar.xz
+https://fossies.org/linux/misc/git-2.34.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.34.tar.xz
@@ -455,7 +455,7 @@ https://cdn.thesonicmaster.net/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.fr.xfce.org/src/xfce/thunar/4.16/thunar-4.16.10.tar.bz2
 https://archive.fr.xfce.org/src/thunar-plugins/thunar-archive-plugin/0.4/thunar-archive-plugin-0.4.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/thunar-volman/4.16/thunar-volman-4.16.0.tar.bz2
-https://archive.mozilla.org/pub/thunderbird/releases/91.3.0/linux-x86_64/en-US/thunderbird-91.3.0.tar.bz2
+https://archive.mozilla.org/pub/thunderbird/releases/91.3.1/linux-x86_64/en-US/thunderbird-91.3.1.tar.bz2
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
 https://cdn.thesonicmaster.net/sources/tk8.6.12-src.tar.gz
 https://fossies.org/linux/misc/tree-1.8.0.tgz
