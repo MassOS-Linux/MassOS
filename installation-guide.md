@@ -22,6 +22,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 It also includes the following upgraded software:
 
 - bc: `5.1.1 --> 5.2.0`
+- BIND Utilities: `9.16.22 --> 9.16.23`
 - btrfs-progs: `5.14.2 --> 5.15`
 - CMake: `3.22.0-rc2 --> 3.22.0-rc3`
 - curl: `7.79.1 --> 7.80.0`
@@ -41,9 +42,11 @@ It also includes the following upgraded software:
 - libdrm: `2.4.107 --> 2.4.108`
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
+- libmbim: `1.26.0 --> 1.26.2`
 - libpipeline: `1.5.3 --> 1.5.4`
 - librsvg: `2.52.3 --> 2.52.4`
 - libseccomp: `2.5.2 --> 2.5.3`
+- libtasn1: `4.17.0 --> 4.18.0`
 - Linux Kernel: `5.15.0 --> 5.15.2`
 - lxml: `4.6.3 --> 4.6.4`
 - Meson: `0.59.2 --> 0.60.1`
@@ -53,7 +56,7 @@ It also includes the following upgraded software:
 - Thunderbird: `91.2.1 --> 91.3.1`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
-- Vim: `8.2.3565 --> 8.2.3592`
+- Vim: `8.2.3565 --> 8.2.3608`
 - VTE: `0.66.0 --> 0.66.1`
 - Xorg-Server: `1.20.13 --> 21.1.1`
 

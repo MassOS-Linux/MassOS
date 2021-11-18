@@ -2015,13 +2015,13 @@ systemctl enable update-pciids.timer
 cd ..
 rm -rf pciutils-3.7.0
 # libtasn1.
-tar -xf libtasn1-4.17.0.tar.gz
-cd libtasn1-4.17.0
+tar -xf libtasn1-4.18.0.tar.gz
+cd libtasn1-4.18.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libtasn1-4.17.0
+rm -rf libtasn1-4.18.0
 # p11-kit.
 tar -xf p11-kit-0.24.0.tar.xz
 cd p11-kit-0.24.0
@@ -2795,13 +2795,13 @@ ninja install
 cd ../..
 rm -rf libgudev-237
 # libmbim.
-tar -xf libmbim-1.26.0.tar.xz
-cd libmbim-1.26.0
+tar -xf libmbim-1.26.2.tar.xz
+cd libmbim-1.26.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf libmbim-1.26.0
+rm -rf libmbim-1.26.2
 # libqmi.
 tar -xf libqmi-1.30.2.tar.xz
 cd libqmi-1.30.2
@@ -3052,9 +3052,9 @@ END
 install -dm755 /var/lib/dhclient
 cd ..
 rm -rf dhcp-4.4.2-P1
-# 'dig', 'host' and 'nslookup' from ISC BIND.
-tar -xf bind-9.16.22.tar.xz
-cd bind-9.16.22
+# BIND Utilities.
+tar -xf bind-9.16.23.tar.xz
+cd bind-9.16.23
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
 make -C lib/dns
 make -C lib/isc
@@ -3064,7 +3064,7 @@ make -C lib/irs
 make -C bin/dig
 make -C bin/dig install
 cd ..
-rm -rf bind-9.16.22
+rm -rf bind-9.16.23
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -3326,6 +3326,11 @@ ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
 ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
 # Noto Fonts.
 tar --no-same-owner -xf noto-fonts2.tar.xz -C /usr --strip-components=2
+rm -rf /usr/share/fontconfig/conf.default
+for i in 46-noto-mono 46-noto-sans 46-noto-serif 66-noto-mono 66-noto-sans 66-noto-serif 70-noto-cjk; do
+  ln -sf /usr/share/fontconfig/conf.avail/$i.conf /etc/fonts/conf.d/$i.conf
+done
+sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fonts.conf
 fc-cache
 # XKeyboard-Config.
 tar -xf xkeyboard-config-2.34.tar.bz2
@@ -3862,13 +3867,14 @@ cat > /etc/gtk-2.0/gtkrc << END
 gtk-theme-name = "Arc-Dark"
 gtk-icon-theme-name = "Arc"
 gtk-cursor-theme-name = "Adwaita"
+gtk-font-name = "Noto Sans 10"
 END
 mkdir -p /etc/gtk-3.0
 cat > /etc/gtk-3.0/settings.ini << END
 [Settings]
 gtk-theme-name = Arc-Dark
 gtk-icon-theme-name = Arc
-gtk-font-name = Sans 10
+gtk-font-name = Noto Sans 10
 gtk-cursor-theme-size = 0
 gtk-toolbar-style = GTK_TOOLBAR_ICONS
 gtk-xft-antialias = 1
@@ -4108,8 +4114,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3592.tar.gz
-cd vim-8.2.3592
+tar -xf vim-8.2.3608.tar.gz
+cd vim-8.2.3608
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -4131,7 +4137,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3592
+rm -rf vim-8.2.3608
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5344,7 +5350,6 @@ cd lightdm-gtk-greeter-2.0.8
 make
 make install
 sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Contemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
-sed -i 's/#font-name=/font-name = Noto Sans/' /etc/lightdm/lightdm-gtk-greeter.conf
 systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
