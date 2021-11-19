@@ -1660,11 +1660,11 @@ make install
 cd ..
 rm -rf lzo-2.10
 # squashfs-tools.
-tar -xf squashfs-tools-4.5.tar.xz
-cd squashfs-tools-4.5
+tar -xf squashfs-tools-4.5.tar.gz
+cd squashfs-tools-4.5/squashfs-tools
 make GZIP_SUPPORT=1 XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1 XATTR_SUPPORT=1
 make INSTALL_DIR=/usr/bin install
-cd ..
+cd ../..
 rm -rf squashfs-tools-4.5
 # squashfuse.
 tar -xf squashfuse-0.1.104.tar.gz
@@ -1811,15 +1811,15 @@ make install
 cd ..
 rm -rf curl-7.80.0
 # CMake.
-tar -xf cmake-3.22.0-rc3.tar.gz
-cd cmake-3.22.0-rc3
+tar -xf cmake-3.22.0.tar.gz
+cd cmake-3.22.0
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
 ninja install
 rm -rf /usr/share/doc/cmake
 cd ..
-rm -rf cmake-3.22.0-rc3
+rm -rf cmake-3.22.0
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -1839,13 +1839,13 @@ ninja install
 cd ../..
 rm -rf json-c-0.15
 # cryptsetup.
-tar -xf cryptsetup-2.4.1.tar.xz
-cd cryptsetup-2.4.1
+tar -xf cryptsetup-2.4.2.tar.xz
+cd cryptsetup-2.4.2
 ./configure --prefix=/usr --disable-ssh-token
 make
 make install
 cd ..
-rm -rf cryptsetup-2.4.1
+rm -rf cryptsetup-2.4.2
 # libusb.
 tar -xf libusb-1.0.24.tar.bz2
 cd libusb-1.0.24
@@ -3264,8 +3264,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.2.5.tar.xz
-cd mesa-21.2.5
+tar -xf mesa-21.3.0.tar.xz
+cd mesa-21.3.0
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3273,7 +3273,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.2.5
+rm -rf mesa-21.3.0
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3497,7 +3497,7 @@ rm -rf xf86-video-amdgpu-21.0.0
 # xf86-video-ati.
 tar -xf xf86-video-ati-19.1.0.tar.bz2
 cd xf86-video-ati-19.1.0
-patch -Np1 -i ../patches/xf86-video-ati-19.1.0-upstream_fixes-1.patch
+patch -Np1 -i ../patches/xf86-video-ati-19.1.0-backportfixes.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
@@ -3517,7 +3517,7 @@ cd xf86-video-intel-20211007
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-kms-only --enable-uxa --mandir=/usr/share/man
 make
 make install
-mv -v /usr/share/man/man4/intel-virtual-output.4 /usr/share/man/man1/intel-virtual-output.1
+mv /usr/share/man/man4/intel-virtual-output.4 /usr/share/man/man1/intel-virtual-output.1
 sed -i '/\.TH/s/4/1/' /usr/share/man/man1/intel-virtual-output.1
 cd ..
 rm -rf xf86-video-intel-20211007
@@ -3860,7 +3860,7 @@ ninja install
 cd ../..
 rm -rf gtkmm-3.24.5
 # Arc (GTK Theme).
-tar --no-same-owner -xf arc-theme-20210412.tar.xz -C /usr/share --strip-components=1
+tar --no-same-owner -xf arc-theme-20211018.tar.zst -C /usr/share --strip-components=1
 gtk-update-icon-cache /usr/share/icons/Arc
 mkdir -p /etc/gtk-2.0
 cat > /etc/gtk-2.0/gtkrc << END
@@ -4114,8 +4114,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3608.tar.gz
-cd vim-8.2.3608
+tar -xf vim-8.2.3617.tar.gz
+cd vim-8.2.3617
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
@@ -4137,7 +4137,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3608
+rm -rf vim-8.2.3617
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5439,7 +5439,7 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-94.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-94.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -5491,19 +5491,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.2.tar.xz
-cd linux-5.15.2
+tar -xf linux-5.15.3.tar.xz
+cd linux-5.15.3
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.2-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.2-massos/vmlinuz
-cp System.map /boot/System.map-5.15.2-massos
-cp .config /boot/config-5.15.2-massos
-rm /usr/lib/modules/5.15.2-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.3-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.3-massos/vmlinuz
+cp System.map /boot/System.map-5.15.3-massos
+cp .config /boot/config-5.15.3-massos
+rm /usr/lib/modules/5.15.3-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.2-massos/build
+builddir=/usr/lib/modules/5.15.3-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5526,7 +5526,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.2
+rm -rf linux-5.15.3
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release

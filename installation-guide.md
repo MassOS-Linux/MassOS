@@ -21,13 +21,15 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- Arc (GTK Theme): `20210412 --> 20211018`
 - bc: `5.1.1 --> 5.2.0`
 - BIND Utilities: `9.16.22 --> 9.16.23`
 - btrfs-progs: `5.14.2 --> 5.15`
-- CMake: `3.22.0-rc2 --> 3.22.0-rc3`
+- CMake: `3.22.0-rc2 --> 3.22.0`
+- cryptsetup: `2.4.1 --> 2.4.2`
 - curl: `7.79.1 --> 7.80.0`
 - elfutils: `0.185 --> 0.186`
-- Firefox: `93.0 --> 94.0.1`
+- Firefox: `93.0 --> 94.0.2`
 - Git: `2.33.1 --> 2.34.0`
 - GLib: `2.70.0 --> 2.70.1`
 - glslang: `11.6.0 --> 11.7.0`
@@ -47,8 +49,9 @@ It also includes the following upgraded software:
 - librsvg: `2.52.3 --> 2.52.4`
 - libseccomp: `2.5.2 --> 2.5.3`
 - libtasn1: `4.17.0 --> 4.18.0`
-- Linux Kernel: `5.15.0 --> 5.15.2`
+- Linux Kernel: `5.15.0 --> 5.15.3`
 - lxml: `4.6.3 --> 4.6.4`
+- Mesa: `21.2.5 --> 21.3.0`
 - Meson: `0.59.2 --> 0.60.1`
 - Ncurses: `6.2 --> 6.3`
 - PCRE2: `10.37 --> 10.39`
@@ -56,7 +59,7 @@ It also includes the following upgraded software:
 - Thunderbird: `91.2.1 --> 91.3.1`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
-- Vim: `8.2.3565 --> 8.2.3608`
+- Vim: `8.2.3565 --> 8.2.3617`
 - VTE: `0.66.0 --> 0.66.1`
 - Xorg-Server: `1.20.13 --> 21.1.1`
 
@@ -251,7 +254,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.2-massos
+mkinitramfs 5.15.3-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader
