@@ -1036,11 +1036,11 @@ python setup.py install --optimize=1
 cd ..
 rm -rf Jinja2-3.0.3
 # Mako.
-tar -xf Mako-1.1.5.tar.gz
-cd Mako-1.1.5
+tar -xf Mako-1.1.6.tar.gz
+cd Mako-1.1.6
 python setup.py install --optimize=1
 cd ..
-rm -rf Mako-1.1.5
+rm -rf Mako-1.1.6
 # Pygments.
 tar -xf Pygments-2.10.0.tar.gz
 cd Pygments-2.10.0
@@ -1090,6 +1090,20 @@ make MANDIR=/usr/share/man/man1 install
 chmod 644 /usr/share/man/man1/tree.1
 cd ..
 rm -rf tree-1.8.0
+# GPM.
+tar -xf gpm-1.20.7.tar.gz
+cd gpm-1.20.7
+patch -Np1 -i ../patches/gpm-1.20.7-fixes.patch
+./autogen.sh
+./configure --prefix=/usr --sysconfdir=/etc
+make -j1
+make -j1 install
+install-info --dir-file=/usr/share/info/dir /usr/share/info/gpm.info
+rm -f /usr/lib/libgpm.a
+ln -sf libgpm.so.2 /usr/lib/libgpm.so
+install -m644 conf/gpm-root.conf /etc
+cd ..
+rm -rf gpm-1.20.7
 # ICU.
 tar -xf icu4c-70_1-src.tgz
 cd icu/source
@@ -1515,7 +1529,7 @@ rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-6.patch
+patch -Np1 -i ../patches/systemd-249-backports-7.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
@@ -2914,14 +2928,14 @@ make install
 cd ..
 rm -rf nasm-2.15.05
 # libjpeg-turbo.
-tar -xf libjpeg-turbo-2.1.1.tar.gz
-cd libjpeg-turbo-2.1.1
+tar -xf libjpeg-turbo-2.1.2.tar.gz
+cd libjpeg-turbo-2.1.2
 mkdir jpeg-build; cd jpeg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf libjpeg-turbo-2.1.1
+rm -rf libjpeg-turbo-2.1.2
 # libgphoto2
 tar -xf libgphoto2-2.5.27.tar.xz
 cd libgphoto2-2.5.27
@@ -2940,13 +2954,13 @@ ninja install
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.3.2.tar.gz
-cd qpdf-10.3.2
+tar -xf qpdf-10.4.0.tar.gz
+cd qpdf-10.4.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf qpdf-10.3.2
+rm -rf qpdf-10.4.0
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3352,7 +3366,7 @@ rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
 tar -xf systemd-249.tar.gz
 cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-6.patch
+patch -Np1 -i ../patches/systemd-249-backports-7.patch
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
@@ -4114,11 +4128,11 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3617.tar.gz
-cd vim-8.2.3617
+tar -xf vim-8.2.3628.tar.gz
+cd vim-8.2.3628
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
-./configure --prefix=/usr --with-features=huge --enable-gui=gtk3 --with-tlib=ncursesw
+./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
 make
 make install
 cat > /etc/vimrc << END
@@ -4137,7 +4151,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3617
+rm -rf vim-8.2.3628
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5466,7 +5480,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.3.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.3.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {

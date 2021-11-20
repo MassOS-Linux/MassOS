@@ -1,6 +1,6 @@
 diff -aruN old/docs/BOOT_LOADER_INTERFACE.md new/docs/BOOT_LOADER_INTERFACE.md
 --- old/docs/BOOT_LOADER_INTERFACE.md	2021-07-07 18:41:29.000000000 +0100
-+++ new/docs/BOOT_LOADER_INTERFACE.md	2021-11-10 14:01:30.000000000 +0000
++++ new/docs/BOOT_LOADER_INTERFACE.md	2021-11-19 17:19:28.000000000 +0000
 @@ -76,10 +76,10 @@
    * `1 << 6` → The boot loader supports passing a random seed to the OS.
  
@@ -18,7 +18,7 @@ diff -aruN old/docs/BOOT_LOADER_INTERFACE.md new/docs/BOOT_LOADER_INTERFACE.md
    persistently set by the OS installer. Boot loaders that support passing
 diff -aruN old/docs/BOOT_LOADER_SPECIFICATION.md new/docs/BOOT_LOADER_SPECIFICATION.md
 --- old/docs/BOOT_LOADER_SPECIFICATION.md	2021-07-07 18:41:29.000000000 +0100
-+++ new/docs/BOOT_LOADER_SPECIFICATION.md	2021-11-10 14:01:30.000000000 +0000
++++ new/docs/BOOT_LOADER_SPECIFICATION.md	2021-11-19 17:19:28.000000000 +0000
 @@ -61,8 +61,8 @@
  * On disks with GPT (GUID Partition Table)
    * If the OS is installed on a disk with GPT, and an Extended Boot Loader Partition or XBOOTLDR partition for short, i.e. a partition with GPT type GUID of `bc13c2ff-59e6-4262-a352-b275fd6f7172`, already exists, it should be used as `$BOOT`.
@@ -30,9 +30,21 @@ diff -aruN old/docs/BOOT_LOADER_SPECIFICATION.md new/docs/BOOT_LOADER_SPECIFICAT
  
  This placeholder file system shall be determined during _installation time_, and an fstab entry may be created. It should be mounted to either `/boot/` or `/efi/`. Additional locations like `/boot/efi/`, with `/boot/` being a separate file system, might be supported by implementations. This is not recommended because the mounting of `$BOOT` is then dependent on and requires the mounting of the intermediate file system.
  
+diff -aruN old/docs/CODING_STYLE.md new/docs/CODING_STYLE.md
+--- old/docs/CODING_STYLE.md	2021-07-07 18:41:29.000000000 +0100
++++ new/docs/CODING_STYLE.md	2021-11-19 17:19:28.000000000 +0000
+@@ -287,7 +287,7 @@
+   with a more brutal `assert()`. We are more forgiving to public users than for
+   ourselves! Note that `assert()` and `assert_return()` really only should be
+   used for detecting programming errors, not for runtime errors. `assert()` and
+-  `assert_return()` by usage of `_likely_()` inform the compiler that he should
++  `assert_return()` by usage of `_likely_()` inform the compiler that it should
+   not expect these checks to fail, and they inform fellow programmers about the
+   expected validity and range of parameters.
+ 
 diff -aruN old/docs/PORTABLE_SERVICES.md new/docs/PORTABLE_SERVICES.md
 --- old/docs/PORTABLE_SERVICES.md	2021-07-07 18:41:29.000000000 +0100
-+++ new/docs/PORTABLE_SERVICES.md	2021-11-10 14:01:30.000000000 +0000
++++ new/docs/PORTABLE_SERVICES.md	2021-11-19 17:19:28.000000000 +0000
 @@ -86,7 +86,7 @@
  `foobar_0.7.23.raw`, then attaching the services to the host is as easy as:
  
@@ -51,9 +63,142 @@ diff -aruN old/docs/PORTABLE_SERVICES.md new/docs/PORTABLE_SERVICES.md
  # systemctl enable --now foobar@instancea.service
  # systemctl enable --now foobar@instanceb.service
  …
+diff -aruN old/docs/PREDICTABLE_INTERFACE_NAMES.md new/docs/PREDICTABLE_INTERFACE_NAMES.md
+--- old/docs/PREDICTABLE_INTERFACE_NAMES.md	2021-07-07 18:41:29.000000000 +0100
++++ new/docs/PREDICTABLE_INTERFACE_NAMES.md	2021-11-19 17:19:28.000000000 +0000
+@@ -53,7 +53,7 @@
+ * The same on all distributions that adopted systemd/udev
+ * It's easy to opt out of the scheme (see below)
+ 
+-Does this have any drawbacks? Yes, it does. Previously it was practically guaranteed that hosts equipped with a single ethernet card only had a single `eth0` interface. With this new scheme in place, an administrator now has to check first what the local interface name is before he can invoke commands on it where previously he had a good chance that `eth0` was the right name.
++Does this have any drawbacks? Yes, it does. Previously it was practically guaranteed that hosts equipped with a single ethernet card only had a single `eth0` interface. With this new scheme in place, an administrator now has to check first what the local interface name is before they can invoke commands on it, where previously they had a good chance that `eth0` was the right name.
+ 
+ 
+ ## I don't like this, how do I disable this?
+diff -aruN old/.github/workflows/build_test.yml new/.github/workflows/build_test.yml
+--- old/.github/workflows/build_test.yml	2021-07-07 18:41:29.000000000 +0100
++++ new/.github/workflows/build_test.yml	2021-11-19 17:19:28.000000000 +0000
+@@ -14,6 +14,9 @@
+ jobs:
+   build:
+     runs-on: ubuntu-20.04
++    concurrency:
++      group: ${{ github.workflow }}-${{ matrix.env.COMPILER }}-${{ matrix.env.COMPILER_VERSION }}-${{ github.ref }}
++      cancel-in-progress: true
+     strategy:
+       fail-fast: false
+       matrix:
+diff -aruN old/.github/workflows/cifuzz.yml new/.github/workflows/cifuzz.yml
+--- old/.github/workflows/cifuzz.yml	2021-07-07 18:41:29.000000000 +0100
++++ new/.github/workflows/cifuzz.yml	2021-11-19 17:19:28.000000000 +0000
+@@ -16,32 +16,35 @@
+     branches:
+       - main
+ jobs:
+- Fuzzing:
+-   runs-on: ubuntu-latest
+-   if: github.repository == 'systemd/systemd'
+-   strategy:
+-     fail-fast: false
+-     matrix:
+-       sanitizer: [address, undefined, memory]
+-   steps:
+-   - name: Build Fuzzers (${{ matrix.sanitizer }})
+-     id: build
+-     uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
+-     with:
+-       oss-fuzz-project-name: 'systemd'
+-       dry-run: false
+-       allowed-broken-targets-percentage: 0
+-       sanitizer: ${{ matrix.sanitizer }}
+-   - name: Run Fuzzers (${{ matrix.sanitizer }})
+-     uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
+-     with:
+-       oss-fuzz-project-name: 'systemd'
+-       fuzz-seconds: 600
+-       dry-run: false
+-       sanitizer: ${{ matrix.sanitizer }}
+-   - name: Upload Crash
+-     uses: actions/upload-artifact@v1
+-     if: failure() && steps.build.outcome == 'success'
+-     with:
+-       name: ${{ matrix.sanitizer }}-artifacts
+-       path: ./out/artifacts
++  Fuzzing:
++    runs-on: ubuntu-latest
++    if: github.repository == 'systemd/systemd'
++    concurrency:
++      group: ${{ github.workflow }}-${{ matrix.sanitizer }}-${{ github.ref }}
++      cancel-in-progress: true
++    strategy:
++      fail-fast: false
++      matrix:
++        sanitizer: [address, undefined, memory]
++    steps:
++      - name: Build Fuzzers (${{ matrix.sanitizer }})
++        id: build
++        uses: google/oss-fuzz/infra/cifuzz/actions/build_fuzzers@master
++        with:
++          oss-fuzz-project-name: 'systemd'
++          dry-run: false
++          allowed-broken-targets-percentage: 0
++          sanitizer: ${{ matrix.sanitizer }}
++      - name: Run Fuzzers (${{ matrix.sanitizer }})
++        uses: google/oss-fuzz/infra/cifuzz/actions/run_fuzzers@master
++        with:
++          oss-fuzz-project-name: 'systemd'
++          fuzz-seconds: 600
++          dry-run: false
++          sanitizer: ${{ matrix.sanitizer }}
++      - name: Upload Crash
++        uses: actions/upload-artifact@v1
++        if: failure() && steps.build.outcome == 'success'
++        with:
++          name: ${{ matrix.sanitizer }}-artifacts
++          path: ./out/artifacts
+diff -aruN old/.github/workflows/mkosi.yml new/.github/workflows/mkosi.yml
+--- old/.github/workflows/mkosi.yml	2021-07-07 18:41:29.000000000 +0100
++++ new/.github/workflows/mkosi.yml	2021-11-19 17:19:28.000000000 +0000
+@@ -6,13 +6,18 @@
+   push:
+     branches:
+       - main
++      - v[0-9]+-stable
+   pull_request:
+     branches:
+       - main
++      - v[0-9]+-stable
+ 
+ jobs:
+   ci:
+     runs-on: ubuntu-20.04
++    concurrency:
++      group: ${{ github.workflow }}-${{ matrix.distro }}-${{ github.ref }}
++      cancel-in-progress: true
+     strategy:
+       fail-fast: false
+       matrix:
+diff -aruN old/.github/workflows/unit_tests.yml new/.github/workflows/unit_tests.yml
+--- old/.github/workflows/unit_tests.yml	2021-07-07 18:41:29.000000000 +0100
++++ new/.github/workflows/unit_tests.yml	2021-11-19 17:19:28.000000000 +0000
+@@ -6,10 +6,14 @@
+   pull_request:
+     branches:
+       - main
++      - v[0-9]+-stable
+ 
+ jobs:
+   build:
+     runs-on: ubuntu-20.04
++    concurrency:
++      group: ${{ github.workflow }}-${{ matrix.run_phase }}-${{ github.ref }}
++      cancel-in-progress: true
+     strategy:
+       fail-fast: false
+       matrix:
 diff -aruN old/hwdb.d/60-keyboard.hwdb new/hwdb.d/60-keyboard.hwdb
 --- old/hwdb.d/60-keyboard.hwdb	2021-07-07 18:41:29.000000000 +0100
-+++ new/hwdb.d/60-keyboard.hwdb	2021-11-10 14:01:30.000000000 +0000
++++ new/hwdb.d/60-keyboard.hwdb	2021-11-19 17:19:28.000000000 +0000
 @@ -1303,7 +1303,6 @@
  # Keymaps MSI Prestige And MSI Modern FnKeys and Special keys
  evdev:atkbd:dmi:bvn*:bvr*:bd*:svnMicro-Star*:pn*Prestige*:*
@@ -64,7 +209,7 @@ diff -aruN old/hwdb.d/60-keyboard.hwdb new/hwdb.d/60-keyboard.hwdb
   KEYBOARD_KEY_91=prog1                                  # Fn+F7 Creation Center, sometime F7
 diff -aruN old/hwdb.d/60-sensor.hwdb new/hwdb.d/60-sensor.hwdb
 --- old/hwdb.d/60-sensor.hwdb	2021-07-07 18:41:29.000000000 +0100
-+++ new/hwdb.d/60-sensor.hwdb	2021-11-10 14:01:30.000000000 +0000
++++ new/hwdb.d/60-sensor.hwdb	2021-11-19 17:19:28.000000000 +0000
 @@ -226,8 +226,9 @@
  # Chuwi HiBook does not have its product name filled, so we
  # match the entire dmi-alias, assuming that the use of a BOSC0200 +
@@ -183,7 +328,7 @@ diff -aruN old/hwdb.d/60-sensor.hwdb new/hwdb.d/60-sensor.hwdb
  #########################################
 diff -aruN old/man/bootctl.xml new/man/bootctl.xml
 --- old/man/bootctl.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/bootctl.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/bootctl.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -240,8 +240,8 @@
        <varlistentry>
          <term><option>--make-machine-id-directory=yes|no|auto</option></term>
@@ -197,7 +342,7 @@ diff -aruN old/man/bootctl.xml new/man/bootctl.xml
          tmpfs and <literal>no</literal> otherwise (in the latter case the machine ID is likely transient and
 diff -aruN old/man/coredump.conf.xml new/man/coredump.conf.xml
 --- old/man/coredump.conf.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/coredump.conf.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/coredump.conf.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -83,12 +83,9 @@
        <varlistentry>
          <term><varname>ProcessSizeMax=</varname></term>
@@ -240,7 +385,7 @@ diff -aruN old/man/coredump.conf.xml new/man/coredump.conf.xml
  
 diff -aruN old/man/coredumpctl.xml new/man/coredumpctl.xml
 --- old/man/coredumpctl.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/coredumpctl.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/coredumpctl.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -162,7 +162,7 @@
          <term><option>-1</option></term>
  
@@ -252,7 +397,7 @@ diff -aruN old/man/coredumpctl.xml new/man/coredumpctl.xml
        <varlistentry>
 diff -aruN old/man/nss-myhostname.xml new/man/nss-myhostname.xml
 --- old/man/nss-myhostname.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/nss-myhostname.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/nss-myhostname.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -73,13 +73,17 @@
      <para>To activate the NSS modules, add <literal>myhostname</literal> to the line starting with
      <literal>hosts:</literal> in <filename>/etc/nsswitch.conf</filename>.</para>
@@ -291,7 +436,7 @@ diff -aruN old/man/nss-myhostname.xml new/man/nss-myhostname.xml
  protocols:      db files
 diff -aruN old/man/nss-resolve.xml new/man/nss-resolve.xml
 --- old/man/nss-resolve.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/nss-resolve.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/nss-resolve.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -52,6 +52,16 @@
      it is still recommended (see examples below) to keep <command>nss-myhostname</command> configured in
      <filename>/etc/nsswitch.conf</filename>, to keep those names resolveable if
@@ -311,7 +456,7 @@ diff -aruN old/man/nss-resolve.xml new/man/nss-resolve.xml
    <refsect1>
 diff -aruN old/man/nss-systemd.xml new/man/nss-systemd.xml
 --- old/man/nss-systemd.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/nss-systemd.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/nss-systemd.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -67,7 +67,7 @@
  
      <para>This is a simple mechanism to provide static user and group records via JSON drop-in files. Such
@@ -323,7 +468,7 @@ diff -aruN old/man/nss-systemd.xml new/man/nss-systemd.xml
      UID formatted in decimal and suffixed with <filename>.user</filename> pointing to the primary record file
 diff -aruN old/man/org.freedesktop.systemd1.xml new/man/org.freedesktop.systemd1.xml
 --- old/man/org.freedesktop.systemd1.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/org.freedesktop.systemd1.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/org.freedesktop.systemd1.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -1706,12 +1706,12 @@
        @org.freedesktop.DBus.Property.EmitsChangedSignal("const")
        readonly b DefaultDependencies = ...;
@@ -359,7 +504,7 @@ diff -aruN old/man/org.freedesktop.systemd1.xml new/man/org.freedesktop.systemd1
  
 diff -aruN old/man/os-release.xml new/man/os-release.xml
 --- old/man/os-release.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/os-release.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/os-release.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -373,7 +373,7 @@
  
            <listitem><para>A lower-case string (mostly numeric, no spaces or other characters outside of 0–9,
@@ -371,7 +516,7 @@ diff -aruN old/man/os-release.xml new/man/os-release.xml
  
 diff -aruN old/man/pam_systemd.xml new/man/pam_systemd.xml
 --- old/man/pam_systemd.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/pam_systemd.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/pam_systemd.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -33,7 +33,7 @@
      and hence the systemd control group hierarchy.</para>
  
@@ -383,7 +528,7 @@ diff -aruN old/man/pam_systemd.xml new/man/pam_systemd.xml
      <para>On login, this module — in conjunction with <filename>systemd-logind.service</filename> — ensures the
 diff -aruN old/man/path-documents.c new/man/path-documents.c
 --- old/man/path-documents.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/path-documents.c	2021-11-10 14:01:30.000000000 +0000
++++ new/man/path-documents.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1,9 +1,17 @@
  #include <stdio.h>
 +#include <stdlib.h>
@@ -405,7 +550,7 @@ diff -aruN old/man/path-documents.c new/man/path-documents.c
  }
 diff -aruN old/man/repart.d.xml new/man/repart.d.xml
 --- old/man/repart.d.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/repart.d.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/repart.d.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -434,8 +434,8 @@
          <para>If the special value <literal>auto</literal> is specified, the source to copy from is
          automatically picked up from the running system (or the image specified with
@@ -449,9 +594,21 @@ diff -aruN old/man/repart.d.xml new/man/repart.d.xml
  
          <para>If both bit 50 and 59 are set for a partition (i.e. the partition is marked both read-only and
          marked for file system growing) the latter is typically without effect: the read-only flag takes
+diff -aruN old/man/sd_bus_add_object.xml new/man/sd_bus_add_object.xml
+--- old/man/sd_bus_add_object.xml	2021-07-07 18:41:29.000000000 +0100
++++ new/man/sd_bus_add_object.xml	2021-11-19 17:19:28.000000000 +0000
+@@ -508,7 +508,7 @@
+         <varlistentry>
+           <term><constant>SD_BUS_VTABLE_METHOD_NO_REPLY</constant></term>
+ 
+-          <listitem><para>Mark his vtable entry as a method that will not return a reply using the
++          <listitem><para>Mark this vtable entry as a method that will not return a reply using the
+           <constant>org.freedesktop.DBus.Method.NoReply</constant> annotation in introspection data.
+           </para></listitem>
+         </varlistentry>
 diff -aruN old/man/sd_bus_set_property.xml new/man/sd_bus_set_property.xml
 --- old/man/sd_bus_set_property.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/sd_bus_set_property.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/sd_bus_set_property.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -39,7 +39,6 @@
          <paramdef>const char *<parameter>interface</parameter></paramdef>
          <paramdef>const char *<parameter>member</parameter></paramdef>
@@ -484,7 +641,7 @@ diff -aruN old/man/sd_bus_set_property.xml new/man/sd_bus_set_property.xml
      <citerefentry><refentrytitle>sd_bus_message_append</refentrytitle><manvolnum>3</manvolnum></citerefentry>.
 diff -aruN old/man/sd_listen_fds.xml new/man/sd_listen_fds.xml
 --- old/man/sd_listen_fds.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/sd_listen_fds.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/sd_listen_fds.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -45,14 +45,24 @@
    <refsect1>
      <title>Description</title>
@@ -520,7 +677,7 @@ diff -aruN old/man/sd_listen_fds.xml new/man/sd_listen_fds.xml
      configured in the systemd socket unit file (see
 diff -aruN old/man/systemctl.xml new/man/systemctl.xml
 --- old/man/systemctl.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemctl.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemctl.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -65,6 +65,13 @@
              that are shown are additionally filtered by <option>--type=</option> and <option>--state=</option> if those
              options are specified.</para>
@@ -660,6 +817,17 @@ diff -aruN old/man/systemctl.xml new/man/systemctl.xml
            </listitem>
          </varlistentry>
  
+@@ -1626,8 +1660,8 @@
+           completion is implemented for property names.</para>
+ 
+           <para>For the manager itself,
+-          <command>systemctl show</command> will show all available
+-          properties. Those properties are documented in
++          <command>systemctl show</command>
++          will show all available properties, most of which are derived or closely match the options described in
+           <citerefentry><refentrytitle>systemd-system.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>.
+           </para>
+ 
 @@ -2185,9 +2219,9 @@
          <term><option>--lines=</option></term>
  
@@ -717,7 +885,7 @@ diff -aruN old/man/systemctl.xml new/man/systemctl.xml
  
 diff -aruN old/man/systemd-boot.xml new/man/systemd-boot.xml
 --- old/man/systemd-boot.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-boot.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-boot.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -73,8 +73,8 @@
        <citerefentry><refentrytitle>systemctl</refentrytitle><manvolnum>1</manvolnum></citerefentry> for
        details.</para></listitem>
@@ -740,7 +908,7 @@ diff -aruN old/man/systemd-boot.xml new/man/systemd-boot.xml
      <variablelist class='efi-variables'>
 diff -aruN old/man/systemd-cryptenroll.xml new/man/systemd-cryptenroll.xml
 --- old/man/systemd-cryptenroll.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-cryptenroll.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-cryptenroll.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -59,6 +59,23 @@
    </refsect1>
  
@@ -776,7 +944,7 @@ diff -aruN old/man/systemd-cryptenroll.xml new/man/systemd-cryptenroll.xml
          enumerate all suitable PKCS#11 tokens currently plugged in. The security token must contain an RSA
 diff -aruN old/man/systemd.exec.xml new/man/systemd.exec.xml
 --- old/man/systemd.exec.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.exec.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.exec.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -241,7 +241,7 @@
          <para>This option is supported only for disk images that contain a single file system, without an
          enveloping partition table. Images that contain a GPT partition table should instead include both
@@ -819,7 +987,7 @@ diff -aruN old/man/systemd.exec.xml new/man/systemd.exec.xml
          performed inside the strings and the <literal>$</literal> character has no special meaning. Specifier
 diff -aruN old/man/systemd-firstboot.xml new/man/systemd-firstboot.xml
 --- old/man/systemd-firstboot.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-firstboot.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-firstboot.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -307,7 +307,7 @@
        <varlistentry>
          <term><literal>passwd.shell.root</literal></term>
@@ -831,7 +999,7 @@ diff -aruN old/man/systemd-firstboot.xml new/man/systemd-firstboot.xml
          service.</para></listitem>
 diff -aruN old/man/systemd.link.xml new/man/systemd.link.xml
 --- old/man/systemd.link.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.link.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.link.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -457,7 +457,7 @@
          <term><varname>MTUBytes=</varname></term>
          <listitem>
@@ -956,7 +1124,7 @@ diff -aruN old/man/systemd.link.xml new/man/systemd.link.xml
  
 diff -aruN old/man/systemd-machine-id-setup.xml new/man/systemd-machine-id-setup.xml
 --- old/man/systemd-machine-id-setup.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-machine-id-setup.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-machine-id-setup.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -90,7 +90,7 @@
  
        <varlistentry>
@@ -968,7 +1136,7 @@ diff -aruN old/man/systemd-machine-id-setup.xml new/man/systemd-machine-id-setup
        </varlistentry>
 diff -aruN old/man/systemd.netdev.xml new/man/systemd.netdev.xml
 --- old/man/systemd.netdev.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.netdev.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.netdev.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -390,7 +390,7 @@
          <term><varname>DefaultPVID=</varname></term>
          <listitem>
@@ -1088,8 +1256,16 @@ diff -aruN old/man/systemd.netdev.xml new/man/systemd.netdev.xml
        <varlistentry>
 diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
 --- old/man/systemd.network.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.network.xml	2021-11-10 14:01:30.000000000 +0000
-@@ -999,14 +999,6 @@
++++ new/man/systemd.network.xml	2021-11-19 17:19:28.000000000 +0000
+@@ -132,6 +132,7 @@
+         <xi:include href="systemd.link.xml" xpointer="kernel-command-line" />
+         <xi:include href="systemd.link.xml" xpointer="kernel-version" />
+         <xi:include href="systemd.link.xml" xpointer="architecture" />
++        <xi:include href="systemd.link.xml" xpointer="firmware" />
+       </variablelist>
+ 
+   </refsect1>
+@@ -999,14 +1000,6 @@
          </listitem>
        </varlistentry>
        <varlistentry>
@@ -1104,7 +1280,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
          <term><varname>KeepConfiguration=</varname></term>
          <listitem>
            <para>Takes a boolean or one of <literal>static</literal>, <literal>dhcp-on-stop</literal>,
-@@ -1246,7 +1238,9 @@
+@@ -1246,7 +1239,9 @@
            <term><varname>Priority=</varname></term>
            <listitem>
              <para>Specifies the priority of this rule. <varname>Priority=</varname> is an unsigned
@@ -1115,7 +1291,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
            </listitem>
          </varlistentry>
          <varlistentry>
-@@ -1431,7 +1425,7 @@
+@@ -1431,7 +1426,7 @@
            <term><varname>Metric=</varname></term>
            <listitem>
              <para>The metric of the route. Takes an unsigned integer in the range 0…4294967295.
@@ -1124,7 +1300,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
            </listitem>
          </varlistentry>
          <varlistentry>
-@@ -1623,9 +1617,10 @@
+@@ -1623,9 +1618,10 @@
            <term><varname>SendHostname=</varname></term>
            <listitem>
              <para>When true (the default), the machine's hostname (or the value specified with
@@ -1138,7 +1314,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
            </listitem>
          </varlistentry>
  
-@@ -1919,8 +1914,8 @@
+@@ -1919,8 +1915,8 @@
            <term><varname>FallbackLeaseLifetimeSec=</varname></term>
            <listitem>
              <para>Allows to set DHCPv4 lease lifetime when DHCPv4 server does not send the lease lifetime.
@@ -1149,7 +1325,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
            </listitem>
          </varlistentry>
  
-@@ -2347,9 +2342,9 @@
+@@ -2347,9 +2343,9 @@
        <varlistentry>
          <term><varname>ServerAddress=</varname></term>
          <listitem><para>Specifies server address for the DHCP server. Takes an IPv4 address with prefix
@@ -1162,7 +1338,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
        </varlistentry>
  
        <varlistentry>
-@@ -2529,23 +2524,22 @@
+@@ -2529,23 +2525,22 @@
  
    <refsect1>
      <title>[DHCPServerStaticLease] Section Options</title>
@@ -1194,7 +1370,7 @@ diff -aruN old/man/systemd.network.xml new/man/systemd.network.xml
    </refsect1>
 diff -aruN old/man/systemd-nspawn.xml new/man/systemd-nspawn.xml
 --- old/man/systemd-nspawn.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-nspawn.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-nspawn.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -1375,12 +1375,12 @@
          </orderedlist>
  
@@ -1229,7 +1405,7 @@ diff -aruN old/man/systemd-nspawn.xml new/man/systemd-nspawn.xml
          </varlistentry>
 diff -aruN old/man/systemd.nspawn.xml new/man/systemd.nspawn.xml
 --- old/man/systemd.nspawn.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.nspawn.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.nspawn.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -202,7 +202,7 @@
          capabilities (see
          <citerefentry project='man-pages'><refentrytitle>capabilities</refentrytitle><manvolnum>7</manvolnum></citerefentry>
@@ -1241,7 +1417,7 @@ diff -aruN old/man/systemd.nspawn.xml new/man/systemd.nspawn.xml
          the <option>--ambient-capability=</option> command line switch.
 diff -aruN old/man/systemd-portabled.service.xml new/man/systemd-portabled.service.xml
 --- old/man/systemd-portabled.service.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-portabled.service.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-portabled.service.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -35,8 +35,8 @@
      <para>Most of <command>systemd-portabled</command>'s functionality is accessible through the
      <citerefentry><refentrytitle>portablectl</refentrytitle><manvolnum>1</manvolnum></citerefentry> command.</para>
@@ -1255,7 +1431,7 @@ diff -aruN old/man/systemd-portabled.service.xml new/man/systemd-portabled.servi
    <refsect1>
 diff -aruN old/man/systemd.preset.xml new/man/systemd.preset.xml
 --- old/man/systemd.preset.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.preset.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.preset.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -207,7 +207,7 @@
        <citerefentry><refentrytitle>systemd-delta</refentrytitle><manvolnum>1</manvolnum></citerefentry>
      </para>
@@ -1267,7 +1443,7 @@ diff -aruN old/man/systemd.preset.xml new/man/systemd.preset.xml
      <para>Fedora page introducing the use of presets:
 diff -aruN old/man/systemd-resolved.service.xml new/man/systemd-resolved.service.xml
 --- old/man/systemd-resolved.service.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-resolved.service.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-resolved.service.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -144,7 +144,7 @@
        turn. Additionally, lookup of single-label names via unicast DNS may be enabled with the
        <varname>ResolveUnicastSingleLabel=yes</varname> setting. The details of which servers are queried and
@@ -1288,7 +1464,7 @@ diff -aruN old/man/systemd-resolved.service.xml new/man/systemd-resolved.service
        MulticastDNS, and will not route queries with that suffix to unicast DNS servers unless explicitly
 diff -aruN old/man/systemd.service.xml new/man/systemd.service.xml
 --- old/man/systemd.service.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.service.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.service.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -1134,7 +1134,7 @@
      <literal>\;</literal>.</para>
  
@@ -1300,7 +1476,7 @@ diff -aruN old/man/systemd.service.xml new/man/systemd.service.xml
      <para>This syntax is inspired by shell syntax, but only the meta-characters and expansions
 diff -aruN old/man/systemd-sysext.xml new/man/systemd-sysext.xml
 --- old/man/systemd-sysext.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-sysext.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-sysext.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -46,7 +46,7 @@
      operating system tree. When one or more system extension images are activated, their
      <filename>/usr/</filename> and <filename>/opt/</filename> hierarchies are combined via
@@ -1344,7 +1520,7 @@ diff -aruN old/man/systemd-sysext.xml new/man/systemd-sysext.xml
      with newer ones, for example to install a locally compiled development version of some low-level
 diff -aruN old/man/systemd-system.conf.xml new/man/systemd-system.conf.xml
 --- old/man/systemd-system.conf.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-system.conf.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-system.conf.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -262,7 +262,7 @@
          names in status messages (e.g. <literal>systemd-journald.service</literal>), instead of the longer
          and more informative descriptions set with <varname>Description=</varname> (e.g. <literal>Journal
@@ -1356,7 +1532,7 @@ diff -aruN old/man/systemd-system.conf.xml new/man/systemd-system.conf.xml
          <para>See
 diff -aruN old/man/systemd.unit.xml new/man/systemd.unit.xml
 --- old/man/systemd.unit.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.unit.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.unit.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -1535,7 +1535,7 @@
          <varlistentry>
            <term><varname>ConditionControlGroupController=</varname></term>
@@ -1368,7 +1544,7 @@ diff -aruN old/man/systemd.unit.xml new/man/systemd.unit.xml
  
 diff -aruN old/man/systemd-userdbd.service.xml new/man/systemd-userdbd.service.xml
 --- old/man/systemd-userdbd.service.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-userdbd.service.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-userdbd.service.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -34,14 +34,14 @@
      JSON user/group records from classic UNIX/glibc NSS user/group records in order to provide full backwards
      compatibility. It may also pick up statically defined JSON user/group records from drop-in files in
@@ -1388,7 +1564,7 @@ diff -aruN old/man/systemd-userdbd.service.xml new/man/systemd-userdbd.service.x
      multiplexes access other services implementing this API, too. It is thus both server and client of this
 diff -aruN old/man/systemd-veritysetup-generator.xml new/man/systemd-veritysetup-generator.xml
 --- old/man/systemd-veritysetup-generator.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-veritysetup-generator.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-veritysetup-generator.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -17,7 +17,7 @@
  
    <refnamediv>
@@ -1427,7 +1603,7 @@ diff -aruN old/man/systemd-veritysetup-generator.xml new/man/systemd-veritysetup
        </varlistentry>
 diff -aruN old/man/systemd-veritysetup@.service.xml new/man/systemd-veritysetup@.service.xml
 --- old/man/systemd-veritysetup@.service.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd-veritysetup@.service.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd-veritysetup@.service.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -18,7 +18,7 @@
    <refnamediv>
      <refname>systemd-veritysetup@.service</refname>
@@ -1503,7 +1679,7 @@ diff -aruN old/man/systemd-veritysetup@.service.xml new/man/systemd-veritysetup@
    <refsect1>
 diff -aruN old/man/systemd.xml new/man/systemd.xml
 --- old/man/systemd.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/systemd.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/systemd.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -74,8 +74,8 @@
      configuration files, whose syntax and basic set of options is
      described in
@@ -1517,7 +1693,7 @@ diff -aruN old/man/systemd.xml new/man/systemd.xml
      stopped, unbound, unplugged, …), as well as in the process of
 diff -aruN old/man/timedatectl.xml new/man/timedatectl.xml
 --- old/man/timedatectl.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/timedatectl.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/timedatectl.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -126,8 +126,9 @@
          <listitem><para>Takes a boolean argument. Controls whether network time synchronization is active and
          enabled (if available). If the argument is true, this enables and starts the first existing network
@@ -1532,7 +1708,7 @@ diff -aruN old/man/timedatectl.xml new/man/timedatectl.xml
      </variablelist>
 diff -aruN old/man/tmpfiles.d.xml new/man/tmpfiles.d.xml
 --- old/man/tmpfiles.d.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/tmpfiles.d.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/tmpfiles.d.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -550,6 +550,7 @@
  
      <refsect2>
@@ -1607,7 +1783,7 @@ diff -aruN old/man/tmpfiles.d.xml new/man/tmpfiles.d.xml
  # Files created and modified, and directories accessed more than
 diff -aruN old/man/userdbctl.xml new/man/userdbctl.xml
 --- old/man/userdbctl.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/userdbctl.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/userdbctl.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -42,7 +42,7 @@
      url="https://systemd.io/USER_GROUP_API">User/Group Record Lookup API via Varlink</ulink>, and may also
      pick up drop-in JSON user and group records from <filename>/etc/userdb/</filename>,
@@ -1637,7 +1813,7 @@ diff -aruN old/man/userdbctl.xml new/man/userdbctl.xml
      </variablelist>
 diff -aruN old/man/veritytab.xml new/man/veritytab.xml
 --- old/man/veritytab.xml	2021-07-07 18:41:29.000000000 +0100
-+++ new/man/veritytab.xml	2021-11-10 14:01:30.000000000 +0000
++++ new/man/veritytab.xml	2021-11-19 17:19:28.000000000 +0000
 @@ -33,12 +33,12 @@
      <title>Description</title>
  
@@ -1695,7 +1871,7 @@ diff -aruN old/man/veritytab.xml new/man/veritytab.xml
  data /etc/data /etc/hash a5ee4b42f70ae1f46a08a7c92c2e0a20672ad2f514792730f5d49d7606ab8fdf auto
 diff -aruN old/meson.build new/meson.build
 --- old/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -35,7 +35,7 @@
  
  want_ossfuzz = get_option('oss-fuzz')
@@ -1719,7 +1895,7 @@ diff -aruN old/meson.build new/meson.build
          endif
 diff -aruN old/meson_options.txt new/meson_options.txt
 --- old/meson_options.txt	2021-07-07 18:41:29.000000000 +0100
-+++ new/meson_options.txt	2021-11-10 14:01:30.000000000 +0000
++++ new/meson_options.txt	2021-11-19 17:19:28.000000000 +0000
 @@ -197,7 +197,7 @@
         choices : ['legacy', 'hybrid', 'unified'], value : 'unified',
         description : 'default cgroup hierarchy')
@@ -1731,7 +1907,7 @@ diff -aruN old/meson_options.txt new/meson_options.txt
         choices : ['description', 'name', 'combined'],
 diff -aruN old/.mkosi/mkosi.opensuse new/.mkosi/mkosi.opensuse
 --- old/.mkosi/mkosi.opensuse	2021-07-07 18:41:29.000000000 +0100
-+++ new/.mkosi/mkosi.opensuse	2021-11-10 14:01:30.000000000 +0000
++++ new/.mkosi/mkosi.opensuse	2021-11-19 17:19:28.000000000 +0000
 @@ -36,7 +36,7 @@
          pcre-devel
          python3
@@ -1751,7 +1927,7 @@ diff -aruN old/.mkosi/mkosi.opensuse new/.mkosi/mkosi.opensuse
          libmount1
 diff -aruN old/NEWS new/NEWS
 --- old/NEWS	2021-07-07 18:41:29.000000000 +0100
-+++ new/NEWS	2021-11-10 14:01:30.000000000 +0000
++++ new/NEWS	2021-11-19 17:19:28.000000000 +0000
 @@ -3867,6 +3867,9 @@
  
            Consult the kernel documentation for details on this sysctl:
@@ -1762,9 +1938,21 @@ diff -aruN old/NEWS new/NEWS
  
          * CPUAccounting=yes no longer enables the CPU controller when using
            kernel 4.15+ and the unified cgroup hierarchy, as required accounting
+diff -aruN old/.semaphore/semaphore.yml new/.semaphore/semaphore.yml
+--- old/.semaphore/semaphore.yml	2021-07-07 18:41:29.000000000 +0100
++++ new/.semaphore/semaphore.yml	2021-11-19 17:19:28.000000000 +0000
+@@ -25,3 +25,8 @@
+             - checkout --use-cache
+             - .semaphore/semaphore-runner.sh SETUP
+             - .semaphore/semaphore-runner.sh RUN
++          env_vars:
++            # Pin the debian systemd repo to a specific revision, to work around
++            # missing systemd/systemd#20056 in pre-v250 stable branches
++            - name: BRANCH
++              value: e138f8573a14f8f094bd6c9582bc26ed62c1347f
 diff -aruN old/shell-completion/zsh/_systemd-run new/shell-completion/zsh/_systemd-run
 --- old/shell-completion/zsh/_systemd-run	2021-07-07 18:41:29.000000000 +0100
-+++ new/shell-completion/zsh/_systemd-run	2021-11-10 14:01:30.000000000 +0000
++++ new/shell-completion/zsh/_systemd-run	2021-11-19 17:19:28.000000000 +0000
 @@ -77,4 +77,5 @@
      '--version[Show package version]' \
      '--wait=[Wait until service stopped again]' \
@@ -1774,7 +1962,7 @@ diff -aruN old/shell-completion/zsh/_systemd-run new/shell-completion/zsh/_syste
 +    '*::arguments:_normal'
 diff -aruN old/shell-completion/zsh/_udevadm new/shell-completion/zsh/_udevadm
 --- old/shell-completion/zsh/_udevadm	2021-07-07 18:41:29.000000000 +0100
-+++ new/shell-completion/zsh/_udevadm	2021-11-10 14:01:30.000000000 +0000
++++ new/shell-completion/zsh/_udevadm	2021-11-19 17:19:28.000000000 +0000
 @@ -23,7 +23,7 @@
          '--dry-run[Do not actually trigger the event.]' \
          '--quiet[Suppress error logging in triggering events.]' \
@@ -1795,7 +1983,7 @@ diff -aruN old/shell-completion/zsh/_udevadm new/shell-completion/zsh/_udevadm
          '*::devpath:_files -P /sys/ -W /sys'
 diff -aruN old/src/analyze/analyze-security.c new/src/analyze/analyze-security.c
 --- old/src/analyze/analyze-security.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/analyze/analyze-security.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/analyze/analyze-security.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1910,7 +1910,7 @@
          if (streq(member, "IPIngressFilterPath"))
                  info->ip_filters_custom_ingress = !strv_isempty(l);
@@ -1807,7 +1995,7 @@ diff -aruN old/src/analyze/analyze-security.c new/src/analyze/analyze-security.c
  }
 diff -aruN old/src/basic/env-util.c new/src/basic/env-util.c
 --- old/src/basic/env-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/env-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/env-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -577,6 +577,7 @@
  
                                  word = e+1;
@@ -1818,7 +2006,7 @@ diff -aruN old/src/basic/env-util.c new/src/basic/env-util.c
                                          len = e - word - 2;
 diff -aruN old/src/basic/ether-addr-util.c new/src/basic/ether-addr-util.c
 --- old/src/basic/ether-addr-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/ether-addr-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/ether-addr-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -7,6 +7,7 @@
  #include <sys/types.h>
  
@@ -1847,7 +2035,7 @@ diff -aruN old/src/basic/ether-addr-util.c new/src/basic/ether-addr-util.c
  
 diff -aruN old/src/basic/fileio.c new/src/basic/fileio.c
 --- old/src/basic/fileio.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/fileio.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/fileio.c	2021-11-19 17:19:28.000000000 +0000
 @@ -30,14 +30,16 @@
  /* The maximum size of the file we'll read in one go in read_full_file() (64M). */
  #define READ_FULL_BYTES_MAX (64U*1024U*1024U - 1U)
@@ -1914,7 +2102,7 @@ diff -aruN old/src/basic/fileio.c new/src/basic/fileio.c
                  }
 diff -aruN old/src/basic/fileio.h new/src/basic/fileio.h
 --- old/src/basic/fileio.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/fileio.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/fileio.h	2021-11-19 17:19:28.000000000 +0000
 @@ -2,11 +2,11 @@
  #pragma once
  
@@ -2098,7 +2286,7 @@ diff -aruN old/src/basic/linux/if_arp.h new/src/basic/linux/if_arp.h
 -#endif /* _UAPI_LINUX_IF_ARP_H */
 diff -aruN old/src/basic/meson.build new/src/basic/meson.build
 --- old/src/basic/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -88,7 +88,6 @@
          linux/hdlc/ioctl.h
          linux/if.h
@@ -2109,7 +2297,7 @@ diff -aruN old/src/basic/meson.build new/src/basic/meson.build
          linux/if_ether.h
 diff -aruN old/src/basic/mountpoint-util.c new/src/basic/mountpoint-util.c
 --- old/src/basic/mountpoint-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/mountpoint-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/mountpoint-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -157,6 +157,19 @@
          return filename_is_valid(copied);
  }
@@ -2209,9 +2397,17 @@ diff -aruN old/src/basic/mountpoint-util.c new/src/basic/mountpoint-util.c
  }
  
  bool fstype_is_network(const char *fstype) {
+@@ -410,6 +424,7 @@
+         return STR_IN_SET(fstype,
+                           "DM_verity_hash",
+                           "iso9660",
++                          "erofs",
+                           "squashfs");
+ }
+ 
 diff -aruN old/src/basic/path-util.c new/src/basic/path-util.c
 --- old/src/basic/path-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/path-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/path-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -628,7 +628,11 @@
                  return r;
  
@@ -2227,7 +2423,7 @@ diff -aruN old/src/basic/path-util.c new/src/basic/path-util.c
          if (ret_fd)
 diff -aruN old/src/basic/process-util.c new/src/basic/process-util.c
 --- old/src/basic/process-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/process-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/process-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -858,8 +858,8 @@
  void sigkill_wait(pid_t pid) {
          assert(pid > 1);
@@ -2252,7 +2448,7 @@ diff -aruN old/src/basic/process-util.c new/src/basic/process-util.c
  int kill_and_sigcont(pid_t pid, int sig) {
 diff -aruN old/src/basic/socket-util.h new/src/basic/socket-util.h
 --- old/src/basic/socket-util.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/socket-util.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/socket-util.h	2021-11-19 17:19:28.000000000 +0000
 @@ -277,6 +277,28 @@
  int socket_bind_to_ifname(int fd, const char *ifname);
  int socket_bind_to_ifindex(int fd, int ifindex);
@@ -2284,7 +2480,7 @@ diff -aruN old/src/basic/socket-util.h new/src/basic/socket-util.h
  int socket_get_family(int fd, int *ret);
 diff -aruN old/src/basic/stat-util.c new/src/basic/stat-util.c
 --- old/src/basic/stat-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/stat-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/stat-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -79,7 +79,7 @@
          } else {
                  /* Note that DUPing is not enough, as the internal pointer
@@ -2296,7 +2492,7 @@ diff -aruN old/src/basic/stat-util.c new/src/basic/stat-util.c
          }
 diff -aruN old/src/basic/unit-file.c new/src/basic/unit-file.c
 --- old/src/basic/unit-file.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/unit-file.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/unit-file.c	2021-11-19 17:19:28.000000000 +0000
 @@ -284,7 +284,7 @@
                          continue;
                  }
@@ -2308,7 +2504,7 @@ diff -aruN old/src/basic/unit-file.c new/src/basic/unit-file.c
                          const char *suffix, *dst = NULL;
 diff -aruN old/src/basic/unit-name.c new/src/basic/unit-name.c
 --- old/src/basic/unit-name.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/unit-name.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/unit-name.c	2021-11-19 17:19:28.000000000 +0000
 @@ -378,12 +378,13 @@
  }
  
@@ -2343,7 +2539,7 @@ diff -aruN old/src/basic/unit-name.c new/src/basic/unit-name.c
                  return -ENOMEM;
 diff -aruN old/src/basic/virt.c new/src/basic/virt.c
 --- old/src/basic/virt.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/basic/virt.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/basic/virt.c	2021-11-19 17:19:28.000000000 +0000
 @@ -159,12 +159,13 @@
                  { "VMware",              VIRTUALIZATION_VMWARE    }, /* https://kb.vmware.com/s/article/1009458 */
                  { "VMW",                 VIRTUALIZATION_VMWARE    },
@@ -2398,9 +2594,21 @@ diff -aruN old/src/basic/virt.c new/src/basic/virt.c
  
          /* If we haven't identified a VM, but the firmware indicates that there is one, indicate as much. We
           * have no further information about what it is. */
+diff -aruN old/src/binfmt/binfmt.c new/src/binfmt/binfmt.c
+--- old/src/binfmt/binfmt.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/binfmt/binfmt.c	2021-11-19 17:19:28.000000000 +0000
+@@ -189,7 +189,7 @@
+ 
+         r = parse_argv(argc, argv);
+         if (r <= 0)
+-                return r < 0 ? EXIT_FAILURE : EXIT_SUCCESS;
++                return r;
+ 
+         log_setup();
+ 
 diff -aruN old/src/boot/bootctl.c new/src/boot/bootctl.c
 --- old/src/boot/bootctl.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/bootctl.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/bootctl.c	2021-11-19 17:19:28.000000000 +0000
 @@ -711,7 +711,7 @@
          for (i = 0; i < n; i++)
                  if (i != options[i]) {
@@ -2421,7 +2629,7 @@ diff -aruN old/src/boot/bootctl.c new/src/boot/bootctl.c
  
 diff -aruN old/src/boot/efi/boot.c new/src/boot/efi/boot.c
 --- old/src/boot/efi/boot.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/boot.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/boot.c	2021-11-19 17:19:28.000000000 +0000
 @@ -134,7 +134,7 @@
                  uefi_call_wrapper(ST->ConOut->OutputString, 2, ST->ConOut, print);
                  uefi_call_wrapper(ST->ConOut->SetCursorPosition, 3, ST->ConOut, cursor, y_pos);
@@ -2724,7 +2932,7 @@ diff -aruN old/src/boot/efi/boot.c new/src/boot/efi/boot.c
  
 diff -aruN old/src/boot/efi/console.c new/src/boot/efi/console.c
 --- old/src/boot/efi/console.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/console.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/console.c	2021-11-19 17:19:28.000000000 +0000
 @@ -11,61 +11,105 @@
  
  #define EFI_SIMPLE_TEXT_INPUT_EX_GUID &(EFI_GUID) EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL_GUID
@@ -2861,7 +3069,7 @@ diff -aruN old/src/boot/efi/console.c new/src/boot/efi/console.c
  static EFI_STATUS change_mode(UINTN mode) {
 diff -aruN old/src/boot/efi/console.h new/src/boot/efi/console.h
 --- old/src/boot/efi/console.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/console.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/console.h	2021-11-19 17:19:28.000000000 +0000
 @@ -16,5 +16,5 @@
          CONSOLE_MODE_MAX,
  };
@@ -2871,7 +3079,7 @@ diff -aruN old/src/boot/efi/console.h new/src/boot/efi/console.h
  EFI_STATUS console_set_mode(UINTN *mode, enum console_mode_change_type how);
 diff -aruN old/src/boot/efi/linux.c new/src/boot/efi/linux.c
 --- old/src/boot/efi/linux.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/linux.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/linux.c	2021-11-19 17:19:28.000000000 +0000
 @@ -25,7 +25,7 @@
          handover(image, ST, params);
  }
@@ -2883,7 +3091,7 @@ diff -aruN old/src/boot/efi/linux.c new/src/boot/efi/linux.c
                        UINTN initrd_addr, UINTN initrd_size) {
 diff -aruN old/src/boot/efi/linux.h new/src/boot/efi/linux.h
 --- old/src/boot/efi/linux.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/linux.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/linux.h	2021-11-19 17:19:28.000000000 +0000
 @@ -83,7 +83,7 @@
          UINT8  _pad9[276];
  } __attribute__((packed));
@@ -2895,7 +3103,7 @@ diff -aruN old/src/boot/efi/linux.h new/src/boot/efi/linux.h
                        UINTN initrd_addr, UINTN initrd_size);
 diff -aruN old/src/boot/efi/random-seed.c new/src/boot/efi/random-seed.c
 --- old/src/boot/efi/random-seed.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/random-seed.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/random-seed.c	2021-11-19 17:19:28.000000000 +0000
 @@ -35,10 +35,8 @@
                  return log_oom();
  
@@ -3033,7 +3241,7 @@ diff -aruN old/src/boot/efi/random-seed.c new/src/boot/efi/random-seed.c
  }
 diff -aruN old/src/boot/efi/stub.c new/src/boot/efi/stub.c
 --- old/src/boot/efi/stub.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/stub.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/stub.c	2021-11-19 17:19:28.000000000 +0000
 @@ -36,18 +36,12 @@
  
          err = uefi_call_wrapper(BS->OpenProtocol, 6, image, &LoadedImageProtocol, (VOID **)&loaded_image,
@@ -3081,7 +3289,7 @@ diff -aruN old/src/boot/efi/stub.c new/src/boot/efi/stub.c
  }
 diff -aruN old/src/boot/efi/util.c new/src/boot/efi/util.c
 --- old/src/boot/efi/util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -411,8 +411,21 @@
          return err;
  }
@@ -3108,7 +3316,7 @@ diff -aruN old/src/boot/efi/util.c new/src/boot/efi/util.c
  }
 diff -aruN old/src/boot/efi/util.h new/src/boot/efi/util.h
 --- old/src/boot/efi/util.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/boot/efi/util.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/boot/efi/util.h	2021-11-19 17:19:28.000000000 +0000
 @@ -74,4 +74,13 @@
  #define UINT64_MAX ((UINT64) -1)
  #endif
@@ -3125,7 +3333,7 @@ diff -aruN old/src/boot/efi/util.h new/src/boot/efi/util.h
 +        })
 diff -aruN old/src/core/bpf-devices.c new/src/core/bpf-devices.c
 --- old/src/core/bpf-devices.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/bpf-devices.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/bpf-devices.c	2021-11-19 17:19:28.000000000 +0000
 @@ -9,6 +9,7 @@
  #include "fileio.h"
  #include "nulstr-util.h"
@@ -3145,7 +3353,7 @@ diff -aruN old/src/core/bpf-devices.c new/src/core/bpf-devices.c
          /* Unref the old BPF program (which will implicitly detach it) right before attaching the new program. */
 diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
 --- old/src/core/cgroup.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/cgroup.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/cgroup.c	2021-11-19 17:19:28.000000000 +0000
 @@ -84,7 +84,7 @@
          r = cg_set_attribute(controller, u->cgroup_path, attribute, value);
          if (r < 0)
@@ -3320,14 +3528,18 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
  
                          if (again) {
                                  int z;
-@@ -2187,21 +2187,22 @@
+@@ -2187,21 +2187,25 @@
  
                                  z = unit_attach_pid_to_cgroup_via_bus(u, pid, suffix_path);
                                  if (z < 0)
 -                                        log_unit_info_errno(u, z, "Couldn't move process "PID_FMT" to requested cgroup '%s' (directly or via the system bus): %m", pid, p);
+-                                else
 +                                        log_unit_info_errno(u, z, "Couldn't move process "PID_FMT" to requested cgroup '%s' (directly or via the system bus): %m", pid, empty_to_root(p));
-                                 else
++                                else {
++                                        if (ret >= 0)
++                                                ret++; /* Count successful additions */
                                          continue; /* When the bus thing worked via the bus we are fully done for this PID. */
++                                }
                          }
  
 -                        if (r >= 0)
@@ -3351,7 +3563,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
                          continue;
  
                  /* In the legacy hierarchy, attach the process to the request cgroup if possible, and if not to the
-@@ -2216,12 +2217,12 @@
+@@ -2216,12 +2220,12 @@
  
                          /* If this controller is delegated and realized, honour the caller's request for the cgroup suffix. */
                          if (delegated_mask & u->cgroup_realized_mask & bit) {
@@ -3368,7 +3580,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
                          }
  
                          /* So this controller is either not delegate or realized, or something else weird happened. In
-@@ -2231,14 +2232,14 @@
+@@ -2231,14 +2235,14 @@
                          if (!realized)
                                  continue; /* Not even realized in the root slice? Then let's not bother */
  
@@ -3387,7 +3599,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
  }
  
  static bool unit_has_mask_realized(
-@@ -2656,7 +2657,7 @@
+@@ -2656,7 +2660,7 @@
                   * the containing slice is stopped. So even if we failed now, this unit shouldn't assume
                   * that the cgroup is still realized the next time it is started. Do not return early
                   * on error, continue cleanup. */
@@ -3396,7 +3608,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
  
          if (is_root_slice)
                  return;
-@@ -2869,7 +2870,7 @@
+@@ -2869,7 +2873,7 @@
  
          r = cg_is_empty_recursive(SYSTEMD_CGROUP_CONTROLLER, u->cgroup_path);
          if (r < 0) {
@@ -3405,7 +3617,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
                  return;
          }
          if (r == 0)
-@@ -3039,6 +3040,9 @@
+@@ -3039,6 +3043,9 @@
  
          assert(u);
  
@@ -3415,7 +3627,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
          r = cg_get_keyed_attribute_graceful(SYSTEMD_CGROUP_CONTROLLER, u->cgroup_path, "cgroup.events",
                                              STRV_MAKE("populated", "frozen"), values);
          if (r < 0)
-@@ -3871,6 +3875,21 @@
+@@ -3871,6 +3878,21 @@
          }
  }
  
@@ -3439,7 +3651,7 @@ diff -aruN old/src/core/cgroup.c new/src/core/cgroup.c
  
 diff -aruN old/src/core/cgroup.h new/src/core/cgroup.h
 --- old/src/core/cgroup.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/cgroup.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/cgroup.h	2021-11-19 17:19:28.000000000 +0000
 @@ -313,6 +313,8 @@
  const char* cgroup_device_policy_to_string(CGroupDevicePolicy i) _const_;
  CGroupDevicePolicy cgroup_device_policy_from_string(const char *s) _pure_;
@@ -3451,7 +3663,7 @@ diff -aruN old/src/core/cgroup.h new/src/core/cgroup.h
  int compare_job_priority(const void *a, const void *b);
 diff -aruN old/src/core/dbus-execute.c new/src/core/dbus-execute.c
 --- old/src/core/dbus-execute.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/dbus-execute.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/dbus-execute.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1421,6 +1421,10 @@
                  if (r < 0)
                          return r;
@@ -3465,7 +3677,7 @@ diff -aruN old/src/core/dbus-execute.c new/src/core/dbus-execute.c
                          return r;
 diff -aruN old/src/core/dbus-unit.c new/src/core/dbus-unit.c
 --- old/src/core/dbus-unit.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/dbus-unit.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/dbus-unit.c	2021-11-19 17:19:28.000000000 +0000
 @@ -905,10 +905,11 @@
          SD_BUS_PROPERTY("RefuseManualStop", "b", bus_property_get_bool, offsetof(Unit, refuse_manual_stop), SD_BUS_VTABLE_PROPERTY_CONST),
          SD_BUS_PROPERTY("AllowIsolate", "b", bus_property_get_bool, offsetof(Unit, allow_isolate), SD_BUS_VTABLE_PROPERTY_CONST),
@@ -3482,7 +3694,7 @@ diff -aruN old/src/core/dbus-unit.c new/src/core/dbus-unit.c
          SD_BUS_PROPERTY("JobRunningTimeoutUSec", "t", bus_property_get_usec, offsetof(Unit, job_running_timeout), SD_BUS_VTABLE_PROPERTY_CONST),
 diff -aruN old/src/core/execute.c new/src/core/execute.c
 --- old/src/core/execute.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/execute.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/execute.c	2021-11-19 17:19:28.000000000 +0000
 @@ -4059,13 +4059,17 @@
                  }
          }
@@ -3532,7 +3744,7 @@ diff -aruN old/src/core/execute.c new/src/core/execute.c
                                  }
 diff -aruN old/src/core/load-fragment.c new/src/core/load-fragment.c
 --- old/src/core/load-fragment.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/load-fragment.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/load-fragment.c	2021-11-19 17:19:28.000000000 +0000
 @@ -800,7 +800,7 @@
                  if (!separate_argv0) {
                          char *w = NULL;
@@ -3553,7 +3765,7 @@ diff -aruN old/src/core/load-fragment.c new/src/core/load-fragment.c
                                  w = strdup(";");
 diff -aruN old/src/core/main.c new/src/core/main.c
 --- old/src/core/main.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/main.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/main.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1720,9 +1720,50 @@
                  log_warning_errno(r, "Failed to set NUMA memory policy: %m");
  }
@@ -3685,7 +3897,7 @@ diff -aruN old/src/core/main.c new/src/core/main.c
  
 diff -aruN old/src/core/manager.c new/src/core/manager.c
 --- old/src/core/manager.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/manager.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/manager.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1410,6 +1410,10 @@
          assert(!m->cleanup_queue);
          assert(!m->gc_unit_queue);
@@ -3697,9 +3909,21 @@ diff -aruN old/src/core/manager.c new/src/core/manager.c
          assert(!m->stop_when_unneeded_queue);
          assert(!m->start_when_upheld_queue);
          assert(!m->stop_when_bound_queue);
+diff -aruN old/src/core/manager.h new/src/core/manager.h
+--- old/src/core/manager.h	2021-07-07 18:41:29.000000000 +0100
++++ new/src/core/manager.h	2021-11-19 17:19:28.000000000 +0000
+@@ -195,7 +195,7 @@
+ 
+         sd_event *event;
+ 
+-        /* This maps PIDs we care about to units that are interested in. We allow multiple units to he interested in
++        /* This maps PIDs we care about to units that are interested in. We allow multiple units to be interested in
+          * the same PID and multiple PIDs to be relevant to the same unit. Since in most cases only a single unit will
+          * be interested in the same PID we use a somewhat special encoding here: the first unit interested in a PID is
+          * stored directly in the hashmap, keyed by the PID unmodified. If there are other units interested too they'll
 diff -aruN old/src/core/meson.build new/src/core/meson.build
 --- old/src/core/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -193,7 +193,7 @@
                  output: file,
                  command : [meson_render_jinja2, config_h, '@INPUT@'],
@@ -3711,7 +3935,7 @@ diff -aruN old/src/core/meson.build new/src/core/meson.build
  
 diff -aruN old/src/core/mount.c new/src/core/mount.c
 --- old/src/core/mount.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/mount.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/mount.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1582,6 +1582,10 @@
          if (r < 0)
                  return r;
@@ -3725,7 +3949,7 @@ diff -aruN old/src/core/mount.c new/src/core/mount.c
           * to. */
 diff -aruN old/src/core/scope.c new/src/core/scope.c
 --- old/src/core/scope.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/scope.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/scope.c	2021-11-19 17:19:28.000000000 +0000
 @@ -374,6 +374,12 @@
                  scope_enter_dead(s, SCOPE_FAILURE_RESOURCES);
                  return r;
@@ -3741,7 +3965,7 @@ diff -aruN old/src/core/scope.c new/src/core/scope.c
  
 diff -aruN old/src/core/service.c new/src/core/service.c
 --- old/src/core/service.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/service.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/service.c	2021-11-19 17:19:28.000000000 +0000
 @@ -548,6 +548,22 @@
          assert(s);
          assert(UNIT(s)->load_state == UNIT_LOADED);
@@ -3767,7 +3991,7 @@ diff -aruN old/src/core/service.c new/src/core/service.c
                  /* FailureAction= only makes sense if one of the start or stop commands is specified.
 diff -aruN old/src/core/socket.c new/src/core/socket.c
 --- old/src/core/socket.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/socket.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/socket.c	2021-11-19 17:19:28.000000000 +0000
 @@ -34,6 +34,7 @@
  #include "process-util.h"
  #include "selinux-util.h"
@@ -3778,7 +4002,7 @@ diff -aruN old/src/core/socket.c new/src/core/socket.c
  #include "socket.h"
 diff -aruN old/src/core/socket.h new/src/core/socket.h
 --- old/src/core/socket.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/socket.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/socket.h	2021-11-19 17:19:28.000000000 +0000
 @@ -5,7 +5,6 @@
  typedef struct SocketPeer SocketPeer;
  
@@ -3789,7 +4013,7 @@ diff -aruN old/src/core/socket.h new/src/core/socket.h
  
 diff -aruN old/src/core/unit.c new/src/core/unit.c
 --- old/src/core/unit.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/core/unit.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/core/unit.c	2021-11-19 17:19:28.000000000 +0000
 @@ -427,7 +427,7 @@
  
                  r = cg_is_empty_recursive(SYSTEMD_CGROUP_CONTROLLER, u->cgroup_path);
@@ -3874,7 +4098,7 @@ diff -aruN old/src/core/unit.c new/src/core/unit.c
          }
 diff -aruN old/src/coredump/coredump.c new/src/coredump/coredump.c
 --- old/src/coredump/coredump.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/coredump/coredump.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/coredump/coredump.c	2021-11-19 17:19:28.000000000 +0000
 @@ -525,6 +525,7 @@
          if (lseek(fd, 0, SEEK_SET) == (off_t) -1)
                  return log_error_errno(errno, "Failed to seek on coredump %s: %m", fn);
@@ -3885,7 +4109,7 @@ diff -aruN old/src/coredump/coredump.c new/src/coredump/coredump.c
          *ret_truncated = truncated;
 diff -aruN old/src/coredump/coredumpctl.c new/src/coredump/coredumpctl.c
 --- old/src/coredump/coredumpctl.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/coredump/coredumpctl.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/coredump/coredumpctl.c	2021-11-19 17:19:28.000000000 +0000
 @@ -555,6 +555,8 @@
          assert(file);
          assert(j);
@@ -3908,7 +4132,7 @@ diff -aruN old/src/coredump/coredumpctl.c new/src/coredump/coredumpctl.c
  
 diff -aruN old/src/coredump/stacktrace.c new/src/coredump/stacktrace.c
 --- old/src/coredump/stacktrace.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/coredump/stacktrace.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/coredump/stacktrace.c	2021-11-19 17:19:28.000000000 +0000
 @@ -153,6 +153,8 @@
                                              program_header->p_offset,
                                              program_header->p_filesz,
@@ -3929,7 +4153,7 @@ diff -aruN old/src/coredump/stacktrace.c new/src/coredump/stacktrace.c
                  if (!memelf)
 diff -aruN old/src/fstab-generator/fstab-generator.c new/src/fstab-generator/fstab-generator.c
 --- old/src/fstab-generator/fstab-generator.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/fstab-generator/fstab-generator.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/fstab-generator/fstab-generator.c	2021-11-19 17:19:28.000000000 +0000
 @@ -435,7 +435,8 @@
  
          /* Order the mount unit we generate relative to the post unit, so that DefaultDependencies= on the
@@ -3942,7 +4166,7 @@ diff -aruN old/src/fstab-generator/fstab-generator.c new/src/fstab-generator/fst
          if (passno != 0) {
 diff -aruN old/src/home/homework.c new/src/home/homework.c
 --- old/src/home/homework.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/home/homework.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/home/homework.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1651,6 +1651,8 @@
  
          log_setup();
@@ -3954,7 +4178,7 @@ diff -aruN old/src/home/homework.c new/src/home/homework.c
          if (argc < 2 || argc > 3)
 diff -aruN old/src/home/homework-cifs.c new/src/home/homework-cifs.c
 --- old/src/home/homework-cifs.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/home/homework-cifs.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/home/homework-cifs.c	2021-11-19 17:19:28.000000000 +0000
 @@ -58,8 +58,8 @@
  
                          f = safe_fclose(f);
@@ -3987,7 +4211,7 @@ diff -aruN old/src/home/homework-cifs.c new/src/home/homework-cifs.c
          }
 diff -aruN old/src/home/homework-luks.c new/src/home/homework-luks.c
 --- old/src/home/homework-luks.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/home/homework-luks.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/home/homework-luks.c	2021-11-19 17:19:28.000000000 +0000
 @@ -8,6 +8,10 @@
  #include <sys/mount.h>
  #include <sys/xattr.h>
@@ -4048,7 +4272,7 @@ diff -aruN old/src/home/homework-luks.c new/src/home/homework-luks.c
                  r = home_store_embedded_identity(new_home, setup->root_fd, h->uid, embedded_home);
 diff -aruN old/src/home/homework-mount.c new/src/home/homework-mount.c
 --- old/src/home/homework-mount.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/home/homework-mount.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/home/homework-mount.c	2021-11-19 17:19:28.000000000 +0000
 @@ -69,9 +69,10 @@
          const char *d;
          int r;
@@ -4063,7 +4287,7 @@ diff -aruN old/src/home/homework-mount.c new/src/home/homework-mount.c
                  if (!subdir)
 diff -aruN old/src/home/pam_systemd_home.c new/src/home/pam_systemd_home.c
 --- old/src/home/pam_systemd_home.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/home/pam_systemd_home.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/home/pam_systemd_home.c	2021-11-19 17:19:28.000000000 +0000
 @@ -281,7 +281,6 @@
                  const sd_bus_error *error) {
  
@@ -4153,9 +4377,21 @@ diff -aruN old/src/home/pam_systemd_home.c new/src/home/pam_systemd_home.c
                  (void) pam_prompt(handle, PAM_ERROR_MSG, NULL, "Security token PIN of user %s incorrect (only one try left!)", user_name);
                  r = pam_prompt(handle, PAM_PROMPT_ECHO_OFF, &newp, "Sorry, retry security token PIN: ");
                  if (r != PAM_SUCCESS)
+diff -aruN old/src/hostname/hostnamectl.c new/src/hostname/hostnamectl.c
+--- old/src/hostname/hostnamectl.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/hostname/hostnamectl.c	2021-11-19 17:19:28.000000000 +0000
+@@ -442,7 +442,7 @@
+                  * dot if there is one. If it was not valid, then it will be made fully valid by truncating, dropping
+                  * multiple dots, and dropping weird chars. Note that we clean the name up only if we also are
+                  * supposed to set the pretty name. If the pretty name is not being set we assume the user knows what
+-                 * he does and pass the name as-is. */
++                 * they are doing and pass the name as-is. */
+                 h = strdup(hostname);
+                 if (!h)
+                         return log_oom();
 diff -aruN old/src/hostname/hostnamed.c new/src/hostname/hostnamed.c
 --- old/src/hostname/hostnamed.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/hostname/hostnamed.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/hostname/hostnamed.c	2021-11-19 17:19:28.000000000 +0000
 @@ -204,14 +204,14 @@
  
          r = read_one_line_file("/sys/class/dmi/id/chassis_type", &type);
@@ -4192,7 +4428,7 @@ diff -aruN old/src/hostname/hostnamed.c new/src/hostname/hostnamed.c
  
 diff -aruN old/src/hwdb/hwdb.c new/src/hwdb/hwdb.c
 --- old/src/hwdb/hwdb.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/hwdb/hwdb.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/hwdb/hwdb.c	2021-11-19 17:19:28.000000000 +0000
 @@ -43,7 +43,7 @@
                 "     --version    Show package version\n"
                 "  -s --strict     When updating, return non-zero exit value on any parsing error\n"
@@ -4204,7 +4440,7 @@ diff -aruN old/src/hwdb/hwdb.c new/src/hwdb/hwdb.c
                 ansi_highlight(),
 diff -aruN old/src/import/curl-util.c new/src/import/curl-util.c
 --- old/src/import/curl-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/import/curl-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/import/curl-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -256,6 +256,9 @@
          if (curl_easy_setopt(c, CURLOPT_LOW_SPEED_LIMIT, 30L) != CURLE_OK)
                  return -EIO;
@@ -4217,7 +4453,7 @@ diff -aruN old/src/import/curl-util.c new/src/import/curl-util.c
  }
 diff -aruN old/src/journal/journalctl.c new/src/journal/journalctl.c
 --- old/src/journal/journalctl.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/journal/journalctl.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/journal/journalctl.c	2021-11-19 17:19:28.000000000 +0000
 @@ -2074,6 +2074,11 @@
  }
  
@@ -4232,7 +4468,7 @@ diff -aruN old/src/journal/journalctl.c new/src/journal/journalctl.c
  
 diff -aruN old/src/journal/journald-server.c new/src/journal/journald-server.c
 --- old/src/journal/journald-server.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/journal/journald-server.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/journal/journald-server.c	2021-11-19 17:19:28.000000000 +0000
 @@ -415,6 +415,13 @@
          if (s->runtime_journal)
                  return s->runtime_journal;
@@ -4265,9 +4501,131 @@ diff -aruN old/src/journal/journald-server.c new/src/journal/journald-server.c
  
          union sockaddr_union sa = {};
  
+diff -aruN old/src/journal/journald-stream.c new/src/journal/journald-stream.c
+--- old/src/journal/journald-stream.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/journal/journald-stream.c	2021-11-19 17:19:28.000000000 +0000
+@@ -108,7 +108,6 @@
+                 return NULL;
+ 
+         if (s->server) {
+-
+                 if (s->context)
+                         client_context_release(s->server, s->context);
+ 
+@@ -122,11 +121,7 @@
+                 (void) server_start_or_stop_idle_timer(s->server); /* Maybe we are idle now? */
+         }
+ 
+-        if (s->event_source) {
+-                sd_event_source_set_enabled(s->event_source, SD_EVENT_OFF);
+-                s->event_source = sd_event_source_unref(s->event_source);
+-        }
+-
++        sd_event_source_disable_unref(s->event_source);
+         safe_close(s->fd);
+         free(s->label);
+         free(s->identifier);
+diff -aruN old/src/libsystemd/sd-bus/bus-socket.c new/src/libsystemd/sd-bus/bus-socket.c
+--- old/src/libsystemd/sd-bus/bus-socket.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/libsystemd/sd-bus/bus-socket.c	2021-11-19 17:19:28.000000000 +0000
+@@ -300,8 +300,8 @@
+         uid_t u;
+         int r;
+ 
+-        /* We don't do any real authentication here. Instead, we if
+-         * the owner of this bus wanted authentication he should have
++        /* We don't do any real authentication here. Instead, if 
++         * the owner of this bus wanted authentication they should have
+          * checked SO_PEERCRED before even creating the bus object. */
+ 
+         if (!b->anonymous_auth && !b->ucred_valid)
+diff -aruN old/src/libsystemd/sd-bus/sd-bus.c new/src/libsystemd/sd-bus/sd-bus.c
+--- old/src/libsystemd/sd-bus/sd-bus.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/libsystemd/sd-bus/sd-bus.c	2021-11-19 17:19:28.000000000 +0000
+@@ -62,7 +62,6 @@
+ 
+ static int bus_poll(sd_bus *bus, bool need_more, uint64_t timeout_usec);
+ static void bus_detach_io_events(sd_bus *b);
+-static void bus_detach_inotify_event(sd_bus *b);
+ 
+ static thread_local sd_bus *default_system_bus = NULL;
+ static thread_local sd_bus *default_user_bus = NULL;
+@@ -139,7 +138,7 @@
+ void bus_close_inotify_fd(sd_bus *b) {
+         assert(b);
+ 
+-        bus_detach_inotify_event(b);
++        b->inotify_event_source = sd_event_source_disable_unref(b->inotify_event_source);
+ 
+         b->inotify_fd = safe_close(b->inotify_fd);
+         b->inotify_watches = mfree(b->inotify_watches);
+@@ -3275,7 +3274,7 @@
+                         return e;
+ 
+                 if (need_more)
+-                        /* The caller really needs some more data, he doesn't
++                        /* The caller really needs some more data, they don't
+                          * care about what's already read, or any timeouts
+                          * except its own. */
+                         e |= POLLIN;
+@@ -3738,15 +3737,8 @@
+ static void bus_detach_io_events(sd_bus *bus) {
+         assert(bus);
+ 
+-        if (bus->input_io_event_source) {
+-                sd_event_source_set_enabled(bus->input_io_event_source, SD_EVENT_OFF);
+-                bus->input_io_event_source = sd_event_source_unref(bus->input_io_event_source);
+-        }
+-
+-        if (bus->output_io_event_source) {
+-                sd_event_source_set_enabled(bus->output_io_event_source, SD_EVENT_OFF);
+-                bus->output_io_event_source = sd_event_source_unref(bus->output_io_event_source);
+-        }
++        bus->input_io_event_source = sd_event_source_disable_unref(bus->input_io_event_source);
++        bus->output_io_event_source = sd_event_source_disable_unref(bus->output_io_event_source);
+ }
+ 
+ int bus_attach_inotify_event(sd_bus *bus) {
+@@ -3778,15 +3770,6 @@
+         return 0;
+ }
+ 
+-static void bus_detach_inotify_event(sd_bus *bus) {
+-        assert(bus);
+-
+-        if (bus->inotify_event_source) {
+-                sd_event_source_set_enabled(bus->inotify_event_source, SD_EVENT_OFF);
+-                bus->inotify_event_source = sd_event_source_unref(bus->inotify_event_source);
+-        }
+-}
+-
+ _public_ int sd_bus_attach_event(sd_bus *bus, sd_event *event, int priority) {
+         int r;
+ 
+@@ -3851,17 +3834,9 @@
+                 return 0;
+ 
+         bus_detach_io_events(bus);
+-        bus_detach_inotify_event(bus);
+-
+-        if (bus->time_event_source) {
+-                sd_event_source_set_enabled(bus->time_event_source, SD_EVENT_OFF);
+-                bus->time_event_source = sd_event_source_unref(bus->time_event_source);
+-        }
+-
+-        if (bus->quit_event_source) {
+-                sd_event_source_set_enabled(bus->quit_event_source, SD_EVENT_OFF);
+-                bus->quit_event_source = sd_event_source_unref(bus->quit_event_source);
+-        }
++        bus->inotify_event_source = sd_event_source_disable_unref(bus->inotify_event_source);
++        bus->time_event_source = sd_event_source_disable_unref(bus->time_event_source);
++        bus->quit_event_source = sd_event_source_disable_unref(bus->quit_event_source);
+ 
+         bus->event = sd_event_unref(bus->event);
+         return 1;
 diff -aruN old/src/libsystemd/sd-device/device-monitor.c new/src/libsystemd/sd-device/device-monitor.c
 --- old/src/libsystemd/sd-device/device-monitor.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd/sd-device/device-monitor.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd/sd-device/device-monitor.c	2021-11-19 17:19:28.000000000 +0000
 @@ -178,7 +178,7 @@
  
                  netns = ioctl(m->sock, SIOCGSKNS);
@@ -4289,10 +4647,91 @@ diff -aruN old/src/libsystemd/sd-device/device-monitor.c new/src/libsystemd/sd-d
  
                          } else if (a.st_dev != b.st_dev || a.st_ino != b.st_ino)
                                  log_debug("sd-device-monitor: Netlink socket we listen on is not from host netns, we won't see device events.");
+diff -aruN old/src/libsystemd/sd-event/event-source.h new/src/libsystemd/sd-event/event-source.h
+--- old/src/libsystemd/sd-event/event-source.h	2021-07-07 18:41:29.000000000 +0100
++++ new/src/libsystemd/sd-event/event-source.h	2021-11-19 17:19:28.000000000 +0000
+@@ -214,6 +214,11 @@
+          * the events locally if they can't be coalesced). */
+         unsigned n_pending;
+ 
++        /* If this counter is non-zero, don't GC the inotify data object even if not used to watch any inode
++         * anymore. This is useful to pin the object for a bit longer, after the last event source needing it
++         * is gone. */
++        unsigned n_busy;
++
+         /* A linked list of all inotify objects with data already read, that still need processing. We keep this list
+          * to make it efficient to figure out what inotify objects to process data on next. */
+         LIST_FIELDS(struct inotify_data, buffered);
 diff -aruN old/src/libsystemd/sd-event/sd-event.c new/src/libsystemd/sd-event/sd-event.c
 --- old/src/libsystemd/sd-event/sd-event.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd/sd-event/sd-event.c	2021-11-10 14:01:30.000000000 +0000
-@@ -4154,7 +4154,7 @@
++++ new/src/libsystemd/sd-event/sd-event.c	2021-11-19 17:19:28.000000000 +0000
+@@ -1820,6 +1820,29 @@
+         free(d);
+ }
+ 
++static void event_gc_inotify_data(
++                sd_event *e,
++                struct inotify_data *d) {
++
++        assert(e);
++
++        /* GCs the inotify data object if we don't need it anymore. That's the case if we don't want to watch
++         * any inode with it anymore, which in turn happens if no event source of this priority is interested
++         * in any inode any longer. That said, we maintain an extra busy counter: if non-zero we'll delay GC
++         * (under the expectation that the GC is called again once the counter is decremented). */
++
++        if (!d)
++                return;
++
++        if (!hashmap_isempty(d->inodes))
++                return;
++
++        if (d->n_busy > 0)
++                return;
++
++        event_free_inotify_data(e, d);
++}
++
+ static void event_gc_inode_data(
+                 sd_event *e,
+                 struct inode_data *d) {
+@@ -1837,8 +1860,7 @@
+         inotify_data = d->inotify_data;
+         event_free_inode_data(e, d);
+ 
+-        if (inotify_data && hashmap_isempty(inotify_data->inodes))
+-                event_free_inotify_data(e, inotify_data);
++        event_gc_inotify_data(e, inotify_data);
+ }
+ 
+ static int event_make_inode_data(
+@@ -3556,13 +3578,23 @@
+                 sz = offsetof(struct inotify_event, name) + d->buffer.ev.len;
+                 assert(d->buffer_filled >= sz);
+ 
++                /* If the inotify callback destroys the event source then this likely means we don't need to
++                 * watch the inode anymore, and thus also won't need the inotify object anymore. But if we'd
++                 * free it immediately, then we couldn't drop the event from the inotify event queue without
++                 * memory corruption anymore, as below. Hence, let's not free it immediately, but mark it
++                 * "busy" with a counter (which will ensure it's not GC'ed away prematurely). Let's then
++                 * explicitly GC it after we are done dropping the inotify event from the buffer. */
++                d->n_busy++;
+                 r = s->inotify.callback(s, &d->buffer.ev, s->userdata);
++                d->n_busy--;
+ 
+-                /* When no event is pending anymore on this inotify object, then let's drop the event from the
+-                 * buffer. */
++                /* When no event is pending anymore on this inotify object, then let's drop the event from
++                 * the inotify event queue buffer. */
+                 if (d->n_pending == 0)
+                         event_inotify_data_drop(e, d, sz);
+ 
++                /* Now we don't want to access 'd' anymore, it's OK to GC now. */
++                event_gc_inotify_data(e, d);
+                 break;
+         }
+ 
+@@ -4154,7 +4186,7 @@
          assert_return(!event_pid_changed(e), -ECHILD);
          assert_return(e->state == SD_EVENT_INITIAL, -EBUSY);
  
@@ -4303,7 +4742,7 @@ diff -aruN old/src/libsystemd/sd-event/sd-event.c new/src/libsystemd/sd-event/sd
                  r = sd_event_run(e, UINT64_MAX);
 diff -aruN old/src/libsystemd/sd-journal/sd-journal.c new/src/libsystemd/sd-journal/sd-journal.c
 --- old/src/libsystemd/sd-journal/sd-journal.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd/sd-journal/sd-journal.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd/sd-journal/sd-journal.c	2021-11-19 17:19:28.000000000 +0000
 @@ -3158,7 +3158,11 @@
                          if (JOURNAL_HEADER_CONTAINS(of->header, n_fields) && le64toh(of->header->n_fields) <= 0)
                                  continue;
@@ -4328,7 +4767,7 @@ diff -aruN old/src/libsystemd/sd-journal/sd-journal.c new/src/libsystemd/sd-jour
                  if (!GREEDY_REALLOC(j->fields_buffer, sz + 1))
 diff -aruN old/src/libsystemd/sd-netlink/rtnl-message.c new/src/libsystemd/sd-netlink/rtnl-message.c
 --- old/src/libsystemd/sd-netlink/rtnl-message.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd/sd-netlink/rtnl-message.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd/sd-netlink/rtnl-message.c	2021-11-19 17:19:28.000000000 +0000
 @@ -443,8 +443,12 @@
          if (r < 0)
                  return r;
@@ -4344,9 +4783,25 @@ diff -aruN old/src/libsystemd/sd-netlink/rtnl-message.c new/src/libsystemd/sd-ne
  
          ndm = NLMSG_DATA((*ret)->hdr);
  
+diff -aruN old/src/libsystemd/sd-resolve/sd-resolve.c new/src/libsystemd/sd-resolve/sd-resolve.c
+--- old/src/libsystemd/sd-resolve/sd-resolve.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/libsystemd/sd-resolve/sd-resolve.c	2021-11-19 17:19:28.000000000 +0000
+@@ -1285,11 +1285,7 @@
+         if (!resolve->event)
+                 return 0;
+ 
+-        if (resolve->event_source) {
+-                sd_event_source_set_enabled(resolve->event_source, SD_EVENT_OFF);
+-                resolve->event_source = sd_event_source_unref(resolve->event_source);
+-        }
+-
++        resolve->event_source = sd_event_source_disable_unref(resolve->event_source);
+         resolve->event = sd_event_unref(resolve->event);
+         return 1;
+ }
 diff -aruN old/src/libsystemd-network/dhcp6-internal.h new/src/libsystemd-network/dhcp6-internal.h
 --- old/src/libsystemd-network/dhcp6-internal.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/dhcp6-internal.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/dhcp6-internal.h	2021-11-19 17:19:28.000000000 +0000
 @@ -104,7 +104,7 @@
  int dhcp6_option_parse(uint8_t **buf, size_t *buflen, uint16_t *optcode,
                         size_t *optlen, uint8_t **optvalue);
@@ -4358,7 +4813,7 @@ diff -aruN old/src/libsystemd-network/dhcp6-internal.h new/src/libsystemd-networ
  int dhcp6_option_parse_domainname_list(const uint8_t *optval, uint16_t optlen,
 diff -aruN old/src/libsystemd-network/dhcp6-option.c new/src/libsystemd-network/dhcp6-option.c
 --- old/src/libsystemd-network/dhcp6-option.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/dhcp6-option.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/dhcp6-option.c	2021-11-19 17:19:28.000000000 +0000
 @@ -509,7 +509,13 @@
          return 0;
  }
@@ -4430,7 +4885,7 @@ diff -aruN old/src/libsystemd-network/dhcp6-option.c new/src/libsystemd-network/
          ia->type = iatype;
 diff -aruN old/src/libsystemd-network/icmp6-util.c new/src/libsystemd-network/icmp6-util.c
 --- old/src/libsystemd-network/icmp6-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/icmp6-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/icmp6-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -148,8 +148,9 @@
  int icmp6_receive(int fd, void *buffer, size_t size, struct in6_addr *ret_dst,
                    triple_timestamp *ret_timestamp) {
@@ -4452,7 +4907,7 @@ diff -aruN old/src/libsystemd-network/icmp6-util.c new/src/libsystemd-network/ic
          CMSG_FOREACH(cmsg, &msg) {
 diff -aruN old/src/libsystemd-network/sd-dhcp6-client.c new/src/libsystemd-network/sd-dhcp6-client.c
 --- old/src/libsystemd-network/sd-dhcp6-client.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-dhcp6-client.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-dhcp6-client.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1119,7 +1119,6 @@
          while (pos < len) {
                  DHCP6Option *option = (DHCP6Option *) &message->options[pos];
@@ -4549,7 +5004,7 @@ diff -aruN old/src/libsystemd-network/sd-dhcp6-client.c new/src/libsystemd-netwo
          client->information_refresh_time_usec = MAX(irt, IRT_MINIMUM);
 diff -aruN old/src/libsystemd-network/sd-dhcp-client.c new/src/libsystemd-network/sd-dhcp-client.c
 --- old/src/libsystemd-network/sd-dhcp-client.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-dhcp-client.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-dhcp-client.c	2021-11-19 17:19:28.000000000 +0000
 @@ -192,7 +192,7 @@
                  if (len != sizeof_field(sd_dhcp_client_id, eth))
                          return -EINVAL;
@@ -4608,7 +5063,7 @@ diff -aruN old/src/libsystemd-network/sd-dhcp-client.c new/src/libsystemd-networ
          free(client->vendor_class_identifier);
 diff -aruN old/src/libsystemd-network/sd-dhcp-server.c new/src/libsystemd-network/sd-dhcp-server.c
 --- old/src/libsystemd-network/sd-dhcp-server.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-dhcp-server.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-dhcp-server.c	2021-11-19 17:19:28.000000000 +0000
 @@ -267,8 +267,8 @@
          if (!server)
                  return 0;
@@ -4631,7 +5086,7 @@ diff -aruN old/src/libsystemd-network/sd-dhcp-server.c new/src/libsystemd-networ
                          if (server->callback)
 diff -aruN old/src/libsystemd-network/sd-ipv4acd.c new/src/libsystemd-network/sd-ipv4acd.c
 --- old/src/libsystemd-network/sd-ipv4acd.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-ipv4acd.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-ipv4acd.c	2021-11-19 17:19:28.000000000 +0000
 @@ -120,7 +120,7 @@
          assert(acd);
  
@@ -4654,7 +5109,7 @@ diff -aruN old/src/libsystemd-network/sd-ipv4acd.c new/src/libsystemd-network/sd
          return mfree(acd);
 diff -aruN old/src/libsystemd-network/sd-lldp.c new/src/libsystemd-network/sd-lldp.c
 --- old/src/libsystemd-network/sd-lldp.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-lldp.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-lldp.c	2021-11-19 17:19:28.000000000 +0000
 @@ -239,7 +239,7 @@
          assert(lldp);
  
@@ -4680,7 +5135,7 @@ diff -aruN old/src/libsystemd-network/sd-lldp.c new/src/libsystemd-network/sd-ll
          hashmap_free(lldp->neighbor_by_id);
 diff -aruN old/src/libsystemd-network/sd-ndisc.c new/src/libsystemd-network/sd-ndisc.c
 --- old/src/libsystemd-network/sd-ndisc.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-ndisc.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-ndisc.c	2021-11-19 17:19:28.000000000 +0000
 @@ -133,18 +133,19 @@
          (void) event_source_disable(nd->timeout_event_source);
          (void) event_source_disable(nd->timeout_no_ra);
@@ -4707,7 +5162,7 @@ diff -aruN old/src/libsystemd-network/sd-ndisc.c new/src/libsystemd-network/sd-n
  }
 diff -aruN old/src/libsystemd-network/sd-radv.c new/src/libsystemd-network/sd-radv.c
 --- old/src/libsystemd-network/sd-radv.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/sd-radv.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/sd-radv.c	2021-11-19 17:19:28.000000000 +0000
 @@ -89,8 +89,7 @@
  
          (void) event_source_disable(ra->timeout_event_source);
@@ -4732,7 +5187,7 @@ diff -aruN old/src/libsystemd-network/sd-radv.c new/src/libsystemd-network/sd-ra
          ra->fd = safe_close(ra->fd);
 diff -aruN old/src/libsystemd-network/test-dhcp6-client.c new/src/libsystemd-network/test-dhcp6-client.c
 --- old/src/libsystemd-network/test-dhcp6-client.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/libsystemd-network/test-dhcp6-client.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/libsystemd-network/test-dhcp6-client.c	2021-11-19 17:19:28.000000000 +0000
 @@ -287,25 +287,31 @@
          };
          DHCP6Option *option;
@@ -4873,7 +5328,7 @@ diff -aruN old/src/libsystemd-network/test-dhcp6-client.c new/src/libsystemd-net
          assert_se(packet);
 diff -aruN old/src/locale/localed.c new/src/locale/localed.c
 --- old/src/locale/localed.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/locale/localed.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/locale/localed.c	2021-11-19 17:19:28.000000000 +0000
 @@ -560,7 +560,7 @@
  
          fmt = strjoina("libxkbcommon: ", format);
@@ -4885,7 +5340,7 @@ diff -aruN old/src/locale/localed.c new/src/locale/localed.c
  
 diff -aruN old/src/locale/test-keymap-util.c new/src/locale/test-keymap-util.c
 --- old/src/locale/test-keymap-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/locale/test-keymap-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/locale/test-keymap-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -190,12 +190,17 @@
  }
  
@@ -4896,17 +5351,18 @@ diff -aruN old/src/locale/test-keymap-util.c new/src/locale/test-keymap-util.c
  
          test_find_language_fallback();
          test_find_converted_keymap();
-         test_find_legacy_keymap();
+-        test_find_legacy_keymap();
  
 +        assert_se(get_testdata_dir("test-keymap-util/kbd-model-map", &map) >= 0);
 +        assert_se(setenv("SYSTEMD_KBD_MODEL_MAP", map, 1) == 0);
 +
++        test_find_legacy_keymap();
          test_vconsole_convert_to_x11();
          test_x11_convert_to_vconsole();
  
 diff -aruN old/src/login/70-uaccess.rules.in new/src/login/70-uaccess.rules.in
 --- old/src/login/70-uaccess.rules.in	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/login/70-uaccess.rules.in	2021-11-10 14:01:30.000000000 +0000
++++ new/src/login/70-uaccess.rules.in	2021-11-19 17:19:28.000000000 +0000
 @@ -33,6 +33,7 @@
  # Webcams, frame grabber, TV cards
  SUBSYSTEM=="video4linux", TAG+="uaccess"
@@ -4915,9 +5371,23 @@ diff -aruN old/src/login/70-uaccess.rules.in new/src/login/70-uaccess.rules.in
  
  # industrial cameras, some webcams, camcorders, set-top boxes, TV sets, audio devices, and more
  SUBSYSTEM=="firewire", TEST=="units", ENV{IEEE1394_UNIT_FUNCTION_MIDI}=="1", TAG+="uaccess"
+diff -aruN old/src/login/logind-core.c new/src/login/logind-core.c
+--- old/src/login/logind-core.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/login/logind-core.c	2021-11-19 17:19:28.000000000 +0000
+@@ -707,7 +707,9 @@
+                 errno = 0;
+                 u = getutxent();
+                 if (!u) {
+-                        if (errno != 0)
++                        if (errno == ENOENT)
++                                log_debug_errno(errno, _PATH_UTMPX " does not exist, ignoring.");
++                        else if (errno != 0)
+                                 log_warning_errno(errno, "Failed to read " _PATH_UTMPX ", ignoring: %m");
+                         return 0;
+                 }
 diff -aruN old/src/login/meson.build new/src/login/meson.build
 --- old/src/login/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/login/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/src/login/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -67,22 +67,24 @@
  
  enable_logind = conf.get('ENABLE_LOGIND') == 1
@@ -4949,7 +5419,7 @@ diff -aruN old/src/login/meson.build new/src/login/meson.build
  if enable_logind
 diff -aruN old/src/machine/machined-varlink.c new/src/machine/machined-varlink.c
 --- old/src/machine/machined-varlink.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/machine/machined-varlink.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/machine/machined-varlink.c	2021-11-19 17:19:28.000000000 +0000
 @@ -297,7 +297,7 @@
                  desc = mfree(desc);
  
@@ -4961,7 +5431,7 @@ diff -aruN old/src/machine/machined-varlink.c new/src/machine/machined-varlink.c
  
 diff -aruN old/src/mount/mount-tool.c new/src/mount/mount-tool.c
 --- old/src/mount/mount-tool.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/mount/mount-tool.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/mount/mount-tool.c	2021-11-19 17:19:28.000000000 +0000
 @@ -332,6 +332,9 @@
                          assert_not_reached("Unhandled option");
                  }
@@ -4974,7 +5444,7 @@ diff -aruN old/src/mount/mount-tool.c new/src/mount/mount-tool.c
                                         "Execution in user context is not supported on non-local systems.");
 diff -aruN old/src/network/netdev/macvlan.c new/src/network/netdev/macvlan.c
 --- old/src/network/netdev/macvlan.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/netdev/macvlan.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/netdev/macvlan.c	2021-11-19 17:19:28.000000000 +0000
 @@ -5,6 +5,7 @@
  #include "conf-parser.h"
  #include "macvlan.h"
@@ -5007,7 +5477,7 @@ diff -aruN old/src/network/netdev/macvlan.c new/src/network/netdev/macvlan.c
                  if (r < 0)
 diff -aruN old/src/network/networkd-address.c new/src/network/networkd-address.c
 --- old/src/network/networkd-address.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-address.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-address.c	2021-11-19 17:19:28.000000000 +0000
 @@ -165,7 +165,7 @@
                  set_remove(address->link->dhcp6_pd_addresses, address);
                  set_remove(address->link->dhcp6_pd_addresses_old, address);
@@ -5042,7 +5512,7 @@ diff -aruN old/src/network/networkd-address.c new/src/network/networkd-address.c
                  if (r < 0)
 diff -aruN old/src/network/networkd-link.c new/src/network/networkd-link.c
 --- old/src/network/networkd-link.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-link.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-link.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1,9 +1,11 @@
  /* SPDX-License-Identifier: LGPL-2.1-or-later */
  
@@ -5117,7 +5587,7 @@ diff -aruN old/src/network/networkd-link.c new/src/network/networkd-link.c
          hashmap_remove(link->manager->links_by_name, link->ifname);
 diff -aruN old/src/network/networkd-lldp-tx.c new/src/network/networkd-lldp-tx.c
 --- old/src/network/networkd-lldp-tx.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-lldp-tx.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-lldp-tx.c	2021-11-19 17:19:28.000000000 +0000
 @@ -413,7 +413,7 @@
  void link_lldp_emit_stop(Link *link) {
          assert(link);
@@ -5129,7 +5599,7 @@ diff -aruN old/src/network/networkd-lldp-tx.c new/src/network/networkd-lldp-tx.c
  int config_parse_lldp_mud(
 diff -aruN old/src/network/networkd-ndisc.c new/src/network/networkd-ndisc.c
 --- old/src/network/networkd-ndisc.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-ndisc.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-ndisc.c	2021-11-19 17:19:28.000000000 +0000
 @@ -765,7 +765,9 @@
          assert(link);
          assert(rt);
@@ -5143,7 +5613,7 @@ diff -aruN old/src/network/networkd-ndisc.c new/src/network/networkd-ndisc.c
  
 diff -aruN old/src/network/networkd-nexthop.c new/src/network/networkd-nexthop.c
 --- old/src/network/networkd-nexthop.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-nexthop.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-nexthop.c	2021-11-19 17:19:28.000000000 +0000
 @@ -791,12 +791,7 @@
                  }
          }
@@ -5160,7 +5630,7 @@ diff -aruN old/src/network/networkd-nexthop.c new/src/network/networkd-nexthop.c
  int request_process_nexthop(Request *req) {
 diff -aruN old/src/network/networkd-route.c new/src/network/networkd-route.c
 --- old/src/network/networkd-route.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-route.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-route.c	2021-11-19 17:19:28.000000000 +0000
 @@ -279,7 +279,7 @@
                  set_remove(route->link->dhcp6_pd_routes, route);
                  set_remove(route->link->dhcp6_pd_routes_old, route);
@@ -5335,7 +5805,7 @@ diff -aruN old/src/network/networkd-route.c new/src/network/networkd-route.c
          return true;
 diff -aruN old/src/network/networkd-route.h new/src/network/networkd-route.h
 --- old/src/network/networkd-route.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-route.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-route.h	2021-11-19 17:19:28.000000000 +0000
 @@ -66,6 +66,7 @@
  
  void route_hash_func(const Route *route, struct siphash *state);
@@ -5356,7 +5826,7 @@ diff -aruN old/src/network/networkd-route.h new/src/network/networkd-route.h
  int link_drop_foreign_routes(Link *link);
 diff -aruN old/src/network/networkd-routing-policy-rule.c new/src/network/networkd-routing-policy-rule.c
 --- old/src/network/networkd-routing-policy-rule.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-routing-policy-rule.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-routing-policy-rule.c	2021-11-19 17:19:28.000000000 +0000
 @@ -163,7 +163,9 @@
                  siphash24_compress(&rule->type, sizeof(rule->type), state);
                  siphash24_compress(&rule->fwmark, sizeof(rule->fwmark), state);
@@ -5576,7 +6046,7 @@ diff -aruN old/src/network/networkd-routing-policy-rule.c new/src/network/networ
          return 0;
 diff -aruN old/src/network/networkd-routing-policy-rule.h new/src/network/networkd-routing-policy-rule.h
 --- old/src/network/networkd-routing-policy-rule.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-routing-policy-rule.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-routing-policy-rule.h	2021-11-19 17:19:28.000000000 +0000
 @@ -20,6 +20,7 @@
          NetworkConfigSection *section;
  
@@ -5587,7 +6057,7 @@ diff -aruN old/src/network/networkd-routing-policy-rule.h new/src/network/networ
          uint8_t type;
 diff -aruN old/src/network/networkd-setlink.c new/src/network/networkd-setlink.c
 --- old/src/network/networkd-setlink.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/network/networkd-setlink.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/network/networkd-setlink.c	2021-11-19 17:19:28.000000000 +0000
 @@ -95,9 +95,16 @@
          return 1;
  
@@ -5709,7 +6179,7 @@ diff -aruN old/src/network/networkd-setlink.c new/src/network/networkd-setlink.c
  int link_request_to_set_mtu(Link *link, uint32_t mtu) {
 diff -aruN old/src/nspawn/nspawn.c new/src/nspawn/nspawn.c
 --- old/src/nspawn/nspawn.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/nspawn/nspawn.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/nspawn/nspawn.c	2021-11-19 17:19:28.000000000 +0000
 @@ -5354,7 +5354,7 @@
          if (fd < 0)
                  return log_error_errno(errno, "Failed to allocate udev control socket: %m");
@@ -5721,7 +6191,7 @@ diff -aruN old/src/nspawn/nspawn.c new/src/nspawn/nspawn.c
                          return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP),
 diff -aruN old/src/nss-systemd/nss-systemd.c new/src/nss-systemd/nss-systemd.c
 --- old/src/nss-systemd/nss-systemd.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/nss-systemd/nss-systemd.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/nss-systemd/nss-systemd.c	2021-11-19 17:19:28.000000000 +0000
 @@ -2,6 +2,7 @@
  
  #include <nss.h>
@@ -6014,7 +6484,7 @@ diff -aruN old/src/nss-systemd/nss-systemd.c new/src/nss-systemd/nss-systemd.c
          } else if (STR_IN_SET(name, root_sgrp.sg_namp, nobody_sgrp.sg_namp))
 diff -aruN old/src/nss-systemd/userdb-glue.c new/src/nss-systemd/userdb-glue.c
 --- old/src/nss-systemd/userdb-glue.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/nss-systemd/userdb-glue.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/nss-systemd/userdb-glue.c	2021-11-19 17:19:28.000000000 +0000
 @@ -35,6 +35,8 @@
          assert(hr->user_name);
          required = strlen(hr->user_name) + 1;
@@ -6039,9 +6509,32 @@ diff -aruN old/src/nss-systemd/userdb-glue.c new/src/nss-systemd/userdb-glue.c
          pwd->pw_dir = stpcpy(pwd->pw_gecos, rn) + 1;
          pwd->pw_shell = stpcpy(pwd->pw_dir, hd) + 1;
          strcpy(pwd->pw_shell, shell);
+diff -aruN old/src/oom/test-oomd-util.c new/src/oom/test-oomd-util.c
+--- old/src/oom/test-oomd-util.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/oom/test-oomd-util.c	2021-11-19 17:19:28.000000000 +0000
+@@ -90,6 +90,7 @@
+         _cleanup_free_ char *cgroup = NULL;
+         ManagedOOMPreference root_pref;
+         OomdCGroupContext *c1, *c2;
++        CGroupMask mask;
+         bool test_xattrs;
+         int root_xattrs, r;
+ 
+@@ -102,6 +103,11 @@
+         if (cg_all_unified() <= 0)
+                 return (void) log_tests_skipped("cgroups are not running in unified mode");
+ 
++        assert_se(cg_mask_supported(&mask) >= 0);
++
++        if (!FLAGS_SET(mask, CGROUP_MASK_MEMORY))
++                return (void) log_tests_skipped("cgroup memory controller is not available");
++
+         assert_se(cg_pid_get_path(NULL, 0, &cgroup) >= 0);
+ 
+         /* If we don't have permissions to set xattrs we're likely in a userns or missing capabilities
 diff -aruN old/src/partition/repart.c new/src/partition/repart.c
 --- old/src/partition/repart.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/partition/repart.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/partition/repart.c	2021-11-19 17:19:28.000000000 +0000
 @@ -206,7 +206,12 @@
          [ENCRYPT_KEY_FILE_TPM2] = "key-file+tpm2",
  };
@@ -6086,7 +6579,7 @@ diff -aruN old/src/partition/repart.c new/src/partition/repart.c
  
 diff -aruN old/src/resolve/resolvconf-compat.c new/src/resolve/resolvconf-compat.c
 --- old/src/resolve/resolvconf-compat.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/resolve/resolvconf-compat.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/resolve/resolvconf-compat.c	2021-11-19 17:19:28.000000000 +0000
 @@ -39,8 +39,8 @@
                 "This is a compatibility alias for the resolvectl(1) tool, providing native\n"
                 "command line compatibility with the resolvconf(8) tool of various Linux\n"
@@ -6113,7 +6606,7 @@ diff -aruN old/src/resolve/resolvconf-compat.c new/src/resolve/resolvconf-compat
                  case 'I':
 diff -aruN old/src/resolve/resolved-dns-server.c new/src/resolve/resolved-dns-server.c
 --- old/src/resolve/resolved-dns-server.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/resolve/resolved-dns-server.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/resolve/resolved-dns-server.c	2021-11-19 17:19:28.000000000 +0000
 @@ -362,9 +362,8 @@
          if (s->possible_feature_level > level) {
                  s->possible_feature_level = level;
@@ -6127,7 +6620,7 @@ diff -aruN old/src/resolve/resolved-dns-server.c new/src/resolve/resolved-dns-se
  void dns_server_packet_invalid(DnsServer *s, DnsServerFeatureLevel level) {
 diff -aruN old/src/resolve/resolved-dns-stub.c new/src/resolve/resolved-dns-stub.c
 --- old/src/resolve/resolved-dns-stub.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/resolve/resolved-dns-stub.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/resolve/resolved-dns-stub.c	2021-11-19 17:19:28.000000000 +0000
 @@ -585,7 +585,7 @@
                          DNS_PACKET_RD(q->request_packet),
                          !!q->request_packet->opt,
@@ -6148,7 +6641,7 @@ diff -aruN old/src/resolve/resolved-dns-stub.c new/src/resolve/resolved-dns-stub
                          dns_packet_has_nsid_request(p) > 0 && !l);
 diff -aruN old/src/resolve/resolved-dns-transaction.c new/src/resolve/resolved-dns-transaction.c
 --- old/src/resolve/resolved-dns-transaction.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/resolve/resolved-dns-transaction.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/resolve/resolved-dns-transaction.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1142,22 +1142,35 @@
                                  break;
                          }
@@ -6202,7 +6695,7 @@ diff -aruN old/src/resolve/resolved-dns-transaction.c new/src/resolve/resolved-d
                          return;
 diff -aruN old/src/resolve/resolved-resolv-conf.c new/src/resolve/resolved-resolv-conf.c
 --- old/src/resolve/resolved-resolv-conf.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/resolve/resolved-resolv-conf.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/resolve/resolved-resolv-conf.c	2021-11-19 17:19:28.000000000 +0000
 @@ -216,6 +216,13 @@
                  return;
          }
@@ -6219,7 +6712,7 @@ diff -aruN old/src/resolve/resolved-resolv-conf.c new/src/resolve/resolved-resol
           * domains to it (which is a privacy violation, will most probably fail anyway, and adds unnecessary load) */
 diff -aruN old/src/run/run.c new/src/run/run.c
 --- old/src/run/run.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/run/run.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/run/run.c	2021-11-19 17:19:28.000000000 +0000
 @@ -506,6 +506,10 @@
                          assert_not_reached("Unhandled option");
                  }
@@ -6231,9 +6724,967 @@ diff -aruN old/src/run/run.c new/src/run/run.c
          with_trigger = !!arg_path_property || !!arg_socket_property || arg_with_timer;
  
          /* currently, only single trigger (path, socket, timer) unit can be created simultaneously */
+diff -aruN old/src/shared/creds-util.c new/src/shared/creds-util.c
+--- old/src/shared/creds-util.c	1970-01-01 01:00:00.000000000 +0100
++++ new/src/shared/creds-util.c	2021-11-19 17:19:28.000000000 +0000
+@@ -0,0 +1,954 @@
++/* SPDX-License-Identifier: LGPL-2.1-or-later */
++
++#include <sys/file.h>
++
++#if HAVE_OPENSSL
++#include <openssl/err.h>
++#endif
++
++#include "sd-id128.h"
++
++#include "blockdev-util.h"
++#include "chattr-util.h"
++#include "creds-util.h"
++#include "env-util.h"
++#include "fd-util.h"
++#include "fileio.h"
++#include "fs-util.h"
++#include "io-util.h"
++#include "memory-util.h"
++#include "mkdir.h"
++#include "openssl-util.h"
++#include "path-util.h"
++#include "random-util.h"
++#include "sparse-endian.h"
++#include "stat-util.h"
++#include "tpm2-util.h"
++#include "virt.h"
++
++bool credential_name_valid(const char *s) {
++        /* We want that credential names are both valid in filenames (since that's our primary way to pass
++         * them around) and as fdnames (which is how we might want to pass them around eventually) */
++        return filename_is_valid(s) && fdname_is_valid(s);
++}
++
++int get_credentials_dir(const char **ret) {
++        const char *e;
++
++        assert(ret);
++
++        e = secure_getenv("CREDENTIALS_DIRECTORY");
++        if (!e)
++                return -ENXIO;
++
++        if (!path_is_absolute(e) || !path_is_normalized(e))
++                return -EINVAL;
++
++        *ret = e;
++        return 0;
++}
++
++int read_credential(const char *name, void **ret, size_t *ret_size) {
++        _cleanup_free_ char *fn = NULL;
++        const char *d;
++        int r;
++
++        assert(ret);
++
++        if (!credential_name_valid(name))
++                return -EINVAL;
++
++        r = get_credentials_dir(&d);
++        if (r < 0)
++                return r;
++
++        fn = path_join(d, name);
++        if (!fn)
++                return -ENOMEM;
++
++        return read_full_file_full(
++                        AT_FDCWD, fn,
++                        UINT64_MAX, SIZE_MAX,
++                        READ_FULL_FILE_SECURE,
++                        NULL,
++                        (char**) ret, ret_size);
++}
++
++#if HAVE_OPENSSL
++
++#define CREDENTIAL_HOST_SECRET_SIZE 4096
++
++static const sd_id128_t credential_app_id =
++        SD_ID128_MAKE(d3,ac,ec,ba,0d,ad,4c,df,b8,c9,38,15,28,93,6c,58);
++
++struct credential_host_secret_format {
++        /* The hashed machine ID of the machine this belongs to. Why? We want to ensure that each machine
++         * gets its own secret, even if people forget to flush out this secret file. Hence we bind it to the
++         * machine ID, for which there's hopefully a better chance it will be flushed out. We use a hashed
++         * machine ID instead of the literal one, because it's trivial to, and it might be a good idea not
++         * being able to directly associate a secret key file with a host. */
++        sd_id128_t machine_id;
++
++        /* The actual secret key */
++        uint8_t data[CREDENTIAL_HOST_SECRET_SIZE];
++} _packed_;
++
++static int make_credential_host_secret(
++                int dfd,
++                const sd_id128_t machine_id,
++                const char *fn,
++                void **ret_data,
++                size_t *ret_size) {
++
++        struct credential_host_secret_format buf;
++        _cleanup_free_ char *t = NULL;
++        _cleanup_close_ int fd = -1;
++        int r;
++
++        assert(dfd >= 0);
++        assert(fn);
++
++        fd = openat(dfd, ".", O_CLOEXEC|O_WRONLY|O_TMPFILE, 0400);
++        if (fd < 0) {
++                log_debug_errno(errno, "Failed to create temporary credential file with O_TMPFILE, proceeding without: %m");
++
++                if (asprintf(&t, "credential.secret.%016" PRIx64, random_u64()) < 0)
++                        return -ENOMEM;
++
++                fd = openat(dfd, t, O_CLOEXEC|O_WRONLY|O_CREAT|O_EXCL|O_NOFOLLOW, 0400);
++                if (fd < 0)
++                        return -errno;
++        }
++
++        r = chattr_secret(fd, 0);
++        if (r < 0)
++                log_debug_errno(r, "Failed to set file attributes for secrets file, ignoring: %m");
++
++        buf = (struct credential_host_secret_format) {
++                .machine_id = machine_id,
++        };
++
++        r = genuine_random_bytes(buf.data, sizeof(buf.data), RANDOM_BLOCK);
++        if (r < 0)
++                goto finish;
++
++        r = loop_write(fd, &buf, sizeof(buf), false);
++        if (r < 0)
++                goto finish;
++
++        if (fsync(fd) < 0) {
++                r = -errno;
++                goto finish;
++        }
++
++        if (t) {
++                r = rename_noreplace(dfd, t, dfd, fn);
++                if (r < 0)
++                        goto finish;
++
++                t = mfree(t);
++        } else if (linkat(fd, "", dfd, fn, AT_EMPTY_PATH) < 0) {
++                r = -errno;
++                goto finish;
++        }
++
++        if (fsync(dfd) < 0) {
++                r = -errno;
++                goto finish;
++        }
++
++        if (ret_data) {
++                void *copy;
++
++                copy = memdup(buf.data, sizeof(buf.data));
++                if (!copy) {
++                        r = -ENOMEM;
++                        goto finish;
++                }
++
++                *ret_data = copy;
++        }
++
++        if (ret_size)
++                *ret_size = sizeof(buf.data);
++
++        r = 0;
++
++finish:
++        if (t && unlinkat(dfd, t, 0) < 0)
++                log_debug_errno(errno, "Failed to remove temporary credential key: %m");
++
++        explicit_bzero_safe(&buf, sizeof(buf));
++        return r;
++}
++
++int get_credential_host_secret(CredentialSecretFlags flags, void **ret, size_t *ret_size) {
++        _cleanup_free_ char *efn = NULL, *ep = NULL;
++        _cleanup_close_ int dfd = -1;
++        sd_id128_t machine_id;
++        const char *e, *fn, *p;
++        int r;
++
++        r = sd_id128_get_machine_app_specific(credential_app_id, &machine_id);
++        if (r < 0)
++                return r;
++
++        e = secure_getenv("SYSTEMD_CREDENTIAL_SECRET");
++        if (e) {
++                if (!path_is_normalized(e))
++                        return -EINVAL;
++                if (!path_is_absolute(e))
++                        return -EINVAL;
++
++                r = path_extract_directory(e, &ep);
++                if (r < 0)
++                        return r;
++
++                r = path_extract_filename(e, &efn);
++                if (r < 0)
++                        return r;
++
++                p = ep;
++                fn = efn;
++        } else {
++                p = "/var/lib/systemd";
++                fn = "credential.secret";
++        }
++
++        (void) mkdir_p(p, 0755);
++        dfd = open(p, O_CLOEXEC|O_DIRECTORY|O_RDONLY);
++        if (dfd < 0)
++                return -errno;
++
++        if (FLAGS_SET(flags, CREDENTIAL_SECRET_FAIL_ON_TEMPORARY_FS)) {
++                r = fd_is_temporary_fs(dfd);
++                if (r < 0)
++                        return r;
++                if (r > 0)
++                        return -ENOMEDIUM;
++        }
++
++        for (unsigned attempt = 0;; attempt++) {
++                _cleanup_(erase_and_freep) struct credential_host_secret_format *f = NULL;
++                _cleanup_close_ int fd = -1;
++                size_t l = 0;
++                ssize_t n = 0;
++                struct stat st;
++
++                if (attempt >= 3) /* Somebody is playing games with us */
++                        return -EIO;
++
++                fd = openat(dfd, fn, O_CLOEXEC|O_RDONLY|O_NOCTTY|O_NOFOLLOW);
++                if (fd < 0) {
++                        if (errno != ENOENT || !FLAGS_SET(flags, CREDENTIAL_SECRET_GENERATE))
++                                return -errno;
++
++                        r = make_credential_host_secret(dfd, machine_id, fn, ret, ret_size);
++                        if (r == -EEXIST) {
++                                log_debug_errno(r, "Credential secret was created while we were creating it. Trying to read new secret.");
++                                continue;
++                        }
++                        if (r < 0)
++                                return r;
++
++                        return 0;
++                }
++
++                if (fstat(fd, &st) < 0)
++                        return -errno;
++
++                r = stat_verify_regular(&st);
++                if (r < 0)
++                        return r;
++                if (st.st_nlink == 0) /* Deleted by now, try again */
++                        continue;
++                if (st.st_nlink > 1)
++                        return -EPERM; /* Our deletion check won't work if hardlinked somewhere else */
++                if ((st.st_mode & 07777) != 0400) /* Don't use file if not 0400 access mode */
++                        return -EPERM;
++                if (st.st_size > 16*1024*1024)
++                        return -E2BIG;
++                l = st.st_size;
++                if (l < offsetof(struct credential_host_secret_format, data) + 1)
++                        return -EINVAL;
++
++                f = malloc(l+1);
++                if (!f)
++                        return -ENOMEM;
++
++                n = read(fd, f, l+1);
++                if (n < 0)
++                        return -errno;
++                if ((size_t) n != l) /* What? The size changed? */
++                        return -EIO;
++
++                if (sd_id128_equal(machine_id, f->machine_id)) {
++                        size_t sz;
++
++                        if (FLAGS_SET(flags, CREDENTIAL_SECRET_WARN_NOT_ENCRYPTED)) {
++                                r = fd_is_encrypted(fd);
++                                if (r < 0)
++                                        log_debug_errno(r, "Failed to determine if credential secret file '%s/%s' is encrypted.", p, fn);
++                                else if (r == 0)
++                                        log_warning("Credential secret file '%s/%s' is not located on encrypted media, using anyway.", p, fn);
++                        }
++
++                        sz = l - offsetof(struct credential_host_secret_format, data);
++                        assert(sz > 0);
++
++                        if (ret) {
++                                void *copy;
++
++                                assert(sz <= sizeof(f->data)); /* Ensure we don't read past f->data bounds */
++
++                                copy = memdup(f->data, sz);
++                                if (!copy)
++                                        return -ENOMEM;
++
++                                *ret = copy;
++                        }
++
++                        if (ret_size)
++                                *ret_size = sz;
++
++                        return 0;
++                }
++
++                /* Hmm, this secret is from somewhere else. Let's delete the file. Let's first acquire a lock
++                 * to ensure we are the only ones accessing the file while we delete it. */
++
++                if (flock(fd, LOCK_EX) < 0)
++                        return -errno;
++
++                /* Before we delete it check that the file is still linked into the file system */
++                if (fstat(fd, &st) < 0)
++                        return -errno;
++                if (st.st_nlink == 0) /* Already deleted by now? */
++                        continue;
++                if (st.st_nlink != 1) /* Safety check, someone is playing games with us */
++                        return -EPERM;
++
++                if (unlinkat(dfd, fn, 0) < 0)
++                        return -errno;
++
++                /* And now try again */
++        }
++}
++
++/* Construction is like this:
++ *
++ * A symmetric encryption key is derived from:
++ *
++ *      1. Either the "host" key (a key stored in /var/lib/credential.secret)
++ *
++ *      2. A key generated by letting the TPM2 calculate an HMAC hash of some nonce we pass to it, keyed
++ *         by a key derived from its internal seed key.
++ *
++ *      3. The concatenation of the above.
++ *
++ * The above is hashed with SHA256 which is then used as encryption key for AES256-GCM. The encrypted
++ * credential is a short (unencrypted) header describing which of the three keys to use, the IV to use for
++ * AES256-GCM and some more meta information (sizes of certain objects) that is strictly speaking redundant,
++ * but kinda nice to have since we can have a more generic parser. If the TPM2 key is used this is followed
++ * by another (unencrypted) header, with information about the TPM2 policy used (specifically: the PCR mask
++ * to bind against, and a hash of the resulting policy — the latter being redundant, but speeding up things a
++ * bit, since we can more quickly refuse PCR state), followed by a sealed/exported TPM2 HMAC key. This is
++ * then followed by the encrypted data, which begins with a metadata header (which contains validity
++ * timestamps as well as the credential name), followed by the actual credential payload. The file ends in
++ * the AES256-GCM tag. To make things simple, the AES256-GCM AAD covers the main and the TPM2 header in
++ * full. This means the whole file is either protected by AAD, or is ciphertext, or is the tag. No
++ * unprotected data is included.
++ */
++
++struct _packed_ encrypted_credential_header {
++        sd_id128_t id;
++        le32_t key_size;
++        le32_t block_size;
++        le32_t iv_size;
++        le32_t tag_size;
++        uint8_t iv[];
++        /* Followed by NUL bytes until next 8 byte boundary */
++};
++
++struct _packed_ tpm2_credential_header {
++        le64_t pcr_mask;    /* Note that the spec for PC Clients only mandates 24 PCRs, and that's what systems
++                             * generally have. But keep the door open for more. */
++        le16_t pcr_bank;    /* For now, either TPM2_ALG_SHA256 or TPM2_ALG_SHA1 */
++        le16_t primary_alg; /* Primary key algorithm (either TPM2_ALG_RSA or TPM2_ALG_ECC for now) */
++        le32_t blob_size;
++        le32_t policy_hash_size;
++        uint8_t policy_hash_and_blob[];
++        /* Followed by NUL bytes until next 8 byte boundary */
++};
++
++struct _packed_ metadata_credential_header {
++        le64_t timestamp;
++        le64_t not_after;
++        le32_t name_size;
++        char name[];
++        /* Followed by NUL bytes until next 8 byte boundary */
++};
++
++/* Some generic limit for parts of the encrypted credential for which we don't know the right size ahead of
++ * time, but where we are really sure it won't be larger than this. Should be larger than any possible IV,
++ * padding, tag size and so on. This is purely used for early filtering out of invalid sizes. */
++#define CREDENTIAL_FIELD_SIZE_MAX (16U*1024U)
++
++static int sha256_hash_host_and_tpm2_key(
++                const void *host_key,
++                size_t host_key_size,
++                const void *tpm2_key,
++                size_t tpm2_key_size,
++                uint8_t ret[static SHA256_DIGEST_LENGTH]) {
++
++        _cleanup_(EVP_MD_CTX_freep) EVP_MD_CTX *md = NULL;
++        unsigned l;
++
++        assert(host_key_size == 0 || host_key);
++        assert(tpm2_key_size == 0 || tpm2_key);
++        assert(ret);
++
++        /* Combines the host key and the TPM2 HMAC hash into a SHA256 hash value we'll use as symmetric encryption key. */
++
++        md = EVP_MD_CTX_new();
++        if (!md)
++                return log_oom();
++
++        if (EVP_DigestInit_ex(md, EVP_sha256(), NULL) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to initial SHA256 context.");
++
++        if (host_key && EVP_DigestUpdate(md, host_key, host_key_size) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to hash host key.");
++
++        if (tpm2_key && EVP_DigestUpdate(md, tpm2_key, tpm2_key_size) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to hash TPM2 key.");
++
++        assert(EVP_MD_CTX_size(md) == SHA256_DIGEST_LENGTH);
++
++        if (EVP_DigestFinal_ex(md, ret, &l) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to finalize SHA256 hash.");
++
++        assert(l == SHA256_DIGEST_LENGTH);
++        return 0;
++}
++
++int encrypt_credential_and_warn(
++                sd_id128_t with_key,
++                const char *name,
++                usec_t timestamp,
++                usec_t not_after,
++                const char *tpm2_device,
++                uint32_t tpm2_pcr_mask,
++                const void *input,
++                size_t input_size,
++                void **ret,
++                size_t *ret_size) {
++
++        _cleanup_(EVP_CIPHER_CTX_freep) EVP_CIPHER_CTX *context = NULL;
++        _cleanup_(erase_and_freep) void *host_key = NULL, *tpm2_key = NULL;
++        size_t host_key_size = 0, tpm2_key_size = 0, tpm2_blob_size = 0, tpm2_policy_hash_size = 0, output_size, p, ml;
++        _cleanup_free_ void *tpm2_blob = NULL, *tpm2_policy_hash = NULL, *iv = NULL, *output = NULL;
++        _cleanup_free_ struct metadata_credential_header *m = NULL;
++        uint16_t tpm2_pcr_bank = 0, tpm2_primary_alg = 0;
++        struct encrypted_credential_header *h;
++        int ksz, bsz, ivsz, tsz, added, r;
++        uint8_t md[SHA256_DIGEST_LENGTH];
++        const EVP_CIPHER *cc;
++#if HAVE_TPM2
++        bool try_tpm2 = false;
++#endif
++        sd_id128_t id;
++
++        assert(input || input_size == 0);
++        assert(ret);
++        assert(ret_size);
++
++        if (name && !credential_name_valid(name))
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Invalid credential name: %s", name);
++
++        if (not_after != USEC_INFINITY && timestamp != USEC_INFINITY && not_after < timestamp)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Credential is invalidated before it is valid (" USEC_FMT " < " USEC_FMT ").", not_after, timestamp);
++
++        if (DEBUG_LOGGING) {
++                char buf[FORMAT_TIMESTAMP_MAX];
++
++                if (name)
++                        log_debug("Including credential name '%s' in encrypted credential.", name);
++                if (timestamp != USEC_INFINITY)
++                        log_debug("Including timestamp '%s' in encrypted credential.", format_timestamp(buf, sizeof(buf), timestamp));
++                if (not_after != USEC_INFINITY)
++                        log_debug("Including not-after timestamp '%s' in encrypted credential.", format_timestamp(buf, sizeof(buf), not_after));
++        }
++
++        if (sd_id128_is_null(with_key) ||
++            sd_id128_in_set(with_key, CRED_AES256_GCM_BY_HOST, CRED_AES256_GCM_BY_HOST_AND_TPM2_HMAC)) {
++
++                r = get_credential_host_secret(
++                                CREDENTIAL_SECRET_GENERATE|
++                                CREDENTIAL_SECRET_WARN_NOT_ENCRYPTED|
++                                (sd_id128_is_null(with_key) ? CREDENTIAL_SECRET_FAIL_ON_TEMPORARY_FS : 0),
++                                &host_key,
++                                &host_key_size);
++                if (r == -ENOMEDIUM && sd_id128_is_null(with_key))
++                        log_debug_errno(r, "Credential host secret location on temporary file system, not using.");
++                else if (r < 0)
++                        return log_error_errno(r, "Failed to determine local credential host secret: %m");
++        }
++
++#if HAVE_TPM2
++        if (sd_id128_is_null(with_key)) {
++                /* If automatic mode is selected and we are running in a container, let's not try TPM2. OTOH
++                 * if user picks TPM2 explicitly, let's always honour the request and try. */
++
++                r = detect_container();
++                if (r < 0)
++                        log_debug_errno(r, "Failed to determine whether we are running in a container, ignoring: %m");
++                else if (r > 0)
++                        log_debug("Running in container, not attempting to use TPM2.");
++
++                try_tpm2 = r <= 0;
++        }
++
++        if (try_tpm2 ||
++            sd_id128_in_set(with_key, CRED_AES256_GCM_BY_TPM2_HMAC, CRED_AES256_GCM_BY_HOST_AND_TPM2_HMAC)) {
++
++                r = tpm2_seal(tpm2_device,
++                              tpm2_pcr_mask,
++                              &tpm2_key,
++                              &tpm2_key_size,
++                              &tpm2_blob,
++                              &tpm2_blob_size,
++                              &tpm2_policy_hash,
++                              &tpm2_policy_hash_size,
++                              &tpm2_pcr_bank,
++                              &tpm2_primary_alg);
++                if (r < 0) {
++                        if (!sd_id128_is_null(with_key))
++                                return r;
++
++                        log_debug_errno(r, "TPM2 sealing didn't work, not using: %m");
++                }
++
++                assert(tpm2_blob_size <= CREDENTIAL_FIELD_SIZE_MAX);
++                assert(tpm2_policy_hash_size <= CREDENTIAL_FIELD_SIZE_MAX);
++        }
++#endif
++
++        if (sd_id128_is_null(with_key)) {
++                /* Let's settle the key type in auto mode now. */
++
++                if (host_key && tpm2_key)
++                        id = CRED_AES256_GCM_BY_HOST_AND_TPM2_HMAC;
++                else if (tpm2_key)
++                        id = CRED_AES256_GCM_BY_TPM2_HMAC;
++                else if (host_key)
++                        id = CRED_AES256_GCM_BY_HOST;
++                else
++                        return log_error_errno(SYNTHETIC_ERRNO(ENOTRECOVERABLE),
++                                               "TPM2 not available and host key located on temporary file system, no encryption key available.");
++        } else
++                id = with_key;
++
++        /* Let's now take the host key and the TPM2 key and hash it together, to use as encryption key for the data */
++        r = sha256_hash_host_and_tpm2_key(host_key, host_key_size, tpm2_key, tpm2_key_size, md);
++        if (r < 0)
++                return r;
++
++        assert_se(cc = EVP_aes_256_gcm());
++
++        ksz = EVP_CIPHER_key_length(cc);
++        assert(ksz == sizeof(md));
++
++        bsz = EVP_CIPHER_block_size(cc);
++        assert(bsz > 0);
++        assert((size_t) bsz <= CREDENTIAL_FIELD_SIZE_MAX);
++
++        ivsz = EVP_CIPHER_iv_length(cc);
++        if (ivsz > 0) {
++                assert((size_t) ivsz <= CREDENTIAL_FIELD_SIZE_MAX);
++
++                iv = malloc(ivsz);
++                if (!iv)
++                        return log_oom();
++
++                r = genuine_random_bytes(iv, ivsz, RANDOM_BLOCK);
++                if (r < 0)
++                        return log_error_errno(r, "Failed to acquired randomized IV: %m");
++        }
++
++        tsz = 16; /* FIXME: On OpenSSL 3 there is EVP_CIPHER_CTX_get_tag_length(), until then let's hardcode this */
++
++        context = EVP_CIPHER_CTX_new();
++        if (!context)
++                return log_error_errno(SYNTHETIC_ERRNO(ENOMEM), "Failed to allocate encryption object: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_EncryptInit_ex(context, cc, NULL, md, iv) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to initialize encryption context: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        /* Just an upper estimate */
++        output_size =
++                ALIGN8(offsetof(struct encrypted_credential_header, iv) + ivsz) +
++                ALIGN8(tpm2_key ? offsetof(struct tpm2_credential_header, policy_hash_and_blob) + tpm2_blob_size + tpm2_policy_hash_size : 0) +
++                ALIGN8(offsetof(struct metadata_credential_header, name) + strlen_ptr(name)) +
++                input_size + 2U * (size_t) bsz +
++                tsz;
++
++        output = malloc0(output_size);
++        if (!output)
++                return log_oom();
++
++        h = (struct encrypted_credential_header*) output;
++        h->id = id;
++        h->block_size = htole32(bsz);
++        h->key_size = htole32(ksz);
++        h->tag_size = htole32(tsz);
++        h->iv_size = htole32(ivsz);
++        memcpy(h->iv, iv, ivsz);
++
++        p = ALIGN8(offsetof(struct encrypted_credential_header, iv) + ivsz);
++
++        if (tpm2_key) {
++                struct tpm2_credential_header *t;
++
++                t = (struct tpm2_credential_header*) ((uint8_t*) output + p);
++                t->pcr_mask = htole64(tpm2_pcr_mask);
++                t->pcr_bank = htole16(tpm2_pcr_bank);
++                t->primary_alg = htole16(tpm2_primary_alg);
++                t->blob_size = htole32(tpm2_blob_size);
++                t->policy_hash_size = htole32(tpm2_policy_hash_size);
++                memcpy(t->policy_hash_and_blob, tpm2_blob, tpm2_blob_size);
++                memcpy(t->policy_hash_and_blob + tpm2_blob_size, tpm2_policy_hash, tpm2_policy_hash_size);
++
++                p += ALIGN8(offsetof(struct tpm2_credential_header, policy_hash_and_blob) + tpm2_blob_size + tpm2_policy_hash_size);
++        }
++
++        /* Pass the encrypted + TPM2 header as AAD */
++        if (EVP_EncryptUpdate(context, NULL, &added, output, p) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to write AAD data: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        /* Now construct the metadata header */
++        ml = strlen_ptr(name);
++        m = malloc0(ALIGN8(offsetof(struct metadata_credential_header, name) + ml));
++        if (!m)
++                return log_oom();
++
++        m->timestamp = htole64(timestamp);
++        m->not_after = htole64(not_after);
++        m->name_size = htole32(ml);
++        memcpy_safe(m->name, name, ml);
++
++        /* And encrypt the metadata header */
++        if (EVP_EncryptUpdate(context, (uint8_t*) output + p, &added, (const unsigned char*) m, ALIGN8(offsetof(struct metadata_credential_header, name) + ml)) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to encrypt metadata header: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        assert(added >= 0);
++        assert((size_t) added <= output_size - p);
++        p += added;
++
++        /* Then encrypt the plaintext */
++        if (EVP_EncryptUpdate(context, (uint8_t*) output + p, &added, input, input_size) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to encrypt data: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        assert(added >= 0);
++        assert((size_t) added <= output_size - p);
++        p += added;
++
++        /* Finalize */
++        if (EVP_EncryptFinal_ex(context, (uint8_t*) output + p, &added) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to finalize data encryption: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        assert(added >= 0);
++        assert((size_t) added <= output_size - p);
++        p += added;
++
++        assert(p <= output_size - tsz);
++
++        /* Append tag */
++        if (EVP_CIPHER_CTX_ctrl(context, EVP_CTRL_GCM_GET_TAG, tsz, (uint8_t*) output + p) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to get tag: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        p += tsz;
++        assert(p <= output_size);
++
++        if (DEBUG_LOGGING && input_size > 0) {
++                size_t base64_size;
++
++                base64_size = DIV_ROUND_UP(p * 4, 3); /* Include base64 size increase in debug output */
++                assert(base64_size >= input_size);
++                log_debug("Input of %zu bytes grew to output of %zu bytes (+%2zu%%).", input_size, base64_size, base64_size * 100 / input_size - 100);
++        }
++
++        *ret = TAKE_PTR(output);
++        *ret_size = p;
++
++        return 0;
++}
++
++int decrypt_credential_and_warn(
++                const char *validate_name,
++                usec_t validate_timestamp,
++                const char *tpm2_device,
++                const void *input,
++                size_t input_size,
++                void **ret,
++                size_t *ret_size) {
++
++        _cleanup_(erase_and_freep) void *host_key = NULL, *tpm2_key = NULL, *plaintext = NULL;
++        _cleanup_(EVP_CIPHER_CTX_freep) EVP_CIPHER_CTX *context = NULL;
++        size_t host_key_size = 0, tpm2_key_size = 0, plaintext_size, p, hs;
++        struct encrypted_credential_header *h;
++        struct metadata_credential_header *m;
++        uint8_t md[SHA256_DIGEST_LENGTH];
++        bool with_tpm2, with_host_key;
++        const EVP_CIPHER *cc;
++        int r, added;
++
++        assert(input || input_size == 0);
++        assert(ret);
++        assert(ret_size);
++
++        h = (struct encrypted_credential_header*) input;
++
++        /* The ID must fit in, for the current and all future formats */
++        if (input_size < sizeof(h->id))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Encrypted file too short.");
++
++        with_host_key = sd_id128_in_set(h->id, CRED_AES256_GCM_BY_HOST, CRED_AES256_GCM_BY_HOST_AND_TPM2_HMAC);
++        with_tpm2 = sd_id128_in_set(h->id, CRED_AES256_GCM_BY_TPM2_HMAC, CRED_AES256_GCM_BY_HOST_AND_TPM2_HMAC);
++
++        if (!with_host_key && !with_tpm2)
++                return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP), "Unknown encryption format, or corrupted data: %m");
++
++        /* Now we know the minimum header size */
++        if (input_size < offsetof(struct encrypted_credential_header, iv))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Encrypted file too short.");
++
++        /* Verify some basic header values */
++        if (le32toh(h->key_size) != sizeof(md))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected key size in header.");
++        if (le32toh(h->block_size) <= 0 || le32toh(h->block_size) > CREDENTIAL_FIELD_SIZE_MAX)
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected block size in header.");
++        if (le32toh(h->iv_size) > CREDENTIAL_FIELD_SIZE_MAX)
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "IV size too large.");
++        if (le32toh(h->tag_size) != 16) /* FIXME: On OpenSSL 3, let's verify via EVP_CIPHER_CTX_get_tag_length() */
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected tag size in header.");
++
++        /* Ensure we have space for the full header now (we don't know the size of the name hence this is a
++         * lower limit only) */
++        if (input_size <
++            ALIGN8(offsetof(struct encrypted_credential_header, iv) + le32toh(h->iv_size)) +
++            ALIGN8((with_tpm2 ? offsetof(struct tpm2_credential_header, policy_hash_and_blob) : 0)) +
++            ALIGN8(offsetof(struct metadata_credential_header, name)) +
++            le32toh(h->tag_size))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Encrypted file too short.");
++
++        p = ALIGN8(offsetof(struct encrypted_credential_header, iv) + le32toh(h->iv_size));
++
++        if (with_tpm2) {
++#if HAVE_TPM2
++                struct tpm2_credential_header* t = (struct tpm2_credential_header*) ((uint8_t*) input + p);
++
++                if (le64toh(t->pcr_mask) >= (UINT64_C(1) << TPM2_PCRS_MAX))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "TPM2 PCR mask out of range.");
++                if (!tpm2_pcr_bank_to_string(le16toh(t->pcr_bank)))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "TPM2 PCR bank invalid or not supported");
++                if (!tpm2_primary_alg_to_string(le16toh(t->primary_alg)))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "TPM2 primary key algorithm invalid or not supported.");
++                if (le32toh(t->blob_size) > CREDENTIAL_FIELD_SIZE_MAX)
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected TPM2 blob size.");
++                if (le32toh(t->policy_hash_size) > CREDENTIAL_FIELD_SIZE_MAX)
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected TPM2 policy hash size.");
++
++                /* Ensure we have space for the full TPM2 header now (still don't know the name, and its size
++                 * though, hence still just a lower limit test only) */
++                if (input_size <
++                    ALIGN8(offsetof(struct encrypted_credential_header, iv) + le32toh(h->iv_size)) +
++                    ALIGN8(offsetof(struct tpm2_credential_header, policy_hash_and_blob) + le32toh(t->blob_size) + le32toh(t->policy_hash_size)) +
++                    ALIGN8(offsetof(struct metadata_credential_header, name)) +
++                    le32toh(h->tag_size))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Encrypted file too short.");
++
++                r = tpm2_unseal(tpm2_device,
++                                le64toh(t->pcr_mask),
++                                le16toh(t->pcr_bank),
++                                le16toh(t->primary_alg),
++                                t->policy_hash_and_blob,
++                                le32toh(t->blob_size),
++                                t->policy_hash_and_blob + le32toh(t->blob_size),
++                                le32toh(t->policy_hash_size),
++                                &tpm2_key,
++                                &tpm2_key_size);
++                if (r < 0)
++                        return r;
++
++                p += ALIGN8(offsetof(struct tpm2_credential_header, policy_hash_and_blob) +
++                            le32toh(t->blob_size) +
++                            le32toh(t->policy_hash_size));
++#else
++                return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP), "Credential requires TPM2 support, but TPM2 support not available.");
++#endif
++        }
++
++        if (with_host_key) {
++                r = get_credential_host_secret(
++                                0,
++                                &host_key,
++                                &host_key_size);
++                if (r < 0)
++                        return log_error_errno(r, "Failed to determine local credential key: %m");
++        }
++
++        sha256_hash_host_and_tpm2_key(host_key, host_key_size, tpm2_key, tpm2_key_size, md);
++
++        assert_se(cc = EVP_aes_256_gcm());
++
++        /* Make sure cipher expectations match the header */
++        if (EVP_CIPHER_key_length(cc) != (int) le32toh(h->key_size))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected key size in header.");
++        if (EVP_CIPHER_block_size(cc) != (int) le32toh(h->block_size))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Unexpected block size in header.");
++
++        context = EVP_CIPHER_CTX_new();
++        if (!context)
++                return log_error_errno(SYNTHETIC_ERRNO(ENOMEM), "Failed to allocate decryption object: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_DecryptInit_ex(context, cc, NULL, NULL, NULL) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to initialize decryption context: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_CIPHER_CTX_ctrl(context, EVP_CTRL_GCM_SET_IVLEN, le32toh(h->iv_size), NULL) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to set IV size on decryption context: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_DecryptInit_ex(context, NULL, NULL, md, h->iv) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to set IV and key: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_DecryptUpdate(context, NULL, &added, input, p) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to write AAD data: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        plaintext = malloc(input_size - p - le32toh(h->tag_size));
++        if (!plaintext)
++                return -ENOMEM;
++
++        if (EVP_DecryptUpdate(
++                            context,
++                            plaintext,
++                            &added,
++                            (uint8_t*) input + p,
++                            input_size - p - le32toh(h->tag_size)) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to decrypt data: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        assert(added >= 0);
++        assert((size_t) added <= input_size - p - le32toh(h->tag_size));
++        plaintext_size = added;
++
++        if (EVP_CIPHER_CTX_ctrl(context, EVP_CTRL_GCM_SET_TAG, le32toh(h->tag_size), (uint8_t*) input + input_size - le32toh(h->tag_size)) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EINVAL), "Failed to set tag: %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        if (EVP_DecryptFinal_ex(context, (uint8_t*) plaintext + plaintext_size, &added) != 1)
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Decryption failed (incorrect key?): %s",
++                                       ERR_error_string(ERR_get_error(), NULL));
++
++        plaintext_size += added;
++
++        if (plaintext_size < ALIGN8(offsetof(struct metadata_credential_header, name)))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Metadata header incomplete.");
++
++        m = plaintext;
++
++        if (le64toh(m->timestamp) != USEC_INFINITY &&
++            le64toh(m->not_after) != USEC_INFINITY &&
++            le64toh(m->timestamp) >= le64toh(m->not_after))
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Timestamps of credential are not in order, refusing.");
++
++        if (le32toh(m->name_size) > CREDENTIAL_NAME_MAX)
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Embedded credential name too long, refusing.");
++
++        hs = ALIGN8(offsetof(struct metadata_credential_header, name) + le32toh(m->name_size));
++        if (plaintext_size < hs)
++                return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Metadata header incomplete.");
++
++        if (le32toh(m->name_size) > 0) {
++                _cleanup_free_ char *embedded_name = NULL;
++
++                if (memchr(m->name, 0, le32toh(m->name_size)))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Embedded credential name contains NUL byte, refusing.");
++
++                embedded_name = memdup_suffix0(m->name, le32toh(m->name_size));
++                if (!embedded_name)
++                        return log_oom();
++
++                if (!credential_name_valid(embedded_name))
++                        return log_error_errno(SYNTHETIC_ERRNO(EBADMSG), "Embedded credential name is not valid, refusing.");
++
++                if (validate_name && !streq(embedded_name, validate_name)) {
++
++                        r = getenv_bool_secure("SYSTEMD_CREDENTIAL_VALIDATE_NAME");
++                        if (r < 0 && r != -ENXIO)
++                                log_debug_errno(r, "Failed to parse $SYSTEMD_CREDENTIAL_VALIDATE_NAME: %m");
++                        if (r != 0)
++                                return log_error_errno(SYNTHETIC_ERRNO(EREMOTE), "Embedded credential name '%s' does not match filename '%s', refusing.", embedded_name, validate_name);
++
++                        log_debug("Embedded credential name '%s' does not match expected name '%s', but configured to use credential anyway.", embedded_name, validate_name);
++                }
++        }
++
++        if (validate_timestamp != USEC_INFINITY) {
++                if (le64toh(m->timestamp) != USEC_INFINITY && le64toh(m->timestamp) > validate_timestamp)
++                        log_debug("Credential timestamp is from the future, assuming clock skew.");
++
++                if (le64toh(m->not_after) != USEC_INFINITY && le64toh(m->not_after) < validate_timestamp) {
++
++                        r = getenv_bool_secure("SYSTEMD_CREDENTIAL_VALIDATE_NOT_AFTER");
++                        if (r < 0 && r != -ENXIO)
++                                log_debug_errno(r, "Failed to parse $SYSTEMD_CREDENTIAL_VALIDATE_NOT_AFTER: %m");
++                        if (r != 0)
++                                return log_error_errno(SYNTHETIC_ERRNO(ESTALE), "Credential's time passed, refusing to use.");
++
++                        log_debug("Credential not-after timestamp has passed, but configured to use credential anyway.");
++                }
++        }
++
++        if (ret) {
++                char *without_metadata;
++
++                without_metadata = memdup((uint8_t*) plaintext + hs, plaintext_size - hs);
++                if (!without_metadata)
++                        return log_oom();
++
++                *ret = without_metadata;
++        }
++
++        if (ret_size)
++                *ret_size = plaintext_size - hs;
++
++        return 0;
++}
++
++#else
++
++int get_credential_host_secret(CredentialSecretFlags flags, void **ret, size_t *ret_size) {
++        return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP), "Support for encrypted credentials not available.");
++}
++
++int encrypt_credential_and_warn(sd_id128_t with_key, const char *name, usec_t timestamp, usec_t not_after, const char *tpm2_device, uint32_t tpm2_pcr_mask, const void *input, size_t input_size, void **ret, size_t *ret_size) {
++        return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP), "Support for encrypted credentials not available.");
++}
++
++int decrypt_credential_and_warn(const char *validate_name, usec_t validate_timestamp, const char *tpm2_device, const void *input, size_t input_size, void **ret, size_t *ret_size) {
++        return log_error_errno(SYNTHETIC_ERRNO(EOPNOTSUPP), "Support for encrypted credentials not available.");
++}
++
++#endif
 diff -aruN old/src/shared/discover-image.c new/src/shared/discover-image.c
 --- old/src/shared/discover-image.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/discover-image.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/discover-image.c	2021-11-19 17:19:28.000000000 +0000
 @@ -305,7 +305,7 @@
                  }
  
@@ -6253,7 +7704,7 @@ diff -aruN old/src/shared/discover-image.c new/src/shared/discover-image.c
                  if (r < 0)
 diff -aruN old/src/shared/format-table.c new/src/shared/format-table.c
 --- old/src/shared/format-table.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/format-table.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/format-table.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1409,7 +1409,7 @@
                  _cleanup_free_ char *p = NULL;
                  char *ret;
@@ -6274,7 +7725,7 @@ diff -aruN old/src/shared/format-table.c new/src/shared/format-table.c
  
 diff -aruN old/src/shared/hostname-setup.c new/src/shared/hostname-setup.c
 --- old/src/shared/hostname-setup.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/hostname-setup.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/hostname-setup.c	2021-11-19 17:19:28.000000000 +0000
 @@ -20,11 +20,11 @@
  #include "util.h"
  
@@ -6305,7 +7756,7 @@ diff -aruN old/src/shared/hostname-setup.c new/src/shared/hostname-setup.c
  
 diff -aruN old/src/shared/json.c new/src/shared/json.c
 --- old/src/shared/json.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/json.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/json.c	2021-11-19 17:19:28.000000000 +0000
 @@ -359,6 +359,12 @@
          }
          REENABLE_WARNING;
@@ -6321,7 +7772,7 @@ diff -aruN old/src/shared/json.c new/src/shared/json.c
                  return r;
 diff -aruN old/src/shared/libfido2-util.c new/src/shared/libfido2-util.c
 --- old/src/shared/libfido2-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/libfido2-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/libfido2-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -58,6 +58,7 @@
  int (*sym_fido_dev_make_cred)(fido_dev_t *, fido_cred_t *, const char *) = NULL;
  fido_dev_t* (*sym_fido_dev_new)(void) = NULL;
@@ -6340,7 +7791,7 @@ diff -aruN old/src/shared/libfido2-util.c new/src/shared/libfido2-util.c
  
 diff -aruN old/src/shared/libfido2-util.h new/src/shared/libfido2-util.h
 --- old/src/shared/libfido2-util.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/libfido2-util.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/libfido2-util.h	2021-11-19 17:19:28.000000000 +0000
 @@ -60,6 +60,7 @@
  extern int (*sym_fido_dev_make_cred)(fido_dev_t *, fido_cred_t *, const char *);
  extern fido_dev_t* (*sym_fido_dev_new)(void);
@@ -6363,7 +7814,7 @@ diff -aruN old/src/shared/libfido2-util.h new/src/shared/libfido2-util.h
  static inline void fido_cred_free_wrapper(fido_cred_t **p) {
 diff -aruN old/src/shared/nscd-flush.c new/src/shared/nscd-flush.c
 --- old/src/shared/nscd-flush.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/nscd-flush.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/nscd-flush.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1,5 +1,5 @@
  /* SPDX-License-Identifier: LGPL-2.1-or-later */
 -#include <sys/poll.h>
@@ -6371,9 +7822,44 @@ diff -aruN old/src/shared/nscd-flush.c new/src/shared/nscd-flush.c
  
  #include "fd-util.h"
  #include "io-util.h"
+diff -aruN old/src/shared/openssl-util.c new/src/shared/openssl-util.c
+--- old/src/shared/openssl-util.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/shared/openssl-util.c	2021-11-19 17:19:28.000000000 +0000
+@@ -46,7 +46,6 @@
+                 size_t *ret_suitable_key_size) {
+ 
+         size_t suitable_key_size;
+-        const RSA *rsa;
+         int bits;
+ 
+         assert_se(pkey);
+@@ -58,11 +57,7 @@
+         if (EVP_PKEY_base_id(pkey) != EVP_PKEY_RSA)
+                 return log_debug_errno(SYNTHETIC_ERRNO(EBADMSG), "X.509 certificate does not refer to RSA key.");
+ 
+-        rsa = EVP_PKEY_get0_RSA(pkey);
+-        if (!rsa)
+-                return log_debug_errno(SYNTHETIC_ERRNO(EIO), "Failed to acquire RSA public key from X.509 certificate.");
+-
+-        bits = RSA_bits(rsa);
++        bits = EVP_PKEY_bits(pkey);
+         log_debug("Bits in RSA key: %i", bits);
+ 
+         /* We use PKCS#1 padding for the RSA cleartext, hence let's leave some extra space for it, hence only
+diff -aruN old/src/shared/openssl-util.h new/src/shared/openssl-util.h
+--- old/src/shared/openssl-util.h	2021-07-07 18:41:29.000000000 +0100
++++ new/src/shared/openssl-util.h	2021-11-19 17:19:28.000000000 +0000
+@@ -11,6 +11,7 @@
+ DEFINE_TRIVIAL_CLEANUP_FUNC_FULL(X509_NAME*, X509_NAME_free, NULL);
+ DEFINE_TRIVIAL_CLEANUP_FUNC_FULL(EVP_PKEY_CTX*, EVP_PKEY_CTX_free, NULL);
+ DEFINE_TRIVIAL_CLEANUP_FUNC_FULL(EVP_CIPHER_CTX*, EVP_CIPHER_CTX_free, NULL);
++DEFINE_TRIVIAL_CLEANUP_FUNC_FULL(EVP_MD_CTX*, EVP_MD_CTX_free, NULL);
+ 
+ int rsa_encrypt_bytes(EVP_PKEY *pkey, const void *decrypted_key, size_t decrypted_key_size, void **ret_encrypt_key, size_t *ret_encrypt_key_size);
+ 
 diff -aruN old/src/shared/seccomp-util.c new/src/shared/seccomp-util.c
 --- old/src/shared/seccomp-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/seccomp-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/seccomp-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -310,6 +310,7 @@
                  "getpgrp\0"
                  "getpid\0"
@@ -6419,7 +7905,7 @@ diff -aruN old/src/shared/seccomp-util.c new/src/shared/seccomp-util.c
                          continue;
 diff -aruN old/src/shared/sleep-config.c new/src/shared/sleep-config.c
 --- old/src/shared/sleep-config.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/sleep-config.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/sleep-config.c	2021-11-19 17:19:28.000000000 +0000
 @@ -392,15 +392,17 @@
                  }
  
@@ -6449,7 +7935,7 @@ diff -aruN old/src/shared/sleep-config.c new/src/shared/sleep-config.c
                  dev_t swap_device;
 diff -aruN old/src/shared/tpm2-util.c new/src/shared/tpm2-util.c
 --- old/src/shared/tpm2-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/tpm2-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/tpm2-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -182,7 +182,7 @@
                  if (!tcti)
                          return log_oom();
@@ -6461,7 +7947,7 @@ diff -aruN old/src/shared/tpm2-util.c new/src/shared/tpm2-util.c
                                                 "Failed to initialize TCTI context: %s", sym_Tss2_RC_Decode(rc));
 diff -aruN old/src/shared/user-record.c new/src/shared/user-record.c
 --- old/src/shared/user-record.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/user-record.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/user-record.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1913,9 +1913,9 @@
          assert(h);
  
@@ -6486,9 +7972,21 @@ diff -aruN old/src/shared/user-record.c new/src/shared/user-record.c
  
          return MIN(h->luks_pbkdf_parallel_threads, UINT32_MAX);
  }
+diff -aruN old/src/shared/user-record-show.c new/src/shared/user-record-show.c
+--- old/src/shared/user-record-show.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/shared/user-record-show.c	2021-11-19 17:19:28.000000000 +0000
+@@ -280,7 +280,7 @@
+                 printf("   IO Weight: %" PRIu64 "\n", hr->io_weight);
+ 
+         if (hr->access_mode != MODE_INVALID)
+-                printf(" Access Mode: 0%03oo\n", user_record_access_mode(hr));
++                printf(" Access Mode: 0%03o\n", user_record_access_mode(hr));
+ 
+         if (storage == USER_LUKS) {
+                 printf("LUKS Discard: online=%s offline=%s\n", yes_no(user_record_luks_discard(hr)), yes_no(user_record_luks_offline_discard(hr)));
 diff -aruN old/src/shared/utmp-wtmp.c new/src/shared/utmp-wtmp.c
 --- old/src/shared/utmp-wtmp.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/utmp-wtmp.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/utmp-wtmp.c	2021-11-19 17:19:28.000000000 +0000
 @@ -215,13 +215,14 @@
  }
  
@@ -6524,7 +8022,7 @@ diff -aruN old/src/shared/utmp-wtmp.c new/src/shared/utmp-wtmp.c
  
 diff -aruN old/src/shared/varlink.c new/src/shared/varlink.c
 --- old/src/shared/varlink.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/varlink.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/varlink.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1,7 +1,7 @@
  /* SPDX-License-Identifier: LGPL-2.1-or-later */
  
@@ -6548,9 +8046,26 @@ diff -aruN old/src/shared/varlink.c new/src/shared/varlink.c
                  goto disconnect;
  
          return 0;
+@@ -2363,14 +2364,8 @@
+ 
+         assert_return(s, -EINVAL);
+ 
+-        LIST_FOREACH(sockets, ss, s->sockets) {
+-
+-                if (!ss->event_source)
+-                        continue;
+-
+-                (void) sd_event_source_set_enabled(ss->event_source, SD_EVENT_OFF);
+-                ss->event_source = sd_event_source_unref(ss->event_source);
+-        }
++        LIST_FOREACH(sockets, ss, s->sockets)
++                ss->event_source = sd_event_source_disable_unref(ss->event_source);
+ 
+         sd_event_unref(s->event);
+         return 0;
 diff -aruN old/src/shared/watchdog.c new/src/shared/watchdog.c
 --- old/src/shared/watchdog.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shared/watchdog.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shared/watchdog.c	2021-11-19 17:19:28.000000000 +0000
 @@ -47,8 +47,8 @@
                  flags = WDIOS_ENABLECARD;
                  if (ioctl(watchdog_fd, WDIOC_SETOPTIONS, &flags) < 0) {
@@ -6564,7 +8079,7 @@ diff -aruN old/src/shared/watchdog.c new/src/shared/watchdog.c
                  }
 diff -aruN old/src/shutdown/umount.c new/src/shutdown/umount.c
 --- old/src/shutdown/umount.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/shutdown/umount.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/shutdown/umount.c	2021-11-19 17:19:28.000000000 +0000
 @@ -15,6 +15,10 @@
  #include <sys/types.h>
  #include <unistd.h>
@@ -6600,7 +8115,7 @@ diff -aruN old/src/shutdown/umount.c new/src/shutdown/umount.c
          if (FLAGS_SET(info.lo_flags, LO_FLAGS_AUTOCLEAR))
 diff -aruN old/src/systemctl/systemctl.c new/src/systemctl/systemctl.c
 --- old/src/systemctl/systemctl.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/systemctl/systemctl.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/systemctl/systemctl.c	2021-11-19 17:19:28.000000000 +0000
 @@ -925,6 +925,11 @@
                          assert_not_reached("Unhandled option");
                  }
@@ -6615,7 +8130,7 @@ diff -aruN old/src/systemctl/systemctl.c new/src/systemctl/systemctl.c
                                         "Cannot access user instance remotely.");
 diff -aruN old/src/systemctl/systemctl-set-property.c new/src/systemctl/systemctl-set-property.c
 --- old/src/systemctl/systemctl-set-property.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/systemctl/systemctl-set-property.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/systemctl/systemctl-set-property.c	2021-11-19 17:19:28.000000000 +0000
 @@ -6,33 +6,20 @@
  #include "systemctl-util.h"
  #include "systemctl.h"
@@ -6701,7 +8216,7 @@ diff -aruN old/src/systemctl/systemctl-set-property.c new/src/systemctl/systemct
 +}
 diff -aruN old/src/systemctl/systemctl-show.c new/src/systemctl/systemctl-show.c
 --- old/src/systemctl/systemctl-show.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/systemctl/systemctl-show.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/systemctl/systemctl-show.c	2021-11-19 17:19:28.000000000 +0000
 @@ -741,7 +741,7 @@
                          c = 0;
  
@@ -6827,7 +8342,7 @@ diff -aruN old/src/systemctl/systemctl-show.c new/src/systemctl/systemctl-show.c
                  if (show_mode == SYSTEMCTL_SHOW_STATUS)
 diff -aruN old/src/systemctl/systemctl-start-special.c new/src/systemctl/systemctl-start-special.c
 --- old/src/systemctl/systemctl-start-special.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/systemctl/systemctl-start-special.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/systemctl/systemctl-start-special.c	2021-11-19 17:19:28.000000000 +0000
 @@ -36,7 +36,7 @@
                  return log_error_errno(r,
                                         "No kexec kernel loaded and autodetection failed.\n%s",
@@ -6839,7 +8354,7 @@ diff -aruN old/src/systemctl/systemctl-start-special.c new/src/systemctl/systemc
                  return r;
 diff -aruN old/src/systemd/sd-bus-vtable.h new/src/systemd/sd-bus-vtable.h
 --- old/src/systemd/sd-bus-vtable.h	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/systemd/sd-bus-vtable.h	2021-11-10 14:01:30.000000000 +0000
++++ new/src/systemd/sd-bus-vtable.h	2021-11-19 17:19:28.000000000 +0000
 @@ -76,6 +76,9 @@
                          const unsigned *vtable_format_reference;
                  } start;
@@ -6865,7 +8380,7 @@ diff -aruN old/src/systemd/sd-bus-vtable.h new/src/systemd/sd-bus-vtable.h
  #define _SD_ECHO(X) X
 diff -aruN old/src/test/meson.build new/src/test/meson.build
 --- old/src/test/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -13,7 +13,6 @@
  
  path = run_command(sh, '-c', 'echo "$PATH"').stdout().strip()
@@ -6876,7 +8391,7 @@ diff -aruN old/src/test/meson.build new/src/test/meson.build
  
 diff -aruN old/src/test/test-env-util.c new/src/test/test-env-util.c
 --- old/src/test/test-env-util.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-env-util.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-env-util.c	2021-11-19 17:19:28.000000000 +0000
 @@ -198,7 +198,7 @@
                  "BAR=bar",
                  NULL
@@ -6898,7 +8413,7 @@ diff -aruN old/src/test/test-env-util.c new/src/test/test-env-util.c
  static void test_replace_env_argv(void) {
 diff -aruN old/src/test/test-execute.c new/src/test/test-execute.c
 --- old/src/test/test-execute.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-execute.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-execute.c	2021-11-19 17:19:28.000000000 +0000
 @@ -432,8 +432,10 @@
  
          test(m, "exec-systemcallfilter-not-failing.service", 0, CLD_EXITED);
@@ -6912,7 +8427,7 @@ diff -aruN old/src/test/test-execute.c new/src/test/test-execute.c
          if (r < 0) {
 diff -aruN old/src/test/test-fileio.c new/src/test/test-fileio.c
 --- old/src/test/test-fileio.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-fileio.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-fileio.c	2021-11-19 17:19:28.000000000 +0000
 @@ -1028,7 +1028,11 @@
          FOREACH_STRING(filename,
                         "/proc/1/cmdline",
@@ -6941,7 +8456,7 @@ diff -aruN old/src/test/test-fileio.c new/src/test/test-fileio.c
          }
 diff -aruN old/src/test/test-path.c new/src/test/test-path.c
 --- old/src/test/test-path.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-path.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-path.c	2021-11-19 17:19:28.000000000 +0000
 @@ -306,7 +306,7 @@
  }
  
@@ -6963,7 +8478,7 @@ diff -aruN old/src/test/test-path.c new/src/test/test-path.c
  
 diff -aruN old/src/test/test-seccomp.c new/src/test/test-seccomp.c
 --- old/src/test/test-seccomp.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-seccomp.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-seccomp.c	2021-11-19 17:19:28.000000000 +0000
 @@ -890,6 +890,66 @@
          assert_se(wait_for_terminate_and_check("syscallrawseccomp", pid, WAIT_LOG) == EXIT_SUCCESS);
  }
@@ -7041,7 +8556,7 @@ diff -aruN old/src/test/test-seccomp.c new/src/test/test-seccomp.c
  
 diff -aruN old/src/test/test-sizeof.c new/src/test/test-sizeof.c
 --- old/src/test/test-sizeof.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/test/test-sizeof.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/test/test-sizeof.c	2021-11-19 17:19:28.000000000 +0000
 @@ -89,5 +89,7 @@
          printf("big_enum2_pos → %zu\n", sizeof(big_enum2_pos));
          printf("big_enum2_neg → %zu\n", sizeof(big_enum2_neg));
@@ -7052,7 +8567,7 @@ diff -aruN old/src/test/test-sizeof.c new/src/test/test-sizeof.c
  }
 diff -aruN old/src/timesync/timesyncd-manager.c new/src/timesync/timesyncd-manager.c
 --- old/src/timesync/timesyncd-manager.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/timesync/timesyncd-manager.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/timesync/timesyncd-manager.c	2021-11-19 17:19:28.000000000 +0000
 @@ -412,7 +412,8 @@
                  .iov_base = &ntpmsg,
                  .iov_len = sizeof(ntpmsg),
@@ -7072,9 +8587,21 @@ diff -aruN old/src/timesync/timesyncd-manager.c new/src/timesync/timesyncd-manag
                          recv_time = (struct timespec *) CMSG_DATA(cmsg);
                          break;
                  }
+diff -aruN old/src/udev/dmi_memory_id/dmi_memory_id.c new/src/udev/dmi_memory_id/dmi_memory_id.c
+--- old/src/udev/dmi_memory_id/dmi_memory_id.c	2021-07-07 18:41:29.000000000 +0100
++++ new/src/udev/dmi_memory_id/dmi_memory_id.c	2021-11-19 17:19:28.000000000 +0000
+@@ -539,7 +539,7 @@
+ 
+                 /* If a short entry is found (less than 4 bytes), not only it
+                  * is invalid, but we cannot reliably locate the next entry.
+-                 * Better stop at this point, and let the user know his/her
++                 * Better stop at this point, and let the user know their
+                  * table is broken. */
+                 if (h.length < 4)
+                         break;
 diff -aruN old/src/udev/udev-builtin-net_id.c new/src/udev/udev-builtin-net_id.c
 --- old/src/udev/udev-builtin-net_id.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/udev/udev-builtin-net_id.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/udev/udev-builtin-net_id.c	2021-11-19 17:19:28.000000000 +0000
 @@ -103,7 +103,6 @@
          _cleanup_(sd_device_unrefp) sd_device *physfn_pcidev = NULL;
          const char *physfn_link_file, *syspath;
@@ -7094,7 +8621,7 @@ diff -aruN old/src/udev/udev-builtin-net_id.c new/src/udev/udev-builtin-net_id.c
                          continue;
 diff -aruN old/src/udev/udev-builtin-net_setup_link.c new/src/udev/udev-builtin-net_setup_link.c
 --- old/src/udev/udev-builtin-net_setup_link.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/udev/udev-builtin-net_setup_link.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/udev/udev-builtin-net_setup_link.c	2021-11-19 17:19:28.000000000 +0000
 @@ -28,10 +28,12 @@
  
          r = link_config_get(ctx, dev, &link);
@@ -7112,7 +8639,7 @@ diff -aruN old/src/udev/udev-builtin-net_setup_link.c new/src/udev/udev-builtin-
          }
 diff -aruN old/src/udev/udev-event.c new/src/udev/udev-event.c
 --- old/src/udev/udev-event.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/udev/udev-event.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/udev/udev-event.c	2021-11-19 17:19:28.000000000 +0000
 @@ -828,6 +828,7 @@
  static int rename_netif(UdevEvent *event) {
          sd_device *dev = event->dev;
@@ -7140,7 +8667,7 @@ diff -aruN old/src/udev/udev-event.c new/src/udev/udev-event.c
          if (r < 0)
 diff -aruN old/src/userdb/userdbctl.c new/src/userdb/userdbctl.c
 --- old/src/userdb/userdbctl.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/userdb/userdbctl.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/userdb/userdbctl.c	2021-11-19 17:19:28.000000000 +0000
 @@ -512,7 +512,7 @@
                  if (fd < 0)
                          return log_error_errno(r, "Failed to allocate AF_UNIX/SOCK_STREAM socket: %m");
@@ -7152,7 +8679,7 @@ diff -aruN old/src/userdb/userdbctl.c new/src/userdb/userdbctl.c
                                  return log_oom();
 diff -aruN old/src/veritysetup/veritysetup.c new/src/veritysetup/veritysetup.c
 --- old/src/veritysetup/veritysetup.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/veritysetup/veritysetup.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/veritysetup/veritysetup.c	2021-11-19 17:19:28.000000000 +0000
 @@ -30,7 +30,7 @@
  
          printf("%s attach VOLUME DATADEVICE HASHDEVICE ROOTHASH [OPTIONS]\n"
@@ -7176,7 +8703,7 @@ diff -aruN old/src/veritysetup/veritysetup.c new/src/veritysetup/veritysetup.c
          if (argc < 3)
 diff -aruN old/src/veritysetup/veritysetup-generator.c new/src/veritysetup/veritysetup-generator.c
 --- old/src/veritysetup/veritysetup-generator.c	2021-07-07 18:41:29.000000000 +0100
-+++ new/src/veritysetup/veritysetup-generator.c	2021-11-10 14:01:30.000000000 +0000
++++ new/src/veritysetup/veritysetup-generator.c	2021-11-19 17:19:28.000000000 +0000
 @@ -100,7 +100,7 @@
  
          fprintf(f,
@@ -7188,7 +8715,7 @@ diff -aruN old/src/veritysetup/veritysetup-generator.c new/src/veritysetup/verit
                  "DefaultDependencies=no\n"
 diff -aruN old/test/meson.build new/test/meson.build
 --- old/test/meson.build	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/meson.build	2021-11-10 14:01:30.000000000 +0000
++++ new/test/meson.build	2021-11-19 17:19:28.000000000 +0000
 @@ -34,6 +34,9 @@
          install_subdir('testsuite-52.units',
                         install_dir : testdata_dir)
@@ -7201,7 +8728,7 @@ diff -aruN old/test/meson.build new/test/meson.build
                       install_dir : testsuite08_dir)
 diff -aruN old/test/networkd-test.py new/test/networkd-test.py
 --- old/test/networkd-test.py	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/networkd-test.py	2021-11-10 14:01:30.000000000 +0000
++++ new/test/networkd-test.py	2021-11-19 17:19:28.000000000 +0000
 @@ -635,7 +635,7 @@
  [Network]
  DHCP=ipv4
@@ -7235,7 +8762,7 @@ diff -aruN old/test/networkd-test.py new/test/networkd-test.py
          '''resolved queries to /etc/hosts'''
 diff -aruN old/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh new/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh
 --- old/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh	2021-11-10 14:01:30.000000000 +0000
++++ new/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh	2021-11-19 17:19:28.000000000 +0000
 @@ -11,7 +11,7 @@
  # Using timeout because if the test fails it can loop.
  # The reason is because the poweroff executed by end.service
@@ -7247,7 +8774,7 @@ diff -aruN old/test/TEST-52-HONORFIRSTSHUTDOWN/test.sh new/test/TEST-52-HONORFIR
  # the make target "finish". Since concrete confirmation is
 diff -aruN old/test/test-execute/exec-systemcallfilter-failing3.service new/test/test-execute/exec-systemcallfilter-failing3.service
 --- old/test/test-execute/exec-systemcallfilter-failing3.service	1970-01-01 01:00:00.000000000 +0100
-+++ new/test/test-execute/exec-systemcallfilter-failing3.service	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-execute/exec-systemcallfilter-failing3.service	2021-11-19 17:19:28.000000000 +0000
 @@ -0,0 +1,9 @@
 +[Unit]
 +Description=Test for SystemCallFilter
@@ -7260,7 +8787,7 @@ diff -aruN old/test/test-execute/exec-systemcallfilter-failing3.service new/test
 +SystemCallFilter=~write open execve fexecve execveat exit_group close mmap munmap fstat DONOTEXIST
 diff -aruN old/test/test-execute/exec-systemcallfilter-not-failing3.service new/test/test-execute/exec-systemcallfilter-not-failing3.service
 --- old/test/test-execute/exec-systemcallfilter-not-failing3.service	1970-01-01 01:00:00.000000000 +0100
-+++ new/test/test-execute/exec-systemcallfilter-not-failing3.service	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-execute/exec-systemcallfilter-not-failing3.service	2021-11-19 17:19:28.000000000 +0000
 @@ -0,0 +1,8 @@
 +[Unit]
 +Description=Test for SystemCallFilter
@@ -7272,7 +8799,7 @@ diff -aruN old/test/test-execute/exec-systemcallfilter-not-failing3.service new/
 +SystemCallFilter=
 diff -aruN old/test/test-functions new/test/test-functions
 --- old/test/test-functions	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/test-functions	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-functions	2021-11-19 17:19:28.000000000 +0000
 @@ -35,6 +35,7 @@
  # To force creating a new image from scratch (eg: to encrypt it), also define
  # TEST_FORCE_NEWIMAGE=1 in the test setup script.
@@ -7312,7 +8839,7 @@ diff -aruN old/test/test-functions new/test/test-functions
      fi
 diff -aruN old/test/test-keymap-util/kbd-model-map new/test/test-keymap-util/kbd-model-map
 --- old/test/test-keymap-util/kbd-model-map	1970-01-01 01:00:00.000000000 +0100
-+++ new/test/test-keymap-util/kbd-model-map	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-keymap-util/kbd-model-map	2021-11-19 17:19:28.000000000 +0000
 @@ -0,0 +1,71 @@
 +# Originally generated from system-config-keyboard's model list.
 +# consolelayout		xlayout	xmodel		xvariant	xoptions
@@ -7387,7 +8914,7 @@ diff -aruN old/test/test-keymap-util/kbd-model-map new/test/test-keymap-util/kbd
 +lv-tilde		lv	pc105		tilde		terminate:ctrl_alt_bksp
 diff -aruN old/test/test-network/conf/25-nexthop.network new/test/test-network/conf/25-nexthop.network
 --- old/test/test-network/conf/25-nexthop.network	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/test-network/conf/25-nexthop.network	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-network/conf/25-nexthop.network	2021-11-19 17:19:28.000000000 +0000
 @@ -39,6 +39,10 @@
  Blackhole=yes
  
@@ -7401,7 +8928,7 @@ diff -aruN old/test/test-network/conf/25-nexthop.network new/test/test-network/c
  [NextHop]
 diff -aruN old/test/test-network/conf/25-route-static.network new/test/test-network/conf/25-route-static.network
 --- old/test/test-network/conf/25-route-static.network	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/test-network/conf/25-route-static.network	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-network/conf/25-route-static.network	2021-11-19 17:19:28.000000000 +0000
 @@ -18,6 +18,10 @@
  Gateway=2001:1234:5:8fff:ff:ff:ff:ff
  
@@ -7415,13 +8942,13 @@ diff -aruN old/test/test-network/conf/25-route-static.network new/test/test-netw
  
 diff -aruN old/test/test-network/conf/networkd-manage-foreign-routes-no.conf new/test/test-network/conf/networkd-manage-foreign-routes-no.conf
 --- old/test/test-network/conf/networkd-manage-foreign-routes-no.conf	1970-01-01 01:00:00.000000000 +0100
-+++ new/test/test-network/conf/networkd-manage-foreign-routes-no.conf	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-network/conf/networkd-manage-foreign-routes-no.conf	2021-11-19 17:19:28.000000000 +0000
 @@ -0,0 +1,2 @@
 +[Network]
 +ManageForeignRoutes=no
 diff -aruN old/test/test-network/systemd-networkd-tests.py new/test/test-network/systemd-networkd-tests.py
 --- old/test/test-network/systemd-networkd-tests.py	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/test-network/systemd-networkd-tests.py	2021-11-10 14:01:30.000000000 +0000
++++ new/test/test-network/systemd-networkd-tests.py	2021-11-19 17:19:28.000000000 +0000
 @@ -16,6 +16,7 @@
  
  network_unit_file_path='/run/systemd/network'
@@ -7553,7 +9080,7 @@ diff -aruN old/test/test-network/systemd-networkd-tests.py new/test/test-network
      links = ['veth99']
 diff -aruN old/test/units/testsuite-23.sh new/test/units/testsuite-23.sh
 --- old/test/units/testsuite-23.sh	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/units/testsuite-23.sh	2021-11-10 14:01:30.000000000 +0000
++++ new/test/units/testsuite-23.sh	2021-11-19 17:19:28.000000000 +0000
 @@ -27,6 +27,37 @@
  systemctl restart seven.service
  systemctl stop seven.service
@@ -7594,7 +9121,7 @@ diff -aruN old/test/units/testsuite-23.sh new/test/units/testsuite-23.sh
  echo OK >/testok
 diff -aruN old/test/units/testsuite-60.sh new/test/units/testsuite-60.sh
 --- old/test/units/testsuite-60.sh	2021-07-07 18:41:29.000000000 +0100
-+++ new/test/units/testsuite-60.sh	2021-11-10 14:01:30.000000000 +0000
++++ new/test/units/testsuite-60.sh	2021-11-19 17:19:28.000000000 +0000
 @@ -26,6 +26,7 @@
  
  # figure out if we have entered the rate limit state
@@ -7605,7 +9132,7 @@ diff -aruN old/test/units/testsuite-60.sh new/test/units/testsuite-60.sh
  while [[ $(date -u +%s) -le ${timeout} ]]; do
 diff -aruN old/units/remote-veritysetup.target new/units/remote-veritysetup.target
 --- old/units/remote-veritysetup.target	2021-07-07 18:41:29.000000000 +0100
-+++ new/units/remote-veritysetup.target	2021-11-10 14:01:30.000000000 +0000
++++ new/units/remote-veritysetup.target	2021-11-19 17:19:28.000000000 +0000
 @@ -8,7 +8,7 @@
  #  (at your option) any later version.
  
@@ -7617,7 +9144,7 @@ diff -aruN old/units/remote-veritysetup.target new/units/remote-veritysetup.targ
  DefaultDependencies=no
 diff -aruN old/units/systemd-homed.service.in new/units/systemd-homed.service.in
 --- old/units/systemd-homed.service.in	2021-07-07 18:41:29.000000000 +0100
-+++ new/units/systemd-homed.service.in	2021-11-10 14:01:30.000000000 +0000
++++ new/units/systemd-homed.service.in	2021-11-19 17:19:28.000000000 +0000
 @@ -16,18 +16,18 @@
  
  [Service]
@@ -7642,7 +9169,7 @@ diff -aruN old/units/systemd-homed.service.in new/units/systemd-homed.service.in
  StateDirectory=systemd/home
 diff -aruN old/units/systemd-oomd.service.in new/units/systemd-oomd.service.in
 --- old/units/systemd-oomd.service.in	2021-07-07 18:41:29.000000000 +0100
-+++ new/units/systemd-oomd.service.in	2021-11-10 14:01:30.000000000 +0000
++++ new/units/systemd-oomd.service.in	2021-11-19 17:19:28.000000000 +0000
 @@ -14,6 +14,7 @@
  Before=multi-user.target shutdown.target
  Conflicts=shutdown.target
@@ -7653,7 +9180,7 @@ diff -aruN old/units/systemd-oomd.service.in new/units/systemd-oomd.service.in
  ConditionPathExists=/proc/pressure/memory
 diff -aruN old/units/veritysetup-pre.target new/units/veritysetup-pre.target
 --- old/units/veritysetup-pre.target	2021-07-07 18:41:29.000000000 +0100
-+++ new/units/veritysetup-pre.target	2021-11-10 14:01:30.000000000 +0000
++++ new/units/veritysetup-pre.target	2021-11-19 17:19:28.000000000 +0000
 @@ -8,7 +8,7 @@
  #  (at your option) any later version.
  
@@ -7665,7 +9192,7 @@ diff -aruN old/units/veritysetup-pre.target new/units/veritysetup-pre.target
  Before=veritysetup.target
 diff -aruN old/units/veritysetup.target new/units/veritysetup.target
 --- old/units/veritysetup.target	2021-07-07 18:41:29.000000000 +0100
-+++ new/units/veritysetup.target	2021-11-10 14:01:30.000000000 +0000
++++ new/units/veritysetup.target	2021-11-19 17:19:28.000000000 +0000
 @@ -8,5 +8,5 @@
  #  (at your option) any later version.
  

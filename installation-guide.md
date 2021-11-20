@@ -44,6 +44,7 @@ It also includes the following upgraded software:
 - libdrm: `2.4.107 --> 2.4.108`
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`
+- libjpeg-turbo: `2.1.1 --> 2.1.2`
 - libmbim: `1.26.0 --> 1.26.2`
 - libpipeline: `1.5.3 --> 1.5.4`
 - librsvg: `2.52.3 --> 2.52.4`
@@ -51,15 +52,17 @@ It also includes the following upgraded software:
 - libtasn1: `4.17.0 --> 4.18.0`
 - Linux Kernel: `5.15.0 --> 5.15.3`
 - lxml: `4.6.3 --> 4.6.4`
+- Mako: `1.1.5 --> 1.1.6`
 - Mesa: `21.2.5 --> 21.3.0`
 - Meson: `0.59.2 --> 0.60.1`
 - Ncurses: `6.2 --> 6.3`
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
-- Thunderbird: `91.2.1 --> 91.3.1`
+- Qpdf: `10.3.2 --> 10.4.0`
+- Thunderbird: `91.2.1 --> 91.3.2`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
-- Vim: `8.2.3565 --> 8.2.3617`
+- Vim: `8.2.3565 --> 8.2.3628`
 - VTE: `0.66.0 --> 0.66.1`
 - Xorg-Server: `1.20.13 --> 21.1.1`
 
