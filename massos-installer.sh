@@ -233,16 +233,14 @@ fi
 echo "Done!"
 # Download MassOS rootfs image.
 if [ "$custompkg" != "yes" ]; then
-  dldir="/var/tmp/massos-dl$(date "+%Y%m%d%H%M%S")"
-  mkdir -p "$dldir"
   if [ "$dltool" = "curl" ]; then
     ver="$(curl -s https://raw.githubusercontent.com/TheSonicMaster/MassOS/main/utils/massos-release)"
     echo "Downloading rootfs image for MassOS version $ver..."
-    curl -L "https://github.com/TheSonicMaster/MassOS/releases/download/v$ver/massos-$ver-rootfs-x86_64.tar.xz" -o "$dldir"/massos.tar.xz
+    curl -L "https://github.com/TheSonicMaster/MassOS/releases/download/v$ver/massos-$ver-rootfs-x86_64.tar.xz" -o "$mountdir"/massos.tar.xz
   else
     ver="$(wget -q https://raw.githubusercontent.com/TheSonicMaster/MassOS/main/utils/massos-release -O -)"
     echo "Downloading rootfs image for MassOS version $ver..."
-    wget "https://github.com/TheSonicMaster/MassOS/releases/download/v$ver/massos-$ver-rootfs-x86_64.tar.xz" -O "$dldir"/massos.tar.xz
+    wget "https://github.com/TheSonicMaster/MassOS/releases/download/v$ver/massos-$ver-rootfs-x86_64.tar.xz" -O "$mountdir"/massos.tar.xz
   fi
 fi
 # Extract MassOS rootfs image to the target root partition.
@@ -250,7 +248,7 @@ printf "Installing MassOS to the target partition (may take a while)... "
 if [ "$custompkg" = "yes" ]; then
   tar -xJpf "$1" -C "$mountdir"
 else
-  tar -xJpf "$dldir"/massos.tar.xz -C "$mountdir"
+  tar -xJpf "$mountdir"/massos.tar.xz -C "$mountdir"
 fi
 echo "Done!"
 # Get filesystem UUIDs.
@@ -479,7 +477,7 @@ chmod 755 "$mountdir"/tmp/massos-installer-stage2.sh
 printf "\nUnmounting filesystems and cleaning up... "
 umount -R "$mountdir"
 rm -rf "$mountdir"
-[ ! -e "$dldir" ] || rm -rf "$dldir"
+test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
 echo "Done!"
 printf "\nThe installation of MassOS was successful! You may now reboot into\n"
 echo "your new installation. We hope you enjoy using MassOS!"
