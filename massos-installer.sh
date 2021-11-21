@@ -93,8 +93,19 @@ if [ $? -eq 0 ]; then
 fi
 # Option 1 (below).
 option_1() {
-  printf "\nWARNING: THE ENTIRE DISK $disk WILL BE ERASED!\n"
-  read -p "Are you sure you want to continue [y/N] " confirmerase
+  printf "\nSwap is a reserved partition on the disk which can be used as\n"
+  echo "emergency RAM to prevent the system crashing if it runs out of memory."
+  echo "If you have 4GB of RAM or less, adding Swap is recommended."
+  read -p "Would you like to add a swap partition of size 1GB? [y/N] " addswap
+  addswap="${addswap:0:1}"
+  addswap=$(echo "$addswap" | tr '[:upper:]' '[:lower:]')
+  if [ "$addswap" = "y" ]; then
+    swap="y"
+  else
+    swap="n"
+  fi
+  printf "\nWARNING: THE ENTIRE DISK $disk WILL NOW BE ERASED!\n"
+  read -p "Are you sure you want to continue? [y/N] " confirmerase
   confirmerase="${confirmerase:0:1}"
   confirmerase=$(echo "$confirmerase" | tr '[:upper:]' '[:lower:]')
   if [ "$confirmerase" != "y" ]; then
@@ -109,11 +120,17 @@ option_1() {
   fi
   echo "Done!"
   if [ "$efisys" = "y" ]; then
-    # Create a 100M EFI system partition and give the rest to root.
-    operations='g\nn\n\n\n+100M\nt\n1\nn\n\n\n\nw\n'
+    if [ "$swap" = "y" ]; then
+      operations='g\nn\n\n\n+100M\nt\n1\nn\n\n\n-1G\nn\n\n\n\nt\n3\n19\nw\n'
+    else
+      operations='g\nn\n\n\n+100M\nt\n1\nn\n\n\n\nw\n'
+    fi
   else
-    # Just create the root partition.
-    operations='o\nn\n\n\n\n\nw\n'
+    if [ "$swap" = "y" ]; then
+      operations='o\nn\n\n\n\n-1G\nn\n\n\n\n\nt\n2\n82\nw\n'
+    else
+      operations='o\nn\n\n\n\n\nw\n'
+    fi
   fi
   # Create the partitions.
   printf "Creating partitions on $disk... "
@@ -125,7 +142,7 @@ option_1() {
   fi
   echo "Done!"
   if [ "$efisys" != "y" ]; then
-    rootpar="$(fdisk -l "$disk" | tail -n1 | cut -d" " -f1)"
+    rootpar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | head -n1)"
     printf "Formatting $rootpar as Linux ext4... "
     yes | mkfs.ext4 "$rootpar" &>/dev/null
     if [ $? -ne 0 ]; then
@@ -134,9 +151,20 @@ option_1() {
       exit 1
     fi
     echo "Done!"
+    if [ "$swap" = "y" ]; then
+      swappar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | tail -n1)"
+      printf "Formatting $swappar as Linux swap... "
+      mkswap "$swappar" &>/dev/null
+      if [ $? -ne 0 ]; then
+        echo "Failed!"
+        echo "Error formatting $swappar as Linux swap." >&2
+        exit 1
+      fi
+      echo "Done!"
+    fi
   else
-    efipar="$(fdisk -l "$disk" | tail -n2 | head -n1 | cut -d" " -f1)"
-    rootpar="$(fdisk -l "$disk" | tail -n1 | cut -d" " -f1)"
+    efipar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | head -n1)"
+    rootpar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | head -n2 | tail -n1)"
     printf "Formatting EFI system partition $efipar as FAT32... "
     mkfs.fat -F32 "$efipar" &>/dev/null
     if [ $? -ne 0 ]; then
@@ -153,6 +181,17 @@ option_1() {
       exit 1
     fi
     echo "Done!"
+    if [ "$swap" = "y" ]; then
+      swappar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | tail -n1)"
+      printf "Formatting $swappar as Linux swap... "
+      mkswap "$swappar" &>/dev/null
+      if [ $? -ne 0 ]; then
+        echo "Failed!"
+        echo "Error formatting $swappar as Linux swap." >&2
+        exit 1
+      fi
+      echo "Done!"
+    fi
   fi
 }
 # Option 2 (below).
@@ -166,9 +205,10 @@ option_2() {
     exit 1
   fi
   if [ "$efisys" = "y" ]; then
-    echo "We also need a ~100M EFI system partition. I won't format this, but"
-    echo "it must be a FAT32 partition, to be able to boot in UEFI mode."
-    printf "It must NOT be the same as the root partition selected above.\n\n"
+    printf "\nWe also need a ~100M FAT32 EFI system partition, to be able to\n"
+    echo "boot in UEFI mode. It must differ from the root partition. If you're"
+    echo "dual-booting, I won't format this partition, since it is shared by"
+    echo "all the operating systems you have installed."
     read -p "Which partition should I use for the EFI system? " efipar
     if [ ! -b "$efipar" ]; then
       echo "Error: $efipar is not a valid partition." >&2
@@ -176,9 +216,38 @@ option_2() {
     elif [ "$efipar" = "$rootpar" ]; then
       echo "Error: EFI system partition MUST differ from root partition." >&2
       exit 1
+    elif [ "$(lsblk -fnp "$efipar" | cut -d' ' -f2)" != "vfat" ]; then
+      echo "Warning: The filesystem of $efipar is not FAT32. Would you like me"
+      read -p "to wipe $efipar and format it as FAT32 now? [y/N] " formefi
+      formefi="${formefi:0:1}"
+      formefi=$(echo "$formefi" | tr '[:upper:]' '[:lower:]')
+      if [ "$formefi" != "y" ]; then
+        echo "Error: $efipar is not FAT32 and I wasn't able to format it." >&2
+        exit 1
+      else
+        mkfs.fat -F32 "$efipar" &>/dev/null
+        if [ $? -ne 0 ]; then
+          echo "Failed!"
+          echo "Error formatting $efipar as FAT32." >&2
+          exit 1
+        fi
+      fi
     fi
   fi
-  echo "WARNING: ALL DATA ON PARTITION $rootpar WILL BE LOST."
+  printf "\nSwap is a reserved partition on the disk which can be used as\n"
+  echo "emergency RAM to prevent the system crashing if it runs out of memory."
+  echo "If you have 4GB of RAM or less, using Swap is recommended. If you have"
+  echo "an existing Swap partition, you can specify it here. Multiple OSes can"
+  echo "share the same Swap partition."
+  read -p "Do you have a Swap partition you'd like to use? [y/N] " addswap
+  addswap="${addswap:0:1}"
+  addswap=$(echo "$addswap" | tr '[:upper:]' '[:lower:]')
+  if [ "$addswap" = "y" ]; then
+    swap="y"
+  else
+    swap="n"
+  fi
+  printf "\nWARNING: ALL DATA ON PARTITION $rootpar WILL BE LOST.\n"
   read -p "Are you sure you want to continue [y/N] " confirmform
   confirmform="${confirmform:0:1}"
   confirmform=$(echo "$confirmform" | tr '[:upper:]' '[:lower:]')
@@ -230,6 +299,9 @@ if [ "$efisys" = "y" ]; then
   mkdir -p "$mountdir"/boot/efi
   mount "$efipar" "$mountdir"/boot/efi
 fi
+if [ "$swap" = "y" ]; then
+  swapon "$swappar"
+fi
 echo "Done!"
 # Download MassOS rootfs image.
 if [ "$custompkg" != "yes" ]; then
@@ -256,11 +328,17 @@ rootuuid="$(blkid -o value -s UUID "$rootpar")"
 if [ "$efisys" = "y" ]; then
   efiuuid="$(blkid -o value -s UUID "$efipar")"
 fi
+if [ "$swap" = "y" ]; then
+  swapuuid="$(blkid -o value -s UUID "$swappar")"
+fi
 # Write /etc/fstab.
 echo "# Automatically generated by MassOS installer." > "$mountdir"/etc/fstab
 echo "UUID=$rootuuid / ext4 defaults 1 1" >> "$mountdir"/etc/fstab
 if [ "$efisys" = "y" ]; then
   echo "UUID=$efiuuid /boot/efi vfat umask=0077 0 1" >> "$mountdir"/etc/fstab
+fi
+if [ "$swap" = "y" ]; then
+  echo "UUID=$swapuuid swap swap pri=1 0 0" >> "$mountdir"/etc/fstab
 fi
 # Will be used during in-chroot setup.
 export efisys disk
@@ -478,6 +556,9 @@ printf "\nUnmounting filesystems and cleaning up... "
 umount -R "$mountdir"
 rm -rf "$mountdir"
 test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
+if [ "$swap" = "y" ]; then
+  swapoff "$swappar"
+fi
 echo "Done!"
 printf "\nThe installation of MassOS was successful! You may now reboot into\n"
 echo "your new installation. We hope you enjoy using MassOS!"

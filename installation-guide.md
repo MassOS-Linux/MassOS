@@ -5,10 +5,12 @@ This guide aims to guide you through the installation of MassOS.
 # System Requirements
 - At least 8GB of free disk space (16GB recommended).
 - At least 1GB of RAM (2GB recommended).
-- MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu). The live filesystem must be large enough to download the MassOS image (~1.2GB of free space).
+- Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate).
+- MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu).
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
+- The MassOS installer now supports setting up Swap space.
 - Switched the default application menu to Whisker Menu.
 - Set the default font family to Noto Sans.
 - Added xfsprogs (for XFS filesystem support).
@@ -84,7 +86,7 @@ sudo shutdown -r now
 ## What next?
 For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
 ## Installation Program Notes
-- Advanced options like setting up swap space or using non-ext4 filesystems are not yet supported by the installer. If you require these, install MassOS manually, as shown below.
+- Advanced options like using non-ext4 filesystems are not yet supported by the installer. If you require these, install MassOS manually, as shown below.
 - By default, the program will download and install the stable version of MassOS. If you want to install a development branch build, or another custom build of MassOS, you must pass the custom rootfs image as an argument to `massos-installer.sh`, e.g. `sudo ./massos-installer.sh /path/to/my/custom/package.tar.xz`. Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it. If you must install a development branch build, you may [build MassOS yourself](building.md).
 # Installing MassOS Manually
 While the installation program is great for most users, you may want to install MassOS manually to be able to fine-tweak your installation or use custom options which the installation program doesn't support, such as swap or non-ext4 filesystems.
