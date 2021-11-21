@@ -13,6 +13,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - The MassOS installer now supports setting up Swap space.
 - Switched the default application menu to Whisker Menu.
 - Set the default font family to Noto Sans.
+- Updated the first login welcome program.
 - Added xfsprogs (for XFS filesystem support).
 - Fixed AppArmor Python bindings with Python 3.10+.
 - Added MassOS ASCII art for Neofetch.
@@ -30,6 +31,7 @@ It also includes the following upgraded software:
 - CMake: `3.22.0-rc2 --> 3.22.0`
 - cryptsetup: `2.4.1 --> 2.4.2`
 - curl: `7.79.1 --> 7.80.0`
+- DKMS: `3.0.1 --> 3.0.2`
 - elfutils: `0.185 --> 0.186`
 - Firefox: `93.0 --> 94.0.2`
 - Git: `2.33.1 --> 2.34.0`
@@ -43,6 +45,7 @@ It also includes the following upgraded software:
 - IPRoute2: `5.14.0 --> 5.15.0`
 - ISO-Codes: `4.7.0 --> 4.8.0`
 - Jinja2: `3.0.1 --> 3.0.3`
+- libcap: `2.60 --> 2.61`
 - libdrm: `2.4.107 --> 2.4.108`
 - libevdev: `1.11.0 --> 1.12.0`
 - libgpg-error: `1.42 --> 1.43`

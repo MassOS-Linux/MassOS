@@ -375,14 +375,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.60.tar.xz
-cd libcap-2.60
+tar -xf libcap-2.61.tar.xz
+cd libcap-2.61
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.60
+chmod 755 /usr/lib/lib{cap,psx}.so.2.61
 cd ..
-rm -rf libcap-2.60
+rm -rf libcap-2.61
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -446,8 +446,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.60.tar.xz
-cd libcap-2.60
+tar -xf libcap-2.61.tar.xz
+cd libcap-2.61
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -456,7 +456,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.60
+rm -rf libcap-2.61
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -2416,9 +2416,9 @@ rm -rf /usr/share/dwarves/runtime/python
 cd ../..
 rm -rf pahole-1.22-5-ge38e89e
 # DKMS.
-tar -xf dkms-3.0.1.tar.gz
-make -C dkms-3.0.1 BASHDIR=/usr/share/bash-completion/completions install
-rm -rf dkms-3.0.1
+tar -xf dkms-3.0.2.tar.gz
+make -C dkms-3.0.2 BASHDIR=/usr/share/bash-completion/completions install
+rm -rf dkms-3.0.2
 # GLib.
 tar -xf glib-2.70.1.tar.xz
 cd glib-2.70.1
@@ -2486,6 +2486,15 @@ install -dm755 /usr/share/applications
 update-desktop-database /usr/share/applications
 cd ../..
 rm -rf desktop-file-utils-0.26
+# Graphene.
+tar -xf graphene-1.10.6.tar.xz
+cd graphene-1.10.6
+mkdir graphene-build; cd graphene-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf graphene-1.10.6
 # Autoconf (2.13).
 tar -xf autoconf-2.13.tar.gz
 cd autoconf-2.13
@@ -3906,6 +3915,16 @@ ninja
 ninja install
 cd ../..
 rm -rf libhandy-1.4.0
+# sysprof.
+tar -xf sysprof-3.40.1.tar.xz
+cd sysprof-3.40.1
+mkdir sysprof-build; cd sysprof-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+rm -f /usr/share/applications/org.gnome.Sysprof3.desktop
+cd ../..
+rm -rf sysprof-3.40.1
 # libogg.
 tar -xf libogg-1.3.5.tar.xz
 cd libogg-1.3.5
@@ -5317,17 +5336,15 @@ ninja install
 cd ../..
 rm -rf gnome-software-41.0
 # MassOS Welcome (modified version of Gnome Tour).
-tar -xf gnome-tour-40.0-MassOS-2.tar.xz
-cd gnome-tour-40.0-MassOS-2
+tar -xf gnome-tour-41.rc-MassOS.tar.xz
+cd gnome-tour-41.rc-MassOS
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
 ninja
-ninja install
-rm -f /usr/share/applications/org.gnome.Tour.desktop
-rm -f /usr/share/metainfo/org.gnome.Tour.metainfo.xml
+install -m755 target/release/gnome-tour /usr/bin/massos-welcome
 cat > /usr/bin/firstlogin << "END"
 #!/bin/sh
-/usr/bin/gnome-tour
+/usr/bin/massos-welcome
 rm -f ~/.config/autostart/firstlogin.desktop
 END
 chmod 755 /usr/bin/firstlogin
@@ -5339,7 +5356,7 @@ Name=First Login Welcome Program
 Exec=/usr/bin/firstlogin
 END
 cd ../..
-rm -rf gnome-tour-40.0-MassOS-2
+rm -rf gnome-tour-41.rc-MassOS
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0

@@ -118,7 +118,6 @@ glu
 gmp
 gnome-online-accounts
 gnome-software
-gnome-tour
 gnu-efi
 gnupg
 gnutls
@@ -127,6 +126,7 @@ gparted
 gperf
 gpgme
 gptfdisk
+graphene
 graphite2
 graphviz
 grep
@@ -428,6 +428,7 @@ sshfs
 startup-notification
 sudo
 swig
+sysprof
 systemd
 taglib
 tar
