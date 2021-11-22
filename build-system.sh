@@ -5340,7 +5340,7 @@ tar -xf gnome-tour-41.rc-MassOS.tar.xz
 cd gnome-tour-41.rc-MassOS
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
-ninja
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
 install -m755 target/release/gnome-tour /usr/bin/massos-welcome
 cat > /usr/bin/firstlogin << "END"
 #!/bin/sh
