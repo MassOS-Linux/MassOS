@@ -1093,6 +1093,7 @@ rm -rf tree-1.8.0
 # GPM.
 tar -xf gpm-1.20.7-38-ge82d1a6.tar.xz
 cd gpm-1.20.7-38-ge82d1a6
+patch -Np1 -i ../gpm-1.20.7-docs.patch
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc
 make -j1
