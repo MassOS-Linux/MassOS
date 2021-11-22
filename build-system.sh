@@ -1091,9 +1091,8 @@ chmod 644 /usr/share/man/man1/tree.1
 cd ..
 rm -rf tree-1.8.0
 # GPM.
-tar -xf gpm-1.20.7.tar.gz
-cd gpm-1.20.7
-patch -Np1 -i ../patches/gpm-1.20.7-fixes.patch
+tar -xf gpm-1.20.7-38-ge82d1a6.tar.xz
+cd gpm-1.20.7-38-ge82d1a6
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc
 make -j1
@@ -1103,7 +1102,7 @@ rm -f /usr/lib/libgpm.a
 ln -sf libgpm.so.2 /usr/lib/libgpm.so
 install -m644 conf/gpm-root.conf /etc
 cd ..
-rm -rf gpm-1.20.7
+rm -rf gpm-1.20.7-38-ge82d1a6
 # ICU.
 tar -xf icu4c-70_1-src.tgz
 cd icu/source
