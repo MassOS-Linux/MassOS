@@ -64,14 +64,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.15.3.tar.xz
-cd linux-5.15.3
+tar -xf linux-5.15.4.tar.xz
+cd linux-5.15.4
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.15.3
+rm -rf linux-5.15.4
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -124,14 +124,14 @@ echo "INPUT(-lncursesw)" > $MASSOS/usr/lib/libncurses.so
 cd ..
 rm -rf ncurses-6.3
 # Bash.
-tar -xf bash-5.1.8.tar.gz
-cd bash-5.1.8
+tar -xf bash-5.1.12.tar.gz
+cd bash-5.1.12
 ./configure --prefix=/usr --build=$(support/config.guess) --host=$MASSOS_TGT --without-bash-malloc
 make
 make DESTDIR=$MASSOS install
 ln -s bash $MASSOS/bin/sh
 cd ..
-rm -rf bash-5.1.8
+rm -rf bash-5.1.12
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0

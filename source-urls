@@ -22,7 +22,7 @@ https://mirror.lyrahosting.com/gnu/autoconf/autoconf-2.71.tar.xz
 https://mirror.lyrahosting.com/gnu/automake/automake-1.16.5.tar.xz
 https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/baobab/41/baobab-41.0.tar.xz
-https://mirror.lyrahosting.com/gnu/bash/bash-5.1.8.tar.gz
+https://cdn.thesonicmaster.net/sources/bash-5.1.12.tar.gz
 https://github.com/gavinhoward/bc/releases/download/5.2.0/bc-5.2.0.tar.xz
 https://ftp.isc.org/isc/bind9/9.16.23/bind-9.16.23.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-2.37.tar.xz
@@ -321,7 +321,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.3.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.4.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -354,7 +354,7 @@ https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
 https://mpg123.org/download/mpg123-1.29.2.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
-https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.35.tar.gz
+https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.36.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
 https://nano-editor.org/dist/v5/nano-5.9.tar.xz
 https://fossies.org/linux/misc/nasm-2.15.05.tar.xz

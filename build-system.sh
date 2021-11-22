@@ -611,13 +611,13 @@ make install
 cd ..
 rm -rf grep-3.7
 # Bash.
-tar -xf bash-5.1.8.tar.gz
-cd bash-5.1.8
+tar -xf bash-5.1.12.tar.gz
+cd bash-5.1.12
 ./configure --prefix=/usr --without-bash-malloc --with-installed-readline
 make
 make install
 cd ..
-rm -rf bash-5.1.8
+rm -rf bash-5.1.12
 # libtool.
 tar -xf libtool-2.4.6.tar.xz
 cd libtool-2.4.6
@@ -5289,15 +5289,15 @@ make install
 cd ..
 rm -rf gparted-1.3.1
 # mtools.
-tar -xf mtools-4.0.35.tar.gz
-cd mtools-4.0.35
+tar -xf mtools-4.0.36.tar.gz
+cd mtools-4.0.36
 sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
 ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
 make
 make install
 install -m644 mtools.conf /etc/mtools.conf
 cd ..
-rm -rf mtools-4.0.35
+rm -rf mtools-4.0.36
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -5521,19 +5521,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.3.tar.xz
-cd linux-5.15.3
+tar -xf linux-5.15.4.tar.xz
+cd linux-5.15.4
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.3-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.3-massos/vmlinuz
-cp System.map /boot/System.map-5.15.3-massos
-cp .config /boot/config-5.15.3-massos
-rm /usr/lib/modules/5.15.3-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.4-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.4-massos/vmlinuz
+cp System.map /boot/System.map-5.15.4-massos
+cp .config /boot/config-5.15.4-massos
+rm /usr/lib/modules/5.15.4-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.3-massos/build
+builddir=/usr/lib/modules/5.15.4-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5556,7 +5556,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.3
+rm -rf linux-5.15.4
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
