@@ -1712,13 +1712,13 @@ cp -r lvm2-2.03.14-x86_64-precompiled-MassOS/{etc,usr} /
 ldconfig
 rm -rf lvm2-2.03.14-x86_64-precompiled-MassOS
 # btrfs-progs.
-tar -xf btrfs-progs-v5.15.tar.xz
-cd btrfs-progs-v5.15
+tar -xf btrfs-progs-v5.15.1.tar.xz
+cd btrfs-progs-v5.15.1
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf btrfs-progs-v5.15
+rm -rf btrfs-progs-v5.15.1
 # inih.
 tar -xf inih-r53.tar.gz
 cd inih-r53
@@ -1728,12 +1728,20 @@ ninja
 ninja install
 cd ../..
 rm -rf inih-r53
+# URCU (dependency of xfsprogs since 5.14.0).
+tar -xf userspace-rcu-0.13.0.tar.bz2
+cd userspace-rcu-0.13.0
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf userspace-rcu-0.13.0
 # xfsprogs.
-tar -xf xfsprogs-5.13.0.tar.xz
-make -C xfsprogs-5.13.0 DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
-make -C xfsprogs-5.13.0 install
-make -C xfsprogs-5.13.0 install-dev
-rm -rf xfsprogs-5.13.0
+tar -xf xfsprogs-5.14.0.tar.xz
+make -C xfsprogs-5.14.0 DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
+make -C xfsprogs-5.14.0 install
+make -C xfsprogs-5.14.0 install-dev
+rm -rf xfsprogs-5.14.0
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -2851,14 +2859,14 @@ ninja install
 cd ../..
 rm -rf wayland-1.19.0
 # Wayland-Protocols.
-tar -xf wayland-protocols-1.23.tar.xz
-cd wayland-protocols-1.23
+tar -xf wayland-protocols-1.24.tar.xz
+cd wayland-protocols-1.24
 mkdir wayland-protocols-build; cd wayland-protocols-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf wayland-protocols-1.23
+rm -rf wayland-protocols-1.24
 # Aspell.
 tar -xf aspell-0.60.8.tar.gz
 cd aspell-0.60.8
@@ -3444,12 +3452,22 @@ rm -rf libxcvt-0.1.1
 # Xorg-Server.
 tar -xf xorg-server-21.1.1.tar.xz
 cd xorg-server-21.1.1
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-glamor --enable-suid-wrapper --enable-kdrive --with-xkb-output=/var/lib/xkb
-make
-make install
+mkdir XSRV-BUILD; cd XSRV-BUILD
+meson --prefix=/usr -Dsuid_wrapper=true -Dxephyr=true -Dxkb_output_dir=/var/lib/xkb ..
+ninja
+ninja install
 mkdir -p /etc/X11/xorg.conf.d
-cd ..
+cd ../..
 rm -rf xorg-server-21.1.1
+# Xwayland.
+tar -xf xwayland-21.1.3.tar.xz
+cd xwayland-21.1.3
+mkdir XWLD-BUILD; cd XWLD-BUILD
+meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
+ninja
+ninja install
+cd ../..
+rm -rf xwayland-21.1.3
 # libevdev.
 tar -xf libevdev-1.12.0.tar.xz
 cd libevdev-1.12.0

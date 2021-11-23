@@ -28,7 +28,7 @@ It also includes the following upgraded software:
 - Bash: `5.1.8 --> 5.1.12`
 - bc: `5.1.1 --> 5.2.0`
 - BIND Utilities: `9.16.22 --> 9.16.23`
-- btrfs-progs: `5.14.2 --> 5.15`
+- btrfs-progs: `5.14.2 --> 5.15.1`
 - CMake: `3.22.0-rc2 --> 3.22.0`
 - cryptsetup: `2.4.1 --> 2.4.2`
 - curl: `7.79.1 --> 7.80.0`
@@ -71,6 +71,7 @@ It also includes the following upgraded software:
 - Tk: `8.6.11 --> 8.6.12`
 - Vim: `8.2.3565 --> 8.2.3628`
 - VTE: `0.66.0 --> 0.66.1`
+- wayland-protocols: `1.23 --> 1.24`
 - Xorg-Server: `1.20.13 --> 21.1.1`
 
 # Installing MassOS Using The Installation Program
