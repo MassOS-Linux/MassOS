@@ -780,14 +780,14 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.60.1.tar.gz
-cd meson-0.60.1
+tar -xf meson-0.60.2.tar.gz
+cd meson-0.60.2
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
 cd ..
-rm -rf meson-0.60.1
+rm -rf meson-0.60.2
 # PyParsing.
 tar -xf pyparsing_2.4.7.tar.gz
 cd pyparsing-pyparsing_2.4.7
@@ -2112,16 +2112,16 @@ make install
 cd ..
 rm -rf gnutls-3.7.2
 # OpenLDAP.
-tar -xf openldap-2.5.8.tgz
-cd openldap-2.5.8
-patch -Np1 -i ../patches/openldap-2.5.7-consolidated-1.patch
+tar -xf openldap-2.6.0.tgz
+cd openldap-2.6.0
+patch -Np1 -i ../patches/openldap-2.6.0-MassOS.patch
 autoconf
-./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning --disable-debug --disable-slapd
+./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning=yes --disable-debug --disable-slapd
 make depend
 make
 make install
 cd ..
-rm -rf openldap-2.5.8
+rm -rf openldap-2.6.0
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -2383,15 +2383,15 @@ ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
 rm -rf nss-3.72
 # Git.
-tar -xf git-2.34.0.tar.xz
-cd git-2.34.0
+tar -xf git-2.34.1.tar.xz
+cd git-2.34.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
 make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 cd ..
-rm -rf git-2.34.0
+rm -rf git-2.34.1
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -3028,14 +3028,14 @@ make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip-
 cd ..
 rm -rf p7zip-17.04
 # Ruby.
-tar -xf ruby-3.0.2.tar.xz
-cd ruby-3.0.2
+tar -xf ruby-3.0.3.tar.xz
+cd ruby-3.0.3
 ./configure --prefix=/usr --enable-shared
 make
 make install
 gem install lolcat
 cd ..
-rm -rf ruby-3.0.2
+rm -rf ruby-3.0.3
 # slang.
 tar -xf slang-2.3.2-60-g3d8eb6c.tar.xz
 cd slang-2.3.2-60-g3d8eb6c
@@ -4630,22 +4630,22 @@ ninja install
 cd ../..
 rm -rf glib-networking-2.70.0
 # libsoup.
-tar -xf libsoup-2.74.1.tar.xz
-cd libsoup-2.74.1
+tar -xf libsoup-2.74.2.tar.xz
+cd libsoup-2.74.2
 mkdir soup-build; cd soup-build
 meson --prefix=/usr --buildtype=release -Dvapi=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf libsoup-2.74.1
+rm -rf libsoup-2.74.2
 # libostree.
-tar -xf libostree-2021.4.tar.xz
-cd libostree-2021.4
+tar -xf libostree-2021.6.tar.xz
+cd libostree-2021.6
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-builtin-grub2-mkconfig --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 cd ..
-rm -rf libostree-2021.4
+rm -rf libostree-2021.6
 # AppStream.
 tar -xf AppStream-0.14.6.tar.xz
 cd AppStream-0.14.6
@@ -4928,14 +4928,14 @@ install -m755 tools/qt-faststart /usr/bin
 cd ..
 rm -rf ffmpeg-4.4.1
 # WebKitGTK.
-tar -xf webkitgtk-2.34.1.tar.xz
-cd webkitgtk-2.34.1
+tar -xf webkitgtk-2.34.2.tar.xz
+cd webkitgtk-2.34.2
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf webkitgtk-2.34.1
+rm -rf webkitgtk-2.34.2
 # gspell.
 tar -xf gspell-1.9.1.tar.xz
 cd gspell-1.9.1
@@ -5138,14 +5138,14 @@ make install
 cd ..
 rm -rf xfce4-terminal-0.8.10
 # Ristretto.
-tar -xf ristretto-0.12.0.tar.bz2
-cd ristretto-0.12.0
+tar -xf ristretto-0.12.1.tar.bz2
+cd ristretto-0.12.1
 mkdir RISTORANTE-build; cd RISTORANTE-build
 ../configure --prefix=/usr
 make
 make install
 cd ../..
-rm -rf ristretto-0.12.0
+rm -rf ristretto-0.12.1
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.2.tar.bz2
 cd xfce4-notifyd-0.6.2
@@ -5273,13 +5273,13 @@ ninja install
 cd ../..
 rm -rf gtksourceview-4.8.2
 # Mousepad.
-tar -xf mousepad-0.5.7.tar.bz2
-cd mousepad-0.5.7
+tar -xf mousepad-0.5.8.tar.bz2
+cd mousepad-0.5.8
 ./configure --prefix=/usr --enable-keyfile-settings
 make
 make install
 cd ..
-rm -rf mousepad-0.5.7
+rm -rf mousepad-0.5.8
 # galculator.
 tar -xf galculator_2.1.4.orig.tar.gz
 cd galculator-2.1.4
@@ -5531,19 +5531,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.4.tar.xz
-cd linux-5.15.4
+tar -xf linux-5.15.5.tar.xz
+cd linux-5.15.5
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.4-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.4-massos/vmlinuz
-cp System.map /boot/System.map-5.15.4-massos
-cp .config /boot/config-5.15.4-massos
-rm /usr/lib/modules/5.15.4-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.5-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.5-massos/vmlinuz
+cp System.map /boot/System.map-5.15.5-massos
+cp .config /boot/config-5.15.5-massos
+rm /usr/lib/modules/5.15.5-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.4-massos/build
+builddir=/usr/lib/modules/5.15.5-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5566,7 +5566,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.4
+rm -rf linux-5.15.5
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release

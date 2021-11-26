@@ -3,9 +3,9 @@ Welcome to **MassOS**, a [free](https://www.gnu.org/philosophy/free-sw.html) GNU
 ![](massos-desktop-screenshot.png)
 The MassOS system itself is under 5 gigabytes. Quite impressive for a GNU/Linux distribution containing a full desktop environment and common programs, as well as development tools/headers. Some distributions are able to achieve minimalism by using smaller replacements for common GNU software, at the cost of some features. With MassOS, you get the minimal size, without compromising the advanced features exclusive to GNU software.
 # Not Based On Any Other Distro
-MassOS is completely independent and compiled from _source_. It does not use a "traditional" package manager (like DPKG or RPM).
+MassOS is completely independent and built entirely from the ground up; it is not based on any other distribution. Due to not being dependent on another distribution, it is able to boast the latest and greatest in software versions.
 
-The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a traditional package manager, the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
+The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a "classic"" package manager (although [one is currently in development](https://github.com/TheSonicMaster/masspkg)), the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
 ![](software2.png)
 # Installing MassOS
 Starting from version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.

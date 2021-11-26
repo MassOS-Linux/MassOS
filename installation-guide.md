@@ -35,7 +35,7 @@ It also includes the following upgraded software:
 - DKMS: `3.0.1 --> 3.0.2`
 - elfutils: `0.185 --> 0.186`
 - Firefox: `93.0 --> 94.0.2`
-- Git: `2.33.1 --> 2.34.0`
+- Git: `2.33.1 --> 2.34.1`
 - GLib: `2.70.0 --> 2.70.1`
 - glslang: `11.6.0 --> 11.7.0`
 - gnome-online-accounts: `3.40.0 --> 3.40.1`
@@ -52,26 +52,33 @@ It also includes the following upgraded software:
 - libgpg-error: `1.42 --> 1.43`
 - libjpeg-turbo: `2.1.1 --> 2.1.2`
 - libmbim: `1.26.0 --> 1.26.2`
+- libostree: `2021.4 --> 2021.6`
 - libpipeline: `1.5.3 --> 1.5.4`
 - librsvg: `2.52.3 --> 2.52.4`
 - libseccomp: `2.5.2 --> 2.5.3`
+- libsoup: `2.74.1 --> 2.74.2`
 - libtasn1: `4.17.0 --> 4.18.0`
-- Linux Kernel: `5.15.0 --> 5.15.4`
+- Linux Kernel: `5.15.0 --> 5.15.5`
 - lxml: `4.6.3 --> 4.6.4`
 - Mako: `1.1.5 --> 1.1.6`
 - Mesa: `21.2.5 --> 21.3.0`
-- Meson: `0.59.2 --> 0.60.1`
+- Meson: `0.59.2 --> 0.60.2`
+- Mousepad: `0.5.7 --> 0.5.8`
 - mtools: `4.0.35 --> 4.0.36`
 - Ncurses: `6.2 --> 6.3`
+- OpenLDAP: `2.5.8 --> 2.6.0`
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
 - Qpdf: `10.3.2 --> 10.4.0`
+- Ristretto: `0.12.0 --> 0.12.1`
+- Ruby: `3.0.2 --> 3.0.3`
 - Thunderbird: `91.2.1 --> 91.3.2`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
 - Vim: `8.2.3565 --> 8.2.3628`
 - VTE: `0.66.0 --> 0.66.1`
 - wayland-protocols: `1.23 --> 1.24`
+- WebKitGTK: `2.34.1 --> 2.34.2`
 - Xorg-Server: `1.20.13 --> 21.1.1`
 
 # Installing MassOS Using The Installation Program
@@ -265,7 +272,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.4-massos
+mkinitramfs 5.15.5-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

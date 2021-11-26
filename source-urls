@@ -123,7 +123,7 @@ https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.xz
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
-https://fossies.org/linux/misc/git-2.34.0.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.34.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.34.tar.xz
@@ -244,7 +244,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libnma/1.8/libnma-1.8.32.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.tar.xz
 https://github.com/thkukuk/libnsl/releases/download/v2.0.0/libnsl-2.0.0.tar.xz
 https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz
-https://github.com/ostreedev/ostree/releases/download/v2021.4/libostree-2021.4.tar.xz
+https://github.com/ostreedev/ostree/releases/download/v2021.6/libostree-2021.6.tar.xz
 https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz
 https://www.x.org/archive/individual/lib/libpciaccess-0.16.tar.bz2
 https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.4.tar.gz
@@ -262,7 +262,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libsigc++/2.10/libsigc++-2.10.7.tar.xz
 https://mirror.lyrahosting.com/gnu/libsigsegv/libsigsegv-2.13.tar.gz
 https://www.x.org/archive/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.2.tar.xz
 https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 https://cdn.thesonicmaster.net/sources/libstemmer-2.1.0.tar.xz
 https://mirror.lyrahosting.com/gnu/libtasn1/libtasn1-4.18.0.tar.gz
@@ -321,7 +321,7 @@ https://github.com/yaml/libyaml/archive/0.2.5/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.5.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -344,12 +344,12 @@ https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
 https://archive.mesa3d.org/mesa-21.3.0.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.60.1/meson-0.60.1.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.60.2/meson-0.60.2.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.2.tar.xz
 https://cdn.thesonicmaster.net/sources/moreutils-0.66.tar.xz
-https://archive.fr.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.7.tar.bz2
+https://archive.fr.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.8.tar.bz2
 https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.mpfr.org/mpfr-4.1.0/mpfr-4.1.0.tar.xz
 https://mpg123.org/download/mpg123-1.29.2.tar.bz2
@@ -374,7 +374,7 @@ https://archive.mozilla.org/pub/security/nss/releases/NSS_3_72_RTM/src/nss-3.72.
 https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
 https://cdn.thesonicmaster.net/sources/openjade-1.3.2.tar.gz
 https://github.com/uclouvain/openjpeg/archive/v2.4.0/openjpeg-2.4.0.tar.gz
-https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.5.8.tgz
+https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.0.tgz
 https://cdn.thesonicmaster.net/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
 https://www.openssl.org/source/openssl-1.1.1l.tar.gz
@@ -417,11 +417,11 @@ https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.4.0/qpdf-10.4.0.t
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/readline/readline-8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
-https://archive.fr.xfce.org/src/apps/ristretto/0.12/ristretto-0.12.0.tar.bz2
+https://archive.fr.xfce.org/src/apps/ristretto/0.12/ristretto-0.12.1.tar.bz2
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.2/rpcsvc-proto-1.4.2.tar.xz
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
-https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.2.tar.xz
+https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.3.tar.xz
 https://static.rust-lang.org/dist/rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 https://cdn.thesonicmaster.net/sources/sane-backends-1.0.32.tar.gz
 https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
@@ -478,7 +478,7 @@ https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.1/vte-0.66.1.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.24.tar.xz
-https://webkitgtk.org/releases/webkitgtk-2.34.1.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.34.2.tar.xz
 https://mirror.lyrahosting.com/gnu/wget/wget-1.21.2.tar.gz
 https://mirror.lyrahosting.com/gnu/which/which-2.21.tar.gz
 https://github.com/rfc1036/whois/archive/v5.4.3/whois-5.4.3.tar.gz
