@@ -24,7 +24,7 @@
     <property name="CanChangeAccels" type="empty"/>
     <property name="ColorPalette" type="empty"/>
     <property name="FontName" type="string" value="Noto Sans 10"/>
-    <property name="MonospaceFontName" type="empty"/>
+    <property name="MonospaceFontName" type="string" value="Noto Sans Mono 10"/>
     <property name="IconSizes" type="empty"/>
     <property name="KeyThemeName" type="empty"/>
     <property name="ToolbarStyle" type="empty"/>

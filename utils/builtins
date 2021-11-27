@@ -42,6 +42,8 @@ cdparanoia
 cdrtools
 check
 clang
+clutter
+clutter-gtk
 cmake
 cmatrix
 colord
@@ -80,6 +82,7 @@ efivar
 elfutils
 enchant
 exfatprogs
+exiv2
 exo
 expat
 fcron
@@ -106,6 +109,7 @@ gdbm
 gdk-pixbuf
 geoclue
 gettext
+gexiv2
 ghostscript
 giflib
 git
@@ -187,6 +191,7 @@ libbytesize
 libcanberra
 libcap
 libcdio
+libchamplain
 libdaemon
 libdmx
 libdrm
@@ -397,7 +402,6 @@ qrencode
 readline
 requests
 rest
-ristretto
 rpcsvc-proto
 rrdtool
 rsync
@@ -415,6 +419,7 @@ sgml-common
 shadow
 shared-mime-info
 sharutils
+shotwell
 sl
 slang
 smproxy

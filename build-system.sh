@@ -1665,11 +1665,11 @@ make install
 cd ..
 rm -rf lzo-2.10
 # squashfs-tools.
-tar -xf squashfs-tools-4.5.tar.gz
-cd squashfs-tools-4.5/squashfs-tools
+tar -xf squashfs-tools-4.5.tar.xz
+cd squashfs-tools-4.5
 make GZIP_SUPPORT=1 XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1 XATTR_SUPPORT=1
 make INSTALL_DIR=/usr/bin install
-cd ../..
+cd ..
 rm -rf squashfs-tools-4.5
 # squashfuse.
 tar -xf squashfuse-0.1.104.tar.gz
@@ -1720,7 +1720,7 @@ make install
 cd ..
 rm -rf btrfs-progs-v5.15.1
 # inih.
-tar -xf inih-r53.tar.gz
+tar -xf libinih_53.orig.tar.gz
 cd inih-r53
 mkdir inih-build; cd inih-build
 meson --prefix=/usr --buildtype=release ..
@@ -1753,14 +1753,14 @@ ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
 cd ..
 rm -rf ntfs-3g_ntfsprogs-2021.8.22
 # exfatprogs.
-tar -xf exfatprogs-1.1.2.tar.gz
-cd exfatprogs-1.1.2
+tar -xf exfatprogs_1.1.3.orig.tar.xz
+cd exfatprogs-1.1.3
 autoreconf -fi
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf exfatprogs-1.1.2
+rm -rf exfatprogs-1.1.3
 # Parted.
 tar -xf parted-3.4.tar.xz
 cd parted-3.4
@@ -1935,7 +1935,7 @@ make install
 cd ..
 rm -rf libidn2-2.3.2
 # whois.
-tar -xf whois-5.4.3.tar.gz
+tar -xf whois_5.4.3.tar.xz
 cd whois-5.4.3
 make
 make prefix=/usr install-whois
@@ -2595,7 +2595,7 @@ make install LIBDIR=/usr/lib
 cd ..
 rm -rf efivar-37
 # efibootmgr.
-tar -xf efibootmgr-17.tar.gz
+tar -xf efibootmgr_17.orig.tar.gz
 cd efibootmgr-17
 sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
 make EFIDIR=massos EFI_LOADER=grubx64.efi
@@ -2936,7 +2936,7 @@ make install
 cd ..
 rm -rf nasm-2.15.05
 # libjpeg-turbo.
-tar -xf libjpeg-turbo-2.1.2.tar.gz
+tar -xf libjpeg-turbo_2.1.2.orig.tar.gz
 cd libjpeg-turbo-2.1.2
 mkdir jpeg-build; cd jpeg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -Wno-dev -G Ninja ..
@@ -3019,14 +3019,14 @@ python setup.py install --optimize=1
 cd ..
 rm -rf LSB-Tools-0.9
 # p7zip.
-tar -xf p7zip-17.04.tar.gz
-cd p7zip-17.04
+tar -xf p7zip-17.04-6-geb1bbb0.tar.xz
+cd p7zip-17.04-6-geb1bbb0
 sed '/^gzip/d' -i install.sh
 sed -i '160a if(_buffer == nullptr || _size == _pos) return E_FAIL;' CPP/7zip/Common/StreamObjects.cpp
 make OPTFLAGS="-s $CFLAGS" all3
 make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip-17.04 install
 cd ..
-rm -rf p7zip-17.04
+rm -rf p7zip-17.04-6-geb1bbb0
 # Ruby.
 tar -xf ruby-3.0.3.tar.xz
 cd ruby-3.0.3
@@ -3333,19 +3333,14 @@ make
 make install
 cd ..
 rm -rf xcursor-themes-1.0.6
-# Xorg Fonts.
-for i in font-util-1.3.2 encodings-1.0.5 font-alias-1.0.4 font-adobe-utopia-type1-1.0.4 font-bh-ttf-1.0.3 font-bh-type1-1.0.3 font-ibm-type1-1.0.3 font-misc-ethiopic-1.0.4 font-xfree86-type1-1.0.4; do
-  tar -xf $i.tar.bz2
-  cd $i
-  ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
-  make
-  make install
-  cd ..
-  rm -rf $i
-done
-install -dm755 /usr/share/fonts
-ln -sfn /usr/share/fonts/X11/OTF /usr/share/fonts/X11-OTF
-ln -sfn /usr/share/fonts/X11/TTF /usr/share/fonts/X11-TTF
+# Font Util.
+tar -xf font-util-1.3.2.tar.bz2
+cd font-util-1.3.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+make
+make install
+cd ..
+rm -rf font-util-1.3.2
 # Noto Fonts.
 tar --no-same-owner -xf noto-fonts2.tar.xz -C /usr --strip-components=2
 rm -rf /usr/share/fontconfig/conf.default
@@ -3353,6 +3348,7 @@ for i in 46-noto-mono 46-noto-sans 46-noto-serif 66-noto-mono 66-noto-sans 66-no
   ln -sf /usr/share/fontconfig/conf.avail/$i.conf /etc/fonts/conf.d/$i.conf
 done
 sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fonts.conf
+sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
 # XKeyboard-Config.
 tar -xf xkeyboard-config-2.34.tar.bz2
@@ -3828,7 +3824,7 @@ make install
 cd ..
 rm -rf vala-0.54.3
 # libgusb.
-tar -xf libgusb-0.3.8.tar.gz
+tar -xf libgusb_0.3.8.orig.tar.xz
 cd libgusb-0.3.8
 mkdir GUSB-build; cd GUSB-build
 meson --prefix=/usr --buildtype=release -Ddocs=false ..
@@ -3934,6 +3930,60 @@ ninja install
 rm -f /usr/share/applications/org.gnome.Sysprof3.desktop
 cd ../..
 rm -rf sysprof-3.40.1
+# libgee.
+tar -xf libgee-0.20.4.tar.xz
+cd libgee-0.20.4
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libgee-0.20.4
+# exiv2.
+tar -xf exiv2-0.27.5-Source.tar.gz
+cd exiv2-0.27.5-Source
+mkdir exiv2-build; cd exiv2-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DEXIV2_ENABLE_VIDEO=yes -DEXIV2_ENABLE_WEBREADY=yes -DEXIV2_ENABLE_CURL=yes -DEXIV2_BUILD_SAMPLES=no -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf exiv2-0.27.5-Source
+# PyCairo.
+tar -xf pycairo-1.20.1.tar.gz
+cd pycairo-1.20.1
+python setup.py build
+python setup.py install --optimize=1
+python setup.py install_pycairo_header
+python setup.py install_pkgconfig
+cd ..
+rm -rf pycairo-1.20.1
+# PyGObject.
+tar -xf pygobject-3.42.0.tar.xz
+cd pygobject-3.42.0
+mv tests/test_gdbus.py{,.nouse}
+mkdir pygo-build; cd pygo-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf pygobject-3.42.0
+# gexiv2.
+tar -xf gexiv2-0.14.0.tar.xz
+cd gexiv2-0.14.0
+mkdir gexiv2-build; cd gexiv2-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf gexiv2-0.14.0
+# libraw.
+tar -xf LibRaw-0.20.2.tar.gz
+cd LibRaw-0.20.2
+autoreconf -fi
+./configure --prefix=/usr --enable-jpeg --enable-lcms --disable-static
+make
+make install
+cd ..
+rm -rf LibRaw-0.20.2
 # libogg.
 tar -xf libogg-1.3.5.tar.xz
 cd libogg-1.3.5
@@ -4107,7 +4157,7 @@ rm -f /usr/lib/librrd.a
 cd ..
 rm -rf rrdtool-1.7.2
 # lm-sensors.
-tar -xf lm-sensors-3-6-0.tar.gz
+tar -xf lm-sensors-3.6.0.tar.gz
 cd lm-sensors-3-6-0
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord CFLAGS="$CFLAGS"
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord install
@@ -4156,8 +4206,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3628.tar.gz
-cd vim-8.2.3628
+tar -xf vim-8.2.3682.tar.xz
+cd vim-8.2.3682
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4179,7 +4229,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3628
+rm -rf vim-8.2.3682
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4487,25 +4537,6 @@ make
 make install
 cd ..
 rm -rf newt-0.52.21
-# PyCairo.
-tar -xf pycairo-1.20.1.tar.gz
-cd pycairo-1.20.1
-python setup.py build
-python setup.py install --optimize=1
-python setup.py install_pycairo_header
-python setup.py install_pkgconfig
-cd ..
-rm -rf pycairo-1.20.1
-# PyGObject.
-tar -xf pygobject-3.42.0.tar.xz
-cd pygobject-3.42.0
-mv tests/test_gdbus.py{,.nouse}
-mkdir pygo-build; cd pygo-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-cd ../..
-rm -rf pygobject-3.42.0
 # D-Bus Python.
 tar -xf dbus-python-1.2.18.tar.gz
 cd dbus-python-1.2.18
@@ -4791,7 +4822,7 @@ make install
 cd ..
 rm -rf mpg123-1.29.2
 # libvpx.
-tar -xf libvpx-1.11.0.tar.gz
+tar -xf libvpx_1.11.0.orig.tar.gz
 cd libvpx-1.11.0
 sed -i 's/cp -p/cp/' build/make/Makefile
 mkdir WEBMPROJECT-VPX-build; cd WEBMPROJECT-VPX-build
@@ -4805,7 +4836,7 @@ tar -xf lame-3.100.tar.gz
 cd lame-3.100
 ./configure --prefix=/usr --enable-mp3rtp --enable-nasm --disable-static
 make
-make pkghtmldir=/usr/share/doc/lame-3.100 install
+make pkghtmldir=/usr/share/doc/lame install
 cd ..
 rm -rf lame-3.100
 # Taglib.
@@ -4917,6 +4948,39 @@ ninja
 ninja install
 cd ../..
 rm -rf gst-plugins-ugly-1.18.5
+# Cogl.
+tar -xf cogl-1.22.8.tar.xz
+cd cogl-1.22.8
+./configure --prefix=/usr --enable-gles1 --enable-gles2 --enable-kms-egl-platform --enable-wayland-egl-platform --enable-xlib-egl-platform --enable-wayland-egl-server --enable-cogl-gst
+make -j1
+make -j1 install
+cd ..
+rm -rf cogl-1.22.8
+# Clutter.
+tar -xf clutter-1.26.4.tar.xz
+cd clutter-1.26.4
+./configure --prefix=/usr --sysconfdir=/etc --enable-egl-backend --enable-evdev-input --enable-wayland-backend --enable-wayland-compositor
+make
+make install
+cd ..
+rm -rf clutter-1.26.4
+# Clutter GTK.
+tar -xf clutter-gtk-1.8.4.tar.xz
+cd clutter-gtk-1.8.4
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf clutter-gtk-1.8.4
+# libchamplain.
+tar -xf libchamplain-0.12.20.tar.xz
+cd libchamplain-0.12.20
+mkdir champlain-build; cd champlain-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf libchamplain-0.12.20
 # FFmpeg.
 tar -xf ffmpeg-4.4.1.tar.xz
 cd ffmpeg-4.4.1
@@ -5137,15 +5201,15 @@ make
 make install
 cd ..
 rm -rf xfce4-terminal-0.8.10
-# Ristretto.
-tar -xf ristretto-0.12.1.tar.bz2
-cd ristretto-0.12.1
-mkdir RISTORANTE-build; cd RISTORANTE-build
-../configure --prefix=/usr
-make
-make install
+# Shotwell.
+tar -xf shotwell-0.30.14.tar.xz
+cd shotwell-0.30.14
+mkdir SHOTWELL-build; cd SHOTWELL-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
 cd ../..
-rm -rf ristretto-0.12.1
+rm -rf shotwell-0.30.14
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.2.tar.bz2
 cd xfce4-notifyd-0.6.2
@@ -5618,6 +5682,16 @@ ldconfig
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
 test ! -f /usr/lib/python3.10/site-packages/apparmor-3.0.3-py3.10.egg-info || rm -f /usr/lib/python3.10/site-packages/apparmor-3.0.3-py3.10.egg-info
+END
+cat > /tmp/postupgrade << "END"
+test ! -f /etc/fonts/fonts.conf.new || mv /etc/fonts/fonts.conf.new /etc/fonts/fonts.conf
+fc-cache
+rm -f /usr/bin/gnome-tour
+rm -f /usr/share/applications/org.gnome.Tour.desktop
+rm -f /usr/share/icons/hicolor/scalable/apps/org.gnome.Tour.svg
+rm -f /usr/share/icons/hicolor/symbolic/apps/org.gnome.Tour-symbolic.svg
+rm -f /usr/share/locale/*/LC_MESSAGES/gnome-tour.mo
+rm -f /usr/share/metainfo/org.gnome.Tour.metainfo.xml
 END
 # Clean sources directory and self destruct.
 cd ..

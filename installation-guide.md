@@ -12,7 +12,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 - The MassOS installer now supports setting up Swap space.
 - Switched the default application menu to Whisker Menu.
-- Set the default font family to Noto Sans.
+- Set the default fonts to Noto and removed the trivial Xorg fallback fonts.
 - Updated the first login welcome program.
 - Added xfsprogs (for XFS filesystem support).
 - Fixed AppArmor Python bindings with Python 3.10+.
@@ -21,6 +21,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Updated some of the included landscape wallpapers.
 - Added cdrtools, dmg2img, tree.
 - Added a clipboard manager and plugin for the Xfce panel (xfce4-clipman-plugin).
+- Replaced Ristretto with Shotwell as default image viewer.
 
 It also includes the following upgraded software:
 
@@ -34,6 +35,7 @@ It also includes the following upgraded software:
 - curl: `7.79.1 --> 7.80.0`
 - DKMS: `3.0.1 --> 3.0.2`
 - elfutils: `0.185 --> 0.186`
+- exfatprogs: `1.1.2 --> 1.1.3`
 - Firefox: `93.0 --> 94.0.2`
 - Git: `2.33.1 --> 2.34.1`
 - GLib: `2.70.0 --> 2.70.1`
@@ -70,12 +72,11 @@ It also includes the following upgraded software:
 - PCRE2: `10.37 --> 10.39`
 - Poppler: `21.10.0 --> 21.11.0`
 - Qpdf: `10.3.2 --> 10.4.0`
-- Ristretto: `0.12.0 --> 0.12.1`
 - Ruby: `3.0.2 --> 3.0.3`
 - Thunderbird: `91.2.1 --> 91.3.2`
 - Tcl: `8.6.11 --> 8.6.12`
 - Tk: `8.6.11 --> 8.6.12`
-- Vim: `8.2.3565 --> 8.2.3628`
+- Vim: `8.2.3565 --> 8.2.3682`
 - VTE: `0.66.0 --> 0.66.1`
 - wayland-protocols: `1.23 --> 1.24`
 - WebKitGTK: `2.34.1 --> 2.34.2`
@@ -100,13 +101,13 @@ sudo shutdown -r now
 For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
 ## Installation Program Notes
 - Advanced options like using non-ext4 filesystems are not yet supported by the installer. If you require these, install MassOS manually, as shown below.
-- By default, the program will download and install the stable version of MassOS. If you want to install a development branch build, or another custom build of MassOS, you must pass the custom rootfs image as an argument to `massos-installer.sh`, e.g. `sudo ./massos-installer.sh /path/to/my/custom/package.tar.xz`. Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it. If you must install a development branch build, you may [build MassOS yourself](building.md).
+- By default, the program will download and install the stable version of MassOS. If you want to install a development branch build, or another custom build of MassOS, you must pass the custom rootfs image as an argument to `massos-installer.sh`, e.g. `sudo ./massos-installer.sh /path/to/my/custom/package.tar.xz`. Official development builds are available from [this Google Drive folder](https://go.thesonicmaster.net/qk9).
 # Installing MassOS Manually
 While the installation program is great for most users, you may want to install MassOS manually to be able to fine-tweak your installation or use custom options which the installation program doesn't support, such as swap or non-ext4 filesystems.
 ## Downloading The MassOS Rootfs
-Due to how frequently the development branch is updated, we do not provide downloadable rootfs tarballs for it.
+Official development branch builds are available from [this Google Drive folder](https://go.thesonicmaster.net/qk9).
 
-You can either [install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) or [build MassOS yourself](building.md).
+Alternatively, [install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) or [build MassOS yourself](building.md).
 ## Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4, BTRFS and XFS filesystems are currently supported, and only EXT4 has been tested.
 
