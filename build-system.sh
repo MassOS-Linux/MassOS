@@ -274,13 +274,13 @@ make install
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.2.0.tar.xz
-cd bc-5.2.0
+tar -xf bc-5.2.1.tar.xz
+cd bc-5.2.1
 CC=gcc ./configure --prefix=/usr -G -Os
 make
 make install
 cd ..
-rm -rf bc-5.2.0
+rm -rf bc-5.2.1
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -2203,13 +2203,13 @@ make install
 cd ..
 rm -rf gpgme-1.16.0
 # SQLite.
-tar -xf sqlite-autoconf-3360000.tar.gz
-cd sqlite-autoconf-3360000
+tar -xf sqlite-autoconf-3370000.tar.gz
+cd sqlite-autoconf-3370000
 ./configure --prefix=/usr --disable-static --enable-fts5 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1"
 make
 make install
 cd ..
-rm -rf sqlite-autoconf-3360000
+rm -rf sqlite-autoconf-3370000
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.27.tar.gz
 cd cyrus-sasl-2.1.27
@@ -2632,14 +2632,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.1.1.tar.xz
-cd harfbuzz-3.1.1
+tar -xf harfbuzz-3.1.2.tar.xz
+cd harfbuzz-3.1.2
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.1
+rm -rf harfbuzz-3.1.2
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.0.tar.xz
 cd freetype-2.11.0
@@ -2660,9 +2660,18 @@ ninja
 ninja install
 cd ../..
 rm -rf graphite2-1.3.14
+# Woff2.
+tar -xf woff2_1.0.2.orig.tar.gz
+cd woff2-1.0.2
+mkdir WF2-build; cd WF2-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf woff2-1.0.2
 # Unifont.
 mkdir -p /usr/share/fonts/unifont
-curl -s https://unifoundry.com/pub/unifont/unifont-13.0.06/font-builds/unifont-13.0.06.pcf.gz | gunzip - > /usr/share/fonts/unifont/unifont.pcf
+pigz -cd unifont-13.0.06.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
 # GRUB.
 tar -xf grub-2.06.tar.xz
 cd grub-2.06
@@ -2678,7 +2687,7 @@ make bashcompletiondir="/usr/share/bash-completion/completions" install
 cd ../build-pc
 make bashcompletiondir="/usr/share/bash-completion/completions" install
 mkdir -p /etc/default
-cat > /etc/default/grub << END
+cat > /etc/default/grub << "END"
 # Configuration file for GRUB bootloader
 
 GRUB_DEFAULT="0"
@@ -2740,7 +2749,6 @@ GRUB_SAVEDEFAULT="true"
 # Uncomment to enable detection of other OSes when generating grub.cfg
 GRUB_DISABLE_OS_PROBER="false"
 END
-sed -i 's/${GRUB_DISTRIBUTOR} GNU\/Linux/${GRUB_DISTRIBUTOR}/' /etc/grub.d/10_linux
 cd ../..
 rm -rf grub-2.06
 CFLAGS="-w -Os -pipe"
@@ -2751,7 +2759,7 @@ tar -xf os-prober_1.79.tar.xz
 cd os-prober
 sed -i -e "s:/lib/ld\*\.so\*:/lib*/ld*.so*:g" os-probes/mounted/common/90linux-distro
 rm -f Makefile
-make newns
+make CFLAGS="$CFLAGS -s" newns
 install -Dm755 os-prober linux-boot-prober -t /usr/bin
 install -Dm755 newns -t /usr/lib/os-prober
 install -Dm755 common.sh -t /usr/share/os-prober
@@ -3246,17 +3254,17 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.108.tar.xz
-cd libdrm-2.4.108
+tar -xf libdrm-2.4.109.tar.xz
+cd libdrm-2.4.109
 mkdir no-digital-restrictions-management; cd no-digital-restrictions-management
 meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libdrm-2.4.108
+rm -rf libdrm-2.4.109
 # glslang (required for Vulkan support in Mesa).
-tar -xf glslang-11.7.0.tar.xz
-cd glslang-11.7.0
+tar -xf glslang-11.7.1.tar.xz
+cd glslang-11.7.1
 mkdir static-release; cd static-release
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
@@ -3267,7 +3275,7 @@ cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_L
 ninja
 ninja install
 cd ../..
-rm -rf glslang-11.7.0
+rm -rf glslang-11.7.1
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3312,7 +3320,7 @@ make install
 cd ..
 rm -rf xbitmaps-1.1.2
 # Xorg Applications.
-for i in iceauth-1.0.8 luit-1.1.1 mkfontscale-1.2.1 sessreg-1.1.2 setxkbmap-1.3.2 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1 xbacklight-1.2.3 xcmsdb-1.0.5 xcursorgen-1.0.7 xdpyinfo-1.3.2 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.10 xpr-1.0.5 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.5; do
+for i in iceauth-1.0.8 luit-1.1.1 mkfontscale-1.2.1 sessreg-1.1.2 setxkbmap-1.3.2 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.1 xbacklight-1.2.3 xcmsdb-1.0.5 xcursorgen-1.0.7 xdpyinfo-1.3.2 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.10 xpr-1.0.5 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.5; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -3720,14 +3728,14 @@ ninja install
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.1.1.tar.xz
-cd harfbuzz-3.1.1
+tar -xf harfbuzz-3.1.2.tar.xz
+cd harfbuzz-3.1.2
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.1
+rm -rf harfbuzz-3.1.2
 # Pango.
 tar -xf pango-1.48.10.tar.xz
 cd pango-1.48.10
@@ -3816,13 +3824,13 @@ make install
 cd ..
 rm -rf graphviz-2.49.3
 # Vala.
-tar -xf vala-0.54.3.tar.xz
-cd vala-0.54.3
+tar -xf vala-0.54.4.tar.xz
+cd vala-0.54.4
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf vala-0.54.3
+rm -rf vala-0.54.4
 # libgusb.
 tar -xf libgusb_0.3.8.orig.tar.xz
 cd libgusb-0.3.8
@@ -4121,14 +4129,14 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # SDL2.
-tar -xf SDL2-2.0.16.tar.gz
-cd SDL2-2.0.16
+tar -xf SDL2-2.0.18.tar.gz
+cd SDL2-2.0.18
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/libSDL2*.a
 cd ..
-rm -rf SDL2-2.0.16
+rm -rf SDL2-2.0.18
 # dmidecode.
 tar -xf dmidecode-3.3.tar.xz
 cd dmidecode-3.3
@@ -4206,8 +4214,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3682.tar.xz
-cd vim-8.2.3682
+tar -xf vim-8.2.3715.tar.xz
+cd vim-8.2.3715
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4229,7 +4237,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3682
+rm -rf vim-8.2.3715
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4323,11 +4331,10 @@ ninja install
 cd ../..
 rm -rf colord-1.4.5
 # CUPS.
-tar -xf cups-2.3.3op2-source.tar.gz
-cd cups-2.3.3op2
+tar -xf cups-2.4.0-source.tar.gz
+cd cups-2.4.0
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
-sed -e "s/-Wno-format-truncation//" -i configure -i config-scripts/cups-compiler.m4
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
 make
 make install
@@ -4341,7 +4348,7 @@ END
 systemctl enable cups
 rm -f /usr/share/applications/cups.desktop
 cd ..
-rm -rf cups-2.3.3op2
+rm -rf cups-2.4.0
 # Poppler.
 tar -xf poppler-21.11.0.tar.xz
 cd poppler-21.11.0
@@ -4512,13 +4519,13 @@ make install
 cd ..
 rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
-tar -xf ModemManager-1.18.2.tar.xz
-cd ModemManager-1.18.2
+tar -xf ModemManager-1.18.4.tar.xz
+cd ModemManager-1.18.4
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 cd ..
-rm -rf ModemManager-1.18.2
+rm -rf ModemManager-1.18.4
 # libndp.
 tar -xf libndp_1.8.orig.tar.gz
 cd libndp-1.8
@@ -4995,7 +5002,7 @@ rm -rf ffmpeg-4.4.1
 tar -xf webkitgtk-2.34.2.tar.xz
 cd webkitgtk-2.34.2
 mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=OFF -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
@@ -5470,8 +5477,8 @@ plymouth-set-default-theme spinner
 cd ..
 rm -rf plymouth-0.9.5
 # htop.
-tar -xf htop-3.1.1.tar.gz
-cd htop-3.1.1
+tar -xf htop-3.1.2.tar.gz
+cd htop-3.1.2
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
@@ -5480,7 +5487,7 @@ ln -sf htop /usr/bin/top
 ln -sf htop.1 /usr/share/man/man1/top.1
 rm -f /usr/share/applications/htop.desktop
 cd ..
-rm -rf htop-3.1.1
+rm -rf htop-3.1.2
 # bsd-games.
 tar -xf bsd-games-3.1.tar.gz
 cd bsd-games-3.1
@@ -5595,19 +5602,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.5.tar.xz
-cd linux-5.15.5
+tar -xf linux-5.15.6.tar.xz
+cd linux-5.15.6
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.5-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.5-massos/vmlinuz
-cp System.map /boot/System.map-5.15.5-massos
-cp .config /boot/config-5.15.5-massos
-rm /usr/lib/modules/5.15.5-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.6-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.6-massos/vmlinuz
+cp System.map /boot/System.map-5.15.6-massos
+cp .config /boot/config-5.15.6-massos
+rm /usr/lib/modules/5.15.6-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.5-massos/build
+builddir=/usr/lib/modules/5.15.6-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5630,7 +5637,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.5
+rm -rf linux-5.15.6
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
@@ -5692,6 +5699,7 @@ rm -f /usr/share/icons/hicolor/scalable/apps/org.gnome.Tour.svg
 rm -f /usr/share/icons/hicolor/symbolic/apps/org.gnome.Tour-symbolic.svg
 rm -f /usr/share/locale/*/LC_MESSAGES/gnome-tour.mo
 rm -f /usr/share/metainfo/org.gnome.Tour.metainfo.xml
+test ! -f /etc/grub.d/10_linux.new || (mv /etc/grub.d/10_linux.new /etc/grub.d/10_linux && grub-mkconfig -o /boot/grub/grub.cfg)
 END
 # Clean sources directory and self destruct.
 cd ..

@@ -8,7 +8,7 @@ MassOS is completely independent and built entirely from the ground up; it is no
 The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a "classic"" package manager (although [one is currently in development](https://github.com/TheSonicMaster/masspkg)), the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
 ![](software2.png)
 # Installing MassOS
-Starting from version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.
+MassOS has a guided installation program which can be used to easily install MassOS.
 
 Please see the [installation guide](installation-guide.md) for more information, and installation instructions.
 
@@ -18,7 +18,7 @@ Some developers may also wish to [build MassOS themselves](building.md) using th
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
 # Releases
-The latest release of MassOS is **2021.11**.
+The latest release of MassOS is **2021.12**.
 
 Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will be in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by using the [MassOS Upgrade Utility](https://github.com/TheSonicMaster/massos-upgrade).
 
