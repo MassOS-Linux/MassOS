@@ -64,14 +64,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TGT-gcc -print-
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.15.tar.xz
-cd linux-5.15
+tar -xf linux-5.15.6.tar.xz
+cd linux-5.15.6
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include $MASSOS/usr
 cd ..
-rm -rf linux-5.15
+rm -rf linux-5.15.6
 # Glibc
 tar -xf glibc-2.34.tar.xz
 cd glibc-2.34
@@ -109,9 +109,9 @@ make DESTDIR=$MASSOS install
 cd ..
 rm -rf m4-1.4.19
 # Ncurses.
-tar -xf ncurses-6.2.tar.gz
-cd ncurses-6.2
-sed -i s/mawk// configure
+tar -xf ncurses-6.3.tar.gz
+cd ncurses-6.3
+sed -i 's/mawk//' configure
 mkdir build; cd build
 ../configure
 make -C include
@@ -122,16 +122,16 @@ make
 make DESTDIR=$MASSOS TIC_PATH=$(pwd)/build/progs/tic install
 echo "INPUT(-lncursesw)" > $MASSOS/usr/lib/libncurses.so
 cd ..
-rm -rf ncurses-6.2
+rm -rf ncurses-6.3
 # Bash.
-tar -xf bash-5.1.8.tar.gz
-cd bash-5.1.8
+tar -xf bash-5.1.12.tar.gz
+cd bash-5.1.12
 ./configure --prefix=/usr --build=$(support/config.guess) --host=$MASSOS_TGT --without-bash-malloc
 make
 make DESTDIR=$MASSOS install
 ln -s bash $MASSOS/bin/sh
 cd ..
-rm -rf bash-5.1.8
+rm -rf bash-5.1.12
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
@@ -274,7 +274,10 @@ cp utils/{adduser,mass-chroot,mkinitramfs,mklocales} $MASSOS/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} $MASSOS/etc
 cp utils/{busybox,kernel}-config $SRC
 cp utils/massos-release.c $SRC
-cp utils/plymouth.png $SRC
+cp utils/massos-logo.png $SRC
+cp utils/massos-logo-small.png $SRC
+cp utils/massos-logo-notext.png $SRC
+cp utils/builtins $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d

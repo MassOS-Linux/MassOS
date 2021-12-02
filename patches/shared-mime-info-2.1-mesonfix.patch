@@ -1,0 +1,34 @@
+Submitted by:            Daniel Massey <daniel@thesonicmaster.net>
+Date:                    2021-11-10
+Initial Package Version: 2.1
+Upstream Status:         Unknown
+Origin:                  https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162
+Descrption:              Allows shared-mime-info to build with Meson 0.60.0+.
+
+diff -ruN old/data/meson.build new/data/meson.build
+--- old/data/meson.build	2020-12-31 19:12:16.000000000 +0000
++++ new/data/meson.build	2021-11-10 16:48:30.389906942 +0000
+@@ -1,18 +1,12 @@
+
+ install_man('update-mime-database.1')
+
+-freedesktop_org_xml = custom_target('freedesktop.org.xml',
+-    input : files(
+-        'freedesktop.org.xml.in',
+-        'its/shared-mime-info.its',
+-        'its/shared-mime-info.loc',
+-    ),
++freedesktop_org_xml = i18n.merge_file(
++    input: 'freedesktop.org.xml.in',
+     output: 'freedesktop.org.xml',
+-    command: [
+-        find_program('freedesktop_generate.sh'),
+-        meson.source_root(),
+-        meson.build_root()
+-    ],
++    data_dirs: '.',
++    po_dir: '../po',
++    type: 'xml',
+     install: true,
+     install_dir: get_option('datadir') / 'mime' / 'packages',
+ )
