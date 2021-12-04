@@ -14,9 +14,13 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- AppStream: `0.14.6 --> 0.15.0`
 - FreeType: `2.11.0 --> 2.11.1`
+- GLib: `2.70.1 --> 2.70.2`
+- GNOME Software: `41.0 --> 41.2`
 - NSS: `3.72 --> 3.73`
 - OpenSSL: `1.1.1l --> 3.0.0`
+- Pango: `1.48.10 --> 1.50.0`
 - PyParsing: `2.4.7 --> 3.0.6`
 
 # Installing MassOS Using The Installation Program

@@ -2428,15 +2428,15 @@ tar -xf dkms-3.0.2.tar.gz
 make -C dkms-3.0.2 BASHDIR=/usr/share/bash-completion/completions install
 rm -rf dkms-3.0.2
 # GLib.
-tar -xf glib-2.70.1.tar.xz
-cd glib-2.70.1
+tar -xf glib-2.70.2.tar.xz
+cd glib-2.70.2
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-2.70.1
+rm -rf glib-2.70.2
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -3047,15 +3047,10 @@ rm -rf p7zip-17.04-6-geb1bbb0
 # Ruby.
 tar -xf ruby-3.0.3.tar.xz
 cd ruby-3.0.3
+patch -Np1 -i ../patches/ruby-3.0.3-openssl3.patch
 ./configure --prefix=/usr --enable-shared
 make
 make install
-# Required for OpenSSL 3 support.
-tar -xf ../ruby-openssl-2.2.1-176-g8193b73.tar.xz
-cd ruby-openssl-2.2.1-176-g8193b73
-gem build openssl.gemspec
-gem install --no-user-install -i $(gem env gemdir) openssl-3.0.0.pre.gem
-cd ..
 gem install lolcat
 cd ..
 rm -rf ruby-3.0.3
@@ -3752,14 +3747,14 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.1.2
 # Pango.
-tar -xf pango-1.48.10.tar.xz
-cd pango-1.48.10
+tar -xf pango-1.50.0.tar.xz
+cd pango-1.50.0
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.48.10
+rm -rf pango-1.50.0
 # Pangomm.
 tar -xf pangomm-2.46.1.tar.xz
 cd pangomm-2.46.1
@@ -4700,14 +4695,14 @@ make install
 cd ..
 rm -rf libostree-2021.6
 # AppStream.
-tar -xf AppStream-0.14.6.tar.xz
-cd AppStream-0.14.6
+tar -xf AppStream-0.15.0.tar.xz
+cd AppStream-0.15.0
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 cd ../..
-rm -rf AppStream-0.14.6
+rm -rf AppStream-0.15.0
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -5422,15 +5417,15 @@ ninja
 ninja install
 cd ../..
 rm -rf libglib-testing-0.1.0
-# Gnome Software.
-tar -xf gnome-software-41.0.tar.xz
-cd gnome-software-41.0
+# GNOME Software.
+tar -xf gnome-software-41.2.tar.xz
+cd gnome-software-41.2
 mkdir gnome-software-build; cd gnome-software-build
 meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 cd ../..
-rm -rf gnome-software-41.0
+rm -rf gnome-software-41.2
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf gnome-tour-41.rc-MassOS.tar.xz
 cd gnome-tour-41.rc-MassOS

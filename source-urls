@@ -5,7 +5,7 @@ https://cdn.thesonicmaster.net/sources/acpi-1.7.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.5.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
-https://www.freedesktop.org/software/appstream/releases/AppStream-0.14.6.tar.xz
+https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.0.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
 https://cdn.thesonicmaster.net/sources/arc-theme-20211018.tar.zst
 https://github.com/asciidoc/asciidoc-py3/releases/download/9.1.1/asciidoc-9.1.1.tar.gz
@@ -121,7 +121,7 @@ https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/g
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
 https://cdn.kernel.org/pub/software/scm/git/git-2.34.1.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.0.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.34.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
@@ -129,7 +129,7 @@ https://cdn.thesonicmaster.net/sources/glslang-11.7.1.tar.xz
 https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.xz
 https://mirror.lyrahosting.com/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.2.tar.xz
 https://cdn.thesonicmaster.net/sources/gnome-tour-41.rc-MassOS.tar.xz
 https://cdn.thesonicmaster.net/sources/gnu-efi-3.0.13.tar.bz2
 https://cdn.thesonicmaster.net/sources/gnu-gs-fonts-other-6.0.tar.gz
@@ -384,7 +384,7 @@ https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
 https://cdn.thesonicmaster.net/sources/p7zip-17.04-6-geb1bbb0.tar.xz
 https://cdn.thesonicmaster.net/sources/pahole-1.22-5-ge38e89e.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/pango/1.48/pango-1.48.10.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.1.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
@@ -422,7 +422,6 @@ https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.2/rpcsvc-proto-1.
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
 https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.3.tar.xz
-https://cdn.thesonicmaster.net/sources/ruby-openssl-2.2.1-176-g8193b73.tar.xz
 https://static.rust-lang.org/dist/rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 https://cdn.thesonicmaster.net/sources/sane-backends-1.0.32.tar.gz
 https://distfiles.gentoo.org/distfiles/sassc-3.6.2.tar.gz
