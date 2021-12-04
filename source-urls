@@ -103,7 +103,7 @@ https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://www.x.org/archive/individual/font/font-util-1.3.2.tar.bz2
 https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/freeglut-3.2.1.tar.gz
-https://cdn.thesonicmaster.net/sources/freetype-2.11.0.tar.xz
+https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
 https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz
 https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz
 https://github.com/libfuse/libfuse/releases/download/fuse-3.10.5/fuse-3.10.5.tar.xz
@@ -370,7 +370,7 @@ https://distfiles.gentoo.org/distfiles/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/main/noto-fonts2.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.32/src/nspr-4.32.tar.gz
-https://archive.mozilla.org/pub/security/nss/releases/NSS_3_72_RTM/src/nss-3.72.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_73_RTM/src/nss-3.73.tar.gz
 https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
 https://cdn.thesonicmaster.net/sources/openjade-1.3.2.tar.gz
 https://distfiles.gentoo.org/distfiles/openjpeg-2.4.0.tar.gz
@@ -378,6 +378,7 @@ https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.
 https://cdn.thesonicmaster.net/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
 https://www.openssl.org/source/openssl-1.1.1l.tar.gz
+https://www.openssl.org/source/openssl-3.0.0.tar.gz
 https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz
 https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
@@ -411,7 +412,7 @@ https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
 https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.10.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
-https://github.com/pyparsing/pyparsing/archive/pyparsing_2.4.7.tar.gz
+https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
 https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tar.xz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.4.0/qpdf-10.4.0.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
@@ -421,6 +422,7 @@ https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.2/rpcsvc-proto-1.
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
 https://cache.ruby-lang.org/pub/ruby/3.0/ruby-3.0.3.tar.xz
+https://cdn.thesonicmaster.net/sources/ruby-openssl-2.2.1-176-g8193b73.tar.xz
 https://static.rust-lang.org/dist/rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
 https://cdn.thesonicmaster.net/sources/sane-backends-1.0.32.tar.gz
 https://distfiles.gentoo.org/distfiles/sassc-3.6.2.tar.gz

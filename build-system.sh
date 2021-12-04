@@ -737,7 +737,7 @@ make
 make install
 cd ..
 rm -rf libffi-3.4.2
-# OpenSSL.
+# OpenSSL 1.1 (For compatibility with binaries linked to OpenSSL 1.1 libs).
 tar -xf openssl-1.1.1l.tar.gz
 cd openssl-1.1.1l
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
@@ -746,6 +746,15 @@ sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 cd ..
 rm -rf openssl-1.1.1l
+# OpenSSL 3 (Newest version and the default which MassOS programs will use).
+tar -xf openssl-3.0.0.tar.gz
+cd openssl-3.0.0
+./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
+make
+sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
+make MANSUFFIX=ssl install
+cd ..
+rm -rf openssl-3.0.0
 # kmod.
 tar -xf kmod-29.tar.xz
 cd kmod-29
@@ -789,12 +798,12 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 cd ..
 rm -rf meson-0.60.2
 # PyParsing.
-tar -xf pyparsing_2.4.7.tar.gz
-cd pyparsing-pyparsing_2.4.7
+tar -xf pyparsing_3.0.6.tar.gz
+cd pyparsing-pyparsing_3.0.6
 python setup.py build
 python setup.py install --prefix=/usr --optimize=1
 cd ..
-rm -rf pyparsing-pyparsing_2.4.7
+rm -rf pyparsing-pyparsing_3.0.6
 # libseccomp.
 tar -xf libseccomp-2.5.3.tar.gz
 cd libseccomp-2.5.3
@@ -2366,8 +2375,8 @@ make install
 cd ../..
 rm -rf nspr-4.32
 # NSS.
-tar -xf nss-3.72.tar.gz
-cd nss-3.72
+tar -xf nss-3.73.tar.gz
+cd nss-3.73
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2381,7 +2390,7 @@ install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
 install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
-rm -rf nss-3.72
+rm -rf nss-3.73
 # Git.
 tar -xf git-2.34.1.tar.xz
 cd git-2.34.1
@@ -2612,15 +2621,15 @@ make install
 cd ..
 rm -rf libpng-1.6.37
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
-tar -xf freetype-2.11.0.tar.xz
-cd freetype-2.11.0
+tar -xf freetype-2.11.1.tar.xz
+cd freetype-2.11.1
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static
 make
 make install
 cd ..
-rm -rf freetype-2.11.0
+rm -rf freetype-2.11.1
 # Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -2641,15 +2650,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.1.2
 # FreeType (rebuild to support HarfBuzz).
-tar -xf freetype-2.11.0.tar.xz
-cd freetype-2.11.0
+tar -xf freetype-2.11.1.tar.xz
+cd freetype-2.11.1
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static
 make
 make install
 cd ..
-rm -rf freetype-2.11.0
+rm -rf freetype-2.11.1
 # Graphite2 (rebuild to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -3041,6 +3050,12 @@ cd ruby-3.0.3
 ./configure --prefix=/usr --enable-shared
 make
 make install
+# Required for OpenSSL 3 support.
+tar -xf ../ruby-openssl-2.2.1-176-g8193b73.tar.xz
+cd ruby-openssl-2.2.1-176-g8193b73
+gem build openssl.gemspec
+gem install --no-user-install -i $(gem env gemdir) openssl-3.0.0.pre.gem
+cd ..
 gem install lolcat
 cd ..
 rm -rf ruby-3.0.3
@@ -4721,6 +4736,7 @@ rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
 tar -xf flatpak-1.12.2.tar.xz
 cd flatpak-1.12.2
+patch -Np1 -i ../patches/flatpak-1.12.2-pyparsing3.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install

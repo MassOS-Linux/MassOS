@@ -1,0 +1,12 @@
+diff -aruN old/subprojects/variant-schema-compiler/variant-schema-compiler new/subprojects/variant-schema-compiler/variant-schema-compiler
+--- old/subprojects/variant-schema-compiler/variant-schema-compiler	2021-10-12 10:52:39.000000000 +0100
++++ new/subprojects/variant-schema-compiler/variant-schema-compiler	2021-12-03 18:23:19.823274094 +0000
+@@ -1740,7 +1740,7 @@
+         add_named_type(typename_prefix + name, type)
+     return type
+ 
+-nameableType = (Optional((Suppress("'") + ident).leaveWhitespace()) + (arrayType ^ maybeType ^ dictType ^ structType)).setParseAction(handleNameableType)
++nameableType = (Optional((Suppress("'") + ident)) + (arrayType ^ maybeType ^ dictType ^ structType)).setParseAction(handleNameableType)
+ 
+ typeSpec <<= basicType  ^ variantType ^ namedType ^ nameableType
+ 
