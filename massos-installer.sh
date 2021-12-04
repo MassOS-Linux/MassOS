@@ -553,9 +553,9 @@ END
 chmod 755 "$mountdir"/tmp/massos-installer-stage2.sh
 "$mountdir"/usr/sbin/mass-chroot "$mountdir" /tmp/massos-installer-stage2.sh
 printf "\nUnmounting filesystems and cleaning up... "
+test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
 umount -R "$mountdir"
 rm -rf "$mountdir"
-test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
 if [ "$swap" = "y" ]; then
   swapoff "$swappar"
 fi
