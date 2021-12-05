@@ -126,7 +126,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.34.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
 https://cdn.thesonicmaster.net/sources/glslang-11.7.1.tar.xz
-https://mesa.freedesktop.org/archive/glu/glu-9.0.2.tar.xz
+https://archive.mesa3d.org/glu/glu-9.0.2.tar.xz
 https://mirror.lyrahosting.com/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.2.tar.xz
@@ -343,7 +343,7 @@ https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
 https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
-https://archive.mesa3d.org/mesa-21.3.0.tar.xz
+https://archive.mesa3d.org/mesa-21.3.1.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.60.2/meson-0.60.2.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -372,6 +372,7 @@ https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.32/src/nspr-4.32.tar.gz
 https://archive.mozilla.org/pub/security/nss/releases/NSS_3_73_RTM/src/nss-3.73.tar.gz
 https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
+https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
 https://cdn.thesonicmaster.net/sources/openjade-1.3.2.tar.gz
 https://distfiles.gentoo.org/distfiles/openjpeg-2.4.0.tar.gz
 https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.0.tgz
@@ -385,7 +386,7 @@ https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.
 https://cdn.thesonicmaster.net/sources/p7zip-17.04-6-geb1bbb0.tar.xz
 https://cdn.thesonicmaster.net/sources/pahole-1.22-5-ge38e89e.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
 https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
@@ -474,10 +475,10 @@ https://lttng.org/files/urcu/userspace-rcu-0.13.0.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.4.tar.xz
-https://github.com/lfs-book/vim/releases/download/v8.2.3715/vim-8.2.3715.tar.xz
+https://github.com/lfs-book/vim/releases/download/v8.2.3742/vim-8.2.3742.tar.xz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
-https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.1/vte-0.66.1.tar.gz
+https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.2/vte-0.66.2.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.19.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.24.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.34.2.tar.xz

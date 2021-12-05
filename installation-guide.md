@@ -18,10 +18,14 @@ It also includes the following upgraded software:
 - FreeType: `2.11.0 --> 2.11.1`
 - GLib: `2.70.1 --> 2.70.2`
 - GNOME Software: `41.0 --> 41.2`
+- Mesa: `21.3.0 --> 21.3.1`
 - NSS: `3.72 --> 3.73`
 - OpenSSL: `1.1.1l --> 3.0.0`
 - Pango: `1.48.10 --> 1.50.0`
+- Pangomm: `2.46.1 --> 2.46.2`
 - PyParsing: `2.4.7 --> 3.0.6`
+- Vim: `8.2.3715 --> 8.2.3742`
+- VTE: `0.66.1 --> 0.66.2`
 
 # Installing MassOS Using The Installation Program
 Since version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.

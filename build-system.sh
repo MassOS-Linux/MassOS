@@ -3304,8 +3304,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.0.tar.xz
-cd mesa-21.3.0
+tar -xf mesa-21.3.1.tar.xz
+cd mesa-21.3.1
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3313,7 +3313,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.3.0
+rm -rf mesa-21.3.1
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3756,14 +3756,14 @@ ninja install
 cd ../..
 rm -rf pango-1.50.0
 # Pangomm.
-tar -xf pangomm-2.46.1.tar.xz
-cd pangomm-2.46.1
+tar -xf pangomm-2.46.2.tar.xz
+cd pangomm-2.46.2
 mkdir pmm-build; cd pmm-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pangomm-2.46.1
+rm -rf pangomm-2.46.2
 # hicolor-icon-theme.
 tar -xf hicolor-icon-theme-0.17.tar.xz
 cd hicolor-icon-theme-0.17
@@ -4224,11 +4224,11 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3715.tar.xz
-cd vim-8.2.3715
+tar -xf vim-8.2.3742.tar.xz
+cd vim-8.2.3742
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
-./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
+./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
 make
 make install
 cat > /etc/vimrc << END
@@ -4247,7 +4247,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3715
+rm -rf vim-8.2.3742
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4999,10 +4999,20 @@ ninja
 ninja install
 cd ../..
 rm -rf libchamplain-0.12.20
+# OpenH264.
+tar -xf openh264-2.1.1.tar.gz
+cd openh264-2.1.1
+mkdir H264-build; cd H264-build
+meson --prefix=/usr --buildtype=release -Dtests=disabled ..
+ninja
+ninja install
+rm -f /usr/lib/libopenh264.a
+cd ../..
+rm -rf openh264-2.1.1
 # FFmpeg.
 tar -xf ffmpeg-4.4.1.tar.xz
 cd ffmpeg-4.4.1
-./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
+./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -5202,15 +5212,15 @@ make install
 cd ..
 rm -rf parole-4.16.0
 # VTE.
-tar -xf vte-0.66.1.tar.gz
-cd vte-0.66.1
+tar -xf vte-0.66.2.tar.gz
+cd vte-0.66.2
 mkdir vte-build; cd vte-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 rm -f /etc/profile.d/vte.*
 cd ../..
-rm -rf vte-0.66.1
+rm -rf vte-0.66.2
 # xfce4-terminal.
 tar -xf xfce4-terminal-0.8.10.tar.bz2
 cd xfce4-terminal-0.8.10
