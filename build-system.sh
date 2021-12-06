@@ -5668,11 +5668,11 @@ ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
 install -Dt /usr/share/massos -m644 builtins massos-logo.png massos-logo-small.png massos-logo-notext.png
 # Install Neofetch.
-curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
+curl --fail-with-body -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
 chmod 755 /usr/bin/neofetch
-curl -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch.1 -o /usr/share/man/man1/neofetch.1
+curl --fail-with-body -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch.1 -o /usr/share/man/man1/neofetch.1
 # MassOS container tool.
-curl -s https://raw.githubusercontent.com/ClickNinYT/mct/9d7f3703531eb8c184b492a9b68f1ef38b9e9598/mct -o /usr/sbin/mct
+curl --fail-with-body -s https://raw.githubusercontent.com/ClickNinYT/mct/c0ae1ac88dc6a7d9a97f4c2710b02591e398cead/mct -o /usr/sbin/mct
 chmod 755 /usr/sbin/mct
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
@@ -5680,11 +5680,12 @@ rm -rf /root/.cargo
 # Install symlinks to busybox for any programs not otherwise provided.
 busybox --install -s
 # Redundant since we use systemd.
+rm -f /usr/bin/sv
 rm -f /linuxrc
 # Conflicts with /usr/sbin/lspci.
 rm -f /usr/bin/lspci
 # Unused package managers, potentially dangerous on MassOS.
-rm -f /usr/bin/{dpkg,rpm}
+rm -f /usr/bin/{dpkg,dpkg-deb,rpm}
 # Remove Debian stuff.
 rm -rf /etc/kernel
 # Move any misplaced files.
@@ -5711,7 +5712,8 @@ cat > /tmp/preupgrade << "END"
 # Nothing here yet...
 END
 cat > /tmp/postupgrade << "END"
-# Nothing here yet...
+test ! "$(readlink /usr/bin/sv)" = "/usr/bin/busybox" || rm -f /usr/bin/sv
+test ! "$(readlink /usr/bin/dpkg-deb)" = "/usr/bin/busybox" || rm -f /usr/bin/dpkg-deb
 END
 # Clean sources directory and self destruct.
 cd ..
