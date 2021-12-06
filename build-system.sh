@@ -2598,7 +2598,6 @@ rm -rf json-glib-1.6.6
 # efivar.
 tar -xf efivar-37.tar.bz2
 cd efivar-37
-patch -Np1 -i ../patches/efivar-37-gcc_9-1.patch
 make CFLAGS="$CFLAGS"
 make install LIBDIR=/usr/lib
 cd ..
@@ -3438,13 +3437,13 @@ make install
 cd ..
 rm -rf dbus-glib-0.112
 # alsa-lib.
-tar -xf alsa-lib-1.2.5.1.tar.bz2
-cd alsa-lib-1.2.5.1
+tar -xf alsa-lib-1.2.6.tar.bz2
+cd alsa-lib-1.2.6
 ./configure
 make
 make install
 cd ..
-rm -rf alsa-lib-1.2.5.1
+rm -rf alsa-lib-1.2.6
 # libepoxy.
 tar -xf libepoxy-1.5.9.tar.xz
 cd libepoxy-1.5.9
@@ -4669,14 +4668,14 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
 rm -rf gsettings-desktop-schemas-41.0
 # glib-networking.
-tar -xf glib-networking-2.70.0.tar.xz
-cd glib-networking-2.70.0
+tar -xf glib-networking-2.70.1.tar.xz
+cd glib-networking-2.70.1
 mkdir glibnet-build; cd glibnet-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf glib-networking-2.70.0
+rm -rf glib-networking-2.70.1
 # libsoup.
 tar -xf libsoup-2.74.2.tar.xz
 cd libsoup-2.74.2
@@ -5571,7 +5570,7 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-94.0.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-95.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -5709,18 +5708,10 @@ rm -rf /tmp/*
 ldconfig
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
-test ! -f /usr/lib/python3.10/site-packages/apparmor-3.0.3-py3.10.egg-info || rm -f /usr/lib/python3.10/site-packages/apparmor-3.0.3-py3.10.egg-info
+# Nothing here yet...
 END
 cat > /tmp/postupgrade << "END"
-test ! -f /etc/fonts/fonts.conf.new || mv /etc/fonts/fonts.conf.new /etc/fonts/fonts.conf
-fc-cache
-rm -f /usr/bin/gnome-tour
-rm -f /usr/share/applications/org.gnome.Tour.desktop
-rm -f /usr/share/icons/hicolor/scalable/apps/org.gnome.Tour.svg
-rm -f /usr/share/icons/hicolor/symbolic/apps/org.gnome.Tour-symbolic.svg
-rm -f /usr/share/locale/*/LC_MESSAGES/gnome-tour.mo
-rm -f /usr/share/metainfo/org.gnome.Tour.metainfo.xml
-test ! -f /etc/grub.d/10_linux.new || (mv /etc/grub.d/10_linux.new /etc/grub.d/10_linux && grub-mkconfig -o /boot/grub/grub.cfg)
+# Nothing here yet...
 END
 # Clean sources directory and self destruct.
 cd ..

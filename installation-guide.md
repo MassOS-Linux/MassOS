@@ -14,9 +14,12 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- alsa-lib: `1.2.5.1 --> 1.2.6`
 - AppStream: `0.14.6 --> 0.15.0`
+- Firefox: `94.0.2 --> 95.0`
 - FreeType: `2.11.0 --> 2.11.1`
 - GLib: `2.70.1 --> 2.70.2`
+- glib-networking: `2.70.0 --> 2.70.1`
 - GNOME Software: `41.0 --> 41.2`
 - Mesa: `21.3.0 --> 21.3.1`
 - NSS: `3.72 --> 3.73`
