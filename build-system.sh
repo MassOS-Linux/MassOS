@@ -2943,6 +2943,13 @@ make
 make install
 cd ..
 rm -rf libexif-0.6.23
+# lolcat.
+tar -xf lolcat-1.2.tar.gz
+cd lolcat-1.2
+make CFLAGS="$CFLAGS"
+install -Dt /usr/bin -m755 censor lolcat
+cd ..
+rm -rf lolcat-1.2
 # NASM.
 tar -xf nasm-2.15.05.tar.xz
 cd nasm-2.15.05
@@ -3050,7 +3057,6 @@ patch -Np1 -i ../patches/ruby-3.0.3-openssl3.patch
 ./configure --prefix=/usr --enable-shared
 make
 make install
-gem install lolcat
 cd ..
 rm -rf ruby-3.0.3
 # slang.
