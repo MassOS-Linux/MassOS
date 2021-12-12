@@ -3,7 +3,7 @@ https://www.freedesktop.org/software/accountsservice/accountsservice-0.6.55.tar.
 https://download.savannah.gnu.org/releases/acl/acl-2.3.1.tar.xz
 https://cdn.thesonicmaster.net/sources/acpi-1.7.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
-https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.6.tar.bz2
+https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.6.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
 https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.0.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
@@ -45,7 +45,7 @@ https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/clang-13.0.0.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.22.0/cmake-3.22.0.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.22.1/cmake-3.22.1.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://ftp.acc.umu.se/pub/gnome/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
@@ -58,6 +58,7 @@ https://github.com/OpenPrinting/cups/releases/download/v2.4.0/cups-2.4.0-source.
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
 https://curl.se/download/curl-7.80.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
+https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
 https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
 https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
@@ -85,10 +86,10 @@ https://cdn.thesonicmaster.net/sources/ed-1.17.tar.xz
 https://deb.debian.org/debian/pool/main/e/efibootmgr/efibootmgr_17.orig.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
 https://sourceware.org/ftp/elfutils/0.186/elfutils-0.186.tar.bz2
-https://github.com/AbiWord/enchant/releases/download/v2.3.0/enchant-2.3.0.tar.gz
+https://github.com/AbiWord/enchant/releases/download/v2.3.2/enchant-2.3.2.tar.gz
 https://deb.debian.org/debian/pool/main/e/exfatprogs/exfatprogs_1.1.3.orig.tar.xz
 https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz
-https://archive.fr.xfce.org/src/xfce/exo/4.16/exo-4.16.2.tar.bz2
+https://archive.fr.xfce.org/src/xfce/exo/4.16/exo-4.16.3.tar.bz2
 https://cdn.thesonicmaster.net/sources/expat-2.4.1.tar.xz
 https://distfiles.gentoo.org/distfiles/fcron-3.2.1.src.tar.gz
 https://ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz
@@ -143,7 +144,7 @@ https://cdn.thesonicmaster.net/sources/gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled
 https://cdn.thesonicmaster.net/sources/gptfdisk-1.0.8.tar.gz
 https://github.com/ebassi/graphene/releases/download/1.10.6/graphene-1.10.6.tar.xz
 https://github.com/silnrsi/graphite/releases/download/1.3.14/graphite2-1.3.14.tgz
-https://gitlab.com/graphviz/graphviz/-/archive/2.49.3/graphviz-2.49.3.tar.gz
+https://gitlab.com/graphviz/graphviz/-/archive/2.50.0/graphviz-2.50.0.tar.gz
 https://mirror.lyrahosting.com/gnu/grep/grep-3.7.tar.xz
 https://mirror.lyrahosting.com/gnu/groff/groff-1.22.4.tar.gz
 https://mirror.lyrahosting.com/gnu/grub/grub-2.06.tar.xz
@@ -226,7 +227,7 @@ https://github.com/gphoto/libgphoto2/releases/download/v2.5.27/libgphoto2-2.5.27
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
 https://deb.debian.org/debian/pool/main/libg/libgusb/libgusb_0.3.8.orig.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
-https://github.com/libical/libical/releases/download/v3.0.11/libical-3.0.11.tar.gz
+https://github.com/libical/libical/releases/download/v3.0.12/libical-3.0.12.tar.gz
 https://www.x.org/archive/individual/lib/libICE-1.0.10.tar.bz2
 https://mirror.lyrahosting.com/gnu/libidn/libidn2-2.3.2.tar.gz
 https://github.com/libimobiledevice/libimobiledevice/releases/download/1.3.0/libimobiledevice-1.3.0.tar.bz2
@@ -281,7 +282,7 @@ https://github.com/linuxwacom/libwacom/releases/download/libwacom-1.12/libwacom-
 https://fossies.org/linux/www/libwebp-1.2.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libwnck/40/libwnck-40.0.tar.xz
 https://wpewebkit.org/releases/libwpe-1.12.0.tar.xz
-https://www.x.org/archive/individual/lib/libX11-1.7.2.tar.bz2
+https://www.x.org/archive/individual/lib/libX11-1.7.3.tar.xz
 https://www.x.org/archive/individual/lib/libXau-1.0.9.tar.bz2
 https://www.x.org/archive/individual/lib/libXaw-1.0.14.tar.bz2
 https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.14.tar.xz
@@ -321,7 +322,7 @@ https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.6.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.7.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -384,8 +385,8 @@ https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz
 https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
 https://cdn.thesonicmaster.net/sources/p7zip-17.04-6-geb1bbb0.tar.xz
-https://cdn.thesonicmaster.net/sources/pahole-1.22-5-ge38e89e.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.0.tar.xz
+https://cdn.thesonicmaster.net/sources/pahole-1.23.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
@@ -402,7 +403,7 @@ https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/0.9.5/plymouth-0.9.5.tar.gz
 https://www.freedesktop.org/software/polkit/releases/polkit-0.120.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
-https://poppler.freedesktop.org/poppler-21.11.0.tar.xz
+https://poppler.freedesktop.org/poppler-21.12.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz
 https://fossies.org/linux/misc/popt-1.18.tar.gz
 https://download.samba.org/pub/ppp/ppp-2.4.9.tar.gz
@@ -414,7 +415,7 @@ https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.ta
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.10.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
-https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tar.xz
+https://www.python.org/ftp/python/3.10.1/Python-3.10.1.tar.xz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.4.0/qpdf-10.4.0.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/readline/readline-8.1.tar.gz
@@ -460,7 +461,7 @@ https://cdn.thesonicmaster.net/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.fr.xfce.org/src/xfce/thunar/4.16/thunar-4.16.10.tar.bz2
 https://archive.fr.xfce.org/src/thunar-plugins/thunar-archive-plugin/0.4/thunar-archive-plugin-0.4.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/thunar-volman/4.16/thunar-volman-4.16.0.tar.bz2
-https://archive.mozilla.org/pub/thunderbird/releases/91.3.2/linux-x86_64/en-US/thunderbird-91.3.2.tar.bz2
+https://archive.mozilla.org/pub/thunderbird/releases/91.4.0/linux-x86_64/en-US/thunderbird-91.4.0.tar.bz2
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
 https://cdn.thesonicmaster.net/sources/tk8.6.12-src.tar.gz
 https://fossies.org/linux/misc/tree-1.8.0.tgz
@@ -536,7 +537,7 @@ https://archive.fr.xfce.org/src/apps/xfce4-terminal/0.8/xfce4-terminal-0.8.10.ta
 https://archive.fr.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/2.6/xfce4-whiskermenu-plugin-2.6.1.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfconf/4.16/xfconf-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfdesktop/4.16/xfdesktop-4.16.0.tar.bz2
-https://cdn.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-5.14.0.tar.xz
+https://cdn.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-5.14.2.tar.xz
 https://archive.fr.xfce.org/src/xfce/xfwm4/4.16/xfwm4-4.16.1.tar.bz2
 https://www.x.org/archive/individual/app/xgamma-1.0.6.tar.bz2
 https://www.x.org/archive/individual/app/xhost-1.0.8.tar.bz2

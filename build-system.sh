@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.10.0.tar.xz
-cd Python-3.10.0
+tar -xf Python-3.10.1.tar.xz
+cd Python-3.10.1
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.10.0
+rm -rf Python-3.10.1
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -766,8 +766,8 @@ ln -sf kmod /usr/bin/lsmod
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.10.0.tar.xz
-cd Python-3.10.0
+tar -xf Python-3.10.1.tar.xz
+cd Python-3.10.1
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -779,7 +779,7 @@ ln -sf pip3 /usr/bin/pip
 pip --no-color install --upgrade pip
 pip --no-color install --upgrade setuptools
 cd ..
-rm -rf Python-3.10.0
+rm -rf Python-3.10.1
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -1746,11 +1746,11 @@ make install
 cd ..
 rm -rf userspace-rcu-0.13.0
 # xfsprogs.
-tar -xf xfsprogs-5.14.0.tar.xz
-make -C xfsprogs-5.14.0 DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
-make -C xfsprogs-5.14.0 install
-make -C xfsprogs-5.14.0 install-dev
-rm -rf xfsprogs-5.14.0
+tar -xf xfsprogs-5.14.2.tar.xz
+make -C xfsprogs-5.14.2 DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
+make -C xfsprogs-5.14.2 install
+make -C xfsprogs-5.14.2 install-dev
+rm -rf xfsprogs-5.14.2
 # ntfs-3g.
 tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
 cd ntfs-3g_ntfsprogs-2021.8.22
@@ -1833,15 +1833,15 @@ make install
 cd ..
 rm -rf curl-7.80.0
 # CMake.
-tar -xf cmake-3.22.0.tar.gz
-cd cmake-3.22.0
+tar -xf cmake-3.22.1.tar.gz
+cd cmake-3.22.1
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
 ninja install
 rm -rf /usr/share/doc/cmake
 cd ..
-rm -rf cmake-3.22.0
+rm -rf cmake-3.22.1
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2413,8 +2413,8 @@ ldconfig
 cd ..
 rm -rf libstemmer-2.1.0
 # Pahole.
-tar -xf pahole-1.22-5-ge38e89e.tar.xz
-cd pahole-1.22-5-ge38e89e
+tar -xf pahole-1.23.tar.xz
+cd pahole-1.23
 mkdir pahole-build; cd pahole-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -Wno-dev -G Ninja ..
 ninja
@@ -2422,7 +2422,7 @@ ninja install
 mv /usr/share/dwarves/runtime/python/ostra.py /usr/lib/python3.10/ostra.py
 rm -rf /usr/share/dwarves/runtime/python
 cd ../..
-rm -rf pahole-1.22-5-ge38e89e
+rm -rf pahole-1.23.tar.xz
 # DKMS.
 tar -xf dkms-3.0.2.tar.gz
 make -C dkms-3.0.2 BASHDIR=/usr/share/bash-completion/completions install
@@ -2903,13 +2903,13 @@ make install
 cd ..
 rm -rf aspell6-en-2020.12.07-0
 # Enchant.
-tar -xf enchant-2.3.0.tar.gz
-cd enchant-2.3.0
+tar -xf enchant-2.3.2.tar.gz
+cd enchant-2.3.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf enchant-2.3.0
+rm -rf enchant-2.3.2
 # Fontconfig.
 tar -xf fontconfig-2.13.1.tar.bz2
 cd fontconfig-2.13.1
@@ -3236,8 +3236,8 @@ make install
 cd ..
 rm -rf libxcb-1.14
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.2 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.12 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
-  tar -xf $i.tar.bz2
+for i in xtrans-1.4.0 libX11-1.7.3 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.12 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+  tar -xf $i.tar.*
   cd $i
   case $i in
     libICE* ) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static ICE_LIBS=-lpthread ;;
@@ -3437,13 +3437,13 @@ make install
 cd ..
 rm -rf dbus-glib-0.112
 # alsa-lib.
-tar -xf alsa-lib-1.2.6.tar.bz2
-cd alsa-lib-1.2.6
+tar -xf alsa-lib-1.2.6.1.tar.bz2
+cd alsa-lib-1.2.6.1
 ./configure
 make
 make install
 cd ..
-rm -rf alsa-lib-1.2.6
+rm -rf alsa-lib-1.2.6.1
 # libepoxy.
 tar -xf libepoxy-1.5.9.tar.xz
 cd libepoxy-1.5.9
@@ -3746,14 +3746,14 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.1.2
 # Pango.
-tar -xf pango-1.50.0.tar.xz
-cd pango-1.50.0
+tar -xf pango-1.50.1.tar.xz
+cd pango-1.50.1
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.50.0
+rm -rf pango-1.50.1
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -3823,15 +3823,15 @@ make install
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.49.3.tar.gz
-cd graphviz-2.49.3
+tar -xf graphviz-2.50.0.tar.gz
+cd graphviz-2.50.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
 make
 make install
 cd ..
-rm -rf graphviz-2.49.3
+rm -rf graphviz-2.50.0
 # Vala.
 tar -xf vala-0.54.4.tar.xz
 cd vala-0.54.4
@@ -4084,14 +4084,14 @@ make install
 cd ..
 rm -rf sbc-1.5
 # libical.
-tar -xf libical-3.0.11.tar.gz
-cd libical-3.0.11
+tar -xf libical-3.0.12.tar.gz
+cd libical-3.0.12
 mkdir build-with-CMAKE; cd build-with-CMAKE
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true -Wno-dev ..
 make -j1
 make -j1 install
 cd ../..
-rm -rf libical-3.0.11
+rm -rf libical-3.0.12
 # BlueZ.
 tar -xf bluez-5.62.tar.xz
 cd bluez-5.62
@@ -4165,8 +4165,7 @@ rm -rf laptop-detect-0.16
 tar -xf rrdtool-1.7.2.tar.gz
 cd rrdtool-1.7.2
 sed -e 's/$(RUBY) ${abs_srcdir}\/ruby\/extconf.rb/& --vendor/' -i bindings/Makefile.am
-aclocal
-automake
+autoreconf -fi
 ./configure --prefix=/usr --localstatedir=/var --disable-rpath --enable-perl --enable-perl-site-install --with-perl-options='INSTALLDIRS=vendor' --enable-ruby --enable-ruby-site-install --enable-python --enable-tcl --disable-libwrap
 make
 make install
@@ -4359,8 +4358,8 @@ rm -f /usr/share/applications/cups.desktop
 cd ..
 rm -rf cups-2.4.0
 # Poppler.
-tar -xf poppler-21.11.0.tar.xz
-cd poppler-21.11.0
+tar -xf poppler-21.12.0.tar.xz
+cd poppler-21.12.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -4369,7 +4368,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-21.11.0
+rm -rf poppler-21.12.0
 # Ghostscript.
 tar -xf ghostscript-9.55.0.tar.xz
 cd ghostscript-9.55.0
@@ -4485,16 +4484,22 @@ chmod 755 /usr/lib/libtk8.6.so
 cd ../..
 rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.10.0.tar.xz
-cd Python-3.10.0
+tar -xf Python-3.10.1.tar.xz
+cd Python-3.10.1
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
-pip install cython
-pip install requests
-pip install tldr
+pip --no-color install requests
+pip --no-color install tldr
 cd ..
-rm -rf Python-3.10.0
+rm -rf Python-3.10.1
+# Cython.
+tar -xf Cython-0.29.25.tar.gz
+cd Cython-0.29.25
+python setup.py build
+python setup.py install --skip-build
+cd ..
+rm -rf Cython-0.29.25
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0
@@ -5088,13 +5093,13 @@ make install
 cd ..
 rm -rf libxfce4ui-4.16.1
 # Exo.
-tar -xf exo-4.16.2.tar.bz2
-cd exo-4.16.2
+tar -xf exo-4.16.3.tar.bz2
+cd exo-4.16.3
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 cd ..
-rm -rf exo-4.16.2
+rm -rf exo-4.16.3
 # Garcon.
 tar -xf garcon-4.16.1.tar.bz2
 cd garcon-4.16.1
@@ -5597,7 +5602,7 @@ StartupNotify=true
 END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.3.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.4.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
@@ -5622,19 +5627,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.6.tar.xz
-cd linux-5.15.6
+tar -xf linux-5.15.7.tar.xz
+cd linux-5.15.7
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.6-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.6-massos/vmlinuz
-cp System.map /boot/System.map-5.15.6-massos
-cp .config /boot/config-5.15.6-massos
-rm /usr/lib/modules/5.15.6-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.7-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.7-massos/vmlinuz
+cp System.map /boot/System.map-5.15.7-massos
+cp .config /boot/config-5.15.7-massos
+rm /usr/lib/modules/5.15.7-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.6-massos/build
+builddir=/usr/lib/modules/5.15.7-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5657,7 +5662,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.6
+rm -rf linux-5.15.7
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
