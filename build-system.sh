@@ -4811,6 +4811,16 @@ make
 make install
 cd ..
 rm -rf libass-0.15.2
+# OpenH264.
+tar -xf openh264-2.1.1.tar.gz
+cd openh264-2.1.1
+mkdir H264-build; cd H264-build
+meson --prefix=/usr --buildtype=release -Dtests=disabled ..
+ninja
+ninja install
+rm -f /usr/lib/libopenh264.a
+cd ../..
+rm -rf openh264-2.1.1
 # gstreamer.
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
@@ -5007,16 +5017,6 @@ ninja
 ninja install
 cd ../..
 rm -rf libchamplain-0.12.20
-# OpenH264.
-tar -xf openh264-2.1.1.tar.gz
-cd openh264-2.1.1
-mkdir H264-build; cd H264-build
-meson --prefix=/usr --buildtype=release -Dtests=disabled ..
-ninja
-ninja install
-rm -f /usr/lib/libopenh264.a
-cd ../..
-rm -rf openh264-2.1.1
 # FFmpeg.
 tar -xf ffmpeg-4.4.1.tar.xz
 cd ffmpeg-4.4.1
