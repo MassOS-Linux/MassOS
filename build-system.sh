@@ -375,14 +375,14 @@ make install
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.61.tar.xz
-cd libcap-2.61
+tar -xf libcap-2.62.tar.xz
+cd libcap-2.62
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.61
+chmod 755 /usr/lib/lib{cap,psx}.so.2.62
 cd ..
-rm -rf libcap-2.61
+rm -rf libcap-2.62
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -446,8 +446,8 @@ END
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.61.tar.xz
-cd libcap-2.61
+tar -xf libcap-2.62.tar.xz
+cd libcap-2.62
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -456,7 +456,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.61
+rm -rf libcap-2.62
 # Shadow.
 tar -xf shadow-4.8.1.tar.xz
 cd shadow-4.8.1
@@ -1113,13 +1113,13 @@ make install
 cd ../..
 rm -rf icu
 # Boost.
-tar -xf boost_1_77_0.tar.bz2
-cd boost_1_77_0
+tar -xf boost_1_78_0.tar.bz2
+cd boost_1_78_0
 ./bootstrap.sh --prefix=/usr --with-python=python3
 ./b2 stage -j$(nproc) threading=multi link=shared
 ./b2 install threading=multi link=shared
 cd ..
-rm -rf boost_1_77_0
+rm -rf boost_1_78_0
 # libgpg-error.
 tar -xf libgpg-error-1.43.tar.bz2
 cd libgpg-error-1.43
@@ -1527,12 +1527,11 @@ install -Dm 644 apps/*.efi -t /usr/share/gnu-efi/apps/x86_64
 cd ..
 rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-249.tar.gz
-cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-7.patch
+tar -xf systemd-250-rc2.tar.gz
+cd systemd-250-rc2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1556,7 +1555,7 @@ password required    pam_deny.so
 END
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-249
+rm -rf systemd-250-rc2
 # D-Bus (initial build; will be rebuilt later for X support (dbus-launch)).
 tar -xf dbus-1.12.20.tar.gz
 cd dbus-1.12.20
@@ -2640,14 +2639,14 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.1.2.tar.xz
-cd harfbuzz-3.1.2
+tar -xf harfbuzz-3.2.0.tar.xz
+cd harfbuzz-3.2.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.2
+rm -rf harfbuzz-3.2.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -2866,14 +2865,14 @@ make install
 cd ..
 rm -rf mtdev-1.1.6
 # Wayland.
-tar -xf wayland-1.19.0.tar.xz
-cd wayland-1.19.0
+tar -xf wayland-1.20.0.tar.xz
+cd wayland-1.20.0
 mkdir wayland-build; cd wayland-build
 meson --prefix=/usr --buildtype=release -Ddocumentation=false ..
 ninja
 ninja install
 cd ../..
-rm -rf wayland-1.19.0
+rm -rf wayland-1.20.0
 # Wayland-Protocols.
 tar -xf wayland-protocols-1.24.tar.xz
 cd wayland-protocols-1.24
@@ -3391,12 +3390,11 @@ ninja install
 cd ../..
 rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-249.tar.gz
-cd systemd-249
-patch -Np1 -i ../patches/systemd-249-backports-7.patch
+tar -xf systemd-250-rc2.tar.gz
+cd systemd-250-rc2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=249-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -3412,7 +3410,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-249
+rm -rf systemd-250-rc2
 # D-Bus (rebuild for X support (dbus-launch)).
 tar -xf dbus-1.12.20.tar.gz
 cd dbus-1.12.20
@@ -3505,14 +3503,14 @@ make install
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.19.2.tar.xz
-cd libinput-1.19.2
+tar -xf libinput-1.19.3.tar.xz
+cd libinput-1.19.3
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 cd ../..
-rm -rf libinput-1.19.2
+rm -rf libinput-1.19.3
 # xf86-input-libinput.
 tar -xf xf86-input-libinput-1.2.0.tar.bz2
 cd xf86-input-libinput-1.2.0
@@ -3743,14 +3741,14 @@ ninja install
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.1.2.tar.xz
-cd harfbuzz-3.1.2
+tar -xf harfbuzz-3.2.0.tar.xz
+cd harfbuzz-3.2.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.1.2
+rm -rf harfbuzz-3.2.0
 # Pango.
 tar -xf pango-1.50.1.tar.xz
 cd pango-1.50.1
@@ -4842,13 +4840,13 @@ ninja install
 cd ../..
 rm -rf gst-plugins-base-1.18.5
 # mpg123.
-tar -xf mpg123-1.29.2.tar.bz2
-cd mpg123-1.29.2
+tar -xf mpg123-1.29.3.tar.bz2
+cd mpg123-1.29.3
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf mpg123-1.29.2
+rm -rf mpg123-1.29.3
 # libvpx.
 tar -xf libvpx_1.11.0.orig.tar.gz
 cd libvpx-1.11.0

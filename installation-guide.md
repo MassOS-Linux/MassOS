@@ -10,25 +10,30 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Migrated MassOS programs to OpenSSL 3. Retained OpenSSL 1.1 libraries for compatibility with binary-only programs which are dynamically linked to the OpenSSL 1.1 libraries.
+- Migrated MassOS programs to OpenSSL 3. Retained OpenSSL 1.1 libraries for compatibility with binary-only programs which depend on the OpenSSL 1.1 libraries.
 
 It also includes the following upgraded software:
 
 - alsa-lib: `1.2.5.1 --> 1.2.6.1`
 - AppStream: `0.14.6 --> 0.15.0`
+- Boost: `1.77.0 --> 1.78.0`
 - CMake: `3.22.0 --> 3.22.1`
 - Enchant: `2.3.0 --> 2.3.2`
 - Exo: `4.16.2 --> 4.16.3`
 - Firefox: `94.0.2 --> 95.0`
 - FreeType: `2.11.0 --> 2.11.1`
+- HarfBuzz: `3.1.2 --> 3.2.0`
 - GLib: `2.70.1 --> 2.70.2`
 - glib-networking: `2.70.0 --> 2.70.1`
 - GNOME Software: `41.0 --> 41.2`
 - Graphviz: `2.49.3 --> 2.50.0`
+- libcap: `2.61 --> 2.62`
 - libical: `3.0.11 --> 3.0.12`
+- libinput: `1.19.2 --> 1.19.3`
 - libX11: `1.7.2 --> 1.7.3`
 - Linux: `5.15.6 --> 5.15.7`
 - Mesa: `21.3.0 --> 21.3.1`
+- mpg123: `1.29.2 --> 1.29.3`
 - NSS: `3.72 --> 3.73`
 - OpenSSL: `1.1.1l --> 3.0.0`
 - Pahole: `1.22-5-ge38e89e --> 1.23`
@@ -36,9 +41,11 @@ It also includes the following upgraded software:
 - Pangomm: `2.46.1 --> 2.46.2`
 - Poppler: `21.11.0 --> 21.12.0`
 - PyParsing: `2.4.7 --> 3.0.6`
+- systemd: `249 --> 250-rc2`
 - Thunderbird: `91.3.2 --> 91.4.0`
 - Vim: `8.2.3715 --> 8.2.3742`
 - VTE: `0.66.1 --> 0.66.2`
+- Wayland: `1.19.0 --> 1.20.0`
 - xfsprogs: `5.14.0 --> 5.14.2`
 
 # Installing MassOS Using The Installation Program
