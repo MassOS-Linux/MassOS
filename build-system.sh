@@ -1015,15 +1015,15 @@ make install
 cd ..
 rm -rf tar-1.34
 # Nano (Vim will be installed later, after Xorg, to support a GUI).
-tar -xf nano-5.9.tar.xz
-cd nano-5.9
+tar -xf nano-6.0.tar.xz
+cd nano-6.0
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
 cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 cd ..
-rm -rf nano-5.9
+rm -rf nano-6.0
 # dos2unix.
 tar -xf dos2unix-7.4.2.tar.gz
 cd dos2unix-7.4.2
@@ -1057,8 +1057,8 @@ python setup.py install --optimize=1
 cd ..
 rm -rf Pygments-2.10.0
 # dialog.
-tar -xf dialog-1.3-20210621.tgz
-cd dialog-1.3-20210621
+tar -xf dialog-1.3-20211214.tgz
+cd dialog-1.3-20211214
 ./configure --prefix=/usr --enable-nls --with-libtool --with-ncursesw
 make
 make install
@@ -1066,7 +1066,7 @@ rm -f /usr/lib/libdialog.a
 chmod 755 /usr/lib/libdialog.so.15.0.0
 chmod 755 /usr/lib/libdialog.la
 cd ..
-rm -rf dialog-1.3-20210621
+rm -rf dialog-1.3-20211214
 # acpi.
 tar -xf acpi-1.7.tar.gz
 cd acpi-1.7
@@ -3467,24 +3467,24 @@ ninja install
 cd ../..
 rm -rf libxcvt-0.1.1
 # Xorg-Server.
-tar -xf xorg-server-21.1.1.tar.xz
-cd xorg-server-21.1.1
+tar -xf xorg-server-21.1.2.tar.xz
+cd xorg-server-21.1.2
 mkdir XSRV-BUILD; cd XSRV-BUILD
 meson --prefix=/usr -Dsuid_wrapper=true -Dxephyr=true -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 mkdir -p /etc/X11/xorg.conf.d
 cd ../..
-rm -rf xorg-server-21.1.1
+rm -rf xorg-server-21.1.2
 # Xwayland.
-tar -xf xwayland-21.1.3.tar.xz
-cd xwayland-21.1.3
+tar -xf xwayland-21.1.4.tar.xz
+cd xwayland-21.1.4
 mkdir XWLD-BUILD; cd XWLD-BUILD
 meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 cd ../..
-rm -rf xwayland-21.1.3
+rm -rf xwayland-21.1.4
 # libevdev.
 tar -xf libevdev-1.12.0.tar.xz
 cd libevdev-1.12.0
@@ -4144,6 +4144,7 @@ rm -rf SDL-1.2.15
 # SDL2.
 tar -xf SDL2-2.0.18.tar.gz
 cd SDL2-2.0.18
+patch -Np1 -i ../patches/SDL2-2.0.18-Wayland1.20.patch
 ./configure --prefix=/usr
 make
 make install
@@ -4226,8 +4227,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3742.tar.xz
-cd vim-8.2.3742
+tar -xf vim-8.2.3808.tar.gz
+cd vim-8.2.3808
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4249,7 +4250,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3742
+rm -rf vim-8.2.3808
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4702,6 +4703,15 @@ make
 make install
 cd ..
 rm -rf libostree-2021.6
+# libxmlb.
+tar -xf libxmlb-0.3.6.tar.gz
+cd libxmlb-0.3.6
+mkdir xmlb-build; cd xmlb-build
+meson --prefix=/usr --buildtype=release -Dstemmer=true ..
+ninja
+ninja install
+cd ../..
+rm -rf libxmlb-0.3.6
 # AppStream.
 tar -xf AppStream-0.15.0.tar.xz
 cd AppStream-0.15.0
@@ -5020,7 +5030,7 @@ rm -rf libchamplain-0.12.20
 # FFmpeg.
 tar -xf ffmpeg-4.4.1.tar.xz
 cd ffmpeg-4.4.1
-./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
+./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -5417,15 +5427,6 @@ ninja
 ninja install
 cd ../..
 rm -rf baobab-41.0
-# libxmlb.
-tar -xf libxmlb-0.3.3.tar.gz
-cd libxmlb-0.3.3
-mkdir xmlb-build; cd xmlb-build
-meson --prefix=/usr --buildtype=release -Dstemmer=true ..
-ninja
-ninja install
-cd ../..
-rm -rf libxmlb-0.3.3
 # libglib-testing.
 tar -xf libglib-testing-0.1.0.tar.xz
 cd libglib-testing-0.1.0
@@ -5631,19 +5632,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.7.tar.xz
-cd linux-5.15.7
+tar -xf linux-5.15.8.tar.xz
+cd linux-5.15.8
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.7-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.7-massos/vmlinuz
-cp System.map /boot/System.map-5.15.7-massos
-cp .config /boot/config-5.15.7-massos
-rm /usr/lib/modules/5.15.7-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.8-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.8-massos/vmlinuz
+cp System.map /boot/System.map-5.15.8-massos
+cp .config /boot/config-5.15.8-massos
+rm /usr/lib/modules/5.15.8-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.7-massos/build
+builddir=/usr/lib/modules/5.15.8-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5666,7 +5667,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.7
+rm -rf linux-5.15.8
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release

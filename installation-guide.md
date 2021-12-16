@@ -8,9 +8,10 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate).
 - MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu).
 # Release Notes
-This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
+This is version **2021.12.2** of MassOS. It contains the following changes since the previous version, **2021.12**:
 
 - Migrated MassOS programs to OpenSSL 3. Retained OpenSSL 1.1 libraries for compatibility with binary-only programs which depend on the OpenSSL 1.1 libraries.
+- Added OpenH264 for better H264 support in GStreamer/FFmpeg.
 
 It also includes the following upgraded software:
 
@@ -18,6 +19,7 @@ It also includes the following upgraded software:
 - AppStream: `0.14.6 --> 0.15.0`
 - Boost: `1.77.0 --> 1.78.0`
 - CMake: `3.22.0 --> 3.22.1`
+- dialog: `1.3-20210621 --> 1.3-20211214`
 - Enchant: `2.3.0 --> 2.3.2`
 - Exo: `4.16.2 --> 4.16.3`
 - Firefox: `94.0.2 --> 95.0`
@@ -31,9 +33,11 @@ It also includes the following upgraded software:
 - libical: `3.0.11 --> 3.0.12`
 - libinput: `1.19.2 --> 1.19.3`
 - libX11: `1.7.2 --> 1.7.3`
-- Linux: `5.15.6 --> 5.15.7`
+- libxmlb: `0.3.3 --> 0.3.6`
+- Linux: `5.15.6 --> 5.15.8`
 - Mesa: `21.3.0 --> 21.3.1`
 - mpg123: `1.29.2 --> 1.29.3`
+- Nano: `5.9 --> 6.0`
 - NSS: `3.72 --> 3.73`
 - OpenSSL: `1.1.1l --> 3.0.0`
 - Pahole: `1.22-5-ge38e89e --> 1.23`
@@ -43,13 +47,15 @@ It also includes the following upgraded software:
 - PyParsing: `2.4.7 --> 3.0.6`
 - systemd: `249 --> 250-rc2`
 - Thunderbird: `91.3.2 --> 91.4.0`
-- Vim: `8.2.3715 --> 8.2.3742`
+- Vim: `8.2.3715 --> 8.2.3808`
 - VTE: `0.66.1 --> 0.66.2`
 - Wayland: `1.19.0 --> 1.20.0`
 - xfsprogs: `5.14.0 --> 5.14.2`
+- Xorg-Server: `21.1.1 --> 21.1.2`
+- Xwayland: `21.1.3 --> 21.1.4`
 
 # Installing MassOS Using The Installation Program
-Since version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.
+MassOS has a guided installation program which can be used to easily install MassOS.
 
 If you'd rather install MassOS manually, skip this section and proceed below to "Installing MassOS Manually"
 
@@ -71,9 +77,11 @@ For general information on how to make the most out of your new installation, ch
 # Installing MassOS Manually
 While the installation program is great for most users, you may want to install MassOS manually to be able to fine-tweak your installation or use custom options which the installation program doesn't support, such as swap or non-ext4 filesystems.
 ## Downloading The MassOS Rootfs
-Official development branch builds are available from [this Google Drive folder](https://go.thesonicmaster.net/qk9).
-
-Alternatively, [install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) or [build MassOS yourself](building.md).
+Run the following command to download MassOS:
+```
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.12.2/massos-2021.12.2-rootfs-x86_64.tar.xz
+```
+The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2021.12.2).
 ## Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4, BTRFS and XFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -119,7 +127,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 ## Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.12.2-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 ## Generating the /etc/fstab file
@@ -239,7 +247,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.6-massos
+mkinitramfs 5.15.8-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

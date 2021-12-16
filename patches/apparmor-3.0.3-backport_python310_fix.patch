@@ -1,9 +1,4 @@
-Submitted by:            Daniel Massey <daniel@thesonicmaster.net>
-Date:                    2021-11-12
-Initial Package Version: 3.0.3
-Upstream Status:         Applied
-Origin:                  https://gitlab.com/apparmor/apparmor/-/commit/21e5a721ab2abe26bb12b9da7accc39d4fff9804
-Descrption:              Backport upstream fix for building with Python 3.10+.
+Source: https://gitlab.com/apparmor/apparmor/-/commit/21e5a721ab2abe26bb12b9da7accc39d4fff9804
 
 diff --git a/libraries/libapparmor/m4/ac_python_devel.m4 b/libraries/libapparmor/m4/ac_python_devel.m4
 index 1da29d8736df55da41ab43f557ab953019ee2560..f21f70ce7c3da1e42174f420fbbe415a28088961 100644
