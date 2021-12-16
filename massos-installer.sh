@@ -144,7 +144,7 @@ option_1() {
   if [ "$efisys" != "y" ]; then
     rootpar="$(lsblk -lnp "$disk" | grep part | cut -d' ' -f1 | head -n1)"
     printf "Formatting $rootpar as Linux ext4... "
-    yes | mkfs.ext4 "$rootpar" &>/dev/null
+    yes | mkfs.ext4 -FL"MassOS" "$rootpar" &>/dev/null
     if [ $? -ne 0 ]; then
       echo "Failed!"
       echo "Error formatting $rootpar as Linux ext4." >&2
@@ -174,7 +174,7 @@ option_1() {
     fi
     echo "Done!"
     printf "Formatting $rootpar as Linux ext4... "
-    yes | mkfs.ext4 "$rootpar" &>/dev/null
+    yes | mkfs.ext4 -FL"MassOS" "$rootpar" &>/dev/null
     if [ $? -ne 0 ]; then
       echo "Failed!"
       echo "Error formatting $rootpar as Linux ext4." >&2
@@ -255,7 +255,7 @@ option_2() {
     exit 1
   fi
   printf "Formatting $rootpar as Linux ext4... "
-  yes | mkfs.ext4 "$rootpar" &>/dev/null
+  yes | mkfs.ext4 -FL"MassOS" "$rootpar" &>/dev/null
   if [ $? -ne 0 ]; then
     echo "Failed!"
     echo "Error formatting $rootpar as Linux ext4." >&2
@@ -553,9 +553,9 @@ END
 chmod 755 "$mountdir"/tmp/massos-installer-stage2.sh
 "$mountdir"/usr/sbin/mass-chroot "$mountdir" /tmp/massos-installer-stage2.sh
 printf "\nUnmounting filesystems and cleaning up... "
+test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
 umount -R "$mountdir"
 rm -rf "$mountdir"
-test ! -f "$mountdir"/massos.tar.xz || rm -f "$mountdir"/massos.tar.xz
 if [ "$swap" = "y" ]; then
   swapoff "$swappar"
 fi

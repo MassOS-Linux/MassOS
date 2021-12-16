@@ -1,9 +1,4 @@
-Submitted by:            Daniel Massey <daniel@thesonicmaster.net>
-Date:                    2021-11-10
-Initial Package Version: 2.1
-Upstream Status:         Unknown
-Origin:                  https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162
-Descrption:              Allows shared-mime-info to build with Meson 0.60.0+.
+Source: https://gitlab.freedesktop.org/xdg/shared-mime-info/-/merge_requests/162
 
 diff -ruN old/data/meson.build new/data/meson.build
 --- old/data/meson.build	2020-12-31 19:12:16.000000000 +0000

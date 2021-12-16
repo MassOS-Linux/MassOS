@@ -8,89 +8,54 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate).
 - MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu).
 # Release Notes
-This is version **2021.12** of MassOS. It contains the following changes since the previous version, **2021.11**:
+This is version **2021.12.2** of MassOS. It contains the following changes since the previous version, **2021.12**:
 
-- The MassOS installer now supports setting up Swap space.
-- Switched the default application menu to Whisker Menu.
-- Set the default fonts to Noto and removed the trivial Xorg fallback fonts.
-- Updated the first login welcome program.
-- Added xfsprogs (for XFS filesystem support).
-- Fixed AppArmor Python bindings with Python 3.10+.
-- Added MassOS ASCII art for Neofetch.
-- Added MassOS container tool, which is a utility for creating/managing containers for several GNU/Linux distributions.
-- Updated some of the included landscape wallpapers.
-- Added cdrtools, dmg2img, tree.
-- Added a clipboard manager and plugin for the Xfce panel (xfce4-clipman-plugin).
-- Replaced Ristretto with Shotwell as default image viewer.
+- Migrated MassOS programs to OpenSSL 3. Retained OpenSSL 1.1 libraries for compatibility with binary-only programs which depend on the OpenSSL 1.1 libraries.
+- Added OpenH264 for better H264 support in GStreamer/FFmpeg.
 
 It also includes the following upgraded software:
 
-- Arc (GTK Theme): `20210412 --> 20211018`
-- Bash: `5.1.8 --> 5.1.12`
-- bc: `5.1.1 --> 5.2.1`
-- BIND Utilities: `9.16.22 --> 9.16.23`
-- btrfs-progs: `5.14.2 --> 5.15.1`
-- CMake: `3.22.0-rc2 --> 3.22.0`
-- cryptsetup: `2.4.1 --> 2.4.2`
-- CUPS: `2.3.3op2 --> 2.4.0`
-- curl: `7.79.1 --> 7.80.0`
-- DKMS: `3.0.1 --> 3.0.2`
-- elfutils: `0.185 --> 0.186`
-- exfatprogs: `1.1.2 --> 1.1.3`
-- Firefox: `93.0 --> 94.0.2`
-- Git: `2.33.1 --> 2.34.1`
-- GLib: `2.70.0 --> 2.70.1`
-- glslang: `11.6.0 --> 11.7.1`
-- gnome-online-accounts: `3.40.0 --> 3.40.1`
-- Harfbuzz: `3.0.0 --> 3.1.2`
-- HPLIP: `3.21.8 --> 3.21.10`
-- htop: `3.1.1 --> 3.1.2`
-- iana-etc: `20211004 --> 20211112`
-- ICU: `69.1 --> 70.1`
-- IPRoute2: `5.14.0 --> 5.15.0`
-- ISO-Codes: `4.7.0 --> 4.8.0`
-- Jinja2: `3.0.1 --> 3.0.3`
-- libcap: `2.60 --> 2.61`
-- libdrm: `2.4.107 --> 2.4.109`
-- libevdev: `1.11.0 --> 1.12.0`
-- libgpg-error: `1.42 --> 1.43`
-- libjpeg-turbo: `2.1.1 --> 2.1.2`
-- libmbim: `1.26.0 --> 1.26.2`
-- libostree: `2021.4 --> 2021.6`
-- libpipeline: `1.5.3 --> 1.5.4`
-- librsvg: `2.52.3 --> 2.52.4`
-- libseccomp: `2.5.2 --> 2.5.3`
-- libsoup: `2.74.1 --> 2.74.2`
-- libtasn1: `4.17.0 --> 4.18.0`
-- Linux Kernel: `5.15.0 --> 5.15.6`
-- lxml: `4.6.3 --> 4.6.4`
-- Mako: `1.1.5 --> 1.1.6`
-- Mesa: `21.2.5 --> 21.3.0`
-- Meson: `0.59.2 --> 0.60.2`
-- ModemManager: `1.18.2 --> 1.18.4`
-- Mousepad: `0.5.7 --> 0.5.8`
-- mtools: `4.0.35 --> 4.0.36`
-- Ncurses: `6.2 --> 6.3`
-- OpenLDAP: `2.5.8 --> 2.6.0`
-- PCRE2: `10.37 --> 10.39`
-- Poppler: `21.10.0 --> 21.11.0`
-- Qpdf: `10.3.2 --> 10.4.0`
-- Ruby: `3.0.2 --> 3.0.3`
-- SDL2: `2.0.16 --> 2.0.18`
-- SQLite: `3.36.0 --> 3.37.0`
-- Thunderbird: `91.2.1 --> 91.3.2`
-- Tcl: `8.6.11 --> 8.6.12`
-- Tk: `8.6.11 --> 8.6.12`
-- Vala: `0.54.3 --> 0.54.4`
-- Vim: `8.2.3565 --> 8.2.3715`
-- VTE: `0.66.0 --> 0.66.1`
-- wayland-protocols: `1.23 --> 1.24`
-- WebKitGTK: `2.34.1 --> 2.34.2`
-- xauth: `1.1 --> 1.1.1`
-- Xorg-Server: `1.20.13 --> 21.1.1`
+- alsa-lib: `1.2.5.1 --> 1.2.6.1`
+- AppStream: `0.14.6 --> 0.15.0`
+- Boost: `1.77.0 --> 1.78.0`
+- CMake: `3.22.0 --> 3.22.1`
+- dialog: `1.3-20210621 --> 1.3-20211214`
+- Enchant: `2.3.0 --> 2.3.2`
+- Exo: `4.16.2 --> 4.16.3`
+- Firefox: `94.0.2 --> 95.0`
+- FreeType: `2.11.0 --> 2.11.1`
+- HarfBuzz: `3.1.2 --> 3.2.0`
+- GLib: `2.70.1 --> 2.70.2`
+- glib-networking: `2.70.0 --> 2.70.1`
+- GNOME Software: `41.0 --> 41.2`
+- Graphviz: `2.49.3 --> 2.50.0`
+- libcap: `2.61 --> 2.62`
+- libical: `3.0.11 --> 3.0.12`
+- libinput: `1.19.2 --> 1.19.3`
+- libX11: `1.7.2 --> 1.7.3`
+- libxmlb: `0.3.3 --> 0.3.6`
+- Linux: `5.15.6 --> 5.15.8`
+- Mesa: `21.3.0 --> 21.3.1`
+- mpg123: `1.29.2 --> 1.29.3`
+- Nano: `5.9 --> 6.0`
+- NSS: `3.72 --> 3.73`
+- OpenSSL: `1.1.1l --> 3.0.0`
+- Pahole: `1.22-5-ge38e89e --> 1.23`
+- Pango: `1.48.10 --> 1.50.1`
+- Pangomm: `2.46.1 --> 2.46.2`
+- Poppler: `21.11.0 --> 21.12.0`
+- PyParsing: `2.4.7 --> 3.0.6`
+- systemd: `249 --> 250-rc2`
+- Thunderbird: `91.3.2 --> 91.4.0`
+- Vim: `8.2.3715 --> 8.2.3808`
+- VTE: `0.66.1 --> 0.66.2`
+- Wayland: `1.19.0 --> 1.20.0`
+- xfsprogs: `5.14.0 --> 5.14.2`
+- Xorg-Server: `21.1.1 --> 21.1.2`
+- Xwayland: `21.1.3 --> 21.1.4`
 
 # Installing MassOS Using The Installation Program
-Since version **2021.11**, MassOS has a guided installation program which can be used to easily install MassOS.
+MassOS has a guided installation program which can be used to easily install MassOS.
 
 If you'd rather install MassOS manually, skip this section and proceed below to "Installing MassOS Manually"
 
@@ -114,9 +79,9 @@ While the installation program is great for most users, you may want to install 
 ## Downloading The MassOS Rootfs
 Run the following command to download MassOS:
 ```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.12/massos-2021.12-rootfs-x86_64.tar.xz
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.12.2/massos-2021.12.2-rootfs-x86_64.tar.xz
 ```
-The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2021.12).
+The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2021.12.2).
 ## Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4, BTRFS and XFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -162,7 +127,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 ## Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.12-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2021.12.2-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 ## Generating the /etc/fstab file
@@ -282,7 +247,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.6-massos
+mkinitramfs 5.15.8-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

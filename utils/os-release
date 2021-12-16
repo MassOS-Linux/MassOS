@@ -1,10 +1,10 @@
 NAME="MassOS"
-VERSION="2021.12"
-VERSION_ID="2021.12"
+VERSION="2021.12.2"
+VERSION_ID="2021.12.2"
 ID=massos
-PRETTY_NAME="MassOS 2021.12"
-BUILD_ID=2021.12
-VERSION_CODENAME="2021.12"
+PRETTY_NAME="MassOS 2021.12.2"
+BUILD_ID=2021.12.2
+VERSION_CODENAME="2021.12.2"
 HOME_URL="https://github.com/TheSonicMaster/MassOS"
 SUPPORT_URL="https://github.com/TheSonicMaster/MassOS/wiki"
 BUG_REPORT_URL="https://github.com/TheSonicMaster/MassOS/issues"
