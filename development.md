@@ -1,5 +1,20 @@
 # Progress in MassOS GNOME:
 
+# GNOME Wallpapers
+
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-backgrounds/41/gnome-backgrounds-41.0.tar.xz
+tar -xf gnome-backgrounds-41.0.tar.xz
+cd gnome-backgrounds-41.0
+mkdir build && cd build
+meson --prefix=/usr
+ninja
+ninja install
+cd ../..
+rm -r gnome-backgrounds-41.0
+rm gnome-backgrounds-41.0.tar.xz
+```
+
 ## Gedit
 
 Install Libpeas:
@@ -166,4 +181,36 @@ cd ../..
 rm -r totem-3.38.2
 rm totem-3.38.2.tar.xz
 ```
+# File Roller
 
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/file-roller/3.40/file-roller-3.40.0.tar.xz
+tar -xf file-roller-3.40.0.tar.xz
+cd file-roller-3.40.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dpackagekit=false
+ninja
+ninja install
+cd ../..
+rm -r file-roller-3.40.0
+rm file-roller-3.40.0.tar.xz
+```
+
+# Nautilus
+
+*I will add dependencies later.*
+
+Now, we can install Nautilus
+
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/nautilus/41/nautilus-41.1.tar.xz
+tar -xf nautilus-41.1.tar.xz
+cd nautilus-41.1
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false
+ninja
+ninja install
+cd ../..
+rm -r nautilus-41.1
+rm nautilus-41.1.tar.xz
+```
