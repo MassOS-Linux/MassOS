@@ -457,19 +457,16 @@ auth      required    pam_unix.so
 END
 cd ..
 rm -rf libcap-2.62
-# Shadow.
-tar -xf shadow-4.8.1.tar.xz
-cd shadow-4.8.1
-sed -i 's/groups$(EXEEXT) //' src/Makefile.in
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
-sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' -e '/PATH=/{s@/sbin:@@;s@/bin:@@}' -i etc/login.defs
-sed -i 's/1000/999/' etc/useradd
+# Shadow (initial build; will be rebuilt later to support AUDIT).
+tar -xf shadow-4.9.tar.xz
+cd shadow-4.9
+patch -Np1 -i ../patches/shadow-4.9-MassOSFixes.patch
 touch /usr/bin/passwd
-./configure --sysconfdir=/etc --with-group-name-max-length=32
+./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack
 make
 make exec_prefix=/usr install
+make -C man install-man
+useradd -D --gid 999
 sed -i 's/yes/no/' /etc/default/useradd
 pwconv
 grpconv
@@ -510,7 +507,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.8.1
+rm -rf shadow-4.9
 # GCC.
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
@@ -737,24 +734,24 @@ make
 make install
 cd ..
 rm -rf libffi-3.4.2
-# OpenSSL 1.1 (For compatibility with binaries linked to OpenSSL 1.1 libs).
-tar -xf openssl-1.1.1l.tar.gz
-cd openssl-1.1.1l
+# OpenSSL Legacy (For compatibility with binaries linked to OpenSSL 1.1 libs).
+tar -xf openssl-1.1.1m.tar.gz
+cd openssl-1.1.1m
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 cd ..
-rm -rf openssl-1.1.1l
-# OpenSSL 3 (Newest version and the default which MassOS programs will use).
-tar -xf openssl-3.0.0.tar.gz
-cd openssl-3.0.0
+rm -rf openssl-1.1.1m
+# OpenSSL (Newest version and the default which MassOS programs will use).
+tar -xf openssl-3.0.1.tar.gz
+cd openssl-3.0.1
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 cd ..
-rm -rf openssl-3.0.0
+rm -rf openssl-3.0.1
 # kmod.
 tar -xf kmod-29.tar.xz
 cd kmod-29
@@ -1104,6 +1101,14 @@ tar --no-same-owner -xf gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
 cp -r gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS/BINARY/* /
 install-info --dir-file=/usr/share/info/dir /usr/share/info/gpm.info
 rm -rf gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS
+# pv.
+tar -xf pv-1.6.20.tar.bz2
+cd pv-1.6.20
+./configure --prefix=/usr --mandir=/usr/share/man
+make
+make install
+cd ..
+rm -rf pv-1.6.20
 # ICU.
 tar -xf icu4c-70_1-src.tgz
 cd icu/source
@@ -1489,12 +1494,12 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 cd ..
 rm -rf docbook-5.1
 # lxml.
-tar -xf lxml-4.6.4.tar.gz
-cd lxml-4.6.4
+tar -xf lxml-4.7.1.tar.gz
+cd lxml-4.7.1
 python setup.py build
 python setup.py install --optimize=1
 cd ..
-rm -rf lxml-4.6.4
+rm -rf lxml-4.7.1
 # itstool.
 tar -xf itstool-2.0.7.tar.bz2
 cd itstool-2.0.7
@@ -1661,7 +1666,15 @@ cd dracut-055
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions
 make
 make install
-echo 'compress="xz"' >> /etc/dracut.conf
+cat > /etc/dracut.conf.d/massos.conf << "END"
+# Default dracut configuration file for MassOS.
+
+# Compression to use for the initramfs.
+compress="xz"
+
+# Optimise the initramfs by excluding some unnecessary modules.
+omit_dracutmodules+=" nbd network network-manager kernel-modules-extra kernel-network-modules qemu qemu-net "
+END
 cd ..
 rm -rf dracut-055
 # LZO.
@@ -2175,6 +2188,15 @@ make
 make install
 cd ..
 rm -rf gsasl-1.10.0
+# rtmpdump.
+tar -xf rtmpdump-2.4-20210219-gf1b83c1.tar.xz
+cd rtmpdump-2.4-20210219-gf1b83c1
+patch -Np1 -i ../patches/rtmpdump-2.4-openssl.patch
+make prefix=/usr mandir=/usr/share/man OPT=-Os
+make prefix=/usr mandir=/usr/share/man install
+rm -f /usr/lib/librtmp.a
+cd ..
+rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
 tar -xf curl-7.80.0.tar.xz
 cd curl-7.80.0
@@ -2294,17 +2316,15 @@ chmod 4755 /usr/sbin/unix_chkpwd
 cd ..
 rm -rf Linux-PAM-1.5.2
 # Shadow (rebuild to support Audit).
-tar -xf shadow-4.8.1.tar.xz
-cd shadow-4.8.1
-sed -i 's/groups$(EXEEXT) //' src/Makefile.in
-find man -name Makefile.in -exec sed -i 's/groups\.1 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/getspnam\.3 / /' {} \;
-find man -name Makefile.in -exec sed -i 's/passwd\.5 / /' {} \;
-sed -e 's@#ENCRYPT_METHOD DES@ENCRYPT_METHOD SHA512@' -e 's@/var/spool/mail@/var/mail@' -e '/PATH=/{s@/sbin:@@;s@/bin:@@}' -i etc/login.defs
-sed -i 's/1000/999/' etc/useradd
-./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-audit
+tar -xf shadow-4.9.tar.xz
+cd shadow-4.9
+patch -Np1 -i ../patches/shadow-4.9-MassOSFixes.patch
+./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack --with-audit
 make
 make exec_prefix=/usr install
+make -C man install-man
+mkdir -p /etc/default
+useradd -D --gid 999
 sed -i 's/yes/no/' /etc/default/useradd
 for FUNCTION in FAIL_DELAY FAILLOG_ENAB LASTLOG_ENAB MAIL_CHECK_ENAB OBSCURE_CHECKS_ENAB PORTTIME_CHECKS_ENAB QUOTAS_ENAB CONSOLE MOTD_FILE FTMP_FILE NOLOGINS_FILE ENV_HZ PASS_MIN_LEN SU_WHEEL_ONLY CRACKLIB_DICTPATH PASS_CHANGE_TRIES PASS_ALWAYS_WARN CHFN_AUTH ENCRYPT_METHOD ENVIRON_FILE; do sed -i "s/^${FUNCTION}/# &/" /etc/login.defs; done
 cat > /etc/pam.d/login << END
@@ -2343,7 +2363,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.8.1
+rm -rf shadow-4.9
 # fcron.
 tar -xf fcron-3.2.1.src.tar.gz
 cd fcron-3.2.1
@@ -2364,18 +2384,18 @@ systemctl enable fcron
 cd ..
 rm -rf fcron-3.2.1
 # NSPR.
-tar -xf nspr-4.32.tar.gz
-cd nspr-4.32/nspr
+tar -xf nspr-4.33.tar.gz
+cd nspr-4.33/nspr
 sed -ri '/^RELEASE/s/^/#/' pr/src/misc/Makefile.in
 sed -i 's#$(LIBRARY) ##' config/rules.mk
 ./configure --prefix=/usr --with-mozilla --with-pthreads --enable-64bit
 make
 make install
 cd ../..
-rm -rf nspr-4.32
+rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.73.tar.gz
-cd nss-3.73
+tar -xf nss-3.73.1.tar.gz
+cd nss-3.73.1
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2389,7 +2409,7 @@ install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
 install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 cd ../..
-rm -rf nss-3.73
+rm -rf nss-3.73.1
 # Git.
 tar -xf git-2.34.1.tar.xz
 cd git-2.34.1
@@ -2423,9 +2443,9 @@ rm -rf /usr/share/dwarves/runtime/python
 cd ../..
 rm -rf pahole-1.23.tar.xz
 # DKMS.
-tar -xf dkms-3.0.2.tar.gz
-make -C dkms-3.0.2 BASHDIR=/usr/share/bash-completion/completions install
-rm -rf dkms-3.0.2
+tar -xf dkms-3.0.3.tar.gz
+make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
+rm -rf dkms-3.0.3
 # GLib.
 tar -xf glib-2.70.2.tar.xz
 cd glib-2.70.2
@@ -3059,15 +3079,28 @@ make install
 cd ..
 rm -rf ruby-3.0.3
 # slang.
-tar -xf slang-2.3.2-60-g3d8eb6c.tar.xz
-cd slang-2.3.2-60-g3d8eb6c
+tar -xf slang-pre2.3.3-59.tar.gz
+cd slang-pre2.3.3-59
 ./configure --prefix=/usr --sysconfdir=/etc --with-readline=gnu
 make -j1
-make -j1 install_doc_dir=/usr/share/doc/slang-2.3.2-60-g3d8eb6c SLSH_DOC_DIR=/usr/share/doc/slang-2.3.2-60-g3d8eb6c/slsh install-all
+make -j1 install_doc_dir=/usr/share/doc/slang-pre2.3.3-59 SLSH_DOC_DIR=/usr/share/doc/slang-pre2.3.3-59/slsh install-all
 chmod 755 /usr/lib/libslang.so.2.3.3 /usr/lib/slang/v2/modules/*.so
 rm -f /usr/lib/libslang.a
 cd ..
-rm -rf slang-2.3.2-60-g3d8eb6c
+rm -rf slang-pre2.3.3-59
+# BIND Utilities.
+tar -xf bind-9.16.24.tar.xz
+cd bind-9.16.24
+./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
+make -C lib/dns
+make -C lib/isc
+make -C lib/bind9
+make -C lib/isccfg
+make -C lib/irs
+make -C bin/dig
+make -C bin/dig install
+cd ..
+rm -rf bind-9.16.24
 # dhclient.
 tar -xf dhcp-4.4.2-P1.tar.gz
 cd dhcp-4.4.2-P1
@@ -3096,19 +3129,6 @@ END
 install -dm755 /var/lib/dhclient
 cd ..
 rm -rf dhcp-4.4.2-P1
-# BIND Utilities.
-tar -xf bind-9.16.23.tar.xz
-cd bind-9.16.23
-./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
-make -C lib/dns
-make -C lib/isc
-make -C lib/bind9
-make -C lib/isccfg
-make -C lib/irs
-make -C bin/dig
-make -C bin/dig install
-cd ..
-rm -rf bind-9.16.23
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -3308,8 +3328,8 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.1.tar.xz
-cd mesa-21.3.1
+tar -xf mesa-21.3.2.tar.xz
+cd mesa-21.3.2
 patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3317,7 +3337,7 @@ meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r60
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.3.1
+rm -rf mesa-21.3.2
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3469,10 +3489,13 @@ rm -rf libxcvt-0.1.1
 # Xorg-Server.
 tar -xf xorg-server-21.1.2.tar.xz
 cd xorg-server-21.1.2
+patch -Np1 -i ../patches/xorg-server-21.1.2-addxvfbrun.patch
 mkdir XSRV-BUILD; cd XSRV-BUILD
-meson --prefix=/usr -Dsuid_wrapper=true -Dxephyr=true -Dxkb_output_dir=/var/lib/xkb ..
+meson --prefix=/usr -Dglamor=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
+install -m755 ../xvfb-run /usr/bin/xvfb-run
+install -m644 ../xvfb-run.1 /usr/share/man/man1/xvfb-run.1
 mkdir -p /etc/X11/xorg.conf.d
 cd ../..
 rm -rf xorg-server-21.1.2
@@ -3750,14 +3773,14 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.2.0
 # Pango.
-tar -xf pango-1.50.1.tar.xz
-cd pango-1.50.1
+tar -xf pango-1.50.2.tar.xz
+cd pango-1.50.2
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.50.1
+rm -rf pango-1.50.2
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -3837,13 +3860,13 @@ make install
 cd ..
 rm -rf graphviz-2.50.0
 # Vala.
-tar -xf vala-0.54.4.tar.xz
-cd vala-0.54.4
+tar -xf vala-0.54.5.tar.xz
+cd vala-0.54.5
 ./configure --prefix=/usr
 make
 make install
 cd ..
-rm -rf vala-0.54.4
+rm -rf vala-0.54.5
 # libgusb.
 tar -xf libgusb_0.3.8.orig.tar.xz
 cd libgusb-0.3.8
@@ -3854,14 +3877,14 @@ ninja install
 cd ../..
 rm -rf libgusb-0.3.8
 # librsvg.
-tar -xf librsvg-2.52.4.tar.xz
-cd librsvg-2.52.4
+tar -xf librsvg-2.52.5.tar.xz
+cd librsvg-2.52.5
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 cd ..
-rm -rf librsvg-2.52.4
+rm -rf librsvg-2.52.5
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -4184,6 +4207,16 @@ make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord CFL
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord install
 cd ..
 rm -rf lm-sensors-3-6-0
+# ORC.
+tar -xf orc-0.4.32.tar.gz
+cd orc-0.4.32
+mkdir orc-build; cd orc-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+rm -f /usr/lib/liborc-test-0.4.a
+cd ../..
+rm -rf orc-0.4.32
 # libpcap.
 tar -xf libpcap-1.10.1.tar.gz
 cd libpcap-1.10.1
@@ -4831,15 +4864,6 @@ ninja install
 rm -f /usr/lib/libopenh264.a
 cd ../..
 rm -rf openh264-2.1.1
-# gstreamer.
-tar -xf gstreamer-1.18.5.tar.xz
-cd gstreamer-1.18.5
-mkdir UPSTREAMTOXIC-build; cd UPSTREAMTOXIC-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
-ninja
-ninja install
-cd ../..
-rm -rf gstreamer-1.18.5
 # CDParanoia-III.
 tar -xf cdparanoia-III-10.2.src.tgz
 cd cdparanoia-III-10.2
@@ -4850,15 +4874,6 @@ make -j1 install
 chmod 755 /usr/lib/libcdda_*.so.0.10.2
 cd ..
 rm -rf cdparanoia-III-10.2
-# gst-plugins-base.
-tar -xf gst-plugins-base-1.18.5.tar.xz
-cd gst-plugins-base-1.18.5
-mkdir G-STREAMER-BASIC-build; cd G-STREAMER-BASIC-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
-ninja
-ninja install
-cd ../..
-rm -rf gst-plugins-base-1.18.5
 # mpg123.
 tar -xf mpg123-1.29.3.tar.bz2
 cd mpg123-1.29.3
@@ -4894,15 +4909,6 @@ ninja
 ninja install
 cd ../..
 rm -rf taglib-1.12
-# gst-plugins-good.
-tar -xf gst-plugins-good-1.18.5.tar.xz
-cd gst-plugins-good-1.18.5
-mkdir excellent-build; cd excellent-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
-ninja
-ninja install
-cd ../..
-rm -rf gst-plugins-good-1.18.5
 # SoundTouch.
 tar -xf soundtouch-2.3.1.tar.gz
 cd soundtouch-2.3.1
@@ -4928,15 +4934,6 @@ make
 make install
 cd ..
 rm -rf libdvdnav-6.1.1
-# gst-plugins-bad.
-tar -xf gst-plugins-bad-1.18.5.tar.xz
-cd gst-plugins-bad-1.18.5
-mkdir horrible-build; cd horrible-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
-ninja
-ninja install
-cd ../..
-rm -rf gst-plugins-bad-1.18.5
 # libcanberra.
 tar -xf libcanberra_0.30.orig.tar.xz
 cd libcanberra-0.30
@@ -4985,15 +4982,88 @@ make
 make install
 cd ..
 rm -rf libmpeg2-0.5.1
+# FAAC.
+tar -xf faac-1_30.tar.gz
+cd faac-1_30
+./bootstrap
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf faac-1_30
+# FAAD2.
+tar -xf faad2-2_10_0.tar.gz
+cd faad2-2_10_0
+./bootstrap
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf faad2-2_10_0
+# gstreamer.
+tar -xf gstreamer-1.18.5.tar.xz
+cd gstreamer-1.18.5
+mkdir gstreamer-build; cd gstreamer-build
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+ninja
+ninja install
+cd ../..
+rm -rf gstreamer-1.18.5
+# gst-plugins-base.
+tar -xf gst-plugins-base-1.18.5.tar.xz
+cd gst-plugins-base-1.18.5
+mkdir base-build; cd base-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+ninja
+ninja install
+cd ../..
+rm -rf gst-plugins-base-1.18.5
+# gst-plugins-good.
+tar -xf gst-plugins-good-1.18.5.tar.xz
+cd gst-plugins-good-1.18.5
+mkdir good-build; cd good-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+ninja
+ninja install
+cd ../..
+rm -rf gst-plugins-good-1.18.5
+# gst-plugins-bad.
+tar -xf gst-plugins-bad-1.18.5.tar.xz
+cd gst-plugins-bad-1.18.5
+mkdir bad-build; cd bad-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+ninja
+ninja install
+cd ../..
+rm -rf gst-plugins-bad-1.18.5
 # gst-plugins-ugly.
 tar -xf gst-plugins-ugly-1.18.5.tar.xz
 cd gst-plugins-ugly-1.18.5
-mkdir UR-UGLY-NGL-build; cd UR-UGLY-NGL-build
+mkdir ugly-build; cd ugly-build
 meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
 ninja
 ninja install
 cd ../..
 rm -rf gst-plugins-ugly-1.18.5
+# FFmpeg.
+tar -xf ffmpeg-4.4.1.tar.xz
+cd ffmpeg-4.4.1
+./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
+make
+gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
+make install
+install -m755 tools/qt-faststart /usr/bin
+cd ..
+rm -rf ffmpeg-4.4.1
+# WebKitGTK.
+tar -xf webkitgtk-2.34.2.tar.xz
+cd webkitgtk-2.34.2
+mkdir webkitgtk-build; cd webkitgtk-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf webkitgtk-2.34.2
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -5027,29 +5097,10 @@ ninja
 ninja install
 cd ../..
 rm -rf libchamplain-0.12.20
-# FFmpeg.
-tar -xf ffmpeg-4.4.1.tar.xz
-cd ffmpeg-4.4.1
-./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
-make
-gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
-make install
-install -m755 tools/qt-faststart /usr/bin
-cd ..
-rm -rf ffmpeg-4.4.1
-# WebKitGTK.
-tar -xf webkitgtk-2.34.2.tar.xz
-cd webkitgtk-2.34.2
-mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
-ninja
-ninja install
-cd ../..
-rm -rf webkitgtk-2.34.2
 # gspell.
 tar -xf gspell-1.9.1.tar.xz
 cd gspell-1.9.1
-./configure --prefix=/usr --enable-gtk-doc
+./configure --prefix=/usr
 make
 make install
 cd ..
@@ -5580,7 +5631,7 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-95.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-95.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -5632,19 +5683,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.8.tar.xz
-cd linux-5.15.8
+tar -xf linux-5.15.10.tar.xz
+cd linux-5.15.10
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.8-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.8-massos/vmlinuz
-cp System.map /boot/System.map-5.15.8-massos
-cp .config /boot/config-5.15.8-massos
-rm /usr/lib/modules/5.15.8-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.10-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.10-massos/vmlinuz
+cp System.map /boot/System.map-5.15.10-massos
+cp .config /boot/config-5.15.10-massos
+rm /usr/lib/modules/5.15.10-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.8-massos/build
+builddir=/usr/lib/modules/5.15.10-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5667,7 +5718,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.8
+rm -rf linux-5.15.10
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
