@@ -12,6 +12,9 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
+cd ../..
+rm libpeas-1.30.0.tar.xz
+rm -r libpeas-1.30.0
 ```
 
 Now, we may install Gedit.
@@ -24,4 +27,37 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
+cd ../..
+rm gedit-41.alpha.tar.xz
+rm -r gedit-41.alpha
+```
+
+## Calculator
+
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-calculator/41/gnome-calculator-41.1.tar.xz
+tar -xf gnome-calculator-41.1.tar.xz
+cd gnome-calculator-41.1
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+cd ../..
+rm gnome-calculator-41.1.tar.xz
+rm -r gnome-calculator-41.1
+```
+
+## Screenshot
+
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-screenshot/41/gnome-screenshot-41.0.tar.xz
+tar -xf gnome-screenshot-41.0.tar.xz
+cd gnome-screenshot-41.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+cd ../..
+rm gnome-screenshot-41.0.tar.xz
+rm -r gnome-screenshot-41.0
 ```
