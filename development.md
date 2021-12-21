@@ -501,3 +501,12 @@ cd ../..
 rm -r gnome-tweaks-40.0
 rm gnome-tweaks-40.0.tar.xz
 ```
+## Set theme
+
+```
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
+gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 10'
+gsettings set org.gnome.desktop.interface font-name 'Noto Sans Regular 10'
+gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
+```
