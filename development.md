@@ -268,6 +268,21 @@ cd ../..
 rm -r gnome-bluetooth-3.34.5
 rm gnome-bluetooth-3.34.5.tar.xz
 ```
+## Adwaita
+
+```
+wget https://gitlab.gnome.org/GNOME/gtk/-/archive/3.24.30/gtk-3.24.30.tar.gz
+tar -xf gtk-3.24.30.tar.gz
+cd gtk-3.24.30
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+cd ../..
+rm -r gtk-3.24.30
+rm gtk-3.24.30.tar.gz
+```
+
 ## GNOME Session
 
 ```
@@ -501,6 +516,94 @@ cd ../..
 rm -r gnome-tweaks-40.0
 rm gnome-tweaks-40.0.tar.xz
 ```
+## GNOME Settings
+Install Colord GTK
+```
+wget https://www.freedesktop.org/software/colord/releases/colord-gtk-0.2.0.tar.xz
+tar -xf colord-gtk-0.2.0.tar.xz
+cd colord-gtk-0.2.0
+mkdir build && cd build
+meson --prefix=/usr       \
+      --buildtype=release \
+      -Dgtk2=true         \
+      -Dvapi=true         \
+      -Ddocs=false        \
+      -Dman=false
+ninja
+ninja install
+cd ../..
+rm -r colord-gtk-0.2.0
+rm colord-gtk-0.2.0.tar.xz
+```
+Install Parse-Yapp module
+```
+wget https://www.cpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
+tar -xf Parse-Yapp-1.21.tar.gz
+cd Parse-Yapp-1.21
+perl Makefile.PL
+make
+make install
+cd ..
+rm -r Parse-Yapp-1.21
+rm Parse-Yapp-1.21.tar.gz
+```
+
+Install Samba
+```
+wget https://download.samba.org/pub/samba/stable/samba-4.15.2.tar.gz
+tar -xf samba-4.15.2.tar.gz
+cd samba-4.15.2
+python3 -m venv pyvenv &&
+./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
+echo "^samba4.rpc.echo.*on.*ncacn_np.*with.*object.*nt4_dc" >> selftest/knownfail
+sed -e 's/!is_allowed/secure_channel_type == SEC_CHAN_NULL \&\& &/' \
+    -i source3/winbindd/winbindd_util.c
+PYTHON=$PWD/pyvenv/bin/python3             \
+CPPFLAGS="-I/usr/include/tirpc"            \
+LDFLAGS="-ltirpc"                          \
+./configure                                \
+    --prefix=/usr                          \
+    --sysconfdir=/etc                      \
+    --localstatedir=/var                   \
+    --with-piddir=/run/samba               \
+    --with-pammodulesdir=/usr/lib/security \
+    --enable-fhs                           \
+    --without-ad-dc                        \
+    --enable-selftest
+make
+sed '1s@^.*$@#!/usr/bin/python3@' \
+    -i ./bin/default/source4/scripting/bin/samba-gpupdate.inst
+make install
+install -v -m644    examples/smb.conf.default /etc/samba
+sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" \
+    -e "s;path = /usr/spool/samba;path = /var/spool/samba;" \
+    -i /etc/samba/smb.conf.default
+mkdir -pv /etc/openldap/schema
+install -v -m644    examples/LDAP/README              \
+                    /etc/openldap/schema/README.LDAP
+install -v -m644    examples/LDAP/samba*              \
+                    /etc/openldap/schema
+install -v -m755    examples/LDAP/{get*,ol*} \
+                    /etc/openldap/schema
+cd ..
+rm -r samba-4.15.2
+rm samba-4.15.2.tar.gz
+```
+
+Now, we can install GNOME Settings
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/41/gnome-control-center-41.2.tar.xz
+tar -xf gnome-control-center-41.2.tar.xz
+cd gnome-control-center-41.2
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dcheese=false
+ninja
+ninja install
+cd ../..
+rm -r gnome-control-center-41.2
+rm gnome-control-center-41.2.tar.xz
+```
+
 ## Set theme
 
 ```
