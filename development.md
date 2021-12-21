@@ -497,4 +497,7 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
+cd ../..
+rm -r gnome-tweaks-40.0
+rm gnome-tweaks-40.0.tar.xz
 ```
