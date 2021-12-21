@@ -479,7 +479,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-terminal/3.41/gnome-terminal
 tar -xf gnome-terminal-3.41.90.tar.xz
 cd gnome-terminal-3.41.90
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+meson --prefix=/usr --buildtype=release -Dsearch_provider=false
 ninja
 ninja install
 cd ../..
