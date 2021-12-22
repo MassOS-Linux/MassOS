@@ -576,9 +576,17 @@ rm samba-4.15.2.tar.gz
 ```
 Install gsound
 ```
-
+wget https://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
+tar -xf gsound-1.0.3.tar.xz
+cd gsound-1.0.3
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+cd ../..
+rm -r gsound-1.0.3
+rm gsound-1.0.3.tar.xz
 ```
-
 
 Now, we can install GNOME Settings
 ```
