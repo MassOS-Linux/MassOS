@@ -268,21 +268,6 @@ cd ../..
 rm -r gnome-bluetooth-3.34.5
 rm gnome-bluetooth-3.34.5.tar.xz
 ```
-## Adwaita
-
-```
-wget https://gitlab.gnome.org/GNOME/gtk/-/archive/3.24.30/gtk-3.24.30.tar.gz
-tar -xf gtk-3.24.30.tar.gz
-cd gtk-3.24.30
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
-ninja
-ninja install
-cd ../..
-rm -r gtk-3.24.30
-rm gtk-3.24.30.tar.gz
-```
-
 ## GNOME Session
 
 ```
@@ -603,6 +588,9 @@ cd ../..
 rm -r gnome-control-center-41.2
 rm gnome-control-center-41.2.tar.xz
 ```
+## GNOME Themes Extra
+
+Will be added soon.
 
 ## Set theme
 
