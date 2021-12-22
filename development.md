@@ -462,7 +462,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/41/gdm-41.0.tar.xz
 tar -xf gdm-41.0.tar.xz
 cd gdm-41.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true
 ninja
 ninja install
 cd ../..
