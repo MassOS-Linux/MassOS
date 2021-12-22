@@ -574,6 +574,11 @@ cd ..
 rm -r samba-4.15.2
 rm samba-4.15.2.tar.gz
 ```
+Install gsound
+```
+
+```
+
 
 Now, we can install GNOME Settings
 ```
@@ -590,12 +595,22 @@ rm gnome-control-center-41.2.tar.xz
 ```
 ## GNOME Themes Extra
 
-Will be added soon.
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-themes-extra/3.28/gnome-themes-extra-3.28.tar.xz
+tar -xf gnome-themes-extra-3.28.tar.xz 
+cd gnome-themes-extra-3.28
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -r gnome-themes-extra-3.28
+rm gnome-themes-extra-3.28.tar.xz 
+```
 
 ## Set theme
 
 ```
-gsettings set org.gnome.desktop.interface gtk-theme "Adwaita"
+gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
 gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 10'
 gsettings set org.gnome.desktop.interface font-name 'Noto Sans Regular 10'
