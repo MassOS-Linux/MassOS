@@ -8,7 +8,7 @@ https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/a
 https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.1.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
 https://cdn.thesonicmaster.net/sources/arc-theme-20211018.tar.zst
-https://github.com/asciidoc/asciidoc-py3/releases/download/10.1.1/asciidoc-10.1.1.tar.gz
+https://files.pythonhosted.org/packages/source/a/asciidoc/asciidoc-10.1.1.tar.gz
 https://mirror.lyrahosting.com/gnu/aspell/aspell-0.60.8.tar.gz
 https://mirror.lyrahosting.com/gnu/aspell/dict/en/aspell6-en-2020.12.07-0.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz
