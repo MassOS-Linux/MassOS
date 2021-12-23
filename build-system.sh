@@ -466,6 +466,7 @@ touch /usr/bin/passwd
 make
 make exec_prefix=/usr install
 make -C man install-man
+mkdir -p /etc/default
 useradd -D --gid 999
 sed -i 's/yes/no/' /etc/default/useradd
 pwconv
