@@ -774,8 +774,6 @@ ln -sf pydoc3 /usr/bin/pydoc
 ln -sf idle3 /usr/bin/idle
 ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
-pip --no-color install --upgrade pip
-pip --no-color install --upgrade setuptools
 cd ..
 rm -rf Python-3.10.1
 # Ninja.
