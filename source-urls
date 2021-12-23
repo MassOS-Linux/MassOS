@@ -5,10 +5,10 @@ https://cdn.thesonicmaster.net/sources/acpi-1.7.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.6.1.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/a/apparmor/apparmor_3.0.3.orig.tar.gz
-https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.0.tar.xz
+https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.1.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
 https://cdn.thesonicmaster.net/sources/arc-theme-20211018.tar.zst
-https://github.com/asciidoc/asciidoc-py3/releases/download/9.1.1/asciidoc-9.1.1.tar.gz
+https://github.com/asciidoc/asciidoc-py3/releases/download/10.1.1/asciidoc-10.1.1.tar.gz
 https://mirror.lyrahosting.com/gnu/aspell/aspell-0.60.8.tar.gz
 https://mirror.lyrahosting.com/gnu/aspell/dict/en/aspell6-en-2020.12.07-0.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz
@@ -90,8 +90,7 @@ https://github.com/AbiWord/enchant/releases/download/v2.3.2/enchant-2.3.2.tar.gz
 https://deb.debian.org/debian/pool/main/e/exfatprogs/exfatprogs_1.1.3.orig.tar.xz
 https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz
 https://archive.fr.xfce.org/src/xfce/exo/4.16/exo-4.16.3.tar.bz2
-https://cdn.thesonicmaster.net/sources/expat-2.4.1.tar.xz
-https://github.com/knik0/faac/archive/1_30/faac-1_30.tar.gz
+https://github.com/libexpat/libexpat/releases/download/R_2_4_2/expat-2.4.2.tar.xz
 https://github.com/knik0/faad2/archive/2_10_0/faad2-2_10_0.tar.gz
 https://distfiles.gentoo.org/distfiles/fcron-3.2.1.src.tar.gz
 https://ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz
@@ -99,7 +98,7 @@ https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/95.0.1/linux-x86_64/en-US/firefox-95.0.1.tar.bz2
+https://archive.mozilla.org/pub/firefox/releases/95.0.2/linux-x86_64/en-US/firefox-95.0.2.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.12.2/flatpak-1.12.2.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
@@ -133,7 +132,7 @@ https://archive.mesa3d.org/glu/glu-9.0.2.tar.xz
 https://mirror.lyrahosting.com/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.2.tar.xz
-https://cdn.thesonicmaster.net/sources/gnome-tour-41.rc-MassOS.tar.xz
+https://cdn.thesonicmaster.net/sources/gnome-tour-41.rc-MassOS-2.tar.xz
 https://cdn.thesonicmaster.net/sources/gnu-efi-3.0.13.tar.bz2
 https://cdn.thesonicmaster.net/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.32.tar.bz2
@@ -160,7 +159,7 @@ https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.18.5.t
 https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.18.5.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtk-doc/1.33/gtk-doc-1.33.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtk+/2.24/gtk+-2.24.33.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.24/gtk+-3.24.30.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.24/gtk+-3.24.31.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtkmm/3.24/gtkmm-3.24.5.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/4.8/gtksourceview-4.8.2.tar.xz
 https://cdn.thesonicmaster.net/sources/gutenprint-5.3.3.tar.xz
@@ -169,7 +168,7 @@ https://cdn.thesonicmaster.net/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/3.2.0/harfbuzz-3.2.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
-https://fossies.org/linux/misc/hplip-3.21.10.tar.gz
+https://fossies.org/linux/misc/hplip-3.21.12.tar.gz
 https://distfiles.gentoo.org/distfiles/htop-3.1.2.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20211112/iana-etc-20211112.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
@@ -184,6 +183,7 @@ https://distfiles.gentoo.org/distfiles/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.8.0.orig.tar.xz
 https://cdn.thesonicmaster.net/sources/itstool-2.0.7.tar.bz2
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
+https://github.com/jasper-software/jasper/archive/version-2.0.33/jasper-2.0.33.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.0.3.tar.gz
 https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
@@ -252,6 +252,7 @@ https://www.x.org/archive/individual/lib/libpciaccess-0.16.tar.bz2
 https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.4.tar.gz
 https://github.com/libimobiledevice/libplist/releases/download/2.2.0/libplist-2.2.0.tar.bz2
 https://cdn.thesonicmaster.net/sources/libpng-1.6.37.tar.xz
+https://github.com/flatpak/libportal/releases/download/0.5/libportal-0.5.tar.xz
 https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.gz
 https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.2.tar.xz
@@ -324,7 +325,7 @@ https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.10.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.11.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -348,7 +349,7 @@ https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.1.tar.xz
 https://archive.mesa3d.org/mesa-21.3.2.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.60.2/meson-0.60.2.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.60.3/meson-0.60.3.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.4.tar.xz
@@ -390,7 +391,7 @@ https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.0/p11-kit-0.24.0.tar.xz
 https://cdn.thesonicmaster.net/sources/p7zip-17.04-6-geb1bbb0.tar.xz
 https://cdn.thesonicmaster.net/sources/pahole-1.23.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.2.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.3.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
@@ -421,7 +422,7 @@ https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.10.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
 https://www.python.org/ftp/python/3.10.1/Python-3.10.1.tar.xz
-https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.4.0/qpdf-10.4.0.tar.gz
+https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.5.0/qpdf-10.5.0.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/readline/readline-8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
@@ -488,7 +489,7 @@ https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.2/vte-0.66.2.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.20.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.24.tar.xz
-https://webkitgtk.org/releases/webkitgtk-2.34.2.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.34.3.tar.xz
 https://mirror.lyrahosting.com/gnu/wget/wget-1.21.2.tar.gz
 https://mirror.lyrahosting.com/gnu/which/which-2.21.tar.gz
 https://deb.debian.org/debian/pool/main/w/whois/whois_5.4.3.tar.xz
@@ -513,6 +514,8 @@ https://www.x.org/archive/individual/app/xcmsdb-1.0.5.tar.bz2
 https://www.x.org/archive/individual/data/xcursor-themes-1.0.6.tar.bz2
 https://www.x.org/archive/individual/app/xcursorgen-1.0.7.tar.bz2
 https://github.com/flatpak/xdg-dbus-proxy/releases/download/0.1.2/xdg-dbus-proxy-0.1.2.tar.xz
+https://github.com/flatpak/xdg-desktop-portal/releases/download/1.12.1/xdg-desktop-portal-1.12.1.tar.xz
+https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/1.12.0/xdg-desktop-portal-gtk-1.12.0.tar.xz
 https://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.17.tar.gz
 https://portland.freedesktop.org/download/xdg-utils-1.1.3.tar.gz
 https://www.x.org/archive/individual/app/xdpyinfo-1.3.2.tar.bz2

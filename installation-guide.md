@@ -10,7 +10,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Greatly improved multimedia codec support in GStreamer (Parole now has full MP4 support).
+- Improved codec support in GStreamer (Parole now has full MPEG-4 support).
 - Optimised the initramfs better by excluding some unnecessary modules.
 - (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
 - The `adduser` utility can now (optionally) have the username of the new user passed an argument.
@@ -18,19 +18,27 @@ This is the development version of MassOS. It contains the upcoming changes for 
 
 It also includes the following upgraded software:
 
+- AppStream: `0.15.0 --> 0.15.1`
+- Asciidoc: `9.1.1 --> 10.1.1`
 - BIND Utilities: `9.16.23 --> 9.16.24`
 - DKMS: `3.0.2 --> 3.0.3`
-- Firefox: `95.0 --> 95.0.1`
+- Expat: `2.4.1 --> 2.4.2`
+- Firefox: `95.0 --> 95.0.2`
+- GTK3: `3.24.30 --> 3.24.31`
+- HPLIP: `3.21.10 --> 3.21.12`
 - librsvg: `2.52.4 --> 2.52.5`
-- Linux Kernel: `5.15.8 --> 5.15.10`
+- Linux Kernel: `5.15.8 --> 5.15.11`
 - Mesa: `21.3.1 --> 21.3.2`
+- Meson: `0.60.2 --> 0.60.3`
 - NSPR: `4.32 --> 4.33`
 - NSS: `3.73 --> 3.73.1`
 - OpenSSL: `3.0.0 --> 3.0.1`
 - OpenSSL Legacy: `1.1.1l --> 1.1.1m`
-- Pango: `1.50.1 --> 1.50.2`
+- Pango: `1.50.1 --> 1.50.3`
+- Qpdf: `10.4.0 --> 10.5.0`
 - Shadow: `4.8.1 --> 4.9`
 - Vala: `0.54.4 --> 0.54.5`
+- WebKitGTK: `2.34.2 --> 2.34.3`
 
 # Installing MassOS Using The Installation Program
 MassOS has a guided installation program which can be used to easily install MassOS.
@@ -223,7 +231,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.10-massos
+mkinitramfs 5.15.11-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

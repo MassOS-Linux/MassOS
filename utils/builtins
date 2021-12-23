@@ -169,6 +169,7 @@ iptables
 iso-codes
 itstool
 jansson
+jasper
 jinja2
 js78
 json-c
@@ -235,9 +236,11 @@ libpciaccess
 libpipeline
 libplist
 libpng
+libportal
 libpsl
 libpwquality
 libqmi
+libraw
 librsvg
 libsamplerate
 libsass
@@ -486,6 +489,8 @@ xcmsdb
 xcursor-themes
 xcursorgen
 xdg-dbus-proxy
+xdg-desktop-portal
+xdg-desktop-portal-gtk
 xdg-user-dirs
 xdpyinfo
 xdriinfo

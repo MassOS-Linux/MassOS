@@ -1,6 +1,6 @@
-diff -ruN old/base/sixext.py new/base/sixext.py
---- old/base/sixext.py	2021-10-28 22:31:45.000000000 +0100
-+++ new/base/sixext.py	2021-11-07 20:08:41.044090803 +0000
+diff -aruN old/base/sixext.py new/base/sixext.py
+--- old/base/sixext.py	2021-12-13 09:07:36.000000000 +0000
++++ new/base/sixext.py	2021-12-20 19:53:08.151749424 +0000
 @@ -110,11 +110,11 @@
  
  
@@ -15,9 +15,9 @@ diff -ruN old/base/sixext.py new/base/sixext.py
  
  
      def to_unicode(s, enc=None):
-diff -ruN old/configure.in new/configure.in
---- old/configure.in	2021-10-28 22:31:45.000000000 +0100
-+++ new/configure.in	2021-11-07 20:09:49.959280356 +0000
+diff -aruN old/configure.in new/configure.in
+--- old/configure.in	2021-12-13 09:07:36.000000000 +0000
++++ new/configure.in	2021-12-20 19:53:30.054614238 +0000
 @@ -618,7 +618,7 @@
  
  if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
@@ -68,7 +68,7 @@ diff -ruN old/configure.in new/configure.in
  fi
  
  #CFLAGS=`(python-config --includes)`
-@@ -655,7 +667,6 @@
+@@ -664,7 +676,6 @@
     AS_IF([test "x$FOUND_HEADER" != "xyes"],
            [AC_MSG_ERROR([cannot find python-devel support], 6)])
  fi
@@ -76,10 +76,10 @@ diff -ruN old/configure.in new/configure.in
  
  if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
     AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
-diff -ruN old/configure.in.orig new/configure.in.orig
+diff -aruN old/configure.in.orig new/configure.in.orig
 --- old/configure.in.orig	1970-01-01 01:00:00.000000000 +0100
-+++ new/configure.in.orig	2021-11-07 20:08:18.601238538 +0000
-@@ -0,0 +1,783 @@
++++ new/configure.in.orig	2021-12-20 19:52:57.311981206 +0000
+@@ -0,0 +1,792 @@
 +#
 +#  configure.in - hplip autoconf input file
 +# 
@@ -108,7 +108,7 @@ diff -ruN old/configure.in.orig new/configure.in.orig
 +#   104 = no libdl
 +
 +#AC_PREREQ(2.59)
-+AC_INIT([HP Linux Imaging and Printing], [3.21.10], [3.21.10], [hplip])
++AC_INIT([HP Linux Imaging and Printing], [3.21.12], [3.21.12], [hplip])
 +#AM_INIT_AUTOMAKE([1.9 foreign])
 +AM_INIT_AUTOMAKE
 +AC_DISABLE_STATIC
@@ -734,6 +734,15 @@ diff -ruN old/configure.in.orig new/configure.in.orig
 +   AC_ARG_VAR(PYTHONINCLUDEDIR, [path to Python.h C header file])
 +   AC_CHECK_HEADERS([python${PYTHON_VERSION}/Python.h python${PYTHON_VERSION}mu/Python.h python${PYTHON_VERSION}m/Python.h ],
 +          [FOUND_HEADER=yes; break;])
++
++   if test "x$FOUND_HEADER" != "xyes"; then
++   	PYTHONVERSION=`$PYTHON -c "import sys; sys.stdout.write('{}.{}'.format(*sys.version_info[[:2]]));"`
++   	AC_MSG_RESULT("using $PYTHONVERSION ....  python${PYTHONVERSION}")
++   	AC_ARG_VAR(PYTHONVERSION, [python version upto 2 decimals])
++   	AC_CHECK_HEADERS([python${PYTHONVERSION}/Python.h python${PYTHONVERSION}mu/Python.h python${PYTHONVERSION}m/Python.h ],
++          [FOUND_HEADER=yes; break;])
++   fi       
++   
 +   AS_IF([test "x$FOUND_HEADER" != "xyes"],
 +          [AC_MSG_ERROR([cannot find python-devel support], 6)])
 +fi
@@ -863,9 +872,9 @@ diff -ruN old/configure.in.orig new/configure.in.orig
 +
 +AC_CONFIG_FILES(Makefile hplip.conf hplip.desktop hp-uiscan.desktop hplip-systray.desktop prnt/drv/hpijs.drv prnt/drv/hpcups.drv hplip.list data/policykit/com.hp.hplip.service)
 +AC_OUTPUT
-diff -ruN old/createPPD.sh new/createPPD.sh
---- old/createPPD.sh	2021-10-28 22:31:45.000000000 +0100
-+++ new/createPPD.sh	2021-11-07 20:10:08.062225706 +0000
+diff -aruN old/createPPD.sh new/createPPD.sh
+--- old/createPPD.sh	2021-12-13 09:07:36.000000000 +0000
++++ new/createPPD.sh	2021-12-20 19:54:19.386891495 +0000
 @@ -54,15 +54,15 @@
  	else
  		cp prnt/ps/hp-postscript*.ppd ppd/classppd/ps
@@ -902,9 +911,9 @@ diff -ruN old/createPPD.sh new/createPPD.sh
  done
  echo "building foomatic_drv.inc..."
  ./hpijs-drv > foomatic_drv.inc $shadow
-diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
---- old/pcard/pcardext/pcardext.c	2021-10-28 22:31:45.000000000 +0100
-+++ new/pcard/pcardext/pcardext.c	2021-11-07 20:09:12.486750185 +0000
+diff -aruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
+--- old/pcard/pcardext/pcardext.c	2021-12-13 09:07:36.000000000 +0000
++++ new/pcard/pcardext/pcardext.c	2021-12-20 19:53:18.688190737 +0000
 @@ -20,7 +20,7 @@
  Requires:
  Python 2.2+
@@ -914,7 +923,7 @@ diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
  
  \*****************************************************************************/
  
-@@ -38,9 +38,37 @@
+@@ -41,9 +41,37 @@
  
  int verbose=0;
  
@@ -952,7 +961,7 @@ diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
  int ReadSector(int sector, int nsector, void *buf, int size)
  {
      PyObject * result;
-@@ -56,9 +84,13 @@
+@@ -59,9 +87,13 @@
          if( result )
          {
              Py_ssize_t len = 0;
@@ -968,7 +977,7 @@ diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
              {
                  goto abort;
              }
-@@ -205,7 +237,9 @@
+@@ -208,7 +240,9 @@
      
      if( FatReadFileExt( name, offset, len, buffer ) == len )
      {
@@ -979,7 +988,7 @@ diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
      }
      else
      {
-@@ -233,14 +267,15 @@
+@@ -236,14 +270,15 @@
  
  static char pcardext_documentation[] = "Python extension for HP photocard services";
  
@@ -1003,21 +1012,262 @@ diff -ruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
  }
  
  
-diff -ruN old/pcard/photocard.py new/pcard/photocard.py
---- old/pcard/photocard.py	2021-10-28 22:31:45.000000000 +0100
-+++ new/pcard/photocard.py	2021-11-07 20:09:12.486750185 +0000
-@@ -30,7 +30,7 @@
- from base import device, utils, exif
- 
- try:
--    from . import pcardext
-+    import pcardext
- except ImportError:
-     if not os.getenv("HPLIP_BUILD"):
-         log.error("PCARDEXT could not be loaded. Please check HPLIP installation.")
-diff -ruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
---- old/prnt/hpcups/HPCupsFilter.h	2021-10-28 22:31:45.000000000 +0100
-+++ new/prnt/hpcups/HPCupsFilter.h	2021-11-07 20:08:18.601238538 +0000
+diff -aruN old/pcard/pcardext/pcardext.c.orig new/pcard/pcardext/pcardext.c.orig
+--- old/pcard/pcardext/pcardext.c.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/pcard/pcardext/pcardext.c.orig	2021-12-13 09:07:36.000000000 +0000
+@@ -0,0 +1,249 @@
++/*****************************************************************************\
++pcardext - Python extension for HP photocard services
++ 
++ (c) Copyright 2003-2015 HP Development Company, L.P.
++
++ This program is free software; you can redistribute it and/or modify
++ it under the terms of the GNU General Public License as published by
++ the Free Software Foundation; either version 2 of the License, or
++ (at your option) any later version.
++
++ This program is distributed in the hope that it will be useful,
++ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ GNU General Public License for more details.
++
++ You should have received a copy of the GNU General Public License
++ along with this program; if not, write to the Free Software
++ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
++
++Requires:
++Python 2.2+
++
++Author: Don Welch
++
++\*****************************************************************************/
++
++#define PY_SSIZE_T_CLEAN
++
++
++#include <Python.h>
++#include <structmember.h>
++#include "../fat.h"
++
++
++/* Ref: PEP 353 (Python 2.5) */
++#if PY_VERSION_HEX < 0x02050000
++typedef int Py_ssize_t;
++#define PY_SSIZE_T_MAX INT_MAX
++#define PY_SSIZE_T_MIN INT_MIN
++#endif
++
++int verbose=0;
++
++PyObject * readsectorFunc = NULL;
++PyObject * writesectorFunc = NULL;
++
++int ReadSector(int sector, int nsector, void *buf, int size)
++{
++    PyObject * result;
++    char * result_str;
++    
++    if( readsectorFunc )
++    {
++        if( nsector <= 0 || (nsector*FAT_HARDSECT) > size || nsector > FAT_BLKSIZE )
++            goto abort;
++        
++        result = PyObject_CallFunction( readsectorFunc, "ii", sector, nsector );
++        
++        if( result )
++        {
++            Py_ssize_t len = 0;
++            PyString_AsStringAndSize( result, &result_str, &len );
++            
++            if( len < nsector*FAT_HARDSECT )
++            {
++                goto abort;
++            }
++            
++            memcpy( buf, result_str, nsector*FAT_HARDSECT );
++            return 0;
++        }
++    }
++    
++abort:    
++    return 1;
++}
++
++int WriteSector(int sector, int nsector, void *buf, int size )
++{
++    PyObject * result;
++    
++    if( writesectorFunc )
++    {
++        result = PyObject_CallFunction( writesectorFunc, "iis#", sector, nsector, buf, size );
++        
++        return PyInt_AS_LONG( result );
++    }
++
++    return 1;
++}
++
++
++PyObject * pcardext_mount( PyObject * self, PyObject * args ) 
++{
++    if( !PyArg_ParseTuple( args, "OO", &readsectorFunc, &writesectorFunc ) )
++    {
++        return Py_BuildValue( "i", 1 );
++    }
++    
++    if( !PyCallable_Check( readsectorFunc ) || !PyCallable_Check( writesectorFunc ) )
++    {
++        return Py_BuildValue( "i", 2 );
++    }
++        
++    Py_INCREF( readsectorFunc );
++    Py_INCREF( writesectorFunc );
++
++    int i = FatInit();
++    /*char buf[1024];
++    sprintf( buf, "print 'FatInit()=%d\n'", i );
++    PyRun_SimpleString( buf );*/
++
++    return Py_BuildValue( "i", i ); // ==0 ->OK, !=0 --> NG
++}
++
++
++PyObject * pcardext_df( PyObject * self, PyObject * args ) 
++{
++    return Py_BuildValue( "i", FatFreeSpace() );
++}
++
++
++PyObject * pcardext_ls( PyObject * self, PyObject * args ) 
++{
++    PyObject * file_list;
++    file_list = PyList_New((Py_ssize_t)0);
++    FILE_ATTRIBUTES fa;
++
++    FatDirBegin( &fa );
++    
++    do 
++    {
++        if( fa.Attr != 'x' )
++            PyList_Append( file_list, Py_BuildValue( "(sci)",  fa.Name, fa.Attr, fa.Size ) );
++        
++    } while( FatDirNext( &fa ) );
++
++    return file_list;
++}
++
++
++PyObject * pcardext_cp( PyObject * self, PyObject * args ) 
++{
++    char * name; 
++    int fileno = 0;
++    
++    if( !PyArg_ParseTuple( args, "si", &name, &fileno ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++    
++    return Py_BuildValue( "i", FatReadFile( name, fileno ) );
++}
++
++PyObject * pcardext_cd( PyObject * self, PyObject * args ) 
++{
++    char * dir;
++
++    if( !PyArg_ParseTuple( args, "s", &dir ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++    
++    FatSetCWD( dir );
++    
++    return Py_BuildValue( "i", 1 );
++}
++
++PyObject * pcardext_rm( PyObject * self, PyObject * args ) 
++{
++    char * name;
++    if( !PyArg_ParseTuple( args, "s", &name ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++
++    return Py_BuildValue( "i", FatDeleteFile( name ) );
++}
++
++PyObject * pcardext_umount( PyObject * self, PyObject * args ) 
++{
++    return Py_BuildValue( "" );
++}
++
++PyObject * pcardext_info( PyObject * self, PyObject * args ) 
++{
++    PHOTO_CARD_ATTRIBUTES pa;
++    FatDiskAttributes( &pa );
++    
++    return Py_BuildValue( "(siiiiissi)", pa.OEMID, pa.BytesPerSector, pa.SectorsPerCluster, pa.ReservedSectors,
++                                        pa.RootEntries, pa.SectorsPerFat, pa.VolumeLabel, pa.SystemID,
++                                        pa.WriteProtect );
++}
++
++PyObject * pcardext_read( PyObject * self, PyObject * args ) 
++{
++    char * name;
++    int offset = 0;
++    Py_ssize_t len = 0;
++    void * buffer;
++    
++    if( !PyArg_ParseTuple( args, "sii", &name, &offset, &len ) )
++    {
++        return Py_BuildValue( "s", "" );
++    }
++    
++    buffer = alloca( len );
++    
++    if( FatReadFileExt( name, offset, len, buffer ) == len )
++    {
++        return PyString_FromStringAndSize( (char *)buffer, len );
++    }
++    else
++    {
++        return Py_BuildValue( "s", "" );
++    }
++    
++    
++}
++
++
++static PyMethodDef pcardext_methods[] = 
++{
++    { "mount",       (PyCFunction)pcardext_mount,  METH_VARARGS },
++    { "ls",          (PyCFunction)pcardext_ls,     METH_VARARGS },
++    { "cp",          (PyCFunction)pcardext_cp,     METH_VARARGS },
++    { "cd",          (PyCFunction)pcardext_cd,     METH_VARARGS },
++    { "rm",          (PyCFunction)pcardext_rm,     METH_VARARGS },
++    { "umount",      (PyCFunction)pcardext_umount, METH_VARARGS },
++    { "df",          (PyCFunction)pcardext_df,     METH_VARARGS },
++    { "info",        (PyCFunction)pcardext_info,   METH_VARARGS },
++    { "read",        (PyCFunction)pcardext_read,   METH_VARARGS },
++    { NULL, NULL }
++};  
++
++
++static char pcardext_documentation[] = "Python extension for HP photocard services";
++
++void initpcardext( void )
++{
++    PyObject * mod = Py_InitModule4( "pcardext", pcardext_methods, 
++                                     pcardext_documentation, (PyObject*)NULL, 
++                                     PYTHON_API_VERSION );
++                     
++    if (mod == NULL)
++      return;
++}
++
++
+diff -aruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
+--- old/prnt/hpcups/HPCupsFilter.h	2021-12-13 09:07:36.000000000 +0000
++++ new/prnt/hpcups/HPCupsFilter.h	2021-12-20 19:52:57.311981206 +0000
 @@ -38,6 +38,8 @@
  #include <cups/ppd.h>
  #include "dbuscomm.h"
@@ -1027,9 +1277,9 @@ diff -ruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
  #define		DBITMAPFILEHEADER		14
  #define		DBITMAPINFOHEADER		40
  
-diff -ruN old/prnt/hpcups/HPCupsFilter.h.orig new/prnt/hpcups/HPCupsFilter.h.orig
+diff -aruN old/prnt/hpcups/HPCupsFilter.h.orig new/prnt/hpcups/HPCupsFilter.h.orig
 --- old/prnt/hpcups/HPCupsFilter.h.orig	1970-01-01 01:00:00.000000000 +0100
-+++ new/prnt/hpcups/HPCupsFilter.h.orig	2021-10-28 22:31:45.000000000 +0100
++++ new/prnt/hpcups/HPCupsFilter.h.orig	2021-12-13 09:07:36.000000000 +0000
 @@ -0,0 +1,129 @@
 +/*****************************************************************************\
 +  HPCupsFilter.h : Interface for HPCupsFilter class
@@ -1160,9 +1410,9 @@ diff -ruN old/prnt/hpcups/HPCupsFilter.h.orig new/prnt/hpcups/HPCupsFilter.h.ori
 +
 +#endif  // HP_CUPSFILTER_H
 +
-diff -ruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
---- old/prnt/hpijs/hpcupsfax.cpp	2021-10-28 22:31:46.000000000 +0100
-+++ new/prnt/hpijs/hpcupsfax.cpp	2021-11-07 20:08:18.604571800 +0000
+diff -aruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
+--- old/prnt/hpijs/hpcupsfax.cpp	2021-12-13 09:07:36.000000000 +0000
++++ new/prnt/hpijs/hpcupsfax.cpp	2021-12-20 19:52:57.311981206 +0000
 @@ -43,6 +43,7 @@
  #include <arpa/inet.h>
  #include <math.h>
@@ -1171,9 +1421,9 @@ diff -ruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
  #include <cups/raster.h>
  #include <string>
  #ifdef FALSE
-diff -ruN old/unload.py new/unload.py
---- old/unload.py	2021-10-28 22:31:46.000000000 +0100
-+++ new/unload.py	2021-11-07 20:09:12.490083448 +0000
+diff -aruN old/unload.py new/unload.py
+--- old/unload.py	2021-12-13 09:07:37.000000000 +0000
++++ new/unload.py	2021-12-20 19:53:18.688190737 +0000
 @@ -44,6 +44,11 @@
  
  # Local
@@ -1186,9 +1436,9 @@ diff -ruN old/unload.py new/unload.py
  from base import device, utils, tui, module
  from prnt import cups
  
-diff -ruN old/upgrade.py new/upgrade.py
---- old/upgrade.py	2021-10-28 22:31:46.000000000 +0100
-+++ new/upgrade.py	2021-11-07 20:07:18.475860790 +0000
+diff -aruN old/upgrade.py new/upgrade.py
+--- old/upgrade.py	2021-12-13 09:07:37.000000000 +0000
++++ new/upgrade.py	2021-12-20 19:52:40.912331759 +0000
 @@ -207,6 +207,11 @@
  if os.getenv("HPLIP_DEBUG"):
      log.set_level('debug')
@@ -1201,9 +1451,9 @@ diff -ruN old/upgrade.py new/upgrade.py
  for o, a in opts:
      if o in ('-h', '--help'):
          usage()
-diff -ruN old/upgrade.py.orig new/upgrade.py.orig
+diff -aruN old/upgrade.py.orig new/upgrade.py.orig
 --- old/upgrade.py.orig	1970-01-01 01:00:00.000000000 +0100
-+++ new/upgrade.py.orig	2021-10-28 22:31:46.000000000 +0100
++++ new/upgrade.py.orig	2021-12-13 09:07:37.000000000 +0000
 @@ -0,0 +1,446 @@
 +#!/usr/bin/python
 +# -*- coding: utf-8 -*-

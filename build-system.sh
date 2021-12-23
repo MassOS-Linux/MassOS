@@ -641,13 +641,13 @@ make install
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.1.tar.xz
-cd expat-2.4.1
+tar -xf expat-2.4.2.tar.xz
+cd expat-2.4.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf expat-2.4.1
+rm -rf expat-2.4.2
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -786,14 +786,15 @@ install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.60.2.tar.gz
-cd meson-0.60.2
+tar -xf meson-0.60.3.tar.gz
+cd meson-0.60.3
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
 install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/completions/meson
+install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 cd ..
-rm -rf meson-0.60.2
+rm -rf meson-0.60.3
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -1509,16 +1510,11 @@ make install
 cd ..
 rm -rf itstool-2.0.7
 # Asciidoc.
-tar -xf asciidoc-9.1.1.tar.gz
-cd asciidoc-9.1.1
-sed -i 's:doc/testasciidoc.1::' Makefile.in
-rm doc/testasciidoc.1.txt
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-make docs
+tar -xf asciidoc-10.1.1.tar.gz
+cd asciidoc-10.1.1
+python setup.py install --optimize=1
 cd ..
-rm -rf asciidoc-9.1.1
+rm -rf asciidoc-10.1.1
 # GNU-EFI.
 tar -xf gnu-efi-3.0.13.tar.bz2
 cd gnu-efi-3.0.13
@@ -3004,13 +3000,13 @@ ninja install
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.4.0.tar.gz
-cd qpdf-10.4.0
+tar -xf qpdf-10.5.0.tar.gz
+cd qpdf-10.5.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 cd ..
-rm -rf qpdf-10.4.0
+rm -rf qpdf-10.5.0
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3718,6 +3714,15 @@ make
 make install
 cd ..
 rm -rf lcms2-2.12
+# JasPer.
+tar -xf jasper-2.0.33.tar.gz
+cd jasper-version-2.0.33
+mkdir jasper-build; cd jasper-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf jasper-version-2.0.33
 # ATK.
 tar -xf atk-2.36.0.tar.xz
 cd atk-2.36.0
@@ -3773,14 +3778,14 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.2.0
 # Pango.
-tar -xf pango-1.50.2.tar.xz
-cd pango-1.50.2
+tar -xf pango-1.50.3.tar.xz
+cd pango-1.50.3
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 cd ../..
-rm -rf pango-1.50.2
+rm -rf pango-1.50.3
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -3913,15 +3918,15 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
 rm -rf at-spi2-atk-2.38.0
 # GTK3.
-tar -xf gtk+-3.24.30.tar.xz
-cd gtk+-3.24.30
+tar -xf gtk+-3.24.31.tar.xz
+cd gtk+-3.24.31
 ./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-x11-backend --enable-wayland-backend
 make
 make install
 gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ..
-rm -rf gtk+-3.24.30
+rm -rf gtk+-3.24.31
 # Gtkmm.
 tar -xf gtkmm-3.24.5.tar.xz
 cd gtkmm-3.24.5
@@ -4023,7 +4028,7 @@ rm -rf gexiv2-0.14.0
 tar -xf LibRaw-0.20.2.tar.gz
 cd LibRaw-0.20.2
 autoreconf -fi
-./configure --prefix=/usr --enable-jpeg --enable-lcms --disable-static
+./configure --prefix=/usr --enable-jasper --enable-jpeg --enable-lcms --disable-static
 make
 make install
 cd ..
@@ -4491,9 +4496,9 @@ install -m644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
 cd ../..
 rm -rf sane-backends-1.0.32
 # HPLIP.
-tar -xf hplip-3.21.10.tar.gz
-cd hplip-3.21.10
-patch -Np1 -i ../patches/hplip-3.21.10-fix_too_many_bugs.patch
+tar -xf hplip-3.21.12.tar.gz
+cd hplip-3.21.12
+patch -Np1 -i ../patches/hplip-3.21.12-fix_too_many_bugs.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 ./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
 make
@@ -4508,7 +4513,7 @@ echo hpaio > destination-tmp/etc/sane.d/dll.d/hpaio
 cp -a destination-tmp/* /
 ldconfig
 cd ..
-rm -rf hplip-3.21.10
+rm -rf hplip-3.21.12
 # Tk.
 tar -xf tk8.6.12-src.tar.gz
 cd tk8.6.12/unix
@@ -4746,14 +4751,14 @@ ninja install
 cd ../..
 rm -rf libxmlb-0.3.6
 # AppStream.
-tar -xf AppStream-0.15.0.tar.xz
-cd AppStream-0.15.0
+tar -xf AppStream-0.15.1.tar.xz
+cd AppStream-0.15.1
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 cd ../..
-rm -rf AppStream-0.15.0
+rm -rf AppStream-0.15.1
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -4804,6 +4809,31 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 cd ..
 rm -rf flatpak-1.12.2
+# libportal.
+tar -xf libportal-0.5.tar.xz
+cd libportal-0.5
+mkdir portal-build; cd portal-build
+meson --prefix=/usr --buildtype=release -Dbackends=gtk3 -Ddocs=false ..
+ninja
+ninja install
+cd ../..
+rm -rf libportal-0.5
+# xdg-desktop-portal.
+tar -xf xdg-desktop-portal-1.12.1.tar.xz
+cd xdg-desktop-portal-1.12.1
+./configure --prefix=/usr --disable-pipewire
+make
+make install
+cd ..
+rm -rf xdg-desktop-portal-1.12.1
+# xdg-desktop-portal-gtk.
+tar -xf xdg-desktop-portal-gtk-1.12.0.tar.xz
+cd xdg-desktop-portal-gtk-1.12.0
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -rf xdg-desktop-portal-gtk-1.12.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -4982,15 +5012,6 @@ make
 make install
 cd ..
 rm -rf libmpeg2-0.5.1
-# FAAC.
-tar -xf faac-1_30.tar.gz
-cd faac-1_30
-./bootstrap
-./configure --prefix=/usr --disable-static
-make
-make install
-cd ..
-rm -rf faac-1_30
 # FAAD2.
 tar -xf faad2-2_10_0.tar.gz
 cd faad2-2_10_0
@@ -5056,14 +5077,14 @@ install -m755 tools/qt-faststart /usr/bin
 cd ..
 rm -rf ffmpeg-4.4.1
 # WebKitGTK.
-tar -xf webkitgtk-2.34.2.tar.xz
-cd webkitgtk-2.34.2
+tar -xf webkitgtk-2.34.3.tar.xz
+cd webkitgtk-2.34.3
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 cd ../..
-rm -rf webkitgtk-2.34.2
+rm -rf webkitgtk-2.34.3
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -5497,8 +5518,8 @@ ninja install
 cd ../..
 rm -rf gnome-software-41.2
 # MassOS Welcome (modified version of Gnome Tour).
-tar -xf gnome-tour-41.rc-MassOS.tar.xz
-cd gnome-tour-41.rc-MassOS
+tar -xf gnome-tour-41.rc-MassOS-2.tar.xz
+cd gnome-tour-41.rc-MassOS-2
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
@@ -5517,7 +5538,7 @@ Name=First Login Welcome Program
 Exec=/usr/bin/firstlogin
 END
 cd ../..
-rm -rf gnome-tour-41.rc-MassOS
+rm -rf gnome-tour-41.rc-MassOS-2
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
@@ -5631,7 +5652,7 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-95.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-95.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -5683,19 +5704,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.10.tar.xz
-cd linux-5.15.10
+tar -xf linux-5.15.11.tar.xz
+cd linux-5.15.11
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.10-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.10-massos/vmlinuz
-cp System.map /boot/System.map-5.15.10-massos
-cp .config /boot/config-5.15.10-massos
-rm /usr/lib/modules/5.15.10-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.11-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.11-massos/vmlinuz
+cp System.map /boot/System.map-5.15.11-massos
+cp .config /boot/config-5.15.11-massos
+rm /usr/lib/modules/5.15.11-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.10-massos/build
+builddir=/usr/lib/modules/5.15.11-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5718,7 +5739,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.10
+rm -rf linux-5.15.11
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
