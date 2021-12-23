@@ -7,6 +7,10 @@ if [ $EUID -ne 0 ]; then
   exit 1
 fi
 
+if [ ! -z "$1" ]; then
+  username1="$1"
+fi
+
 read -p "Enter the full name of the new user: " fullname
 
 while [ -z "$username1" ]; do
