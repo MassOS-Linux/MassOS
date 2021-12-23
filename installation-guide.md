@@ -37,6 +37,7 @@ It also includes the following upgraded software:
 - Pango: `1.50.1 --> 1.50.3`
 - Qpdf: `10.4.0 --> 10.5.0`
 - Shadow: `4.8.1 --> 4.9`
+- systemd: `250-rc2 --> 250-rc3`
 - Vala: `0.54.4 --> 0.54.5`
 - WebKitGTK: `2.34.2 --> 2.34.3`
 
