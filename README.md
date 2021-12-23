@@ -6,7 +6,7 @@ The MassOS system itself is under 5 gigabytes. Quite impressive for a GNU/Linux 
 MassOS is completely independent and built entirely from the ground up; it is not based on any other distribution. Due to not being dependent on another distribution, it is able to boast the latest and greatest in software versions.
 
 The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a "classic"" package manager (although [one is currently in development](https://github.com/TheSonicMaster/masspkg)), the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
-![](software2.png)
+![](gnome-software.png)
 # Installing MassOS
 MassOS has a guided installation program which can be used to easily install MassOS.
 
