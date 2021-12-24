@@ -4106,6 +4106,14 @@ make
 make install
 cd ..
 rm -rf libsamplerate-0.2.2
+# JACK2.
+tar -xf jack2-1.9.19.tar.gz
+cd jack2-1.9.19
+./waf configure --prefix=/usr --htmldir=/usr/share/doc/jack2 --autostart=none --classic --dbus --systemd-unit
+./waf build -j$(nproc)
+./waf install
+cd ..
+rm -rf jack2-1.9.19
 # SBC.
 tar -xf sbc-1.5.tar.xz
 cd sbc-1.5
@@ -4906,7 +4914,7 @@ rm -rf cdparanoia-III-10.2
 # mpg123.
 tar -xf mpg123-1.29.3.tar.bz2
 cd mpg123-1.29.3
-./configure --prefix=/usr
+./configure --prefix=/usr --enable-int-quality=yes --with-audio="alsa jack oss pulse sdl"
 make
 make install
 cd ..
@@ -5020,11 +5028,29 @@ make
 make install
 cd ..
 rm -rf faad2-2_10_0
-# gstreamer.
+# FFmpeg.
+tar -xf ffmpeg-4.4.1.tar.xz
+cd ffmpeg-4.4.1
+./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libjack --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
+make
+gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
+make install
+install -m755 tools/qt-faststart /usr/bin
+cd ..
+rm -rf ffmpeg-4.4.1
+# OpenAL.
+tar -xf openal-soft-1.21.1.tar.gz
+cd openal-soft-1.21.1/build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf openal-soft-1.21.1
+# GStreamer.
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 cd ../..
@@ -5033,7 +5059,7 @@ rm -rf gstreamer-1.18.5
 tar -xf gst-plugins-base-1.18.5.tar.xz
 cd gst-plugins-base-1.18.5
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 cd ../..
@@ -5042,7 +5068,7 @@ rm -rf gst-plugins-base-1.18.5
 tar -xf gst-plugins-good-1.18.5.tar.xz
 cd gst-plugins-good-1.18.5
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 cd ../..
@@ -5051,7 +5077,7 @@ rm -rf gst-plugins-good-1.18.5
 tar -xf gst-plugins-bad-1.18.5.tar.xz
 cd gst-plugins-bad-1.18.5
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 cd ../..
@@ -5060,21 +5086,20 @@ rm -rf gst-plugins-bad-1.18.5
 tar -xf gst-plugins-ugly-1.18.5.tar.xz
 cd gst-plugins-ugly-1.18.5
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 MassOS" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 cd ../..
 rm -rf gst-plugins-ugly-1.18.5
-# FFmpeg.
-tar -xf ffmpeg-4.4.1.tar.xz
-cd ffmpeg-4.4.1
-./configure --prefix=/usr --enable-gpl --enable-version3 --disable-static --enable-shared --disable-debug --enable-avresample --enable-gnutls --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb
-make
-gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
-make install
-install -m755 tools/qt-faststart /usr/bin
-cd ..
-rm -rf ffmpeg-4.4.1
+# gst-libav.
+tar -xf gst-libav-1.18.5.tar.xz
+cd gst-libav-1.18.5
+mkdir gstlibav-build; cd gstlibav-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+ninja
+ninja install
+cd ../..
+rm -rf gst-libav-1.18.5
 # WebKitGTK.
 tar -xf webkitgtk-2.34.3.tar.xz
 cd webkitgtk-2.34.3

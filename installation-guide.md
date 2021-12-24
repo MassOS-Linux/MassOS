@@ -10,7 +10,8 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
 
-- Improved codec support in GStreamer (Parole now has full MPEG-4 support).
+- Parole now supports MP4 playback via OpenH264 and FAAD2 in GStreamer.
+- Added OpenAL, JACK2 and gst-libav.
 - Optimised the initramfs better by excluding some unnecessary modules.
 - (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
 - The `adduser` utility can now (optionally) have the username of the new user passed an argument.
