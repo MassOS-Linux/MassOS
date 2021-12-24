@@ -4834,6 +4834,15 @@ ninja
 ninja install
 cd ../..
 rm -rf libportal-0.5
+# GeoClue.
+tar -xf geoclue-2.5.7.tar.bz2
+cd geoclue-2.5.7
+mkdir geoclue-build; cd geoclue-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+cd ../..
+rm -rf geoclue-2.5.7
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.12.1.tar.xz
 cd xdg-desktop-portal-1.12.1
@@ -4883,15 +4892,6 @@ ninja
 ninja install
 cd ../..
 rm -rf wpebackend-fdo-1.12.0
-# GeoClue.
-tar -xf geoclue-2.5.7.tar.bz2
-cd geoclue-2.5.7
-mkdir geoclue-build; cd geoclue-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-cd ../..
-rm -rf geoclue-2.5.7
 # libass.
 tar -xf libass-0.15.2.tar.xz
 cd libass-0.15.2
