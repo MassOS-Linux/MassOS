@@ -139,6 +139,7 @@ grub
 gsasl
 gsettings-desktop-schemas
 gspell
+gst-libav
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
@@ -168,6 +169,7 @@ iproute2
 iptables
 iso-codes
 itstool
+jack2
 jansson
 jasper
 jinja2
@@ -321,7 +323,9 @@ lvm2
 lxml
 lynx
 lz4
+lzip
 lzo
+lzop
 m4
 make
 make-ca
@@ -360,6 +364,7 @@ npth
 nspr
 nss
 ntfs-3g
+openal
 openjade
 openjpeg
 openldap

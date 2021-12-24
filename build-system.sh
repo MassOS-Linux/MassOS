@@ -1680,6 +1680,14 @@ make
 make install
 cd ..
 rm -rf lzo-2.10
+# lzop.
+tar -xf lzop-1.04.tar.gz
+cd lzop-1.04
+./configure --prefix=/usr --mandir=/usr/share/man
+make
+make install
+cd ..
+rm -rf lzop-1.04
 # squashfs-tools.
 tar -xf squashfs-tools-4.5.tar.xz
 cd squashfs-tools-4.5
