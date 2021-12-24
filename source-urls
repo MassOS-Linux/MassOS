@@ -279,7 +279,7 @@ https://mirror.lyrahosting.com/gnu/libunistring/libunistring-0.9.10.tar.xz
 https://github.com/libusb/libusb/releases/download/v1.0.24/libusb-1.0.24.tar.bz2
 https://github.com/libimobiledevice/libusbmuxd/releases/download/2.0.2/libusbmuxd-2.0.2.tar.bz2
 https://dist.libuv.org/dist/v1.42.0/libuv-v1.42.0.tar.gz
-https://cdn.thesonicmaster.net/sources/libva-2.13.0.tar.bz2
+https://github.com/intel/libva/releases/download/2.13.0/libva-2.13.0.tar.bz2
 https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/1.4/libvdpau-1.4.tar.bz2
 https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz
 https://deb.debian.org/debian/pool/main/libv/libvpx/libvpx_1.11.0.orig.tar.gz
@@ -462,7 +462,7 @@ https://www.freedesktop.org/software/startup-notification/releases/startup-notif
 https://fossies.org/linux/misc/sudo-1.9.8p2.tar.gz
 https://cdn.thesonicmaster.net/sources/swig-4.0.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/sysprof/3.40/sysprof-3.40.1.tar.xz
-https://github.com/systemd/systemd/archive/v250-rc3/systemd-250-rc3.tar.gz
+https://github.com/systemd/systemd/archive/v250/systemd-250.tar.gz
 https://taglib.github.io/releases/taglib-1.12.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.34.tar.xz
 https://cdn.thesonicmaster.net/sources/tcl8.6.12-src.tar.gz
