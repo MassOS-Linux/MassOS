@@ -487,7 +487,7 @@ https://lttng.org/files/urcu/userspace-rcu-0.13.0.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.5.tar.xz
-https://github.com/vim/vim/archive/v8.2.3808/vim-8.2.3808.tar.gz
+https://github.com/vim/vim/archive/v8.2.3905/vim-8.2.3905.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.2/vte-0.66.2.tar.gz
@@ -586,4 +586,4 @@ https://www.x.org/archive/individual/app/xwud-1.0.5.tar.bz2
 https://fossies.org/linux/misc/xz-5.2.5.tar.xz
 https://cdn.thesonicmaster.net/sources/zip30.tar.gz
 https://zlib.net/zlib-1.2.11.tar.xz
-https://github.com/facebook/zstd/releases/download/v1.5.0/zstd-1.5.0.tar.gz
+https://github.com/facebook/zstd/releases/download/v1.5.1/zstd-1.5.1.tar.gz

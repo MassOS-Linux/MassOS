@@ -229,13 +229,13 @@ rm -f /usr/lib/liblz4.a
 cd ..
 rm -rf lz4-1.9.3
 # ZSTD.
-tar -xf zstd-1.5.0.tar.gz
-cd zstd-1.5.0
+tar -xf zstd-1.5.1.tar.gz
+cd zstd-1.5.1
 make CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr install
 rm -f /usr/lib/libzstd.a
 cd ..
-rm -rf zstd-1.5.0
+rm -rf zstd-1.5.1
 # pigz.
 tar -xf pigz-2.6.tar.gz
 cd pigz-2.6
@@ -4281,8 +4281,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3808.tar.gz
-cd vim-8.2.3808
+tar -xf vim-8.2.3905.tar.gz
+cd vim-8.2.3905
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4304,7 +4304,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3808
+rm -rf vim-8.2.3905
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5791,7 +5791,9 @@ curl --fail-with-body -s https://raw.githubusercontent.com/ClickNinYT/mct/c0ae1a
 chmod 755 /usr/sbin/mct
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
+# Remove leftover junk in /root.
 rm -rf /root/.cargo
+rm -rf /root/.cmake
 # Install symlinks to busybox for any programs not otherwise provided.
 busybox --install -s
 # Redundant since we use systemd.

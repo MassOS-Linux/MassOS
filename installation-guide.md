@@ -13,6 +13,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Parole now supports MP4 playback via OpenH264 and FAAD2 in GStreamer.
 - Added OpenAL, JACK2 and gst-libav.
 - Optimised the initramfs better by excluding some unnecessary modules.
+- Firmware for some Intel sound cards (sof-bin) is now installed alongside other firmware if the user answers 'y' in the MassOS installer.
 - (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
 - The `adduser` utility can now (optionally) have the username of the new user passed an argument.
 - Added the `pv` utility.
@@ -40,7 +41,9 @@ It also includes the following upgraded software:
 - Shadow: `4.8.1 --> 4.9`
 - systemd: `250-rc2 --> 250`
 - Vala: `0.54.4 --> 0.54.5`
+- Vim: `8.2.3808 --> 8.2.3905`
 - WebKitGTK: `2.34.2 --> 2.34.3`
+- ZSTD: `1.5.0 --> 1.5.1`
 
 # Installing MassOS Using The Installation Program
 MassOS has a guided installation program which can be used to easily install MassOS.
