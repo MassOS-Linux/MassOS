@@ -3073,14 +3073,13 @@ make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip-
 cd ..
 rm -rf p7zip-17.04-6-geb1bbb0
 # Ruby.
-tar -xf ruby-3.0.3.tar.xz
-cd ruby-3.0.3
-patch -Np1 -i ../patches/ruby-3.0.3-openssl3.patch
+tar -xf ruby-3.1.0.tar.xz
+cd ruby-3.1.0
 ./configure --prefix=/usr --enable-shared
 make
 make install
 cd ..
-rm -rf ruby-3.0.3
+rm -rf ruby-3.1.0
 # slang.
 tar -xf slang-pre2.3.3-59.tar.gz
 cd slang-pre2.3.3-59

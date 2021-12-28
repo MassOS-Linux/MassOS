@@ -38,6 +38,7 @@ It also includes the following upgraded software:
 - OpenSSL Legacy: `1.1.1l --> 1.1.1m`
 - Pango: `1.50.1 --> 1.50.3`
 - Qpdf: `10.4.0 --> 10.5.0`
+- Ruby: `3.0.3 --> 3.1.0`
 - Shadow: `4.8.1 --> 4.9`
 - systemd: `250-rc2 --> 250`
 - Vala: `0.54.4 --> 0.54.5`
