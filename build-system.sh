@@ -1089,13 +1089,13 @@ make install
 cd ..
 rm -rf which-2.21
 # tree.
-tar -xf tree-1.8.0.tgz
-cd tree-1.8.0
+tar -xf tree-2.0.0.tgz
+cd tree-2.0.0
 make CFLAGS="$CFLAGS"
-make MANDIR=/usr/share/man/man1 install
+make prefix=/usr MANDIR=/usr/share/man install
 chmod 644 /usr/share/man/man1/tree.1
 cd ..
-rm -rf tree-1.8.0
+rm -rf tree-2.0.0
 # GPM.
 tar --no-same-owner -xf gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
 cp -r gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS/BINARY/* /
@@ -1226,6 +1226,7 @@ rm -rf libxml2-2.9.12
 # libarchive.
 tar -xf libarchive-3.5.2.tar.xz
 cd libarchive-3.5.2
+sed -i '436a if ((OSSL_PROVIDER_load(NULL, "legacy")) == NULL) return (ARCHIVE_FAILED);' libarchive/archive_digest.c
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -2174,10 +2175,8 @@ rm -rf gnupg-2.2.32
 # krb5.
 tar -xf krb5-1.19.2.tar.gz
 cd krb5-1.19.2/src
-patch -Np2 -i ../../patches/krb5-1.19.2-CVE-2021-37750.patch
-sed -i -e 's@\^u}@^u cols 300}@' tests/dejagnu/config/default.exp
-sed -i -e '/eq 0/{N;s/12 //}' plugins/kdb/db2/libdb2/test/run.test
-sed -i '/t_iprop.py/d' tests/Makefile.in
+patch -Np2 -i ../../patches/krb5-1.19.2-OpenSSL3.patch
+autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
 make
 make install
@@ -3149,7 +3148,9 @@ cd ..
 rm -rf libnl-3.5.0
 # wpa_supplicant.
 tar -xf wpa_supplicant-2.9.tar.gz
-cd wpa_supplicant-2.9/wpa_supplicant
+cd wpa_supplicant-2.9
+patch -Np1 -i ../patches/wpa_supplicant-2.9-OpenSSL3.patch
+cd wpa_supplicant
 cat > .config << END
 CONFIG_BACKEND=file
 CONFIG_CTRL_IFACE=y
@@ -4280,8 +4281,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3905.tar.gz
-cd vim-8.2.3905
+tar -xf vim-8.2.3948.tar.gz
+cd vim-8.2.3948
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4303,7 +4304,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3905
+rm -rf vim-8.2.3948
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4523,6 +4524,7 @@ rm -rf destination-tmp/usr/share/hal
 rm -rf destination-tmp/etc/init.d
 rm -f destination-tmp/usr/share/applications/hp-uiscan.desktop
 rm -f destination-tmp/usr/share/applications/hplip.desktop
+rm -f destination-tmp/usr/bin/hp-uninstall
 install -dm755 destination-tmp/etc/sane.d/dll.d
 echo hpaio > destination-tmp/etc/sane.d/dll.d/hpaio
 cp -a destination-tmp/* /
@@ -5736,19 +5738,19 @@ StartupNotify=true
 END
 ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
 # Linux Kernel.
-tar -xf linux-5.15.11.tar.xz
-cd linux-5.15.11
+tar -xf linux-5.15.12.tar.xz
+cd linux-5.15.12
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.11-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.11-massos/vmlinuz
-cp System.map /boot/System.map-5.15.11-massos
-cp .config /boot/config-5.15.11-massos
-rm /usr/lib/modules/5.15.11-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.12-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.15.12-massos/vmlinuz
+cp System.map /boot/System.map-5.15.12-massos
+cp .config /boot/config-5.15.12-massos
+rm /usr/lib/modules/5.15.12-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.11-massos/build
+builddir=/usr/lib/modules/5.15.12-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -5771,7 +5773,7 @@ find -L "$builddir" -type l -delete
 find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 cd ..
-rm -rf linux-5.15.11
+rm -rf linux-5.15.12
 # MassOS release detection utility.
 gcc -s -Os massos-release.c -o massos-release
 install -m755 massos-release /usr/bin/massos-release
@@ -5828,8 +5830,7 @@ cat > /tmp/preupgrade << "END"
 # Nothing here yet...
 END
 cat > /tmp/postupgrade << "END"
-test ! "$(readlink /usr/bin/sv)" = "/usr/bin/busybox" || rm -f /usr/bin/sv
-test ! "$(readlink /usr/bin/dpkg-deb)" = "/usr/bin/busybox" || rm -f /usr/bin/dpkg-deb
+test ! -f /usr/bin/hp-uninstall || rm -f /usr/bin/hp-uninstall
 END
 # Clean sources directory and self destruct.
 cd ..

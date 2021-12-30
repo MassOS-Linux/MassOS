@@ -17,6 +17,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
 - The `adduser` utility can now (optionally) have the username of the new user passed an argument.
 - Added the `pv` utility.
+- Fixed minor bugs in some packages with OpenSSL 3.
 
 It also includes the following upgraded software:
 
@@ -29,7 +30,7 @@ It also includes the following upgraded software:
 - GTK3: `3.24.30 --> 3.24.31`
 - HPLIP: `3.21.10 --> 3.21.12`
 - librsvg: `2.52.4 --> 2.52.5`
-- Linux Kernel: `5.15.8 --> 5.15.11`
+- Linux Kernel: `5.15.8 --> 5.15.12`
 - Mesa: `21.3.1 --> 21.3.2`
 - Meson: `0.60.2 --> 0.60.3`
 - NSPR: `4.32 --> 4.33`
@@ -41,8 +42,9 @@ It also includes the following upgraded software:
 - Ruby: `3.0.3 --> 3.1.0`
 - Shadow: `4.8.1 --> 4.9`
 - systemd: `250-rc2 --> 250`
+- tree: `1.8.0 --> 2.0.0`
 - Vala: `0.54.4 --> 0.54.5`
-- Vim: `8.2.3808 --> 8.2.3905`
+- Vim: `8.2.3808 --> 8.2.3948`
 - WebKitGTK: `2.34.2 --> 2.34.3`
 - ZSTD: `1.5.0 --> 1.5.1`
 
@@ -237,7 +239,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.11-massos
+mkinitramfs 5.15.12-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

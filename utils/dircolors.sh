@@ -1,4 +1,4 @@
-# Setup for /bin/ls and /bin/grep to support color, the alias is in /etc/bashrc.
+# Setup for 'ls' and 'grep' to support color, the alias is in /etc/bashrc.
 if [ -f "/etc/dircolors" ] ; then
   eval $(dircolors -b /etc/dircolors)
 fi
