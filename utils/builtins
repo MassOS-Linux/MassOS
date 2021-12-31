@@ -63,6 +63,7 @@ dbus-python
 desktop-file-utils
 dhclient
 dialog
+distro
 diffutils
 dkms
 dmg2img

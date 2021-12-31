@@ -1,17 +1,7 @@
-Submitted By:            DJ Lucas <dj@linuxfromscratch.org>
-                         based on previous patches submitted
-                         by Armin K and Fernando de Oliveira
-Date:                    2020-10-16
-Initial Package Version: 19.0.4
-Upstream Status:         Not applicable.
-Origin:                  Self.
-Description:             This patch adds two OpenGL demos, glxinfo and
-                         glxgears and respective man pages.
-
-diff -Naurp mesa-20.2.1-orig/src/glx/meson.build mesa-20.2.1/src/glx/meson.build
---- mesa-20.2.1-orig/src/glx/meson.build	2020-10-14 12:19:10.623185200 -0500
-+++ mesa-20.2.1/src/glx/meson.build	2020-10-15 23:06:45.823362439 -0500
-@@ -165,6 +165,8 @@ libgl = shared_library(
+diff -aruN old/src/glx/meson.build new/src/glx/meson.build
+--- old/src/glx/meson.build	2021-12-29 21:05:19.000000000 +0000
++++ new/src/glx/meson.build	2021-12-31 12:15:26.358443305 +0000
+@@ -156,6 +156,8 @@
    install : true,
  )
  
@@ -20,9 +10,174 @@ diff -Naurp mesa-20.2.1-orig/src/glx/meson.build mesa-20.2.1/src/glx/meson.build
  if with_tests
    subdir('tests')
  endif
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.c mesa-20.2.1/src/glx/xdemos/glinfo_common.c
---- mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.c	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glinfo_common.c	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/meson.build.orig new/src/glx/meson.build.orig
+--- old/src/glx/meson.build.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/meson.build.orig	2021-12-29 21:05:19.000000000 +0000
+@@ -0,0 +1,161 @@
++# Copyright © 2017-2019 Intel Corporation
++
++# Permission is hereby granted, free of charge, to any person obtaining a copy
++# of this software and associated documentation files (the "Software"), to deal
++# in the Software without restriction, including without limitation the rights
++# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++# copies of the Software, and to permit persons to whom the Software is
++# furnished to do so, subject to the following conditions:
++
++# The above copyright notice and this permission notice shall be included in
++# all copies or substantial portions of the Software.
++
++# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++# SOFTWARE.
++
++inc_glx = include_directories('.')
++
++subdir('apple')
++if with_dri_platform == 'windows'
++  subdir('windows')
++endif
++
++files_libglx = files(
++  'clientattrib.c',
++  'clientinfo.c',
++  'compsize.c',
++  'create_context.c',
++  'dri_common.c',
++  'dri_common.h',
++  'dri_common_query_renderer.c',
++  'dri_common_interop.c',
++  'drisw_glx.c',
++  'drisw_priv.h',
++  'eval.c',
++  'glxclient.h',
++  'glxcmds.c',
++  'glxconfig.c',
++  'glxconfig.h',
++  'glxcurrent.c',
++  'glx_error.c',
++  'glx_error.h',
++  'glxext.c',
++  'glxextensions.c',
++  'glxextensions.h',
++  'glxhash.c',
++  'glxhash.h',
++  'glx_pbuffer.c',
++  'glx_query.c',
++  'indirect_glx.c',
++  'indirect_init.h',
++  'indirect_texture_compression.c',
++  'indirect_transpose_matrix.c',
++  'indirect_vertex_array.c',
++  'indirect_vertex_array.h',
++  'indirect_vertex_array_priv.h',
++  'indirect_vertex_program.c',
++  'indirect_window_pos.c',
++  'packrender.h',
++  'packsingle.h',
++  'pixel.c',
++  'pixelstore.c',
++  'query_renderer.c',
++  'render2.c',
++  'renderpix.c',
++  'single2.c',
++  'singlepix.c',
++  'vertarr.c',
++  'xfont.c',
++)
++
++extra_libs_libglx = []
++extra_deps_libgl = []
++extra_ld_args_libgl = []
++
++# dri2
++if with_dri_platform == 'drm' and dep_libdrm.found()
++  files_libglx += files(
++    'dri2.c',
++    'dri2_glx.c',
++    'dri2.h',
++    'dri2_priv.h',
++  )
++endif
++
++if with_dri3
++  files_libglx += files('dri3_glx.c', 'dri3_priv.h')
++endif
++
++if with_dri_platform == 'apple'
++  files_libglx += files('applegl_glx.c')
++  extra_libs_libglx += libappleglx
++elif with_dri_platform == 'windows'
++  files_libglx += files('driwindows_glx.c')
++  extra_libs_libglx += [
++    libwindowsdri,
++    libwindowsglx,
++  ]
++  extra_deps_libgl = [
++    meson.get_compiler('c').find_library('gdi32'),
++    meson.get_compiler('c').find_library('opengl32')
++  ]
++  extra_ld_args_libgl = '-Wl,--disable-stdcall-fixup'
++endif
++
++if not with_glvnd
++  gl_lib_name = 'GL'
++  gl_lib_version = '1.2.0'
++else
++  gl_lib_name = 'GLX_@0@'.format(glvnd_vendor_name)
++  gl_lib_version = '0.0.0'
++  files_libglx += files(
++    'g_glxglvnddispatchfuncs.c',
++    'g_glxglvnddispatchindices.h',
++    'glxglvnd.c',
++    'glxglvnd.h',
++    'glxglvnddispatchfuncs.h',
++  )
++endif
++
++libglx = static_library(
++  'glx',
++  [files_libglx, glx_generated],
++  include_directories : [inc_include, inc_src, inc_mapi, inc_mesa, inc_gallium, inc_gallium_aux, inc_glapi, inc_loader],
++  c_args : [
++    '-DGL_LIB_NAME="lib@0@.so.@1@"'.format(gl_lib_name, gl_lib_version.split('.')[0]),
++  ],
++  gnu_symbol_visibility : 'hidden',
++  link_with : [
++    libloader, libloader_dri3_helper,
++    extra_libs_libglx,
++  ],
++  dependencies : [
++    idep_mesautil, idep_xmlconfig,
++    dep_libdrm, dep_dri2proto, dep_glproto, dep_x11, dep_glvnd,
++  ],
++)
++
++libgl = shared_library(
++  gl_lib_name,
++  [],
++  link_with : [libglapi_static, libglapi],
++  link_whole : libglx,
++  link_args : [ld_args_bsymbolic, ld_args_gc_sections, extra_ld_args_libgl],
++  dependencies : [
++    dep_libdrm, dep_dl, dep_m, dep_thread, dep_x11, dep_xcb_glx, dep_xcb,
++    dep_x11_xcb, dep_xcb_dri2, dep_xext, dep_xfixes, dep_xxf86vm,
++    dep_xcb_shm, extra_deps_libgl,
++  ],
++  version : gl_lib_version,
++  darwin_versions : '4.0.0',
++  install : true,
++)
++
++if with_tests
++  subdir('tests')
++endif
+diff -aruN old/src/glx/xdemos/glinfo_common.c new/src/glx/xdemos/glinfo_common.c
+--- old/src/glx/xdemos/glinfo_common.c	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glinfo_common.c	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,800 @@
 +/*
 + * Copyright (C) 1999-2014  Brian Paul   All Rights Reserved.
@@ -824,9 +979,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.c mesa-20.2.1/src/glx/
 +      }
 +   }
 +}
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.h mesa-20.2.1/src/glx/xdemos/glinfo_common.h
---- mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.h	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glinfo_common.h	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/xdemos/glinfo_common.h new/src/glx/xdemos/glinfo_common.h
+--- old/src/glx/xdemos/glinfo_common.h	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glinfo_common.h	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,142 @@
 +/*
 + * Copyright (C) 1999-2014  Brian Paul   All Rights Reserved.
@@ -970,9 +1125,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glinfo_common.h mesa-20.2.1/src/glx/
 +
 +
 +#endif /* GLINFO_COMMON_H */
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxgears.1 mesa-20.2.1/src/glx/xdemos/glxgears.1
---- mesa-20.2.1-orig/src/glx/xdemos/glxgears.1	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glxgears.1	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/xdemos/glxgears.1 new/src/glx/xdemos/glxgears.1
+--- old/src/glx/xdemos/glxgears.1	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glxgears.1	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,37 @@
 +.TH glxgears 1 "2006-11-29"
 +.SH NAME
@@ -1011,9 +1166,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxgears.1 mesa-20.2.1/src/glx/xdemo
 +com dot br>, for the Linux From Scratch (LFS) project (but may be used by
 +others).
 +
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxgears.c mesa-20.2.1/src/glx/xdemos/glxgears.c
---- mesa-20.2.1-orig/src/glx/xdemos/glxgears.c	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glxgears.c	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/xdemos/glxgears.c new/src/glx/xdemos/glxgears.c
+--- old/src/glx/xdemos/glxgears.c	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glxgears.c	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,809 @@
 +/*
 + * Copyright (C) 1999-2001  Brian Paul   All Rights Reserved.
@@ -1824,9 +1979,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxgears.c mesa-20.2.1/src/glx/xdemo
 +
 +   return 0;
 +}
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxinfo.1 mesa-20.2.1/src/glx/xdemos/glxinfo.1
---- mesa-20.2.1-orig/src/glx/xdemos/glxinfo.1	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glxinfo.1	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/xdemos/glxinfo.1 new/src/glx/xdemos/glxinfo.1
+--- old/src/glx/xdemos/glxinfo.1	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glxinfo.1	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,46 @@
 +.TH glxinfo 1 "2006-11-29"
 +.SH NAME
@@ -1874,9 +2029,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxinfo.1 mesa-20.2.1/src/glx/xdemos
 +com dot br>, for the Linux From Scratch (LFS) project (but may be used by
 +others).
 +
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxinfo.c mesa-20.2.1/src/glx/xdemos/glxinfo.c
---- mesa-20.2.1-orig/src/glx/xdemos/glxinfo.c	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/glxinfo.c	2020-10-15 23:06:45.826695773 -0500
+diff -aruN old/src/glx/xdemos/glxinfo.c new/src/glx/xdemos/glxinfo.c
+--- old/src/glx/xdemos/glxinfo.c	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/glxinfo.c	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,1281 @@
 +/*
 + * Copyright (C) 1999-2006  Brian Paul   All Rights Reserved.
@@ -3159,9 +3314,9 @@ diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/glxinfo.c mesa-20.2.1/src/glx/xdemos
 +
 +   return 0;
 +}
-diff -Naurp mesa-20.2.1-orig/src/glx/xdemos/meson.build mesa-20.2.1/src/glx/xdemos/meson.build
---- mesa-20.2.1-orig/src/glx/xdemos/meson.build	1969-12-31 18:00:00.000000000 -0600
-+++ mesa-20.2.1/src/glx/xdemos/meson.build	2020-10-15 23:07:14.486696790 -0500
+diff -aruN old/src/glx/xdemos/meson.build new/src/glx/xdemos/meson.build
+--- old/src/glx/xdemos/meson.build	1970-01-01 01:00:00.000000000 +0100
++++ new/src/glx/xdemos/meson.build	2021-12-31 12:15:26.361776512 +0000
 @@ -0,0 +1,32 @@
 +inc_xdemos = include_directories('.')
 +

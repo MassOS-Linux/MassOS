@@ -33,7 +33,7 @@ It also includes the following upgraded software:
 - HPLIP: `3.21.10 --> 3.21.12`
 - librsvg: `2.52.4 --> 2.52.5`
 - Linux Kernel: `5.15.8 --> 5.15.12`
-- Mesa: `21.3.1 --> 21.3.2`
+- Mesa: `21.3.1 --> 21.3.3`
 - Meson: `0.60.2 --> 0.60.3`
 - NSPR: `4.32 --> 4.33`
 - NSS: `3.73 --> 3.73.1`
@@ -46,7 +46,7 @@ It also includes the following upgraded software:
 - systemd: `250-rc2 --> 250`
 - tree: `1.8.0 --> 2.0.0`
 - Vala: `0.54.4 --> 0.54.5`
-- Vim: `8.2.3808 --> 8.2.3948`
+- Vim: `8.2.3808 --> 8.2.3950`
 - WebKitGTK: `2.34.2 --> 2.34.3`
 - ZSTD: `1.5.0 --> 1.5.1`
 

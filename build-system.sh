@@ -801,6 +801,13 @@ python setup.py build
 python setup.py install --prefix=/usr --optimize=1
 cd ..
 rm -rf pyparsing-pyparsing_3.0.6
+# distro.
+tar -xf distro-1.6.0.tar.gz
+cd distro-1.6.0
+python setup.py build
+python setup.py install --skip-build
+cd ..
+rm -rf distro-1.6.0
 # libseccomp.
 tar -xf libseccomp-2.5.3.tar.gz
 cd libseccomp-2.5.3
@@ -1535,6 +1542,7 @@ mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
+sed -i 's/idle/simple/' /usr/lib/systemd/system/getty@.service
 systemd-machine-id-setup
 systemctl preset-all
 systemctl disable systemd-time-wait-sync.service
@@ -3331,16 +3339,16 @@ ninja install
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.2.tar.xz
-cd mesa-21.3.2
-patch -Np1 -i ../patches/mesa-21.2.1-add_xdemos-1.patch
+tar -xf mesa-21.3.3.tar.xz
+cd mesa-21.3.3
+patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf mesa-21.3.2
+rm -rf mesa-21.3.3
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3420,6 +3428,7 @@ mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
+sed -i 's/idle/simple/' /usr/lib/systemd/system/getty@.service
 cat > /etc/pam.d/systemd-user << END
 account  required    pam_access.so
 account  include     system-account
@@ -4281,8 +4290,8 @@ chmod 0755 /usr/lib/pppd/2.4.9/*.so
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3948.tar.gz
-cd vim-8.2.3948
+tar -xf vim-8.2.3950.tar.gz
+cd vim-8.2.3950
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4304,7 +4313,7 @@ for L in /usr/share/man/{,*/}man1/vim.1; do ln -s vim.1 $(dirname $L)/vi.1; done
 rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 cd ..
-rm -rf vim-8.2.3948
+rm -rf vim-8.2.3950
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
