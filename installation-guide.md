@@ -13,6 +13,7 @@ This is the development version of MassOS. It contains the upcoming changes for 
 - Parole now supports MP4 playback via OpenH264 and FAAD2 in GStreamer.
 - Added OpenAL, JACK2 and gst-libav.
 - Optimised the initramfs better by excluding some unnecessary modules.
+- Added FUSE support for ext2/ext3/ext4 filesystems.
 - Firmware for some Intel sound cards (sof-bin) is now installed alongside other firmware if the user answers 'y' in the MassOS installer.
 - (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
 - The `adduser` utility can now (optionally) have the username of the new user passed an argument.
@@ -25,6 +26,7 @@ It also includes the following upgraded software:
 - Asciidoc: `9.1.1 --> 10.1.1`
 - BIND Utilities: `9.16.23 --> 9.16.24`
 - DKMS: `3.0.2 --> 3.0.3`
+- e2fsprogs: `1.46.4 --> 1.46.5`
 - Expat: `2.4.1 --> 2.4.2`
 - Firefox: `95.0 --> 95.0.2`
 - GTK3: `3.24.30 --> 3.24.31`

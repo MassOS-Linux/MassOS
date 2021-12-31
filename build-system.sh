@@ -1598,26 +1598,6 @@ make
 install -m755 busybox /usr/bin/busybox
 cd ..
 rm -rf busybox-1.34.1
-# e2fsprogs.
-tar -xf e2fsprogs-1.46.4.tar.gz
-cd e2fsprogs-1.46.4
-mkdir e2-build; cd e2-build
-../configure --prefix=/usr --sysconfdir=/etc --enable-elf-shlibs --disable-libblkid --disable-libuuid --disable-uuidd --disable-fsck
-make
-make install
-rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
-gunzip /usr/share/info/libext2fs.info.gz
-install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
-cd ../..
-rm -rf e2fsprogs-1.46.4
-# dosfstools.
-tar -xf dosfstools-4.2.tar.gz
-cd dosfstools-4.2
-./configure --prefix=/usr --enable-compat-symlinks --mandir=/usr/share/man
-make
-make install
-cd ..
-rm -rf dosfstools-4.2
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
@@ -1656,6 +1636,26 @@ cat > /etc/fuse.conf << END
 END
 cd ../..
 rm -rf fuse-3.10.5
+# e2fsprogs.
+tar -xf e2fsprogs-1.46.5.tar.xz
+cd e2fsprogs-1.46.5
+mkdir e2-build; cd e2-build
+../configure --prefix=/usr --sysconfdir=/etc --enable-elf-shlibs --disable-fsck --disable-libblkid --disable-libuuid --disable-uuidd
+make
+make install
+rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
+gunzip /usr/share/info/libext2fs.info.gz
+install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
+cd ../..
+rm -rf e2fsprogs-1.46.5
+# dosfstools.
+tar -xf dosfstools-4.2.tar.gz
+cd dosfstools-4.2
+./configure --prefix=/usr --enable-compat-symlinks --mandir=/usr/share/man --docdir=/usr/share/doc/dosfstools
+make
+make install
+cd ..
+rm -rf dosfstools-4.2
 # dracut.
 tar -xf dracut-055.tar.gz
 cd dracut-055

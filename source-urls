@@ -81,7 +81,7 @@ https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/d
 https://cdn.kernel.org/pub/linux/utils/boot/dracut/dracut-055.tar.gz
 https://waterlan.home.xs4all.nl/dos2unix/dos2unix-7.4.2.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
-https://cdn.thesonicmaster.net/sources/e2fsprogs-1.46.4.tar.gz
+https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.xz
 https://cdn.thesonicmaster.net/sources/ed-1.17.tar.xz
 https://deb.debian.org/debian/pool/main/e/efibootmgr/efibootmgr_17.orig.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
