@@ -8,51 +8,48 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate).
 - MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu).
 # Release Notes
-This is version **2021.12.2** of MassOS. It contains the following changes since the previous version, **2021.12**:
+This is version **2022.01** of MassOS. It contains the following changes since the previous version, **2021.12.2**:
 
-- Migrated MassOS programs to OpenSSL 3. Retained OpenSSL 1.1 libraries for compatibility with binary-only programs which depend on the OpenSSL 1.1 libraries.
-- Added OpenH264 for better H264 support in GStreamer/FFmpeg.
+- Parole now supports MP4 playback via OpenH264 and FAAD2 in GStreamer.
+- Added OpenAL, JACK2 and gst-libav.
+- Optimised the initramfs better by excluding some unnecessary modules.
+- Added FUSE support for ext2/ext3/ext4 filesystems.
+- Firmware for some Intel sound cards (sof-bin) is now installed alongside other firmware if the user answers 'y' in the MassOS installer.
+- (Re-)added rtmpdump (patched to work with OpenSSL), for RTMP protocol support in curl and FFmpeg.
+- The `adduser` utility can now (optionally) have the username of the new user passed an argument.
+- Added the `pv` utility.
+- Fixed minor bugs in some packages with OpenSSL 3.
 
 It also includes the following upgraded software:
 
-- alsa-lib: `1.2.5.1 --> 1.2.6.1`
-- AppStream: `0.14.6 --> 0.15.0`
-- Boost: `1.77.0 --> 1.78.0`
-- CMake: `3.22.0 --> 3.22.1`
-- dialog: `1.3-20210621 --> 1.3-20211214`
-- Enchant: `2.3.0 --> 2.3.2`
-- Exo: `4.16.2 --> 4.16.3`
-- Firefox: `94.0.2 --> 95.0`
-- FreeType: `2.11.0 --> 2.11.1`
-- HarfBuzz: `3.1.2 --> 3.2.0`
-- GLib: `2.70.1 --> 2.70.2`
-- glib-networking: `2.70.0 --> 2.70.1`
-- GNOME Software: `41.0 --> 41.2`
-- Graphviz: `2.49.3 --> 2.50.0`
-- libcap: `2.61 --> 2.62`
-- libical: `3.0.11 --> 3.0.12`
-- libinput: `1.19.2 --> 1.19.3`
-- libX11: `1.7.2 --> 1.7.3`
-- libxmlb: `0.3.3 --> 0.3.6`
-- Linux: `5.15.6 --> 5.15.8`
-- Mesa: `21.3.0 --> 21.3.1`
-- mpg123: `1.29.2 --> 1.29.3`
-- Nano: `5.9 --> 6.0`
-- NSS: `3.72 --> 3.73`
-- OpenSSL: `1.1.1l --> 3.0.0`
-- Pahole: `1.22-5-ge38e89e --> 1.23`
-- Pango: `1.48.10 --> 1.50.1`
-- Pangomm: `2.46.1 --> 2.46.2`
-- Poppler: `21.11.0 --> 21.12.0`
-- PyParsing: `2.4.7 --> 3.0.6`
-- systemd: `249 --> 250-rc2`
-- Thunderbird: `91.3.2 --> 91.4.0`
-- Vim: `8.2.3715 --> 8.2.3808`
-- VTE: `0.66.1 --> 0.66.2`
-- Wayland: `1.19.0 --> 1.20.0`
-- xfsprogs: `5.14.0 --> 5.14.2`
-- Xorg-Server: `21.1.1 --> 21.1.2`
-- Xwayland: `21.1.3 --> 21.1.4`
+- AppStream: `0.15.0 --> 0.15.1`
+- Asciidoc: `9.1.1 --> 10.1.1`
+- BIND Utilities: `9.16.23 --> 9.16.24`
+- DKMS: `3.0.2 --> 3.0.3`
+- e2fsprogs: `1.46.4 --> 1.46.5`
+- Expat: `2.4.1 --> 2.4.2`
+- Firefox: `95.0 --> 95.0.2`
+- GTK3: `3.24.30 --> 3.24.31`
+- HPLIP: `3.21.10 --> 3.21.12`
+- librsvg: `2.52.4 --> 2.52.5`
+- Linux Kernel: `5.15.8 --> 5.15.12`
+- Mesa: `21.3.1 --> 21.3.3`
+- Meson: `0.60.2 --> 0.60.3`
+- NSPR: `4.32 --> 4.33`
+- NSS: `3.73 --> 3.73.1`
+- OpenSSL: `3.0.0 --> 3.0.1`
+- OpenSSL Legacy: `1.1.1l --> 1.1.1m`
+- Pango: `1.50.1 --> 1.50.3`
+- Qpdf: `10.4.0 --> 10.5.0`
+- Ruby: `3.0.3 --> 3.1.0`
+- Shadow: `4.8.1 --> 4.9`
+- slang: `pre2.3.3-59 --> pre2.3.3-64`
+- systemd: `250-rc2 --> 250`
+- tree: `1.8.0 --> 2.0.0`
+- Vala: `0.54.4 --> 0.54.5`
+- Vim: `8.2.3808 --> 8.2.3950`
+- WebKitGTK: `2.34.2 --> 2.34.3`
+- ZSTD: `1.5.0 --> 1.5.1`
 
 # Installing MassOS Using The Installation Program
 MassOS has a guided installation program which can be used to easily install MassOS.
@@ -70,7 +67,7 @@ This will walk you through the installation. After the installation is complete,
 sudo shutdown -r now
 ```
 ## What next?
-For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
+For general information on how to make the most out of your new installation, check out the [Post-installation guide](postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
 ## Installation Program Notes
 - Advanced options like using non-ext4 filesystems are not yet supported by the installer. If you require these, install MassOS manually, as shown below.
 - By default, the program will download and install the stable version of MassOS. If you want to install a development branch build, or another custom build of MassOS, you must pass the custom rootfs image as an argument to `massos-installer.sh`, e.g. `sudo ./massos-installer.sh /path/to/my/custom/package.tar.xz`. Official development builds are available from [this Google Drive folder](https://go.thesonicmaster.net/qk9).
@@ -79,9 +76,9 @@ While the installation program is great for most users, you may want to install 
 ## Downloading The MassOS Rootfs
 Run the following command to download MassOS:
 ```
-wget https://github.com/TheSonicMaster/MassOS/releases/download/v2021.12.2/massos-2021.12.2-rootfs-x86_64.tar.xz
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2022.01/massos-2022.01-rootfs-x86_64.tar.xz
 ```
-The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2021.12.2).
+The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2022.01).
 ## Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4, BTRFS and XFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -127,7 +124,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 ## Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-2021.12.2-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2022.01-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 ## Generating the /etc/fstab file
@@ -247,7 +244,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.8-massos
+mkinitramfs 5.15.12-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader

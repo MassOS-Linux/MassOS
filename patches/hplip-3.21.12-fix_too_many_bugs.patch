@@ -1,0 +1,1903 @@
+diff -aruN old/base/sixext.py new/base/sixext.py
+--- old/base/sixext.py	2021-12-13 09:07:36.000000000 +0000
++++ new/base/sixext.py	2021-12-20 19:53:08.151749424 +0000
+@@ -110,11 +110,11 @@
+ 
+ 
+     def to_string_utf8(s):
+-        return s.decode("utf-8")
++        return s.decode("utf-8", 'ignore')
+ 
+ 
+     def to_string_latin(s):
+-        return s.decode("latin-1")
++        return s.decode("latin-1", 'ignore')
+ 
+ 
+     def to_unicode(s, enc=None):
+diff -aruN old/configure.in new/configure.in
+--- old/configure.in	2021-12-13 09:07:36.000000000 +0000
++++ new/configure.in	2021-12-20 19:53:30.054614238 +0000
+@@ -618,7 +618,7 @@
+ 
+ if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
+    AC_CHECK_LIB([cups], [cupsDoFileRequest], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libcups support], 9)])
+-   AC_CHECK_HEADERS(cups/cups.h, ,[AC_MSG_ERROR([cannot find cups-devel support], 3)])
++   AC_CHECK_HEADERS(cups/cups.h cups/ppd.h, ,[AC_MSG_ERROR([cannot find cups-devel support], 3)])
+    if test "$libusb01_build" = "yes"; then
+       AC_CHECK_LIB([usb], [usb_init], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libusb support], 2)])
+       AC_CHECK_HEADERS(usb.h, ,[AC_MSG_ERROR([cannot find libusb-devel support], 11)])
+@@ -628,17 +628,29 @@
+    fi
+ fi
+ 
+-SAVE_CPPFLAGS="$CPPFLAGS"
+-CFLAGS=`python-config --includes`
+-if [ $? -eq 0 ] 
+-then
+-   echo $FLAGS
+-else
+-CFLAGS=`python3-config --includes`
+-   if [ $? -eq 0 ]
+-   then
+-   echo $FLAGS
+-   fi
++AC_PATH_PROG(python3_config_path, python3-config, [AC_MSG_ERROR([python3-config not installed], 6)])
++
++PYTHON_INCLUDES=`$python3_config_path --includes`
++if test "X$PYTHON_INCLUDES" = "X" ; then
++  AC_MSG_ERROR([Cannot get Python includes via python3-config], 6)
++fi
++
++PYTHON_LIBS=`$python3_config_path --libs`
++if test "X$PYTHON_LIBS" = "X" ; then
++  AC_MSG_ERROR([Cannot get Python libs via python3-config], 6)
++fi
++
++SAVE_CFLAGS=$CFLAGS
++SAVE_LIBS=$LIBS
++
++CFLAGS="$CFLAGS $PYTHON_INCLUDES"
++LIBS="$LIBS $PYTHON_LIBS"
++
++AC_TRY_LINK(,[ ], AC_MSG_RESULT(yes); python_includes="ok", AC_MSG_ERROR([no: PYTHON DISABLED], 6))
++
++if test "X$python_includes" != "Xok" ; then
++  CFLAGS="$SAVE_CFLAGS"
++  LIBS="$SAVE_LIBS"
+ fi
+ 
+ #CFLAGS=`(python-config --includes)`
+@@ -664,7 +676,6 @@
+    AS_IF([test "x$FOUND_HEADER" != "xyes"],
+           [AC_MSG_ERROR([cannot find python-devel support], 6)])
+ fi
+-CFLAGS="$save_CFLAGS"
+ 
+ if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
+    AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
+diff -aruN old/configure.in.orig new/configure.in.orig
+--- old/configure.in.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/configure.in.orig	2021-12-20 19:52:57.311981206 +0000
+@@ -0,0 +1,792 @@
++#
++#  configure.in - hplip autoconf input file
++# 
++#  (c) 2004-2007 Copyright HP Development Company, LP
++# 
++# exit status:
++#   0 = ok
++#   1 = error
++#   2 = no libusb
++#   3 = no cups-devel
++#   4 = no libnetsnmp
++#   5 = no netsnmp-devel
++#   6 = no python-devel
++#   7 = no pthread-devel
++#   8 = no ppdev-devel
++#   9 = no libcups
++#   10 = no libm
++#   11 = no libusb-devel
++#   12 = no sane-backends-devel
++#   13 = no libdbus-1 support
++#   14 = no dbus-devel support
++#   15 = fax requries dbus support
++#
++#   102 = no libjpeg
++#   103 = no jpeg-devel
++#   104 = no libdl
++
++#AC_PREREQ(2.59)
++AC_INIT([HP Linux Imaging and Printing], [3.21.12], [3.21.12], [hplip])
++#AM_INIT_AUTOMAKE([1.9 foreign])
++AM_INIT_AUTOMAKE
++AC_DISABLE_STATIC
++
++# Checks for programs.
++AC_PROG_CXX
++AC_PROG_CC
++AC_PROG_INSTALL
++AC_PROG_LIBTOOL
++
++# Checks for required libraries, don't set global -lpthread, -lm, -ljpeg, ... here, set in Makefile.
++AC_CHECK_LIB([pthread], [pthread_create], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libpthread support], 7)])
++AC_CHECK_LIB([m], [pow], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libm math support], 10)])
++AC_CHECK_LIB([jpeg], [jpeg_set_defaults],[LIBS="$LIBS"], [AC_MSG_ERROR(["cannot find libjpeg support"], 102)])
++AC_CHECK_LIB([dl], [dlopen], [LIBS="$LIBS" AC_DEFINE([HAVE_LIBDL])], [AC_MSG_ERROR(["cannot find libdl support"], 104)])
++
++# Checks for required header files.
++AC_CHECK_HEADERS(pthread.h,, [AC_MSG_ERROR([cannot find pthread-devel support], 7)])
++AC_CHECK_HEADERS(jpeglib.h,, [AC_MSG_ERROR([cannot find libjpeg-devel support], 103)])
++
++# Checks for typedefs, structures, and compiler characteristics.
++AC_C_BIGENDIAN(,[APDK_ENDIAN_FLAG="-DAPDK_LITTLE_ENDIAN"])
++
++# Autoconf-style header tests for APDK
++cat >prnt/hpijs/auto-include.h <<EOFH
++#ifdef HAVE_INTTYPES_H
++#include <inttypes.h>
++#endif
++#ifdef HAVE_STDINT_H
++#include <stdint.h>
++#endif
++#ifdef HAVE_MACHINE_TYPES_H
++#include <machine/types.h>
++#endif
++EOFH
++AC_CHECK_TYPES([uint32_t], [APDK_AUTO_INCLUDE_FLAG="-DAPDK_AUTO_INCLUDE"],, [#include "prnt/hpijs/auto-include.h"])
++
++AC_MSG_CHECKING("for platform-dependencies")
++darwin_build="no"
++case "$host" in
++   *-darwin*)
++      AC_MSG_RESULT("using Mac OS X platform.h")
++      cat >prnt/hpijs/platform.h <<EOF
++#include <stdlib.h>
++#include <sys/types.h>
++#include <sys/malloc.h>
++#include <memory.h>
++#include <string.h>
++#include <stdio.h>
++#include <math.h>
++EOF
++      darwin_build="yes"
++      ;;
++
++     *)
++      AC_MSG_RESULT("using Default platform.h")
++      cat >prnt/hpijs/platform.h <<EOF
++#include <stdlib.h>
++#include <memory.h>
++#include <string.h>
++#include <stdio.h>
++#include <math.h>
++EOF
++      ;;
++esac
++AM_CONDITIONAL(DARWIN_BUILD, test x$darwin_build = xyes)
++AM_CONDITIONAL(GCC_GE_47, test `g++ -dumpversion | gawk '{print $1>=4.7?"1":"0"}'` = 1)
++
++AC_MSG_CHECKING([for documentation build])
++AC_ARG_ENABLE(doc_build,
++  [  --enable-doc-build     enable documentation build (default=yes)],
++  doc_build=$enableval, doc_build=yes)
++if test "$doc_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(DOC_BUILD, test x$doc_build = xyes)
++
++AC_MSG_CHECKING([for hpijs only build])
++AC_ARG_ENABLE(hpijs_only_build,
++  [  --enable-hpijs-only-build     enable hpijs only build (default=yes)(Deprecated)],
++  hpijs_only_build=$enableval, hpijs_only_build=no)
++if test "$hpijs_only_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_full=\#
++   epm_lite=\#
++   epm_hpcups_only=\#
++   epm_print_only_exclude=\#
++   epm_hpijs_only=
++   AC_MSG_WARN(HPIJS build is deprecated. Feature can be used as is. Fixes or updates will not be provided)
++else
++   AC_MSG_RESULT(no)
++   epm_hpijs_only=\#
++   AC_DEFINE(HAVE_LIBHPIP) 
++fi
++AM_CONDITIONAL(HPIJS_ONLY_BUILD, test x$hpijs_only_build = xyes)
++
++AC_MSG_CHECKING([for lite build])
++AC_ARG_ENABLE(lite_build,
++  [  --enable-lite-build     enable lite build, print & scan only (default=no)],
++  lite_build=$enableval, lite_build=no)
++if test "$lite_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_full=\#
++   epm_hpcups_only=\#
++   epm_print_only_exclude=
++   epm_lite=
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(LITE_BUILD, test x$lite_build = xyes)
++
++AC_MSG_CHECKING([for hpcups only build])
++AC_ARG_ENABLE(hpcups_only_build,
++  [  --enable-hpcups-only-build     enable hpcups only build, print only (default=no)],
++  hpcups_only_build=$enableval, hpcups_only_build=no)
++if test "$hpcups_only_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_full=\#
++   epm_lite=\#
++   epm_hpcups_only=
++   epm_print_only_exclude=\#
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(HPCUPS_ONLY_BUILD, test x$hpcups_only_build = xyes)
++
++AM_CONDITIONAL(HPLIP_BUILD, test x$hpcups_only_build = xno && test x$hpijs_only_build = xno)
++if test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
++   AC_DEFINE(HAVE_LIBHPIP) 
++fi
++
++if test "$lite_build" = "no" && test "$hpcups_only_build" = "no" && test "$hpijs_only_build" = "no"; then
++   epm_full=
++   epm_lite=\#
++   epm_hpcups_only=\#
++   epm_print_only_exclude=
++fi
++AM_CONDITIONAL(FULL_BUILD, test x$hpcups_only_build = xno && test x$lite_build = xno && test x$hpijs_only_build = xno)
++
++AC_MSG_CHECKING([for hpijs install])
++AC_ARG_ENABLE(hpijs_install,
++  [  --enable-hpijs-install     enable hpijs install (default=no)(Deprecated)],
++  hpijs_install=$enableval, hpijs_install=no)
++if test "$hpijs_install" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_hpijs_install=yes
++   AC_MSG_WARN(HPIJS is deprecated. Feature can be used as is. Fixes or updates will not be provided)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(HPIJS_INSTALL, test x$hpijs_install = xyes)
++
++AC_MSG_CHECKING([for hpcups install])
++AC_ARG_ENABLE(hpcups_install,
++  [  --enable-hpcups-install     enable hpcups install (default=yes)],
++  hpcups_install=$enableval, hpcups_install=yes)
++if test "$hpcups_install" = "yes" && test "$hpijs_only_build" = "no"; then
++   AC_MSG_RESULT(yes)
++   epm_hpcups_install=yes
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(HPCUPS_INSTALL, test x$hpcups_install = xyes && test x$hpijs_only_build = xno)
++
++AC_MSG_CHECKING([for new hpcups install])
++AC_ARG_ENABLE(new_hpcups,
++  [  --enable-new-hpcups     enable new hpcups install (default=no)],
++  new_hpcups=$enableval, new_hpcups=no)
++if test "$new_hpcups" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(NEW_HPCUPS, test x$new_hpcups = xyes)
++
++AC_MSG_CHECKING([for hpps install])
++AC_ARG_ENABLE(hpps_install,
++  [  --enable-hpps-install     enable hpps install (default=yes)],
++  hpps_install=$enableval, hpps_install=yes)
++if test "$hpps_install" = "yes" && test "$hpijs_only_build" = "no"; then
++   AC_MSG_RESULT(yes)
++   epm_hpps_install=yes
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(HPPS_INSTALL, test x$hpps_install = xyes && test x$hpijs_only_build = xno)
++
++AC_MSG_CHECKING([for network build])
++AC_ARG_ENABLE(network_build,
++  [  --enable-network-build    enable network build (default=yes)],
++  network_build=$enableval, network_build=yes)
++if test "$network_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(NETWORK_BUILD, test x$network_build = xyes)
++
++AC_MSG_CHECKING([for parallel port build])
++AC_ARG_ENABLE(pp_build,
++  [  --enable-pp-build    enable parallel port build (default=no)(Deprecated) ],
++  pp_build=$enableval, pp_build=no)
++if test "$pp_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   AC_MSG_WARN(Parallel Port support deprecated. Feature can be used as is. Fixes or updates will not be provided)
++   AC_DEFINE(HAVE_PPORT) 
++else
++   AC_MSG_RESULT(no)
++fi
++
++AC_MSG_CHECKING([for class driver])
++AC_ARG_ENABLE(class_driver,
++  [  --enable-class-driver    enable class driver (default=no)],
++  class_driver=$enableval, class_driver=no)
++if test "$class_driver" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_full=\#
++   epm_lite=\#
++   epm_hpcups_only=\#
++   epm_print_only_exclude=\#
++   epm_scan=\#
++   epm_class_driver=
++   epm_class_install=yes
++   test `sh ./createPPD.sh -f` == 0
++else
++   AC_MSG_RESULT(no)
++   test `sh ./createPPD.sh -q` == 0
++fi
++AM_CONDITIONAL(HPLIP_CLASS_DRIVER, test x$class_driver = xyes)
++
++   
++AC_MSG_CHECKING([for scanner build])
++AC_ARG_ENABLE(scan_build,
++  [  --enable-scan-build    enable scanner build (default=yes)],
++  scan_build=$enableval, scan_build=yes)
++if test "$scan_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   epm_scan=
++else
++   AC_MSG_RESULT(no)
++   epm_scan=\#
++fi
++AM_CONDITIONAL(SCAN_BUILD, test x$scan_build = xyes)
++
++AC_MSG_CHECKING([for gui build])
++AC_ARG_ENABLE(gui_build,
++  [  --enable-gui-build    enable gui build (default=yes)],
++  gui_build=$enableval, gui_build=yes)
++if test "$gui_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(GUI_BUILD, test x$gui_build = xyes)
++
++AC_MSG_CHECKING([for fax build])
++AC_ARG_ENABLE(fax_build,
++  [  --enable-fax-build    enable fax build (default=yes)],
++  fax_build=$enableval, fax_build=yes)
++if test "$fax_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(FAX_BUILD, test x$fax_build = xyes && test x$class_driver = xno)
++
++#AppArmor Changes
++AC_MSG_CHECKING([for apparmor profile])
++AC_ARG_ENABLE(apparmor_build,
++  [  --enable-apparmor_build    enable apparmor build (default=no)],
++  apparmor_build=$enableval, apparmor_build=no)
++if test "$apparmor_build" = "yes"; then
++   if test -d /etc/apparmor.d/; then
++      AC_MSG_RESULT(yes)
++   else
++      AC_MSG_ERROR([cannot find apparmor support])
++   fi
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(APPARMOR_BUILD, test x$apparmor_build = xyes)
++
++
++AC_MSG_CHECKING([for dbus build])
++AC_ARG_ENABLE(dbus_build,
++  [  --enable-dbus-build    enable dbus build (default=yes)],
++  dbus_build=$enableval, dbus_build=yes)
++if test "$dbus_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++
++AC_MSG_CHECKING([for cups 1.1.x build])
++AC_ARG_ENABLE(cups11_build,
++  [  --enable-cups11-build    enable cups 1.1.x build (default=no)],
++  cups11_build=$enableval, cups11_build=no)
++if test "$cups11_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   AC_DEFINE(HAVE_CUPS11) 
++else
++   AC_MSG_RESULT(no)
++fi
++
++AC_MSG_CHECKING([for HPCUPS ImageProcessor build])
++AC_ARG_ENABLE(imageProcessor_build,
++  [  --disable-imageProcessor-build    disable HPCUPS ImageProcessor build (default=no)],
++  imageProcessor_build=$enableval, imageProcessor_build=yes)
++if test "$imageProcessor_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   AC_MSG_NOTICE([ImageProcessor build enabled])
++else
++   AC_MSG_NOTICE([ImageProcessor build disabled])
++   AC_DEFINE(DISABLE_IMAGEPROCESSOR) 
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(DISBALE_IMAGEPROCESSOR_BUILD, test x$imageProcessor_build = xno)
++
++AC_MSG_CHECKING([for udev sysfs enable rules])
++AC_ARG_ENABLE(udev_sysfs_rules,
++  [  --enable-udev_sysfs_rules    Use SYSFS attribute instead of ATTR/ATTRS attribute in udev rules(default=no)],
++  udev_sysfs_rules=$enableval, udev_sysfs_rules=no)
++if test "$udev_sysfs_rules" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(UDEV_SYSFS_RULES, test x$udev_sysfs_rules = xyes)
++
++AC_MSG_CHECKING([for shadow build])
++AC_ARG_ENABLE(shadow_build,
++  [  --enable-shadow-build    enable shadow build (default=no)],
++  shadow_build=$enableval, shadow_build=no)
++if test "$shadow_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(SHADOW_BUILD, test x$shadow_build = xyes)
++
++AC_MSG_CHECKING([for libusb-0.1 build])
++AC_ARG_ENABLE(libusb01_build,
++  [  --enable-libusb01_build    Use libusb-0.1 instead of libusb-1.0 (default=no. i.e. libusb-1.0)],
++  libusb01_build=$enableval, libusb01_build=no)
++if test "$libusb01_build" = "yes"; then
++   AC_MSG_RESULT(yes)
++   AC_DEFINE(HAVE_LIBUSB01) 
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(LIBUSB01_BUILD, test x$libusb01_build = xyes)
++
++AC_ARG_WITH(cupsbackenddir, AC_HELP_STRING([--with-cupsbackenddir=DIR], [set cups backend install directory [default=/usr/lib/cups/backend]]),
++   cupsbackenddir=$withval, cupsbackenddir="/usr/lib/cups/backend")
++
++AC_ARG_WITH(cupsfilterdir, AC_HELP_STRING([--with-cupsfilterdir=DIR], [set cups filter install directory [default=/usr/lib/cups/filter]]),
++   cupsfilterdir=$withval, cupsfilterdir="/usr/lib/cups/filter")
++
++AC_ARG_WITH(icondir, AC_HELP_STRING([--with-icondir=DIR], [set hplip.desktop install directory [default=/usr/share/applications]]),
++   icondir=$withval, icondir="/usr/share/applications")
++
++AC_ARG_WITH(icondir, AC_HELP_STRING([--with-icondir=DIR], [set hp-uiscan.desktop install directory [default=/usr/share/applications]]),
++   icondir=$withval, icondir="/usr/share/applications")
++
++AC_ARG_WITH(systraydir, AC_HELP_STRING([--with-systraydir=DIR], [set hplip-systray.desktop install directory [default=/etc/xdg/autostart]]),
++   systraydir=$withval, systraydir="/etc/xdg/autostart")
++
++AC_ARG_WITH(hpppddir, AC_HELP_STRING([--with-hpppddir=DIR], [set hp ppd install directory [default=datadir/ppd/HP]]),
++   hpppddir=$withval, hpppddir="$datadir/ppd/HP")
++   
++# AppArmor Changes
++AC_ARG_WITH(apparmordir, AC_HELP_STRING([--with-apparmordir=DIR], [set apparmor profile install directory [default=/etc/apparmor.d]]),
++   apparmordir=$withval, apparmordir="/etc/apparmor.d")
++
++if test -f "/usr/share/cups/mime/mime.types"; then
++   abs_mimedir="/usr/share/cups/mime/"
++else
++   abs_mimedir="/etc/cups/"
++fi
++AC_ARG_WITH(mimedir, AC_HELP_STRING([--with-mimedir=DIR], [set cups mime.types location [default=abs_mimedir]]),
++   mimedir=$withval, mimedir="$abs_mimedir")
++
++AC_ARG_WITH(docdir, AC_HELP_STRING([--with-docdir=DIR], [set hplip documentation directory [default=datadir/doc]]),
++   hpdocdir=$withval, hpdocdir="$datadir/doc/hplip-$VERSION")
++
++AC_ARG_WITH(htmldir, AC_HELP_STRING([--with-htmldir=DIR], [set hplip html documentation directory [default=datadir/doc]]),
++   hphtmldir=$withval, hphtmldir="$datadir/doc/hplip-$VERSION")
++
++AC_MSG_CHECKING([for foomatic ppd install])
++AC_ARG_ENABLE(foomatic_ppd_install,
++  [  --enable-foomatic-ppd-install    enable foomatic static ppd install (default=no)(Deprecated), uses hpppddir],
++  foomatic_ppd_install=$enableval, foomatic_ppd_install=no)
++if test $foomatic_ppd_install = yes; then
++   AC_MSG_RESULT(yes)
++   epm_foomatic_ppd_install=yes
++   AC_MSG_WARN(foomatic static ppd install is deprecated. Feature can be used as is. Fixes or updates will not be provided)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(FOOMATIC_PPD_INSTALL, test x$foomatic_ppd_install = xyes)
++
++AC_ARG_WITH(drvdir, AC_HELP_STRING([--with-drvdir=DIR], [set cups drv install directory [default=datadir/cups/drv/hp]]),
++   drvdir=$withval, drvdir="$datadir/cups/drv/hp")
++
++AC_MSG_CHECKING([for foomatic drv install])
++AC_ARG_ENABLE(foomatic_drv_install,
++  [  --enable-foomatic-drv-install    enable foomatic dynamic ppd install (default=no)(Deprecated), uses drvdir and hpppddir],
++  foomatic_drv_install=$enableval, foomatic_drv_install=no)
++if test $foomatic_drv_install = yes; then
++   AC_MSG_RESULT(yes)
++   epm_foomatic_drv_install=yes
++   AC_MSG_WARN(foomatic dynamic ppd install is deprecated. Feature can be used as is. Fixes or updates will not be provided)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(FOOMATIC_DRV_INSTALL, test x$foomatic_drv_install = xyes)
++
++AC_MSG_CHECKING([for cups drv install])
++AC_ARG_ENABLE(cups_drv_install,
++  [  --enable-cups-drv-install    enable cups dynamic ppd install (default=yes), uses drvdir and hpppddir],
++  cups_drv_install=$enableval, cups_drv_install=yes)
++if test $cups_drv_install = yes && test $hpijs_only_build = no; then
++   AC_MSG_RESULT(yes)
++   epm_cups_drv_install=yes
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(CUPS_DRV_INSTALL, test x$cups_drv_install = xyes && test x$hpijs_only_build = xno)
++
++AC_MSG_CHECKING([for cups ppd install])
++AC_ARG_ENABLE(cups_ppd_install,
++  [  --enable-cups-ppd-install    enable cups static ppd install (default=no), uses hpppddir],
++  cups_ppd_install=$enableval, cups_ppd_install=no)
++if test $cups_ppd_install = yes && test $hpijs_only_build = no; then
++   AC_MSG_RESULT(yes)
++   epm_cups_ppd_install=yes
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(CUPS_PPD_INSTALL, test x$cups_ppd_install = xyes && test x$hpijs_only_build = xno)
++
++AC_MSG_CHECKING([for foomatic-rip-hplip install])
++AC_ARG_ENABLE(foomatic_rip_hplip_install,
++  [  --enable-foomatic-rip-hplip-install    enable foomatic-rip-hplip install (default=no)(Deprecated), uses cupsfilterdir],
++  foomatic_rip_hplip_install=$enableval, foomatic_rip_hplip_install=no)
++if test "$foomatic_rip_hplip_install" = "yes"; then
++   AC_MSG_RESULT(yes)
++   foomatic_filter="foomatic-rip-hplip"
++   epm_foomatic_rip_hplip_install=yes
++   AC_MSG_WARN(foomatic-rip-hplip install is deprecated. Feature can be used as is. Fixes or updates will not be provided)
++else
++   AC_MSG_RESULT(no)
++   foomatic_filter="foomatic-rip"
++fi
++AM_CONDITIONAL(RIP_INSTALL, test x$foomatic_rip_hplip_install = xyes)
++
++AC_MSG_CHECKING([for qt5])
++AC_ARG_ENABLE(qt5,
++  [  --enable-qt5    enable qt5 (default=no)],
++  qt5=$enableval, qt5=no)
++if test "$qt5" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(QT5_INSTALL, test x$qt5 = xyes)
++
++
++AC_MSG_CHECKING([for qt4])
++AC_ARG_ENABLE(qt4,
++  [  --enable-qt4    enable qt4 (default=yes)],
++  qt4=$enableval, qt4=yes)
++if test "$qt4" = "yes" && test "$qt5" = "no"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++   qt4=no
++fi
++AM_CONDITIONAL(QT4_INSTALL, test x$qt4 = xyes)
++
++AC_MSG_CHECKING([for qt3])
++AC_ARG_ENABLE(qt3,
++  [  --enable-qt3    enable qt3 (default=no)],
++  qt3=$enableval, qt3=no)
++if test "$qt3" = "yes"; then
++   AC_MSG_RESULT(yes)
++   qt5=no
++   qt4=no
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(QT3_INSTALL, test x$qt3 = xyes)
++
++if test "$gui_build" = "no"; then
++   qt3=no
++   qt4=no
++   qt5=no
++fi
++
++epm_qt3=\#
++epm_qt4=\#
++epm_qt5=\#
++if test "$hpcups_only_build" = "no" && test "$hpijs_only_build" = "no"; then
++if test "$qt3" = "yes" && test "$qt4" = "no" && test "$qt5" = "no"; then
++   ui_toolkit=qt3
++   epm_qt3=
++elif test "$qt4" = "yes" && test "$qt5" = "no"; then
++   ui_toolkit=qt4
++   epm_qt4=
++elif test "$qt5" = "yes"; then
++   ui_toolkit=qt5
++   epm_qt5=
++else
++   ui_toolkit=no
++fi
++fi
++
++AC_MSG_CHECKING([for policykit])
++AC_ARG_ENABLE(policykit,
++  [  --enable-policykit    enable PolicyKit (default=no)],
++  policykit=$enableval, policykit=no)
++if test "$policykit" = "yes"; then
++   AC_MSG_RESULT(yes)
++else
++   AC_MSG_RESULT(no)
++fi
++AM_CONDITIONAL(POLICYKIT_INSTALL, test x$policykit = xyes)
++
++# Determine where the PolicyKit policy file goes
++if test "$policykit" = "yes"; then
++   if test -d /usr/share/polkit-1; then
++      policykit_dir=/usr/share/polkit-1/actions
++   elif test -d /usr/share/PolicyKit; then
++      policykit_dir=/usr/share/PolicyKit/policy
++   else
++      policykit_dir=/usr/share/PolicyKit/policy
++   fi
++else
++   policykit_dir=
++fi
++
++AC_MSG_CHECKING(for host machine platform)
++machine=`uname -m`
++if test "$machine" = "x86_32" || test "$machine" = "i686"; then
++    platform="x86_32"
++elif test "$machine" = "x86_64"; then
++    platform="x86_64"
++elif test "$machine" = "ppc"; then
++    platform="ppc"
++else
++    platform="unsupport"
++fi
++AC_MSG_RESULT($platform)
++
++# Check conditional packages.
++
++if test "$hpijs_only_build" = "no" && test "$network_build" = "yes" && test "$hpcups_only_build" = "no"; then
++#   AC_CHECK_LIB([crypto], [CRYPTO_free], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find net-snmp support (or --disable-network-build)], 4)])
++#   AC_CHECK_LIB([netsnmp], [snmp_timeout], [LIBS="$LIBS" AC_DEFINE([HAVE_LIBNETSNMP])], [AC_MSG_ERROR([cannot find net-snmp support (or --disable-network-build)], 4)])
++#   AC_CHECK_HEADERS(net-snmp/net-snmp-config.h,, [AC_MSG_ERROR([cannot find net-snmp-devel support (or --disable-network-build)], 5)])
++
++   old_LIBS="$LIBS"
++   AC_CHECK_LIB([crypto], [CRYPTO_free],, [AC_MSG_ERROR([cannot find net-snmp support (or --disable-network-build)], 4)])
++   AC_CHECK_LIB([netsnmp], [snmp_timeout], [LIBS="$old_LIBS" AC_DEFINE([HAVE_LIBNETSNMP]) SNMPLIB="netsnmp"], check_ucd=yes)
++if test "$check_ucd" = "yes"; then
++   AC_CHECK_LIB([snmp], [snmp_timeout], [LIBS="$old_LIBS" AC_DEFINE([HAVE_LIBNETSNMP]) AC_DEFINE([HAVE_UCDSNMP]) SNMPLIB="snmp"],
++          [AC_MSG_ERROR([cannot find net/ucd-snmp support (or --disable-network-build)], 4)])
++   AC_CHECK_HEADERS(ucd-snmp/ucd-snmp-config.h,, [AC_MSG_ERROR([cannot find ucd-snmp-devel support (or --disable-network-build)], 5)])
++else
++   AC_CHECK_HEADERS(net-snmp/net-snmp-config.h,, [AC_MSG_ERROR([cannot find net-snmp-devel support (or --disable-network-build)], 5)])
++fi
++
++fi
++
++#checking for AVAHI LIBS
++if test "$hpijs_only_build" = "no" && test "$network_build" = "yes" && test "$hpcups_only_build" = "no"; then
++   AC_DEFINE([HAVE_LIBAVAHI], 1, [Needed by the compiler.])
++   AC_CHECK_LIB([avahi-client], [avahi_client_new], , AC_MSG_ERROR(cannot find avahi_client support (or --disable-network-build)))
++   AC_CHECK_LIB([avahi-common], [avahi_strerror], , AC_MSG_ERROR(cannot find avahi_common support (or --disable-network-build)))
++   AC_CHECK_HEADERS(avahi-client/client.h,, [AC_MSG_ERROR([cannot find avahi_client support (or --disable-network-build)], 6)])   
++   AC_CHECK_HEADERS(avahi-common/malloc.h,, [AC_MSG_ERROR([cannot find avahi_common support (or --disable-network-build)], 6)])
++fi
++
++if test "$hpijs_only_build" = "no" && test "$pp_build" = "yes" && test "$hpcups_only_build" = "no"; then
++   AC_CHECK_HEADERS(linux/ppdev.h, ,[AC_MSG_ERROR([cannot find ppdev-devel support (or --disable-pp-build)], 8)])
++fi
++
++if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
++   AC_CHECK_LIB([cups], [cupsDoFileRequest], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libcups support], 9)])
++   AC_CHECK_HEADERS(cups/cups.h cups/ppd.h, ,[AC_MSG_ERROR([cannot find cups-devel support], 3)])
++   if test "$libusb01_build" = "yes"; then
++      AC_CHECK_LIB([usb], [usb_init], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libusb support], 2)])
++      AC_CHECK_HEADERS(usb.h, ,[AC_MSG_ERROR([cannot find libusb-devel support], 11)])
++   else
++      AC_CHECK_LIB([usb-1.0], [libusb_init], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libusb 1.0 support], 2)])
++      AC_CHECK_HEADERS(libusb-1.0/libusb.h, ,[AC_MSG_ERROR([cannot find libusb-1.0-devel support], 11)])
++   fi
++fi
++
++SAVE_CPPFLAGS="$CPPFLAGS"
++CFLAGS=`python-config --includes`
++if [ $? -eq 0 ] 
++then
++   echo $FLAGS
++else
++CFLAGS=`python3-config --includes`
++   if [ $? -eq 0 ]
++   then
++   echo $FLAGS
++   fi
++fi
++
++#CFLAGS=`(python-config --includes)`
++if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$lite_build" = "no" && test "$hpcups_only_build" = "no"; then
++   AC_ARG_VAR([PYTHON], [Python interpreter/compiler command])
++   AC_CHECK_PROGS(PYTHON,[python python3 python2])
++   AM_PATH_PYTHON([2.2])
++   AC_MSG_CHECKING([for path to Python.h])
++   PYTHONINCLUDEDIR=`$PYTHON -c "from distutils.sysconfig import get_python_inc; print (get_python_inc());"`
++   AC_MSG_RESULT("using $PYTHONINCLUDEDIR ....  python${PYTHON_VERSION}/Python.h")
++   AC_ARG_VAR(PYTHONINCLUDEDIR, [path to Python.h C header file])
++   AC_CHECK_HEADERS([python${PYTHON_VERSION}/Python.h python${PYTHON_VERSION}mu/Python.h python${PYTHON_VERSION}m/Python.h ],
++          [FOUND_HEADER=yes; break;])
++
++   if test "x$FOUND_HEADER" != "xyes"; then
++   	PYTHONVERSION=`$PYTHON -c "import sys; sys.stdout.write('{}.{}'.format(*sys.version_info[[:2]]));"`
++   	AC_MSG_RESULT("using $PYTHONVERSION ....  python${PYTHONVERSION}")
++   	AC_ARG_VAR(PYTHONVERSION, [python version upto 2 decimals])
++   	AC_CHECK_HEADERS([python${PYTHONVERSION}/Python.h python${PYTHONVERSION}mu/Python.h python${PYTHONVERSION}m/Python.h ],
++          [FOUND_HEADER=yes; break;])
++   fi       
++   
++   AS_IF([test "x$FOUND_HEADER" != "xyes"],
++          [AC_MSG_ERROR([cannot find python-devel support], 6)])
++fi
++CFLAGS="$save_CFLAGS"
++
++if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
++   AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
++fi
++
++# The PKG_CHECK_MODULES macro requires the pkgconfig package (pkg-config). Otherwise you get a strange shell script error
++# "syntax error near upexpected token: DBUS".
++if test "$hpijs_only_build" = "no" && test "$lite_build" = "no" && test "$hpcups_only_build" = "no" && test "$dbus_build" = "yes"; then
++#   PKG_CHECK_MODULES(DBUS, [dbus-1 >= 1.0.0, dbus-glib-1 >= 0.61],,[AC_MSG_ERROR([cannot find dbus-devel support: $DBUS_PKG_ERRORS], 14)])
++   PKG_CHECK_MODULES([DBUS], [dbus-1 >= 1.0.0],,[AC_MSG_ERROR([cannot find dbus-devel support: $DBUS_PKG_ERRORS], 14)])
++   AC_CHECK_LIB([dbus-1], [dbus_connection_open], [LIBS="$LIBS" AC_DEFINE([HAVE_DBUS])], [AC_MSG_ERROR([cannot find libdbus support], 13)])
++fi
++
++if test "$hpijs_only_build" = "no" && test "$lite_build" = "no" && test "$hpcups_only_build" = "no" && test "$fax_build" = "yes" && test "$dbus_build" = "no"; then
++   AC_MSG_ERROR([fax requires dbus support], 15)
++fi
++
++# AC_DEFINE_DIR([DATADIR], [datadir])
++# Copyright © 2006 Stepan Kasal  <kasal@ucw.cz>
++# Copyright © 2006 Andreas Schwab <schwab@suse.de>
++# Copyright © 2006 Guido U. Draheim <guidod@gmx.de>
++# Copyright © 2006 Alexandre Oliva
++# Copying and distribution of this file, with or without modification, are permitted in any medium without
++# royalty provided the copyright notice and this notice are preserved.
++AC_DEFUN([AC_DEFINE_DIR], [
++  prefix_NONE=
++  exec_prefix_NONE=
++  test "x$prefix" = xNONE && prefix_NONE=yes && prefix=$ac_default_prefix
++  test "x$exec_prefix" = xNONE && exec_prefix_NONE=yes && exec_prefix=$prefix
++dnl In Autoconf 2.60, ${datadir} refers to ${datarootdir}, which in turn
++dnl refers to ${prefix}.  Thus we have to use `eval' twice.
++  eval ac_define_dir="\"[$]$2\""
++  eval ac_define_dir="\"$ac_define_dir\""
++  $1="$ac_define_dir"
++  test "$prefix_NONE" && prefix=NONE
++  test "$exec_prefix_NONE" && exec_prefix=NONE
++])
++
++AC_DEFINE_DIR([abs_datadir], [datadir])
++AC_DEFINE_DIR([abs_sbindir], [sbindir])
++AC_DEFINE_DIR([abs_hpppddir], [hpppddir])
++AC_DEFINE_DIR([abs_docdir], [hpdocdir])
++AC_DEFINE_DIR([abs_htmldir], [hphtmldir])
++abs_ppddir=${abs_hpppddir%/*}
++AC_DEFINE_DIR([abs_drvdir], [drvdir])
++
++AC_SUBST(abs_datadir)
++AC_SUBST(abs_sbindir)
++AC_SUBST(abs_hpppddir)
++AC_SUBST(abs_docdir)
++AC_SUBST(abs_htmldir)
++AC_SUBST(abs_ppddir)
++AC_SUBST(abs_drvdir)
++AC_SUBST(abs_mimedir)
++
++# AppArmor Changes
++AC_SUBST(apparmordir)
++AC_SUBST(apparmor_build)
++AC_SUBST(mimedir)
++AC_SUBST(icondir)
++AC_SUBST(systraydir)
++AC_SUBST(cupsbackenddir)
++AC_SUBST(cupsfilterdir)
++AC_SUBST(hpppddir)
++AC_SUBST(hpdocdir)
++AC_SUBST(hphtmldir)
++AC_SUBST(drvdir)
++AC_SUBST(network_build)
++AC_SUBST(pp_build)
++AC_SUBST(gui_build)
++AC_SUBST(class_driver)
++AC_SUBST(scan_build)
++AC_SUBST(fax_build)
++AC_SUBST(dbus_build)
++AC_SUBST(cups11_build)
++AC_SUBST(imageProcessor_build)
++AC_SUBST(foomatic_drv_install)
++AC_SUBST(foomatic_ppd_install)
++AC_SUBST(foomatic_rip_hplip_install)
++AC_SUBST(foomatic_filter)
++AC_SUBST(cups_ppd_install)
++AC_SUBST(cups_drv_install)
++AC_SUBST(hpijs_install)
++AC_SUBST(hpcups_install)
++AC_SUBST(hpps_install)
++AC_SUBST(doc_build)
++AC_SUBST(shadow_build)
++AC_SUBST(libusb01_build)
++AC_SUBST(APDK_ENDIAN_FLAG)
++AC_SUBST(APDK_AUTO_INCLUDE_FLAG)
++AC_SUBST(ui_toolkit)
++AC_SUBST(platform)
++AC_SUBST(qt3)
++AC_SUBST(qt4)
++AC_SUBST(qt5)
++AC_SUBST(epm_foomatic_rip_hplip_install)
++AC_SUBST(epm_foomatic_ppd_install)
++AC_SUBST(epm_cups_ppd_install)
++AC_SUBST(epm_foomatic_drv_install)
++AC_SUBST(epm_cups_drv_install)
++AC_SUBST(epm_hpijs_install)
++AC_SUBST(epm_hpcups_install)
++AC_SUBST(epm_hpps_install)
++AC_SUBST(epm_qt5)
++AC_SUBST(epm_qt4)
++AC_SUBST(epm_qt3)
++AC_SUBST(epm_full)
++AC_SUBST(epm_lite)
++AC_SUBST(epm_hpcups_only)
++AC_SUBST(epm_hpijs_only)
++AC_SUBST(epm_print_only_exclude)
++AC_SUBST(epm_scan)
++AC_SUBST(policykit)
++AC_SUBST(policykit_dir)
++AC_SUBST(hpijs_only_build)
++AC_SUBST(lite_build)
++AC_SUBST(hpcups_only_build)
++AC_SUBST(SNMPLIB)
++AC_SUBST(prefix)
++AC_SUBST(udev_sysfs_rules)
++AC_SUBST(epm_class_driver)
++AC_SUBST(epm_class_install)
++
++AC_CONFIG_FILES(Makefile hplip.conf hplip.desktop hp-uiscan.desktop hplip-systray.desktop prnt/drv/hpijs.drv prnt/drv/hpcups.drv hplip.list data/policykit/com.hp.hplip.service)
++AC_OUTPUT
+diff -aruN old/createPPD.sh new/createPPD.sh
+--- old/createPPD.sh	2021-12-13 09:07:36.000000000 +0000
++++ new/createPPD.sh	2021-12-20 19:54:19.386891495 +0000
+@@ -54,15 +54,15 @@
+ 	else
+ 		cp prnt/ps/hp-postscript*.ppd ppd/classppd/ps
+ 		for i in ppd/classppd/ps/*.ppd; do
+-			gzip -c "$i" > "$i.gz"
++			gzip -nc "$i" > "$i.gz"
+ 		done
+ 	fi
+         #cp prnt/ps/hp-postscript*.ppd.gz ppd/classppd/ps
+ 	for i in ppd/classppd/hpcups/*.ppd; do
+-		gzip -c "$i" > "$i.gz"
++		gzip -nc "$i" > "$i.gz"
+ 	done
+ 	#for i in ppd/classppd/ps/*.ppd; do
+-	#	gzip -c "$i" > "$i.gz"
++	#	gzip -nc "$i" > "$i.gz"
+ 	#done
+ 
+ 	cat > class_cups_drv.inc <<EOF
+@@ -81,14 +81,14 @@
+ install -d ppd/hpcups
+ ppdc -d ppd/hpcups prnt/drv/hpcups.drv
+ for i in ppd/hpcups/*.ppd; do
+-      gzip -c "$i" > "$i.gz"
++      gzip -nc "$i" > "$i.gz"
+ done
+ 
+ install -d ppd/hpijs
+ ppdc -d ppd/hpijs prnt/drv/hpijs.drv
+ echo "gzip ppd files..."
+ for i in ppd/hpijs/*.ppd; do
+-      gzip -c "$i" > "$i.gz"
++      gzip -nc "$i" > "$i.gz"
+ done
+ echo "building foomatic_drv.inc..."
+ ./hpijs-drv > foomatic_drv.inc $shadow
+diff -aruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
+--- old/pcard/pcardext/pcardext.c	2021-12-13 09:07:36.000000000 +0000
++++ new/pcard/pcardext/pcardext.c	2021-12-20 19:53:18.688190737 +0000
+@@ -20,7 +20,7 @@
+ Requires:
+ Python 2.2+
+ 
+-Author: Don Welch
++Author: Don Welch 
+ 
+ \*****************************************************************************/
+ 
+@@ -41,9 +41,37 @@
+ 
+ int verbose=0;
+ 
++#if PY_MAJOR_VERSION >= 3
++  #define MOD_ERROR_VAL NULL
++  #define MOD_SUCCESS_VAL(val) val
++  #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
++  #define PyInt_AS_LONG PyLong_AS_LONG
++  #define MOD_DEF(ob, name, doc, methods) \
++          static struct PyModuleDef moduledef = { \
++            PyModuleDef_HEAD_INIT, name, doc, -1, methods, }; \
++          ob = PyModule_Create(&moduledef);
++
++
++  #define PY_String_Bytes  PyBytes_FromStringAndSize
++  #define PY_AsString_Bytes  PyBytes_AsStringAndSize
++
++#else
++  #define MOD_ERROR_VAL
++  #define MOD_SUCCESS_VAL(val)
++  #define MOD_INIT(name) void init##name(void)
++  #define MOD_DEF(ob, name, doc, methods)         \
++        ob = Py_InitModule3(name, methods, doc);
++
++  #define PY_String_Bytes PyString_FromStringAndSize
++  #define PY_AsString_Bytes PyString_AsStringAndSize
++  
++#endif
++
+ PyObject * readsectorFunc = NULL;
+ PyObject * writesectorFunc = NULL;
+ 
++
++
+ int ReadSector(int sector, int nsector, void *buf, int size)
+ {
+     PyObject * result;
+@@ -59,9 +87,13 @@
+         if( result )
+         {
+             Py_ssize_t len = 0;
+-            PyString_AsStringAndSize( result, &result_str, &len );
++
++            //PyString_AsStringAndSize( result, &result_str, &len );    
++            //PyBytes_AsStringAndSize( result, &result_str, &len ); 
++            PY_AsString_Bytes( result, &result_str, &len );
+             
+-            if( len < nsector*FAT_HARDSECT )
++
++	    if( len < nsector*FAT_HARDSECT )
+             {
+                 goto abort;
+             }
+@@ -208,7 +240,9 @@
+     
+     if( FatReadFileExt( name, offset, len, buffer ) == len )
+     {
+-        return PyString_FromStringAndSize( (char *)buffer, len );
++        // return PyString_FromStringAndSize( (char *)buffer, len );
++        return PY_String_Bytes( (char *)buffer, len );
++        // return PyBytes_FromStringAndSize( (char *)buffer, len );
+     }
+     else
+     {
+@@ -236,14 +270,15 @@
+ 
+ static char pcardext_documentation[] = "Python extension for HP photocard services";
+ 
+-void initpcardext( void )
+-{
+-    PyObject * mod = Py_InitModule4( "pcardext", pcardext_methods, 
+-                                     pcardext_documentation, (PyObject*)NULL, 
+-                                     PYTHON_API_VERSION );
+-                     
+-    if (mod == NULL)
+-      return;
++MOD_INIT(pcardext)  {
++
++  PyObject* mod ;
++  MOD_DEF(mod, "pcardext", pcardext_documentation, pcardext_methods);
++  if (mod == NULL)
++    return MOD_ERROR_VAL;
++
++  return MOD_SUCCESS_VAL(mod);
++
+ }
+ 
+ 
+diff -aruN old/pcard/pcardext/pcardext.c.orig new/pcard/pcardext/pcardext.c.orig
+--- old/pcard/pcardext/pcardext.c.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/pcard/pcardext/pcardext.c.orig	2021-12-13 09:07:36.000000000 +0000
+@@ -0,0 +1,249 @@
++/*****************************************************************************\
++pcardext - Python extension for HP photocard services
++ 
++ (c) Copyright 2003-2015 HP Development Company, L.P.
++
++ This program is free software; you can redistribute it and/or modify
++ it under the terms of the GNU General Public License as published by
++ the Free Software Foundation; either version 2 of the License, or
++ (at your option) any later version.
++
++ This program is distributed in the hope that it will be useful,
++ but WITHOUT ANY WARRANTY; without even the implied warranty of
++ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ GNU General Public License for more details.
++
++ You should have received a copy of the GNU General Public License
++ along with this program; if not, write to the Free Software
++ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
++
++Requires:
++Python 2.2+
++
++Author: Don Welch
++
++\*****************************************************************************/
++
++#define PY_SSIZE_T_CLEAN
++
++
++#include <Python.h>
++#include <structmember.h>
++#include "../fat.h"
++
++
++/* Ref: PEP 353 (Python 2.5) */
++#if PY_VERSION_HEX < 0x02050000
++typedef int Py_ssize_t;
++#define PY_SSIZE_T_MAX INT_MAX
++#define PY_SSIZE_T_MIN INT_MIN
++#endif
++
++int verbose=0;
++
++PyObject * readsectorFunc = NULL;
++PyObject * writesectorFunc = NULL;
++
++int ReadSector(int sector, int nsector, void *buf, int size)
++{
++    PyObject * result;
++    char * result_str;
++    
++    if( readsectorFunc )
++    {
++        if( nsector <= 0 || (nsector*FAT_HARDSECT) > size || nsector > FAT_BLKSIZE )
++            goto abort;
++        
++        result = PyObject_CallFunction( readsectorFunc, "ii", sector, nsector );
++        
++        if( result )
++        {
++            Py_ssize_t len = 0;
++            PyString_AsStringAndSize( result, &result_str, &len );
++            
++            if( len < nsector*FAT_HARDSECT )
++            {
++                goto abort;
++            }
++            
++            memcpy( buf, result_str, nsector*FAT_HARDSECT );
++            return 0;
++        }
++    }
++    
++abort:    
++    return 1;
++}
++
++int WriteSector(int sector, int nsector, void *buf, int size )
++{
++    PyObject * result;
++    
++    if( writesectorFunc )
++    {
++        result = PyObject_CallFunction( writesectorFunc, "iis#", sector, nsector, buf, size );
++        
++        return PyInt_AS_LONG( result );
++    }
++
++    return 1;
++}
++
++
++PyObject * pcardext_mount( PyObject * self, PyObject * args ) 
++{
++    if( !PyArg_ParseTuple( args, "OO", &readsectorFunc, &writesectorFunc ) )
++    {
++        return Py_BuildValue( "i", 1 );
++    }
++    
++    if( !PyCallable_Check( readsectorFunc ) || !PyCallable_Check( writesectorFunc ) )
++    {
++        return Py_BuildValue( "i", 2 );
++    }
++        
++    Py_INCREF( readsectorFunc );
++    Py_INCREF( writesectorFunc );
++
++    int i = FatInit();
++    /*char buf[1024];
++    sprintf( buf, "print 'FatInit()=%d\n'", i );
++    PyRun_SimpleString( buf );*/
++
++    return Py_BuildValue( "i", i ); // ==0 ->OK, !=0 --> NG
++}
++
++
++PyObject * pcardext_df( PyObject * self, PyObject * args ) 
++{
++    return Py_BuildValue( "i", FatFreeSpace() );
++}
++
++
++PyObject * pcardext_ls( PyObject * self, PyObject * args ) 
++{
++    PyObject * file_list;
++    file_list = PyList_New((Py_ssize_t)0);
++    FILE_ATTRIBUTES fa;
++
++    FatDirBegin( &fa );
++    
++    do 
++    {
++        if( fa.Attr != 'x' )
++            PyList_Append( file_list, Py_BuildValue( "(sci)",  fa.Name, fa.Attr, fa.Size ) );
++        
++    } while( FatDirNext( &fa ) );
++
++    return file_list;
++}
++
++
++PyObject * pcardext_cp( PyObject * self, PyObject * args ) 
++{
++    char * name; 
++    int fileno = 0;
++    
++    if( !PyArg_ParseTuple( args, "si", &name, &fileno ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++    
++    return Py_BuildValue( "i", FatReadFile( name, fileno ) );
++}
++
++PyObject * pcardext_cd( PyObject * self, PyObject * args ) 
++{
++    char * dir;
++
++    if( !PyArg_ParseTuple( args, "s", &dir ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++    
++    FatSetCWD( dir );
++    
++    return Py_BuildValue( "i", 1 );
++}
++
++PyObject * pcardext_rm( PyObject * self, PyObject * args ) 
++{
++    char * name;
++    if( !PyArg_ParseTuple( args, "s", &name ) )
++    {
++        return Py_BuildValue( "i", 0 );
++    }
++
++    return Py_BuildValue( "i", FatDeleteFile( name ) );
++}
++
++PyObject * pcardext_umount( PyObject * self, PyObject * args ) 
++{
++    return Py_BuildValue( "" );
++}
++
++PyObject * pcardext_info( PyObject * self, PyObject * args ) 
++{
++    PHOTO_CARD_ATTRIBUTES pa;
++    FatDiskAttributes( &pa );
++    
++    return Py_BuildValue( "(siiiiissi)", pa.OEMID, pa.BytesPerSector, pa.SectorsPerCluster, pa.ReservedSectors,
++                                        pa.RootEntries, pa.SectorsPerFat, pa.VolumeLabel, pa.SystemID,
++                                        pa.WriteProtect );
++}
++
++PyObject * pcardext_read( PyObject * self, PyObject * args ) 
++{
++    char * name;
++    int offset = 0;
++    Py_ssize_t len = 0;
++    void * buffer;
++    
++    if( !PyArg_ParseTuple( args, "sii", &name, &offset, &len ) )
++    {
++        return Py_BuildValue( "s", "" );
++    }
++    
++    buffer = alloca( len );
++    
++    if( FatReadFileExt( name, offset, len, buffer ) == len )
++    {
++        return PyString_FromStringAndSize( (char *)buffer, len );
++    }
++    else
++    {
++        return Py_BuildValue( "s", "" );
++    }
++    
++    
++}
++
++
++static PyMethodDef pcardext_methods[] = 
++{
++    { "mount",       (PyCFunction)pcardext_mount,  METH_VARARGS },
++    { "ls",          (PyCFunction)pcardext_ls,     METH_VARARGS },
++    { "cp",          (PyCFunction)pcardext_cp,     METH_VARARGS },
++    { "cd",          (PyCFunction)pcardext_cd,     METH_VARARGS },
++    { "rm",          (PyCFunction)pcardext_rm,     METH_VARARGS },
++    { "umount",      (PyCFunction)pcardext_umount, METH_VARARGS },
++    { "df",          (PyCFunction)pcardext_df,     METH_VARARGS },
++    { "info",        (PyCFunction)pcardext_info,   METH_VARARGS },
++    { "read",        (PyCFunction)pcardext_read,   METH_VARARGS },
++    { NULL, NULL }
++};  
++
++
++static char pcardext_documentation[] = "Python extension for HP photocard services";
++
++void initpcardext( void )
++{
++    PyObject * mod = Py_InitModule4( "pcardext", pcardext_methods, 
++                                     pcardext_documentation, (PyObject*)NULL, 
++                                     PYTHON_API_VERSION );
++                     
++    if (mod == NULL)
++      return;
++}
++
++
+diff -aruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
+--- old/prnt/hpcups/HPCupsFilter.h	2021-12-13 09:07:36.000000000 +0000
++++ new/prnt/hpcups/HPCupsFilter.h	2021-12-20 19:52:57.311981206 +0000
+@@ -38,6 +38,8 @@
+ #include <cups/ppd.h>
+ #include "dbuscomm.h"
+ 
++#include <cups/ppd.h>
++
+ #define		DBITMAPFILEHEADER		14
+ #define		DBITMAPINFOHEADER		40
+ 
+diff -aruN old/prnt/hpcups/HPCupsFilter.h.orig new/prnt/hpcups/HPCupsFilter.h.orig
+--- old/prnt/hpcups/HPCupsFilter.h.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/prnt/hpcups/HPCupsFilter.h.orig	2021-12-13 09:07:36.000000000 +0000
+@@ -0,0 +1,129 @@
++/*****************************************************************************\
++  HPCupsFilter.h : Interface for HPCupsFilter class
++
++  Copyright (c) 1996 - 2015, HP Co.
++  All rights reserved.
++
++  Redistribution and use in source and binary forms, with or without
++  modification, are permitted provided that the following conditions
++  are met:
++  1. Redistributions of source code must retain the above copyright
++     notice, this list of conditions and the following disclaimer.
++  2. Redistributions in binary form must reproduce the above copyright
++     notice, this list of conditions and the following disclaimer in the
++     documentation and/or other materials provided with the distribution.
++  3. Neither the name of HP nor the names of its
++     contributors may be used to endorse or promote products derived
++     from this software without specific prior written permission.
++
++  THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
++  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN
++  NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
++  SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
++  TO, PATENT INFRINGEMENT; PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
++  OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
++  ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++  THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++\*****************************************************************************/
++
++#ifndef HP_CUPSFILTER_H
++#define HP_CUPSFILTER_H
++
++#include "CommonDefinitions.h"
++#include "SystemServices.h"
++#include "Compressor.h"
++#include "Job.h"
++#include <cups/ppd.h>
++#include "dbuscomm.h"
++
++#define		DBITMAPFILEHEADER		14
++#define		DBITMAPINFOHEADER		40
++
++enum eRasterType
++{
++    BLACK_RASTER,
++    COLOR_RASTER
++};
++
++typedef struct
++{
++    short    bfType;
++    int      bfSize;
++    short    bfReserved1;
++    short    bfReserved2;
++    int      bfOffBits;
++} BITMAPFILEHEADER;
++
++typedef struct
++{
++    int     biSize;
++    int     biWidth;
++    int     biHeight;
++    short   biPlanes;
++    short   biBitCount;
++    int     biCompression;
++    int     biSizeImage;
++    int     biXPelsPerMeter;
++    int     biYPelsPerMeter;
++    int     biClrUsed;
++    int     biClrImportant;
++} BITMAPINFOHEADER;
++
++class HPCupsFilter
++{
++public:
++
++    HPCupsFilter();
++    ~HPCupsFilter();    
++    int     StartPrintJob(int  argc, char *argv[]);
++    void    CancelJob();
++    void    RemoveStatus();
++
++    void WriteBMPHeader (FILE *fp, int width, int height, eRasterType raster_type);
++    void WriteBMPRaster (FILE *fp, BYTE *raster, int width, eRasterType raster_type);
++
++private:
++
++    BYTE            *m_pPrinterBuffer;        
++    Job            m_Job;
++    SystemServices         *m_pSys;
++    int             child_pid;
++    char            **m_argv;
++    JobAttributes   m_JA;
++    ppd_file_t      *m_ppd;
++    DBusCommunicator m_DBusComm;
++	
++private:
++    void            closeFilter();
++    void            cleanup();
++    //void            getLogLevel();
++    DRIVER_ERROR    startPage (cups_page_header2_t *header);
++    int             processRasterData(cups_raster_t *cups_raster);
++    void            extractBlackPixels(cups_page_header2_t *cups_header,
++                                       BYTE *kRaster, BYTE *rgbRaster);
++    void            printCupsHeaderInfo(cups_page_header2_t *header);
++    bool            isBlankRaster(BYTE *input_raster, cups_page_header2_t *header);
++	int             m_iLogLevel;
++
++    void CreateBMPHeader(int width, int height, int planes, int bpp);
++    void WriteCBMPHeader (FILE *fp, int width, int height);
++    void WriteKBMPHeader (FILE *fp, int width, int height);
++    void WriteCBMPRaster (FILE *fp, BYTE *rgb_raster, int width);
++    void WriteKBMPRaster (FILE *fp, BYTE *k_raster, int width);
++    int    adj_c_width;
++    int    adj_k_width;
++    BYTE   *black_raster;
++    BYTE   *color_raster;
++    BITMAPFILEHEADER    bmfh;
++    BITMAPINFOHEADER    bmih;
++
++#ifdef UNITTESTING
++    friend class TestHPCupsFilter;
++#endif
++
++};
++
++#endif  // HP_CUPSFILTER_H
++
+diff -aruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
+--- old/prnt/hpijs/hpcupsfax.cpp	2021-12-13 09:07:36.000000000 +0000
++++ new/prnt/hpijs/hpcupsfax.cpp	2021-12-20 19:52:57.311981206 +0000
+@@ -43,6 +43,7 @@
+ #include <arpa/inet.h>
+ #include <math.h>
+ #include <cups/cups.h>
++#include <cups/ppd.h>
+ #include <cups/raster.h>
+ #include <string>
+ #ifdef FALSE
+diff -aruN old/unload.py new/unload.py
+--- old/unload.py	2021-12-13 09:07:37.000000000 +0000
++++ new/unload.py	2021-12-20 19:53:18.688190737 +0000
+@@ -44,6 +44,11 @@
+ 
+ # Local
+ from base.g import *
++from base.sixext import PY3
++if PY3:
++    log.error("This functionality is not spported in python3 environment.")
++    sys.exit(1)
++
+ from base import device, utils, tui, module
+ from prnt import cups
+ 
+diff -aruN old/upgrade.py new/upgrade.py
+--- old/upgrade.py	2021-12-13 09:07:37.000000000 +0000
++++ new/upgrade.py	2021-12-20 19:52:40.912331759 +0000
+@@ -207,6 +207,11 @@
+ if os.getenv("HPLIP_DEBUG"):
+     log.set_level('debug')
+ 
++
++log.error("HPLIP upgrade is disabled by Archlinux for security reasons, see https://bugs.archlinux.org/task/38083 - if you like to upgrade HPLIP, use the Archlinux software package manager pacman.")
++clean_exit(1)
++
++
+ for o, a in opts:
+     if o in ('-h', '--help'):
+         usage()
+diff -aruN old/upgrade.py.orig new/upgrade.py.orig
+--- old/upgrade.py.orig	1970-01-01 01:00:00.000000000 +0100
++++ new/upgrade.py.orig	2021-12-13 09:07:37.000000000 +0000
+@@ -0,0 +1,446 @@
++#!/usr/bin/python
++# -*- coding: utf-8 -*-
++#
++# (c) Copyright 2011-2015 HP Development Company, L.P.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program; if not, write to the Free Software
++# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
++#
++# Author: Amarnath Chitumalla
++#
++from __future__ import print_function
++__version__ = '1.0'
++__title__ = 'HPLIP upgrade latest version'
++__mod__ = 'hp-upgrade'
++__doc__ = "HPLIP installer to upgrade to latest version."
++
++# Std Lib
++import getopt, os, sys, re, time, datetime
++
++# Local
++from base.g import *
++from base.strings import *
++from base import utils, tui, module, os_utils, services, validation
++from installer.core_install import *
++from base.sixext.moves import input
++
++
++USAGE = [(__doc__, "", "name", True),
++         ("Usage: %s [OPTIONS]" % __mod__, "", "summary", True),
++         utils.USAGE_SPACE,
++         utils.USAGE_MODE,
++         ("Run in interactive mode:", "-i or --interactive (Default)", "option", False),
++#         ("Run in graphical UI mode:", "-u or --gui (future use)", "option", False),
++         utils.USAGE_SPACE,
++         utils.USAGE_OPTIONS,
++         utils.USAGE_HELP,
++         utils.USAGE_LOGGING1, utils.USAGE_LOGGING2, utils.USAGE_LOGGING3,
++         ("Check for update and notify:","--notify","option",False),
++         ("Check only available version:","--check","option",False),
++#         ("Non-interactive mode:","-n(Without asking permissions)(future use)","option",False),
++         ("Specify the path to the .run file on local system:","-p<path>","option", False),
++         ("Download HPLIP package location:","-d<path> (default location ~/Downloads)","option", False),
++         ("Override existing HPLIP installation even if latest vesrion is installed:","-o","option",False),
++#         ("Take options from the file instead of command line:","-f<file> (future use)","option",False)
++        ]
++
++mode = INTERACTIVE_MODE
++EXISTING_PACKAGE_PATH=None
++PATH_TO_DOWNLOAD_INSTALLER=os.path.expanduser('~/Downloads')
++FORCE_INSTALL=False
++CHECKING_ONLY=False
++NOTIFY=False
++HPLIP_VERSION_INFO_SOURCEFORGE_SITE ="http://hplip.sourceforge.net/hplip_web.conf"
++HPLIP_WEB_SITE ="http://hplipopensource.com/hplip-web/index.html"
++HPLIP_PACKAGE_SITE = "http://sourceforge.net/projects/hplip/files/hplip"
++IS_QUIET_MODE = False
++DONOT_CLOSE_TERMINAL = False
++CURRENT_WORKING_DIR = ''
++
++def hold_terminal():
++    if DONOT_CLOSE_TERMINAL:
++        log.info("\n\nPlease close this terminal manually. ")
++        try:
++            while 1:
++                pass
++        except KeyboardInterrupt:
++            pass
++
++
++def usage(typ='text'):
++    if typ == 'text':
++        utils.log_title(__title__, __version__)
++
++    utils.format_text(USAGE, typ, __title__, __mod__, __version__)
++    hold_terminal()
++    sys.exit(0)
++
++def clean_exit(code=0, waitTerminal=True):
++    if not NOTIFY and not CHECKING_ONLY and not IS_QUIET_MODE:
++        log.info("")
++        log.info("Done.")
++    change_spinner_state(True)
++    mod.unlockInstance()
++    hold_terminal()
++    sys.exit(code)
++
++
++def parse_HPLIP_version(hplip_version_file, pat):
++    ver = "0.0.0"
++    if not os.path.exists(hplip_version_file):
++        return ver
++
++    try:
++        fp= open(hplip_version_file, 'r')
++    except IOError:
++        log.error("Failed to get hplip version since %s file is not found."%hplip_version_file)
++        return ver
++    data = fp.read()
++    for line in data.splitlines():
++        if pat.search(line):
++            ver = pat.search(line).group(1)
++            break
++
++    log.debug("Latest HPLIP version = %s." % ver)
++    return ver
++
++
++def get_hplip_version_from_sourceforge():
++    HPLIP_latest_ver="0.0.0"
++
++    # get HPLIP version info from hplip_web.conf file
++    sts, HPLIP_Ver_file = utils.download_from_network(HPLIP_VERSION_INFO_SOURCEFORGE_SITE)
++    if sts == 0:
++        hplip_version_conf = ConfigBase(HPLIP_Ver_file)
++        HPLIP_latest_ver = hplip_version_conf.get("HPLIP","Latest_version","0.0.0")
++        os.unlink(HPLIP_Ver_file)
++
++    return HPLIP_latest_ver
++
++
++def get_hplip_version_from_hplipopensource():
++    HPLIP_latest_ver="0.0.0"
++    pat = re.compile(r"""The current version of the HPLIP solution is version (\d{1,}\.\d{1,}\.\d{1,}[a-z]{0,})\. \(.*""")
++    sts, HPLIP_Ver_file = utils.download_from_network(HPLIP_WEB_SITE)
++    if sts == 0:
++        HPLIP_latest_ver = parse_HPLIP_version(HPLIP_Ver_file, pat)
++        os.unlink(HPLIP_Ver_file)
++
++    return HPLIP_latest_ver
++
++
++def get_latest_hplip_version():
++    HPLIP_latest_ver = get_hplip_version_from_sourceforge()
++
++    if HPLIP_latest_ver == "0.0.0":     ## if failed to connect the sourceforge site, then check HPLIP site.
++        HPLIP_latest_ver = get_hplip_version_from_hplipopensource()
++                           
++    return HPLIP_latest_ver
++
++
++def digital_signature_fail_confirmation(msg):
++    log.error(log.bold(msg))
++    ok,choice = tui.enter_choice("Do you want continue without Digital Signature verification (y=yes, n=no*):", ['y','n'],'n')
++    if not ok or choice == 'n':
++       return False
++    else:
++        return True
++
++
++def download_hplip_installer(path_to_download, hplip_version):
++    url="%s/%s/hplip-%s.run" %(HPLIP_PACKAGE_SITE, hplip_version, hplip_version)
++    hplip_package = "%s/hplip-%s.run" %(path_to_download, hplip_version)
++
++    log.info("Downloading hplip-%s.run file..... Please wait. "%hplip_version )
++    sts,download_file = utils.download_from_network(url, hplip_package, True)
++    log.info("")
++
++    if not os.path.exists(hplip_package):
++        log.error("Failed to download %s file."%hplip_package)
++        return '',''
++
++    log.info("Downloading hplip-%s.run.asc file..... Please wait. "%hplip_version )
++    hplip_digsig =  hplip_package+".asc"
++    url = url +".asc"
++    sts,download_file = utils.download_from_network(url, hplip_digsig)
++    log.info("")
++
++    if not os.path.exists(hplip_digsig):
++        log.error("Failed to download %s file."%hplip_package)
++        return hplip_package, ''
++
++    return hplip_package, hplip_digsig
++
++
++###################### Main ###############
++log.set_module(__mod__)
++try:
++    mod = module.Module(__mod__, __title__, __version__, __doc__, USAGE,
++                    (INTERACTIVE_MODE, GUI_MODE),
++                    (UI_TOOLKIT_QT3, UI_TOOLKIT_QT4, UI_TOOLKIT_QT5), True)
++
++    opts, device_uri, printer_name, mode, ui_toolkit, loc = \
++               mod.parseStdOpts('hl:gniup:d:of:sw', ['notify','check','help', 'help-rest', 'help-man', 'help-desc', 'interactive', 'gui', 'lang=','logging=', 'debug'],
++                     handle_device_printer=False)
++
++
++
++except getopt.GetoptError as e:
++    log.error(e.msg)
++    usage()
++
++if os.geteuid() == 0:
++    log.error("%s %s"  %(__mod__, queryString(ERROR_RUNNING_AS_ROOT)))
++    clean_exit(1)
++
++if os.getenv("HPLIP_DEBUG"):
++    log.set_level('debug')
++
++for o, a in opts:
++    if o in ('-h', '--help'):
++        usage()
++
++    elif o == '--help-rest':
++        usage('rest')
++
++    elif o == '--help-man':
++        usage('man')
++
++    elif o in ('-q', '--lang'):
++        language = a.lower()
++
++    elif o == '--help-desc':
++        print(__doc__, end=' ')
++        clean_exit(0,False)
++
++    elif o in ('-l', '--logging'):
++        log_level = a.lower().strip()
++        if not log.set_level(log_level):
++            usage()
++
++    elif o in ('-g', '--debug'):
++        log.set_level('debug')
++
++    elif o == '-n':
++        mode = NON_INTERACTIVE_MODE
++        log.info("NON_INTERACTIVE mode is not yet supported.")
++        usage()
++        clean_exit(0,False)
++
++    elif o == '-p':
++        EXISTING_PACKAGE_PATH=a
++
++    elif o == '-d':
++        PATH_TO_DOWNLOAD_INSTALLER=a
++
++    elif o == '-o':
++        FORCE_INSTALL = True
++
++    elif o in ('-u', '--gui'):
++        log.info("GUI is not yet supported.")
++        usage()
++        clean_exit(0, False)
++    elif o == '--check':
++        CHECKING_ONLY = True
++    elif o == '--notify':
++        NOTIFY = True
++    elif o == '-s':
++        IS_QUIET_MODE = True
++    elif o == '-f':
++        log.info("Option from file is not yet supported")
++        usage()
++        clean_exit(0, False)
++    elif o == '-w':
++        DONOT_CLOSE_TERMINAL = True
++
++if not NOTIFY and not CHECKING_ONLY and not IS_QUIET_MODE:
++    mod.quiet= False
++    mod.showTitle()
++
++if NOTIFY or CHECKING_ONLY:
++    mod.lockInstance('check',True)
++else:
++    mod.lockInstance('upgrade',True)
++
++log_file = os.path.normpath('%s/hp-upgrade.log'%prop.user_dir)
++
++if os.path.exists(log_file):
++    try:
++        os.remove(log_file)
++    except OSError:
++        pass
++
++log.set_logfile(log_file)
++log.set_where(log.LOG_TO_CONSOLE_AND_FILE)
++
++
++log.debug("Upgrade log saved in: %s" % log.bold(log_file))
++log.debug("")
++try:
++    change_spinner_state(False)
++    core =  CoreInstall(MODE_CHECK)
++    if not utils.check_network_connection():
++        log.error("Either Internet is not working or Wget is not installed.")
++        clean_exit(1)
++
++    installed_version=sys_conf.get("hplip","version","0.0.0")
++    log.debug("HPLIP previous installed version =%s." %installed_version)
++
++    HPLIP_latest_ver = get_latest_hplip_version()
++
++    if HPLIP_latest_ver == "0.0.0":
++        log.error("Failed to get latest version of HPLIP.")
++        clean_exit(1)
++
++    user_conf.set('upgrade','latest_available_version',HPLIP_latest_ver)
++    if CHECKING_ONLY is True:
++        log.debug("Available HPLIP version =%s."%HPLIP_latest_ver)
++
++    elif NOTIFY is True:
++        if not utils.Is_HPLIP_older_version(installed_version, HPLIP_latest_ver):
++            log.debug("Latest version of HPLIP is already installed.")
++
++        else:
++            msg = "Latest version of HPLIP-%s is available."%HPLIP_latest_ver
++            if core.is_auto_installer_support():
++                distro_type= 1
++            else:
++                distro_type= 2
++
++            if ui_toolkit == 'qt3':
++                if not utils.canEnterGUIMode():
++                    log.error("%s requires GUI support. Is Qt3 Installed?.. Exiting." % __mod__)
++                    clean_exit(1)
++
++                try:
++                    from qt import *
++                    from ui.upgradeform import UpgradeForm
++                except ImportError:
++                    log.error("Unable to load Qt3 support. Is it installed? ")
++                    clean_exit(1)
++
++                # create the main application object
++                app = QApplication(sys.argv)
++                QObject.connect(app, SIGNAL("lastWindowClosed()"), app, SLOT("quit()"))
++                dialog = UpgradeForm(None, "",0,0,distro_type, msg)
++                dialog.show()
++
++                log.debug("Starting GUI loop...")
++                app.exec_loop()
++
++            else: #qt4
++                if not utils.canEnterGUIMode4():
++                    log.error("%s requires GUI support . Is Qt4 installed?.. Exiting." % __mod__)
++                    clean_exit(1)
++
++                try:
++                    from PyQt4.QtGui import QApplication, QMessageBox
++                    from ui4.upgradedialog import UpgradeDialog
++                except ImportError:
++                    log.error("Unable to load Qt4 support. Is it installed?")
++                    clean_exit(1)
++
++                app = QApplication(sys.argv)
++                dialog = UpgradeDialog(None, distro_type, msg)
++
++                dialog.show()
++                log.debug("Starting GUI loop...")
++                app.exec_()
++
++    else:
++        if FORCE_INSTALL is False:
++            if utils.Is_HPLIP_older_version(installed_version, HPLIP_latest_ver):
++                if IS_QUIET_MODE:
++                    log.info("Newer version of HPLIP-%s is available."%HPLIP_latest_ver)
++                ok,choice = tui.enter_choice("Press 'y' to continue to upgrade HPLIP-%s (y=yes*, n=no):"%HPLIP_latest_ver, ['y','n'],'y')
++                if not ok or choice == 'n':
++                    log.info("Recommended to install latest version of HPLIP-%s"%HPLIP_latest_ver)
++                    clean_exit(0, False)
++            else:
++                log.info("Latest version of HPLIP is already installed.")
++                clean_exit(0,False)
++
++        # check distro information.
++        if not core.is_auto_installer_support():
++            log.info("Please install HPLIP manually as mentioned in 'http://hplipopensource.com/hplip-web/install/manual/index.html' site")
++            clean_exit(0)
++
++        if not services.close_running_hp_processes():
++            clean_exit(1)
++
++        if EXISTING_PACKAGE_PATH:
++            downloaded_file = "%s/hplip-%s.run"%(EXISTING_PACKAGE_PATH, HPLIP_latest_ver)
++            digsig_file = "%s/hplip-%s.run.asc"%(EXISTING_PACKAGE_PATH, HPLIP_latest_ver)
++            PATH_TO_DOWNLOAD_INSTALLER = EXISTING_PACKAGE_PATH
++        else:
++            log.debug("\n Calling download_hplip_installer(...) \n")
++            log.debug("\n System Time : %s \n"%datetime.datetime.now().time().isoformat())
++
++            if not os.path.exists(PATH_TO_DOWNLOAD_INSTALLER):
++                log.error(log.bold("No such file or directory%s"%PATH_TO_DOWNLOAD_INSTALLER))
++                download_path = input(log.bold("Please specify the path to download. Press 'q' to quit:"))
++                if download_path == 'q':
++                    log.info("User selected to quit.")
++                    clean_exit(1)            
++                elif not os.path.exists(download_path):
++                    log.error(log.bold("Specified path does not exist. Exiting...%s\n"%download_path)) 
++                    clean_exit(1)
++                elif not os.access(download_path, os.R_OK | os.W_OK):
++                    log.error(log.bold("Specified path do not have enough permissions Exiting...%s\n"%download_path)) 
++                    clean_exit(1)          
++                else:
++                    PATH_TO_DOWNLOAD_INSTALLER = download_path
++            downloaded_file, digsig_file = download_hplip_installer(PATH_TO_DOWNLOAD_INSTALLER, HPLIP_latest_ver)
++
++
++        gpg_obj = validation.GPG_Verification()
++        digsig_sts, error_str = gpg_obj.validate(downloaded_file, digsig_file)
++
++        if digsig_sts != ERROR_SUCCESS:
++            if digsig_sts in  (ERROR_UNABLE_TO_RECV_KEYS, ERROR_DIGITAL_SIGN_NOT_FOUND, ERROR_DIGITAL_SIGN_BAD):
++                if not digital_signature_fail_confirmation(error_str):
++                    clean_exit(1)
++            else:
++                log.error(error_str)
++                clean_exit(1)
++
++
++        CURRENT_WORKING_DIR = os.getcwd()
++        os.chdir(PATH_TO_DOWNLOAD_INSTALLER)
++
++        # Installing hplip run.
++        cmd = "sh %s" %(downloaded_file)
++        log.debug("Upgrading  %s" % downloaded_file)
++
++        sts = os_utils.execute(cmd)
++        os.chdir(CURRENT_WORKING_DIR)
++
++        if sts == 0:
++            log.info(log.bold("Upgrade is Completed."))
++        else:
++            log.info(log.bold("Upgrade Failed or Skipped. status: %s"%sts))
++
++    change_spinner_state(True)
++    mod.unlockInstance()
++    hold_terminal()
++
++except KeyboardInterrupt:
++    if CURRENT_WORKING_DIR:
++        os.chdir(CURRENT_WORKING_DIR)
++
++    if not IS_QUIET_MODE:
++        log.error("User exit")
++
++    clean_exit(1)
++

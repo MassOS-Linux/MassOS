@@ -1,0 +1,1839 @@
+diff -aruN old/src/configure.ac new/src/configure.ac
+--- old/src/configure.ac	2021-07-22 16:50:07.000000000 +0100
++++ new/src/configure.ac	2021-12-30 13:30:32.691791881 +0000
+@@ -282,6 +282,11 @@
+ AC_SUBST(CRYPTO_IMPL_CFLAGS)
+ AC_SUBST(CRYPTO_IMPL_LIBS)
+ 
++if test "$CRYPTO_IMPL" = openssl; then
++   AC_CHECK_FUNCS(EVP_KDF_fetch)
++   AC_CHECK_FUNCS(OSSL_PROVIDER_load)
++fi
++
+ AC_ARG_WITH([prng-alg],
+ AC_HELP_STRING([--with-prng-alg=ALG], [use specified PRNG algorithm. @<:@fortuna@:>@]),
+ [PRNG_ALG=$withval
+@@ -1114,6 +1119,7 @@
+ ])], k5_cv_openssl_version_okay=yes, k5_cv_openssl_version_okay=no)])
+   old_LIBS="$LIBS"
+   AC_CHECK_LIB(crypto, PKCS7_get_signer_info)
++  AC_CHECK_FUNCS(EVP_PKEY_get_bn_param)
+   LIBS="$old_LIBS"
+ fi
+ if test "$k5_cv_openssl_version_okay" = yes && (test "$enable_pkinit" = yes || test "$enable_pkinit" = try); then
+diff -aruN old/src/kdc/do_tgs_req.c new/src/kdc/do_tgs_req.c
+--- old/src/kdc/do_tgs_req.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/kdc/do_tgs_req.c	2021-12-30 13:30:20.668747124 +0000
+@@ -208,6 +208,11 @@
+         goto cleanup;
+     }
+ 
++if (sprinc == NULL) {
++       status = "NULL_SERVER";
++       errcode = KRB5KDC_ERR_S_PRINCIPAL_UNKNOWN;
++       goto cleanup;
++       }
+     errcode = get_local_tgt(kdc_context, &sprinc->realm, header_server,
+                             &local_tgt, &local_tgt_storage, &local_tgt_key);
+     if (errcode) {
+diff -aruN old/src/lib/crypto/krb/derive.c new/src/lib/crypto/krb/derive.c
+--- old/src/lib/crypto/krb/derive.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/krb/derive.c	2021-12-30 13:30:32.691791881 +0000
+@@ -27,6 +27,12 @@
+ 
+ #include "crypto_int.h"
+ 
++#ifdef HAVE_EVP_KDF_FETCH
++#include <openssl/core_names.h>
++#include <openssl/evp.h>
++#include <openssl/kdf.h>
++#endif
++
+ static krb5_key
+ find_cached_dkey(struct derived_key *list, const krb5_data *constant)
+ {
+@@ -77,55 +83,251 @@
+     return ENOMEM;
+ }
+ 
++#ifdef HAVE_EVP_KDF_FETCH
+ static krb5_error_code
+-derive_random_rfc3961(const struct krb5_enc_provider *enc,
+-                      krb5_key inkey, krb5_data *outrnd,
+-                      const krb5_data *in_constant)
++openssl_kbdkf_counter_hmac(const struct krb5_hash_provider *hash,
++                           krb5_key inkey, krb5_data *outrnd,
++                           const krb5_data *label, const krb5_data *context)
+ {
+-    size_t blocksize, keybytes, n;
+     krb5_error_code ret;
+-    krb5_data block = empty_data();
++    EVP_KDF *kdf = NULL;
++    EVP_KDF_CTX *kctx = NULL;
++    OSSL_PARAM params[6];
++    size_t i = 0;
++    char *digest;
++
++    /* On NULL hash, preserve default behavior for pbkdf2_string_to_key() */
++    if (hash == NULL || !strcmp(hash->hash_name, "SHA1")) {
++       digest = "SHA1";
++    } else if (!strcmp(hash->hash_name, "SHA-256")) {
++       digest = "SHA256";
++    } else if (!strcmp(hash->hash_name, "SHA-384")) {
++       digest = "SHA384";
++    } else {
++       ret = KRB5_CRYPTO_INTERNAL;
++       goto done;
++    }
+ 
+-    blocksize = enc->block_size;
+-    keybytes = enc->keybytes;
++    kdf = EVP_KDF_fetch(NULL, "KBKDF", NULL);
++    if (!kdf) {
++       ret = KRB5_CRYPTO_INTERNAL;
++       goto done;
++    }
+ 
+-    if (blocksize == 1)
+-        return KRB5_BAD_ENCTYPE;
+-    if (inkey->keyblock.length != enc->keylength || outrnd->length != keybytes)
+-        return KRB5_CRYPTO_INTERNAL;
++    kctx = EVP_KDF_CTX_new(kdf);
++    if (!kctx) {
++       ret = KRB5_CRYPTO_INTERNAL;
++       goto done;
++    }
+ 
+-    /* Allocate encryption data buffer. */
+-    ret = alloc_data(&block, blocksize);
++    params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_DIGEST,
++                                                   digest, 0);
++    params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_MAC,
++                                                   digest, 0);
++    params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_KEY,
++                                                    inkey->keyblock.contents,
++                                                    inkey->keyblock.length);
++    params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_INFO,
++                                                    context->data,
++                                                    context->length);
++    params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_SALT,
++                                                    label->data,
++                                                    label->length);
++    params[i] = OSSL_PARAM_construct_end();
++    if (EVP_KDF_derive(kctx, (unsigned char *)outrnd->data, outrnd->length,
++                       params) <= 0) {
++        ret = KRB5_CRYPTO_INTERNAL;
++        goto done;
++    }
++
++    ret = 0;
++done:
+     if (ret)
+-        return ret;
++       zap(outrnd->data, outrnd->length);
++    EVP_KDF_free(kdf);
++    EVP_KDF_CTX_free(kctx);
++    return ret;
++}
+ 
+-    /* Initialize the input block. */
+-    if (in_constant->length == blocksize) {
+-        memcpy(block.data, in_constant->data, blocksize);
+-    } else {
+-        krb5int_nfold(in_constant->length * 8,
+-                      (unsigned char *) in_constant->data,
+-                      blocksize * 8, (unsigned char *) block.data);
+-    }
++static krb5_error_code
++openssl_kbkdf_feedback_cmac(const struct krb5_enc_provider *enc,
++                            krb5_key inkey, krb5_data *outrnd,
++                            const krb5_data *in_constant)
++{
++   krb5_error_code ret;
++   EVP_KDF *kdf = NULL;
++   EVP_KDF_CTX *kctx = NULL;
++   OSSL_PARAM params[7];
++   size_t i = 0;
++   char *cipher;
++   static unsigned char zeroes[16];
++
++   memset(zeroes, 0, sizeof(zeroes));
++
++   if (!memcmp(enc, &krb5int_enc_camellia128, sizeof(*enc))) {
++      cipher = "CAMELLIA-128-CBC";
++   } else if (!memcmp(enc, &krb5int_enc_camellia256, sizeof(*enc))) {
++      cipher = "CAMELLIA-256-CBC";
++   } else {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   kdf = EVP_KDF_fetch(NULL, "KBKDF", NULL);
++   if (!kdf) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   kctx = EVP_KDF_CTX_new(kdf);
++   if (!kctx) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_MODE,
++                                                  "FEEDBACK", 0);
++   params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_MAC,
++                                                  "CMAC", 0);
++   params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_CIPHER,
++                                                  cipher, 0);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_KEY,
++                                                   inkey->keyblock.contents,
++                                                   inkey->keyblock.length);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_SALT,
++                                                   in_constant->data,
++                                                   in_constant->length);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_SEED,
++                                                   zeroes, sizeof(zeroes));
++   params[i] = OSSL_PARAM_construct_end();
++   if (EVP_KDF_derive(kctx, (unsigned char *)outrnd->data, outrnd->length,
++                      params) <= 0) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   ret = 0;
++done:
++   if (ret)
++      zap(outrnd->data, outrnd->length);
++   EVP_KDF_free(kdf);
++   EVP_KDF_CTX_free(kctx);
++   return ret;
++}
+ 
+-    /* Loop encrypting the blocks until enough key bytes are generated. */
+-    n = 0;
+-    while (n < keybytes) {
+-        ret = encrypt_block(enc, inkey, &block);
+-        if (ret)
+-            goto cleanup;
++static krb5_error_code
++openssl_krb5kdf(const struct krb5_enc_provider *enc, krb5_key inkey,
++                krb5_data *outrnd, const krb5_data *in_constant)
++{
++   krb5_error_code ret;
++   EVP_KDF *kdf = NULL;
++   EVP_KDF_CTX *kctx = NULL;
++   OSSL_PARAM params[4];
++   size_t i = 0;
++   char *cipher;
++
++   if (inkey->keyblock.length != enc->keylength ||
++       outrnd->length != enc->keybytes) {
++       return KRB5_CRYPTO_INTERNAL;
++   }
++
++   if (!memcmp(enc, &krb5int_enc_aes128, sizeof(*enc))) {
++      cipher = "AES-128-CBC";
++   } else if (!memcmp(enc, &krb5int_enc_aes256, sizeof(*enc))) {
++      cipher = "AES-256-CBC";
++   } else {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   kdf = EVP_KDF_fetch(NULL, "KRB5KDF", NULL);
++   if (kdf == NULL) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   kctx = EVP_KDF_CTX_new(kdf);
++   if (kctx == NULL) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_CIPHER,
++                                                  cipher, 0);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_KEY,
++                                                   inkey->keyblock.contents,
++                                                   inkey->keyblock.length);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_CONSTANT,
++                                                   in_constant->data,
++                                                   in_constant->length);
++   params[i] = OSSL_PARAM_construct_end();
++   if (EVP_KDF_derive(kctx, (unsigned char *)outrnd->data, outrnd->length,
++                      params) <= 0) {
++      ret = KRB5_CRYPTO_INTERNAL;
++      goto done;
++   }
++
++   ret = 0;
++done:
++   if (ret)
++      zap(outrnd->data, outrnd->length);
++   EVP_KDF_free(kdf);
++   EVP_KDF_CTX_free(kctx);
++   return ret;
++}
+ 
+-        if ((keybytes - n) <= blocksize) {
+-            memcpy(outrnd->data + n, block.data, (keybytes - n));
+-            break;
+-        }
++#else /* HAVE_EVP_KDF_FETCH */
+ 
+-        memcpy(outrnd->data + n, block.data, blocksize);
+-        n += blocksize;
+-    }
++/*
++ * NIST SP800-108 KDF in counter mode (section 5.1).
++ * Parameters:
++ *    - HMAC (with hash as the hash provider) is the PRF.
++ *    - A block counter of four bytes is used.
++ *    - Four bytes are used to encode the output length in the PRF input.
++ *
++ * There are no uses requiring more than a single PRF invocation.
++ */
++static krb5_error_code
++builtin_sp800_108_counter_hmac(const struct krb5_hash_provider *hash,
++                               krb5_key inkey, krb5_data *outrnd,
++                               const krb5_data *label,
++                               const krb5_data *context)
++{
++   krb5_crypto_iov iov[5];
++   krb5_error_code ret;
++   krb5_data prf;
++   unsigned char ibuf[4], lbuf[4];
+ 
+-cleanup:
+-    zapfree(block.data, blocksize);
++   if (hash == NULL || outrnd->length > hash->hashsize)
++        return KRB5_CRYPTO_INTERNAL;
++
++    /* Allocate encryption data buffer. */
++    ret = alloc_data(&prf, hash->hashsize);
++    if (ret)
++        return ret;
++
++    /* [i]2: four-byte big-endian binary string giving the block counter (1) */
++    iov[0].flags = KRB5_CRYPTO_TYPE_DATA;
++    iov[0].data = make_data(ibuf, sizeof(ibuf));
++    store_32_be(1, ibuf);
++    /* Label */
++    iov[1].flags = KRB5_CRYPTO_TYPE_DATA;
++    iov[1].data = *label;
++    /* 0x00: separator byte */
++    iov[2].flags = KRB5_CRYPTO_TYPE_DATA;
++    iov[2].data = make_data("", 1);
++    /* Context */
++    iov[3].flags = KRB5_CRYPTO_TYPE_DATA;
++    iov[3].data = *context;
++    /* [L]2: four-byte big-endian binary string giving the output length */
++    iov[4].flags = KRB5_CRYPTO_TYPE_DATA;
++    iov[4].data = make_data(lbuf, sizeof(lbuf));
++    store_32_be(outrnd->length * 8, lbuf);
++
++    ret = krb5int_hmac(hash, inkey, iov, 5, &prf);
++    if (!ret)
++       memcpy(outrnd->data, prf.data, outrnd->length);
++    zapfree(prf.data, prf.length);
+     return ret;
+ }
+ 
+@@ -139,9 +341,9 @@
+  *   - Four bytes are used to encode the output length in the PRF input.
+  */
+ static krb5_error_code
+-derive_random_sp800_108_feedback_cmac(const struct krb5_enc_provider *enc,
+-                                      krb5_key inkey, krb5_data *outrnd,
+-                                      const krb5_data *in_constant)
++builtin_sp800_108_feedback_cmac(const struct krb5_enc_provider *enc,
++                                krb5_key inkey, krb5_data *outrnd,
++                                const krb5_data *in_constant)
+ {
+     size_t blocksize, keybytes, n;
+     krb5_crypto_iov iov[6];
+@@ -204,56 +406,93 @@
+     return ret;
+ }
+ 
+-/*
+- * NIST SP800-108 KDF in counter mode (section 5.1).
+- * Parameters:
+- *   - HMAC (with hash as the hash provider) is the PRF.
+- *   - A block counter of four bytes is used.
+- *   - Four bytes are used to encode the output length in the PRF input.
+- *
+- * There are no uses requiring more than a single PRF invocation.
+- */
++static krb5_error_code
++builtin_derive_random_rfc3961(const struct krb5_enc_provider *enc,
++                              krb5_key inkey, krb5_data *outrnd,
++                              const krb5_data *in_constant)
++{
++   size_t blocksize, keybytes, n;
++   krb5_error_code ret;
++   krb5_data block = empty_data();
++
++   blocksize = enc->block_size;
++   keybytes = enc->keybytes;
++
++   if (blocksize == 1)
++      return KRB5_BAD_ENCTYPE;
++   if (inkey->keyblock.length != enc->keylength || outrnd->length != keybytes)
++      return KRB5_CRYPTO_INTERNAL;
++
++   /* Allocate encryption data buffer. */
++   ret = alloc_data(&block, blocksize);
++   if (ret)
++      return ret;
++
++   /* Initialize the input block. */
++   if (in_constant->length == blocksize) {
++      memcpy(block.data, in_constant->data, blocksize);
++   } else {
++      krb5int_nfold(in_constant->length * 8,
++                    (unsigned char *) in_constant->data,
++                    blocksize * 8, (unsigned char *) block.data);
++   }
++
++   /* Loop encrypting the blocks until enough key bytes are generated. */
++   n = 0;
++   while (n < keybytes) {
++      ret = encrypt_block(enc, inkey, &block);
++      if (ret)
++         goto cleanup;
++
++      if ((keybytes - n) <= blocksize) {
++         memcpy(outrnd->data + n, block.data, (keybytes - n));
++         break;
++      }
++
++      memcpy(outrnd->data + n, block.data, blocksize);
++      n += blocksize;
++   }
++
++cleanup:
++   zapfree(block.data, blocksize);
++   return ret;
++}
++#endif /* HAVE_EVP_KDF_FETCH */
++
+ krb5_error_code
+ k5_sp800_108_counter_hmac(const struct krb5_hash_provider *hash,
+                           krb5_key inkey, krb5_data *outrnd,
+                           const krb5_data *label, const krb5_data *context)
+ {
+-    krb5_crypto_iov iov[5];
+-    krb5_error_code ret;
+-    krb5_data prf;
+-    unsigned char ibuf[4], lbuf[4];
+-
+-    if (hash == NULL || outrnd->length > hash->hashsize)
+-        return KRB5_CRYPTO_INTERNAL;
+-
+-    /* Allocate encryption data buffer. */
+-    ret = alloc_data(&prf, hash->hashsize);
+-    if (ret)
+-        return ret;
++#ifdef HAVE_EVP_KDF_FETCH
++    return openssl_kbdkf_counter_hmac(hash, inkey, outrnd, label, context);
++#else
++    return builtin_sp800_108_counter_hmac(hash, inkey, outrnd, label, context);
++#endif
++}
+ 
+-    /* [i]2: four-byte big-endian binary string giving the block counter (1) */
+-    iov[0].flags = KRB5_CRYPTO_TYPE_DATA;
+-    iov[0].data = make_data(ibuf, sizeof(ibuf));
+-    store_32_be(1, ibuf);
+-    /* Label */
+-    iov[1].flags = KRB5_CRYPTO_TYPE_DATA;
+-    iov[1].data = *label;
+-    /* 0x00: separator byte */
+-    iov[2].flags = KRB5_CRYPTO_TYPE_DATA;
+-    iov[2].data = make_data("", 1);
+-    /* Context */
+-    iov[3].flags = KRB5_CRYPTO_TYPE_DATA;
+-    iov[3].data = *context;
+-    /* [L]2: four-byte big-endian binary string giving the output length */
+-    iov[4].flags = KRB5_CRYPTO_TYPE_DATA;
+-    iov[4].data = make_data(lbuf, sizeof(lbuf));
+-    store_32_be(outrnd->length * 8, lbuf);
++static krb5_error_code
++sp800_108_feedback_cmac(const struct krb5_enc_provider *enc,
++                        krb5_key inkey, krb5_data *outrnd,
++                        const krb5_data *in_constant)
++{
++#ifdef HAVE_EVP_KDF_FETCH
++   return openssl_kbkdf_feedback_cmac(enc, inkey, outrnd, in_constant);
++#else
++   return builtin_sp800_108_feedback_cmac(enc, inkey, outrnd, in_constant);
++#endif
++}
+ 
+-    ret = krb5int_hmac(hash, inkey, iov, 5, &prf);
+-    if (!ret)
+-        memcpy(outrnd->data, prf.data, outrnd->length);
+-    zapfree(prf.data, prf.length);
+-    return ret;
++static krb5_error_code
++derive_random_rfc3961(const struct krb5_enc_provider *enc,
++                      krb5_key inkey, krb5_data *outrnd,
++                      const krb5_data *in_constant)
++{
++#ifdef HAVE_EVP_KDF_FETCH
++   return openssl_krb5kdf(enc, inkey, outrnd, in_constant);
++#else
++   return builtin_derive_random_rfc3961(enc, inkey, outrnd, in_constant);
++#endif
+ }
+ 
+ krb5_error_code
+@@ -268,8 +507,7 @@
+     case DERIVE_RFC3961:
+         return derive_random_rfc3961(enc, inkey, outrnd, in_constant);
+     case DERIVE_SP800_108_CMAC:
+-        return derive_random_sp800_108_feedback_cmac(enc, inkey, outrnd,
+-                                                     in_constant);
++        return sp800_108_feedback_cmac(enc, inkey, outrnd, in_constant);
+     case DERIVE_SP800_108_HMAC:
+         return k5_sp800_108_counter_hmac(hash, inkey, outrnd, in_constant,
+                                          &empty);
+diff -aruN old/src/lib/crypto/openssl/enc_provider/aes.c new/src/lib/crypto/openssl/enc_provider/aes.c
+--- old/src/lib/crypto/openssl/enc_provider/aes.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/openssl/enc_provider/aes.c	2021-12-30 13:30:32.691791881 +0000
+@@ -68,6 +68,10 @@
+     EVP_CIPHER_CTX  *ctx;
+     struct iov_cursor cursor;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     ctx = EVP_CIPHER_CTX_new();
+     if (ctx == NULL)
+         return ENOMEM;
+@@ -102,6 +106,10 @@
+     EVP_CIPHER_CTX   *ctx;
+     struct iov_cursor cursor;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     ctx = EVP_CIPHER_CTX_new();
+     if (ctx == NULL)
+         return ENOMEM;
+@@ -137,6 +145,10 @@
+     struct iov_cursor      cursor;
+     AES_KEY                enck;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     memset(iv_cts,0,sizeof(iv_cts));
+     if (ivec && ivec->data){
+         if (ivec->length != sizeof(iv_cts))
+@@ -190,6 +202,10 @@
+     struct iov_cursor      cursor;
+     AES_KEY                deck;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     memset(iv_cts,0,sizeof(iv_cts));
+     if (ivec && ivec->data){
+         if (ivec->length != sizeof(iv_cts))
+diff -aruN old/src/lib/crypto/openssl/enc_provider/camellia.c new/src/lib/crypto/openssl/enc_provider/camellia.c
+--- old/src/lib/crypto/openssl/enc_provider/camellia.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/openssl/enc_provider/camellia.c	2021-12-30 13:30:32.695125135 +0000
+@@ -92,6 +92,10 @@
+     EVP_CIPHER_CTX  *ctx;
+     struct iov_cursor cursor;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     ctx = EVP_CIPHER_CTX_new();
+     if (ctx == NULL)
+         return ENOMEM;
+@@ -126,6 +130,9 @@
+     EVP_CIPHER_CTX   *ctx;
+     struct iov_cursor cursor;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
+     ctx = EVP_CIPHER_CTX_new();
+     if (ctx == NULL)
+         return ENOMEM;
+@@ -161,6 +168,10 @@
+     struct iov_cursor      cursor;
+     CAMELLIA_KEY           enck;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     memset(iv_cts,0,sizeof(iv_cts));
+     if (ivec && ivec->data){
+         if (ivec->length != sizeof(iv_cts))
+@@ -214,6 +225,10 @@
+     struct iov_cursor      cursor;
+     CAMELLIA_KEY           deck;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     memset(iv_cts,0,sizeof(iv_cts));
+     if (ivec && ivec->data){
+         if (ivec->length != sizeof(iv_cts))
+diff -aruN old/src/lib/crypto/openssl/enc_provider/rc4.c new/src/lib/crypto/openssl/enc_provider/rc4.c
+--- old/src/lib/crypto/openssl/enc_provider/rc4.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/openssl/enc_provider/rc4.c	2021-12-30 13:30:32.695125135 +0000
+@@ -66,6 +66,10 @@
+     EVP_CIPHER_CTX *ctx = NULL;
+     struct arcfour_state *arcstate;
+ 
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
++
+     arcstate = (state != NULL) ? (void *)state->data : NULL;
+     if (arcstate != NULL) {
+         ctx = arcstate->ctx;
+diff -aruN old/src/lib/crypto/openssl/hash_provider/hash_evp.c new/src/lib/crypto/openssl/hash_provider/hash_evp.c
+--- old/src/lib/crypto/openssl/hash_provider/hash_evp.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/openssl/hash_provider/hash_evp.c	2021-12-30 13:30:32.695125135 +0000
+@@ -41,6 +41,11 @@
+     const krb5_data *d;
+     size_t i;
+     int ok;
++    krb5_error_code ret;
++
++    ret = krb5int_crypto_init();
++    if (ret)
++       return ret;
+ 
+     if (output->length != (unsigned int)EVP_MD_size(type))
+         return KRB5_CRYPTO_INTERNAL;
+diff -aruN old/src/lib/crypto/openssl/init.c new/src/lib/crypto/openssl/init.c
+--- old/src/lib/crypto/openssl/init.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/lib/crypto/openssl/init.c	2021-12-30 13:30:32.695125135 +0000
+@@ -26,12 +26,62 @@
+ 
+ #include "crypto_int.h"
+ 
++#ifdef HAVE_OSSL_PROVIDER_LOAD
++
++/*
++ * Starting in OpenSSL 3, algorithms are grouped into containers called
++ * "providers", not all of which are loaded by default. At time of writing,
++ * we need MD4 and RC4 from the legacy provider. Oddly, 3DES is not in
++ * legacy.
++ */
++#include <openssl/provider.h>
++
++static OSSL_PROVIDER *legacy_provider = NULL;
++static OSSL_PROVIDER *default_provider = NULL;
++
++static void
++unload_providers(void)
++{
++   if (default_provider != NULL)
++      (void)OSSL_PROVIDER_unload(default_provider);
++   if (legacy_provider != NULL)
++      (void)OSSL_PROVIDER_unload(legacy_provider);
++   default_provider = NULL;
++   legacy_provider = NULL;
++}
++
++int
++krb5int_crypto_impl_init(void)
++{
++   legacy_provider = OSSL_PROVIDER_load(NULL, "legacy");
++   default_provider = OSSL_PROVIDER_load(NULL, "default");
++
++   /*
++    * Someone might build OpenSSL without the legacy provider. They will
++    * have a bad time, but some things will still work. I don't know think
++    * this configuration is worth supporting.
++    */
++   if (legacy_provider == NULL || default_provider == NULL)
++      abort();
++
++   /*
++    * If we attempt to do this with our normal LIBFINIFUNC logic (DT_FINI),
++    * OpenSSL will have cleaned itself up by the time we're invoked. OpenSSL
++    * registers its cleanup (OPENSSL_cleanup) with atexit() - do the same and
++    * we'll be higher on the stack.
++    */
++   atexit(unload_providers);
++   return 0;
++}
++
++#else /* !HAVE_OSSL_PROVIDER_LOAD */
+ int
+ krb5int_crypto_impl_init(void)
+ {
+     return 0;
+ }
+ 
++#endif
+ void
+ krb5int_crypto_impl_cleanup(void)
+ {
+diff -aruN old/src/plugins/kdb/db2/libdb2/test/run.test new/src/plugins/kdb/db2/libdb2/test/run.test
+--- old/src/plugins/kdb/db2/libdb2/test/run.test	2021-07-22 16:50:07.000000000 +0100
++++ new/src/plugins/kdb/db2/libdb2/test/run.test	2021-12-30 13:31:18.470705828 +0000
+@@ -38,7 +38,7 @@
+ 	find $bindir -type f -exec test -r {} \; -print | head -100 > $BINFILES
+ 
+ 	if [ $# -eq 0 ]; then
+-		for t in 1 2 3 4 5 6 7 8 9 10 11 12 13 20 40 41 50 60 61 62 63; do
++		for t in 1 2 3 4 5 6 7 8 9 10 11 13 20 40 41 50 60 61 62 63; do
+ 			test$t
+ 		done
+ 	else
+diff -aruN old/src/plugins/preauth/pkinit/Makefile.in new/src/plugins/preauth/pkinit/Makefile.in
+--- old/src/plugins/preauth/pkinit/Makefile.in	2021-07-22 16:50:07.000000000 +0100
++++ new/src/plugins/preauth/pkinit/Makefile.in	2021-12-30 13:30:32.698458388 +0000
+@@ -5,6 +5,7 @@
+ LIBBASE=pkinit
+ LIBMAJOR=0
+ LIBMINOR=0
++LIBINITFUNC=pkinit_openssl_init
+ RELDIR=../plugins/preauth/pkinit
+ # Depends on libk5crypto and libkrb5
+ SHLIB_EXPDEPS = \
+diff -aruN old/src/plugins/preauth/pkinit/pkinit_crypto_openssl.c new/src/plugins/preauth/pkinit/pkinit_crypto_openssl.c
+--- old/src/plugins/preauth/pkinit/pkinit_crypto_openssl.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/plugins/preauth/pkinit/pkinit_crypto_openssl.c	2021-12-30 13:30:32.698458388 +0000
+@@ -38,6 +38,19 @@
+ #include <dirent.h>
+ #include <arpa/inet.h>
+ 
++#ifdef HAVE_EVP_KDF_FETCH
++#include <openssl/core_names.h>
++#include <openssl/kdf.h>
++#include <openssl/params.h>
++#endif
++
++#ifdef HAVE_OSSL_PROVIDER_LOAD
++#include <openssl/provider.h>
++
++static OSSL_PROVIDER *legacy_provider = NULL;
++static OSSL_PROVIDER *default_provider = NULL;
++#endif
++
+ static krb5_error_code pkinit_init_pkinit_oids(pkinit_plg_crypto_context );
+ static void pkinit_fini_pkinit_oids(pkinit_plg_crypto_context );
+ 
+@@ -2294,15 +2307,16 @@
+ }
+ 
+ 
+-/**
++/*
+  * Given an algorithm_identifier, this function returns the hash length
+  * and EVP function associated with that algorithm.
++ *
++ * RFC 8636 defines a SHA384 variant, but we don't use it.
+  */
+ static krb5_error_code
+-pkinit_alg_values(krb5_context context,
+-                  const krb5_data *alg_id,
+-                  size_t *hash_bytes,
+-                  const EVP_MD *(**func)(void))
++pkinit_alg_values(krb5_context context, const krb5_data *alg_id,
++                  size_t *hash_bytes, const EVP_MD *(**func)(void),
++                  char **hash_name)
+ {
+     *hash_bytes = 0;
+     *func = NULL;
+@@ -2311,18 +2325,21 @@
+                      krb5_pkinit_sha1_oid_len))) {
+         *hash_bytes = 20;
+         *func = &EVP_sha1;
++        *hash_name = strdup("SHA1");
+         return 0;
+     } else if ((alg_id->length == krb5_pkinit_sha256_oid_len) &&
+                (0 == memcmp(alg_id->data, krb5_pkinit_sha256_oid,
+                             krb5_pkinit_sha256_oid_len))) {
+         *hash_bytes = 32;
+         *func = &EVP_sha256;
++        *hash_name = strdup("SHA256");
+         return 0;
+     } else if ((alg_id->length == krb5_pkinit_sha512_oid_len) &&
+                (0 == memcmp(alg_id->data, krb5_pkinit_sha512_oid,
+                             krb5_pkinit_sha512_oid_len))) {
+         *hash_bytes = 64;
+         *func = &EVP_sha512;
++        *hash_name = strdup("SHA512");
+         return 0;
+     } else {
+         krb5_set_error_message(context, KRB5_ERR_BAD_S2K_PARAMS,
+@@ -2331,11 +2348,60 @@
+     }
+ } /* pkinit_alg_values() */
+ 
+-
+-/* pkinit_alg_agility_kdf() --
+- * This function generates a key using the KDF described in
+- * draft_ietf_krb_wg_pkinit_alg_agility-04.txt.  The algorithm is
+- * described as follows:
++#ifdef HAVE_EVP_KDF_FETCH
++static krb5_error_code
++openssl_sskdf(krb5_context context, size_t hash_bytes, krb5_data *key,
++              krb5_data *info, char *out, size_t out_len, char *digest)
++{
++   krb5_error_code ret;
++   EVP_KDF *kdf = NULL;
++   EVP_KDF_CTX *kctx = NULL;
++   OSSL_PARAM params[4];
++   size_t i = 0;
++
++   if (digest == NULL) {
++      ret = oerr(context, ENOMEM,
++                 _("Failed to allocate space for digest algorithm name"));
++      goto done;
++   }
++
++   kdf = EVP_KDF_fetch(NULL, "SSKDF", NULL);
++   if (kdf == NULL) {
++      ret = oerr(context, KRB5_CRYPTO_INTERNAL, _("Failed to fetch SSKDF"));
++      goto done;
++   }
++
++   kctx = EVP_KDF_CTX_new(kdf);
++   if (!kctx) {
++      ret = oerr(context, KRB5_CRYPTO_INTERNAL,
++                 _("Failed to instantiate SSKDF"));
++      goto done;
++   }
++
++   params[i++] = OSSL_PARAM_construct_utf8_string(OSSL_KDF_PARAM_DIGEST,
++                                                  digest, 0);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_KEY,
++                                                   key->data, key->length);
++   params[i++] = OSSL_PARAM_construct_octet_string(OSSL_KDF_PARAM_INFO,
++                                                   info->data, info->length);
++   params[i] = OSSL_PARAM_construct_end();
++   if (EVP_KDF_derive(kctx, (unsigned char *)out, out_len, params) <= 0) {
++      ret = oerr(context, KRB5_CRYPTO_INTERNAL,
++                 _("Failed to derive key using SSKDF"));
++      goto done;
++   }
++
++   ret = 0;
++done:
++   EVP_KDF_free(kdf);
++   EVP_KDF_CTX_free(kctx);
++   return ret;
++}
++#else
++/*
++ * Generate a key using the KDF described in RFC 8636, also known as SSKDF
++ * (aingle-step kdf). Our caller precomputes 'reps', but otherwise the algorithm
++ * is as follows:
+  *
+  *     1.  reps = keydatalen (K) / hash length (H)
+  *
+@@ -2349,95 +2415,15 @@
+  *
+  *     4.  Set key = Hash1 || Hash2 || ... so that length of key is K bytes.
+  */
+-krb5_error_code
+-pkinit_alg_agility_kdf(krb5_context context,
+-                       krb5_data *secret,
+-                       krb5_data *alg_oid,
+-                       krb5_const_principal party_u_info,
+-                       krb5_const_principal party_v_info,
+-                       krb5_enctype enctype,
+-                       krb5_data *as_req,
+-                       krb5_data *pk_as_rep,
+-                       krb5_keyblock *key_block)
++static krb5_error_code
++builtin_sskdf(krb5_context context, unsigned int reps, size_t hash_len,
++              const EVP_MD *(*EVP_func)(void), krb5_data *secret,
++              krb5_data *other_info, char *out, size_t out_len)
+ {
+-    krb5_error_code retval = 0;
+-
+-    unsigned int reps = 0;
+-    uint32_t counter = 1;       /* Does this type work on Windows? */
++    krb5_error_code ret = 0;
+     size_t offset = 0;
+-    size_t hash_len = 0;
+-    size_t rand_len = 0;
+-    size_t key_len = 0;
+-    krb5_data random_data;
+-    krb5_sp80056a_other_info other_info_fields;
+-    krb5_pkinit_supp_pub_info supp_pub_info_fields;
+-    krb5_data *other_info = NULL;
+-    krb5_data *supp_pub_info = NULL;
+-    krb5_algorithm_identifier alg_id;
++    uint32_t counter = 1;
+     EVP_MD_CTX *ctx = NULL;
+-    const EVP_MD *(*EVP_func)(void);
+-
+-    /* initialize random_data here to make clean-up safe */
+-    random_data.length = 0;
+-    random_data.data = NULL;
+-
+-    /* allocate and initialize the key block */
+-    key_block->magic = 0;
+-    key_block->enctype = enctype;
+-    if (0 != (retval = krb5_c_keylengths(context, enctype, &rand_len,
+-                                         &key_len)))
+-        goto cleanup;
+-
+-    random_data.length = rand_len;
+-    key_block->length = key_len;
+-
+-    if (NULL == (key_block->contents = malloc(key_block->length))) {
+-        retval = ENOMEM;
+-        goto cleanup;
+-    }
+-
+-    memset (key_block->contents, 0, key_block->length);
+-
+-    /* If this is anonymous pkinit, use the anonymous principle for party_u_info */
+-    if (party_u_info && krb5_principal_compare_any_realm(context, party_u_info,
+-                                                         krb5_anonymous_principal()))
+-        party_u_info = (krb5_principal)krb5_anonymous_principal();
+-
+-    if (0 != (retval = pkinit_alg_values(context, alg_oid, &hash_len, &EVP_func)))
+-        goto cleanup;
+-
+-    /* 1.  reps = keydatalen (K) / hash length (H) */
+-    reps = key_block->length/hash_len;
+-
+-    /* ... and round up, if necessary */
+-    if (key_block->length > (reps * hash_len))
+-        reps++;
+-
+-    /* Allocate enough space in the random data buffer to hash directly into
+-     * it, even if the last hash will make it bigger than the key length. */
+-    if (NULL == (random_data.data = malloc(reps * hash_len))) {
+-        retval = ENOMEM;
+-        goto cleanup;
+-    }
+-
+-    /* Encode the ASN.1 octet string for "SuppPubInfo" */
+-    supp_pub_info_fields.enctype = enctype;
+-    supp_pub_info_fields.as_req = *as_req;
+-    supp_pub_info_fields.pk_as_rep = *pk_as_rep;
+-    if (0 != ((retval = encode_krb5_pkinit_supp_pub_info(&supp_pub_info_fields,
+-                                                         &supp_pub_info))))
+-        goto cleanup;
+-
+-    /* Now encode the ASN.1 octet string for "OtherInfo" */
+-    memset(&alg_id, 0, sizeof alg_id);
+-    alg_id.algorithm = *alg_oid; /*alias*/
+-
+-    other_info_fields.algorithm_identifier = alg_id;
+-    other_info_fields.party_u_info = (krb5_principal) party_u_info;
+-    other_info_fields.party_v_info = (krb5_principal) party_v_info;
+-    other_info_fields.supp_pub_info = *supp_pub_info;
+-    if (0 != (retval = encode_krb5_sp80056a_other_info(&other_info_fields, &other_info)))
+-        goto cleanup;
+ 
+     /* 2.  Initialize a 32-bit, big-endian bit string counter as 1.
+      * 3.  For i = 1 to reps by 1, do the following:
+@@ -2450,7 +2436,7 @@
+ 
+         ctx = EVP_MD_CTX_new();
+         if (ctx == NULL) {
+-            retval = KRB5_CRYPTO_INTERNAL;
++            ret = KRB5_CRYPTO_INTERNAL;
+             goto cleanup;
+         }
+ 
+@@ -2458,7 +2444,7 @@
+         if (!EVP_DigestInit(ctx, EVP_func())) {
+             krb5_set_error_message(context, KRB5_CRYPTO_INTERNAL,
+                                    "Call to OpenSSL EVP_DigestInit() returned an error.");
+-            retval = KRB5_CRYPTO_INTERNAL;
++            ret = KRB5_CRYPTO_INTERNAL;
+             goto cleanup;
+         }
+ 
+@@ -2467,15 +2453,16 @@
+             !EVP_DigestUpdate(ctx, other_info->data, other_info->length)) {
+             krb5_set_error_message(context, KRB5_CRYPTO_INTERNAL,
+                                    "Call to OpenSSL EVP_DigestUpdate() returned an error.");
+-            retval = KRB5_CRYPTO_INTERNAL;
++            ret = KRB5_CRYPTO_INTERNAL;
+             goto cleanup;
+         }
+ 
+-        /* 4.  Set key = Hash1 || Hash2 || ... so that length of key is K bytes. */
+-        if (!EVP_DigestFinal(ctx, (uint8_t *)random_data.data + offset, &s)) {
++        /* 4.  Set key = Hash1 || Hash2 || ... so that length of key is K 
++         * bytes. */
++        if (!EVP_DigestFinal(ctx, (unsigned char *)out + offset, &s)) {
+             krb5_set_error_message(context, KRB5_CRYPTO_INTERNAL,
+                                    "Call to OpenSSL EVP_DigestUpdate() returned an error.");
+-            retval = KRB5_CRYPTO_INTERNAL;
++            ret = KRB5_CRYPTO_INTERNAL;
+             goto cleanup;
+         }
+         offset += s;
+@@ -2485,25 +2472,114 @@
+         ctx = NULL;
+     }
+ 
+-    retval = krb5_c_random_to_key(context, enctype, &random_data,
+-                                  key_block);
+-
+ cleanup:
+     EVP_MD_CTX_free(ctx);
++    return ret;
++} /* builtin_sskdf() */
++#endif /* HAVE_EVP_KDF_FETCH */
+ 
+-    /* If this has been an error, free the allocated key_block, if any */
+-    if (retval) {
+-        krb5_free_keyblock_contents(context, key_block);
+-    }
++/* id-pkinit-kdf family, as specified by RFC 8636 */
++krb5_error_code
++pkinit_alg_agility_kdf(krb5_context context, krb5_data *secret,
++                       krb5_data *alg_oid, krb5_const_principal party_u_info,
++                       krb5_const_principal party_v_info,
++                       krb5_enctype enctype, krb5_data *as_req,
++                       krb5_data *pk_as_rep, krb5_keyblock *key_block)
++{
++   krb5_error_code ret;
++   size_t hash_len = 0, rand_len = 0, key_len = 0;
++   const EVP_MD *(*EVP_func)(void);
++   krb5_sp80056a_other_info other_info_fields;
++   krb5_pkinit_supp_pub_info supp_pub_info_fields;
++   krb5_data *other_info = NULL, *supp_pub_info = NULL;
++   krb5_data random_data = empty_data();
++   krb5_algorithm_identifier alg_id;
++   unsigned int reps;
++   char *hash_name = NULL;
++
++   /* Allocate and initialize the key block */
++   key_block->magic = 0;
++   key_block->enctype = enctype;
++
++   /* Use separate variables to avoid alignment restriction problems. */
++   ret = krb5_c_keylengths(context, enctype, &rand_len, &key_len);
++   if (ret)
++      goto cleanup;
++   random_data.length = rand_len;
++   key_block->length = key_len;
++
++   key_block->contents = k5calloc(key_block->length, 1, &ret);
++   if (key_block->contents == NULL)
++      goto cleanup;
++
++   /* If this is anonymous pkinit, use the anonymous principle for
++    * party_u_info. */
++   if (party_u_info &&
++       krb5_principal_compare_any_realm(context, party_u_info,
++                                        krb5_anonymous_principal())) {
++      party_u_info = (krb5_principal)krb5_anonymous_principal();
++    }
++
++    ret = pkinit_alg_values(context, alg_oid, &hash_len, &EVP_func,
++                            &hash_name);
++    if (ret)
++       goto cleanup;
++
++    /* 1. reps = keydatalen (K) / hash length (H) */
++    reps = key_block->length / hash_len;
++
++    /* ... and round up, if necessary. */
++    if (key_block->length > (reps * hash_len))
++       reps++;
++
++    /* Allocate enough space in the random data buffer to hash directly into
++     * it, even if the last hash will make it bigger than the key length. */
++    random_data.data = k5alloc(reps * hash_len, &ret);
++    if (random_data.data == NULL)
++       goto cleanup;
++
++    /* Encode the ASN.1 octet string for "SuppPubInfo". */
++    supp_pub_info_fields.enctype = enctype;
++    supp_pub_info_fields.as_req = *as_req;
++    supp_pub_info_fields.pk_as_rep = *pk_as_rep;
++    ret = encode_krb5_pkinit_supp_pub_info(&supp_pub_info_fields,
++                                           &supp_pub_info);
+ 
+-    /* free other allocated resources, either way */
+-    if (random_data.data)
+-        free(random_data.data);
++    if (ret)
++       goto cleanup;
++
++    /* Now encode the ASN.1 octet string for "OtherInfo". */
++    memset(&alg_id, 0, sizeof(alg_id));
++    alg_id.algorithm = *alg_oid;
++    other_info_fields.algorithm_identifier = alg_id;
++    other_info_fields.party_u_info = (krb5_principal)party_u_info;
++    other_info_fields.party_v_info = (krb5_principal)party_v_info;
++    other_info_fields.supp_pub_info = *supp_pub_info;
++    ret = encode_krb5_sp80056a_other_info(&other_info_fields, &other_info);
++    if (ret)
++       goto cleanup;
++
++#ifdef HAVE_EVP_KDF_FETCH
++    ret = openssl_sskdf(context, hash_len, secret, other_info,
++                        random_data.data, key_block->length, hash_name);
++#else
++    ret = builtin_sskdf(context, reps, hash_len, EVP_func, secret,
++                        other_info, random_data.data, key_block->length);
++#endif
++    if (ret)
++       goto cleanup;
++
++    ret = krb5_c_random_to_key(context, enctype, &random_data, key_block);
++cleanup:
++    if (ret)
++       krb5_free_keyblock_contents(context, key_block);
++
++    free(hash_name);
++    zapfree(random_data.data, random_data.length);
+     krb5_free_data(context, other_info);
+     krb5_free_data(context, supp_pub_info);
+-
+-    return retval;
+-} /*pkinit_alg_agility_kdf() */
++    return ret;
++}
+ 
+ /* Call DH_compute_key() and ensure that we left-pad short results instead of
+  * leaving junk bytes at the end of the buffer. */
+@@ -2869,12 +2945,36 @@
+     return retval;
+ }
+ 
++/*
++ * pkinit_openssl_init() and unload_providers() are largely duplicated from
++ * lib/crypto/openssl/init.c - see explanations there.
++ */
++#ifdef HAVE_OSSL_PROVIDER_LOAD
++static void
++unload_providers(void)
++{
++   if (default_provider != NULL)
++      (void)OSSL_PROVIDER_unload(default_provider);
++   if (legacy_provider != NULL)
++      (void)OSSL_PROVIDER_unload(legacy_provider);
++   default_provider = NULL;
++   legacy_provider = NULL;
++}
++#endif
++
+ int
+ pkinit_openssl_init()
+ {
+-    /* Initialize OpenSSL. */
+-    ERR_load_crypto_strings();
+-    OpenSSL_add_all_algorithms();
++#ifdef HAVE_OSSL_PROVIDER_LOAD
++   legacy_provider = OSSL_PROVIDER_load(NULL, "legacy");
++   default_provider = OSSL_PROVIDER_load(NULL, "default");
++
++   if (legacy_provider == NULL || default_provider == NULL)
++      abort();
++
++   atexit(unload_providers);
++#endif
++
+     return 0;
+ }
+ 
+diff -aruN old/src/plugins/tls/k5tls/openssl.c new/src/plugins/tls/k5tls/openssl.c
+--- old/src/plugins/tls/k5tls/openssl.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/plugins/tls/k5tls/openssl.c	2021-12-30 13:30:32.698458388 +0000
+@@ -433,7 +433,7 @@
+       char **anchors, k5_tls_handle *handle_out)
+ {
+     int e;
+-    long options;
++    long options = SSL_OP_NO_SSLv2;
+     SSL_CTX *ctx = NULL;
+     SSL *ssl = NULL;
+     k5_tls_handle handle = NULL;
+@@ -448,8 +448,19 @@
+     ctx = SSL_CTX_new(SSLv23_client_method());
+     if (ctx == NULL)
+         goto error;
+-    options = SSL_CTX_get_options(ctx);
+-    SSL_CTX_set_options(ctx, options | SSL_OP_NO_SSLv2);
++
++#ifdef SSL_OP_IGNORE_UNEXPECTED_EOF
++    /*
++     * For OpenSSL 3 and later, mark close_notify alerts as optional. We don't
++     * need tow orry about truncation attacks because the protocols this module
++     * is used with (Kerberos and change-password) receive a single
++     * length-delimited message from the server. For prior versions of OpenSSL
++     * we check for SSL_ERROR_SYSCALL when reading instead (this error changes
++     * to SSL_ERROR_SSL in OpenSSL 3).
++     */
++    options |= SSL_OP_IGNORE_UNEXPECTED_EOF;
++#endif
++    SSL_CTX_set_options(ctx, options);
+ 
+     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, verify_callback);
+     X509_STORE_set_flags(SSL_CTX_get_cert_store(ctx), 0);
+diff -aruN old/src/tests/dejagnu/config/default.exp new/src/tests/dejagnu/config/default.exp
+--- old/src/tests/dejagnu/config/default.exp	2021-07-22 16:50:07.000000000 +0100
++++ new/src/tests/dejagnu/config/default.exp	2021-12-30 13:31:18.467372573 +0000
+@@ -12,7 +12,7 @@
+ # realm name, defaulting to KRBTEST.COM.
+ 
+ set timeout 100
+-set stty_init {erase \^h kill \^u}
++set stty_init {erase \^h kill \^u cols 300}
+ set env(TERM) dumb
+ 
+ set des3_krbtgt 0
+diff -aruN old/src/tests/Makefile.in new/src/tests/Makefile.in
+--- old/src/tests/Makefile.in	2021-07-22 16:50:07.000000000 +0100
++++ new/src/tests/Makefile.in	2021-12-30 13:31:18.474039083 +0000
+@@ -124,7 +124,6 @@
+ 	$(RUNPYTEST) $(srcdir)/t_general.py $(PYTESTFLAGS)
+ 	$(RUNPYTEST) $(srcdir)/t_hooks.py $(PYTESTFLAGS)
+ 	$(RUNPYTEST) $(srcdir)/t_dump.py $(PYTESTFLAGS)
+-	$(RUNPYTEST) $(srcdir)/t_iprop.py $(PYTESTFLAGS)
+ 	$(RUNPYTEST) $(srcdir)/t_kprop.py $(PYTESTFLAGS)
+ 	$(RUNPYTEST) $(srcdir)/t_policy.py $(PYTESTFLAGS)
+ 	$(RUNPYTEST) $(srcdir)/t_changepw.py $(PYTESTFLAGS)
+diff -aruN old/src/tests/softpkcs11/main.c new/src/tests/softpkcs11/main.c
+--- old/src/tests/softpkcs11/main.c	2021-07-22 16:50:07.000000000 +0100
++++ new/src/tests/softpkcs11/main.c	2021-12-30 13:30:32.698458388 +0000
+@@ -375,10 +375,9 @@
+         return NULL;
+     soft_token.object.objs = objs;
+ 
+-    o = malloc(sizeof(*o));
++    o = calloc(1, sizeof(*o));
+     if (o == NULL)
+         return NULL;
+-    memset(o, 0, sizeof(*o));
+     o->attrs = NULL;
+     o->num_attributes = 0;
+     o->object_handle = soft_token.object.num_objs;
+@@ -414,49 +413,82 @@
+     return CKR_OK;
+ }
+ 
++#ifdef HAVE_EVP_PKEY_GET_BN_PARAM
++
++/* Declare owner pointers since EVP_PKEY_get_bn_param() gives us copies. */
++#define DECLARE_BIGNUM(name) BIGNUM *name = NULL
++#define RELEASE_BIGNUM(bn) BN_clear_free(bn)
+ static CK_RV
+-add_pubkey_info(struct st_object *o, CK_KEY_TYPE key_type, EVP_PKEY *key)
++get_bignums(EVP_PKEY *key, BIGNUM **n, BIGNUM **e)
+ {
+-    switch (key_type) {
+-    case CKK_RSA: {
+-        CK_BYTE *modulus = NULL;
+-        size_t modulus_len = 0;
+-        CK_ULONG modulus_bits = 0;
+-        CK_BYTE *exponent = NULL;
+-        size_t exponent_len = 0;
+-        RSA *rsa;
+-        const BIGNUM *n, *e;
+-
+-        rsa = EVP_PKEY_get0_RSA(key);
+-        RSA_get0_key(rsa, &n, &e, NULL);
+-        modulus_bits = BN_num_bits(n);
+-
+-        modulus_len = BN_num_bytes(n);
+-        modulus = malloc(modulus_len);
+-        BN_bn2bin(n, modulus);
+-
+-        exponent_len = BN_num_bytes(e);
+-        exponent = malloc(exponent_len);
+-        BN_bn2bin(e, exponent);
+-
+-        add_object_attribute(o, 0, CKA_MODULUS, modulus, modulus_len);
+-        add_object_attribute(o, 0, CKA_MODULUS_BITS,
+-                             &modulus_bits, sizeof(modulus_bits));
+-        add_object_attribute(o, 0, CKA_PUBLIC_EXPONENT,
+-                             exponent, exponent_len);
++    if (EVP_PKEY_get_bn_param(key, "n", n) == 0 ||
++        EVP_PKEY_get_bn_param(key, "e", e) == 0)
++       return CKR_DEVICE_ERROR;
++    return CKR_OK;
++}
+ 
+-        RSA_set_method(rsa, RSA_PKCS1_OpenSSL());
++#else
+ 
+-        free(modulus);
+-        free(exponent);
+-    }
+-    default:
+-        /* XXX */
+-        break;
+-    }
+-    return CKR_OK;
++/* Declare const pointers since the old API gives us aliases. */
++#define DECLARE_BIGNUM(name) const BIGNUM *name
++#define RELEASE_BIGNUM(bn)
++static CK_RV
++get_bignums(EVP_PKEY *key, const BIGNUM **n, const BIGNUM **e)
++{
++   const RSA *rsa;
++
++   rsa = EVP_PKEY_get0_RSA(key);
++   RSA_get0_key(rsa, n, e, NULL);
++
++   return CKR_OK;
+ }
+ 
++#endif
++
++static CK_RV
++add_pubkey_info(struct st_object *o, CK_KEY_TYPE key_type, EVP_PKEY *key)
++{
++   CK_BYTE *modulus = NULL, *exponent = 0;
++   size_t modulus_len = 0, exponent_len = 0;
++   CK_ULONG modulus_bits = 0;
++   CK_RV ret;
++   DECLARE_BIGNUM(n);
++   DECLARE_BIGNUM(e);
++
++   if (key_type != CKK_RSA)
++      abort();
++
++   ret = get_bignums(key, &n, &e);
++   if (ret != CKR_OK)
++      goto done;
++
++   modulus_bits = BN_num_bits(n);
++   modulus_len = BN_num_bytes(n);
++   exponent_len = BN_num_bytes(e);
++
++   modulus = malloc(modulus_len);
++   exponent = malloc(exponent_len);
++   if (modulus == NULL || exponent == NULL) {
++      ret = CKR_DEVICE_MEMORY;
++      goto done;
++   }
++
++   BN_bn2bin(n, modulus);
++   BN_bn2bin(n, exponent);
++
++   add_object_attribute(o, 0, CKA_MODULUS, modulus, modulus_len);
++   add_object_attribute(o, 0, CKA_MODULUS_BITS, &modulus_bits,
++                        sizeof(modulus_bits));
++   add_object_attribute(o, 0, CKA_PUBLIC_EXPONENT, exponent, exponent_len);
++
++   ret = CKR_OK;
++done:
++   free(modulus);
++   free(exponent);
++   RELEASE_BIGNUM(n);
++   RELEASE_BIGNUM(e);
++   return ret;
++}
+ 
+ static int
+ pem_callback(char *buf, int num, int w, void *key)
+@@ -679,10 +711,6 @@
+         } else {
+             /* XXX verify keytype */
+ 
+-            if (key_type == CKK_RSA)
+-                RSA_set_method(EVP_PKEY_get0_RSA(o->u.private_key.key),
+-                               RSA_PKCS1_OpenSSL());
+-
+             if (X509_check_private_key(cert, o->u.private_key.key) != 1) {
+                 EVP_PKEY_free(o->u.private_key.key);
+                 o->u.private_key.key = NULL;
+@@ -695,7 +723,7 @@
+     }
+ 
+     ret = CKR_OK;
+- out:
++out:
+     if (ret != CKR_OK) {
+         st_logf("something went wrong when adding cert!\n");
+ 
+@@ -1224,8 +1252,6 @@
+         }
+ 
+         /* XXX check keytype */
+-        RSA_set_method(EVP_PKEY_get0_RSA(o->u.private_key.key),
+-                       RSA_PKCS1_OpenSSL());
+ 
+         if (X509_check_private_key(o->u.private_key.cert, o->u.private_key.key) != 1) {
+             EVP_PKEY_free(o->u.private_key.key);
+@@ -1495,8 +1521,9 @@
+     struct st_object *o;
+     void *buffer = NULL;
+     CK_RV ret;
+-    RSA *rsa;
+-    int padding, len, buffer_len, padding_len;
++    size_t buffer_len = 0;
++    int padding;
++    EVP_PKEY_CTX *ctx = NULL;
+ 
+     st_logf("Encrypt\n");
+ 
+@@ -1512,70 +1539,58 @@
+         return CKR_ARGUMENTS_BAD;
+     }
+ 
+-    rsa = EVP_PKEY_get0_RSA(o->u.public_key);
+-
+-    if (rsa == NULL)
+-        return CKR_ARGUMENTS_BAD;
+-
+-    RSA_blinding_off(rsa); /* XXX RAND is broken while running in mozilla ? */
+-
+-    buffer_len = RSA_size(rsa);
++    if (pulEncryptedDataLen == NULL) {
++        st_logf("pulEncryptedDataLen NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
++        goto out;
++    }
+ 
+-    buffer = malloc(buffer_len);
+-    if (buffer == NULL) {
+-        ret = CKR_DEVICE_MEMORY;
++    if (pData == NULL) {
++        st_logf("data NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
+         goto out;
+     }
+ 
+-    ret = CKR_OK;
+     switch(state->encrypt_mechanism->mechanism) {
+     case CKM_RSA_PKCS:
+-        padding = RSA_PKCS1_PADDING;
+-        padding_len = RSA_PKCS1_PADDING_SIZE;
+-        break;
++       padding = RSA_PKCS1_PADDING;
++       break;
+     case CKM_RSA_X_509:
+-        padding = RSA_NO_PADDING;
+-        padding_len = 0;
+-        break;
++       padding = RSA_NO_PADDING;
++       break;
+     default:
+-        ret = CKR_FUNCTION_NOT_SUPPORTED;
+-        goto out;
++       ret = CKR_FUNCTION_NOT_SUPPORTED;
++       goto out;
+     }
+ 
+-    if ((CK_ULONG)buffer_len + padding_len < ulDataLen) {
+-        ret = CKR_ARGUMENTS_BAD;
++    ctx = EVP_PKEY_CTX_new(o->u.public_key, NULL);
++    if (ctx == NULL || EVP_PKEY_encrypt_init(ctx) <= 0 ||
++        EVP_PKEY_CTX_set_rsa_padding(ctx, padding) <= 0 ||
++        EVP_PKEY_encrypt(ctx, NULL, &buffer_len, pData, ulDataLen) <= 0) {
++        ret = CKR_DEVICE_ERROR;
+         goto out;
+     }
+-
+-    if (pulEncryptedDataLen == NULL) {
+-        st_logf("pulEncryptedDataLen NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
++    
++    buffer = OPENSSL_malloc(buffer_len);
++    if (buffer == NULL) {
++       ret = CKR_DEVICE_MEMORY;
++       goto out;
+     }
+ 
+-    if (pData == NULL_PTR) {
+-        st_logf("data NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
++    if (EVP_PKEY_encrypt(ctx, buffer, &buffer_len, pData, ulDataLen) <= 0) {
++       ret = CKR_DEVICE_ERROR;
++       goto out;
+     }
++    st_logf("Encrypt done\n");
+ 
+-    len = RSA_public_encrypt(ulDataLen, pData, buffer, rsa, padding);
+-    if (len <= 0) {
+-        ret = CKR_DEVICE_ERROR;
+-        goto out;
+-    }
+-    if (len > buffer_len)
+-        abort();
++    if (pEncryptedData != NULL)
++       memcpy(pEncryptedData, buffer, buffer_len);
++    *pulEncryptedDataLen = buffer_len;
+ 
+-    if (pEncryptedData != NULL_PTR)
+-        memcpy(pEncryptedData, buffer, len);
+-    *pulEncryptedDataLen = len;
+-
+- out:
+-    if (buffer) {
+-        memset(buffer, 0, buffer_len);
+-        free(buffer);
+-    }
++    ret = CKR_OK;
++out:
++    OPENSSL_clear_free(buffer, buffer_len);
++    EVP_PKEY_CTX_free(ctx);
+     return ret;
+ }
+ 
+@@ -1646,8 +1661,9 @@
+     struct st_object *o;
+     void *buffer = NULL;
+     CK_RV ret;
+-    RSA *rsa;
+-    int padding, len, buffer_len, padding_len;
++    size_t buffer_len = 0;
++    int padding;
++    EVP_PKEY_CTX *ctx = NULL;
+ 
+     st_logf("Decrypt\n");
+ 
+@@ -1663,71 +1679,60 @@
+         return CKR_ARGUMENTS_BAD;
+     }
+ 
+-    rsa = EVP_PKEY_get0_RSA(o->u.private_key.key);
+-
+-    if (rsa == NULL)
+-        return CKR_ARGUMENTS_BAD;
+-
+-    RSA_blinding_off(rsa); /* XXX RAND is broken while running in mozilla ? */
+-
+-    buffer_len = RSA_size(rsa);
++    if (pulDataLen == NULL) {
++        st_logf("pulDataLen NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
++        goto out;
++    }
+ 
+-    buffer = malloc(buffer_len);
+-    if (buffer == NULL) {
+-        ret = CKR_DEVICE_MEMORY;
++    if (pEncryptedData == NULL_PTR) {
++        st_logf("data NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
+         goto out;
+     }
+ 
+-    ret = CKR_OK;
+     switch(state->decrypt_mechanism->mechanism) {
+     case CKM_RSA_PKCS:
+-        padding = RSA_PKCS1_PADDING;
+-        padding_len = RSA_PKCS1_PADDING_SIZE;
+-        break;
++       padding = RSA_PKCS1_PADDING;
++       break;
+     case CKM_RSA_X_509:
+-        padding = RSA_NO_PADDING;
+-        padding_len = 0;
+-        break;
++       padding = RSA_NO_PADDING;
++       break;
+     default:
+-        ret = CKR_FUNCTION_NOT_SUPPORTED;
+-        goto out;
++       ret = CKR_FUNCTION_NOT_SUPPORTED;
++       goto out;
+     }
+ 
+-    if ((CK_ULONG)buffer_len + padding_len < ulEncryptedDataLen) {
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
+-    }
+-
+-    if (pulDataLen == NULL) {
+-        st_logf("pulDataLen NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
++    ctx = EVP_PKEY_CTX_new(o->u.private_key.key, NULL);
++    if (ctx == NULL || EVP_PKEY_decrypt_init(ctx) <= 0 ||
++        EVP_PKEY_CTX_set_rsa_padding(ctx, padding) <= 0 ||
++        EVP_PKEY_decrypt(ctx, NULL, &buffer_len, pEncryptedData,
++                         ulEncryptedDataLen) <= 0) {
++        ret = CKR_DEVICE_ERROR;
+         goto out;
+     }
+ 
+-    if (pEncryptedData == NULL_PTR) {
+-        st_logf("data NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
++    buffer = OPENSSL_malloc(buffer_len);
++    if (buffer == NULL) {
++       ret = CKR_DEVICE_MEMORY;
++       goto out;
+     }
+ 
+-    len = RSA_private_decrypt(ulEncryptedDataLen, pEncryptedData, buffer,
+-                              rsa, padding);
+-    if (len <= 0) {
+-        ret = CKR_DEVICE_ERROR;
+-        goto out;
++    if (EVP_PKEY_decrypt(ctx, buffer, &buffer_len, pEncryptedData,
++                         ulEncryptedDataLen) <= 0) {
++       ret = CKR_DEVICE_ERROR;
++       goto out;
+     }
+-    if (len > buffer_len)
+-        abort();
++    st_logf("Decrypt done\n");
+ 
+     if (pData != NULL_PTR)
+-        memcpy(pData, buffer, len);
+-    *pulDataLen = len;
++        memcpy(pData, buffer, buffer_len);
++    *pulDataLen = buffer_len;
+ 
+- out:
+-    if (buffer) {
+-        memset(buffer, 0, buffer_len);
+-        free(buffer);
+-    }
++    ret = CKR_OK;
++out:
++    OPENSSL_clear_free(buffer, buffer_len);
++    EVP_PKEY_CTX_free(ctx);
+     return ret;
+ }
+ 
+@@ -1806,8 +1811,9 @@
+     struct st_object *o;
+     void *buffer = NULL;
+     CK_RV ret;
+-    RSA *rsa;
+-    int padding, len, buffer_len, padding_len;
++    int padding;
++    size_t buffer_len = 0;
++    EVP_PKEY_CTX *ctx = NULL;
+ 
+     st_logf("Sign\n");
+     VERIFY_SESSION_HANDLE(hSession, &state);
+@@ -1822,72 +1828,57 @@
+         return CKR_ARGUMENTS_BAD;
+     }
+ 
+-    rsa = EVP_PKEY_get0_RSA(o->u.private_key.key);
+-
+-    if (rsa == NULL)
+-        return CKR_ARGUMENTS_BAD;
+-
+-    RSA_blinding_off(rsa); /* XXX RAND is broken while running in mozilla ? */
+-
+-    buffer_len = RSA_size(rsa);
++    if (pulSignatureLen == NULL) {
++        st_logf("signature len NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
++        goto out;
++    }
+ 
+-    buffer = malloc(buffer_len);
+-    if (buffer == NULL) {
+-        ret = CKR_DEVICE_MEMORY;
++    if (pData == NULL_PTR) {
++        st_logf("data NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
+         goto out;
+     }
+ 
+     switch(state->sign_mechanism->mechanism) {
+     case CKM_RSA_PKCS:
+         padding = RSA_PKCS1_PADDING;
+-        padding_len = RSA_PKCS1_PADDING_SIZE;
+         break;
+     case CKM_RSA_X_509:
+         padding = RSA_NO_PADDING;
+-        padding_len = 0;
+         break;
+     default:
+         ret = CKR_FUNCTION_NOT_SUPPORTED;
+         goto out;
+     }
+ 
+-    if ((CK_ULONG)buffer_len < ulDataLen + padding_len) {
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
+-    }
+-
+-    if (pulSignatureLen == NULL) {
+-        st_logf("signature len NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
++    ctx = EVP_PKEY_CTX_new(o->u.private_key.key, NULL);
++    if (ctx == NULL || EVP_PKEY_sign_init(ctx) <= 0 ||
++        EVP_PKEY_CTX_set_rsa_padding(ctx, padding) <= 0 ||
++        EVP_PKEY_sign(ctx, NULL, &buffer_len, pData, ulDataLen) <= 0) {
++        ret = CKR_DEVICE_ERROR;
+         goto out;
+     }
+-
+-    if (pData == NULL_PTR) {
+-        st_logf("data NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
++    buffer = OPENSSL_malloc(buffer_len);
++    if (buffer == NULL) {
++       ret = CKR_DEVICE_MEMORY;
++       goto out;
+     }
+ 
+-    len = RSA_private_encrypt(ulDataLen, pData, buffer, rsa, padding);
+-    st_logf("private encrypt done\n");
+-    if (len <= 0) {
+-        ret = CKR_DEVICE_ERROR;
+-        goto out;
++    if (EVP_PKEY_sign(ctx, buffer, &buffer_len, pData, ulDataLen) <= 0) {
++       ret = CKR_DEVICE_ERROR;
++       goto out;
+     }
+-    if (len > buffer_len)
+-        abort();
++    st_logf("Sign done\n");
+ 
+-    if (pSignature != NULL_PTR)
+-        memcpy(pSignature, buffer, len);
+-    *pulSignatureLen = len;
++    if (pSignature != NULL)
++       memcpy(pSignature, buffer, buffer_len);
++    *pulSignatureLen = buffer_len;
+ 
+     ret = CKR_OK;
+-
+- out:
+-    if (buffer) {
+-        memset(buffer, 0, buffer_len);
+-        free(buffer);
+-    }
++out:
++    OPENSSL_clear_free(buffer, buffer_len);
++    EVP_PKEY_CTX_free(ctx);
+     return ret;
+ }
+ 
+@@ -1951,10 +1942,9 @@
+ {
+     struct session_state *state;
+     struct st_object *o;
+-    void *buffer = NULL;
+     CK_RV ret;
+-    RSA *rsa;
+-    int padding, len, buffer_len;
++    int padding;
++    EVP_PKEY_CTX *ctx = NULL;
+ 
+     st_logf("Verify\n");
+     VERIFY_SESSION_HANDLE(hSession, &state);
+@@ -1969,22 +1959,18 @@
+         return CKR_ARGUMENTS_BAD;
+     }
+ 
+-    rsa = EVP_PKEY_get0_RSA(o->u.public_key);
+-
+-    if (rsa == NULL)
+-        return CKR_ARGUMENTS_BAD;
+-
+-    RSA_blinding_off(rsa); /* XXX RAND is broken while running in mozilla ? */
+-
+-    buffer_len = RSA_size(rsa);
++    if (pSignature == NULL) {
++        st_logf("signature NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
++        goto out;
++    }
+ 
+-    buffer = malloc(buffer_len);
+-    if (buffer == NULL) {
+-        ret = CKR_DEVICE_MEMORY;
++    if (pData == NULL_PTR) {
++        st_logf("data NULL\n");
++        ret = CKR_ARGUMENTS_BAD;
+         goto out;
+     }
+ 
+-    ret = CKR_OK;
+     switch(state->verify_mechanism->mechanism) {
+     case CKM_RSA_PKCS:
+         padding = RSA_PKCS1_PADDING;
+@@ -1997,51 +1983,22 @@
+         goto out;
+     }
+ 
+-    if ((CK_ULONG)buffer_len < ulDataLen) {
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
+-    }
+-
+-    if (pSignature == NULL) {
+-        st_logf("signature NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
+-    }
+-
+-    if (pData == NULL_PTR) {
+-        st_logf("data NULL\n");
+-        ret = CKR_ARGUMENTS_BAD;
+-        goto out;
+-    }
+-
+-    len = RSA_public_decrypt(ulDataLen, pData, buffer, rsa, padding);
+-    st_logf("private encrypt done\n");
+-    if (len <= 0) {
++    ctx = EVP_PKEY_CTX_new(o->u.public_key, NULL);
++    if (ctx == NULL || EVP_PKEY_verify_init(ctx) <= 0 ||
++        EVP_PKEY_CTX_set_rsa_padding(ctx, padding) <= 0 ||
++        EVP_PKEY_verify(ctx, pSignature, ulSignatureLen, pData,
++                        ulDataLen) <= 0) {
+         ret = CKR_DEVICE_ERROR;
+         goto out;
+     }
+-    if (len > buffer_len)
+-        abort();
+-
+-    if ((CK_ULONG)len != ulSignatureLen) {
+-        ret = CKR_GENERAL_ERROR;
+-        goto out;
+-    }
++    st_logf("Verify done\n");
+ 
+-    if (memcmp(pSignature, buffer, len) != 0) {
+-        ret = CKR_GENERAL_ERROR;
+-        goto out;
+-    }
+-
+- out:
+-    if (buffer) {
+-        memset(buffer, 0, buffer_len);
+-        free(buffer);
+-    }
++    ret = CKR_OK;
++out:
++    EVP_PKEY_CTX_free(ctx);
+     return ret;
+ }
+ 
+-
+ CK_RV
+ C_VerifyUpdate(CK_SESSION_HANDLE hSession,
+                CK_BYTE_PTR pPart,
+@@ -2072,7 +2029,6 @@
+     return CKR_FUNCTION_NOT_SUPPORTED;
+ }
+ 
+-
+ CK_FUNCTION_LIST funcs = {
+     { 2, 11 },
+     C_Initialize,

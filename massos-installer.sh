@@ -488,24 +488,35 @@ if [ "$bmanchoice" = "y" ]; then
   blueman-autostart enable
 fi
 # Decide whether to install additional firmware.
-printf "\nSome hardware, such as wireless or graphics cards, may require\n"
-echo "non-free firmware 'blobs' in order to function properly. If you answer"
-echo "'y' here, the latest non-free firmware will be downloaded and installed."
-printf "This requires ~660 MiB of disk space.\n\n"
+printf "\nSome hardware such as wireless, graphics or sound cards may need\n"
+echo "additional firmware in order to function properly. Some of this firmware"
+printf "is proprietary. Installing it requires ~700 MiB of disk space.\n\n"
 read -p "Would you like to download and install the firmware now? [y/N] " nonfr
 nonfr="${nonfr:0:1}"
 nonfr=$(echo "$nonfr" | tr '[:upper:]' '[:lower:]')
 if [ "$nonfr" = "y" ]; then
+  echo "Installing linux-firmware..."
   git clone https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git /usr/lib/firmware
   rm -rf /usr/lib/firmware/.git
+  echo "Installing CPU Microcode..."
   MVER=$(curl -s https://raw.githubusercontent.com/TheSonicMaster/MassOS/main/installation-guide.md | grep "MVER=" | cut -d'=' -f2)
   curl -L https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/microcode-$MVER.tar.gz -o /tmp/mcode.tar.gz
-  mkdir /tmp/mcode
+  mkdir -p /tmp/mcode
   tar -xf /tmp/mcode.tar.gz -C /tmp/mcode --strip-components=1
   install -d /usr/lib/firmware/intel-ucode
   install -m644 /tmp/mcode/intel-ucode{,-with-caveats}/* /usr/lib/firmware/intel-ucode
   rm -rf /tmp/mcode{,.tar.gz}
   unset MVER
+  echo "Installing sof-bin..."
+  SOF_VER="v2.0"
+  curl -L https://github.com/thesofproject/sof-bin/releases/download/$SOF_VER/sof-bin-$SOF_VER.tar.gz -o /tmp/sof.tar.gz
+  mkdir -p /tmp/sof
+  tar -xf /tmp/sof.tar.gz -C /tmp/sof --strip-components=1
+  pushd /tmp/sof >/dev/null
+  TOOLS_DEST=/usr/bin ./install.sh $SOF_VER
+  popd >/dev/null
+  rm -rf /tmp/sof{,.tar.gz}
+  unset SOF_VER
 fi
 # Generate initramfs.
 printf "\n"
@@ -515,7 +526,7 @@ unset KVER
 # Install GRUB bootloader.
 printf "\n"
 if [ "$efisys" = "y" ]; then
-  # Ensure /sys/firmware/efi/efivars is mounted for grub-install to wprk.
+  # Ensure /sys/firmware/efi/efivars is mounted for grub-install to work.
   mountpoint -q /sys/firmware/efi/efivars || (mount -t efivarfs efivarfs /sys/firmware/efi/efivars && touch /tmp/beforemounted)
   read -p "Are you installing MassOS to a removable drive? [y/N] " removable
   removable="${removable:0:1}"

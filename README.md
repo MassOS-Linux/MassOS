@@ -5,7 +5,7 @@ The MassOS system itself is under 5 gigabytes. Quite impressive for a GNU/Linux 
 # Not Based On Any Other Distro
 MassOS is completely independent and built entirely from the ground up; it is not based on any other distribution. Due to not being dependent on another distribution, it is able to boast the latest and greatest in software versions.
 
-The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a "classic"" package manager (although [one is currently in development](https://github.com/TheSonicMaster/masspkg)), the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary development tools/headers are retained in the system.
+The MassOS base system itself already contains a large selection of software which should suit most users. Instead of using a "classic" package manager (although [one is currently in development](https://github.com/TheSonicMaster/masspkg)), the universal **Flatpak** package manager (complemented by the GUI Gnome Software centre) can be used to install GUI-based software. AppImages are also supported. Additionally, developer-orientated users may also wish to compile software themselves, since the necessary tools and headers are provided with the system.
 ![](software2.png)
 # Installing MassOS
 MassOS has a guided installation program which can be used to easily install MassOS.
@@ -18,9 +18,9 @@ Some developers may also wish to [build MassOS themselves](building.md) using th
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
 # Releases
-The latest release of MassOS is **2021.12.2**.
+The latest release of MassOS is **2022.01**.
 
-Release numbers follow the format **YYYY.MM**. For example: the August 2021 release will be **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will be in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by using the [MassOS Upgrade Utility](https://github.com/TheSonicMaster/massos-upgrade).
+Release numbers follow the format **YYYY.MM**. For example: the August 2021 release was **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will typically be less major, and will have a version in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by using the [MassOS Upgrade Utility](https://github.com/TheSonicMaster/massos-upgrade).
 
 Developers who wish to test out some of the latest in-development features for the next version MassOS can take a look at the [development branch](https://github.com/TheSonicMaster/MassOS/tree/development).
 # Joining The Community
