@@ -8,7 +8,7 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate).
 - MassOS must be installed from an existing ("host") GNU/Linux system. We recommend using another distro's LiveCD (e.g. Ubuntu).
 # Release Notes
-This is the development version of MassOS. It contains the upcoming changes for the next version of MassOS, however it is subject to change before the final release:
+This is version **2022.01** of MassOS. It contains the following changes since the previous version, **2021.12.2**:
 
 - Parole now supports MP4 playback via OpenH264 and FAAD2 in GStreamer.
 - Added OpenAL, JACK2 and gst-libav.
@@ -43,6 +43,7 @@ It also includes the following upgraded software:
 - Qpdf: `10.4.0 --> 10.5.0`
 - Ruby: `3.0.3 --> 3.1.0`
 - Shadow: `4.8.1 --> 4.9`
+- slang: `pre2.3.3-59 --> pre2.3.3-64`
 - systemd: `250-rc2 --> 250`
 - tree: `1.8.0 --> 2.0.0`
 - Vala: `0.54.4 --> 0.54.5`
@@ -66,16 +67,18 @@ This will walk you through the installation. After the installation is complete,
 sudo shutdown -r now
 ```
 ## What next?
-For general information on how to make the most out of your new installation, check out the [Post-installation guide](https://github.com/TheSonicMaster/MassOS/blob/main/postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
+For general information on how to make the most out of your new installation, check out the [Post-installation guide](postinst.md). It contains information on how to do things like install software, customise your desktop, amongst other useful tips.
 ## Installation Program Notes
 - Advanced options like using non-ext4 filesystems are not yet supported by the installer. If you require these, install MassOS manually, as shown below.
 - By default, the program will download and install the stable version of MassOS. If you want to install a development branch build, or another custom build of MassOS, you must pass the custom rootfs image as an argument to `massos-installer.sh`, e.g. `sudo ./massos-installer.sh /path/to/my/custom/package.tar.xz`. Official development builds are available from [this Google Drive folder](https://go.thesonicmaster.net/qk9).
 # Installing MassOS Manually
 While the installation program is great for most users, you may want to install MassOS manually to be able to fine-tweak your installation or use custom options which the installation program doesn't support, such as swap or non-ext4 filesystems.
 ## Downloading The MassOS Rootfs
-This is the development branch. Official development branch builds may be available from [this Google Drive folder](https://go.thesonicmaster.net/qk9), however they are not always up to date.
-
-Alternatively, [install the stable version](https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md) or [build MassOS yourself](building.md).
+Run the following command to download MassOS:
+```
+wget https://github.com/TheSonicMaster/MassOS/releases/download/v2022.01/massos-2022.01-rootfs-x86_64.tar.xz
+```
+The SHA256 checksum can be found on the [Release Page](https://github.com/TheSonicMaster/MassOS/releases/tag/v2022.01).
 ## Partitioning the disk
 Like every other operating system, MassOS needs to be installed on a partition. Only EXT4, BTRFS and XFS filesystems are currently supported, and only EXT4 has been tested.
 
@@ -121,7 +124,7 @@ sudo mount /dev/sdXY /mnt/massos/boot/efi
 ## Installing the base system
 Run this command to install the base system onto your MassOS partition:
 ```
-sudo tar -xJpf massos-development-rootfs-x86_64.tar.xz -C /mnt/massos
+sudo tar -xJpf massos-2022.01-rootfs-x86_64.tar.xz -C /mnt/massos
 ```
 **NOTE: This command will produce no output and the extraction may take a long time on slower systems, so be patient.**
 ## Generating the /etc/fstab file

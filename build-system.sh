@@ -3088,15 +3088,15 @@ make install
 cd ..
 rm -rf ruby-3.1.0
 # slang.
-tar -xf slang-pre2.3.3-59.tar.gz
-cd slang-pre2.3.3-59
+tar -xf slang-pre2.3.3-64.tar.gz
+cd slang-pre2.3.3-64
 ./configure --prefix=/usr --sysconfdir=/etc --with-readline=gnu
 make -j1
-make -j1 install_doc_dir=/usr/share/doc/slang-pre2.3.3-59 SLSH_DOC_DIR=/usr/share/doc/slang-pre2.3.3-59/slsh install-all
+make -j1 install_doc_dir=/usr/share/doc/slang SLSH_DOC_DIR=/usr/share/doc/slang/slsh install-all
 chmod 755 /usr/lib/libslang.so.2.3.3 /usr/lib/slang/v2/modules/*.so
 rm -f /usr/lib/libslang.a
 cd ..
-rm -rf slang-pre2.3.3-59
+rm -rf slang-pre2.3.3-64
 # BIND Utilities.
 tar -xf bind-9.16.24.tar.xz
 cd bind-9.16.24
