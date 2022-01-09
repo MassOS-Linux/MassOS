@@ -1,3 +1,21 @@
+Copyright (C) 2021-2022 The Sonic Master.
+
+===============================================================================
+
+The scripts and utilities found in the MassOS repository are licensed under the
+GNU GPLv3+ (see below). The individual programs which make up the MassOS system
+are licensed under various different licenses. The license for each individual
+piece of software can be found in '/usr/share/licenses' on a MassOS system.
+
+In the core MassOS system, we try to only include free software which is either
+in the public domain, or protected by a GPL-compatible license. Contributions
+to MassOS should also follow this where possible. The installer for MassOS may
+suggest or offer the use of non-free components, such as firmware required to
+operate some hardware devices, however it will always be easy to opt-out and
+use MassOS with only free software.
+
+===============================================================================
+
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 

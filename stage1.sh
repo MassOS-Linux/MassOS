@@ -56,7 +56,7 @@ mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 mkdir build; cd build
-../configure --target=$MASSOS_TGT --prefix=$MASSOS/tools --with-glibc-version=2.11 --with-sysroot=$MASSOS --with-newlib --without-headers --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx --enable-languages=c,c++
+../configure --target=$MASSOS_TGT --prefix=$MASSOS/tools --enable-languages=c,c++ --with-glibc-version=2.11 --with-sysroot=$MASSOS --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make install
 cd ..
@@ -262,7 +262,7 @@ mv mpc-1.2.1 mpc
 mkdir build; cd build
 mkdir -p $MASSOS_TGT/libgcc
 ln -s ../../../libgcc/gthr-posix.h $MASSOS_TGT/libgcc/gthr-default.h
-../configure --build=$(../config.guess) --host=$MASSOS_TGT --prefix=/usr CC_FOR_TARGET=$MASSOS_TGT-gcc --with-build-sysroot=$MASSOS --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx --enable-languages=c,c++
+../configure CC_FOR_TARGET=$MASSOS_TGT-gcc --build=$(../config.guess) --host=$MASSOS_TGT --prefix=/usr --enable-languages=c,c++ --with-build-sysroot=$MASSOS --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make DESTDIR=$MASSOS install
 ln -s gcc $MASSOS/usr/bin/cc
@@ -278,10 +278,12 @@ cp utils/massos-logo.png $SRC
 cp utils/massos-logo-small.png $SRC
 cp utils/massos-logo-notext.png $SRC
 cp utils/builtins $SRC
+cp -r utils/extra-package-files $SRC
 cp -r utils/skel $MASSOS/etc
 mkdir -p $MASSOS/etc/profile.d
 cp utils/*.sh $MASSOS/etc/profile.d
 cp -r backgrounds $SRC
+cp LICENSE $SRC
 cp build-system.sh $SRC
 echo -e "\nThe bootstrap system was built successfully."
 echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."
