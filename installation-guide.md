@@ -21,6 +21,7 @@ It also includes the following upgraded software, however there could be more be
 - Arc Theme: `20211018 --> 20220102`
 - Bash: `5.1.12 --> 5.1.16`
 - BlueZ: `5.62 --> 5.63`
+- Busybox: `1.34.1 --> 1.35.0`
 - curl: `7.80.0 --> 7.81.0`
 - GNOME Software: `41.2 --> 41.3`
 - ISO-Codes: `4.8.0 --> 4.9.0`

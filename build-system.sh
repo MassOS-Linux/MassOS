@@ -1717,14 +1717,14 @@ install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
 rm -rf util-linux-2.37.2
 # Busybox.
-tar -xf busybox-1.34.1.tar.bz2
-cd busybox-1.34.1
+tar -xf busybox-1.35.0.tar.bz2
+cd busybox-1.35.0
 cp ../busybox-config .config
 make
 install -m755 busybox /usr/bin/busybox
 install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
-rm -rf busybox-1.34.1
+rm -rf busybox-1.35.0
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
