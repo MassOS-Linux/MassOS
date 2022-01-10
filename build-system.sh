@@ -142,7 +142,7 @@ echo "rootsbindir=/usr/sbin" > configparms
 make
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 make install
-install -t /usr/share/licenses/glibc -Dm644 COPYING COPYING.LIB LICENSES
+install -t /usr/share/licenses/glibc -Dm644 ../COPYING ../COPYING.LIB ../LICENSES
 sed '/RTLDLIST=/s@/usr@@g' -i /usr/bin/ldd
 cp ../nscd/nscd.conf /etc/nscd.conf
 mkdir -p /var/cache/nscd
