@@ -2763,7 +2763,7 @@ mkdir -p tools/clang
 tar -xf ../clang-13.0.0.src.tar.xz -C tools/clang --strip-components=1
 mkdir llvm-build; cd llvm-build
 CC=gcc CXX=g++ CFLAGS="$CFLAGS -flarge-source-files" CXXFLAGS="$CXXFLAGS -flarge-source-files" cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
-ninja
+ninja -j$(nproc)
 ninja install
 install -t /usr/share/licenses/llvm -Dm644 ../LICENSE.TXT
 ln -sf llvm /usr/share/licenses/clang
@@ -5606,7 +5606,7 @@ tar -xf webkitgtk-2.34.3.tar.xz
 cd webkitgtk-2.34.3
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
-ninja
+ninja -j$(nproc)
 ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
@@ -6308,19 +6308,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.15.13.tar.xz
-cd linux-5.15.13
+tar -xf linux-5.16.tar.xz
+cd linux-5.16
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.15.13-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.15.13-massos/vmlinuz
-cp System.map /boot/System.map-5.15.13-massos
-cp .config /boot/config-5.15.13-massos
-rm /usr/lib/modules/5.15.13-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.0-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.0-massos/vmlinuz
+cp System.map /boot/System.map-5.16.0-massos
+cp .config /boot/config-5.16.0-massos
+rm /usr/lib/modules/5.16.0-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.15.13-massos/build
+builddir=/usr/lib/modules/5.16.0-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6344,7 +6344,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.15.13
+rm -rf linux-5.16
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

@@ -28,7 +28,7 @@ It also includes the following upgraded software, however there could be more be
 - libpipeline: `1.5.4 --> 1.5.5`
 - libsigsegv: `2.13 --> 2.14`
 - libunistring: `0.9.10 --> 1.0`
-- Linux Kernel: `5.15.12 --> 5.15.13`
+- Linux Kernel: `5.15.12 --> 5.16.0`
 - mdadm: `4.1 --> 4.2`
 - mtools: `4.0.36 --> 4.0.37`
 - NSS: `3.73.1 --> 3.74`
@@ -234,7 +234,7 @@ unset MVER
 ## Generating the initramfs
 An initramfs is a temporary filesystem used to load any necessary drivers and mount the real root filesystem. Generate an initramfs by running this command:
 ```
-mkinitramfs 5.15.13-massos
+mkinitramfs 5.16.0-massos
 ```
 If you installed firmware and/or Microcode at the above step, this command will automatically include them when generating the initramfs.
 ## Installing the GRUB bootloader
