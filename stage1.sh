@@ -124,14 +124,14 @@ echo "INPUT(-lncursesw)" > $MASSOS/usr/lib/libncurses.so
 cd ..
 rm -rf ncurses-6.3
 # Bash.
-tar -xf bash-5.1.12.tar.gz
-cd bash-5.1.12
+tar -xf bash-5.1.16.tar.gz
+cd bash-5.1.16
 ./configure --prefix=/usr --build=$(support/config.guess) --host=$MASSOS_TGT --without-bash-malloc
 make
 make DESTDIR=$MASSOS install
 ln -s bash $MASSOS/bin/sh
 cd ..
-rm -rf bash-5.1.12
+rm -rf bash-5.1.16
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
