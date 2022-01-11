@@ -352,7 +352,7 @@ make
 make html
 make install
 make install-html
-install -t /usr/share/licenses/gmp -Dm644 COPYING COPYING.LESSER
+install -t /usr/share/licenses/gmp -Dm644 COPYING COPYINGv2 COPYINGv3 COPYING.LESSERv3
 cd ..
 rm -rf gmp-6.2.1
 # MPFR.
@@ -792,7 +792,7 @@ cd openssl-1.1.1m
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
-install -t /usr/share/licenses/openssl -Dm644 LICENSE-legacy.txt
+install -t /usr/share/licenses/openssl-legacy -Dm644 LICENSE
 cd ..
 rm -rf openssl-1.1.1m
 # OpenSSL (Newest version and the default which MassOS programs will use).
@@ -1649,7 +1649,7 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-250.1.tar.gz
+tar -xf systemd-250.1.tar.gz
 cd systemd-stable-250.1
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
@@ -2067,7 +2067,7 @@ cd libnfs-libnfs-4.0.0
 make
 make install
 rm -f /usr/lib/libnfs.a
-install -t /usr/share/licenses/libnfs -Dm644 COPYING LICENSE-BSD.txt LICENSE-GPL-3.txt LICENSE-LGPL-2.1.txt
+install -t /usr/share/licenses/libnfs -Dm644 COPYING LICENCE-BSD.txt LICENCE-GPL-3.txt LICENCE-LGPL-2.1.txt
 cd ..
 rm -rf libnfs-libnfs-4.0.0
 # PCRE.
@@ -2696,7 +2696,7 @@ mkdir glibmm-build; cd glibmm-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/glibmm -Dm644 COPYING COPYING.tools
+install -t /usr/share/licenses/glibmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf glibmm-2.66.2
 # gobject-introspection.
@@ -2897,7 +2897,7 @@ mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
-install -t /usr/share/licenses/harfbuzz -Dm644 COPYING
+install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
 rm -rf harfbuzz-3.2.0
 # FreeType (rebuild to support HarfBuzz).
@@ -3045,7 +3045,7 @@ cd libyaml-0.2.5
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libyaml License
+install -t /usr/share/licenses/libyaml -Dm644 License
 cd ..
 rm -rf libyaml-0.2.5
 # libatasmart.
@@ -3054,7 +3054,7 @@ cd libatasmart-0.19
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libatasmart LGPL
+install -t /usr/share/licenses/libatasmart -Dm644 LGPL
 cd ..
 rm -rf libatasmart-0.19
 # libbytesize.
@@ -3063,7 +3063,7 @@ cd libbytesize-2.6
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/libbytesize LICENSE
+install -t /usr/share/licenses/libbytesize -Dm644 LICENSE
 cd ..
 rm -rf libbytesize-2.6
 # libblockdev.
@@ -3072,7 +3072,7 @@ cd libblockdev-2.26
 ./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm --without-dm
 make
 make install
-install -t /usr/share/licenses/libblockdev LICENSE
+install -t /usr/share/licenses/libblockdev -Dm644 LICENSE
 cd ..
 rm -rf libblockdev-2.26
 # libdaemon.
@@ -3081,7 +3081,7 @@ cd libdaemon-0.14
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libdaemon LICENSE
+install -t /usr/share/licenses/libdaemon -Dm644 LICENSE
 cd ..
 rm -rf libdaemon-0.14
 # libgudev.
@@ -3091,7 +3091,7 @@ mkdir libgudev-build; cd libgudev-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/libgudev ../COPYING
+install -t /usr/share/licenses/libgudev -Dm644 ../COPYING
 cd ../..
 rm -rf libgudev-237
 # libmbim.
@@ -3100,7 +3100,7 @@ cd libmbim-1.26.2
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libmbim COPYING COPYING.LIB
+install -t /usr/share/licenses/libmbim -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libmbim-1.26.2
 # libqmi.
@@ -3109,7 +3109,7 @@ cd libqmi-1.30.2
 PYTHON=python3 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libqmi COPYING COPYING.LIB
+install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libqmi-1.30.2
 # libwacom.
@@ -3119,7 +3119,7 @@ mkdir wacom-build; cd wacom-build
 meson --prefix=/usr --buildtype=release -Dtests=disabled ..
 ninja
 ninja install
-install -t /usr/share/licenses/libwacom ../COPYING
+install -t /usr/share/licenses/libwacom -Dm644 ../COPYING
 cd ../..
 rm -rf libwacom-1.12
 # mtdev.
@@ -3128,7 +3128,7 @@ cd mtdev-1.1.6
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/mtdev COPYING
+install -t /usr/share/licenses/mtdev -Dm644 COPYING
 cd ..
 rm -rf mtdev-1.1.6
 # Wayland.
@@ -3138,7 +3138,7 @@ mkdir wayland-build; cd wayland-build
 meson --prefix=/usr --buildtype=release -Ddocumentation=false ..
 ninja
 ninja install
-install -t /usr/share/licenses/wayland ../COPYING
+install -t /usr/share/licenses/wayland -Dm644 ../COPYING
 cd ../..
 rm -rf wayland-1.20.0
 # Wayland-Protocols.
@@ -3148,7 +3148,7 @@ mkdir wayland-protocols-build; cd wayland-protocols-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/wayland-protocols ../COPYING
+install -t /usr/share/licenses/wayland-protocols -Dm644 ../COPYING
 cd ../..
 rm -rf wayland-protocols-1.24
 # Aspell.
@@ -3160,7 +3160,7 @@ make install
 ln -sfn aspell-0.60 /usr/lib/aspell
 install -m755 scripts/ispell /usr/bin/
 install -m755 scripts/spell /usr/bin/
-install -t /usr/share/licenses/aspell COPYING
+install -t /usr/share/licenses/aspell -Dm644 COPYING
 cd ..
 rm -rf aspell-0.60.8
 # Aspell English Dictionary.
@@ -3177,7 +3177,7 @@ cd enchant-2.3.2
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/enchant COPYING.LIB
+install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 cd ..
 rm -rf enchant-2.3.2
 # Fontconfig.
@@ -3186,7 +3186,7 @@ cd fontconfig-2.13.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-docs
 make
 make install
-install -t /usr/share/licenses/fontconfig COPYING
+install -t /usr/share/licenses/fontconfig -Dm644 COPYING
 cd ..
 rm -rf fontconfig-2.13.1
 # Fribidi.
@@ -3196,7 +3196,7 @@ mkdir BIDIRECTIONAL-build; cd BIDIRECTIONAL-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/fribidi ../COPYING
+install -t /usr/share/licenses/fribidi -Dm644 ../COPYING
 cd ../..
 rm -rf fribidi-1.0.11
 # giflib.
@@ -3205,7 +3205,7 @@ cd giflib-5.2.1
 make
 make PREFIX=/usr install
 rm -f /usr/lib/libgif.a
-install -t /usr/share/licenses/giflib COPYING
+install -t /usr/share/licenses/giflib -Dm644 COPYING
 cd ..
 rm -rf giflib-5.2.1
 # libexif.
@@ -3214,7 +3214,7 @@ cd libexif-0.6.23
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libexif COPYING
+install -t /usr/share/licenses/libexif -Dm644 COPYING
 cd ..
 rm -rf libexif-0.6.23
 # lolcat.
@@ -3237,7 +3237,7 @@ cd nasm-2.15.05
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/nasm LICENSE
+install -t /usr/share/licenses/nasm -Dm644 LICENSE
 cd ..
 rm -rf nasm-2.15.05
 # libjpeg-turbo.
@@ -3247,7 +3247,7 @@ mkdir jpeg-build; cd jpeg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
-install -t /usr/share/licenses/libjpeg-turbo ../LICENSE.md ../README.ijg
+install -t /usr/share/licenses/libjpeg-turbo -Dm644 ../LICENSE.md ../README.ijg
 cd ../..
 rm -rf libjpeg-turbo-2.1.2
 # libgphoto2
@@ -3256,7 +3256,7 @@ cd libgphoto2-2.5.27
 ./configure --prefix=/usr --disable-rpath
 make
 make install
-install -t /usr/share/licenses/libgphoto2 COPYING
+install -t /usr/share/licenses/libgphoto2 -Dm644 COPYING
 cd ..
 rm -rf libgphoto2-2.5.27
 # Pixman.
@@ -3266,7 +3266,7 @@ mkdir pixman-build; cd pixman-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/pixman ../COPYING
+install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
@@ -3275,7 +3275,7 @@ cd qpdf-10.5.0
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/qpdf Artistic-2.0 LICENSE.txt NOTICE.md
+install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 cd ..
 rm -rf qpdf-10.5.0
 # qrencode.
@@ -3284,7 +3284,7 @@ cd qrencode-4.1.1
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/qrencode COPYING
+install -t /usr/share/licenses/qrencode -Dm644 COPYING
 cd ..
 rm -rf qrencode-4.1.1
 # libsass.
@@ -3294,7 +3294,7 @@ autoreconf -fi
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libsass COPYING LICENSE
+install -t /usr/share/licenses/libsass -Dm644 COPYING LICENSE
 cd ..
 rm -rf libsass-3.6.5
 # sassc.
@@ -3304,7 +3304,7 @@ autoreconf -fi
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/sassc LICENSE
+install -t /usr/share/licenses/sassc -Dm644 LICENSE
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
@@ -3575,7 +3575,7 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
   make
   make install
-  install -t /usr/share/licenses/$(echo $i | cut -d- -f1) -Dm644 COPYING
+  test ! -f COPYING || install -t /usr/share/licenses/xcb-util -Dm644 COPYING
   cd ..
   rm -rf $i
   ldconfig
@@ -3729,7 +3729,7 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.3.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-250.1.tar.gz
+tar -xf systemd-250.1.tar.gz
 cd systemd-stable-250.1
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
@@ -3886,7 +3886,7 @@ cd xf86-input-wacom-0.40.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
-install -t /usr/share/licenses/xf86-input-wacom -Dm644 COPYING
+install -t /usr/share/licenses/xf86-input-wacom -Dm644 GPL
 cd ..
 rm -rf xf86-input-wacom-0.40.0
 # xf86-video-amdgpu.
@@ -6091,6 +6091,16 @@ ninja install
 install -t /usr/share/licenses/libglib-testing -Dm644 ../COPYING
 cd ../..
 rm -rf libglib-testing-0.1.0
+# malcontent (dependency of GNOME Software).
+tar -xf malcontent-0.10.3.tar.xz
+cd malcontent-0.10.3
+mkdir malcontent-build; cd malcontent-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
+cd ../..
+rm -rf malcontent-0.10.3
 # GNOME Software.
 tar -xf gnome-software-41.3.tar.xz
 cd gnome-software-41.3
@@ -6121,8 +6131,8 @@ Type=Application
 Name=First Login Welcome Program
 Exec=/usr/bin/firstlogin
 END
-cd ../..
 install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
+cd ../..
 rm -rf gnome-tour-41.rc-MassOS-2
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
