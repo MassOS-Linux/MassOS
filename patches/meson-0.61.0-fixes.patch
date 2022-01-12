@@ -1,0 +1,69 @@
+From 81fbcd1df48f669b6b23b9dd0752d6d366cc9bf2 Mon Sep 17 00:00:00 2001
+From: Eli Schwartz <eschwartz@archlinux.org>
+Date: Mon, 10 Jan 2022 18:18:19 -0500
+Subject: [PATCH] fix broken module tests which caused gtkdoc-check to
+ traceback on assert
+
+Regression in commit 566c2c9a9c98d13f85ccef624e9ac584f64c6a4a.
+
+The interpreter details are a bit of black magic. Functions expect
+tuples, but they receive lists and then the type-checking decorators
+convert those to tuples.
+
+So, directly manhandling a self._interpreter.func_*() but passing it the
+tuple it nominally expected, actually explodes in your face by way of
+failing an assert, then dumping 'ERROR: Unhandled python exception'.
+
+Fixes use of gnome.gtkdoc(..., check: true), for example when building
+glib.
+---
+ mesonbuild/modules/__init__.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/mesonbuild/modules/__init__.py b/mesonbuild/modules/__init__.py
+index 58e94a7a136..8fe61c63d1e 100644
+--- a/mesonbuild/modules/__init__.py
++++ b/mesonbuild/modules/__init__.py
+@@ -91,8 +91,11 @@ def test(self, args: T.Tuple[str, T.Union[build.Executable, build.Jar, 'External
+                   'env': env,
+                   'depends': depends,
+                   }
++        # typed_* takes a list, and gives a tuple to func_test. Violating that constraint
++        # makes the universe (or at least use of this function) implode
++        real_args = list(args)
+         # TODO: Use interpreter internal API, but we need to go through @typed_kwargs
+-        self._interpreter.func_test(self.current_node, args, kwargs)
++        self._interpreter.func_test(self.current_node, real_args, kwargs)
+ 
+     def get_option(self, name: str, subproject: str = '',
+                    machine: MachineChoice = MachineChoice.HOST,
+
+From 704e9802c9f424a57c32d9e63ececfece807529a Mon Sep 17 00:00:00 2001
+From: Eli Schwartz <eschwartz@archlinux.org>
+Date: Tue, 11 Jan 2022 20:20:50 -0500
+Subject: [PATCH] gome.gdbus_codegen: fix annotations argument for multiple
+ annotations
+
+Per the gdbus-codegen documentation, this "may be used several times",
+and it is:
+- a valid use case
+- used that way in the wild
+
+Fixes building at least geoclue2, gdm.
+---
+ mesonbuild/modules/gnome.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/mesonbuild/modules/gnome.py b/mesonbuild/modules/gnome.py
+index dfc66c2e3b6..b2224da1d0d 100644
+--- a/mesonbuild/modules/gnome.py
++++ b/mesonbuild/modules/gnome.py
+@@ -1437,7 +1437,7 @@ def gtkdoc_html_dir(self, state: 'ModuleState', args: T.Tuple[str], kwargs: 'TYP
+             'annotations', ContainerTypeInfo(list, str),
+             listify=True,
+             default=[],
+-            validator=lambda x: 'must be made up of 3 strings for ELEMENT, KEY, and VALUE' if len(x) != 3 else None
++            validator=lambda x: 'must be made up of 3 strings for ELEMENT, KEY, and VALUE' if len(x) % 3 != 0 else None
+         ),
+         KwargInfo('install_header', bool, default=False, since='0.46.0'),
+         KwargInfo('install_dir', (str, NoneType), since='0.46.0'),

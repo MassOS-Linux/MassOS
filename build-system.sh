@@ -843,6 +843,7 @@ rm -rf ninja-1.10.2
 # Meson.
 tar -xf meson-0.61.0.tar.gz
 cd meson-0.61.0
+patch -Np1 -i ../patches/meson-0.61.0-fixes.patch
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -2702,6 +2703,7 @@ rm -rf glibmm-2.66.2
 # gobject-introspection.
 tar -xf gobject-introspection-1.70.0.tar.xz
 cd gobject-introspection-1.70.0
+patch -Np1 -i ../patches/gobject-introspection-1.70.0-meson-0.61.0-fix.patch
 mkdir gobj-build; cd gobj-build
 meson --prefix=/usr --buildtype=release ..
 ninja
