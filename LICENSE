@@ -10,9 +10,8 @@ piece of software can be found in '/usr/share/licenses' on a MassOS system.
 In the core MassOS system, we try to only include free software which is either
 in the public domain, or protected by a GPL-compatible license. Contributions
 to MassOS should also follow this where possible. The installer for MassOS may
-suggest or offer the use of non-free components, such as firmware required to
-operate some hardware devices, however it will always be easy to opt-out and
-use MassOS with only free software.
+suggest or offer the use of non-free firmware, and the software center may also
+list non-free programs, however the core MassOS system will remain free.
 
 ===============================================================================
 

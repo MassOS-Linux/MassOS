@@ -23,22 +23,29 @@ It also includes the following upgraded software, however there could be more be
 - BlueZ: `5.62 --> 5.63`
 - Busybox: `1.34.1 --> 1.35.0`
 - curl: `7.80.0 --> 7.81.0`
+- Firefox: `95.0.2 --> 96.0`
 - GNOME Software: `41.2 --> 41.3`
+- iana-etc: `20211112 --> 20211229`
+- IPRoute2: `5.15.0 --> 5.16.0`
 - ISO-Codes: `4.8.0 --> 4.9.0`
+- libgusb: `0.3.8 --> 0.3.10`
 - libostree: `2021.6 --> 2022.1`
 - libpipeline: `1.5.4 --> 1.5.5`
 - libsigsegv: `2.13 --> 2.14`
 - libunistring: `0.9.10 --> 1.0`
 - Linux Kernel: `5.15.12 --> 5.16.0`
 - mdadm: `4.1 --> 4.2`
+- Meson: `0.60.3 --> 0.61.0`
 - mtools: `4.0.36 --> 4.0.37`
 - NSS: `3.73.1 --> 3.74`
 - Poppler: `21.12.0 --> 22.01.0`
 - Pygments: `2.10.0 --> 2.11.2`
 - rpcsvc-proto: `1.4.2 --> 1.4.3`
+- SDL2: `2.0.18 --> 2.0.20`
 - SQLite: `3.37.0 --> 3.37.2`
 - Sysprof: `3.40.1 --> 3.42.1`
-- systemd: `250 --> 250.1`
+- systemd: `250 --> 250.2`
+- Thunderbird: `91.4.0 --> 91.5.0`
 - tree: `2.0.0 --> 2.0.1`
 - Vala: `0.54.5 --> 0.54.6`
 - whois: `5.4.3 --> 5.5.11`
