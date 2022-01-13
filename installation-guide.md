@@ -21,9 +21,12 @@ It also includes the following upgraded software, however there could be more be
 - Arc Theme: `20211018 --> 20220102`
 - Bash: `5.1.12 --> 5.1.16`
 - BlueZ: `5.62 --> 5.63`
+- btrfs-progs: `5.15.1 --> 5.16`
 - Busybox: `1.34.1 --> 1.35.0`
+- cryptsetup: `2.4.2 --> 2.4.3`
 - curl: `7.80.0 --> 7.81.0`
 - Firefox: `95.0.2 --> 96.0`
+- Flatpak: `1.12.2 --> 1.12.3`
 - GNOME Software: `41.2 --> 41.3`
 - iana-etc: `20211112 --> 20211229`
 - IPRoute2: `5.15.0 --> 5.16.0`
@@ -35,8 +38,10 @@ It also includes the following upgraded software, however there could be more be
 - libunistring: `0.9.10 --> 1.0`
 - Linux Kernel: `5.15.12 --> 5.16.0`
 - mdadm: `4.1 --> 4.2`
+- Mesa: `21.3.3 --> 21.3.4`
 - Meson: `0.60.3 --> 0.61.0`
 - mtools: `4.0.36 --> 4.0.37`
+- NetworkManager: `1.32.12 --> 1.34.0`
 - NSS: `3.73.1 --> 3.74`
 - Poppler: `21.12.0 --> 22.01.0`
 - Pygments: `2.10.0 --> 2.11.2`

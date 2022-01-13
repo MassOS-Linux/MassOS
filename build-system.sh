@@ -1876,14 +1876,14 @@ ldconfig
 install -t /usr/share/licenses/lvm2 -Dm644 lvm2-2.03.14-x86_64-precompiled-MassOS/COPYING*
 rm -rf lvm2-2.03.14-x86_64-precompiled-MassOS
 # btrfs-progs.
-tar -xf btrfs-progs-v5.15.1.tar.xz
-cd btrfs-progs-v5.15.1
+tar -xf btrfs-progs-v5.16.tar.xz
+cd btrfs-progs-v5.16
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
-rm -rf btrfs-progs-v5.15.1
+rm -rf btrfs-progs-v5.16
 # inih.
 tar -xf libinih_53.orig.tar.gz
 cd inih-r53
@@ -2033,14 +2033,14 @@ install -t /usr/share/licenses/json-c -Dm644 ../COPYING
 cd ../..
 rm -rf json-c-0.15
 # cryptsetup.
-tar -xf cryptsetup-2.4.2.tar.xz
-cd cryptsetup-2.4.2
+tar -xf cryptsetup-2.4.3.tar.xz
+cd cryptsetup-2.4.3
 ./configure --prefix=/usr --disable-ssh-token
 make
 make install
 install -t /usr/share/licenses/cryptsetup -Dm644 COPYING COPYING.LGPL
 cd ..
-rm -rf cryptsetup-2.4.2
+rm -rf cryptsetup-2.4.3
 # libusb.
 tar -xf libusb-1.0.24.tar.bz2
 cd libusb-1.0.24
@@ -3646,8 +3646,8 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.3.tar.xz
-cd mesa-21.3.3
+tar -xf mesa-21.3.4.tar.xz
+cd mesa-21.3.4
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3656,7 +3656,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-21.3.3
+rm -rf mesa-21.3.4
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -5080,11 +5080,11 @@ systemctl enable upower
 cd ..
 rm -rf upower-UPOWER_0_99_13
 # NetworkManager.
-tar -xf NetworkManager-1.32.12.tar.xz
-cd NetworkManager-1.32.12
+tar -xf NetworkManager-1.34.0.tar.xz
+cd NetworkManager-1.34.0
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dnmtui=true -Dovs=false -Dselinux=false -Dqt=false -Dsession_tracking=systemd ..
+meson --prefix=/usr --buildtype=release -Dnmtui=true -Dovs=false -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
 ninja install
 cat >> /etc/NetworkManager/NetworkManager.conf << END
@@ -5113,7 +5113,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.32.12
+rm -rf NetworkManager-1.34.0
 # libnma.
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
@@ -5262,9 +5262,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.2.tar.xz
-cd flatpak-1.12.2
-patch -Np1 -i ../patches/flatpak-1.12.2-pyparsing3.patch
+tar -xf flatpak-1.12.3.tar.xz
+cd flatpak-1.12.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5286,7 +5285,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.12.2
+rm -rf flatpak-1.12.3
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5

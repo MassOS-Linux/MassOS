@@ -32,7 +32,7 @@ https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.63.tar.xz
 https://fossies.org/linux/misc/boost_1_78_0.tar.bz2
 https://fossies.org/linux/misc/brotli-1.0.9.tar.gz
 https://cdn.thesonicmaster.net/sources/bsd-games-3.1.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.15.1.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.16.tar.xz
 https://github.com/projectatomic/bubblewrap/releases/download/v0.5.0/bubblewrap-0.5.0.tar.xz
 https://www.busybox.net/downloads/busybox-1.35.0.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
@@ -53,7 +53,7 @@ https://mirror.lyrahosting.com/gnu/coreutils/coreutils-9.0.tar.xz
 https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
-https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.2.tar.xz
+https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.0/cups-2.4.0-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
 https://curl.se/download/curl-7.81.0.tar.xz
@@ -101,7 +101,7 @@ https://mirror.lyrahosting.com/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/96.0/linux-x86_64/en-US/firefox-96.0.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
-https://github.com/flatpak/flatpak/releases/download/1.12.2/flatpak-1.12.2.tar.xz
+https://github.com/flatpak/flatpak/releases/download/1.12.3/flatpak-1.12.3.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://www.x.org/archive/individual/font/font-util-1.3.2.tar.bz2
 https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2
@@ -354,7 +354,7 @@ https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
 https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-21.3.3.tar.xz
+https://archive.mesa3d.org/mesa-21.3.4.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.61.0/meson-0.61.0.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -374,7 +374,7 @@ https://cdn.thesonicmaster.net/sources/net-snmp-5.9.1.tar.xz
 https://cdn.thesonicmaster.net/sources/netcat-0.7.1.tar.xz
 https://mirror.lyrahosting.com/gnu/nettle/nettle-3.7.3.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.24/network-manager-applet-1.24.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.32/NetworkManager-1.32.12.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.34/NetworkManager-1.34.0.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.46.0/nghttp2-1.46.0.tar.xz
 https://distfiles.gentoo.org/distfiles/ninja-1.10.2.tar.gz
