@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.0
 # Python.
-tar -xf Python-3.10.1.tar.xz
-cd Python-3.10.1
+tar -xf Python-3.10.2.tar.xz
+cd Python-3.10.2
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.10.1
+rm -rf Python-3.10.2
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -244,7 +244,7 @@ install -t /usr/share/licenses/zstd -Dm644 COPYING LICENSE
 cd ..
 rm -rf zstd-1.5.1
 # pigz.
-tar -xf pigz-2.6.tar.gz
+tar -xf pigz_2.6.orig.tar.xz
 cd pigz-2.6
 sed -i 's/O3/Os/' Makefile
 sed -i 's/LDFLAGS=/LDFLAGS=-s/' Makefile
@@ -266,8 +266,8 @@ install -t /usr/share/licenses/lzip -Dm644 COPYING
 cd ..
 rm -rf lzip-1.22
 # Readline.
-tar -xf readline-8.1.tar.gz
-cd readline-8.1
+tar -xf readline-8.1.2.tar.gz
+cd readline-8.1.2
 sed -i '/MV.*old/d' Makefile.in
 sed -i '/{OLDSUFF}/c:' support/shlib-install
 ./configure --prefix=/usr --disable-static --with-curses
@@ -275,7 +275,7 @@ make SHLIB_LIBS="-lncursesw"
 make SHLIB_LIBS="-lncursesw" install
 install -t /usr/share/licenses/readline -Dm644 COPYING
 cd ..
-rm -rf readline-8.1
+rm -rf readline-8.1.2
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -483,9 +483,9 @@ END
 cd ..
 rm -rf libcap-2.62
 # Shadow (initial build; will be rebuilt later to support AUDIT).
-tar -xf shadow-4.9.tar.xz
-cd shadow-4.9
-patch -Np1 -i ../patches/shadow-4.9-MassOSFixes.patch
+tar -xf shadow-4.11.1.tar.xz
+cd shadow-4.11.1
+patch -Np1 -i ../patches/shadow-4.11.1-MassOSFixes.patch
 touch /usr/bin/passwd
 ./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack
 make
@@ -534,7 +534,7 @@ done
 rm -f /etc/login.access /etc/limits
 install -t /usr/share/licenses/shadow -Dm644 COPYING
 cd ..
-rm -rf shadow-4.9
+rm -rf shadow-4.11.1
 # GCC.
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
@@ -682,14 +682,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.2.tar.xz
-cd expat-2.4.2
+tar -xf expat-2.4.3.tar.xz
+cd expat-2.4.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.2
+rm -rf expat-2.4.3
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -817,8 +817,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.10.1.tar.xz
-cd Python-3.10.1
+tar -xf Python-3.10.2.tar.xz
+cd Python-3.10.2
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -829,7 +829,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 cd ..
-rm -rf Python-3.10.1
+rm -rf Python-3.10.2
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -841,9 +841,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.61.0.tar.gz
-cd meson-0.61.0
-patch -Np1 -i ../patches/meson-0.61.0-fixes.patch
+tar -xf meson-0.61.1.tar.gz
+cd meson-0.61.1
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -851,7 +850,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.61.0
+rm -rf meson-0.61.1
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -2514,9 +2513,9 @@ chmod 4755 /usr/sbin/unix_chkpwd
 cd ..
 rm -rf Linux-PAM-1.5.2
 # Shadow (rebuild to support Audit).
-tar -xf shadow-4.9.tar.xz
-cd shadow-4.9
-patch -Np1 -i ../patches/shadow-4.9-MassOSFixes.patch
+tar -xf shadow-4.11.1.tar.xz
+cd shadow-4.11.1
+patch -Np1 -i ../patches/shadow-4.11.1-MassOSFixes.patch
 ./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack --with-audit
 make
 make exec_prefix=/usr install
@@ -2561,7 +2560,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.9
+rm -rf shadow-4.11.1
 # fcron.
 tar -xf fcron-3.2.1.src.tar.gz
 cd fcron-3.2.1
@@ -4344,15 +4343,15 @@ gtk-xft-rgba = rgb
 gtk-cursor-theme-name = Adwaita
 END
 # libhandy.
-tar -xf libhandy-1.4.0.tar.xz
-cd libhandy-1.4.0
+tar -xf libhandy-1.5.0.tar.xz
+cd libhandy-1.5.0
 mkdir handy-build; cd handy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
 cd ../..
-rm -rf libhandy-1.4.0
+rm -rf libhandy-1.5.0
 # libdazzle.
 tar -xf libdazzle-3.42.0.tar.xz
 cd libdazzle-3.42.0
@@ -4518,14 +4517,14 @@ install -t /usr/share/licenses/libsamplerate -Dm644 COPYING
 cd ..
 rm -rf libsamplerate-0.2.2
 # JACK2.
-tar -xf jack2-1.9.19.tar.gz
-cd jack2-1.9.19
+tar -xf jack2-1.9.20.tar.gz
+cd jack2-1.9.20
 ./waf configure --prefix=/usr --htmldir=/usr/share/doc/jack2 --autostart=none --classic --dbus --systemd-unit
 ./waf build -j$(nproc)
 ./waf install
 install -t /usr/share/licenses/jack2 -Dm644 COPYING
 cd ..
-rm -rf jack2-1.9.19
+rm -rf jack2-1.9.20
 # SBC.
 tar -xf sbc-1.5.tar.xz
 cd sbc-1.5
@@ -4697,8 +4696,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-files/ppp-license.txt
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.3950.tar.gz
-cd vim-8.2.3950
+tar -xf vim-8.2.4100.tar.gz
+cd vim-8.2.4100
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4721,7 +4720,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.3950
+rm -rf vim-8.2.4100
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4759,6 +4758,7 @@ tar -xf gcr-3.41.0.tar.xz
 cd gcr-3.41.0
 sed -i 's:"/desktop:"/org:' schema/*.xml
 sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
+patch -Np1 -i ../patches/gcr-3.41.0-meson-0.61.0-fix.patch
 mkdir gcr-build; cd gcr-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -4778,6 +4778,7 @@ rm -rf pinentry-1.2.0
 # AccountsService.
 tar -xf accountsservice-0.6.55.tar.xz
 cd accountsservice-0.6.55
+patch -Np1 -i ../patches/accountsservice-0.6.55-mesonfix.patch
 mkdir as-build; cd as-build
 meson --prefix=/usr --buildtype=release -Dadmin_group=adm -Dsystemd=true ..
 ninja
@@ -4908,9 +4909,9 @@ ln -sf mupdf-x11 /usr/bin/mupdf
 install -t /usr/share/licenses/mupdf -Dm644 COPYING
 cd ..
 rm -rf mupdf-1.18.0-source
-# CUPS Filters.
-tar -xf cups-filters-1.28.10.tar.xz
-cd cups-filters-1.28.10
+# cups-filters.
+tar -xf cups-filters-1.28.11.tar.xz
+cd cups-filters-1.28.11
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
 make
 make install
@@ -4918,7 +4919,7 @@ install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.se
 install -t /usr/share/licenses/cups-filters -Dm644 COPYING
 systemctl enable cups-browsed
 cd ..
-rm -rf cups-filters-1.28.10
+rm -rf cups-filters-1.28.11
 # Gutenprint.
 tar -xf gutenprint-5.3.3.tar.xz
 cd gutenprint-5.3.3
@@ -4978,15 +4979,15 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 cd ../..
 rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.10.1.tar.xz
-cd Python-3.10.1
+tar -xf Python-3.10.2.tar.xz
+cd Python-3.10.2
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 pip --no-color install requests
 pip --no-color install tldr
 cd ..
-rm -rf Python-3.10.1
+rm -rf Python-3.10.2
 # Cython.
 tar -xf Cython-0.29.25.tar.gz
 cd Cython-0.29.25
@@ -5156,6 +5157,7 @@ rm -rf libwnck-40.0
 # network-manager-applet.
 tar -xf network-manager-applet-1.24.0.tar.xz
 cd network-manager-applet-1.24.0
+patch -Np1 -i ../patches/network-manager-applet-1.24.0-MesonBrokeYetAnotherPackage.patch
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release -Dappindicator=no -Dselinux=false ..
 ninja
@@ -5682,6 +5684,7 @@ rm -rf libgdata-0.18.1
 # Gvfs.
 tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
+patch -Np1 -i ../patches/gvfs-1.48.1-mesonfix.patch
 mkdir gvfs-build; cd gvfs-build
 meson --prefix=/usr --buildtype=release -Dbluray=false -Dsmb=false ..
 ninja
@@ -6095,6 +6098,7 @@ rm -rf libglib-testing-0.1.0
 # malcontent (dependency of GNOME Software).
 tar -xf malcontent-0.10.3.tar.xz
 cd malcontent-0.10.3
+patch -Np1 -i ../patches/malcontent-0.10.3-mesonfix.patch
 mkdir malcontent-build; cd malcontent-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -6258,7 +6262,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-96.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-96.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6319,19 +6323,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.tar.xz
-cd linux-5.16
+tar -xf linux-5.16.1.tar.xz
+cd linux-5.16.1
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.0-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.0-massos/vmlinuz
-cp System.map /boot/System.map-5.16.0-massos
-cp .config /boot/config-5.16.0-massos
-rm /usr/lib/modules/5.16.0-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.1-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.1-massos/vmlinuz
+cp System.map /boot/System.map-5.16.1-massos
+cp .config /boot/config-5.16.1-massos
+rm /usr/lib/modules/5.16.1-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.0-massos/build
+builddir=/usr/lib/modules/5.16.1-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6355,7 +6359,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16
+rm -rf linux-5.16.1
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

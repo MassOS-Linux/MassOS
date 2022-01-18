@@ -1,0 +1,39 @@
+diff -aruN old/accounts-service/meson.build new/accounts-service/meson.build
+--- old/accounts-service/meson.build	2021-11-01 11:10:41.476670300 +0000
++++ new/accounts-service/meson.build	2022-01-18 20:59:04.004250270 +0000
+@@ -1,4 +1,4 @@
+-i18n.merge_file('com.endlessm.ParentalControls.policy',
++i18n.merge_file(
+   input: 'com.endlessm.ParentalControls.policy.in',
+   output: 'com.endlessm.ParentalControls.policy',
+   po_dir: po_dir,
+diff -aruN old/malcontent-control/meson.build new/malcontent-control/meson.build
+--- old/malcontent-control/meson.build	2021-11-01 11:10:41.492670300 +0000
++++ new/malcontent-control/meson.build	2022-01-18 21:00:33.925606233 +0000
+@@ -36,7 +36,7 @@
+   install: true,
+ )
+ 
+-desktop_file = i18n.merge_file('desktop-file',
++desktop_file = i18n.merge_file(
+   type: 'desktop',
+   input: '@0@.desktop.in'.format(application_id),
+   output: '@0@.desktop'.format(application_id),
+@@ -57,7 +57,7 @@
+   )
+ endif
+ 
+-appdata_file = i18n.merge_file('appdata-file',
++appdata_file = i18n.merge_file(
+   input: '@0@.appdata.xml.in'.format(application_id),
+   output: '@0@.appdata.xml'.format(application_id),
+   po_dir: join_paths(meson.current_source_dir(), '..', 'po'),
+@@ -94,7 +94,7 @@
+   )
+ endif
+ 
+-policy_file = i18n.merge_file('policy-file',
++policy_file = i18n.merge_file(
+   input: '@0@.policy.in'.format(application_id),
+   output: '@0@.policy'.format(application_id),
+   po_dir: join_paths(meson.current_source_dir(), '..', 'po'),

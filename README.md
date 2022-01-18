@@ -18,7 +18,7 @@ Some developers may also wish to [build MassOS themselves](building.md) using th
 # About This Repo
 This repo contains the scripts which are used to build the complete MassOS system. Most people won't want to run these. Instead, you can download the latest release tarball of MassOS from the [releases page](https://github.com/TheSonicMaster/MassOS/releases).
 # Releases
-The latest release of MassOS is **2022.01**.
+The latest release of MassOS is **2022.01.2**.
 
 Release numbers follow the format **YYYY.MM**. For example: the August 2021 release was **2021.08**. On a working MassOS system, you can check the version by running `massos-release`. There is a new release of MassOS roughly once or twice per month. New releases will usually include updated software. A new release in the same month as an existing release will typically be less major, and will have a version in the format **YYYY.MM.2**. You can upgrade an existing MassOS installation by using the [MassOS Upgrade Utility](https://github.com/TheSonicMaster/massos-upgrade).
 

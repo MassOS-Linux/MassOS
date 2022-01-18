@@ -55,7 +55,7 @@ https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.0/cups-2.4.0-source.tar.gz
-https://www.openprinting.org/download/cups-filters/cups-filters-1.28.10.tar.xz
+https://www.openprinting.org/download/cups-filters/cups-filters-1.28.11.tar.xz
 https://curl.se/download/curl-7.81.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
 https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
@@ -91,7 +91,7 @@ https://github.com/AbiWord/enchant/releases/download/v2.3.2/enchant-2.3.2.tar.gz
 https://deb.debian.org/debian/pool/main/e/exfatprogs/exfatprogs_1.1.3.orig.tar.xz
 https://www.exiv2.org/builds/exiv2-0.27.5-Source.tar.gz
 https://archive.fr.xfce.org/src/xfce/exo/4.16/exo-4.16.3.tar.bz2
-https://github.com/libexpat/libexpat/releases/download/R_2_4_2/expat-2.4.2.tar.xz
+https://github.com/libexpat/libexpat/releases/download/R_2_4_3/expat-2.4.3.tar.xz
 https://github.com/knik0/faad2/archive/2_10_0/faad2-2_10_0.tar.gz
 https://distfiles.gentoo.org/distfiles/fcron-3.2.1.src.tar.gz
 https://ffmpeg.org/releases/ffmpeg-4.4.1.tar.xz
@@ -99,7 +99,7 @@ https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/96.0/linux-x86_64/en-US/firefox-96.0.tar.bz2
+https://archive.mozilla.org/pub/firefox/releases/96.0.1/linux-x86_64/en-US/firefox-96.0.1.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.12.3/flatpak-1.12.3.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
@@ -184,7 +184,7 @@ https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.16.0.tar.xz
 https://distfiles.gentoo.org/distfiles/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.9.0.orig.tar.xz
 https://cdn.thesonicmaster.net/sources/itstool-2.0.7.tar.bz2
-https://github.com/jackaudio/jack2/archive/v1.9.19/jack2-1.9.19.tar.gz
+https://github.com/jackaudio/jack2/archive/v1.9.20/jack2-1.9.20.tar.gz
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
 https://github.com/jasper-software/jasper/archive/version-2.0.33/jasper-2.0.33.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.0.3.tar.gz
@@ -232,7 +232,7 @@ https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.43.tar.bz2
 https://github.com/gphoto/libgphoto2/releases/download/v2.5.27/libgphoto2-2.5.27.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libgusb-0.3.10.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/libhandy/1.4/libhandy-1.4.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libhandy/1.5/libhandy-1.5.0.tar.xz
 https://github.com/libical/libical/releases/download/v3.0.12/libical-3.0.12.tar.gz
 https://www.x.org/archive/individual/lib/libICE-1.0.10.tar.bz2
 https://mirror.lyrahosting.com/gnu/libidn/libidn2-2.3.2.tar.gz
@@ -329,7 +329,7 @@ https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -355,7 +355,7 @@ https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
 https://archive.mesa3d.org/mesa-21.3.4.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.61.0/meson-0.61.0.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.61.1/meson-0.61.1.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.4.tar.xz
@@ -409,7 +409,7 @@ https://fossies.org/linux/misc/pcre-8.45.tar.bz2
 https://fossies.org/linux/misc/pcre2-10.39.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.0.tar.xz
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
-https://zlib.net/pigz/pigz-2.6.tar.gz
+https://deb.debian.org/debian/pool/main/p/pigz/pigz_2.6.orig.tar.xz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/0.9.5/plymouth-0.9.5.tar.gz
@@ -428,10 +428,10 @@ https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.ta
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
-https://www.python.org/ftp/python/3.10.1/Python-3.10.1.tar.xz
+https://www.python.org/ftp/python/3.10.2/Python-3.10.2.tar.xz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.5.0/qpdf-10.5.0.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
-https://mirror.lyrahosting.com/gnu/readline/readline-8.1.tar.gz
+https://mirror.lyrahosting.com/gnu/readline/readline-8.1.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
@@ -448,7 +448,7 @@ https://mirror.lyrahosting.com/gnu/sed/sed-4.8.tar.xz
 https://www.x.org/archive/individual/app/sessreg-1.1.2.tar.bz2
 https://www.x.org/archive/individual/app/setxkbmap-1.3.2.tar.bz2
 https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-0.6.3.tgz
-https://github.com/shadow-maint/shadow/releases/download/v4.9/shadow-4.9.tar.xz
+https://github.com/shadow-maint/shadow/releases/download/v4.11.1/shadow-4.11.1.tar.xz
 https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.1/shared-mime-info-2.1.tar.gz
 https://mirror.lyrahosting.com/gnu/sharutils/sharutils-4.15.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/shotwell/0.30/shotwell-0.30.14.tar.xz
@@ -490,7 +490,7 @@ https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.2.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.6.tar.xz
-https://github.com/vim/vim/archive/v8.2.3950/vim-8.2.3950.tar.gz
+https://github.com/vim/vim/archive/v8.2.4100/vim-8.2.4100.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.2/vte-0.66.2.tar.gz

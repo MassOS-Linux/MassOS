@@ -1,0 +1,319 @@
+diff -aruN old/etc/login.defs new/etc/login.defs
+--- old/etc/login.defs	2021-12-24 16:31:16.000000000 +0000
++++ new/etc/login.defs	2022-01-15 11:20:32.482658718 +0000
+@@ -127,7 +127,7 @@
+ #   Directory where mailboxes reside, _or_ name of file, relative to the
+ #   home directory.  If you _do_ define both, MAIL_DIR takes precedence.
+ #
+-MAIL_DIR	/var/spool/mail
++MAIL_DIR	/var/mail
+ #MAIL_FILE	.mail
+ 
+ #
+@@ -158,8 +158,8 @@
+ # *REQUIRED*  The default PATH settings, for superuser and normal users.
+ #
+ # (they are minimal, add the rest in the shell startup files)
+-ENV_SUPATH	PATH=/sbin:/bin:/usr/sbin:/usr/bin
+-ENV_PATH	PATH=/bin:/usr/bin
++ENV_SUPATH	PATH=/usr/sbin:/usr/bin
++ENV_PATH	PATH=/usr/bin
+ 
+ #
+ # Terminal permissions
+@@ -230,7 +230,7 @@
+ #
+ # If compiled with cracklib support, sets the path to the dictionaries
+ #
+-CRACKLIB_DICTPATH	/var/cache/cracklib/cracklib_dict
++CRACKLIB_DICTPATH	/lib/cracklib/pw_dict
+ 
+ #
+ # Min/max values for automatic uid selection in useradd(8)
+@@ -334,7 +334,7 @@
+ # Note: If you use PAM, it is recommended to use a value consistent with
+ # the PAM modules configuration.
+ #
+-#ENCRYPT_METHOD DES
++ENCRYPT_METHOD SHA512
+ 
+ #
+ # Only works if ENCRYPT_METHOD is set to SHA256 or SHA512.
+diff -aruN old/man/cs/Makefile.in new/man/cs/Makefile.in
+--- old/man/cs/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/cs/Makefile.in	2022-01-15 11:19:55.159403151 +0000
+@@ -326,12 +326,12 @@
+ 	man8/groupadd.8 \
+ 	man8/groupdel.8 \
+ 	man8/groupmod.8 \
+-	man1/groups.1 \
++	man1/ \
+ 	man8/grpck.8 \
+ 	man5/gshadow.5 \
+ 	man8/lastlog.8 \
+ 	man8/nologin.8 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man5/shadow.5 \
+ 	man1/su.1 \
+ 	man8/vipw.8
+diff -aruN old/man/da/Makefile.in new/man/da/Makefile.in
+--- old/man/da/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/da/Makefile.in	2022-01-15 11:19:55.142736520 +0000
+@@ -323,7 +323,7 @@
+ top_srcdir = @top_srcdir@
+ 
+ # 2012.01.28 - activate manpages with more than 50% translated messages
+-man_MANS = man1/chfn.1 man8/groupdel.8 man1/groups.1 man5/gshadow.5 \
++man_MANS = man1/chfn.1 man8/groupdel.8 man1/ man5/gshadow.5 \
+ 	man8/logoutd.8 man1/newgrp.1 man8/nologin.8 man1/sg.1 \
+ 	man8/vigr.8 man8/vipw.8 $(am__append_1)
+ man_nopam = 
+diff -aruN old/man/de/Makefile.in new/man/de/Makefile.in
+--- old/man/de/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/de/Makefile.in	2022-01-15 11:19:55.166069804 +0000
+@@ -324,11 +324,11 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man1/su.1 man5/suauth.5 \
+ 	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+diff -aruN old/man/es/Makefile.in new/man/es/Makefile.in
+--- old/man/es/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/es/Makefile.in	2022-01-15 11:19:55.149403173 +0000
+@@ -292,7 +292,7 @@
+ #	man1/login.1 \
+ #	man1/newgrp.1 \
+ #	man1/passwd.1 \
+-#	man5/passwd.5 \
++#	man5/ \
+ #	man1/su.1 \
+ #	man8/vigr.8 \
+ #	man8/vipw.8
+diff -aruN old/man/fr/Makefile.in new/man/fr/Makefile.in
+--- old/man/fr/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/fr/Makefile.in	2022-01-15 11:19:55.166069804 +0000
+@@ -326,11 +326,11 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man1/su.1 man5/suauth.5 \
+ 	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+diff -aruN old/man/hu/Makefile.in new/man/hu/Makefile.in
+--- old/man/hu/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/hu/Makefile.in	2022-01-15 11:19:55.162736478 +0000
+@@ -321,12 +321,12 @@
+ man_MANS = \
+ 	man1/chsh.1 \
+ 	man1/gpasswd.1 \
+-	man1/groups.1 \
++	man1/ \
+ 	man8/lastlog.8 \
+ 	man1/login.1 \
+ 	man1/newgrp.1 \
+ 	man1/passwd.1 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man1/sg.1 \
+ 	man1/su.1
+ 
+diff -aruN old/man/it/Makefile.in new/man/it/Makefile.in
+--- old/man/it/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/it/Makefile.in	2022-01-15 11:19:55.136069867 +0000
+@@ -324,11 +324,11 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man1/su.1 man5/suauth.5 \
+ 	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+diff -aruN old/man/ja/Makefile.in new/man/ja/Makefile.in
+--- old/man/ja/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/ja/Makefile.in	2022-01-15 11:19:55.172736457 +0000
+@@ -322,10 +322,10 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chpasswd.8 man1/chsh.1 \
+ 	man1/expiry.1 man5/faillog.5 man8/faillog.8 man1/gpasswd.1 \
+-	man8/groupadd.8 man8/groupdel.8 man8/groupmod.8 man1/groups.1 \
++	man8/groupadd.8 man8/groupdel.8 man8/groupmod.8 man1/ \
+ 	man8/grpck.8 man8/grpconv.8 man8/grpunconv.8 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man1/passwd.1 man5/passwd.5 man8/pwck.8 \
++	man8/newusers.8 man1/passwd.1 man5/ man8/pwck.8 \
+ 	man8/pwconv.8 man8/pwunconv.8 man1/sg.1 man5/shadow.5 \
+ 	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
+ 	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1)
+diff -aruN old/man/ko/Makefile.in new/man/ko/Makefile.in
+--- old/man/ko/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/ko/Makefile.in	2022-01-15 11:19:55.132736541 +0000
+@@ -321,9 +321,9 @@
+ man_MANS = \
+ 	man1/chfn.1 \
+ 	man1/chsh.1 \
+-	man1/groups.1 \
++	man1/ \
+ 	man1/login.1 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man1/su.1 \
+ 	man8/vigr.8 \
+ 	man8/vipw.8
+diff -aruN old/man/Makefile.in new/man/Makefile.in
+--- old/man/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/Makefile.in	2022-01-15 11:19:55.152736499 +0000
+@@ -392,11 +392,11 @@
+ @USE_NLS_TRUE@SUBDIRS = po cs da de es fi fr hu id it ja ko pl pt_BR ru sv tr zh_CN zh_TW
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man5/suauth.5 man8/useradd.8 \
+ 	man8/userdel.8 man8/usermod.8 man8/vigr.8 man8/vipw.8 \
+diff -aruN old/man/pl/Makefile.in new/man/pl/Makefile.in
+--- old/man/pl/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/pl/Makefile.in	2022-01-15 11:19:55.142736520 +0000
+@@ -325,8 +325,8 @@
+ 
+ # 2012.01.28 - activate manpages with more than 50% translated messages
+ man_MANS = man1/chage.1 man1/chsh.1 man1/expiry.1 man5/faillog.5 \
+-	man8/faillog.8 man3/getspnam.3 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man8/faillog.8 man3/ man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/lastlog.8 man8/logoutd.8 man1/newgrp.1 man1/sg.1 \
+ 	man3/shadow.3 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+ 	man8/vipw.8 $(am__append_1)
+diff -aruN old/man/pt_BR/Makefile.in new/man/pt_BR/Makefile.in
+--- old/man/pt_BR/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/pt_BR/Makefile.in	2022-01-15 11:19:55.132736541 +0000
+@@ -323,7 +323,7 @@
+ 	man8/groupadd.8 \
+ 	man8/groupdel.8 \
+ 	man8/groupmod.8 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man5/shadow.5
+ 
+ EXTRA_DIST = $(man_MANS)
+diff -aruN old/man/ru/Makefile.in new/man/ru/Makefile.in
+--- old/man/ru/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/ru/Makefile.in	2022-01-15 11:19:55.169403130 +0000
+@@ -324,11 +324,11 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man1/su.1 man5/suauth.5 \
+ 	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+diff -aruN old/man/sv/Makefile.in new/man/sv/Makefile.in
+--- old/man/sv/Makefile.in	2022-01-03 03:09:23.000000000 +0000
++++ new/man/sv/Makefile.in	2022-01-15 11:19:55.146069846 +0000
+@@ -325,10 +325,10 @@
+ 
+ # 2012.01.28 - activate manpages with more than 50% translated messages
+ man_MANS = man1/chage.1 man1/chsh.1 man1/expiry.1 man5/faillog.5 \
+-	man8/faillog.8 man3/getspnam.3 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man8/faillog.8 man3/ man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man5/gshadow.5 man8/lastlog.8 man8/logoutd.8 man1/newgrp.1 \
+-	man8/nologin.8 man1/passwd.1 man5/passwd.5 man8/pwck.8 \
++	man8/nologin.8 man1/passwd.1 man5/ man8/pwck.8 \
+ 	man1/sg.1 man3/shadow.3 man5/suauth.5 man8/userdel.8 \
+ 	man8/vigr.8 man8/vipw.8 $(am__append_1)
+ man_nopam = \
+diff -aruN old/man/tr/Makefile.in new/man/tr/Makefile.in
+--- old/man/tr/Makefile.in	2022-01-03 03:09:24.000000000 +0000
++++ new/man/tr/Makefile.in	2022-01-15 11:19:55.176069783 +0000
+@@ -326,7 +326,7 @@
+ 	man8/groupmod.8 \
+ 	man1/login.1 \
+ 	man1/passwd.1 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man5/shadow.5 \
+ 	man1/su.1 \
+ 	man8/useradd.8 \
+diff -aruN old/man/zh_CN/Makefile.in new/man/zh_CN/Makefile.in
+--- old/man/zh_CN/Makefile.in	2022-01-03 03:09:24.000000000 +0000
++++ new/man/zh_CN/Makefile.in	2022-01-15 11:19:55.172736457 +0000
+@@ -324,11 +324,11 @@
+ top_srcdir = @top_srcdir@
+ man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
+ 	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
+-	man3/getspnam.3 man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
+-	man8/groupmems.8 man8/groupmod.8 man1/groups.1 man8/grpck.8 \
++	man3/ man1/gpasswd.1 man8/groupadd.8 man8/groupdel.8 \
++	man8/groupmems.8 man8/groupmod.8 man1/ man8/grpck.8 \
+ 	man8/grpconv.8 man8/grpunconv.8 man5/gshadow.5 man8/lastlog.8 \
+ 	man1/login.1 man5/login.defs.5 man8/logoutd.8 man1/newgrp.1 \
+-	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/passwd.5 \
++	man8/newusers.8 man8/nologin.8 man1/passwd.1 man5/ \
+ 	man8/pwck.8 man8/pwconv.8 man8/pwunconv.8 man1/sg.1 \
+ 	man3/shadow.3 man5/shadow.5 man1/su.1 man5/suauth.5 \
+ 	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
+diff -aruN old/man/zh_TW/Makefile.in new/man/zh_TW/Makefile.in
+--- old/man/zh_TW/Makefile.in	2022-01-03 03:09:24.000000000 +0000
++++ new/man/zh_TW/Makefile.in	2022-01-15 11:19:55.152736499 +0000
+@@ -328,7 +328,7 @@
+ 	man8/groupadd.8 \
+ 	man8/groupdel.8 \
+ 	man8/groupmod.8 \
+-	man5/passwd.5 \
++	man5/ \
+ 	man1/su.1 \
+ 	man8/useradd.8 \
+ 	man8/userdel.8 \
+diff -aruN old/src/Makefile.in new/src/Makefile.in
+--- old/src/Makefile.in	2022-01-03 03:09:24.000000000 +0000
++++ new/src/Makefile.in	2022-01-15 11:19:54.996070163 +0000
+@@ -88,7 +88,7 @@
+ POST_UNINSTALL = :
+ build_triplet = @build@
+ host_triplet = @host@
+-bin_PROGRAMS = groups$(EXEEXT) login$(EXEEXT) $(am__EXEEXT_1) \
++bin_PROGRAMS = login$(EXEEXT) $(am__EXEEXT_1) \
+ 	$(am__EXEEXT_2)
+ sbin_PROGRAMS = nologin$(EXEEXT)
+ ubin_PROGRAMS = faillog$(EXEEXT) lastlog$(EXEEXT) chage$(EXEEXT) \
