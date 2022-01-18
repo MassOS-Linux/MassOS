@@ -1,0 +1,19 @@
+diff -aruN old/meson.build new/meson.build
+--- old/meson.build	2021-08-17 09:11:30.000000000 +0100
++++ new/meson.build	2022-01-18 17:27:30.023335630 +0000
+@@ -253,7 +253,6 @@
+ 
+ foreach desktop: desktop_files
+   i18n.merge_file(
+-    desktop + '-desktop',
+     input: desktop + '.desktop.in',
+     output: desktop + '.desktop',
+     install: true,
+@@ -274,7 +273,6 @@
+ appdata = 'nm-connection-editor.appdata.xml'
+ 
+ i18n.merge_file(
+-  'desktop',
+   input: appdata + '.in',
+   output: appdata,
+   install: true,

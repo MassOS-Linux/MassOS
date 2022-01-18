@@ -39,7 +39,7 @@ c-ares
 cairo
 cairomm
 cdparanoia
-cdrtools
+cdrkit
 check
 clang
 clutter
@@ -146,6 +146,7 @@ gst-plugins-base
 gst-plugins-good
 gst-plugins-ugly
 gstreamer
+gtar
 gtk-doc
 gtk2
 gtk3
@@ -195,8 +196,10 @@ libbytesize
 libcanberra
 libcap
 libcdio
+libcdio-paranoia
 libchamplain
 libdaemon
+libdazzle
 libdmx
 libdrm
 libdvdnav
@@ -239,7 +242,7 @@ libpciaccess
 libpipeline
 libplist
 libpng
-libportal
+libportal-gtk3
 libpsl
 libpwquality
 libqmi
@@ -331,6 +334,7 @@ m4
 make
 make-ca
 mako
+malcontent
 man-db
 man-pages
 markupsafe
@@ -415,6 +419,7 @@ rest
 rpcsvc-proto
 rrdtool
 rsync
+rtmpdump
 ruby
 sane
 sassc
@@ -446,7 +451,6 @@ swig
 sysprof
 systemd
 taglib
-tar
 tcl
 texinfo
 thin-provisioning-tools
@@ -461,7 +465,8 @@ tzdata
 udisks
 unzip
 upower
-usbutils
+usbutil
+userspace-rcu
 util-linux
 util-macros
 vala
@@ -469,12 +474,15 @@ vim
 vitetris
 volume-key
 vte
+vulkan-headers
+vulkan-loader
 wayland
 wayland-protocols
 webkitgtk
 wget
 which
 whois
+woff2
 wpa-supplicant
 wpebackend-fdo
 x11perf
@@ -516,6 +524,7 @@ xfce4-notifyd
 xfce4-panel
 xfce4-power-manager
 xfce4-pulseaudio-plugin
+xfce4-screensaver
 xfce4-screenshooter
 xfce4-session
 xfce4-settings
