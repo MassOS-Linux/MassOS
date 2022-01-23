@@ -1948,6 +1948,7 @@ make install
 mkdir -p /etc/ld.so.conf.d
 echo "/usr/lib/libfakeroot" > /etc/ld.so.conf.d/fakeroot.conf
 ldconfig
+install -t /usr/share/licenses/fakeroot -Dm644 COPYING
 cd ..
 rm -rf fakeroot-1.27
 # Parted.
@@ -4000,6 +4001,33 @@ ln -sf genisoimage.1 /usr/share/man/man1/mkisofs.1
 install -t /usr/share/licenses/cdrkit -Dm644 ../COPYING
 cd ../..
 rm -rf cdrkit-1.1.11
+# libburn.
+tar -xf libburn-1.5.4.tar.gz
+cd libburn-1.5.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libburn -Dm644 COPYING COPYRIGHT
+cd ..
+rm -rf libburn-1.5.4
+# libisofs.
+tar -xf libisofs-1.5.4.tar.gz
+cd libisofs-1.5.4
+./configure --prefix=/usr --disable-static --enable-libacl --enable-xattr
+make
+make install
+install -t /usr/share/licenses/libisofs -Dm644 COPYING COPYRIGHT
+cd ..
+rm -rf libisofs-1.5.4
+# libisoburn.
+tar -xf libisoburn-1.5.4.tar.gz
+cd libisoburn-1.5.4
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/libisoburn -Dm644 COPYING COPYRIGHT
+cd ..
+rm -rf libisoburn-1.5.4
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120

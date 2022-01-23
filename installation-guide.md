@@ -10,7 +10,8 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development branch of MassOS. It contains the following changes so far, however may be subject to more before the stable release of the next version of MassOS:
 
-- Development has only just begun, check back soon!
+- Added Fakeroot.
+- Added libisoburn, for xorriso utility.
 
 It also includes the following upgraded software:
 

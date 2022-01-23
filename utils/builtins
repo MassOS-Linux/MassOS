@@ -194,6 +194,7 @@ libass
 libassuan
 libatasmart
 libblockdev
+libburn
 libbytesize
 libcanberra
 libcap
@@ -226,6 +227,8 @@ libice
 libidn2
 libimobiledevice
 libinput
+libisoburn
+libisofs
 libjpeg-turbo
 libksba
 libmbim
