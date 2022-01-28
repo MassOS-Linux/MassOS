@@ -6,13 +6,13 @@ MassOS has the Flatpak package manager built in. Flatpak provides a nice way of 
 There are two ways you can install Flatpak apps on MassOS. You can either do so from the GUI software center, or from the terminal.
 ## Installing Flatpak software from the GUI software center
 The software center on MassOS can be launched from the applications menu, or from the panel at the bottom of the screen:
-![](software1.png)
+![](screenshots/software1.png)
 Once opened, the front page of the store contains some recommended apps. You can browse through the categories, or click the search button at the top left hand corner:
-![](software2.png)
+![](screenshots/software2.png)
 For example: To install VLC Media Player, we will search for "vlc":
-![](software3.png)
+![](screenshots/software3.png)
 Now click "Install" and wait patiently. When the app is installed, it will be available from your apps list. You can also launch it by clicking the "Launch" button in the software center.
-![](software4.png)
+![](screenshots/software4.png)
 ## Installing Flatpak software from the command-line
 Press Control+Alt+T to open the terminal, or find the terminal in your apps list.
 

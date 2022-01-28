@@ -36,4 +36,4 @@ non_root_user=$(whoami)
 sudo chown $non_root_user:$non_root_user massos-$(cat utils/massos-release)-rootfs-x86_64.tar.xz
 unset non_root_user
 ```
-You can then use this tarball to install MassOS following the installation guide.
+To create a Live CD ISO image for your rootfs tarball, see the [livecd-installer](https://github.com/MassOS-Linux/livecd-installer) repository.

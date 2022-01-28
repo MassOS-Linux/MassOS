@@ -104,14 +104,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.37.2.tar.xz
-cd util-linux-2.37.2
+tar -xf util-linux-2.37.3.tar.xz
+cd util-linux-2.37.3
 mkdir -p /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.2
+rm -rf util-linux-2.37.3
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -396,15 +396,15 @@ install -t /usr/share/licenses/acl -Dm644 doc/COPYING doc/COPYING.LGPL
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.62.tar.xz
-cd libcap-2.62
+tar -xf libcap-2.63.tar.xz
+cd libcap-2.63
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.62
+chmod 755 /usr/lib/lib{cap,psx}.so.2.63
 install -t /usr/share/licenses/libcap -Dm644 License
 cd ..
-rm -rf libcap-2.62
+rm -rf libcap-2.63
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -471,8 +471,8 @@ install -t /usr/share/licenses/libpwquality -Dm644 COPYING
 cd ..
 rm -rf libpwquality-1.4.4
 # Libcap (with Linux-PAM).
-tar -xf libcap-2.62.tar.xz
-cd libcap-2.62
+tar -xf libcap-2.63.tar.xz
+cd libcap-2.63
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -481,7 +481,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.62
+rm -rf libcap-2.63
 # Shadow (initial build; will be rebuilt later to support AUDIT).
 tar -xf shadow-4.11.1.tar.xz
 cd shadow-4.11.1
@@ -1716,14 +1716,14 @@ install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.37.2.tar.xz
-cd util-linux-2.37.2
+tar -xf util-linux-2.37.3.tar.xz
+cd util-linux-2.37.3
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
-rm -rf util-linux-2.37.2
+rm -rf util-linux-2.37.3
 # Busybox.
 tar -xf busybox-1.35.0.tar.bz2
 cd busybox-1.35.0
@@ -2021,8 +2021,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.81.0
 # CMake.
-tar -xf cmake-3.22.1.tar.gz
-cd cmake-3.22.1
+tar -xf cmake-3.22.2.tar.gz
+cd cmake-3.22.2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2030,7 +2030,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.22.1
+rm -rf cmake-3.22.2
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2631,8 +2631,8 @@ install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
 rm -rf nss-3.74
 # Git.
-tar -xf git-2.34.1.tar.xz
-cd git-2.34.1
+tar -xf git-2.35.0.tar.xz
+cd git-2.35.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
@@ -2640,7 +2640,7 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.34.1
+rm -rf git-2.35.0
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -2671,8 +2671,8 @@ make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
 # GLib.
-tar -xf glib-2.70.2.tar.xz
-cd glib-2.70.2
+tar -xf glib-2.70.3.tar.xz
+cd glib-2.70.3
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
@@ -2680,7 +2680,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.70.2
+rm -rf glib-2.70.3
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -3624,25 +3624,25 @@ install -t /usr/share/licenses/glslang -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf glslang-11.7.1
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.2.203.tar.gz
-cd Vulkan-Headers-1.2.203
+tar -xf Vulkan-Headers-1.3.204.tar.gz
+cd Vulkan-Headers-1.3.204
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.2.203
+rm -rf Vulkan-Headers-1.3.204
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.2.203.tar.gz
-cd Vulkan-Loader-1.2.203
+tar -xf Vulkan-Loader-1.3.204.tar.gz
+cd Vulkan-Loader-1.3.204
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.2.203
+rm -rf Vulkan-Loader-1.3.204
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3883,14 +3883,14 @@ install -t /usr/share/licenses/libinput -Dm644 ../COPYING
 cd ../..
 rm -rf libinput-1.19.3
 # xf86-input-libinput.
-tar -xf xf86-input-libinput-1.2.0.tar.bz2
-cd xf86-input-libinput-1.2.0
+tar -xf xf86-input-libinput-1.2.1.tar.xz
+cd xf86-input-libinput-1.2.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/xf86-input-libinput -Dm644 COPYING
 cd ..
-rm -rf xf86-input-libinput-1.2.0
+rm -rf xf86-input-libinput-1.2.1
 # xf86-input-synaptics.
 tar -xf xf86-input-synaptics-1.9.1.tar.bz2
 cd xf86-input-synaptics-1.9.1
@@ -4031,6 +4031,7 @@ rm -rf libisoburn-1.5.4
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
+patch -Np1 -i ../patches/polkit-0.120-CVE-2021-4034.patch
 groupadd -fg 27 polkitd
 useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
 sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
@@ -5594,7 +5595,7 @@ rm -rf openal-soft-1.21.1
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -5604,7 +5605,7 @@ rm -rf gstreamer-1.18.5
 tar -xf gst-plugins-base-1.18.5.tar.xz
 cd gst-plugins-base-1.18.5
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -5614,7 +5615,7 @@ rm -rf gst-plugins-base-1.18.5
 tar -xf gst-plugins-good-1.18.5.tar.xz
 cd gst-plugins-good-1.18.5
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -5624,7 +5625,7 @@ rm -rf gst-plugins-good-1.18.5
 tar -xf gst-plugins-bad-1.18.5.tar.xz
 cd gst-plugins-bad-1.18.5
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -5634,7 +5635,7 @@ rm -rf gst-plugins-bad-1.18.5
 tar -xf gst-plugins-ugly-1.18.5.tar.xz
 cd gst-plugins-ugly-1.18.5
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -5644,7 +5645,7 @@ rm -rf gst-plugins-ugly-1.18.5
 tar -xf gst-libav-1.18.5.tar.xz
 cd gst-libav-1.18.5
 mkdir gstlibav-build; cd gstlibav-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/TheSonicMaster/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
@@ -6339,7 +6340,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.5.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.5.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
