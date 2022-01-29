@@ -1276,6 +1276,16 @@ make prefix=/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
 install -t /usr/share/licenses/zip -Dm644 LICENSE
 cd ..
 rm -rf zip30
+# minizip.
+tar -xf zlib-1.2.11.tar.xz
+cd zlib-1.2.11/contrib/minizip
+autoreconf -fi
+./configure --prefix=/usr --enable-static=no
+make
+make install
+ln -sf zlib /usr/share/licenses/minizip
+cd ../../..
+rm -rf zlib-1.2.11
 # sgml-common.
 tar -xf sgml-common-0.6.3.tgz
 cd sgml-common-0.6.3
