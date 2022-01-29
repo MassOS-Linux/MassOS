@@ -41,6 +41,7 @@ It also includes the following upgraded software:
 - systemd: `250.2 --> 250.3`
 - Thunderbird: `91.5.0 --> 91.5.1`
 - util-linux: `2.37.2 --> 2.37.3`
+- Vim: `8.2.4100 --> 8.2.4250`
 - Vulkan-Headers: `1.2.203 --> 1.3.204`
 - Vulkan-Loader: `1.2.203 --> 1.3.204`
 - WebKitGTK: `2.34.3 --> 2.34.4`
