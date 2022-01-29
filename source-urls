@@ -56,7 +56,7 @@ https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
-https://github.com/OpenPrinting/cups/releases/download/v2.4.0/cups-2.4.0-source.tar.gz
+https://github.com/OpenPrinting/cups/releases/download/v2.4.1/cups-2.4.1-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.11.tar.xz
 https://curl.se/download/curl-7.81.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
@@ -102,7 +102,7 @@ https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.8.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/78.15.0esr/source/firefox-78.15.0esr.source.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/96.0.2/linux-x86_64/en-US/firefox-96.0.2.tar.bz2
+https://archive.mozilla.org/pub/firefox/releases/96.0.3/linux-x86_64/en-US/firefox-96.0.3.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.12.4/flatpak-1.12.4.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
@@ -126,7 +126,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.xz
 https://cdn.thesonicmaster.net/sources/ghostscript-fonts-std-8.11.tar.gz
 https://cdn.thesonicmaster.net/sources/giflib-5.2.1.tar.gz
-https://cdn.kernel.org/pub/software/scm/git/git-2.35.0.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.35.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.3.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.1.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.34.tar.xz
@@ -232,7 +232,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libgdata/0.18/libgdata-0.18.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgee/0.20/libgee-0.20.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
 https://cdn.thesonicmaster.net/sources/libglib-testing-0.1.0.tar.xz
-https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.43.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.44.tar.bz2
 https://github.com/gphoto/libgphoto2/releases/download/v2.5.27/libgphoto2-2.5.27.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libgusb-0.3.10.tar.xz
@@ -335,7 +335,7 @@ https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.2.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.4.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.0/llvm-13.0.0.src.tar.xz
@@ -360,7 +360,7 @@ https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
 https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-21.3.4.tar.xz
+https://archive.mesa3d.org/mesa-21.3.5.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.61.1/meson-0.61.1.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://cdn.thesonicmaster.net/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -468,7 +468,7 @@ https://cdn.thesonicmaster.net/sources/squashfs-tools-4.5.tar.xz
 https://github.com/vasi/squashfuse/releases/download/0.1.104/squashfuse-0.1.104.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.2/sshfs-3.7.2.tar.xz
 https://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
-https://fossies.org/linux/misc/sudo-1.9.8p2.tar.gz
+https://www.sudo.ws/sudo/dist/sudo-1.9.9.tar.gz
 https://cdn.thesonicmaster.net/sources/swig-4.0.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/sysprof/3.42/sysprof-3.42.1.tar.xz
 https://github.com/systemd/systemd-stable/archive/v250.3/systemd-stable-250.3.tar.gz

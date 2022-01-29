@@ -1239,14 +1239,14 @@ install -t /usr/share/licenses/icu -Dm644 LICENSE_1_0.txt
 cd ..
 rm -rf boost_1_78_0
 # libgpg-error.
-tar -xf libgpg-error-1.43.tar.bz2
-cd libgpg-error-1.43
+tar -xf libgpg-error-1.44.tar.bz2
+cd libgpg-error-1.44
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libgpg-error -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libgpg-error-1.43
+rm -rf libgpg-error-1.44
 # libgcrypt.
 tar -xf libgcrypt-1.9.4.tar.bz2
 cd libgcrypt-1.9.4
@@ -2631,8 +2631,8 @@ install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
 rm -rf nss-3.74
 # Git.
-tar -xf git-2.35.0.tar.xz
-cd git-2.35.0
+tar -xf git-2.35.1.tar.xz
+cd git-2.35.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
@@ -2640,7 +2640,7 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.35.0
+rm -rf git-2.35.1
 # libstemmer.
 tar -xf libstemmer-2.1.0.tar.xz
 cd libstemmer-2.1.0
@@ -2821,8 +2821,8 @@ install -t /usr/share/licenses/js78 -Dm644 ../../extra-package-files/js78-licens
 cd ../..
 rm -rf firefox-78.15.0
 # Sudo.
-tar -xf sudo-1.9.8p2.tar.gz
-cd sudo-1.9.8p2
+tar -xf sudo-1.9.9.tar.gz
+cd sudo-1.9.9
 ./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
@@ -2839,9 +2839,9 @@ account   include     system-account
 session   required    pam_env.so
 session   include     system-session
 END
-install -t /usr/share/licenses/sudo -Dm644 doc/LICENSE
+install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 cd ..
-rm -rf sudo-1.9.8p2
+rm -rf sudo-1.9.9
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3663,8 +3663,8 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.4.tar.xz
-cd mesa-21.3.4
+tar -xf mesa-21.3.5.tar.xz
+cd mesa-21.3.5
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3673,7 +3673,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-21.3.4
+rm -rf mesa-21.3.5
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -4870,8 +4870,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../COPYING
 cd ../..
 rm -rf colord-1.4.5
 # CUPS.
-tar -xf cups-2.4.0-source.tar.gz
-cd cups-2.4.0
+tar -xf cups-2.4.1-source.tar.gz
+cd cups-2.4.1
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
@@ -4888,7 +4888,7 @@ systemctl enable cups
 rm -f /usr/share/applications/cups.desktop
 install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
-rm -rf cups-2.4.0
+rm -rf cups-2.4.1
 # Poppler.
 tar -xf poppler-22.01.0.tar.xz
 cd poppler-22.01.0
@@ -6309,7 +6309,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-96.0.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-96.0.3.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6370,19 +6370,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.2.tar.xz
-cd linux-5.16.2
+tar -xf linux-5.16.4.tar.xz
+cd linux-5.16.4
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.2-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.2-massos/vmlinuz
-cp System.map /boot/System.map-5.16.2-massos
-cp .config /boot/config-5.16.2-massos
-rm /usr/lib/modules/5.16.2-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.4-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.4-massos/vmlinuz
+cp System.map /boot/System.map-5.16.4-massos
+cp .config /boot/config-5.16.4-massos
+rm /usr/lib/modules/5.16.4-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.2-massos/build
+builddir=/usr/lib/modules/5.16.4-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6406,7 +6406,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.2
+rm -rf linux-5.16.4
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
