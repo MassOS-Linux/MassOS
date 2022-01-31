@@ -125,11 +125,11 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20211229.tar.gz
-cd iana-etc-20211229
+tar -xf iana-etc-20220128.tar.gz
+cd iana-etc-20220128
 cp services protocols /etc
 cd ..
-rm -rf iana-etc-20211229
+rm -rf iana-etc-20220128
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.34.tar.xz
@@ -2490,8 +2490,8 @@ install -t /usr/share/licenses/libnsl -Dm644 COPYING
 cd ..
 rm -rf libnsl-2.0.0
 # Audit.
-tar -xf audit-3.0.6.tar.gz
-cd audit-3.0.6
+tar -xf audit-3.0.7.tar.gz
+cd audit-3.0.7
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 make
 make install
@@ -2507,7 +2507,7 @@ END
 systemctl enable auditd
 install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf audit-3.0.6
+rm -rf audit-3.0.7
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3
@@ -3173,15 +3173,15 @@ install -t /usr/share/licenses/wayland -Dm644 ../COPYING
 cd ../..
 rm -rf wayland-1.20.0
 # Wayland-Protocols.
-tar -xf wayland-protocols-1.24.tar.xz
-cd wayland-protocols-1.24
+tar -xf wayland-protocols-1.25.tar.xz
+cd wayland-protocols-1.25
 mkdir wayland-protocols-build; cd wayland-protocols-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland-protocols -Dm644 ../COPYING
 cd ../..
-rm -rf wayland-protocols-1.24
+rm -rf wayland-protocols-1.25
 # Aspell.
 tar -xf aspell-0.60.8.tar.gz
 cd aspell-0.60.8
@@ -4991,7 +4991,9 @@ tar -xf backends-1.1.1.tar.gz
 cd backends-1.1.1
 [ -d /run/lock ] || mkdir -p /run/lock
 groupadd -g 70 scanner
-./autogen.sh
+echo "1.1.1" > .tarball-version
+echo "1.1.1" > .version
+autoreconf -fi
 mkdir inSANE-build; cd inSANE-build
 sg scanner -c "../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-group=scanner"
 make
@@ -5529,7 +5531,7 @@ install -t /usr/share/licenses/libcanberra -Dm644 LGPL
 cd ..
 rm -rf libcanberra-0.30
 # x264.
-tar -xf x264-0.164.3081
+tar -xf x264-0.164.3081.tar.xz
 cd x264-0.164.3081
 ./configure --prefix=/usr --enable-shared
 make
@@ -5595,6 +5597,7 @@ rm -rf ffmpeg-5.0
 # OpenAL.
 tar -xf openal-soft-1.21.1.tar.gz
 cd openal-soft-1.21.1/build
+sed -i "s/AVCodec \*codec/const AVCodec \*codec/" ../examples/alffplay.cpp
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
@@ -5654,6 +5657,7 @@ rm -rf gst-plugins-ugly-1.18.5
 # gst-libav.
 tar -xf gst-libav-1.18.5.tar.xz
 cd gst-libav-1.18.5
+patch -Np1 -i ../patches/gst-libav-1.18.5-ffmpeg5.patch
 mkdir gstlibav-build; cd gstlibav-build
 meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja

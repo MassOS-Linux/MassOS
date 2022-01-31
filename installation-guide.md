@@ -9,7 +9,7 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate). If you are using VirtualBox, we strongly recommend enabling EFI from VM Settings --> System, since it has a higher default screen resolution.
 
 # Release Notes
-This is the development branch of MassOS. It contains the following changes so far, however may be subject to more before the stable release of the next version of MassOS:
+This is version **2022.02** of MassOS. It contains the following changes since the previous version, **2022.01.2**:
 
 - MassOS now has a live ISO image which can be used to try out MassOS, and install MassOS more easily. See below for more information.
 - The original rootfs-based installation guide has been moved to [old-installation-guide.md](old-installation-guide.md).
@@ -19,6 +19,7 @@ This is the development branch of MassOS. It contains the following changes so f
 
 It also includes the following upgraded software:
 
+- Audit: `3.0.6 --> 3.0.7`
 - BIND Utilities: `9.16.24 --> 9.16.25`
 - CMake: `3.22.1 --> 3.22.2`
 - CUPS: `2.4.0 --> 2.4.1`
@@ -29,6 +30,7 @@ It also includes the following upgraded software:
 - Git: `2.34.1 --> 2.35.1`
 - GLib: `2.70.2 --> 2.70.3`
 - GNUTLS: `3.7.2 --> 3.7.3`
+- iana-etc: `20211229 --> 20220128`
 - libcap: `2.62 --> 2.63`
 - libgpg-error: `1.43 --> 1.44`
 - libical: `3.0.12 --> 3.0.13`
@@ -44,18 +46,19 @@ It also includes the following upgraded software:
 - Vim: `8.2.4100 --> 8.2.4250`
 - Vulkan-Headers: `1.2.203 --> 1.3.204`
 - Vulkan-Loader: `1.2.203 --> 1.3.204`
+- wayland-protocols: `1.24 --> 1.25`
 - WebKitGTK: `2.34.3 --> 2.34.4`
 - wpa_supplicant: `2.9 --> 2.10`
 - x264: `0.164.3075 --> 0.164.3081`
 - xf86-input-libinput: `1.2.0 --> 1.2.1`
 - ZSTD: `1.5.1 --> 1.5.2`
 
-# Installing MassOS Using The Installation Program
+# Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.
 
 If you'd rather install MassOS manually, see [old-installation-guide.md](old-installation-guide.md).
 
-Head to the [Releases](https://github.com/MassOS-Linux/MassOS/releases) page to download the latest version. You'll want to download the standard ISO labelled "massos-<VERSION>-x86_64.iso". There also exists a "nofirmware" ISO, which is for people who don't want any non-free firmware for some hardware devices. If you have a device requiring non-free firmware (typically wireless, graphics and sound cards), or if you are unsure, get the regular ISO.
+Head to the [Releases](https://github.com/MassOS-Linux/MassOS/releases) page to download the latest version. You'll want to download the standard ISO labelled "massos-\<VERSION\>-x86_64.iso". There also exists a "nofirmware" ISO, which is for people who don't want any non-free firmware for some hardware devices. If you have a device requiring non-free firmware (typically wireless, graphics and sound cards), or if you are unsure, get the regular ISO.
 
 If you are a developer and want to test out the latest changes from development branch, you should [building.md](build MassOS yourself), or infrequent builds can be found on [this Google Drive folder](https://go.thesonicmaster.net/qk9).
 # Writing the ISO to a USB flash drive.
