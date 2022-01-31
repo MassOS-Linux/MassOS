@@ -8,48 +8,46 @@ if [ $EUID -ne 0 ]; then
   exit 1
 fi
 
-if [ -z "$1" ]; then
+chrootdir="$1"
+shift
+
+if [ -z "$chrootdir" ]; then
   echo "Usage: mass-chroot <chroot dir> [optional custom command]"
   exit 1
 fi
 
-if [ ! -d "$1" ]; then
-  echo "Error: $1 is not a directory I can chroot into." >&2
+if [ ! -d "$chrootdir" ]; then
+  echo "Error: $chrootdir is not a directory I can chroot into." >&2
   exit 1
 fi
 
-echo "Entering chroot environment in $1..."
+echo "Entering chroot environment in $chrootdir..."
 
-mount --bind /dev "$1"/dev
-mount --bind /dev/pts "$1"/dev/pts
-mount -t proc proc "$1"/proc
-mount -t sysfs sysfs "$1"/sys
-mount -t tmpfs tmpfs "$1"/run
+mount --bind /dev "$chrootdir"/dev
+mount --bind /dev/pts "$chrootdir"/dev/pts
+mount -t proc proc "$chrootdir"/proc
+mount -t sysfs sysfs "$chrootdir"/sys
+mount -t tmpfs tmpfs "$chrootdir"/run
 
 set +e
 
-if [ -z "$2" ]; then
-  chroot "$1"
-  STATUS=$?
-else
-  chroot "$1" "$2"
-  STATUS=$?
-fi
+chroot "$chrootdir" "$@"
+STATUS=$?
 
 set -e
 
 echo "Exiting chroot environment..."
 
-umount "$1"/dev/pts
-umount "$1"/dev
-umount "$1"/proc
-umount "$1"/sys
-umount "$1"/run
+umount "$chrootdir"/dev/pts
+umount "$chrootdir"/dev
+umount "$chrootdir"/proc
+umount "$chrootdir"/sys
+umount "$chrootdir"/run
 
 if [ $STATUS -eq 0 ]; then
   echo "Chroot exited successfully."
 else
-  echo "Chroot exited unsuccessfully (code $STATUS)."
+  echo "Chroot exited with unsuccessful exit code $STATUS."
 fi
 
 exit $STATUS

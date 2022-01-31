@@ -34,6 +34,15 @@ else
     exit 1
   fi
 fi
+# This installation program is now deprecated.
+echo "This installation program is now deprecated. Please consider using the"
+echo "new live ISO images instead. See this link for more information:"
+echo
+echo "https://github.com/TheSonicMaster/MassOS/blob/main/installation-guide.md"
+echo
+echo "If you still want to continue using this old installation program, it"
+echo "will continue in 10 seconds (press Control+C to cancel)."
+sleep 10
 # Check for a UEFI system.
 if [ -e /sys/firmware/efi/systab ]; then
   efisys="y"

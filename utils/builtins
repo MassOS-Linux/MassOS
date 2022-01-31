@@ -86,6 +86,8 @@ exfatprogs
 exiv2
 exo
 expat
+faad2
+fakeroot
 fcron
 ffmpeg
 figlet
@@ -192,6 +194,7 @@ libass
 libassuan
 libatasmart
 libblockdev
+libburn
 libbytesize
 libcanberra
 libcap
@@ -224,6 +227,8 @@ libice
 libidn2
 libimobiledevice
 libinput
+libisoburn
+libisofs
 libjpeg-turbo
 libksba
 libmbim
@@ -343,6 +348,7 @@ mdadm
 mesa
 meson
 mkfontscale
+minizip
 mobile-broadband-provider-info
 modemmanager
 moreutils
