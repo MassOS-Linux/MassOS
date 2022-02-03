@@ -9,49 +9,28 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate). If you are using VirtualBox, we strongly recommend enabling EFI from VM Settings --> System, since it has a higher default screen resolution.
 
 # Release Notes
-This is version **2022.02** of MassOS. It contains the following changes since the previous version, **2022.01.2**:
+This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however is subject to more changes before the next version is released:
 
-- MassOS now has a live ISO image which can be used to try out MassOS, and install MassOS more easily. See below for more information.
-- The original rootfs-based installation guide has been moved to [old-installation-guide.md](old-installation-guide.md).
-- Most MassOS repositories are now found in the [MassOS-Linux](https://github.com/MassOS-Linux) organisation. Old repository links will automatically redirect to the new ones.
-- Added Fakeroot.
-- Added libisoburn, for xorriso utility.
+- Added `set-default-tar`, a small helper utility allowing you to set the default tar program.
 
-It also includes the following upgraded software:
+It also includes the following upgraded software, however there may be more before the next version is released:
 
-- Audit: `3.0.6 --> 3.0.7`
-- BIND Utilities: `9.16.24 --> 9.16.25`
-- CMake: `3.22.1 --> 3.22.2`
-- CUPS: `2.4.0 --> 2.4.1`
-- dialog: `1.3-20211214 --> 1.3-20220117`
-- FFmpeg: `4.4.1 --> 5.0`
-- Firefox: `96.0.1 --> 96.0.3`
-- Flatpak: `1.12.3 --> 1.12.4`
-- Git: `2.34.1 --> 2.35.1`
-- GLib: `2.70.2 --> 2.70.3`
-- GNUTLS: `3.7.2 --> 3.7.3`
-- iana-etc: `20211229 --> 20220128`
-- libcap: `2.62 --> 2.63`
-- libgpg-error: `1.43 --> 1.44`
-- libical: `3.0.12 --> 3.0.13`
-- libwacom: `1.12 --> 2.0.0`
-- Linux Kernel: `5.16.1 --> 5.16.4`
-- Mesa: `21.3.4 --> 21.3.5`
-- p11-kit: `0.24.0 --> 0.24.1`
-- SANE: `1.0.32 --> 1.1.1`
-- Sudo: `1.9.8p2 --> 1.9.9`
-- systemd: `250.2 --> 250.3`
-- Thunderbird: `91.5.0 --> 91.5.1`
-- util-linux: `2.37.2 --> 2.37.3`
-- Vim: `8.2.4100 --> 8.2.4250`
-- Vulkan-Headers: `1.2.203 --> 1.3.204`
-- Vulkan-Loader: `1.2.203 --> 1.3.204`
-- wayland-protocols: `1.24 --> 1.25`
-- WebKitGTK: `2.34.3 --> 2.34.4`
-- wpa_supplicant: `2.9 --> 2.10`
-- x264: `0.164.3075 --> 0.164.3081`
-- xf86-input-libinput: `1.2.0 --> 1.2.1`
-- ZSTD: `1.5.1 --> 1.5.2`
+- AccountsService: `0.6.55 --> 22.04.62`
+- Exo: `4.16.3 --> 4.17.1`
+- Findutils: `4.8.0 --> 4.9.0`
+- HarfBuzz: `3.2.0 --> 3.3.1`
+- lcms2: `2.12 --> 2.13.1`
+- libgcrypt: `1.9.4 --> 1.10.0`
+- libusb: `1.0.24 --> 1.0.25`
+- libxfce4ui: `4.16.1 --> 4.17.3`
+- libxfce4util: `4.16.0 --> 4.17.1`
+- Linux Kernel: `5.16.4 --> 5.16.5`
+- LLVM/Clang: `13.0.0 --> 13.0.1`
+- Poppler: `22.01.0 --> 22.02.0`
+- Thunar: `4.16.10 --> 4.17.7`
+- Tumbler: `4.16.0 --> 4.17.0`
+- xfce4-appfinder: `4.16.1 --> 4.17.0`
+- xfce4-terminal: `0.8.10 --> 0.9.1`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.

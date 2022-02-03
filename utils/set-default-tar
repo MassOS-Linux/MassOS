@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# This program is part of the core MassOS system.
+
+# Copyright (C) 2022 MassOS Developers.
+
+# Licensed under GNU GPLv3+; see 'LICENSE' in the MassOS source tree or the
+# file /usr/share/massos/LICENSE on a running MassOS system.
+
+if [ $EUID -ne 0 ]; then
+  echo "Error: $(basename "$0") must be run as root." >&2
+  exit 1
+fi
+
+usage() {
+  echo "$(basename "$0"): Set the default tar program on MassOS."
+  echo
+  echo "Usage: set-default-tar <program>"
+  echo
+  echo "Valid known options for <program>:"
+  echo
+  echo "- bsdtar  - libarchive bsdtar (default)"
+  echo "- gtar    - GNU tar"
+  echo "- busybox - Busybox built-in tar"
+  echo
+  echo "You can also specify a custom program, however this is not supported"
+  echo "by the MassOS developers, so do so at your own risk."
+}
+
+if [ -z "$1" ] || [ "$1" = "tar" ]; then
+  usage >&2
+  exit 1
+fi
+
+case "$1" in
+  -h|-help|--help) usage; exit 1 ;;
+esac
+
+if [ ! "$(which "$1" 2>/dev/null)" ]; then
+  echo "Error: $1 is not a valid program for tar." >&2
+  exit 1
+fi
+
+ln -sfr "$(which "$1")" /usr/bin/tar

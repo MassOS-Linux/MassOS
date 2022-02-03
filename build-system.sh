@@ -225,7 +225,7 @@ install -t /usr/share/licenses/xz -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv3 COP
 cd ..
 rm -rf xz-5.2.5
 # LZ4.
-tar -xf lz4-1.9.3.tar.xz
+tar -xf lz4-1.9.3.tar.gz
 cd lz4-1.9.3
 make PREFIX=/usr CFLAGS="$CFLAGS" -C lib
 make PREFIX=/usr CFLAGS="$CFLAGS" -C programs lz4 lz4c
@@ -607,15 +607,6 @@ make install
 install -t /usr/share/licenses/sed -Dm644 COPYING
 cd ..
 rm -rf sed-4.8
-# Psmisc.
-tar -xf psmisc-23.4.tar.xz
-cd psmisc-23.4
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/psmisc -Dm644 COPYING
-cd ..
-rm -rf psmisc-23.4
 # Gettext.
 tar -xf gettext-0.21.tar.xz
 cd gettext-0.21
@@ -774,6 +765,16 @@ make
 make install
 cd ..
 rm -rf autoconf-archive-2021.02.19
+# Psmisc.
+tar -xf psmisc-23.4.tar.gz
+cd psmisc-v23.4-5fab6b7ab385080f1db725d6803136ec1841a15f
+./autogen.sh
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/psmisc -Dm644 COPYING
+cd ..
+rm -rf psmisc-v23.4-5fab6b7ab385080f1db725d6803136ec1841a15f
 # elfutils.
 tar -xf elfutils-0.186.tar.bz2
 cd elfutils-0.186
@@ -946,14 +947,14 @@ install -t /usr/share/licenses/gawk -Dm644 COPYING
 cd ..
 rm -rf gawk-5.1.0
 # Findutils.
-tar -xf findutils-4.8.0.tar.xz
-cd findutils-4.8.0
+tar -xf findutils-4.9.0.tar.xz
+cd findutils-4.9.0
 ./configure --prefix=/usr --localstatedir=/var/lib/locate
 make
 make install
 install -t /usr/share/licenses/findutils -Dm644 COPYING
 cd ..
-rm -rf findutils-4.8.0
+rm -rf findutils-4.9.0
 # Groff.
 tar -xf groff-1.22.4.tar.gz
 cd groff-1.22.4
@@ -1083,7 +1084,7 @@ install -t /usr/share/licenses/make -Dm644 COPYING
 cd ..
 rm -rf make-4.3
 # Ed.
-tar -xf ed-1.17.tar.xz
+tar -xf ed-1.17.tar.lz
 cd ed-1.17
 ./configure --prefix=/usr
 make
@@ -1248,14 +1249,14 @@ install -t /usr/share/licenses/libgpg-error -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libgpg-error-1.44
 # libgcrypt.
-tar -xf libgcrypt-1.9.4.tar.bz2
-cd libgcrypt-1.9.4
+tar -xf libgcrypt-1.10.0.tar.bz2
+cd libgcrypt-1.10.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libgcrypt -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libgcrypt-1.9.4
+rm -rf libgcrypt-1.10.0
 # Unzip.
 tar -xf unzip60.tar.gz
 cd unzip60
@@ -2071,14 +2072,14 @@ install -t /usr/share/licenses/cryptsetup -Dm644 COPYING COPYING.LGPL
 cd ..
 rm -rf cryptsetup-2.4.3
 # libusb.
-tar -xf libusb-1.0.24.tar.bz2
-cd libusb-1.0.24
+tar -xf libusb-1.0.25.tar.bz2
+cd libusb-1.0.25
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libusb -Dm644 COPYING
 cd ..
-rm -rf libusb-1.0.24
+rm -rf libusb-1.0.25
 # libmtp.
 tar -xf libmtp-1.1.19.tar.gz
 cd libmtp-1.1.19
@@ -2788,10 +2789,10 @@ install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
 cd ..
 rm -rf autoconf-2.13
 # LLVM.
-tar -xf llvm-13.0.0.src.tar.xz
-cd llvm-13.0.0.src
+tar -xf llvm-13.0.1.src.tar.xz
+cd llvm-13.0.1.src
 mkdir -p tools/clang
-tar -xf ../clang-13.0.0.src.tar.xz -C tools/clang --strip-components=1
+tar -xf ../clang-13.0.1.src.tar.xz -C tools/clang --strip-components=1
 mkdir llvm-build; cd llvm-build
 CC=gcc CXX=g++ CFLAGS="$CFLAGS -flarge-source-files" CXXFLAGS="$CXXFLAGS -flarge-source-files" cmake -DCMAKE_INSTALL_PREFIX=/usr -DLLVM_ENABLE_FFI=ON -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_TARGETS_TO_BUILD="host;AMDGPU" -DLLVM_BUILD_TESTS=ON -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -2799,19 +2800,19 @@ ninja install
 install -t /usr/share/licenses/llvm -Dm644 ../LICENSE.TXT
 ln -sf llvm /usr/share/licenses/clang
 cd ../..
-rm -rf llvm-13.0.0.src
+rm -rf llvm-13.0.1.src
 # Rust.
-tar -xf rust-1.54.0-x86_64-unknown-linux-gnu.tar.gz
-cd rust-1.54.0-x86_64-unknown-linux-gnu
+tar -xf rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
+cd rust-1.58.1-x86_64-unknown-linux-gnu
 # We will uninstall Rust later.
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
-rm -rf rust-1.54.0-x86_64-unknown-linux-gnu
+rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS78.
 tar -xf firefox-78.15.0esr.source.tar.xz
 cd firefox-78.15.0
 patch -Np1 -i ../patches/js78-78.15.0-python310.patch
-mkdir obj; cd obj
+mkdir JS78-build; cd JS78-build
 if mountpoint -q /dev/shm; then
   beforemounted="true"
 else
@@ -2922,15 +2923,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.2.0.tar.xz
-cd harfbuzz-3.2.0
+tar -xf harfbuzz-3.3.1.tar.xz
+cd harfbuzz-3.3.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-3.2.0
+rm -rf harfbuzz-3.3.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -4119,14 +4120,14 @@ install -t /usr/share/licenses/libtiff -Dm644 ../COPYRIGHT
 cd ../..
 rm -rf tiff-4.3.0
 # lcms2.
-tar -xf lcms2-2.12.tar.gz
-cd lcms2-2.12
+tar -xf lcms2-2.13.1.tar.gz
+cd lcms2-2.13.1
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/lcms2 -Dm644 COPYING
 cd ..
-rm -rf lcms2-2.12
+rm -rf lcms2-2.13.1
 # JasPer.
 tar -xf jasper-2.0.33.tar.gz
 cd jasper-version-2.0.33
@@ -4189,14 +4190,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.2.0.tar.xz
-cd harfbuzz-3.2.0
+tar -xf harfbuzz-3.3.1.tar.xz
+cd harfbuzz-3.3.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.2.0
+rm -rf harfbuzz-3.3.1
 # Pango.
 tar -xf pango-1.50.3.tar.xz
 cd pango-1.50.3
@@ -4628,6 +4629,17 @@ systemctl enable avahi-daemon
 install -t /usr/share/licenses/avahi -Dm644 LICENSE
 cd ..
 rm -rf avahi-0.8
+# ORC.
+tar -xf orc-0.4.32.tar.gz
+cd orc-0.4.32
+mkdir orc-build; cd orc-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+rm -f /usr/lib/liborc-test-0.4.a
+install -t /usr/share/licenses/orc -Dm644 ../COPYING
+cd ../..
+rm -rf orc-0.4.32
 # PulseAudio.
 tar -xf pulseaudio-15.0.tar.xz
 cd pulseaudio-15.0
@@ -4695,17 +4707,6 @@ make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord ins
 install -t /usr/share/licenses/lm-sensors -Dm644 COPYING COPYING.LGPL
 cd ..
 rm -rf lm-sensors-3-6-0
-# ORC.
-tar -xf orc-0.4.32.tar.gz
-cd orc-0.4.32
-mkdir orc-build; cd orc-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-rm -f /usr/lib/liborc-test-0.4.a
-install -t /usr/share/licenses/orc -Dm644 ../COPYING
-cd ../..
-rm -rf orc-0.4.32
 # libpcap.
 tar -xf libpcap-1.10.1.tar.gz
 cd libpcap-1.10.1
@@ -4832,16 +4833,15 @@ install -t /usr/share/licenses/pinentry -Dm644 COPYING
 cd ..
 rm -rf pinentry-1.2.0
 # AccountsService.
-tar -xf accountsservice-0.6.55.tar.xz
-cd accountsservice-0.6.55
-patch -Np1 -i ../patches/accountsservice-0.6.55-mesonfix.patch
+tar -xf accountsservice-22.04.62.tar.xz
+cd accountsservice-22.04.62
 mkdir as-build; cd as-build
-meson --prefix=/usr --buildtype=release -Dadmin_group=adm -Dsystemd=true ..
+meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
 ninja
 ninja install
 install -t /usr/share/licenses/accountsservice -Dm644 ../COPYING
 cd ../..
-rm -rf accountsservice-0.6.55
+rm -rf accountsservice-22.04.62
 # polkit-gnome.
 tar -xf polkit-gnome-0.105.tar.xz
 cd polkit-gnome-0.105
@@ -4900,8 +4900,8 @@ install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
 rm -rf cups-2.4.1
 # Poppler.
-tar -xf poppler-22.01.0.tar.xz
-cd poppler-22.01.0
+tar -xf poppler-22.02.0.tar.xz
+cd poppler-22.02.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -4911,7 +4911,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-22.01.0
+rm -rf poppler-22.02.0
 # Ghostscript.
 tar -xf ghostscript-9.55.0.tar.xz
 cd ghostscript-9.55.0
@@ -5474,14 +5474,14 @@ install -t /usr/share/licenses/libvpx -Dm644 ../LICENSE
 cd ../..
 rm -rf libvpx-1.11.0
 # LAME.
-tar -xf lame-3.100.tar.gz
-cd lame-3.100
+tar -xf lame3_100.tar.gz
+cd LAME-lame3_100
 ./configure --prefix=/usr --enable-mp3rtp --enable-nasm --disable-static
 make
-make pkghtmldir=/usr/share/doc/lame install
+make install
 install -t /usr/share/licenses/lame -Dm644 COPYING LICENSE
 cd ..
-rm -rf lame-3.100
+rm -rf LAME-lame3_100
 # Taglib.
 tar -xf taglib-1.12.tar.gz
 cd taglib-1.12
@@ -5755,14 +5755,14 @@ install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.48.1
 # libxfce4util.
-tar -xf libxfce4util-4.16.0.tar.bz2
-cd libxfce4util-4.16.0
+tar -xf libxfce4util-4.17.1.tar.bz2
+cd libxfce4util-4.17.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 cd ..
-rm -rf libxfce4util-4.16.0
+rm -rf libxfce4util-4.17.1
 # xfconf.
 tar -xf xfconf-4.16.0.tar.bz2
 cd xfconf-4.16.0
@@ -5773,23 +5773,23 @@ install -t /usr/share/licenses/xfconf -Dm644 COPYING
 cd ..
 rm -rf xfconf-4.16.0
 # libxfce4ui.
-tar -xf libxfce4ui-4.16.1.tar.bz2
-cd libxfce4ui-4.16.1
+tar -xf libxfce4ui-4.17.3.tar.bz2
+cd libxfce4ui-4.17.3
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 cd ..
-rm -rf libxfce4ui-4.16.1
+rm -rf libxfce4ui-4.17.3
 # Exo.
-tar -xf exo-4.16.3.tar.bz2
-cd exo-4.16.3
+tar -xf exo-4.17.1.tar.bz2
+cd exo-4.17.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/exo -Dm644 COPYING
 cd ..
-rm -rf exo-4.16.3
+rm -rf exo-4.17.1
 # Garcon.
 tar -xf garcon-4.16.1.tar.bz2
 cd garcon-4.16.1
@@ -5800,14 +5800,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
 rm -rf garcon-4.16.1
 # Thunar.
-tar -xf thunar-4.16.10.tar.bz2
-cd thunar-4.16.10
+tar -xf thunar-4.17.7.tar.bz2
+cd thunar-4.17.7
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 cd ..
-rm -rf thunar-4.16.10
+rm -rf thunar-4.17.7
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
@@ -5818,23 +5818,23 @@ install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
 cd ..
 rm -rf thunar-volman-4.16.0
 # Tumbler.
-tar -xf tumbler-4.16.0.tar.bz2
-cd tumbler-4.16.0
+tar -xf tumbler-4.17.0.tar.bz2
+cd tumbler-4.17.0
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/tumbler -Dm644 COPYING
 cd ..
-rm -rf tumbler-4.16.0
+rm -rf tumbler-4.17.0
 # xfce4-appfinder.
-tar -xf xfce4-appfinder-4.16.1.tar.bz2
-cd xfce4-appfinder-4.16.1
+tar -xf xfce4-appfinder-4.17.0.tar.bz2
+cd xfce4-appfinder-4.17.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 cd ..
-rm -rf xfce4-appfinder-4.16.1
+rm -rf xfce4-appfinder-4.17.0
 # xfce4-artwork.
 tar -xf xfce4-artwork_0.1.1a~git+20110420.orig.tar.gz
 cd xfce4-artwork-0.1.1a
@@ -5931,14 +5931,14 @@ install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 .
 cd ../..
 rm -rf vte-0.66.2
 # xfce4-terminal.
-tar -xf xfce4-terminal-0.8.10.tar.bz2
-cd xfce4-terminal-0.8.10
+tar -xf xfce4-terminal-0.9.1.tar.bz2
+cd xfce4-terminal-0.9.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
-rm -rf xfce4-terminal-0.8.10
+rm -rf xfce4-terminal-0.9.1
 # Shotwell.
 tar -xf shotwell-0.30.14.tar.xz
 cd shotwell-0.30.14
@@ -6384,19 +6384,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.4.tar.xz
-cd linux-5.16.4
+tar -xf linux-5.16.5.tar.xz
+cd linux-5.16.5
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.4-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.4-massos/vmlinuz
-cp System.map /boot/System.map-5.16.4-massos
-cp .config /boot/config-5.16.4-massos
-rm /usr/lib/modules/5.16.4-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.5-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.5-massos/vmlinuz
+cp System.map /boot/System.map-5.16.5-massos
+cp .config /boot/config-5.16.5-massos
+rm /usr/lib/modules/5.16.5-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.4-massos/build
+builddir=/usr/lib/modules/5.16.5-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6420,7 +6420,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.4
+rm -rf linux-5.16.5
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
