@@ -18,10 +18,9 @@ fi
 mkdir -p /{boot,home,mnt,opt,srv}
 mkdir -p /boot/efi
 mkdir -p /etc/{opt,sysconfig}
-mkdir -p /lib/firmware
-mkdir -p /media/{floppy,cdrom}
+mkdir -p /usr/lib/firmware
 mkdir -p /usr/{,local/}{include,src}
-mkdir -p /usr/local/{bin,lib,sbin}
+mkdir -p /usr/local/{bin,lib,libexec,sbin}
 mkdir -p /usr/{,local/}share/{color,dict,doc,info,locale,man}
 mkdir -p /usr/{,local/}share/{misc,terminfo,zoneinfo}
 mkdir -p /usr/{,local/}share/man/man{1..8}
@@ -30,6 +29,7 @@ mkdir -p /var/lib/{color,misc,locate}
 ln -sf lib /usr/local/lib64
 ln -sf /run /var/run
 ln -sf /run/lock /var/lock
+ln -sf run/media /media
 install -dm0750 /root
 cp /etc/skel/.{bashrc,bash_profile,profile,bash_logout} /root
 install -dm1777 /tmp /var/tmp
@@ -132,10 +132,9 @@ cd ..
 rm -rf iana-etc-20220128
 # Glibc.
 unset CFLAGS CXXFLAGS
-tar -xf glibc-2.34.tar.xz
-cd glibc-2.34
-sed -e '/NOTIFY_REMOVED)/s/)/ \&\& data.attr != NULL)/' -i sysdeps/unix/sysv/linux/mq_notify.c
-patch -Np1 -i ../patches/glibc-2.34-fhs-1.patch
+tar -xf glibc-2.35.tar.xz
+cd glibc-2.35
+patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
 ../configure --prefix=/usr --disable-werror --enable-kernel=3.2 --enable-stack-protector=strong --with-headers=/usr/include libc_cv_slibdir=/usr/lib
@@ -181,7 +180,7 @@ cat > /etc/ld.so.conf << END
 include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
-rm -rf glibc-2.34
+rm -rf glibc-2.35
 CFLAGS="-w -Os -pipe"
 CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS

@@ -18,6 +18,7 @@ It also includes the following upgraded software, however there may be more befo
 - AccountsService: `0.6.55 --> 22.04.62`
 - Exo: `4.16.3 --> 4.17.1`
 - Findutils: `4.8.0 --> 4.9.0`
+- glibc: `2.34 --> 2.35`
 - HarfBuzz: `3.2.0 --> 3.3.1`
 - lcms2: `2.12 --> 2.13.1`
 - libgcrypt: `1.9.4 --> 1.10.0`

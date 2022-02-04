@@ -10,22 +10,23 @@ if [ ! -d sources ]; then
   exit 1
 fi
 # Setup the environment.
-MASSOS=$PWD/massos-rootfs
+MASSOS="$PWD"/massos-rootfs
 MASSOS_TARGET=x86_64-massos-linux-gnu
-PATH=$MASSOS/tools/bin:$PATH
-SRC=$MASSOS/sources
-CONFIG_SITE=$MASSOS/usr/share/config.site
+PATH="$MASSOS"/tools/bin:$PATH
+SRC="$MASSOS"/sources
+CONFIG_SITE="$MASSOS"/usr/share/config.site
 export MASSOS MASSOS_TARGET PATH SRC CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Setup the basic filesystem structure.
-mkdir -p $MASSOS/{etc,var}
-mkdir -p $MASSOS/usr/{bin,lib,sbin}
-for i in bin lib sbin; do
-  ln -s usr/$i $MASSOS/$i
-done
-mkdir $MASSOS/lib64
-ln -s lib $MASSOS/usr/lib64
+mkdir -p "$MASSOS"/{etc,var}
+mkdir -p "$MASSOS"/usr/{bin,lib,sbin}
+# Ensure the filesystem structure is unified.
+ln -sf usr/bin "$MASSOS"/bin
+ln -sf usr/lib "$MASSOS"/lib
+ln -sf usr/sbin "$MASSOS"/sbin
+ln -sf lib "$MASSOS"/usr/lib64
+ln -sf usr/lib "$MASSOS"/lib64
 # Directory where source tarballs will be placed while building.
 # Temporary toolchain directory.
 mkdir $MASSOS/tools
@@ -73,11 +74,9 @@ cp -r usr/include "$MASSOS"/usr
 cd ..
 rm -rf linux-5.16.5
 # Glibc
-tar -xf glibc-2.34.tar.xz
-cd glibc-2.34
-ln -sf ../lib/ld-linux-x86-64.so.2 "$MASSOS"/lib64
-ln -sf ../lib/ld-linux-x86-64.so.2 "$MASSOS"/lib64/ld-lsb-x86-64.so.3
-patch -Np1 -i ../patches/glibc-2.34-fhs-1.patch
+tar -xf glibc-2.35.tar.xz
+cd glibc-2.35
+patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
 ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
@@ -86,7 +85,7 @@ make DESTDIR="$MASSOS" install
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..
-rm -rf glibc-2.34
+rm -rf glibc-2.35
 # libstdc++ from GCC (Pass 1).
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
