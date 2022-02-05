@@ -107,7 +107,7 @@ https://downloads.xiph.org/releases/flac/flac-1.3.3.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.12.4/flatpak-1.12.4.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://www.x.org/archive/individual/font/font-util-1.3.2.tar.bz2
-https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.13.1.tar.bz2
+https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/2.13.96/fontconfig-2.13.96.tar.bz2
 https://archive.massos.org/sources/freeglut-3.2.1.tar.gz
 https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
 https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz
@@ -118,7 +118,7 @@ https://archive.fr.xfce.org/src/xfce/garcon/4.16/garcon-4.16.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/gawk/gawk-5.1.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
-https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.22.tar.gz
+https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.5.7/geoclue-2.5.7.tar.bz2
 https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
@@ -310,7 +310,7 @@ https://archive.fr.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.1.tar.b
 https://www.x.org/archive/individual/lib/libXfixes-6.0.0.tar.bz2
 https://www.x.org/archive/individual/lib/libXfont2-2.0.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXft-2.3.4.tar.bz2
-https://xkbcommon.org/download/libxkbcommon-1.3.1.tar.xz
+https://xkbcommon.org/download/libxkbcommon-1.4.0.tar.xz
 https://www.x.org/archive/individual/lib/libxkbfile-1.1.0.tar.bz2
 https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
 https://www.x.org/archive/individual/lib/libXi-1.8.tar.bz2
@@ -335,7 +335,7 @@ https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.5.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.7.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -356,7 +356,7 @@ https://mirror.lyrahosting.com/gnu/m4/m4-1.4.19.tar.xz
 https://mirror.lyrahosting.com/gnu/make/make-4.3.tar.gz
 https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.1.6.tar.gz
 https://tecnocode.co.uk/downloads/malcontent-0.10.3.tar.xz
-https://download.savannah.gnu.org/releases/man-db/man-db-2.9.4.tar.xz
+https://de.freedif.org/savannah/man-db/man-db-2.10.0.tar.xz
 https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
@@ -387,7 +387,7 @@ https://distfiles.gentoo.org/distfiles/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
-https://archive.mozilla.org/pub/security/nss/releases/NSS_3_74_RTM/src/nss-3.74.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_75_RTM/src/nss-3.75.tar.gz
 https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
@@ -489,7 +489,7 @@ https://www.iana.org/time-zones/repository/releases/tzdata2021e.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
 https://unifoundry.com/pub/unifont/unifont-13.0.06/font-builds/unifont-13.0.06.pcf.gz
 https://archive.massos.org/sources/unzip60.tar.gz
-https://gitlab.freedesktop.org/upower/upower/-/archive/UPOWER_0_99_13/upower-UPOWER_0_99_13.tar.bz2
+https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.14/upower-v0.99.14.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.3.tar.xz

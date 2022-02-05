@@ -11,6 +11,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however is subject to more changes before the next version is released:
 
+- The core C library (glibc) has been upgraded to the latest version (`2.35`).
 - Added `set-default-tar`, a small helper utility allowing you to set the default tar program.
 
 It also includes the following upgraded software, however there may be more before the next version is released:
@@ -18,6 +19,8 @@ It also includes the following upgraded software, however there may be more befo
 - AccountsService: `0.6.55 --> 22.04.62`
 - Exo: `4.16.3 --> 4.17.1`
 - Findutils: `4.8.0 --> 4.9.0`
+- Fontconfig: `2.13.1 --> 2.13.96`
+- GDBM: `1.22 --> 1.23`
 - glibc: `2.34 --> 2.35`
 - HarfBuzz: `3.2.0 --> 3.3.1`
 - lcms2: `2.12 --> 2.13.1`
@@ -25,11 +28,15 @@ It also includes the following upgraded software, however there may be more befo
 - libusb: `1.0.24 --> 1.0.25`
 - libxfce4ui: `4.16.1 --> 4.17.3`
 - libxfce4util: `4.16.0 --> 4.17.1`
-- Linux Kernel: `5.16.4 --> 5.16.5`
+- libxkbcommon: `1.3.1 --> 1.4.0`
+- Linux Kernel: `5.16.4 --> 5.16.7`
 - LLVM/Clang: `13.0.0 --> 13.0.1`
+- Man-DB: `2.9.4 --> 2.10.0`
+- NSS: `3.74 --> 3.75`
 - Poppler: `22.01.0 --> 22.02.0`
 - Thunar: `4.16.10 --> 4.17.7`
 - Tumbler: `4.16.0 --> 4.17.0`
+- UPower: `0.99.13 --> 0.99.14`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
 - xfce4-terminal: `0.8.10 --> 0.9.1`
 

@@ -654,14 +654,14 @@ install -t /usr/share/licenses/libtool -Dm644 COPYING
 cd ..
 rm -rf libtool-2.4.6
 # GDBM.
-tar -xf gdbm-1.22.tar.gz
-cd gdbm-1.22
+tar -xf gdbm-1.23.tar.gz
+cd gdbm-1.23
 ./configure --prefix=/usr --disable-static --enable-libgdbm-compat
 make
 make install
 install -t /usr/share/licenses/gdbm -Dm644 COPYING
 cd ..
-rm -rf gdbm-1.22
+rm -rf gdbm-1.23
 # gperf.
 tar -xf gperf-3.1.tar.gz
 cd gperf-3.1
@@ -1711,14 +1711,14 @@ install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
 rm -rf dbus-1.12.20
 # Man-DB.
-tar -xf man-db-2.9.4.tar.xz
-cd man-db-2.9.4
-./configure --prefix=/usr --sysconfdir=/etc --disable-setuid --enable-cache-owner=bin --with-browser=/usr/bin/lynx --with-vgrind=/usr/bin/vgrind --with-grap=/usr/bin/grap
+tar -xf man-db-2.10.0.tar.xz
+cd man-db-2.10.0
+./configure --prefix=/usr --sysconfdir=/etc --with-systemdsystemunitdir=/usr/lib/systemd/system --with-db=gdbm --disable-setuid --enable-cache-owner=bin --with-browser=/usr/bin/lynx
 make
 make install
 install -t /usr/share/licenses/man-db -Dm644 docs/COPYING docs/COPYING.LIB
 cd ..
-rm -rf man-db-2.9.4
+rm -rf man-db-2.10.0
 # Procps-NG.
 tar -xf procps-ng-3.3.17.tar.xz
 cd procps-3.3.17
@@ -2626,8 +2626,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.74.tar.gz
-cd nss-3.74
+tar -xf nss-3.75.tar.gz
+cd nss-3.75
 patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2642,7 +2642,7 @@ install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
-rm -rf nss-3.74
+rm -rf nss-3.75
 # Git.
 tar -xf git-2.35.1.tar.xz
 cd git-2.35.1
@@ -3215,14 +3215,14 @@ install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 cd ..
 rm -rf enchant-2.3.2
 # Fontconfig.
-tar -xf fontconfig-2.13.1.tar.bz2
-cd fontconfig-2.13.1
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-docs
+tar -xf fontconfig-2.13.96.tar.bz2
+cd fontconfig-2.13.96
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-docs
 make
 make install
 install -t /usr/share/licenses/fontconfig -Dm644 COPYING
 cd ..
-rm -rf fontconfig-2.13.1
+rm -rf fontconfig-2.13.96
 # Fribidi.
 tar -xf fribidi-1.0.11.tar.xz
 cd fribidi-1.0.11
@@ -3752,15 +3752,15 @@ install -t /usr/share/licenses/xkeyboard-config -Dm644 COPYING
 cd ..
 rm -rf xkeyboard-config-2.34
 # libxkbcommon.
-tar -xf libxkbcommon-1.3.1.tar.xz
-cd libxkbcommon-1.3.1
+tar -xf libxkbcommon-1.4.0.tar.xz
+cd libxkbcommon-1.4.0
 mkdir xkb-build; cd xkb-build
 meson --prefix=/usr --buildtype=release -Denable-docs=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
-rm -rf libxkbcommon-1.3.1
+rm -rf libxkbcommon-1.4.0
 # Systemd (rebuild to support more features).
 tar -xf systemd-stable-250.3.tar.gz
 cd systemd-stable-250.3
@@ -5132,15 +5132,16 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # UPower.
-tar -xf upower-UPOWER_0_99_13.tar.bz2
-cd upower-UPOWER_0_99_13
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-deprecated --disable-static --enable-gtk-doc
-make
-make install
-install -t /usr/share/licenses/upower -Dm644 COPYING
+tar -xf upower-v0.99.14.tar.bz2
+cd upower-v0.99.14
+mkdir upower-build; cd upower-build
+meson --prefix=/usr --buildtype=release -Dudevrulesdir=/usr/lib/udev/rules.d ..
+ninja
+ninja install
+install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
-cd ..
-rm -rf upower-UPOWER_0_99_13
+cd ../..
+rm -rf upower-v0.99.14
 # NetworkManager.
 tar -xf NetworkManager-1.34.0.tar.xz
 cd NetworkManager-1.34.0
@@ -6386,19 +6387,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.5.tar.xz
-cd linux-5.16.5
+tar -xf linux-5.16.7.tar.xz
+cd linux-5.16.7
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.5-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.5-massos/vmlinuz
-cp System.map /boot/System.map-5.16.5-massos
-cp .config /boot/config-5.16.5-massos
-rm /usr/lib/modules/5.16.5-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.7-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.7-massos/vmlinuz
+cp System.map /boot/System.map-5.16.7-massos
+cp .config /boot/config-5.16.7-massos
+rm /usr/lib/modules/5.16.7-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.5-massos/build
+builddir=/usr/lib/modules/5.16.7-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6422,7 +6423,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.5
+rm -rf linux-5.16.7
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
