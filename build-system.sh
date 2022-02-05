@@ -896,6 +896,9 @@ rm -rf file-5.41
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
+patch -Np1 -i ../patches/coreutils-9.0-chmodfix.patch
+patch -Np1 -i ../patches/coreutils-9.0-progressbar.patch
+autoreconf -fi
 ./configure --prefix=/usr --enable-no-install-program=kill,uptime
 make
 make install
@@ -6473,12 +6476,21 @@ rm -rf /tmp/*
 ldconfig
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
-# Nothing here yet...
+if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.35" ]; then
+  echo "
+IMPORTANT: This upgrade includes a newer version of the core C library (glibc).
+Upgrading on a running system using this utility will break your system, and is
+therefore not possible. To upgrade, please boot a MassOS live environment, run
+the installation program, and choose 'Repair' --> 'Refresh'. This won't erase
+your apps or data. For information on how to do this, see the following URL:
+
+  https://github.com/MassOS-Linux/MassOS/blob/main/installation-guide.md
+" >&2
+  exit 1
+fi
 END
 cat > /tmp/postupgrade << "END"
-for user in $(ls -A /home); do
-  test -e /home/$user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-screensaver.xml || (install -Dm644 /etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-screensaver.xml /home/$user/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-screensaver.xml && chown -R $user:$user /home/$user/.config/xfce4/xfconf/xfce-perchannel-xml)
-done
+# Nothing here yet...
 END
 # Clean sources directory and self destruct.
 cd ..

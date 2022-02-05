@@ -38,11 +38,12 @@ set -e
 
 echo "Exiting chroot environment..."
 
-umount "$chrootdir"/dev/pts
-umount "$chrootdir"/dev
-umount "$chrootdir"/proc
-umount "$chrootdir"/sys
-umount "$chrootdir"/run
+sync
+umount -R "$chrootdir"/dev/pts
+umount -R "$chrootdir"/dev
+umount -R "$chrootdir"/proc
+umount -R "$chrootdir"/sys
+umount -R "$chrootdir"/run
 
 if [ $STATUS -eq 0 ]; then
   echo "Chroot exited successfully."
