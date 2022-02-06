@@ -4755,8 +4755,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-files/ppp-license.txt
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4250.tar.gz
-cd vim-8.2.4250
+tar -xf vim-8.2.4300.tar.gz
+cd vim-8.2.4300
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4779,7 +4779,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4250
+rm -rf vim-8.2.4300
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5566,6 +5566,16 @@ install -Dt /usr/include/a52dec -m644 liba52/a52_internal.h
 install -t /usr/share/licenses/a52dec -Dm644 COPYING
 cd ..
 rm -rf a52dec-0.7.4
+# libbluray.
+tar -xf libbluray-1.3.0.tar.bz2
+cd libbluray-1.3.0
+./configure --prefix=/usr --disable-bdjava-jar
+make
+make install
+rm -f /usr/lib/libbluray.a
+install -t /usr/share/licenses/libbluray -Dm644 COPYING
+cd ..
+rm -rf libbluray-1.3.0
 # libmpeg2.
 tar -xf libmpeg2-0.5.1.tar.gz
 cd libmpeg2-0.5.1
@@ -5589,7 +5599,7 @@ rm -rf faad2-2_10_0
 # FFmpeg.
 tar -xf ffmpeg-5.0.tar.xz
 cd ffmpeg-5.0
-./configure --prefix=/usr --disable-debug --disable-static --enable-gnutls --enable-gpl --enable-libass --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libjack --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-small --enable-shared --enable-version3 --enable-vulkan
+./configure --prefix=/usr --disable-debug --disable-static --enable-gnutls --enable-gpl --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libjack --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-shared --enable-small --enable-version3 --enable-vulkan
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -5750,7 +5760,7 @@ tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
 patch -Np1 -i ../patches/gvfs-1.48.1-mesonfix.patch
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dbluray=false -Dsmb=false ..
+meson --prefix=/usr --buildtype=release -Dsmb=false ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas

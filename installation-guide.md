@@ -37,6 +37,7 @@ It also includes the following upgraded software, however there may be more befo
 - Thunar: `4.16.10 --> 4.17.7`
 - Tumbler: `4.16.0 --> 4.17.0`
 - UPower: `0.99.13 --> 0.99.14`
+- Vim: `8.2.4250 --> 8.2.4300`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
 - xfce4-terminal: `0.8.10 --> 0.9.1`
 
