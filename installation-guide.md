@@ -9,7 +9,7 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate). If you are using VirtualBox, we strongly recommend enabling EFI from VM Settings --> System, since it has a higher default screen resolution.
 
 # Release Notes
-This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however is subject to more changes before the next version is released:
+This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however may be subject to more changes before the next version is released:
 
 - The core C library (glibc) has been upgraded to the latest version (`2.35`).
 - Added `set-default-tar`, a small helper utility allowing you to set the default tar program.

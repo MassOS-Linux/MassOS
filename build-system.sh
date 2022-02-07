@@ -1716,7 +1716,7 @@ cd man-db-2.10.0
 ./configure --prefix=/usr --sysconfdir=/etc --with-systemdsystemunitdir=/usr/lib/systemd/system --with-db=gdbm --disable-setuid --enable-cache-owner=bin --with-browser=/usr/bin/lynx
 make
 make install
-install -t /usr/share/licenses/man-db -Dm644 docs/COPYING docs/COPYING.LIB
+install -t /usr/share/licenses/man-db -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf man-db-2.10.0
 # Procps-NG.
@@ -5621,7 +5621,7 @@ rm -rf openal-soft-1.21.1
 tar -xf gstreamer-1.18.5.tar.xz
 cd gstreamer-1.18.5
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -5631,7 +5631,7 @@ rm -rf gstreamer-1.18.5
 tar -xf gst-plugins-base-1.18.5.tar.xz
 cd gst-plugins-base-1.18.5
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -5641,7 +5641,7 @@ rm -rf gst-plugins-base-1.18.5
 tar -xf gst-plugins-good-1.18.5.tar.xz
 cd gst-plugins-good-1.18.5
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -5651,7 +5651,7 @@ rm -rf gst-plugins-good-1.18.5
 tar -xf gst-plugins-bad-1.18.5.tar.xz
 cd gst-plugins-bad-1.18.5
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -5661,7 +5661,7 @@ rm -rf gst-plugins-bad-1.18.5
 tar -xf gst-plugins-ugly-1.18.5.tar.xz
 cd gst-plugins-ugly-1.18.5
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -5672,7 +5672,7 @@ tar -xf gst-libav-1.18.5.tar.xz
 cd gst-libav-1.18.5
 patch -Np1 -i ../patches/gst-libav-1.18.5-ffmpeg5.patch
 mkdir gstlibav-build; cd gstlibav-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://github.com/MassOS-Linux/MassOS" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
