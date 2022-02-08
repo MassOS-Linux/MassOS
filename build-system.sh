@@ -6500,6 +6500,8 @@ curl --fail-with-body -s https://raw.githubusercontent.com/ClickNinYT/mct/c0ae1a
 chmod 755 /usr/sbin/mct
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
+# Compress manual pages.
+zman /usr/share/man
 # Remove leftover junk in /root.
 rm -rf /root/.cargo
 rm -rf /root/.cmake

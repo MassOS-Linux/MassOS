@@ -1,0 +1,84 @@
+#!/bin/bash
+#
+# unzman - Copyright (C) 2022 MassOS Developers.
+#
+# This program is part of the MassOS system. The license (GNU GPLv3+) can be
+# found at the following locations:
+#
+# - The 'LICENSE' file in the MassOS source tree.
+# - The '/usr/share/massos/LICENSE' file on a working MassOS system.
+# - Online at <https://gnu.org/licenses/gpl.html>.
+#
+# Invocation.
+inv="$(basename "$0")"
+# Usage function.
+usage() {
+  echo "$inv - Copyright (C) 2022 MassOS Developers."
+  echo "This program will decompress groups of man pages in bulk."
+  echo
+  echo "Usage: $inv </path/to/source/directory>"
+  echo
+  echo "WARNING: $inv will search recursively through the given directory and"
+  echo "operate on every man page it finds. Take care when using it."
+  echo
+  echo "This program is part of the MassOS system. The license (GNU GPLv3+)"
+  echo "can be found at /usr/share/massos/LICENSE on a MassOS system, or"
+  echo "online at <https://gnu.org/licenses/gpl.html>."
+}
+# Show the usage if no arguments are passed.
+if [ -z "$1" ]; then
+  usage >&2
+  exit 1
+fi
+# Check if help or version is requested.
+case "$1" in
+  -h*|--h*) usage; exit 0 ;;
+  -v*|-V*|--v*|--V*) usage | head -n2; usage | tail -n4; exit 0 ;;
+esac
+# Set target directory.
+targetdir="$1"
+# Ensure directory exists.
+if [ ! -d "$targetdir" ]; then
+  echo "Error: $targetdir is not a valid directory." >&2
+  if [ -e "$targetdir" ]; then
+    echo "$inv operates recursively on directories, not individual files." >&2
+  fi
+  exit 1
+fi
+# Ensure the variables we use are exported and empty.
+export files="" links=""
+# Use pigz (parallel gzip) if we can, otherwise fallback to standard gzip.
+if which pigz &>/dev/null; then
+  export COMPRESSOR="pigz"
+else
+  export COMPRESSOR="gzip"
+fi
+# We need temporary files since for some reason 'find' can't exec functions.
+f1="$(mktemp)"
+f2="$(mktemp)"
+cat > "$f1" << "END"
+#!/bin/bash
+if [ "$(file -bz "$1" 2>/dev/null | cut -d' ' -f1)" = "troff" ]; then
+  "$COMPRESSOR" -df "$1"
+fi
+END
+cat > "$f2" << "END"
+#!/bin/bash
+if [ "$(file -bz "$(readlink -f "$1" 2>/dev/null)" 2>/dev/null | cut -d' ' -f1)" = "troff" ]; then
+  dest="$(echo "$(readlink "$1")" | sed 's/.gz//g')"
+  name="$(echo "$1" | sed 's/.gz//g')"
+  ln -sf "$dest" "$1" && mv "$1" "$name"
+fi
+END
+chmod +x "$f1"
+chmod +x "$f2"
+# Starting message.
+printf "Decompressing man pages in %s (this may take a while)... " "$targetdir"
+# Fix every link that points to a compressed man page.
+find "$targetdir" -type l -name \*.gz -exec "$f2" {} ';'
+# Decompress every compressed man page in the target directory.
+find "$targetdir" -type f -name \*.gz -exec "$f1" {} ';'
+# Remove temporary files.
+rm -f "$f1" "$f2"
+# Finishing message.
+echo "Done!"

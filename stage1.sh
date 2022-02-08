@@ -271,6 +271,7 @@ cd ../..
 # Copy extra utilities and configuration files into the environment.
 cp utils/{adduser,mass-chroot,mkinitramfs,mklocales,set-default-tar} "$MASSOS"/usr/sbin
 cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} "$MASSOS"/etc
+cp utils/{un,}zman "$MASSOS"/usr/bin
 cp utils/{busybox,kernel}-config "$SRC"
 cp utils/massos-release.c "$SRC"
 cp utils/massos-logo.png "$SRC"

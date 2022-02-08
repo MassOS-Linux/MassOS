@@ -12,7 +12,9 @@ This guide aims to guide you through the installation of MassOS.
 This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however may be subject to more changes before the next version is released:
 
 - The core C library (glibc) has been upgraded to the latest version (`2.35`).
+- Manual pages are now compressed by default to save space.
 - Added Samba support.
+- Added `zman` and `unzman`, small utilities for bulk compressing/decompressing manual pages.
 - Added `set-default-tar`, a small helper utility allowing you to set the default tar program.
 
 It also includes the following upgraded software, however there may be more before the next version is released:
