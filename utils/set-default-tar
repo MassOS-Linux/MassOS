@@ -36,7 +36,7 @@ case "$1" in
   -h|-help|--help) usage; exit 1 ;;
 esac
 
-if [ ! "$(which "$1" 2>/dev/null)" ]; then
+if [ ! "$(which -- "$1" 2>/dev/null)" ]; then
   echo "Error: $1 is not a valid program for tar." >&2
   exit 1
 fi
