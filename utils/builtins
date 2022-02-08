@@ -68,6 +68,7 @@ diffutils
 dkms
 dmg2img
 dmidecode
+dnspython
 docbook-dsssl
 docbook-sgml
 docbook-utils
@@ -166,6 +167,7 @@ iana-etc
 iceauth
 icon-naming-utils
 icu
+importlib-metadata
 inetutils
 intel-vaapi-driver
 intltool
@@ -343,6 +345,7 @@ mako
 malcontent
 man-db
 man-pages
+markdown
 markupsafe
 mct
 mdadm
@@ -429,6 +432,7 @@ rsync
 rtmpdump
 ruby
 sane
+samba
 sassc
 sbc
 sdl

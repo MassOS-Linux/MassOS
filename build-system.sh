@@ -5057,6 +5057,31 @@ python setup.py install --skip-build
 install -t /usr/share/licenses/cython -Dm644 COPYING.txt LICENSE.txt
 cd ..
 rm -rf Cython-0.29.25
+# importlib-metadata
+tar -xf importlib_metadata-4.10.1.tar.gz
+cd importlib_metadata-4.10.1
+rm -f exercises.py
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/importlib-metadata -Dm644 LICENSE
+cd ..
+rm -rf importlib_metadata-4.10.1
+# Markdown.
+tar -xf Markdown-3.3.6.tar.gz
+cd Markdown-3.3.6
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/markdown -Dm644 LICENSE.md
+cd ..
+rm -rf Markdown-3.3.6
+# dnspython.
+tar -xf dnspython-2.2.0.tar.gz
+cd dnspython-2.2.0
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/dnspython -Dm644 LICENSE
+cd ..
+rm -rf dnspython-2.2.0
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0
@@ -5084,6 +5109,29 @@ make install
 install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
+# Samba.
+tar -xf samba-4.15.5.tar.gz
+cd samba-4.15.5
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
+make
+make install
+install -m644 examples/smb.conf.default /etc/samba/smb.conf
+sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" -e "s;path = /usr/spool/samba;path = /var/spool/samba;" -i /etc/samba/smb.conf.default
+mkdir -p /etc/openldap/schema
+install -m644 examples/LDAP/README /etc/openldap/schema/README.LDAP
+install -m644 examples/LDAP/samba* /etc/openldap/schema
+install -m755 examples/LDAP/{get*,ol*} /etc/openldap/schema
+ln -sf /usr/bin/smbspool /usr/lib/cups/backend/smb
+echo "d /run/samba 755 root root -" > /usr/lib/tmpfiles.d/samba.conf
+cat > /etc/default/samba << "END"
+NMBD_OPTS=
+SAMBA_OPTS=
+SMBD_OPTS=
+WINBINDD_OPTS=
+END
+install -t /usr/share/licenses/samba -Dm644 COPYING VFS-License-clarification.txt
+cd ..
+rm -rf samba-4.15.5
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20210805.tar.xz
 cd mobile-broadband-provider-info-20210805
@@ -5760,7 +5808,7 @@ tar -xf gvfs-1.48.1.tar.xz
 cd gvfs-1.48.1
 patch -Np1 -i ../patches/gvfs-1.48.1-mesonfix.patch
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dsmb=false ..
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas

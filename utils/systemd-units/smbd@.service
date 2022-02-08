@@ -1,0 +1,10 @@
+[Unit]
+Description=Samba SMB/CIFS server instance
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/samba
+PIDFile=/run/samba/smbd.pid
+ExecStart=/usr/sbin/smbd -F $SMBD_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+StandardInput=socket

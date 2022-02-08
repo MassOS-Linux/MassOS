@@ -1,0 +1,14 @@
+[Unit]
+Description=Samba AD Daemon
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/samba
+PIDFile=/run/samba.pid
+ExecStart=/usr/sbin/samba $SAMBA_OPTS
+ExecReload=/usr/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
+
