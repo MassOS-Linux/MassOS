@@ -20,19 +20,25 @@ This is the development version of MassOS. It contains the following changes sin
 It also includes the following upgraded software, however there may be more before the next version is released:
 
 - AccountsService: `0.6.55 --> 22.04.62`
+- Ed: `1.17 --> 1.18`
 - Exo: `4.16.3 --> 4.17.1`
 - Findutils: `4.8.0 --> 4.9.0`
+- Firefox: `96.0.3 --> 97.0`
 - Fontconfig: `2.13.1 --> 2.13.96`
 - GDBM: `1.22 --> 1.23`
 - glibc: `2.34 --> 2.35`
-- HarfBuzz: `3.2.0 --> 3.3.1`
+- GNUPG: `2.2.32 --> 2.2.34`
+- GPGME: `1.16.0 --> 1.17.0`
+- HarfBuzz: `3.2.0 --> 3.3.2`
 - lcms2: `2.12 --> 2.13.1`
+- libarchive: `3.5.2 --> 3.5.3`
 - libgcrypt: `1.9.4 --> 1.10.0`
+- libical: `3.0.13 --> 3.0.14`
 - libusb: `1.0.24 --> 1.0.25`
 - libxfce4ui: `4.16.1 --> 4.17.3`
 - libxfce4util: `4.16.0 --> 4.17.1`
 - libxkbcommon: `1.3.1 --> 1.4.0`
-- Linux Kernel: `5.16.4 --> 5.16.7`
+- Linux Kernel: `5.16.4 --> 5.16.8`
 - LLVM/Clang: `13.0.0 --> 13.0.1`
 - Man-DB: `2.9.4 --> 2.10.0`
 - NSS: `3.74 --> 3.75`

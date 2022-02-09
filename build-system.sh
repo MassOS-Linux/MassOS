@@ -1086,14 +1086,14 @@ install -t /usr/share/licenses/make -Dm644 COPYING
 cd ..
 rm -rf make-4.3
 # Ed.
-tar -xf ed-1.17.tar.lz
-cd ed-1.17
+tar -xf ed-1.18.tar.lz
+cd ed-1.18
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/ed -Dm644 COPYING
 cd ..
-rm -rf ed-1.17
+rm -rf ed-1.18
 # Patch.
 tar -xf patch-2.7.6.tar.xz
 cd patch-2.7.6
@@ -1355,9 +1355,9 @@ install -t /usr/share/licenses/libxml2 -Dm644 COPYING
 cd ..
 rm -rf libxml2-2.9.12
 # libarchive.
-tar -xf libarchive-3.5.2.tar.xz
-cd libarchive-3.5.2
-sed -i '436a if ((OSSL_PROVIDER_load(NULL, "legacy")) == NULL) return (ARCHIVE_FAILED);' libarchive/archive_digest.c
+tar -xf libarchive-3.5.3.tar.xz
+cd libarchive-3.5.3
+patch -Np1 -i ../patches/libarchive-3.5.3-extractlinkfix.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -1367,7 +1367,7 @@ ln -sf bsdtar.1 /usr/share/man/man1/tar.1
 ln -sf bsdcpio.1 /usr/share/man/man1/cpio.1
 install -t /usr/share/licenses/libarchive -Dm644 COPYING
 cd ..
-rm -rf libarchive-3.5.2
+rm -rf libarchive-3.5.3
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 cd docbook-xml-4.5
@@ -1673,8 +1673,8 @@ rm -rf gnu-efi-3.0.13
 tar -xf systemd-stable-250.3.tar.gz
 cd systemd-stable-250.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
-mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+mkdir systemd-build; cd systemd-build
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.10#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::10#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -2376,15 +2376,15 @@ install -t /usr/share/licenses/libksba -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv
 cd ..
 rm -rf libksba-1.6.0
 # GNUPG.
-tar -xf gnupg-2.2.32.tar.bz2
-cd gnupg-2.2.32
+tar -xf gnupg-2.2.34.tar.bz2
+cd gnupg-2.2.34
 sed -e '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' -i tools/Makefile.in
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-g13
 make
 make install
 install -t /usr/share/licenses/gnupg -Dm644 COPYING COPYING.CC0 COPYING.GPL2 COPYING.LGPL21 COPYING.LGPL3 COPYING.other
 cd ..
-rm -rf gnupg-2.2.32
+rm -rf gnupg-2.2.34
 # krb5.
 tar -xf krb5-1.19.2.tar.gz
 cd krb5-1.19.2/src
@@ -2443,16 +2443,15 @@ install -t /usr/share/licenses/libevent -Dm644 ../LICENSE
 cd ../..
 rm -rf libevent-2.1.12-stable
 # GPGME.
-tar -xf gpgme-1.16.0.tar.bz2
-cd gpgme-1.16.0
-sed 's/defined(__sun.*$/1/' -i src/posix-io.c
-sed -e 's/3\.9/3.10/' -e 's/:3/:4/' -e '23657 s/distutils"/setuptools"/' -i configure
+tar -xf gpgme-1.17.0.tar.bz2
+cd gpgme-1.17.0
+sed -e 's/3\.9/3.10/' -e 's/:3/:4/' -e '23653 s/distutils"/setuptools"/' -i configure
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
-rm -rf gpgme-1.16.0
+rm -rf gpgme-1.17.0
 # SQLite.
 tar -xf sqlite-autoconf-3370200.tar.gz
 cd sqlite-autoconf-3370200
@@ -2925,15 +2924,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.3.1.tar.xz
-cd harfbuzz-3.3.1
+tar -xf harfbuzz-3.3.2.tar.xz
+cd harfbuzz-3.3.2
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-3.3.1
+rm -rf harfbuzz-3.3.2
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -3765,8 +3764,8 @@ rm -rf libxkbcommon-1.4.0
 tar -xf systemd-stable-250.3.tar.gz
 cd systemd-stable-250.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
-mkdir systemd-better-than-the-rest-build; cd systemd-better-than-the-rest-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+mkdir systemd-build; cd systemd-build
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.10#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::10#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4192,14 +4191,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.3.1.tar.xz
-cd harfbuzz-3.3.1
+tar -xf harfbuzz-3.3.2.tar.xz
+cd harfbuzz-3.3.2
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.3.1
+rm -rf harfbuzz-3.3.2
 # Pango.
 tar -xf pango-1.50.3.tar.xz
 cd pango-1.50.3
@@ -4594,15 +4593,15 @@ install -t /usr/share/licenses/sbc -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf sbc-1.5
 # libical.
-tar -xf libical-3.0.13.tar.gz
-cd libical-3.0.13
-mkdir build-with-CMAKE; cd build-with-CMAKE
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true -Wno-dev ..
-make -j1
-make -j1 install
+tar -xf libical-3.0.14.tar.gz
+cd libical-3.0.14
+mkdir ical-build; cd ical-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSHARED_ONLY=yes -DICAL_BUILD_DOCS=false -DGOBJECT_INTROSPECTION=true -DICAL_GLIB_VAPI=true -Wno-dev -G Ninja ..
+ninja -j1
+ninja -j1 install
 install -t /usr/share/licenses/libical -Dm644 ../COPYING ../LICENSE ../LICENSE.LGPL21.txt
 cd ../..
-rm -rf libical-3.0.13
+rm -rf libical-3.0.14
 # BlueZ.
 tar -xf bluez-5.63.tar.xz
 cd bluez-5.63
@@ -6384,7 +6383,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-96.0.3.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-97.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6445,19 +6444,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.7.tar.xz
-cd linux-5.16.7
+tar -xf linux-5.16.8.tar.xz
+cd linux-5.16.8
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.7-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.7-massos/vmlinuz
-cp System.map /boot/System.map-5.16.7-massos
-cp .config /boot/config-5.16.7-massos
-rm /usr/lib/modules/5.16.7-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.8-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.8-massos/vmlinuz
+cp System.map /boot/System.map-5.16.8-massos
+cp .config /boot/config-5.16.8-massos
+rm /usr/lib/modules/5.16.8-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.7-massos/build
+builddir=/usr/lib/modules/5.16.8-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6481,7 +6480,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.7
+rm -rf linux-5.16.8
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
