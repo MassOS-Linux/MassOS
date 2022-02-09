@@ -31,7 +31,7 @@ It also includes the following upgraded software, however there may be more befo
 - GPGME: `1.16.0 --> 1.17.0`
 - HarfBuzz: `3.2.0 --> 3.3.2`
 - lcms2: `2.12 --> 2.13.1`
-- libarchive: `3.5.2 --> 3.5.3`
+- libarchive: `3.5.2 --> 3.6.0`
 - libgcrypt: `1.9.4 --> 1.10.0`
 - libical: `3.0.13 --> 3.0.14`
 - libusb: `1.0.24 --> 1.0.25`
@@ -40,15 +40,19 @@ It also includes the following upgraded software, however there may be more befo
 - libxkbcommon: `1.3.1 --> 1.4.0`
 - Linux Kernel: `5.16.4 --> 5.16.8`
 - LLVM/Clang: `13.0.0 --> 13.0.1`
+- LVM2: `2.03.14 --> 2.03.15`
 - Man-DB: `2.9.4 --> 2.10.0`
 - NSS: `3.74 --> 3.75`
 - Poppler: `22.01.0 --> 22.02.0`
+- slang: `pre2.3.3-64 --> pre2.3.3-66`
 - Thunar: `4.16.10 --> 4.17.7`
 - Tumbler: `4.16.0 --> 4.17.0`
 - UPower: `0.99.13 --> 0.99.14`
 - Vim: `8.2.4250 --> 8.2.4300`
+- WebKitGTK: `2.34.4 --> 2.34.5`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
 - xfce4-terminal: `0.8.10 --> 0.9.1`
+- XKeyboard-Config: `2.34 --> 2.35`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.

@@ -1355,9 +1355,8 @@ install -t /usr/share/licenses/libxml2 -Dm644 COPYING
 cd ..
 rm -rf libxml2-2.9.12
 # libarchive.
-tar -xf libarchive-3.5.3.tar.xz
-cd libarchive-3.5.3
-patch -Np1 -i ../patches/libarchive-3.5.3-extractlinkfix.patch
+tar -xf libarchive-3.6.0.tar.xz
+cd libarchive-3.6.0
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -1367,7 +1366,7 @@ ln -sf bsdtar.1 /usr/share/man/man1/tar.1
 ln -sf bsdcpio.1 /usr/share/man/man1/cpio.1
 install -t /usr/share/licenses/libarchive -Dm644 COPYING
 cd ..
-rm -rf libarchive-3.5.3
+rm -rf libarchive-3.6.0
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 cd docbook-xml-4.5
@@ -1890,11 +1889,10 @@ install -t /usr/share/licenses/thin-provisioning-tools -Dm644 COPYING
 cd ..
 rm -rf thin-provisioning-tools-0.9.0
 # LVM2 (precompiled package, to avoid a segfault at runtime).
-tar --no-same-owner -xpf lvm2-2.03.14-x86_64-precompiled-MassOS.tar.xz
-cp -r lvm2-2.03.14-x86_64-precompiled-MassOS/{etc,usr} /
+tar --no-same-owner -xpf lvm2-2.03.15-x86_64-precompiled-MassOS.tar.xz
+cp -a lvm2-2.03.15-x86_64-precompiled-MassOS/BINARY/* /
 ldconfig
-install -t /usr/share/licenses/lvm2 -Dm644 lvm2-2.03.14-x86_64-precompiled-MassOS/COPYING*
-rm -rf lvm2-2.03.14-x86_64-precompiled-MassOS
+rm -rf lvm2-2.03.15-x86_64-precompiled-MassOS
 # btrfs-progs.
 tar -xf btrfs-progs-v5.16.tar.xz
 cd btrfs-progs-v5.16
@@ -3386,8 +3384,8 @@ install -t /usr/share/licenses/ruby -Dm644 COPYING
 cd ..
 rm -rf ruby-3.1.0
 # slang.
-tar -xf slang-pre2.3.3-64.tar.gz
-cd slang-pre2.3.3-64
+tar -xf slang-pre2.3.3-66.tar.gz
+cd slang-pre2.3.3-66
 ./configure --prefix=/usr --sysconfdir=/etc --with-readline=gnu
 make -j1
 make -j1 install_doc_dir=/usr/share/doc/slang SLSH_DOC_DIR=/usr/share/doc/slang/slsh install-all
@@ -3395,7 +3393,7 @@ chmod 755 /usr/lib/libslang.so.2.3.3 /usr/lib/slang/v2/modules/*.so
 rm -f /usr/lib/libslang.a
 install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
-rm -rf slang-pre2.3.3-64
+rm -rf slang-pre2.3.3-66
 # BIND Utilities.
 tar -xf bind-9.16.25.tar.xz
 cd bind-9.16.25
@@ -3742,14 +3740,15 @@ sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fo
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
 # XKeyboard-Config.
-tar -xf xkeyboard-config-2.34.tar.bz2
-cd xkeyboard-config-2.34
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-xkb-rules-symlink=xorg
-make
-make install
-install -t /usr/share/licenses/xkeyboard-config -Dm644 COPYING
-cd ..
-rm -rf xkeyboard-config-2.34
+tar -xf xkeyboard-config-2.35.tar.xz
+cd xkeyboard-config-2.35
+mkdir XKeyboard-Config-BUILD; cd XKeyboard-Config-BUILD
+meson --prefix=/usr -Dcompat-rules=true -Dxkb-base=/usr/share/X11/xkb -Dxorg-rules-symlinks=true ..
+ninja
+ninja install
+install -t /usr/share/licenses/xkeyboard-config -Dm644 ../COPYING
+cd ../..
+rm -rf xkeyboard-config-2.35
 # libxkbcommon.
 tar -xf libxkbcommon-1.4.0.tar.xz
 cd libxkbcommon-1.4.0
@@ -5726,8 +5725,8 @@ install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
 rm -rf gst-libav-1.18.5
 # WebKitGTK.
-tar -xf webkitgtk-2.34.4.tar.xz
-cd webkitgtk-2.34.4
+tar -xf webkitgtk-2.34.5.tar.xz
+cd webkitgtk-2.34.5
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -5735,7 +5734,7 @@ ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.34.4
+rm -rf webkitgtk-2.34.5
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
