@@ -47,7 +47,6 @@ It also includes the following upgraded software, however there may be more befo
 - slang: `pre2.3.3-64 --> pre2.3.3-66`
 - Thunar: `4.16.10 --> 4.17.7`
 - Tumbler: `4.16.0 --> 4.17.0`
-- UPower: `0.99.13 --> 0.99.14`
 - Vim: `8.2.4250 --> 8.2.4300`
 - WebKitGTK: `2.34.4 --> 2.34.5`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`

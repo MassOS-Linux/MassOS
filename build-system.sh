@@ -5178,16 +5178,15 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # UPower.
-tar -xf upower-v0.99.14.tar.bz2
-cd upower-v0.99.14
-mkdir upower-build; cd upower-build
-meson --prefix=/usr --buildtype=release -Dudevrulesdir=/usr/lib/udev/rules.d ..
-ninja
-ninja install
-install -t /usr/share/licenses/upower -Dm644 ../COPYING
+tar -xf upower-0.99.13.tar.xz
+cd upower-0.99.13
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-deprecated --disable-static
+make
+make install
+install -t /usr/share/licenses/upower -Dm644 COPYING
 systemctl enable upower
-cd ../..
-rm -rf upower-v0.99.14
+cd ..
+rm -rf upower-0.99.13
 # NetworkManager.
 tar -xf NetworkManager-1.34.0.tar.xz
 cd NetworkManager-1.34.0
