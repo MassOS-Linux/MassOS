@@ -6242,6 +6242,16 @@ install -t /usr/share/licenses/plymouth -Dm644 COPYING
 plymouth-set-default-theme spinner
 cd ..
 rm -rf plymouth-0.9.5
+# evince
+tar -xf evince-41.3.tar.xz
+cd evince-41.3
+find . -name meson.build | xargs sed -i '/merge_file/{n;d}'
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dnautilus=false
+ninja
+ninja install
+cd ..
+rm -rf evince-41.3
 # htop.
 tar -xf htop-3.1.2.tar.gz
 cd htop-3.1.2
