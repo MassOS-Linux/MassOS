@@ -362,6 +362,7 @@ mpfr
 mpg123
 mtdev
 mtools
+mugshot
 mupdf
 nano
 nasm
@@ -401,6 +402,7 @@ pciutils
 pcre
 pcre2
 perl
+pexpect
 pkg-config
 pigz
 pinentry
@@ -414,6 +416,7 @@ popt
 ppp
 procps-ng
 psmisc
+ptyprocess
 pulseaudio
 pv
 pycairo
@@ -421,6 +424,7 @@ pygments
 pygobject
 pyparsing
 python
+python-distutils-extra
 qpdf
 qrencode
 readline

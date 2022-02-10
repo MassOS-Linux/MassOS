@@ -5042,6 +5042,27 @@ pip --no-color install requests
 pip --no-color install tldr
 cd ..
 rm -rf Python-3.10.2
+# python-distutils-extra.
+tar -xf python-distutils-extra-2.39.tar.gz
+cd python-distutils-extra-2.39
+python setup.py install
+install -t /usr/share/licenses/python-distutils-extra -Dm644 LICENSE
+cd ..
+rm -rf python-distutils-extra-2.39
+# ptyprocess.
+tar -xf ptyprocess-0.7.0.tar.gz
+cd ptyprocess-0.7.0
+python setup.py install --prefix=/usr --optimize=1
+install -t /usr/share/licenses/ptyprocess -Dm644 LICENSE
+cd ..
+rm -rf ptyprocess-0.7.0
+# pexpect.
+tar -xf pexpect-4.8.0.tar.gz
+cd pexepct-4.8.0
+python setup.py install
+install -t /usr/share/licenses/pexpect -Dm644 LICENSE
+cd ..
+rm -rf pexpect-4.8.0
 # Cython.
 tar -xf Cython-0.29.25.tar.gz
 cd Cython-0.29.25
@@ -6189,6 +6210,14 @@ install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.37
+# Mugshot.
+tar -xf mugshot-0.4.3.tar.gz
+cd mugshot-0.4.3
+python setup.py install --optimize=1
+glib-compile-schemas /usr/share/glib-2.0/schemas
+install -t /usr/share/licenses/mugshot -Dm644 LICENSE
+cd ..
+rm -rf mugshot-0.4.3
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0

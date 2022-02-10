@@ -13,6 +13,7 @@ This is the development version of MassOS. It contains the following changes sin
 
 - The core C library (glibc) has been upgraded to the latest version (`2.35`).
 - Manual pages are now compressed by default to save space.
+- Added Mugshot to allow changing of user settings such as profile picture.
 - Added Samba support.
 - Added `zman` and `unzman`, small utilities for bulk compressing/decompressing manual pages.
 - Added `set-default-tar`, a small helper utility allowing you to set the default tar program.
