@@ -20,15 +20,23 @@ This is the development version of MassOS. It contains the following changes sin
 It also includes the following upgraded software, however there may be more before the next version is released:
 
 - AccountsService: `0.6.55 --> 22.04.62`
+- Binutils: `2.37 --> 2.38`
 - Ed: `1.17 --> 1.18`
 - Exo: `4.16.3 --> 4.17.1`
 - Findutils: `4.8.0 --> 4.9.0`
 - Firefox: `96.0.3 --> 97.0`
 - Fontconfig: `2.13.1 --> 2.13.96`
+- FreeGLUT: `3.2.1 --> 3.2.2`
 - GDBM: `1.22 --> 1.23`
 - glibc: `2.34 --> 2.35`
 - GNUPG: `2.2.32 --> 2.2.34`
 - GPGME: `1.16.0 --> 1.17.0`
+- gst-libav: `1.18.5 --> 1.20.0`
+- gst-plugins-bad: `1.18.5 --> 1.20.0`
+- gst-plugins-base: `1.18.5 --> 1.20.0`
+- gst-plugins-good: `1.18.5 --> 1.20.0`
+- gst-plugins-ugly: `1.18.5 --> 1.20.0`
+- GStreamer: `1.18.5 --> 1.20.0`
 - HarfBuzz: `3.2.0 --> 3.3.2`
 - lcms2: `2.12 --> 2.13.1`
 - libarchive: `3.5.2 --> 3.6.0`
@@ -42,11 +50,17 @@ It also includes the following upgraded software, however there may be more befo
 - LLVM/Clang: `13.0.0 --> 13.0.1`
 - LVM2: `2.03.14 --> 2.03.15`
 - Man-DB: `2.9.4 --> 2.10.0`
+- Mesa: `21.3.5 --> 21.3.6`
+- Nano: `6.0 --> 6.1`
 - NSS: `3.74 --> 3.75`
+- Pango: `1.50.3 --> 1.50.4`
 - Poppler: `22.01.0 --> 22.02.0`
+- Qpdf: `10.5.0 --> 10.6.0`
 - slang: `pre2.3.3-64 --> pre2.3.3-66`
 - Thunar: `4.16.10 --> 4.17.7`
+- Thunderbird: `91.5.1 --> 91.6.0`
 - Tumbler: `4.16.0 --> 4.17.0`
+- UPower: `0.99.13 --> 0.99.15`
 - Vim: `8.2.4250 --> 8.2.4300`
 - WebKitGTK: `2.34.4 --> 2.34.5`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`

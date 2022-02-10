@@ -39,14 +39,14 @@ cp patches/* "$SRC"/patches
 cp -r utils/systemd-units "$SRC"
 # Binutils (Pass 1).
 cd "$SRC"
-tar -xf binutils-2.37.tar.xz
-cd binutils-2.37
+tar -xf binutils-2.38.tar.xz
+cd binutils-2.38
 mkdir build; cd build
 ../configure --prefix="$MASSOS"/tools --with-sysroot="$MASSOS" --target=$MASSOS_TARGET --disable-nls --disable-werror
 make
 make -j1 install
 cd ../..
-rm -rf binutils-2.37
+rm -rf binutils-2.38
 # GCC (Pass 1).
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
@@ -237,18 +237,26 @@ make
 make DESTDIR="$MASSOS" install
 cd ..
 rm -rf xz-5.2.5
+# zlib (seems to be needed by Binutils 2.38?).
+tar -xf zlib-1.2.11.tar.xz
+cd zlib-1.2.11
+./configure --prefix=/usr
+make
+make DESTDIR="$MASSOS" install
+cd ..
+rm -rf zlib-1.2.11
 # Unset compiler flags for building criticial toolchain tools.
 unset CFLAGS CXXFLAGS
 # Binutils (Pass 2).
-tar -xf binutils-2.37.tar.xz
-cd binutils-2.37
+tar -xf binutils-2.38.tar.xz
+cd binutils-2.38
 mkdir build; cd build
 ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --disable-nls --enable-shared --disable-werror --enable-64-bit-bfd
 make
 make -j1 DESTDIR="$MASSOS" install
 install -m755 libctf/.libs/libctf.so.0.0.0 "$MASSOS"/usr/lib
 cd ../..
-rm -rf binutils-2.37
+rm -rf binutils-2.38
 # GCC (Pass 2).
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0

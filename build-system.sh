@@ -323,21 +323,17 @@ install -t /usr/share/licenses/tcl -Dm644 ../license.terms
 cd ../..
 rm -rf tcl8.6.12
 # Binutils.
-tar -xf binutils-2.37.tar.xz
-cd binutils-2.37
-patch -Np1 -i ../patches/binutils-2.37-upstream_fix-1.patch
-sed -i '63d' etc/texi2pod.pl
-find -name \*.1 -delete
-sed -i '/@\tincremental_copy/d' gold/testsuite/Makefile.in
+tar -xf binutils-2.38.tar.xz
+cd binutils-2.38
 mkdir build; cd build
 unset CFLAGS CXXFLAGS
 ../configure --prefix=/usr --enable-gold --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --with-system-zlib
 make tooldir=/usr
-make tooldir=/usr install -j1
+make tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 cd ../..
-rm -rf binutils-2.37
+rm -rf binutils-2.38
 CFLAGS="-w -Os -pipe"
 CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
@@ -1113,8 +1109,8 @@ install -t /usr/share/licenses/gtar -Dm644 COPYING
 cd ..
 rm -rf tar-1.34
 # Nano (Vim will be installed later, after Xorg, to support a GUI).
-tar -xf nano-6.0.tar.xz
-cd nano-6.0
+tar -xf nano-6.1.tar.xz
+cd nano-6.1
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
@@ -1122,7 +1118,7 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 install -t /usr/share/licenses/nano -Dm644 COPYING
 cd ..
-rm -rf nano-6.0
+rm -rf nano-6.1
 # dos2unix.
 tar -xf dos2unix-7.4.2.tar.gz
 cd dos2unix-7.4.2
@@ -1673,7 +1669,7 @@ tar -xf systemd-stable-250.3.tar.gz
 cd systemd-stable-250.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.10#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::10#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -3301,14 +3297,14 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.5.0.tar.gz
-cd qpdf-10.5.0
+tar -xf qpdf-10.6.0.tar.gz
+cd qpdf-10.6.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 cd ..
-rm -rf qpdf-10.5.0
+rm -rf qpdf-10.6.0
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3673,8 +3669,8 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.5.tar.xz
-cd mesa-21.3.5
+tar -xf mesa-21.3.6.tar.xz
+cd mesa-21.3.6
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
@@ -3683,7 +3679,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-21.3.5
+rm -rf mesa-21.3.6
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3764,7 +3760,7 @@ tar -xf systemd-stable-250.3.tar.gz
 cd systemd-stable-250.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.10#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::10#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4097,17 +4093,16 @@ ninja install
 rm -f /usr/lib/libGLU.a
 cd ../..
 rm -rf glu-9.0.2
-# Freeglut.
-tar -xf freeglut-3.2.1.tar.gz
-cd freeglut-3.2.1
-patch -Np1 -i ../patches/freeglut-3.2.1-gcc10_fix-1.patch
+# FreeGLUT.
+tar -xf FreeGLUT-FG_3_2_2.tar.gz
+cd FreeGLUT-FG_3_2_2
 mkdir fg-build; cd fg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DFREEGLUT_BUILD_DEMOS=OFF -DFREEGLUT_BUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/freeglut -Dm644 ../COPYING
 cd ../..
-rm -rf freeglut-3.2.1
+rm -rf FreeGLUT-FG_3_2_2
 # libtiff.
 tar -xf tiff-4.3.0.tar.gz
 cd tiff-4.3.0
@@ -4199,15 +4194,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-3.3.2
 # Pango.
-tar -xf pango-1.50.3.tar.xz
-cd pango-1.50.3
+tar -xf pango-1.50.4.tar.xz
+cd pango-1.50.4
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.3
+rm -rf pango-1.50.4
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -5178,15 +5173,16 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # UPower.
-tar -xf upower-0.99.13.tar.xz
-cd upower-0.99.13
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-deprecated --disable-static
-make
-make install
-install -t /usr/share/licenses/upower -Dm644 COPYING
+tar -xf upower-v0.99.15.tar.bz2
+cd upower-v0.99.15
+mkdir upower-build; cd upower-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
-cd ..
-rm -rf upower-0.99.13
+cd ../..
+rm -rf upower-v0.99.15
 # NetworkManager.
 tar -xf NetworkManager-1.34.0.tar.xz
 cd NetworkManager-1.34.0
@@ -5663,66 +5659,65 @@ install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
 cd ../..
 rm -rf openal-soft-1.21.1
 # GStreamer.
-tar -xf gstreamer-1.18.5.tar.xz
-cd gstreamer-1.18.5
+tar -xf gstreamer-1.20.0.tar.xz
+cd gstreamer-1.20.0
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
 cd ../..
-rm -rf gstreamer-1.18.5
+rm -rf gstreamer-1.20.0
 # gst-plugins-base.
-tar -xf gst-plugins-base-1.18.5.tar.xz
-cd gst-plugins-base-1.18.5
+tar -xf gst-plugins-base-1.20.0.tar.xz
+cd gst-plugins-base-1.20.0
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-base-1.18.5
+rm -rf gst-plugins-base-1.20.0
 # gst-plugins-good.
-tar -xf gst-plugins-good-1.18.5.tar.xz
-cd gst-plugins-good-1.18.5
+tar -xf gst-plugins-good-1.20.0.tar.xz
+cd gst-plugins-good-1.20.0
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-good-1.18.5
+rm -rf gst-plugins-good-1.20.0
 # gst-plugins-bad.
-tar -xf gst-plugins-bad-1.18.5.tar.xz
-cd gst-plugins-bad-1.18.5
+tar -xf gst-plugins-bad-1.20.0.tar.xz
+cd gst-plugins-bad-1.20.0
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-bad-1.18.5
+rm -rf gst-plugins-bad-1.20.0
 # gst-plugins-ugly.
-tar -xf gst-plugins-ugly-1.18.5.tar.xz
-cd gst-plugins-ugly-1.18.5
+tar -xf gst-plugins-ugly-1.20.0.tar.xz
+cd gst-plugins-ugly-1.20.0
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-ugly-1.18.5
+rm -rf gst-plugins-ugly-1.20.0
 # gst-libav.
-tar -xf gst-libav-1.18.5.tar.xz
-cd gst-libav-1.18.5
-patch -Np1 -i ../patches/gst-libav-1.18.5-ffmpeg5.patch
-mkdir gstlibav-build; cd gstlibav-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.18.5 (MassOS)" ..
+tar -xf gst-libav-1.20.0.tar.xz
+cd gst-libav-1.20.0
+mkdir gst-libav-build; cd gst-libav-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
-rm -rf gst-libav-1.18.5
+rm -rf gst-libav-1.20.0
 # WebKitGTK.
 tar -xf webkitgtk-2.34.5.tar.xz
 cd webkitgtk-2.34.5
@@ -6412,7 +6407,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.5.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.6.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
