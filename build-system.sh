@@ -6250,7 +6250,7 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dnautilus=false
 ninja
 ninja install
-cd ..
+cd ../..
 rm -rf evince-41.3
 # htop.
 tar -xf htop-3.1.2.tar.gz
