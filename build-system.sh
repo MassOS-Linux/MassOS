@@ -6250,6 +6250,8 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Dnautilus=false
 ninja
 ninja install
+cd ..
+install -t /usr/share/licenses/evince -Dm644 COPYING
 cd ../..
 rm -rf evince-41.3
 # htop.
