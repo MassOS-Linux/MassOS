@@ -4695,7 +4695,7 @@ install -t /usr/share/licenses/dmidecode -Dm644 COPYRIGHT LICENSE
 cd ..
 rm -rf rrdtool-1.7.2
 # lm-sensors.
-tar -xf lm-sensors-3.6.0.tar.gz
+tar -xf lm-sensors-3-6-0.tar.gz
 cd lm-sensors-3-6-0
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord CFLAGS="$CFLAGS"
 make PREFIX=/usr MANDIR=/usr/share/man BUILD_STATIC_LIB=0 PROG_EXTRA=sensord install
@@ -6159,7 +6159,7 @@ install -t /usr/share/licenses/mousepad -Dm644 COPYING
 cd ..
 rm -rf mousepad-0.5.8
 # galculator.
-tar -xf galculator_2.1.4.orig.tar.gz
+tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4
 sed -i 's/s_preferences/extern s_preferences/' src/main.c
 autoreconf -fi
@@ -6296,9 +6296,8 @@ plymouth-set-default-theme spinner
 cd ..
 rm -rf plymouth-0.9.5
 # htop.
-tar -xf htop-3.1.2.tar.gz
+tar -xf htop-3.1.2.tar.xz
 cd htop-3.1.2
-autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install

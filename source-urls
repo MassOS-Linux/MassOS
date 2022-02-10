@@ -97,7 +97,7 @@ https://archive.fr.xfce.org/src/xfce/exo/4.17/exo-4.17.1.tar.bz2
 https://github.com/libexpat/libexpat/releases/download/R_2_4_3/expat-2.4.3.tar.xz
 https://github.com/knik0/faad2/archive/2_10_0/faad2-2_10_0.tar.gz
 https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.27.orig.tar.gz
-https://distfiles.gentoo.org/distfiles/fcron-3.2.1.src.tar.gz
+https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/fcron-3.2.1.src.tar.gz
 https://ffmpeg.org/releases/ffmpeg-5.0.tar.xz
 https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
@@ -114,7 +114,7 @@ https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.x
 https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz
 https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz
 https://github.com/libfuse/libfuse/releases/download/fuse-3.10.5/fuse-3.10.5.tar.xz
-https://ftp.hands.com/debian/pool/main/g/galculator/galculator_2.1.4.orig.tar.gz
+https://github.com/galculator/galculator/archive/v2.1.4/galculator-2.1.4.tar.gz
 https://archive.fr.xfce.org/src/xfce/garcon/4.16/garcon-4.16.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/gawk/gawk-5.1.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
@@ -175,7 +175,7 @@ https://mirror.lyrahosting.com/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/3.3.2/harfbuzz-3.3.2.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://fossies.org/linux/misc/hplip-3.21.12.tar.gz
-https://distfiles.gentoo.org/distfiles/htop-3.1.2.tar.gz
+https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
 https://github.com/Mic92/iana-etc/releases/download/20220128/iana-etc-20220128.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
@@ -185,7 +185,7 @@ https://mirror.lyrahosting.com/gnu/inetutils/inetutils-2.2.tar.xz
 https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
 https://archive.massos.org/sources/intltool-0.51.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.16.0.tar.xz
-https://distfiles.gentoo.org/distfiles/iptables-1.8.7.tar.bz2
+https://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.9.0.orig.tar.xz
 https://archive.massos.org/sources/itstool-2.0.7.tar.bz2
 https://github.com/jackaudio/jack2/archive/v1.9.20/jack2-1.9.20.tar.gz
@@ -250,7 +250,7 @@ https://files.libburnia-project.org/releases/libisofs-1.5.4.tar.gz
 https://deb.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg-turbo_2.1.2.orig.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.2.tar.xz
-https://distfiles.gentoo.org/distfiles/libmpeg2-0.5.1.tar.gz
+https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmpeg2-0.5.1.tar.gz
 https://github.com/libmtp/libmtp/releases/download/v1.1.19/libmtp-1.1.19.tar.gz
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/libn/libndp/libndp_1.8.orig.tar.gz
 https://github.com/sahlberg/libnfs/archive/libnfs-4.0.0.tar.gz
@@ -272,7 +272,7 @@ https://www.freedesktop.org/software/libqmi/libqmi-1.30.2.tar.xz
 https://www.libraw.org/data/LibRaw-0.20.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.52/librsvg-2.52.5.tar.xz
 https://github.com/libsndfile/libsamplerate/releases/download/0.2.2/libsamplerate-0.2.2.tar.xz
-https://distfiles.gentoo.org/distfiles/libsass-3.6.5.tar.gz
+https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.3/libseccomp-2.5.3.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libsecret/0.20/libsecret-0.20.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libsigc++/2.10/libsigc++-2.10.7.tar.xz
@@ -334,7 +334,7 @@ https://www.x.org/archive/individual/lib/libXv-1.0.11.tar.bz2
 https://www.x.org/archive/individual/lib/libXvMC-1.0.12.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
-https://distfiles.gentoo.org/distfiles/libyaml-0.2.5.tar.gz
+https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
@@ -342,7 +342,7 @@ https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.8.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
-https://distfiles.gentoo.org/distfiles/lm-sensors-3.6.0.tar.gz
+https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://github.com/LMDB/lmdb/archive/LMDB_0.9.29.tar.gz
 https://github.com/jaseg/lolcat/archive/v1.2/lolcat-1.2.tar.gz
 https://mirror.fileplanet.com/lfs/pub/blfs/11.0/l/LSB-Tools-0.9.tar.gz
@@ -387,7 +387,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.24/network-man
 https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.34/NetworkManager-1.34.0.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.46.0/nghttp2-1.46.0.tar.xz
-https://distfiles.gentoo.org/distfiles/ninja-1.10.2.tar.gz
+https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
@@ -396,7 +396,7 @@ https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
 https://archive.massos.org/sources/openjade-1.3.2.tar.gz
-https://distfiles.gentoo.org/distfiles/openjpeg-2.4.0.tar.gz
+https://github.com/uclouvain/openjpeg/archive/v2.4.0/openjpeg-2.4.0.tar.gz
 https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.0.tgz
 https://archive.massos.org/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
@@ -433,7 +433,7 @@ https://archive.massos.org/sources/ppp-2.4.9-extra-files.tar.xz
 https://archive.massos.org/sources/procps-ng-3.3.17.tar.xz
 https://gitlab.com/psmisc/psmisc/-/archive/v23.4/psmisc-23.4.tar.gz
 https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
-https://distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
+https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.20.1/pycairo-1.20.1.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
@@ -450,7 +450,7 @@ https://archive.massos.org/sources/rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.0.tar.xz
 https://static.rust-lang.org/dist/rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
 https://download.samba.org/pub/samba/stable/samba-4.15.5.tar.gz
-https://distfiles.gentoo.org/distfiles/sassc-3.6.2.tar.gz
+https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
 https://cdn.kernel.org/pub/linux/bluetooth/sbc-1.5.tar.xz
 https://www.libsdl.org/release/SDL-1.2.15.tar.gz
 https://www.libsdl.org/release/SDL2-2.0.20.tar.gz
@@ -518,7 +518,7 @@ https://wpewebkit.org/releases/wpebackend-fdo-1.12.0.tar.xz
 https://www.x.org/archive/individual/app/x11perf-1.6.1.tar.bz2
 https://archive.massos.org/sources/x264-0.164.3081.tar.xz
 https://archive.massos.org/sources/x265-3.5-19-g747a079f7.tar.xz
-https://distfiles.gentoo.org/distfiles/xarchiver-0.5.4.17.tar.gz
+https://github.com/ib/xarchiver/archive/0.5.4.17/xarchiver-0.5.4.17.tar.gz
 https://www.x.org/archive/individual/app/xauth-1.1.1.tar.bz2
 https://www.x.org/archive/individual/app/xbacklight-1.2.3.tar.bz2
 https://www.x.org/archive/individual/data/xbitmaps-1.1.2.tar.bz2
