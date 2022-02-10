@@ -91,6 +91,7 @@ https://deb.debian.org/debian/pool/main/e/efibootmgr/efibootmgr_17.orig.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
 https://sourceware.org/ftp/elfutils/0.186/elfutils-0.186.tar.bz2
 https://github.com/AbiWord/enchant/releases/download/v2.3.2/enchant-2.3.2.tar.gz
+https://ftp.acc.umu.se/pub/gnome/sources/evince/41/evince-41.3.tar.xz
 https://deb.debian.org/debian/pool/main/e/exfatprogs/exfatprogs_1.1.3.orig.tar.xz
 https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz
 https://archive.fr.xfce.org/src/xfce/exo/4.17/exo-4.17.1.tar.bz2
@@ -606,5 +607,3 @@ https://fossies.org/linux/misc/xz-5.2.5.tar.xz
 https://archive.massos.org/sources/zip30.tar.gz
 https://zlib.net/zlib-1.2.11.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
-https://download.gnome.org/sources/evince/41/evince-41.3.tar.xz
- 
