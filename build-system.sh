@@ -639,6 +639,15 @@ make install
 install -t /usr/share/licenses/bash -Dm644 COPYING
 cd ..
 rm -rf bash-5.1.16
+# bash-completion.
+tar -xf bash-completion-2.11.tar.xz
+cd bash-completion-2.11
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/bash-completion -Dm644 COPYING
+cd ..
+rm -rf bash-completion-2.11
 # libtool.
 tar -xf libtool-2.4.6.tar.xz
 cd libtool-2.4.6

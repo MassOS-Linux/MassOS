@@ -22,6 +22,7 @@ automake
 avahi
 baobab
 bash
+bash-completion
 bc
 bind-utils
 binutils
