@@ -22,15 +22,19 @@ This is the development version of MassOS. It contains the following changes sin
 It also includes the following upgraded software, however there may be more before the next version is released:
 
 - AccountsService: `0.6.55 --> 22.04.62`
+- bc: `5.2.1 --> 5.2.2`
 - Binutils: `2.37 --> 2.38`
 - Ed: `1.17 --> 1.18`
 - Exo: `4.16.3 --> 4.17.1`
 - Findutils: `4.8.0 --> 4.9.0`
 - Firefox: `96.0.3 --> 97.0`
+- Flatpak: `1.12.4 --> 1.12.5`
 - Fontconfig: `2.13.1 --> 2.13.96`
 - FreeGLUT: `3.2.1 --> 3.2.2`
 - GDBM: `1.22 --> 1.23`
+- GLib: `2.70.3 --> 2.70.4`
 - glibc: `2.34 --> 2.35`
+- GNOME Software: `41.3 --> 41.4`
 - GNUPG: `2.2.32 --> 2.2.34`
 - GPGME: `1.16.0 --> 1.17.0`
 - gst-libav: `1.18.5 --> 1.20.0`
@@ -43,16 +47,21 @@ It also includes the following upgraded software, however there may be more befo
 - lcms2: `2.12 --> 2.13.1`
 - libarchive: `3.5.2 --> 3.6.0`
 - libgcrypt: `1.9.4 --> 1.10.0`
+- libgee: `0.20.4 --> 0.20.5`
 - libical: `3.0.13 --> 3.0.14`
+- libqmi: `1.30.2 --> 1.30.4`
+- libsigc++: `2.10.7 --> 2.10.8`
 - libusb: `1.0.24 --> 1.0.25`
+- libwacom: `2.0.0 --> 2.1.0`
 - libxfce4ui: `4.16.1 --> 4.17.3`
 - libxfce4util: `4.16.0 --> 4.17.1`
 - libxkbcommon: `1.3.1 --> 1.4.0`
-- Linux Kernel: `5.16.4 --> 5.16.8`
+- Linux Kernel: `5.16.4 --> 5.16.9`
 - LLVM/Clang: `13.0.0 --> 13.0.1`
 - LVM2: `2.03.14 --> 2.03.15`
-- Man-DB: `2.9.4 --> 2.10.0`
+- Man-DB: `2.9.4 --> 2.10.1`
 - Mesa: `21.3.5 --> 21.3.6`
+- ModemManager: `1.18.4 --> 1.18.6`
 - Nano: `6.0 --> 6.1`
 - NSS: `3.74 --> 3.75`
 - Pango: `1.50.3 --> 1.50.4`
@@ -66,8 +75,9 @@ It also includes the following upgraded software, however there may be more befo
 - Vim: `8.2.4250 --> 8.2.4300`
 - WebKitGTK: `2.34.4 --> 2.34.5`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
+- xfce4-notifyd: `0.6.2 --> 0.6.3`
 - xfce4-terminal: `0.8.10 --> 0.9.1`
-- XKeyboard-Config: `2.34 --> 2.35`
+- XKeyboard-Config: `2.34 --> 2.35.1`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.

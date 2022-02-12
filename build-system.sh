@@ -285,14 +285,14 @@ install -t /usr/share/licenses/m4 -Dm644 COPYING
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.2.1.tar.xz
-cd bc-5.2.1
+tar -xf bc-5.2.2.tar.xz
+cd bc-5.2.2
 CC=gcc ./configure --prefix=/usr -G -Os
 make
 make install
 install -t /usr/share/licenses/bc -Dm644 LICENSE.md
 cd ..
-rm -rf bc-5.2.1
+rm -rf bc-5.2.2
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -1706,14 +1706,14 @@ install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
 rm -rf dbus-1.12.20
 # Man-DB.
-tar -xf man-db-2.10.0.tar.xz
-cd man-db-2.10.0
+tar -xf man-db-2.10.1.tar.xz
+cd man-db-2.10.1
 ./configure --prefix=/usr --sysconfdir=/etc --with-systemdsystemunitdir=/usr/lib/systemd/system --with-db=gdbm --disable-setuid --enable-cache-owner=bin --with-browser=/usr/bin/lynx
 make
 make install
 install -t /usr/share/licenses/man-db -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf man-db-2.10.0
+rm -rf man-db-2.10.1
 # Procps-NG.
 tar -xf procps-ng-3.3.17.tar.xz
 cd procps-3.3.17
@@ -2677,8 +2677,8 @@ make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
 # GLib.
-tar -xf glib-2.70.3.tar.xz
-cd glib-2.70.3
+tar -xf glib-2.70.4.tar.xz
+cd glib-2.70.4
 patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
@@ -2686,7 +2686,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.70.3
+rm -rf glib-2.70.4
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -2706,15 +2706,15 @@ make install
 cd ..
 rm -rf pkg-config-0.29.2
 # libsigc++
-tar -xf libsigc++-2.10.7.tar.xz
-cd libsigc++-2.10.7
+tar -xf libsigc++-2.10.8.tar.xz
+cd libsigc++-2.10.8
 mkdir sigc++-build; cd sigc++-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsigc++ -Dm644 ../COPYING
 cd ../..
-rm -rf libsigc++-2.10.7
+rm -rf libsigc++-2.10.8
 # GLibmm
 tar -xf glibmm-2.66.2.tar.xz
 cd glibmm-2.66.2
@@ -3131,24 +3131,24 @@ install -t /usr/share/licenses/libmbim -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libmbim-1.26.2
 # libqmi.
-tar -xf libqmi-1.30.2.tar.xz
-cd libqmi-1.30.2
-PYTHON=python3 ./configure --prefix=/usr --disable-static
+tar -xf libqmi-1.30.4.tar.xz
+cd libqmi-1.30.4
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libqmi-1.30.2
+rm -rf libqmi-1.30.4
 # libwacom.
-tar -xf libwacom-2.0.0.tar.xz
-cd libwacom-2.0.0
+tar -xf libwacom-2.1.0.tar.xz
+cd libwacom-2.1.0
 mkdir wacom-build; cd wacom-build
 meson --prefix=/usr --buildtype=release -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwacom -Dm644 ../COPYING
 cd ../..
-rm -rf libwacom-2.0.0
+rm -rf libwacom-2.1.0
 # mtdev.
 tar -xf mtdev-1.1.6.tar.bz2
 cd mtdev-1.1.6
@@ -3736,15 +3736,15 @@ sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fo
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
 # XKeyboard-Config.
-tar -xf xkeyboard-config-2.35.tar.xz
-cd xkeyboard-config-2.35
+tar -xf xkeyboard-config-2.35.1.tar.xz
+cd xkeyboard-config-2.35.1
 mkdir XKeyboard-Config-BUILD; cd XKeyboard-Config-BUILD
 meson --prefix=/usr -Dcompat-rules=true -Dxkb-base=/usr/share/X11/xkb -Dxorg-rules-symlinks=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/xkeyboard-config -Dm644 ../COPYING
 cd ../..
-rm -rf xkeyboard-config-2.35
+rm -rf xkeyboard-config-2.35.1
 # libxkbcommon.
 tar -xf libxkbcommon-1.4.0.tar.xz
 cd libxkbcommon-1.4.0
@@ -4426,14 +4426,14 @@ install -t /usr/share/licenses/sysprof -Dm644 ../COPYING ../COPYING.gpl-2
 cd ../..
 rm -rf sysprof-3.42.1
 # libgee.
-tar -xf libgee-0.20.4.tar.xz
-cd libgee-0.20.4
+tar -xf libgee-0.20.5.tar.xz
+cd libgee-0.20.5
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libgee -Dm644 COPYING
 cd ..
-rm -rf libgee-0.20.4
+rm -rf libgee-0.20.5
 # exiv2.
 tar -xf exiv2-0.27.5-Source.tar.gz
 cd exiv2-0.27.5-Source
@@ -5156,14 +5156,14 @@ install -t /usr/share/licenses/mobile-broadband-provider-info -Dm644 COPYING
 cd ..
 rm -rf mobile-broadband-provider-info-20210805
 # ModemManager.
-tar -xf ModemManager-1.18.4.tar.xz
-cd ModemManager-1.18.4
+tar -xf ModemManager-1.18.6.tar.xz
+cd ModemManager-1.18.6
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 install -t /usr/share/licenses/modemmanager -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf ModemManager-1.18.4
+rm -rf ModemManager-1.18.6
 # libndp.
 tar -xf libndp_1.8.orig.tar.gz
 cd libndp-1.8
@@ -5388,8 +5388,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.4.tar.xz
-cd flatpak-1.12.4
+tar -xf flatpak-1.12.5.tar.xz
+cd flatpak-1.12.5
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5411,7 +5411,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.12.4
+rm -rf flatpak-1.12.5
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
@@ -6024,14 +6024,14 @@ install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
 rm -rf shotwell-0.30.14
 # xfce4-notifyd.
-tar -xf xfce4-notifyd-0.6.2.tar.bz2
-cd xfce4-notifyd-0.6.2
+tar -xf xfce4-notifyd-0.6.3.tar.bz2
+cd xfce4-notifyd-0.6.3
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 cd ..
-rm -rf xfce4-notifyd-0.6.2
+rm -rf xfce4-notifyd-0.6.3
 # keybinder.
 tar -xf keybinder-3.0-0.3.2.tar.gz
 cd keybinder-3.0-0.3.2
@@ -6261,15 +6261,15 @@ install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
 # GNOME Software.
-tar -xf gnome-software-41.3.tar.xz
-cd gnome-software-41.3
+tar -xf gnome-software-41.4.tar.xz
+cd gnome-software-41.4
 mkdir gnome-software-build; cd gnome-software-build
 meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
-rm -rf gnome-software-41.3
+rm -rf gnome-software-41.4
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf gnome-tour-41.rc-MassOS-2.tar.xz
 cd gnome-tour-41.rc-MassOS-2
@@ -6476,19 +6476,19 @@ To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
 # Linux Kernel.
-tar -xf linux-5.16.8.tar.xz
-cd linux-5.16.8
+tar -xf linux-5.16.9.tar.xz
+cd linux-5.16.9
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.8-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.8-massos/vmlinuz
-cp System.map /boot/System.map-5.16.8-massos
-cp .config /boot/config-5.16.8-massos
-rm /usr/lib/modules/5.16.8-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.9-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.9-massos/vmlinuz
+cp System.map /boot/System.map-5.16.9-massos
+cp .config /boot/config-5.16.9-massos
+rm /usr/lib/modules/5.16.9-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.8-massos/build
+builddir=/usr/lib/modules/5.16.9-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6512,7 +6512,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.8
+rm -rf linux-5.16.9
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
