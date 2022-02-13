@@ -3077,7 +3077,6 @@ rm -rf os-prober
 # libyaml.
 tar -xf yaml-0.2.5.tar.gz
 cd yaml-0.2.5
-./bootstrap
 ./configure --prefix=/usr --disable-static
 make
 make install
