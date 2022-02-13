@@ -3075,15 +3075,15 @@ install -t /usr/share/licenses/os-prober /usr/share/licenses/systemd/LICENSE.GPL
 cd ..
 rm -rf os-prober
 # libyaml.
-tar -xf libyaml-0.2.5.tar.gz
-cd libyaml-0.2.5
+tar -xf yaml-0.2.5.tar.gz
+cd yaml-0.2.5
 ./bootstrap
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libyaml -Dm644 License
 cd ..
-rm -rf libyaml-0.2.5
+rm -rf yaml-0.2.5
 # libatasmart.
 tar -xf libatasmart_0.19.orig.tar.xz
 cd libatasmart-0.19
