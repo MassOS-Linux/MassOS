@@ -5066,7 +5066,7 @@ cd ..
 rm -rf ptyprocess-0.7.0
 # pexpect.
 tar -xf pexpect-4.8.0.tar.gz
-cd pexepct-4.8.0
+cd pexpect-4.8.0
 python setup.py install
 install -t /usr/share/licenses/pexpect -Dm644 LICENSE
 cd ..
@@ -5131,14 +5131,23 @@ make install
 install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
+# Parse-Yapp.
+tar -xf Parse-Yapp-1.21.tar.gz
+cd Parse-Yapp-1.21
+perl Makefile.PL
+make
+make install
+cd ..
+rm -rf Parse-Yapp-1.21
 # Samba.
 tar -xf samba-4.15.5.tar.gz
 cd samba-4.15.5
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
+mkdir -p /run/lock
 make install
 install -m644 examples/smb.conf.default /etc/samba/smb.conf
-sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" -e "s;path = /usr/spool/samba;path = /var/spool/samba;" -i /etc/samba/smb.conf.default
+sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" -e "s;path = /usr/spool/samba;path = /var/spool/samba;" -i /etc/samba/smb.conf
 mkdir -p /etc/openldap/schema
 install -m644 examples/LDAP/README /etc/openldap/schema/README.LDAP
 install -m644 examples/LDAP/samba* /etc/openldap/schema
@@ -6223,7 +6232,7 @@ tar -xf mugshot-0.4.3.tar.gz
 cd mugshot-0.4.3
 python setup.py install --optimize=1
 glib-compile-schemas /usr/share/glib-2.0/schemas
-install -t /usr/share/licenses/mugshot -Dm644 LICENSE
+install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.

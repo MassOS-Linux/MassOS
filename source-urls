@@ -336,7 +336,6 @@ https://www.x.org/archive/individual/lib/libXv-1.0.11.tar.bz2
 https://www.x.org/archive/individual/lib/libXvMC-1.0.12.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
-https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
@@ -414,6 +413,7 @@ https://archive.massos.org/sources/pahole-1.23.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
+https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
 https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
 https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
 https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz
@@ -606,6 +606,7 @@ https://www.x.org/archive/individual/app/xwd-1.0.8.tar.bz2
 https://www.x.org/archive/individual/app/xwininfo-1.1.5.tar.bz2
 https://www.x.org/archive/individual/app/xwud-1.0.5.tar.bz2
 https://fossies.org/linux/misc/xz-5.2.5.tar.xz
+https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://archive.massos.org/sources/zip30.tar.gz
 https://zlib.net/zlib-1.2.11.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
