@@ -83,10 +83,12 @@ https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/docbook-utils-0.6.14
 https://docbook.org/xml/5.1/docbook-v5.1-os.zip
 https://www.docbook.org/xml/4.5/docbook-xml-4.5.zip
 https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
-https://cdn.kernel.org/pub/linux/utils/boot/dracut/dracut-055.tar.gz
+https://files.pythonhosted.org/packages/57/b1/b880503681ea1b64df05106fc7e3c4e3801736cf63deffc6fa7fc5404cf5/docutils-0.18.1.tar.gz
 https://waterlan.home.xs4all.nl/dos2unix/dos2unix-7.4.2.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
+https://cdn.kernel.org/pub/linux/utils/boot/dracut/dracut-055.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.xz
+https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
 http://mirror.lyrahosting.com/gnu/ed/ed-1.18.tar.lz
 https://deb.debian.org/debian/pool/main/e/efibootmgr/efibootmgr_17.orig.tar.gz
 https://github.com/rhboot/efivar/releases/download/37/efivar-37.tar.bz2
@@ -174,11 +176,11 @@ https://archive.massos.org/sources/gutenprint-5.3.3.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gvfs/1.48/gvfs-1.48.1.tar.xz
 https://archive.massos.org/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.11.tar.xz
-https://github.com/harfbuzz/harfbuzz/releases/download/3.3.2/harfbuzz-3.3.2.tar.xz
+https://github.com/harfbuzz/harfbuzz/releases/download/3.4.0/harfbuzz-3.4.0.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://fossies.org/linux/misc/hplip-3.21.12.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
-https://github.com/Mic92/iana-etc/releases/download/20220128/iana-etc-20220128.tar.gz
+https://github.com/Mic92/iana-etc/releases/download/20220207/iana-etc-20220207.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-70-1/icu4c-70_1-src.tgz
@@ -339,7 +341,7 @@ https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.9.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.10.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -366,7 +368,7 @@ https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
 https://archive.mesa3d.org/mesa-21.3.6.tar.xz
-https://github.com/mesonbuild/meson/releases/download/0.61.1/meson-0.61.1.tar.gz
+https://github.com/mesonbuild/meson/releases/download/0.61.2/meson-0.61.2.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://archive.massos.org/sources/mobile-broadband-provider-info-20210805.tar.xz
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.6.tar.xz
@@ -387,6 +389,7 @@ https://archive.massos.org/sources/netcat-0.7.1.tar.xz
 https://mirror.lyrahosting.com/gnu/nettle/nettle-3.7.3.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.24/network-manager-applet-1.24.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.34/NetworkManager-1.34.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager-openvpn/1.8/NetworkManager-openvpn-1.8.16.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.46.0/nghttp2-1.46.0.tar.xz
 https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-1.10.2.tar.gz
@@ -399,11 +402,12 @@ https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
 https://archive.massos.org/sources/openjade-1.3.2.tar.gz
 https://github.com/uclouvain/openjpeg/archive/v2.4.0/openjpeg-2.4.0.tar.gz
-https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.0.tgz
+https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.1.tgz
 https://archive.massos.org/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-8.8p1.tar.gz
 https://www.openssl.org/source/openssl-1.1.1m.tar.gz
 https://www.openssl.org/source/openssl-3.0.1.tar.gz
+https://github.com/OpenVPN/openvpn/archive/v2.5.5/openvpn-2.5.5.tar.gz
 https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz
 https://gitlab.freedesktop.org/gstreamer/orc/-/archive/0.4.32/orc-0.4.32.tar.gz
 https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
@@ -422,6 +426,7 @@ https://fossies.org/linux/misc/pcre-8.45.tar.bz2
 https://fossies.org/linux/misc/pcre2-10.39.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.0.tar.xz
 https://github.com/pexpect/pexpect/archive/4.8.0/pexpect-4.8.0.tar.gz
+https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.28/pkcs11-helper-1.28.0.tar.bz2
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://deb.debian.org/debian/pool/main/p/pigz/pigz_2.6.orig.tar.xz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
@@ -503,9 +508,9 @@ https://archive.massos.org/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.15/upower-v0.99.15.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
-https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.3.tar.xz
+https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.4.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.6.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.7.tar.xz
 https://github.com/vim/vim/archive/v8.2.4300/vim-8.2.4300.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
@@ -549,7 +554,7 @@ https://www.x.org/archive/individual/app/xev-1.2.4.tar.bz2
 https://www.x.org/archive/individual/driver/xf86-input-evdev-2.10.6.tar.bz2
 https://www.x.org/archive/individual/driver/xf86-input-libinput-1.2.1.tar.xz
 https://www.x.org/archive/individual/driver/xf86-input-synaptics-1.9.1.tar.bz2
-https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-0.40.0/xf86-input-wacom-0.40.0.tar.bz2
+https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-1.0.0/xf86-input-wacom-1.0.0.tar.bz2
 https://www.x.org/archive/individual/driver/xf86-video-amdgpu-21.0.0.tar.bz2
 https://www.x.org/archive/individual/driver/xf86-video-ati-19.1.0.tar.bz2
 https://www.x.org/archive/individual/driver/xf86-video-fbdev-0.5.0.tar.bz2

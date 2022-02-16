@@ -104,14 +104,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.37.3.tar.xz
-cd util-linux-2.37.3
+tar -xf util-linux-2.37.4.tar.xz
+cd util-linux-2.37.4
 mkdir -p /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.3
+rm -rf util-linux-2.37.4
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -125,11 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220128.tar.gz
-cd iana-etc-20220128
-cp services protocols /etc
-cd ..
-rm -rf iana-etc-20220128
+tar -xf iana-etc-20220207.tar.gz
+cp iana-etc-20220207/{protocols,services} /etc
+rm -rf iana-etc-20220207
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
@@ -325,6 +323,7 @@ rm -rf tcl8.6.12
 # Binutils.
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
+patch -Np1 -i ../patches/binutils-2.38-LTO.patch
 mkdir build; cd build
 unset CFLAGS CXXFLAGS
 ../configure --prefix=/usr --enable-gold --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --with-system-zlib
@@ -818,6 +817,18 @@ make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
 rm -rf openssl-3.0.1
+# easy-rsa.
+tar -xf EasyRSA-3.0.8.tgz
+cd EasyRSA-3.0.8
+sed -e 's|./easyrsa|easyrsa|' -e 's|$prog_dir|$PWD|' -e 's|"$PWD/pki"|"$EASYRSA/pki"|' -i easyrsa
+install -Dm755 easyrsa /usr/bin/easyrsa
+install -Dm644 openssl-easyrsa.cnf /etc/easy-rsa/openssl-easyrsa.cnf
+install -Dm644 vars.example /etc/easy-rsa/vars
+install -dm755 /etc/easy-rsa/x509-types/
+install -m644 x509-types/* /etc/easy-rsa/x509-types/
+install -t /usr/share/licenses/easy-rsa -Dm644 COPYING.md gpl-2.0.txt
+cd ..
+rm -rf EasyRSA-3.0.8
 # kmod.
 tar -xf kmod-29.tar.xz
 cd kmod-29
@@ -854,8 +865,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.61.1.tar.gz
-cd meson-0.61.1
+tar -xf meson-0.61.2.tar.gz
+cd meson-0.61.2
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -863,7 +874,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.61.1
+rm -rf meson-0.61.2
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -1136,6 +1147,15 @@ make install
 install -t /usr/share/licenses/dos2unix -Dm644 COPYING.txt
 cd ..
 rm -rf dos2unix-7.4.2
+# docutils.
+tar -xf docutils-0.18.1.tar.gz
+cd docutils-0.18.1
+python setup.py build
+python setup.py install --optimize=1
+for i in /usr/bin/rst2*.py; do ln -sf $(basename $i) /usr/bin/$(basename $i .py); done
+install -t /usr/share/licenses/docutils -Dm644 COPYING.txt
+cd ..
+rm -rf docutils-0.18.1
 # MarkupSafe.
 tar -xf MarkupSafe-2.0.1.tar.gz
 cd MarkupSafe-2.0.1
@@ -1733,23 +1753,14 @@ install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.37.3.tar.xz
-cd util-linux-2.37.3
+tar -xf util-linux-2.37.4.tar.xz
+cd util-linux-2.37.4
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
-rm -rf util-linux-2.37.3
-# Busybox.
-tar -xf busybox-1.35.0.tar.bz2
-cd busybox-1.35.0
-cp ../busybox-config .config
-make
-install -m755 busybox /usr/bin/busybox
-install -t /usr/share/licenses/busybox -Dm644 LICENSE
-cd ..
-rm -rf busybox-1.35.0
+rm -rf util-linux-2.37.4
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
@@ -2294,6 +2305,15 @@ curl -L http://www.linux-usb.org/usb.ids -o /usr/share/hwdata/usb.ids
 update-pciids
 cd ..
 rm -rf make-ca-1.9
+# pkcs11-helper.
+tar -xf pkcs11-helper-1.28.0.tar.bz2
+cd pkcs11-helper-1.28.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/pkcs11-helper -Dm644 COPYING COPYING.BSD COPYING.GPL
+cd ..
+rm -rf pkcs11-helper-1.28.0
 # libssh2.
 tar -xf libssh2-1.10.0.tar.gz
 cd libssh2-1.10.0
@@ -2349,9 +2369,9 @@ install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
 rm -rf gnutls-3.7.3
 # OpenLDAP.
-tar -xf openldap-2.6.0.tgz
-cd openldap-2.6.0
-patch -Np1 -i ../patches/openldap-2.6.0-MassOS.patch
+tar -xf openldap-2.6.1.tgz
+cd openldap-2.6.1
+patch -Np1 -i ../patches/openldap-2.6.1-MassOS.patch
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning=yes --disable-debug --disable-slapd
 make depend
@@ -2359,7 +2379,7 @@ make
 make install
 install -t /usr/share/licenses/openldap -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf openldap-2.6.0
+rm -rf openldap-2.6.1
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -2426,6 +2446,24 @@ make
 make install
 cd ..
 rm -rf curl-7.81.0
+# OpenVPN.
+tar -xf openvpn-2.5.5.tar.gz
+cd openvpn-2.5.5
+sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
+autoreconf -fi
+./configure --prefix=/usr --enable-pkcs11 --enable-plugins --enable-systemd --enable-x509-alt-username
+make
+make install
+while read -r line; do
+  case "$(file -bS --mime-type "$line")" in
+    "text/x-shellscript") install -Dm755 "$line" "/usr/share/openvpn/$line" ;;
+    *) install -Dm644 "$line" "/usr/share/openvpn/$line" ;;
+  esac
+done <<< $(find contrib -type f)
+cp -r sample/sample-config-files /usr/share/openvpn/examples
+install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
+cd ..
+rm -rf openvpn-2.5.5
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2927,15 +2965,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.3.2.tar.xz
-cd harfbuzz-3.3.2
+tar -xf harfbuzz-3.4.0.tar.xz
+cd harfbuzz-3.4.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-3.3.2
+rm -rf harfbuzz-3.4.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -3916,14 +3954,14 @@ install -t /usr/share/licenses/xf86-input-synaptics -Dm644 COPYING
 cd ..
 rm -rf xf86-input-synaptics-1.9.1
 # xf86-input-wacom.
-tar -xf xf86-input-wacom-0.40.0.tar.bz2
-cd xf86-input-wacom-0.40.0
+tar -xf xf86-input-wacom-1.0.0.tar.bz2
+cd xf86-input-wacom-1.0.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/xf86-input-wacom -Dm644 GPL
 cd ..
-rm -rf xf86-input-wacom-0.40.0
+rm -rf xf86-input-wacom-1.0.0
 # xf86-video-amdgpu.
 tar -xf xf86-video-amdgpu-21.0.0.tar.bz2
 cd xf86-video-amdgpu-21.0.0
@@ -4193,14 +4231,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.3.2.tar.xz
-cd harfbuzz-3.3.2
+tar -xf harfbuzz-3.4.0.tar.xz
+cd harfbuzz-3.4.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.3.2
+rm -rf harfbuzz-3.4.0
 # Pango.
 tar -xf pango-1.50.4.tar.xz
 cd pango-1.50.4
@@ -4299,14 +4337,14 @@ install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
 rm -rf graphviz-2.50.0
 # Vala.
-tar -xf vala-0.54.6.tar.xz
-cd vala-0.54.6
+tar -xf vala-0.54.7.tar.xz
+cd vala-0.54.7
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/vala -Dm644 COPYING
 cd ..
-rm -rf vala-0.54.6
+rm -rf vala-0.54.7
 # libgusb.
 tar -xf libgusb-0.3.10.tar.xz
 cd libgusb-0.3.10
@@ -4838,6 +4876,7 @@ rm -rf pinentry-1.2.0
 # AccountsService.
 tar -xf accountsservice-22.04.62.tar.xz
 cd accountsservice-22.04.62
+sed -i '/PrivateTmp/d' data/accounts-daemon.service.in
 mkdir as-build; cd as-build
 meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
 ninja
@@ -5226,7 +5265,7 @@ tar -xf NetworkManager-1.34.0.tar.xz
 cd NetworkManager-1.34.0
 grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dnmtui=true -Dovs=false -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
+meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
 ninja install
 cat >> /etc/NetworkManager/NetworkManager.conf << END
@@ -5306,6 +5345,17 @@ ninja install
 install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
 cd ../..
 rm -rf network-manager-applet-1.24.0
+# NetworkManager-openvpn.
+tar -xf NetworkManager-openvpn-1.8.16.tar.xz
+cd NetworkManager-openvpn-1.8.16
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+make
+make install
+groupadd -g 85 nm-openvpn
+useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
+install -t /usr/share/licenses/networkmanager-openvpn -Dm644 COPYING
+cd ..
+rm -rf NetworkManager-openvpn-1.8.16
 # UDisks.
 tar -xf udisks-2.9.4.tar.bz2
 cd udisks-2.9.4
@@ -5700,7 +5750,7 @@ rm -rf openal-soft-1.21.1
 tar -xf gstreamer-1.20.0.tar.xz
 cd gstreamer-1.20.0
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -5710,7 +5760,7 @@ rm -rf gstreamer-1.20.0
 tar -xf gst-plugins-base-1.20.0.tar.xz
 cd gst-plugins-base-1.20.0
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -5720,7 +5770,7 @@ rm -rf gst-plugins-base-1.20.0
 tar -xf gst-plugins-good-1.20.0.tar.xz
 cd gst-plugins-good-1.20.0
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -5730,7 +5780,7 @@ rm -rf gst-plugins-good-1.20.0
 tar -xf gst-plugins-bad-1.20.0.tar.xz
 cd gst-plugins-bad-1.20.0
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -5740,7 +5790,7 @@ rm -rf gst-plugins-bad-1.20.0
 tar -xf gst-plugins-ugly-1.20.0.tar.xz
 cd gst-plugins-ugly-1.20.0
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -5750,7 +5800,7 @@ rm -rf gst-plugins-ugly-1.20.0
 tar -xf gst-libav-1.20.0.tar.xz
 cd gst-libav-1.20.0
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" -Dpackage-name="GStreamer 1.20.0 (MassOS)" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
@@ -6492,20 +6542,29 @@ cat > /usr/share/licenses/thunderbird/LICENSE << "END"
 To view the license for Thunderbird, please open Thunderbird, go to the menu,
 choose "About Thunderbird", and click "Licensing Information".
 END
+# Busybox.
+tar -xf busybox-1.35.0.tar.bz2
+cd busybox-1.35.0
+cp ../busybox-config .config
+make
+install -m755 busybox /usr/bin/busybox
+install -t /usr/share/licenses/busybox -Dm644 LICENSE
+cd ..
+rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.9.tar.xz
-cd linux-5.16.9
+tar -xf linux-5.16.10.tar.xz
+cd linux-5.16.10
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.9-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.9-massos/vmlinuz
-cp System.map /boot/System.map-5.16.9-massos
-cp .config /boot/config-5.16.9-massos
-rm /usr/lib/modules/5.16.9-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.10-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.10-massos/vmlinuz
+cp System.map /boot/System.map-5.16.10-massos
+cp .config /boot/config-5.16.10-massos
+rm /usr/lib/modules/5.16.10-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.9-massos/build
+builddir=/usr/lib/modules/5.16.10-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6529,7 +6588,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.9
+rm -rf linux-5.16.10
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
@@ -6599,7 +6658,10 @@ your apps or data. For information on how to do this, see the following URL:
 fi
 END
 cat > /tmp/postupgrade << "END"
-# Nothing here yet...
+if ! grep -q nm-openvpn /etc/group; then
+  groupadd -g 85 nm-openvpn
+  useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
+fi
 END
 # Clean sources directory and self destruct.
 cd ..

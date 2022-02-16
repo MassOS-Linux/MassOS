@@ -75,10 +75,12 @@ docbook-sgml
 docbook-utils
 docbook-xml
 docbook-xsl
-dracut
+docutils
 dos2unix
 dosfstools
+dracut
 e2fsprogs
+easy-rsa
 ed
 efibootmgr
 efivar
@@ -373,6 +375,7 @@ netcat
 nettle
 network-manager-applet
 networkmanager
+networkmanager-openvpn
 newt
 nghttp2
 ninja
@@ -388,6 +391,7 @@ openldap
 opensp
 openssh
 openssl
+openvpn
 opus
 os-prober
 p11-kit
@@ -405,6 +409,7 @@ pcre
 pcre2
 perl
 pexpect
+pkcs11-helper
 pkg-config
 pigz
 pinentry

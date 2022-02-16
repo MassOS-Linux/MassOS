@@ -14,7 +14,7 @@ This is the development version of MassOS. It contains the following changes sin
 - The core C library (glibc) has been upgraded to the latest version (`2.35`).
 - Manual pages are now compressed by default to save space.
 - Added Mugshot to allow changing of user settings such as profile picture.
-- Added bash-completion support.
+- Added OpenVPN support, including a plugin for NetworkManager to allow easy creation/management of OpenVPN connections.
 - Added Evince - PDF viewer program.
 - Added Samba support.
 - Added `zman` and `unzman`, small utilities for bulk compressing/decompressing manual pages.
@@ -44,7 +44,8 @@ It also includes the following upgraded software, however there may be more befo
 - gst-plugins-good: `1.18.5 --> 1.20.0`
 - gst-plugins-ugly: `1.18.5 --> 1.20.0`
 - GStreamer: `1.18.5 --> 1.20.0`
-- HarfBuzz: `3.2.0 --> 3.3.2`
+- HarfBuzz: `3.2.0 --> 3.4.0`
+- iana-etc: `20220128 --> 20220207`
 - lcms2: `2.12 --> 2.13.1`
 - libarchive: `3.5.2 --> 3.6.0`
 - libgcrypt: `1.9.4 --> 1.10.0`
@@ -57,14 +58,16 @@ It also includes the following upgraded software, however there may be more befo
 - libxfce4ui: `4.16.1 --> 4.17.3`
 - libxfce4util: `4.16.0 --> 4.17.1`
 - libxkbcommon: `1.3.1 --> 1.4.0`
-- Linux Kernel: `5.16.4 --> 5.16.9`
+- Linux Kernel: `5.16.4 --> 5.16.10`
 - LLVM/Clang: `13.0.0 --> 13.0.1`
 - LVM2: `2.03.14 --> 2.03.15`
 - Man-DB: `2.9.4 --> 2.10.1`
 - Mesa: `21.3.5 --> 21.3.6`
+- Meson: `0.61.1 --> 0.61.2`
 - ModemManager: `1.18.4 --> 1.18.6`
 - Nano: `6.0 --> 6.1`
 - NSS: `3.74 --> 3.75`
+- OpenLDAP: `2.6.0 --> 2.6.1`
 - Pango: `1.50.3 --> 1.50.4`
 - Poppler: `22.01.0 --> 22.02.0`
 - Qpdf: `10.5.0 --> 10.6.0`
@@ -73,8 +76,11 @@ It also includes the following upgraded software, however there may be more befo
 - Thunderbird: `91.5.1 --> 91.6.0`
 - Tumbler: `4.16.0 --> 4.17.0`
 - UPower: `0.99.13 --> 0.99.15`
+- util-linux: `2.37.3 --> 2.37.4`
+- Vala: `0.54.6 --> 0.54.7`
 - Vim: `8.2.4250 --> 8.2.4300`
 - WebKitGTK: `2.34.4 --> 2.34.5`
+- xf86-input-wacom: `0.40.0 --> 1.0.0`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
 - xfce4-notifyd: `0.6.2 --> 0.6.3`
 - xfce4-terminal: `0.8.10 --> 0.9.1`
