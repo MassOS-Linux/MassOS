@@ -1,0 +1,13 @@
+[Unit]
+Description=Samba NetBIOS name server
+After=network.target
+
+[Service]
+Type=forking
+EnvironmentFile=/etc/default/samba
+PIDFile=/run/samba/nmbd.pid
+ExecStart=/usr/sbin/nmbd -D $NMBD_OPTS
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

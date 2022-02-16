@@ -1,5 +1,6 @@
 # People who have contributed to MassOS:
 
+- [AaronTechnic](https://github.com/AaronTechnic) - Suggested some useful features and is working on bringing the GNOME desktop environment to MassOS.
 - [ClickNinYT](https://github.com/ClickNinYT) - Created the MassOS container tool and is working on an extensions manager for MassOS.
 - [IKGissmart](https://github.com/IKGissmart) - Created most of the MassOS wallpapers, excluding the landscapes.
 - [PaintedAmdree](https://github.com/PaintedAmdree) - Created the MassOS ASCII art for Neofetch.

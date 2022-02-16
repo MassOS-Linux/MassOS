@@ -22,6 +22,7 @@ automake
 avahi
 baobab
 bash
+bash-completion
 bc
 bind-utils
 binutils
@@ -68,15 +69,18 @@ diffutils
 dkms
 dmg2img
 dmidecode
+dnspython
 docbook-dsssl
 docbook-sgml
 docbook-utils
 docbook-xml
 docbook-xsl
-dracut
+docutils
 dos2unix
 dosfstools
+dracut
 e2fsprogs
+easy-rsa
 ed
 efibootmgr
 efivar
@@ -166,6 +170,7 @@ iana-etc
 iceauth
 icon-naming-utils
 icu
+importlib-metadata
 inetutils
 intel-vaapi-driver
 intltool
@@ -194,6 +199,7 @@ libass
 libassuan
 libatasmart
 libblockdev
+libbluray
 libburn
 libbytesize
 libcanberra
@@ -342,6 +348,7 @@ mako
 malcontent
 man-db
 man-pages
+markdown
 markupsafe
 mct
 mdadm
@@ -358,6 +365,7 @@ mpfr
 mpg123
 mtdev
 mtools
+mugshot
 mupdf
 nano
 nasm
@@ -367,6 +375,7 @@ netcat
 nettle
 network-manager-applet
 networkmanager
+networkmanager-openvpn
 newt
 nghttp2
 ninja
@@ -382,6 +391,7 @@ openldap
 opensp
 openssh
 openssl
+openvpn
 opus
 os-prober
 p11-kit
@@ -390,6 +400,7 @@ pahole
 pango
 pangomm
 parole
+parse-yapp
 parted
 patch
 pavucontrol
@@ -397,6 +408,8 @@ pciutils
 pcre
 pcre2
 perl
+pexpect
+pkcs11-helper
 pkg-config
 pigz
 pinentry
@@ -410,6 +423,7 @@ popt
 ppp
 procps-ng
 psmisc
+ptyprocess
 pulseaudio
 pv
 pycairo
@@ -417,6 +431,7 @@ pygments
 pygobject
 pyparsing
 python
+python-distutils-extra
 qpdf
 qrencode
 readline
@@ -428,6 +443,7 @@ rsync
 rtmpdump
 ruby
 sane
+samba
 sassc
 sbc
 sdl
