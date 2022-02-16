@@ -78,7 +78,7 @@ It also includes the following upgraded software, however there may be more befo
 - UPower: `0.99.13 --> 0.99.15`
 - util-linux: `2.37.3 --> 2.37.4`
 - Vala: `0.54.6 --> 0.54.7`
-- Vim: `8.2.4250 --> 8.2.4300`
+- Vim: `8.2.4250 --> 8.2.4398`
 - WebKitGTK: `2.34.4 --> 2.34.5`
 - xf86-input-wacom: `0.40.0 --> 1.0.0`
 - xfce4-appfinder: `4.16.1 --> 4.17.0`
