@@ -66,6 +66,7 @@ dhclient
 dialog
 distro
 diffutils
+djvulibre
 dkms
 dmg2img
 dmidecode
@@ -227,6 +228,7 @@ libgpg-error
 libgphoto2
 libgudev
 libgusb
+libgxps
 libhandy
 libical
 libice

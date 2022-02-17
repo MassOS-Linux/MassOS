@@ -4521,6 +4521,26 @@ ninja install
 install -t /usr/share/licenses/gexiv2 -Dm644 ../COPYING
 cd ../..
 rm -rf gexiv2-0.14.0
+# libgxps.
+tar -xf libgxps-0.3.2.tar.xz
+cd libgxps-0.3.2
+mkdir gxps-build; cd gxps-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/libgxps -Dm644 ../COPYING
+cd ../..
+rm -rf libgxps-0.3.2
+# djvulibre.
+tar -xf djvulibre-3.5.28.tar.gz
+cd djvulibre-3.5.28
+./configure --prefix=/usr --disable-desktopfiles
+make
+make install
+for i in 22 32 48 64; do install -m644 desktopfiles/prebuilt-hi${i}-djvu.png /usr/share/icons/hicolor/${i}x${i}/mimetypes/image-vnd.djvu.mime.png; done
+install -t /usr/share/licenses/djvulibre -Dm644 ../COPYING ../COPYRIGHT
+cd ..
+rm -rf djvulibre-3.5.28
 # libraw.
 tar -xf LibRaw-0.20.2.tar.gz
 cd LibRaw-0.20.2

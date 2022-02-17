@@ -11,6 +11,7 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the following changes since the previous version, **2022.02.2**, however may be subject to more changes before the next version is released:
 
+- Added DJVU and XPS support to Evince.
 - Only the client portion of Samba (smbclient) is now installed, to save some space.
 
 It also includes the following upgraded software, however there may be more before the next version is released:
