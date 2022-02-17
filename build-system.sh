@@ -5176,30 +5176,34 @@ cd Parse-Yapp-1.21
 perl Makefile.PL
 make
 make install
+install -dm755 /usr/share/licenses/parse-yapp
+cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/COPYING
 cd ..
 rm -rf Parse-Yapp-1.21
-# Samba.
+# smbclient (client portion of Samba).
 tar -xf samba-4.15.5.tar.gz
 cd samba-4.15.5
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
 make install
-install -m644 examples/smb.conf.default /etc/samba/smb.conf
-sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" -e "s;path = /usr/spool/samba;path = /var/spool/samba;" -i /etc/samba/smb.conf
-mkdir -p /etc/openldap/schema
-install -m644 examples/LDAP/README /etc/openldap/schema/README.LDAP
-install -m644 examples/LDAP/samba* /etc/openldap/schema
-install -m755 examples/LDAP/{get*,ol*} /etc/openldap/schema
-ln -sf /usr/bin/smbspool /usr/lib/cups/backend/smb
-echo "d /run/samba 755 root root -" > /usr/lib/tmpfiles.d/samba.conf
-cat > /etc/default/samba << "END"
-NMBD_OPTS=
-SAMBA_OPTS=
-SMBD_OPTS=
-WINBINDD_OPTS=
-END
-install -t /usr/share/licenses/samba -Dm644 COPYING VFS-License-clarification.txt
+ln -sfr /usr/bin/smbspool /usr/lib/cups/backend/smb
+rm -f /usr/bin/{cifsdd,ctdb,ctdb_diagnostics,dbwrap_tool,dumpmscat,gentest,ldbadd,ldbdel,ldbedit,ldbmodify,ldbrename,ldbsearch,locktest,ltdbtool,masktest,mdsearch,mvxattr,ndrdump,ntlm_auth,oLschema2ldif,onnode,pdbedit,ping_pong,profiles,regdiff,regpatch,regshell,regtree,samba-regedit,samba-tool,sharesec,smbcontrol,smbpasswd,smbstatus,smbtorture,tdbbackup,tdbdump,tdbrestore,tdbtool,testparm,wbinfo}
+rm -f /usr/sbin/{ctdbd,ctdbd_wrapper,eventlogadm,nmbd,samba,samba_dnsupdate,samba_downgrade_db,samba-gpupdate,samba_kcc,samba_spnupdate,samba_upgradedns,smbd,winbindd}
+rm -rf /usr/include/samba-4.0/{charset.h,core,credentials.h,dcerpc.h,dcerpc_server.h,dcesrv_core.h,domain_credentials.h,gen_ndr,ldb_wrap.h,lookup_sid.h,machine_sid.h,ndr,ndr.h,param.h,passdb.h,policy.h,rpc_common.h,samba,share.h,smb2_lease_struct.h,smbconf.h,smb_ldap.h,smbldap.h,tdr.h,tsocket.h,tsocket_internal.h,util,util_ldb.h}
+rm -rf /usr/lib/samba/{bind9,gensec,idmap,krb5,ldb,nss_info,process_model,service,vfs}
+rm -rf /usr/lib/python3.10/{samba,talloc.cpython-310-x86_64-linux-gnu.so,tdb.cpython-310-x86_64-linux-gnu.so,_tdb_text.py,_tevent.cpython-310-x86_64-linux-gnu.so,tevent.py}
+rm -f /usr/lib/pkgconfig/{dcerpc,dcerpc_samr,dcerpc_server,ndr_krb5pac,ndr_nbt,ndr,ndr_standard,netapi,samba-credentials,samba-hostconfig,samba-policy.cpython-310-x86_64-linux-gnu,samba-util,samdb}.pc
+rm -f /usr/lib/security/pam_winbind.so
+rm -f /usr/lib/systemd/system/{nmb,samba,smb,winbind}.service
+rm -rf /usr/share/{ctdb,samba}
+rm -f /usr/share/man/man1/{ctdb,ctdbd,ctdb_diagnostics,ctdbd_wrapper,dbwrap_tool,gentest,ldbadd,ldbdel,ldbedit,ldbmodify,ldbrename,ldbsearch,locktest,log2pcap,ltdbtool,masktest,mdsearch,mvxattr,ndrdump,ntlm_auth,oLschema2ldif,onnode,ping_pong,profiles,regdiff,regpatch,regshell,regtree,sharesec,smbcontrol,smbstatus,smbtorture,testparm,vfstest,wbinfo}.1
+rm -f /usr/share/man/man3/{ldb,talloc}.3
+rm -f /usr/share/man/man5/{ctdb.conf,ctdb-script.options,ctdb.sysconfig,lmhosts,pam_winbind.conf,smb.conf,smbgetrc,smbpasswd}.5
+rm -f /usr/share/man/man7/{ctdb,ctdb-statistics,ctdb-tunables,samba,traffic_learner,traffic_replay}.7
+rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,idmap_ldap,idmap_nss,idmap_rfc2307,idmap_rid,idmap_script,idmap_tdb2,idmap_tdb,nmbd,pam_winbind,pdbedit,samba,samba-bgqd,samba_downgrade_db,samba-gpupdate,samba-regedit,samba-tool,smbd,smbpasswd,smbspool_krb5_wrapper,tdbbackup,tdbdump,tdbrestore,tdbtool,vfs_acl_tdb,vfs_acl_xattr,vfs_aio_fork,vfs_aio_pthread,vfs_audit,vfs_btrfs,vfs_cap,vfs_catia,vfs_commit,vfs_crossrename,vfs_default_quota,vfs_dirsort,vfs_extd_audit,vfs_fake_perms,vfs_fileid,vfs_fruit,vfs_full_audit,vfs_glusterfs_fuse,vfs_gpfs,vfs_linux_xfs_sgid,vfs_media_harmony,vfs_offline,vfs_preopen,vfs_readahead,vfs_readonly,vfs_recycle,vfs_shadow_copy2,vfs_shadow_copy,vfs_shell_snap,vfs_snapper,vfs_streams_depot,vfs_streams_xattr,vfs_syncops,vfs_time_audit,vfs_unityed_media,vfs_virusfilter,vfs_widelinks,vfs_worm,vfs_xattr_tdb,winbindd,winbind_krb5_locator}.8
+rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
+install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
 rm -rf samba-4.15.5
 # mobile-broadband-provider-info.

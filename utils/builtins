@@ -443,7 +443,6 @@ rsync
 rtmpdump
 ruby
 sane
-samba
 sassc
 sbc
 sdl
@@ -459,6 +458,7 @@ sharutils
 shotwell
 sl
 slang
+smbclient
 smproxy
 soundtouch
 speex
