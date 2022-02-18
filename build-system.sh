@@ -1225,14 +1225,14 @@ install -t /usr/share/licenses/which -Dm644 COPYING
 cd ..
 rm -rf which-2.21
 # tree.
-tar -xf tree-2.0.1.tgz
-cd tree-2.0.1
+tar -xf tree-2.0.2.tgz
+cd tree-2.0.2
 make CFLAGS="$CFLAGS"
-make prefix=/usr MANDIR=/usr/share/man install
+make PREFIX=/usr MANDIR=/usr/share/man install
 chmod 644 /usr/share/man/man1/tree.1
 install -t /usr/share/licenses/tree -Dm644 LICENSE
 cd ..
-rm -rf tree-2.0.1
+rm -rf tree-2.0.2
 # GPM.
 tar --no-same-owner -xf gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
 cp -r gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS/BINARY/* /
@@ -1811,7 +1811,7 @@ make install
 rm -f /usr/lib/{libcom_err,libe2p,libext2fs,libss}.a
 gunzip /usr/share/info/libext2fs.info.gz
 install-info --dir-file=/usr/share/info/dir /usr/share/info/libext2fs.info
-install -t /usr/share/licenses/e2fsprogs -Dm644 ../../extra-package-files/e2fsprogs-license.txt
+install -t /usr/share/licenses/e2fsprogs -Dm644 ../../extra-package-licenses/e2fsprogs-license.txt
 cd ../..
 rm -rf e2fsprogs-1.46.5
 # dosfstools.
@@ -1910,14 +1910,14 @@ cp -a lvm2-2.03.15-x86_64-precompiled-MassOS/BINARY/* /
 ldconfig
 rm -rf lvm2-2.03.15-x86_64-precompiled-MassOS
 # btrfs-progs.
-tar -xf btrfs-progs-v5.16.tar.xz
-cd btrfs-progs-v5.16
+tar -xf btrfs-progs-v5.16.2.tar.xz
+cd btrfs-progs-v5.16.2
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
-rm -rf btrfs-progs-v5.16
+rm -rf btrfs-progs-v5.16.2
 # inih.
 tar -xf libinih_53.orig.tar.gz
 cd inih-r53
@@ -2870,7 +2870,7 @@ if [ "$beforemounted" = "false" ]; then
   umount /dev/shm
 fi
 unset beforemounted
-install -t /usr/share/licenses/js78 -Dm644 ../../extra-package-files/js78-license.txt
+install -t /usr/share/licenses/js78 -Dm644 ../../extra-package-licenses/js78-license.txt
 cd ../..
 rm -rf firefox-78.15.0
 # Sudo.
@@ -2915,14 +2915,25 @@ ninja install
 install -t /usr/share/licenses/json-glib -Dm644 ../COPYING
 cd ../..
 rm -rf json-glib-1.6.6
+# mandoc (needed by efivar 38+).
+tar -xf mandoc-1.14.6.tar.gz
+cd mandoc-1.14.6
+./configure --prefix=/usr
+make mandoc
+install -m755 mandoc /usr/bin/mandoc
+install -m644 mandoc.1 /usr/share/man/man1/mandoc.1
+install -t /usr/share/licenses/mandoc -Dm644 LICENSE
+cd ..
+rm -rf mandoc-1.14.6
 # efivar.
-tar -xf efivar-37.tar.bz2
-cd efivar-37
+tar -xf efivar-38.tar.bz2
+cd efivar-38
+sed '/prep :/a\\ttouch prep' -i src/Makefile
 make CFLAGS="$CFLAGS"
-make install LIBDIR=/usr/lib
+make LIBDIR=/usr/lib install
 install -t /usr/share/licenses/efivar -Dm644 COPYING
 cd ..
-rm -rf efivar-37
+rm -rf efivar-38
 # efibootmgr.
 tar -xf efibootmgr_17.orig.tar.gz
 cd efibootmgr-17
@@ -3006,7 +3017,8 @@ cd ../..
 rm -rf woff2-1.0.2
 # Unifont.
 mkdir -p /usr/share/fonts/unifont
-pigz -cd unifont-13.0.06.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+pigz -cd unifont-14.0.01.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+install -t /usr/share/licenses/unifont -Dm644 extra-package-licenses/LICENSE-unifont.txt
 # GRUB.
 tar -xf grub-2.06.tar.xz
 cd grub-2.06
@@ -3652,15 +3664,15 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.109.tar.xz
-cd libdrm-2.4.109
-mkdir no-digital-restrictions-management; cd no-digital-restrictions-management
+tar -xf libdrm-2.4.110.tar.xz
+cd libdrm-2.4.110
+mkdir libdrm-build; cd libdrm-build
 meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
-install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-files/libdrm-license.txt
+install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
 cd ../..
-rm -rf libdrm-2.4.109
+rm -rf libdrm-2.4.110
 # glslang (required for Vulkan support in Mesa).
 tar -xf glslang-11.7.1.tar.xz
 cd glslang-11.7.1
@@ -4356,15 +4368,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.52.5.tar.xz
-cd librsvg-2.52.5
+tar -xf librsvg-2.52.6.tar.xz
+cd librsvg-2.52.6
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.52.5
+rm -rf librsvg-2.52.6
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -4810,7 +4822,7 @@ install -m600 etc.ppp/pap-secrets /etc/ppp/pap-secrets
 install -m600 etc.ppp/chap-secrets /etc/ppp/chap-secrets
 install -dm755 /etc/ppp/peers
 chmod 0755 /usr/lib/pppd/2.4.9/*.so
-install -t /usr/share/licenses/ppp -Dm644 ../extra-package-files/ppp-license.txt
+install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.txt
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
@@ -4894,8 +4906,8 @@ install -t /usr/share/licenses/pinentry -Dm644 COPYING
 cd ..
 rm -rf pinentry-1.2.0
 # AccountsService.
-tar -xf accountsservice-22.04.62.tar.xz
-cd accountsservice-22.04.62
+tar -xf accountsservice-22.07.4.tar.xz
+cd accountsservice-22.07.4
 sed -i '/PrivateTmp/d' data/accounts-daemon.service.in
 mkdir as-build; cd as-build
 meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
@@ -4903,7 +4915,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/accountsservice -Dm644 ../COPYING
 cd ../..
-rm -rf accountsservice-22.04.62
+rm -rf accountsservice-22.07.4
 # polkit-gnome.
 tar -xf polkit-gnome-0.105.tar.xz
 cd polkit-gnome-0.105
@@ -5028,8 +5040,8 @@ install -t /usr/share/licenses/mupdf -Dm644 COPYING
 cd ..
 rm -rf mupdf-1.18.0-source
 # cups-filters.
-tar -xf cups-filters-1.28.11.tar.xz
-cd cups-filters-1.28.11
+tar -xf cups-filters-1.28.12.tar.xz
+cd cups-filters-1.28.12
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
 make
 make install
@@ -5037,7 +5049,7 @@ install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.se
 install -t /usr/share/licenses/cups-filters -Dm644 COPYING
 systemctl enable cups-browsed
 cd ..
-rm -rf cups-filters-1.28.11
+rm -rf cups-filters-1.28.12
 # Gutenprint.
 tar -xf gutenprint-5.3.3.tar.xz
 cd gutenprint-5.3.3
@@ -5349,15 +5361,15 @@ install -t /usr/share/licenses/startup-notification -Dm644 COPYING
 cd ..
 rm -rf startup-notification-0.12
 # libwnck.
-tar -xf libwnck-40.0.tar.xz
-cd libwnck-40.0
+tar -xf libwnck-40.1.tar.xz
+cd libwnck-40.1
 mkdir wnck-build; cd wnck-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwnck -Dm644 ../COPYING
 cd ../..
-rm -rf libwnck-40.0
+rm -rf libwnck-40.1
 # network-manager-applet.
 tar -xf network-manager-applet-1.24.0.tar.xz
 cd network-manager-applet-1.24.0
@@ -5831,8 +5843,8 @@ install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
 rm -rf gst-libav-1.20.0
 # WebKitGTK.
-tar -xf webkitgtk-2.34.5.tar.xz
-cd webkitgtk-2.34.5
+tar -xf webkitgtk-2.34.6.tar.xz
+cd webkitgtk-2.34.6
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -5840,7 +5852,7 @@ ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.34.5
+rm -rf webkitgtk-2.34.6
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6506,7 +6518,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-97.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-97.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

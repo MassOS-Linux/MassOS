@@ -350,6 +350,7 @@ mako
 malcontent
 man-db
 man-pages
+mandoc
 markdown
 markupsafe
 mct
@@ -487,6 +488,7 @@ tldr
 tumbler
 tzdata
 udisks
+unifont
 unzip
 upower
 usbutil

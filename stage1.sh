@@ -279,7 +279,7 @@ cp utils/massos-logo.png "$SRC"
 cp utils/massos-logo-small.png "$SRC"
 cp utils/massos-logo-notext.png "$SRC"
 cp utils/builtins "$SRC"
-cp -r utils/extra-package-files "$SRC"
+cp -r utils/extra-package-licenses "$SRC"
 cp -r utils/skel "$MASSOS"/etc
 mkdir -p "$MASSOS"/etc/profile.d
 cp utils/*.sh "$MASSOS"/etc/profile.d

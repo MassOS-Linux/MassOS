@@ -16,7 +16,17 @@ This is the development version of MassOS. It contains the following changes sin
 
 It also includes the following upgraded software, however there may be more before the next version is released:
 
-- Development is still in it's early stages, check back soon.
+- AccountsService: `22.04.62 --> 22.07.4`
+- btrfs-progs: `5.16 --> 5.16.2`
+- cups-filters: `1.28.11 --> 1.28.12`
+- efivar: `37 --> 38`
+- Firefox: `97.0 --> 97.0.1`
+- libdrm: `2.4.109 --> 2.4.110`
+- librsvg: `2.52.5 --> 2.52.6`
+- libwnck: `40.0 --> 40.1`
+- tree: `2.0.1 --> 2.0.2`
+- Unifont: `13.0.06 --> 14.0.01`
+- WebKitGTK: `2.34.5 --> 2.34.6`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.
