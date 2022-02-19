@@ -14,6 +14,7 @@ This is the development version of MassOS. It contains the following changes sin
 - Added DJVU and XPS support to Evince.
 - Added dvd+rw-tools.
 - Only the client portion of Samba (smbclient) is now installed, to save some space.
+- Added a workaround to fix the current of Firefox with FFmpeg 5.
 
 It also includes the following upgraded software, however there may be more before the next version is released:
 

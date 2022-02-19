@@ -6559,6 +6559,18 @@ install -dm755 /usr/share/licenses/firefox
 cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
+# Temporary Firefox workaround for FFmpeg 5 (see README.txt for information).
+tar -xf firefox-workaround-ffmpeg4libs.tar.xz
+cd firefox-workaround-ffmpeg4libs
+install -t /usr/lib/firefox/libav -Dm755 libavcodec.so.58 libavutil.so.56 libswresample.so.3
+install -t /usr/lib/firefox/libav -Dm644 README.txt
+cat > /etc/ld.so.conf.d/firefox-libav.conf << "END"
+# This is a temporary workaround, see 'README.txt' at the following directory
+# for more information:
+/usr/lib/firefox/libav
+END
+cd ..
+rm -rf firefox-workaround-ffmpeg4libs
 # Thunderbird.
 tar --no-same-owner -xf thunderbird-91.6.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
