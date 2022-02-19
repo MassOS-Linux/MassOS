@@ -3089,7 +3089,7 @@ GRUB_BACKGROUND="/usr/share/backgrounds/xfce/MassOS-Contemporary.png"
 
 # Uncomment to make GRUB remember the last selection. This requires
 # setting 'GRUB_DEFAULT=saved' above.
-GRUB_SAVEDEFAULT="true"
+#GRUB_SAVEDEFAULT="true"
 
 # Uncomment to disable submenus in boot menu
 #GRUB_DISABLE_SUBMENU="y"
