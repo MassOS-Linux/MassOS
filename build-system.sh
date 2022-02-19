@@ -4066,6 +4066,16 @@ ln -sf genisoimage.1 /usr/share/man/man1/mkisofs.1
 install -t /usr/share/licenses/cdrkit -Dm644 ../COPYING
 cd ../..
 rm -rf cdrkit-1.1.11
+# dvd+rw-tools.
+tar -xf dvd+rw-tools-7.1.tar.gz
+cd dvd+rw-tools-7.1
+patch -Np1 -i ../patches/dvd+rw-tools-7.1-genericfixes.patch
+make CFLAGS="$CFLAGS" CXXFLAGS="$CXXFLAGS"
+install -t /usr/bin -m755 growisofs dvd+rw-booktype dvd+rw-format dvd+rw-mediainfo dvd-ram-control
+install -t /usr/share/man/man1 -m644 growisofs.1
+install -t /usr/share/licenses/dvd+rw-tools -Dm644 LICENSE
+cd ..
+rm -rf dvd+rw-tools-7.1
 # libburn.
 tar -xf libburn-1.5.4.tar.gz
 cd libburn-1.5.4

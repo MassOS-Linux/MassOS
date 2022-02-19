@@ -80,6 +80,7 @@ docutils
 dos2unix
 dosfstools
 dracut
+dvd+rw-tools
 e2fsprogs
 easy-rsa
 ed
