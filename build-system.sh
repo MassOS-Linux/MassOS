@@ -771,6 +771,7 @@ rm -rf autoconf-archive-2021.02.19
 # Psmisc.
 tar -xf psmisc-23.4.tar.gz
 cd psmisc-v23.4-5fab6b7ab385080f1db725d6803136ec1841a15f
+sed -i 's/UNKNOWN/23.4/g' misc/git-version-gen
 ./autogen.sh
 ./configure --prefix=/usr
 make
