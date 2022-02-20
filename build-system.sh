@@ -5656,6 +5656,15 @@ make install
 install -t /usr/share/licenses/lame -Dm644 COPYING LICENSE
 cd ..
 rm -rf LAME-lame3_100
+# twolame.
+tar -xf twolame-0.4.0.tar.gz
+cd twolame-0.4.0
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/twolame -Dm644 COPYING
+cd ..
+rm -rf twolame-0.4.0
 # Taglib.
 tar -xf taglib-1.12.tar.gz
 cd taglib-1.12
@@ -5727,6 +5736,33 @@ ldconfig
 install -t /usr/share/licenses/x265 -Dm644 ../COPYING
 cd ../..
 rm -rf x265-3.5-35-g7a5709048
+# libraw1394.
+tar -xf libraw1394-2.1.2.tar.xz
+cd libraw1394-2.1.2
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libraw1394 -Dm644 COPYING.LIB
+cd ..
+rm -rf libraw1394-2.1.2
+# libavc1394.
+tar -xf libavc1394-0.5.4.tar.gz
+cd libavc1394-0.5.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libavc1394 -Dm644 COPYING
+cd ..
+rm -rf libavc1394-0.5.4
+# libiec61883.
+tar -xf libiec61883-1.2.0.tar.xz
+cd libiec61883-1.2.0
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libiec61883 -Dm644 COPYING
+cd ..
+rm -rf libiec61883-1.2.0
 # a52dec.
 tar -xf a52dec-0.7.4.tar.gz
 cd a52dec-0.7.4
@@ -5747,6 +5783,15 @@ rm -f /usr/lib/libbluray.a
 install -t /usr/share/licenses/libbluray -Dm644 COPYING
 cd ..
 rm -rf libbluray-1.3.0
+# libmodplug.
+tar -xf libmodplug-0.8.9.0.tar.gz
+cd libmodplug-0.8.9.0
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libmodplug -Dm644 COPYING
+cd ..
+rm -rf libmodplug-0.8.9.0
 # libmpeg2.
 tar -xf libmpeg2-0.5.1.tar.gz
 cd libmpeg2-0.5.1
@@ -5770,7 +5815,7 @@ rm -rf faad2-2_10_0
 # FFmpeg.
 tar -xf ffmpeg-5.0.tar.xz
 cd ffmpeg-5.0
-./configure --prefix=/usr --disable-debug --disable-static --enable-gnutls --enable-gpl --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libjack --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-shared --enable-small --enable-version3 --enable-vulkan
+./configure --prefix=/usr --disable-debug --disable-static --enable-gnutls --enable-gpl --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-shared --enable-small --enable-version3 --enable-vulkan
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install

@@ -199,6 +199,7 @@ libarchive
 libass
 libassuan
 libatasmart
+libavc1394
 libblockdev
 libbluray
 libburn
@@ -233,6 +234,7 @@ libhandy
 libical
 libice
 libidn2
+libiec61883
 libimobiledevice
 libinput
 libisoburn
@@ -240,6 +242,7 @@ libisofs
 libjpeg-turbo
 libksba
 libmbim
+libmodplug
 libmpeg2
 libmtp
 libndp
@@ -260,6 +263,7 @@ libpsl
 libpwquality
 libqmi
 libraw
+libraw1394
 librsvg
 libsamplerate
 libsass
@@ -486,6 +490,7 @@ thunderbird
 tk
 tldr
 tumbler
+twolame
 tzdata
 udisks
 unifont
