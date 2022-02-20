@@ -125,9 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220207.tar.gz
-cp iana-etc-20220207/{protocols,services} /etc
-rm -rf iana-etc-20220207
+tar -xf iana-etc-20220218.tar.gz
+cp iana-etc-20220218/{protocols,services} /etc
+rm -rf iana-etc-20220218
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
@@ -676,14 +676,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.3.tar.xz
-cd expat-2.4.3
+tar -xf expat-2.4.5.tar.xz
+cd expat-2.4.5
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.3
+rm -rf expat-2.4.5
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -1130,8 +1130,8 @@ install -t /usr/share/licenses/gtar -Dm644 COPYING
 cd ..
 rm -rf tar-1.34
 # Nano (Vim will be installed later, after Xorg, to support a GUI).
-tar -xf nano-6.1.tar.xz
-cd nano-6.1
+tar -xf nano-6.2.tar.xz
+cd nano-6.2
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
@@ -1139,7 +1139,7 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 install -t /usr/share/licenses/nano -Dm644 COPYING
 cd ..
-rm -rf nano-6.1
+rm -rf nano-6.2
 # dos2unix.
 tar -xf dos2unix-7.4.2.tar.gz
 cd dos2unix-7.4.2
@@ -3347,14 +3347,14 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.6.0.tar.gz
-cd qpdf-10.6.0
+tar -xf qpdf-10.6.2.tar.gz
+cd qpdf-10.6.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 cd ..
-rm -rf qpdf-10.6.0
+rm -rf qpdf-10.6.2
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3666,8 +3666,12 @@ install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm
 cd ../..
 rm -rf libdrm-2.4.110
 # glslang (required for Vulkan support in Mesa).
-tar -xf glslang-11.7.1.tar.xz
-cd glslang-11.7.1
+tar -xf glslang-11.8.0.tar.gz
+cd glslang-11.8.0
+tar -xf ../SPIRV-Tools-2022.1.tar.gz -C External
+mv External/{SPIRV-Tools-2022.1,spirv-tools}
+tar -xf ../SPIRV-Headers-sdk-1.3.204.0.tar.gz -C External/spirv-tools/external
+mv External/spirv-tools/external/{SPIRV-Headers-sdk-1.3.204.0,spirv-headers}
 mkdir static-release; cd static-release
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
@@ -3678,7 +3682,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/glslang -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf glslang-11.7.1
+rm -rf glslang-11.8.0
 # Vulkan-Headers.
 tar -xf Vulkan-Headers-1.3.204.tar.gz
 cd Vulkan-Headers-1.3.204
@@ -3930,15 +3934,15 @@ install -t /usr/share/licenses/xf86-input-evdev -Dm644 COPYING
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.19.3.tar.xz
-cd libinput-1.19.3
+tar -xf libinput-1.20.0.tar.xz
+cd libinput-1.20.0
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libinput -Dm644 ../COPYING
 cd ../..
-rm -rf libinput-1.19.3
+rm -rf libinput-1.20.0
 # xf86-input-libinput.
 tar -xf xf86-input-libinput-1.2.1.tar.xz
 cd xf86-input-libinput-1.2.1
@@ -5701,19 +5705,19 @@ install -t /usr/share/licenses/libcanberra -Dm644 LGPL
 cd ..
 rm -rf libcanberra-0.30
 # x264.
-tar -xf x264-0.164.3081.tar.xz
-cd x264-0.164.3081
+tar -xf x264-0.164.3086.tar.xz
+cd x264-0.164.3086
 ./configure --prefix=/usr --enable-shared
 make
 make install
 ln -sf libx264.so.164 /usr/lib/libx264.so
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 cd ..
-rm -rf x264-0.164.3081
+rm -rf x264-0.164.3086
 # x265.
-tar -xf x265-3.5-19-g747a079f7.tar.xz
-cd x265-3.5-19-g747a079f7
-mkdir the-real-build-directory-for-x265; cd the-real-build-directory-for-x265
+tar -xf x265-3.5-35-g7a5709048.tar.xz
+cd x265-3.5-35-g7a5709048
+mkdir x265-build; cd x265-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ../source
 ninja
 ninja install
@@ -5722,7 +5726,7 @@ ln -sf libx265.so.203 /usr/lib/libx265.so
 ldconfig
 install -t /usr/share/licenses/x265 -Dm644 ../COPYING
 cd ../..
-rm -rf x265-3.5-19-g747a079f7
+rm -rf x265-3.5-35-g7a5709048
 # a52dec.
 tar -xf a52dec-0.7.4.tar.gz
 cd a52dec-0.7.4

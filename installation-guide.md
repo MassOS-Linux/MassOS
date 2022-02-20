@@ -23,13 +23,20 @@ It also includes the following upgraded software, however there may be more befo
 - btrfs-progs: `5.16 --> 5.16.2`
 - cups-filters: `1.28.11 --> 1.28.12`
 - efivar: `37 --> 38`
+- Expat: `2.4.3 --> 2.4.5`
 - Firefox: `97.0 --> 97.0.1`
+- iana-etc: `20220207 --> 20220218`
 - libdrm: `2.4.109 --> 2.4.110`
+- libinput: `1.19.3 --> 1.20.0`
 - librsvg: `2.52.5 --> 2.52.6`
 - libwnck: `40.0 --> 40.1`
+- Nano: `6.1 --> 6.2`
+- Qpdf: `10.6.0 --> 10.6.2`
 - tree: `2.0.1 --> 2.0.2`
 - Unifont: `13.0.06 --> 14.0.01`
 - WebKitGTK: `2.34.5 --> 2.34.6`
+- x264: `0.164.3081 --> 0.164.3086`
+- x265: `3.5-19-g747a079f7 --> 3.5-35-g7a5709048`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.
