@@ -2420,15 +2420,6 @@ make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
 cd ../..
 rm -rf krb5-1.19.2
-# gsasl.
-tar -xf gsasl-1.10.0.tar.gz
-cd gsasl-1.10.0
-./configure --prefix=/usr --disable-static --with-gssapi-impl=mit
-make
-make install
-install -t /usr/share/licenses/gsasl -Dm644 COPYING
-cd ..
-rm -rf gsasl-1.10.0
 # rtmpdump.
 tar -xf rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 cd rtmpdump-2.4-20210219-gf1b83c1
