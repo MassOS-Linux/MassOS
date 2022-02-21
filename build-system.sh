@@ -676,14 +676,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.5.tar.xz
-cd expat-2.4.5
+tar -xf expat-2.4.6.tar.xz
+cd expat-2.4.6
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.5
+rm -rf expat-2.4.6
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -1372,14 +1372,14 @@ END
 cd ..
 rm -rf docbook-4.5
 # libxml2.
-tar -xf libxml2_2.9.12+dfsg.orig.tar.xz
-cd libxml2-2.9.12
-./configure --prefix=/usr --disable-static --with-history --with-python=/usr/bin/python3
+tar -xf libxml2-2.9.13.tar.xz
+cd libxml2-2.9.13
+./configure --prefix=/usr --disable-static --with-history --with-icu --with-python=/usr/bin/python3 --with-threads
 make
 make install
 install -t /usr/share/licenses/libxml2 -Dm644 COPYING
 cd ..
-rm -rf libxml2-2.9.12
+rm -rf libxml2-2.9.13
 # libarchive.
 tar -xf libarchive-3.6.0.tar.xz
 cd libarchive-3.6.0
@@ -3546,6 +3546,15 @@ systemctl enable wpa_supplicant
 install -t /usr/share/licenses/wpa-supplicant -Dm644 ../COPYING ../README
 cd ../..
 rm -rf wpa_supplicant-2.10
+# wireless-tools.
+tar -xf wireless_tools.30.pre9.tar.gz
+cd wireless_tools.30
+sed -i '/BUILD_STATIC =/d' Makefile
+make CFLAGS="$CFLAGS -I."
+make INSTALL_DIR=/usr/bin INSTALL_LIB=/usr/lib INSTALL_INC=/usr/include INSTALL_MAN=/usr/share/man install
+install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
+cd ..
+rm -rf wireless_tools.30
 # libzip.
 tar -xf libzip-1.8.0.tar.xz
 cd libzip-1.8.0
@@ -4912,8 +4921,8 @@ install -t /usr/share/licenses/pinentry -Dm644 COPYING
 cd ..
 rm -rf pinentry-1.2.0
 # AccountsService.
-tar -xf accountsservice-22.07.4.tar.xz
-cd accountsservice-22.07.4
+tar -xf accountsservice-22.07.5.tar.xz
+cd accountsservice-22.07.5
 sed -i '/PrivateTmp/d' data/accounts-daemon.service.in
 mkdir as-build; cd as-build
 meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
@@ -4921,7 +4930,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/accountsservice -Dm644 ../COPYING
 cd ../..
-rm -rf accountsservice-22.07.4
+rm -rf accountsservice-22.07.5
 # polkit-gnome.
 tar -xf polkit-gnome-0.105.tar.xz
 cd polkit-gnome-0.105

@@ -11,8 +11,9 @@ This guide aims to guide you through the installation of MassOS.
 # Release Notes
 This is the development version of MassOS. It contains the following changes since the previous version, **2022.02.2**, however may be subject to more changes before the next version is released:
 
+- Fixed some minor bugs in the installer.
 - Added DJVU and XPS support to Evince.
-- Added dvd+rw-tools.
+- Added dvd+rw-tools and wireless-tools.
 - Only the client portion of Samba (smbclient) is now installed, to save some space.
 - Added a workaround to fix the current of Firefox with FFmpeg 5.
 - Added some extra multimedia codec libraries.
@@ -20,17 +21,18 @@ This is the development version of MassOS. It contains the following changes sin
 
 It also includes the following upgraded software, however there may be more before the next version is released:
 
-- AccountsService: `22.04.62 --> 22.07.4`
+- AccountsService: `22.04.62 --> 22.07.5`
 - btrfs-progs: `5.16 --> 5.16.2`
 - cups-filters: `1.28.11 --> 1.28.12`
 - efivar: `37 --> 38`
-- Expat: `2.4.3 --> 2.4.5`
+- Expat: `2.4.3 --> 2.4.6`
 - Firefox: `97.0 --> 97.0.1`
 - iana-etc: `20220207 --> 20220218`
 - libdrm: `2.4.109 --> 2.4.110`
 - libinput: `1.19.3 --> 1.20.0`
 - librsvg: `2.52.5 --> 2.52.6`
 - libwnck: `40.0 --> 40.1`
+- libxml2: `2.9.12 --> 2.9.13`
 - Nano: `6.1 --> 6.2`
 - Qpdf: `10.6.0 --> 10.6.2`
 - tree: `2.0.1 --> 2.0.2`
