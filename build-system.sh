@@ -2059,8 +2059,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.81.0
 # CMake.
-tar -xf cmake-3.22.2.tar.gz
-cd cmake-3.22.2
+tar -xf cmake-3.23.0-rc2.tar.gz
+cd cmake-3.23.0-rc2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2068,7 +2068,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.22.2
+rm -rf cmake-3.23.0-rc2
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2799,6 +2799,7 @@ rm -rf shared-mime-info-2.1
 # desktop-file-utils.
 tar -xf desktop-file-utils-0.26.tar.xz
 cd desktop-file-utils-0.26
+patch -Np1 -i ../patches/desktop-file-utils-0.26-specification1.5.patch
 mkdir dfu-build; cd dfu-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5549,15 +5550,15 @@ install -t /usr/share/licenses/libportal-gtk3 -Dm644 ../COPYING
 cd ../..
 rm -rf libportal-0.5
 # GeoClue.
-tar -xf geoclue-2.5.7.tar.bz2
-cd geoclue-2.5.7
+tar -xf geoclue-2.6.0.tar.bz2
+cd geoclue-2.6.0
 mkdir geoclue-build; cd geoclue-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
-rm -rf geoclue-2.5.7
+rm -rf geoclue-2.6.0
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.12.1.tar.xz
 cd xdg-desktop-portal-1.12.1
@@ -6629,7 +6630,7 @@ END
 cd ..
 rm -rf firefox-workaround-ffmpeg4libs
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.6.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.6.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
@@ -6668,19 +6669,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.10.tar.xz
-cd linux-5.16.10
+tar -xf linux-5.16.11.tar.xz
+cd linux-5.16.11
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.10-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.10-massos/vmlinuz
-cp System.map /boot/System.map-5.16.10-massos
-cp .config /boot/config-5.16.10-massos
-rm /usr/lib/modules/5.16.10-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.11-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.11-massos/vmlinuz
+cp System.map /boot/System.map-5.16.11-massos
+cp .config /boot/config-5.16.11-massos
+rm /usr/lib/modules/5.16.11-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.10-massos/build
+builddir=/usr/lib/modules/5.16.11-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6704,7 +6705,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.10
+rm -rf linux-5.16.11
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

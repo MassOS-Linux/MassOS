@@ -26,6 +26,7 @@ It also includes the following upgraded software, however there may be more befo
 - AppStream: `0.15.1 --> 0.15.2`
 - btrfs-progs: `5.16 --> 5.16.2`
 - Bubblewrap: `0.5.0 --> 0.6.0`
+- CMake: `3.22.2 --> 3.23.0-rc2`
 - cups-filters: `1.28.11 --> 1.28.12`
 - dracut: `055 --> 056`
 - efivar: `37 --> 38`
@@ -33,6 +34,7 @@ It also includes the following upgraded software, however there may be more befo
 - Firefox: `97.0 --> 97.0.1`
 - FLAC: `1.3.3 --> 1.3.4`
 - Flatpak: `1.12.5 --> 1.12.6`
+- GeoClue: `2.5.7 --> 2.6.0`
 - iana-etc: `20220207 --> 20220218`
 - libdrm: `2.4.109 --> 2.4.110`
 - libinput: `1.19.3 --> 1.20.0`
@@ -40,6 +42,7 @@ It also includes the following upgraded software, however there may be more befo
 - libsecret: `0.20.4 --> 0.20.5`
 - libwnck: `40.0 --> 40.1`
 - libxml2: `2.9.12 --> 2.9.13`
+- Linux Kernel: `5.16.10 --> 5.16.11`
 - lxml: `4.7.1 --> 4.8.0`
 - Mesa: `21.3.6 --> 21.3.7`
 - Nano: `6.1 --> 6.2`
@@ -47,6 +50,7 @@ It also includes the following upgraded software, however there may be more befo
 - OpenSSH: `8.8p1 --> 8.9p1`
 - Qpdf: `10.6.0 --> 10.6.2`
 - SQLite: `3.37.2 --> 3.38.0`
+- Thunderbird: `91.6.0 --> 91.6.1`
 - tree: `2.0.1 --> 2.0.2`
 - Unifont: `13.0.06 --> 14.0.01`
 - UPower: `0.99.15 --> 0.99.16`

@@ -48,7 +48,7 @@ https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang-13.0.1.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.23.0-rc2/cmake-3.23.0-rc2.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://ftp.acc.umu.se/pub/gnome/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
@@ -128,7 +128,7 @@ https://mirror.lyrahosting.com/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.6.tar.xz
-https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.5.7/geoclue-2.5.7.tar.bz2
+https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.6.0/geoclue-2.6.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.xz
@@ -349,7 +349,7 @@ https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.10.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.11.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -507,7 +507,7 @@ https://archive.massos.org/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.fr.xfce.org/src/xfce/thunar/4.17/thunar-4.17.7.tar.bz2
 https://archive.fr.xfce.org/src/thunar-plugins/thunar-archive-plugin/0.4/thunar-archive-plugin-0.4.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/thunar-volman/4.16/thunar-volman-4.16.0.tar.bz2
-https://archive.mozilla.org/pub/thunderbird/releases/91.6.0/linux-x86_64/en-US/thunderbird-91.6.0.tar.bz2
+https://archive.mozilla.org/pub/thunderbird/releases/91.6.1/linux-x86_64/en-US/thunderbird-91.6.1.tar.bz2
 https://download.osgeo.org/libtiff/tiff-4.3.0.tar.gz
 https://archive.massos.org/sources/tk8.6.12-src.tar.gz
 https://archive.massos.org/sources/tree-2.0.2.tgz
