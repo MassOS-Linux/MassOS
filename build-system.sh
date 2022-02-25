@@ -1083,6 +1083,15 @@ make install
 install -t /usr/share/licenses/libpipeline -Dm644 COPYING
 cd ..
 rm -rf libpipeline-1.5.5
+# libunwind.
+tar -xf libunwind-1.6.2.tar.gz
+cd libunwind-1.6.2
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libunwind -Dm644 COPYING
+cd ..
+rm -rf libunwind-1.6.2
 # libuv.
 tar -xf libuv-v1.43.0.tar.gz
 cd libuv-v1.43.0
@@ -1261,10 +1270,10 @@ rm -rf icu
 # Boost.
 tar -xf boost_1_78_0.tar.bz2
 cd boost_1_78_0
-./bootstrap.sh --prefix=/usr --with-python=python3
+./bootstrap.sh --prefix=/usr --with-icu --with-python=python3
 ./b2 stage -j$(nproc) threading=multi link=shared
 ./b2 install threading=multi link=shared
-install -t /usr/share/licenses/icu -Dm644 LICENSE_1_0.txt
+install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 cd ..
 rm -rf boost_1_78_0
 # libgpg-error.
@@ -1659,13 +1668,13 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 cd ..
 rm -rf docbook-5.1
 # lxml.
-tar -xf lxml-4.7.1.tar.gz
-cd lxml-4.7.1
+tar -xf lxml-4.8.0.tar.gz
+cd lxml-4.8.0
 python setup.py build
 python setup.py install --optimize=1
 install -t /usr/share/licenses/lxml -Dm644 LICENSE.txt LICENSES.txt
 cd ..
-rm -rf lxml-4.7.1
+rm -rf lxml-4.8.0
 # itstool.
 tar -xf itstool-2.0.7.tar.bz2
 cd itstool-2.0.7
@@ -1825,8 +1834,8 @@ install -t /usr/share/licenses/dosfstools -Dm644 COPYING
 cd ..
 rm -rf dosfstools-4.2
 # dracut.
-tar -xf dracut-055.tar.gz
-cd dracut-055
+tar -xf dracut-056.tar.gz
+cd dracut-056
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions
 make
 make install
@@ -1841,7 +1850,7 @@ omit_dracutmodules+=" nbd network network-manager kernel-modules-extra kernel-ne
 END
 install -t /usr/share/licenses/dracut -Dm644 COPYING
 cd ..
-rm -rf dracut-055
+rm -rf dracut-056
 # LZO.
 tar -xf lzo-2.10.tar.gz
 cd lzo-2.10
@@ -2030,15 +2039,15 @@ rm -f /usr/lib/libbrotlidec.a
 install -t /usr/share/licenses/brotli -Dm644 LICENSE
 cd ..
 rm -rf brotli-1.0.9
-# nghttp2.
-tar -xf nghttp2-1.46.0.tar.xz
-cd nghttp2-1.46.0
+# libnghttp2.
+tar -xf nghttp2-1.47.0.tar.xz
+cd nghttp2-1.47.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 install -t /usr/share/licenses/nghttp2 -Dm644 COPYING
 cd ..
-rm -rf nghttp2-1.46.0
+rm -rf nghttp2-1.47.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.81.0.tar.xz
 cd curl-7.81.0
@@ -2171,15 +2180,15 @@ install -t /usr/share/licenses/libidn2 -Dm644 COPYING COPYINGv2 COPYING.LESSERv3
 cd ..
 rm -rf libidn2-2.3.2
 # whois.
-tar -xf whois_5.5.11.tar.xz
-cd whois
+tar -xf whois-5.5.12.tar.gz
+cd whois-5.5.12
 make
 make prefix=/usr install-whois
 make prefix=/usr install-mkpasswd
 make prefix=/usr install-pos
 install -t /usr/share/licenses/whois -Dm644 COPYING
 cd ..
-rm -rf whois
+rm -rf whois-5.5.12
 # libpsl.
 tar -xf libpsl-0.21.1.tar.gz
 cd libpsl-0.21.1
@@ -2486,8 +2495,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.0
 # SQLite.
-tar -xf sqlite-autoconf-3370200.tar.gz
-cd sqlite-autoconf-3370200
+tar -xf sqlite-autoconf-3380000.tar.gz
+cd sqlite-autoconf-3380000
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2497,7 +2506,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3370200
+rm -rf sqlite-autoconf-3380000
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.27.tar.gz
 cd cyrus-sasl-2.1.27
@@ -3531,6 +3540,7 @@ CONFIG_PEERKEY=y
 CONFIG_PKCS12=y
 CONFIG_READLINE=y
 CONFIG_SMARTCARD=y
+CONFIG_WNM=y
 CONFIG_WPS=y
 CFLAGS += -I/usr/include/libnl3
 END
@@ -3693,25 +3703,25 @@ install -t /usr/share/licenses/glslang -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.204.tar.gz
-cd Vulkan-Headers-1.3.204
+tar -xf Vulkan-Headers-1.3.206.tar.gz
+cd Vulkan-Headers-1.3.206
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.204
+rm -rf Vulkan-Headers-1.3.206
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.204.tar.gz
-cd Vulkan-Loader-1.3.204
+tar -xf Vulkan-Loader-1.3.206.tar.gz
+cd Vulkan-Loader-1.3.206
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.204
+rm -rf Vulkan-Loader-1.3.206
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3732,17 +3742,16 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.6.tar.xz
-cd mesa-21.3.6
+tar -xf mesa-21.3.7.tar.xz
+cd mesa-21.3.7
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
-sed '1s/python/&3/' -i bin/symbols-check.py
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled -Dlibunwind=disabled ..
+meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-21.3.6
+rm -rf mesa-21.3.7
 # libva (rebuild to support Mesa).
 tar -xf libva-2.13.0.tar.bz2
 cd libva-2.13.0
@@ -3980,14 +3989,14 @@ install -t /usr/share/licenses/xf86-input-wacom -Dm644 GPL
 cd ..
 rm -rf xf86-input-wacom-1.0.0
 # xf86-video-amdgpu.
-tar -xf xf86-video-amdgpu-21.0.0.tar.bz2
-cd xf86-video-amdgpu-21.0.0
+tar -xf xf86-video-amdgpu-22.0.0.tar.xz
+cd xf86-video-amdgpu-22.0.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/xf86-video-amdgpu -Dm644 COPYING
 cd ..
-rm -rf xf86-video-amdgpu-21.0.0
+rm -rf xf86-video-amdgpu-22.0.0
 # xf86-video-ati.
 tar -xf xf86-video-ati-19.1.0.tar.bz2
 cd xf86-video-ati-19.1.0
@@ -4128,13 +4137,13 @@ install -t /usr/share/licenses/polkit -Dm644 COPYING
 cd ..
 rm -rf polkit-0.120
 # OpenSSH.
-tar -xf openssh-8.8p1.tar.gz
-cd openssh-8.8p1
+tar -xf openssh-8.9p1.tar.gz
+cd openssh-8.9p1
 install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
 useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
-./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-privsep-path=/var/lib/sshd --with-default-path=/usr/bin --with-superuser-path=/usr/sbin:/usr/bin --with-pid-dir=/run
+./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-privsep-path=/var/lib/sshd --with-default-path=/usr/bin --with-superuser-path=/usr/sbin:/usr/bin --with-pid-dir=/run --with-kerberos5=/usr --with-xauth=/usr/bin/xauth
 make
 make install
 install -m755 contrib/ssh-copy-id /usr/bin
@@ -4145,7 +4154,7 @@ sed -i 's/#UsePAM/UsePAM/' /etc/ssh/sshd_config
 sed -i 's/UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
 install -t /usr/share/licenses/openssh -Dm644 LICENCE
 cd ..
-rm -rf openssh-8.8p1
+rm -rf openssh-8.9p1
 # sshfs.
 tar -xf sshfs-3.7.2.tar.xz
 cd sshfs-3.7.2
@@ -4634,15 +4643,14 @@ install -t /usr/share/licenses/opus -Dm644 COPYING
 cd ..
 rm -rf opus-1.3.1
 # FLAC.
-tar -xf flac-1.3.3.tar.xz
-cd flac-1.3.3
-patch -Np1 -i ../patches/flac-1.3.3-security_fixes-1.patch
+tar -xf flac-1.3.4.tar.xz
+cd flac-1.3.4
 ./configure --prefix=/usr --disable-thorough-tests
 make
 make install
 install -t /usr/share/licenses/flac -Dm644 COPYING.FDL COPYING.GPL COPYING.LGPL COPYING.Xiph
 cd ..
-rm -rf flac-1.3.3
+rm -rf flac-1.3.4
 # libsndfile.
 tar -xf libsndfile-1.0.31.tar.bz2
 cd libsndfile-1.0.31
@@ -4889,15 +4897,15 @@ install -t /usr/share/licenses/openjpeg -Dm644 ../LICENSE
 cd ../..
 rm -rf openjpeg-2.4.0
 # libsecret.
-tar -xf libsecret-0.20.4.tar.xz
-cd libsecret-0.20.4
+tar -xf libsecret-0.20.5.tar.xz
+cd libsecret-0.20.5
 mkdir secret-build; cd secret-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsecret -Dm644 ../COPYING ../COPYING.TESTS
 cd ../..
-rm -rf libsecret-0.20.4
+rm -rf libsecret-0.20.5
 # Gcr.
 tar -xf gcr-3.41.0.tar.xz
 cd gcr-3.41.0
@@ -4984,7 +4992,6 @@ account include system-account
 session include system-session
 END
 systemctl enable cups
-rm -f /usr/share/applications/cups.desktop
 install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
 rm -rf cups-2.4.1
@@ -5301,8 +5308,8 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # UPower.
-tar -xf upower-v0.99.15.tar.bz2
-cd upower-v0.99.15
+tar -xf upower-v0.99.16.tar.bz2
+cd upower-v0.99.16
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5310,11 +5317,10 @@ ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
-rm -rf upower-v0.99.15
+rm -rf upower-v0.99.16
 # NetworkManager.
-tar -xf NetworkManager-1.34.0.tar.xz
-cd NetworkManager-1.34.0
-grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
+tar -xf NetworkManager-1.36.0.tar.xz
+cd NetworkManager-1.36.0
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
@@ -5345,7 +5351,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.34.0
+rm -rf NetworkManager-1.36.0
 # libnma.
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
@@ -5468,15 +5474,15 @@ install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
 cd ../..
 rm -rf libxmlb-0.3.6
 # AppStream.
-tar -xf AppStream-0.15.1.tar.xz
-cd AppStream-0.15.1
+tar -xf AppStream-0.15.2.tar.xz
+cd AppStream-0.15.2
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream -Dm644 ../LICENSE.GPLv2 ../LICENSE.LGPLv2.1
 cd ../..
-rm -rf AppStream-0.15.1
+rm -rf AppStream-0.15.2
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -5488,14 +5494,15 @@ install -t /usr/share/licenses/appstream-glib -Dm644 ../COPYING
 cd ../..
 rm -rf appstream-glib-appstream_glib_0_7_18
 # Bubblewrap.
-tar -xf bubblewrap-0.5.0.tar.xz
-cd bubblewrap-0.5.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/bubblewrap -Dm644 COPYING
+tar -xf bubblewrap-0.6.0.tar.xz
+cd bubblewrap-0.6.0
+mkdir bwrap-build; cd bwrap-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
 cd ..
-rm -rf bubblewrap-0.5.0
+rm -rf bubblewrap-0.6.0
 # xdg-dbus-proxy.
 tar -xf xdg-dbus-proxy-0.1.2.tar.xz
 cd xdg-dbus-proxy-0.1.2
@@ -5506,8 +5513,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.5.tar.xz
-cd flatpak-1.12.5
+tar -xf flatpak-1.12.6.tar.xz
+cd flatpak-1.12.6
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5529,7 +5536,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.12.5
+rm -rf flatpak-1.12.6
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5

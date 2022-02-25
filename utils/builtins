@@ -247,6 +247,7 @@ libmpeg2
 libmtp
 libndp
 libnfs
+libnghttp2
 libnl
 libnma
 libnotify
@@ -282,6 +283,7 @@ libtiff
 libtirpc
 libtool
 libunistring
+libunwind
 libusb
 libusbmuxd
 libuv
@@ -384,7 +386,6 @@ network-manager-applet
 networkmanager
 networkmanager-openvpn
 newt
-nghttp2
 ninja
 noto-fonts
 npth

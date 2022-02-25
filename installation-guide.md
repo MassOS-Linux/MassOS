@@ -22,22 +22,37 @@ This is the development version of MassOS. It contains the following changes sin
 It also includes the following upgraded software, however there may be more before the next version is released:
 
 - AccountsService: `22.04.62 --> 22.07.5`
+- AppStream: `0.15.1 --> 0.15.2`
 - btrfs-progs: `5.16 --> 5.16.2`
+- Bubblewrap: `0.5.0 --> 0.6.0`
 - cups-filters: `1.28.11 --> 1.28.12`
+- dracut: `055 --> 056`
 - efivar: `37 --> 38`
 - Expat: `2.4.3 --> 2.4.6`
 - Firefox: `97.0 --> 97.0.1`
+- FLAC: `1.3.3 --> 1.3.4`
+- Flatpak: `1.12.5 --> 1.12.6`
 - iana-etc: `20220207 --> 20220218`
 - libdrm: `2.4.109 --> 2.4.110`
 - libinput: `1.19.3 --> 1.20.0`
 - librsvg: `2.52.5 --> 2.52.6`
+- libsecret: `0.20.4 --> 0.20.5`
 - libwnck: `40.0 --> 40.1`
 - libxml2: `2.9.12 --> 2.9.13`
+- lxml: `4.7.1 --> 4.8.0`
+- Mesa: `21.3.6 --> 21.3.7`
 - Nano: `6.1 --> 6.2`
+- NetworkManager: `1.34.0 --> 1.36.0`
+- OpenSSH: `8.8p1 --> 8.9p1`
 - Qpdf: `10.6.0 --> 10.6.2`
+- SQLite: `3.37.2 --> 3.38.0`
 - tree: `2.0.1 --> 2.0.2`
 - Unifont: `13.0.06 --> 14.0.01`
+- UPower: `0.99.15 --> 0.99.16`
+- Vulkan-Headers: `1.3.204 --> 1.3.206`
+- Vulkan-Loader: `1.3.204 --> 1.3.206`
 - WebKitGTK: `2.34.5 --> 2.34.6`
+- whois: `5.5.11 --> 5.5.12`
 - x264: `0.164.3081 --> 0.164.3086`
 - x265: `3.5-19-g747a079f7 --> 3.5-35-g7a5709048`
 
