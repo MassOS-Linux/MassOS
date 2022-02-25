@@ -1883,7 +1883,8 @@ cd squashfuse-0.1.104
 ./configure --prefix=/usr
 make
 make install
-install -Dm644 *.h /usr/include/squashfuse
+rm -f /usr/lib/libsquashfuse.a
+install -t /usr/include/squashfuse -Dm644 *.h
 install -t /usr/share/licenses/squashfuse -Dm644 LICENSE
 cd ..
 rm -rf squashfuse-0.1.104
@@ -2035,7 +2036,7 @@ make
 python setup.py build
 make install
 python setup.py install --optimize=1
-rm -f /usr/lib/libbrotlidec.a
+rm -f /usr/lib/libbrotli{common,dec,enc}.a
 install -t /usr/share/licenses/brotli -Dm644 LICENSE
 cd ..
 rm -rf brotli-1.0.9
@@ -2558,7 +2559,7 @@ cd apparmor-3.0.3
 patch -Np1 -i ../patches/apparmor-3.0.3-backport_python310_fix.patch
 cd libraries/libapparmor
 autoreconf -fi
-./configure --prefix=/usr --with-perl --with-python
+./configure --prefix=/usr --disable-static --with-perl --with-python
 make
 cd ../..
 make -C binutils
