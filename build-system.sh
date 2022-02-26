@@ -2046,7 +2046,7 @@ cd nghttp2-1.47.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
-install -t /usr/share/licenses/nghttp2 -Dm644 COPYING
+install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
 rm -rf nghttp2-1.47.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
@@ -2343,14 +2343,14 @@ make install
 install -t /usr/share/licenses/jansson -Dm644 LICENSE
 cd ..
 rm -rf jansson-2.13.1
-# nghttp2 (rebuild to support more features).
-tar -xf nghttp2-1.46.0.tar.xz
-cd nghttp2-1.46.0
+# libnghttp2 (rebuild to support more features).
+tar -xf nghttp2-1.47.0.tar.xz
+cd nghttp2-1.47.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 cd ..
-rm -rf nghttp2-1.46.0
+rm -rf nghttp2-1.47.0
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
@@ -2559,7 +2559,7 @@ cd apparmor-3.0.3
 patch -Np1 -i ../patches/apparmor-3.0.3-backport_python310_fix.patch
 cd libraries/libapparmor
 autoreconf -fi
-./configure --prefix=/usr --disable-static --with-perl --with-python
+./configure --prefix=/usr --with-perl --with-python
 make
 cd ../..
 make -C binutils
@@ -2572,6 +2572,7 @@ make -C changehat/pam_apparmor install
 make -C parser -j1 install install-systemd
 make -C profiles install
 make -C utils install
+rm -f /usr/lib/libapparmor.a
 chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
@@ -3954,7 +3955,7 @@ install -t /usr/share/licenses/xf86-input-evdev -Dm644 COPYING
 cd ..
 rm -rf xf86-input-evdev-2.10.6
 # libinput.
-tar -xf libinput-1.20.0.tar.xz
+tar -xf libinput-1.20.0.tar.bz2
 cd libinput-1.20.0
 mkdir libinput-build; cd libinput-build
 meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
@@ -4576,7 +4577,7 @@ cd djvulibre-3.5.28
 make
 make install
 for i in 22 32 48 64; do install -m644 desktopfiles/prebuilt-hi${i}-djvu.png /usr/share/icons/hicolor/${i}x${i}/mimetypes/image-vnd.djvu.mime.png; done
-install -t /usr/share/licenses/djvulibre -Dm644 ../COPYING ../COPYRIGHT
+install -t /usr/share/licenses/djvulibre -Dm644 COPYING COPYRIGHT
 cd ..
 rm -rf djvulibre-3.5.28
 # libraw.
@@ -5482,7 +5483,7 @@ mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
-install -t /usr/share/licenses/appstream -Dm644 ../LICENSE.GPLv2 ../LICENSE.LGPLv2.1
+install -t /usr/share/licenses/appstream -Dm644 ../COPYING
 cd ../..
 rm -rf AppStream-0.15.2
 # appstream-glib.
@@ -5503,7 +5504,7 @@ meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
-cd ..
+cd ../..
 rm -rf bubblewrap-0.6.0
 # xdg-dbus-proxy.
 tar -xf xdg-dbus-proxy-0.1.2.tar.xz

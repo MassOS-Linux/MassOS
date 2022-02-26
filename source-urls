@@ -253,7 +253,7 @@ https://mirror.lyrahosting.com/gnu/libidn/libidn2-2.3.2.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libiec61883-1.2.0.tar.xz
 https://github.com/libimobiledevice/libimobiledevice/releases/download/1.3.0/libimobiledevice-1.3.0.tar.bz2
 https://deb.debian.org/debian/pool/main/libi/libinih/libinih_53.orig.tar.gz
-https://www.freedesktop.org/software/libinput/libinput-1.12.0.tar.xz
+https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.20.0/libinput-1.20.0.tar.bz2
 https://files.libburnia-project.org/releases/libisoburn-1.5.4.tar.gz
 https://files.libburnia-project.org/releases/libisofs-1.5.4.tar.gz
 https://deb.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg-turbo_2.1.2.orig.tar.gz
