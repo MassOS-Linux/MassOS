@@ -14,6 +14,7 @@ This is the development version of MassOS. It contains the following changes sin
 - Fixed some minor bugs in the installer.
 - Added DJVU and XPS support to Evince.
 - Added dvd+rw-tools and wireless-tools.
+- Replaced Mousepad with Gedit, a more advanced text editor supporting additional features like syntax highlighting.
 - Only the client portion of Samba (smbclient) is now installed, to save some space.
 - Added a workaround to fix the current of Firefox with FFmpeg 5.
 - Added some extra multimedia codec libraries.

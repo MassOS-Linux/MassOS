@@ -116,6 +116,7 @@ gcc
 gcr
 gdbm
 gdk-pixbuf
+gedit
 geoclue
 gettext
 gexiv2
@@ -256,6 +257,7 @@ libogg
 libostree
 libpcap
 libpciaccess
+libpeas
 libpipeline
 libplist
 libpng
@@ -368,7 +370,6 @@ minizip
 mobile-broadband-provider-info
 modemmanager
 moreutils
-mousepad
 mpc
 mpfr
 mpg123

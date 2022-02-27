@@ -1,0 +1,19 @@
+[org/gnome/gedit/plugins]
+active-plugins=['docinfo', 'filebrowser', 'modelines', 'openlinks', 'sort', 'spell']
+
+[org/gnome/gedit/preferences/ui]
+show-tabs-mode='auto'
+
+[org/gnome/gedit/state/window]
+bottom-panel-size=140
+side-panel-active-page='GeditWindowDocumentsPanel'
+side-panel-size=200
+size=(900, 700)
+state=128
+
+[org/gnome/gedit/preferences/editor]
+wrap-last-split-mode='word'
+scheme='classic'
+highlight-current-line=false
+use-default-font=false
+editor-font='Monospace 11'

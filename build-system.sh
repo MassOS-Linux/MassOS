@@ -4560,6 +4560,16 @@ ninja install
 install -t /usr/share/licenses/gexiv2 -Dm644 ../COPYING
 cd ../..
 rm -rf gexiv2-0.14.0
+# libpeas.
+tar -xf libpeas-1.30.0.tar.xz
+cd libpeas-1.30.0
+mkdir libpeas-build; cd libpeas-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/libpeas -Dm644 ../COPYING
+cd ../..
+rm -rf libpeas-1.30.0
 # libgxps.
 tar -xf libgxps-0.3.2.tar.xz
 cd libgxps-0.3.2
@@ -6344,15 +6354,16 @@ ninja install
 install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
 cd ../..
 rm -rf gtksourceview-4.8.2
-# Mousepad.
-tar -xf mousepad-0.5.8.tar.bz2
-cd mousepad-0.5.8
-./configure --prefix=/usr --enable-keyfile-settings
-make
-make install
-install -t /usr/share/licenses/mousepad -Dm644 COPYING
-cd ..
-rm -rf mousepad-0.5.8
+# Gedit.
+tar -xf gedit-41.0.tar.xz
+cd gedit-41.0
+mkdir gedit-build; cd gedit-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gedit -Dm644 ../COPYING
+cd ../..
+rm -rf gedit-41.0
 # galculator.
 tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4
