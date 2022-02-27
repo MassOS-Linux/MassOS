@@ -25,9 +25,10 @@ It also includes the following upgraded software, however there may be more befo
 - AccountsService: `22.04.62 --> 22.07.5`
 - AppStream: `0.15.1 --> 0.15.2`
 - btrfs-progs: `5.16 --> 5.16.2`
-- Bubblewrap: `0.5.0 --> 0.6.0`
+- Bubblewrap: `0.5.0 --> 0.6.1`
 - CMake: `3.22.2 --> 3.23.0-rc2`
 - cups-filters: `1.28.11 --> 1.28.12`
+- D-Bus: `1.12.20 --> 1.12.22`
 - dracut: `055 --> 056`
 - efivar: `37 --> 38`
 - Expat: `2.4.3 --> 2.4.6`
@@ -38,6 +39,7 @@ It also includes the following upgraded software, however there may be more befo
 - iana-etc: `20220207 --> 20220218`
 - libdrm: `2.4.109 --> 2.4.110`
 - libinput: `1.19.3 --> 1.20.0`
+- libjpeg-turbo: `2.1.2 --> 2.1.3`
 - librsvg: `2.52.5 --> 2.52.6`
 - libsecret: `0.20.4 --> 0.20.5`
 - libwnck: `40.0 --> 40.1`

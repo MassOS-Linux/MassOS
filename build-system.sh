@@ -1734,16 +1734,16 @@ install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
 rm -rf systemd-stable-250.3
-# D-Bus (initial build; will be rebuilt later for X support (dbus-launch)).
-tar -xf dbus-1.12.20.tar.gz
-cd dbus-1.12.20
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
+# D-Bus (initial build; will be rebuilt later for X and libaudit support).
+tar -xf dbus-1.12.22.tar.gz
+cd dbus-1.12.22
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
 ln -sf /etc/machine-id /var/lib/dbus
 install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
-rm -rf dbus-1.12.20
+rm -rf dbus-1.12.22
 # Man-DB.
 tar -xf man-db-2.10.1.tar.xz
 cd man-db-2.10.1
@@ -3330,15 +3330,15 @@ install -t /usr/share/licenses/nasm -Dm644 LICENSE
 cd ..
 rm -rf nasm-2.15.05
 # libjpeg-turbo.
-tar -xf libjpeg-turbo_2.1.2.orig.tar.gz
-cd libjpeg-turbo-2.1.2
+tar -xf libjpeg-turbo-2.1.3.tar.gz
+cd libjpeg-turbo-2.1.3
 mkdir jpeg-build; cd jpeg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DENABLE_STATIC=FALSE -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/libjpeg-turbo -Dm644 ../LICENSE.md ../README.ijg
 cd ../..
-rm -rf libjpeg-turbo-2.1.2
+rm -rf libjpeg-turbo-2.1.3
 # libgphoto2
 tar -xf libgphoto2-2.5.27.tar.xz
 cd libgphoto2-2.5.27
@@ -3852,10 +3852,10 @@ password required    pam_deny.so
 END
 cd ../..
 rm -rf systemd-stable-250.3
-# D-Bus (rebuild for X support (dbus-launch)).
-tar -xf dbus-1.12.20.tar.gz
-cd dbus-1.12.20
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-libaudit --enable-user-session --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
+# D-Bus (rebuild for X and libaudit support).
+tar -xf dbus-1.12.22.tar.gz
+cd dbus-1.12.22
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --enable-libaudit --enable-user-session --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
 chown root:messagebus /usr/libexec/dbus-daemon-launch-helper
@@ -3872,7 +3872,7 @@ cat > /etc/dbus-1/session-local.conf << END
 </busconfig>
 END
 cd ..
-rm -rf dbus-1.12.20
+rm -rf dbus-1.12.22
 # D-Bus GLib.
 tar -xf dbus-glib-0.112.tar.gz
 cd dbus-glib-0.112
@@ -5313,6 +5313,7 @@ rm -rf dbus-python-1.2.18
 # UPower.
 tar -xf upower-v0.99.16.tar.bz2
 cd upower-v0.99.16
+patch -Np1 -i ../patches/upower-0.99.16-FixLaptopLidClose.patch
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5497,15 +5498,15 @@ install -t /usr/share/licenses/appstream-glib -Dm644 ../COPYING
 cd ../..
 rm -rf appstream-glib-appstream_glib_0_7_18
 # Bubblewrap.
-tar -xf bubblewrap-0.6.0.tar.xz
-cd bubblewrap-0.6.0
+tar -xf bubblewrap-0.6.1.tar.xz
+cd bubblewrap-0.6.1
 mkdir bwrap-build; cd bwrap-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
 cd ../..
-rm -rf bubblewrap-0.6.0
+rm -rf bubblewrap-0.6.1
 # xdg-dbus-proxy.
 tar -xf xdg-dbus-proxy-0.1.2.tar.xz
 cd xdg-dbus-proxy-0.1.2

@@ -36,7 +36,7 @@ https://fossies.org/linux/misc/boost_1_78_0.tar.bz2
 https://fossies.org/linux/misc/brotli-1.0.9.tar.gz
 https://archive.massos.org/sources/bsd-games-3.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.16.2.tar.xz
-https://github.com/projectatomic/bubblewrap/releases/download/v0.6.0/bubblewrap-0.6.0.tar.xz
+https://github.com/projectatomic/bubblewrap/releases/download/v0.6.1/bubblewrap-0.6.1.tar.xz
 https://www.busybox.net/downloads/busybox-1.35.0.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 https://c-ares.org/download/c-ares-1.18.1.tar.gz
@@ -63,7 +63,7 @@ https://curl.se/download/curl-7.81.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.27/cyrus-sasl-2.1.27.tar.gz
 https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
 https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
-https://dbus.freedesktop.org/releases/dbus/dbus-1.12.20.tar.gz
+https://dbus.freedesktop.org/releases/dbus/dbus-1.12.22.tar.gz
 https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
 https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
 https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz
@@ -256,7 +256,7 @@ https://deb.debian.org/debian/pool/main/libi/libinih/libinih_53.orig.tar.gz
 https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.20.0/libinput-1.20.0.tar.bz2
 https://files.libburnia-project.org/releases/libisoburn-1.5.4.tar.gz
 https://files.libburnia-project.org/releases/libisofs-1.5.4.tar.gz
-https://deb.debian.org/debian/pool/main/libj/libjpeg-turbo/libjpeg-turbo_2.1.2.orig.tar.gz
+https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.1.3/libjpeg-turbo-2.1.3.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.2.tar.xz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmodplug-0.8.9.0.tar.gz
