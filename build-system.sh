@@ -125,9 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220218.tar.gz
-cp iana-etc-20220218/{protocols,services} /etc
-rm -rf iana-etc-20220218
+tar -xf iana-etc-20220222.tar.gz
+cp iana-etc-20220222/{protocols,services} /etc
+rm -rf iana-etc-20220222
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
@@ -4862,15 +4862,15 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4398.tar.gz
-cd vim-8.2.4398
+tar -xf vim-8.2.4482.tar.gz
+cd vim-8.2.4482
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
 make
 make install
-cat > /etc/vimrc << END
-source \$VIMRUNTIME/defaults.vim
+cat > /etc/vimrc << "END"
+source $VIMRUNTIME/defaults.vim
 let skip_defaults_vim=1
 set nocompatible
 set backspace=2
@@ -4886,7 +4886,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4398
+rm -rf vim-8.2.4482
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -4942,8 +4942,8 @@ install -t /usr/share/licenses/pinentry -Dm644 COPYING
 cd ..
 rm -rf pinentry-1.2.0
 # AccountsService.
-tar -xf accountsservice-22.07.5.tar.xz
-cd accountsservice-22.07.5
+tar -xf accountsservice-22.08.8.tar.xz
+cd accountsservice-22.08.8
 sed -i '/PrivateTmp/d' data/accounts-daemon.service.in
 mkdir as-build; cd as-build
 meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
@@ -4951,7 +4951,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/accountsservice -Dm644 ../COPYING
 cd ../..
-rm -rf accountsservice-22.07.5
+rm -rf accountsservice-22.08.8
 # polkit-gnome.
 tar -xf polkit-gnome-0.105.tar.xz
 cd polkit-gnome-0.105
@@ -5113,8 +5113,8 @@ install -t /usr/share/licenses/sane -Dm644 ../COPYING ../LICENSE ../README.djpeg
 cd ../..
 rm -rf backends-1.1.1
 # HPLIP.
-tar -xf hplip-3.21.12.tar.gz
-cd hplip-3.21.12
+tar -xf hplip-3.22.2.tar.gz
+cd hplip-3.22.2
 patch -Np1 -i ../patches/hplip-3.21.12-fix_too_many_bugs.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 ./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
@@ -5132,7 +5132,7 @@ cp -a destination-tmp/* /
 ldconfig
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 cd ..
-rm -rf hplip-3.21.12
+rm -rf hplip-3.22.2
 # Tk.
 tar -xf tk8.6.12-src.tar.gz
 cd tk8.6.12/unix
@@ -6013,14 +6013,14 @@ install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.48.1
 # libxfce4util.
-tar -xf libxfce4util-4.17.1.tar.bz2
-cd libxfce4util-4.17.1
+tar -xf libxfce4util-4.17.2.tar.bz2
+cd libxfce4util-4.17.2
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 cd ..
-rm -rf libxfce4util-4.17.1
+rm -rf libxfce4util-4.17.2
 # xfconf.
 tar -xf xfconf-4.16.0.tar.bz2
 cd xfconf-4.16.0
@@ -6031,14 +6031,14 @@ install -t /usr/share/licenses/xfconf -Dm644 COPYING
 cd ..
 rm -rf xfconf-4.16.0
 # libxfce4ui.
-tar -xf libxfce4ui-4.17.3.tar.bz2
-cd libxfce4ui-4.17.3
-./configure --prefix=/usr --sysconfdir=/etc
+tar -xf libxfce4ui-4.17.4.tar.bz2
+cd libxfce4ui-4.17.4
+./configure --prefix=/usr --sysconfdir=/etc --with-vendor-info=MassOS
 make
 make install
 install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 cd ..
-rm -rf libxfce4ui-4.17.3
+rm -rf libxfce4ui-4.17.4
 # Exo.
 tar -xf exo-4.17.1.tar.bz2
 cd exo-4.17.1
@@ -6456,8 +6456,8 @@ install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
 rm -rf gnome-software-41.4
 # MassOS Welcome (modified version of Gnome Tour).
-tar -xf gnome-tour-41.rc-MassOS-2.tar.xz
-cd gnome-tour-41.rc-MassOS-2
+tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
+cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
@@ -6477,7 +6477,7 @@ Exec=/usr/bin/firstlogin
 END
 install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
 cd ../..
-rm -rf gnome-tour-41.rc-MassOS-2
+rm -rf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
 # lightdm.
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0

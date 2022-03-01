@@ -23,7 +23,7 @@ This is the development version of MassOS. It contains the following changes sin
 
 It also includes the following upgraded software, however there may be more before the next version is released:
 
-- AccountsService: `22.04.62 --> 22.07.5`
+- AccountsService: `22.04.62 --> 22.08.8`
 - AppStream: `0.15.1 --> 0.15.2`
 - btrfs-progs: `5.16 --> 5.16.2`
 - Bubblewrap: `0.5.0 --> 0.6.1`
@@ -37,13 +37,16 @@ It also includes the following upgraded software, however there may be more befo
 - FLAC: `1.3.3 --> 1.3.4`
 - Flatpak: `1.12.5 --> 1.12.6`
 - GeoClue: `2.5.7 --> 2.6.0`
-- iana-etc: `20220207 --> 20220218`
+- HPLIP: `3.21.12 --> 3.22.2`
+- iana-etc: `20220207 --> 20220222`
 - libdrm: `2.4.109 --> 2.4.110`
 - libinput: `1.19.3 --> 1.20.0`
 - libjpeg-turbo: `2.1.2 --> 2.1.3`
 - librsvg: `2.52.5 --> 2.52.6`
 - libsecret: `0.20.4 --> 0.20.5`
 - libwnck: `40.0 --> 40.1`
+- libxfce4ui: `4.17.3 --> 4.17.4`
+- libxfce4util: `4.17.1 --> 4.17.2`
 - libxml2: `2.9.12 --> 2.9.13`
 - Linux Kernel: `5.16.10 --> 5.16.11`
 - lxml: `4.7.1 --> 4.8.0`
@@ -57,6 +60,7 @@ It also includes the following upgraded software, however there may be more befo
 - tree: `2.0.1 --> 2.0.2`
 - Unifont: `13.0.06 --> 14.0.01`
 - UPower: `0.99.15 --> 0.99.16`
+- Vim: `8.2.4398 --> 8.2.4482`
 - Vulkan-Headers: `1.3.204 --> 1.3.206`
 - Vulkan-Loader: `1.3.204 --> 1.3.206`
 - WebKitGTK: `2.34.5 --> 2.34.6`
