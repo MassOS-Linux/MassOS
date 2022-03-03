@@ -66,6 +66,7 @@ dhclient
 dialog
 distro
 diffutils
+djvulibre
 dkms
 dmg2img
 dmidecode
@@ -79,6 +80,7 @@ docutils
 dos2unix
 dosfstools
 dracut
+dvd+rw-tools
 e2fsprogs
 easy-rsa
 ed
@@ -114,6 +116,7 @@ gcc
 gcr
 gdbm
 gdk-pixbuf
+gedit
 geoclue
 gettext
 gexiv2
@@ -143,7 +146,6 @@ graphviz
 grep
 groff
 grub
-gsasl
 gsettings-desktop-schemas
 gspell
 gst-libav
@@ -198,6 +200,7 @@ libarchive
 libass
 libassuan
 libatasmart
+libavc1394
 libblockdev
 libbluray
 libburn
@@ -227,10 +230,12 @@ libgpg-error
 libgphoto2
 libgudev
 libgusb
+libgxps
 libhandy
 libical
 libice
 libidn2
+libiec61883
 libimobiledevice
 libinput
 libisoburn
@@ -238,10 +243,12 @@ libisofs
 libjpeg-turbo
 libksba
 libmbim
+libmodplug
 libmpeg2
 libmtp
 libndp
 libnfs
+libnghttp2
 libnl
 libnma
 libnotify
@@ -250,6 +257,7 @@ libogg
 libostree
 libpcap
 libpciaccess
+libpeas
 libpipeline
 libplist
 libpng
@@ -258,6 +266,7 @@ libpsl
 libpwquality
 libqmi
 libraw
+libraw1394
 librsvg
 libsamplerate
 libsass
@@ -276,6 +285,7 @@ libtiff
 libtirpc
 libtool
 libunistring
+libunwind
 libusb
 libusbmuxd
 libuv
@@ -348,6 +358,7 @@ mako
 malcontent
 man-db
 man-pages
+mandoc
 markdown
 markupsafe
 mct
@@ -359,7 +370,6 @@ minizip
 mobile-broadband-provider-info
 modemmanager
 moreutils
-mousepad
 mpc
 mpfr
 mpg123
@@ -377,7 +387,6 @@ network-manager-applet
 networkmanager
 networkmanager-openvpn
 newt
-nghttp2
 ninja
 noto-fonts
 npth
@@ -443,7 +452,6 @@ rsync
 rtmpdump
 ruby
 sane
-samba
 sassc
 sbc
 sdl
@@ -459,6 +467,7 @@ sharutils
 shotwell
 sl
 slang
+smbclient
 smproxy
 soundtouch
 speex
@@ -483,8 +492,10 @@ thunderbird
 tk
 tldr
 tumbler
+twolame
 tzdata
 udisks
+unifont
 unzip
 upower
 usbutil
@@ -504,6 +515,7 @@ webkitgtk
 wget
 which
 whois
+wireless-tools
 woff2
 wpa-supplicant
 wpebackend-fdo

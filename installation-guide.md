@@ -9,82 +9,64 @@ This guide aims to guide you through the installation of MassOS.
 - Minimum 1024x768 screen resolution (some programs won't display properly below this and the UI will generally be hard to use and navigate). If you are using VirtualBox, we strongly recommend enabling EFI from VM Settings --> System, since it has a higher default screen resolution.
 
 # Release Notes
-This is the development version of MassOS. It contains the following changes since the previous version, **2022.02**, however may be subject to more changes before the next version is released:
+This is the development version of MassOS. It contains the following changes since the previous version, **2022.02.2**, however may be subject to more changes before the next version is released:
 
-- The core C library (glibc) has been upgraded to the latest version (`2.35`).
-- Manual pages are now compressed by default to save space.
-- Added Mugshot to allow changing of user settings such as profile picture.
-- Added OpenVPN support, including a plugin for NetworkManager to allow easy creation/management of OpenVPN connections.
-- Added Evince - PDF viewer program.
-- Added Samba support.
-- Added `zman` and `unzman`, small utilities for bulk compressing/decompressing manual pages.
-- Added `set-default-tar`, a small helper utility allowing you to set the default tar program.
+- Fixed some minor bugs in the installer.
+- Added DJVU and XPS support to Evince.
+- Added dvd+rw-tools and wireless-tools.
+- Replaced Mousepad with Gedit, a more advanced text editor supporting additional features like syntax highlighting.
+- Only the client portion of Samba (smbclient) is now installed, to save some space.
+- Added a workaround to fix the current of Firefox with FFmpeg 5.
+- Added some extra multimedia codec libraries.
+- Add a few extra desktop backgrounds, and a note about the backgrounds.
+- Removed gsasl (unneeded package).
 
 It also includes the following upgraded software, however there may be more before the next version is released:
 
-- AccountsService: `0.6.55 --> 22.04.62`
-- bc: `5.2.1 --> 5.2.2`
-- Binutils: `2.37 --> 2.38`
-- Ed: `1.17 --> 1.18`
-- Exo: `4.16.3 --> 4.17.1`
-- Findutils: `4.8.0 --> 4.9.0`
-- Firefox: `96.0.3 --> 97.0`
-- Flatpak: `1.12.4 --> 1.12.5`
-- Fontconfig: `2.13.1 --> 2.13.96`
-- FreeGLUT: `3.2.1 --> 3.2.2`
-- GDBM: `1.22 --> 1.23`
-- GLib: `2.70.3 --> 2.70.4`
-- glibc: `2.34 --> 2.35`
-- GNOME Software: `41.3 --> 41.4`
-- GNUPG: `2.2.32 --> 2.2.34`
-- GPGME: `1.16.0 --> 1.17.0`
-- gst-libav: `1.18.5 --> 1.20.0`
-- gst-plugins-bad: `1.18.5 --> 1.20.0`
-- gst-plugins-base: `1.18.5 --> 1.20.0`
-- gst-plugins-good: `1.18.5 --> 1.20.0`
-- gst-plugins-ugly: `1.18.5 --> 1.20.0`
-- GStreamer: `1.18.5 --> 1.20.0`
-- HarfBuzz: `3.2.0 --> 3.4.0`
-- iana-etc: `20220128 --> 20220207`
-- lcms2: `2.12 --> 2.13.1`
-- libarchive: `3.5.2 --> 3.6.0`
-- libgcrypt: `1.9.4 --> 1.10.0`
-- libgee: `0.20.4 --> 0.20.5`
-- libical: `3.0.13 --> 3.0.14`
-- libqmi: `1.30.2 --> 1.30.4`
-- libsigc++: `2.10.7 --> 2.10.8`
-- libusb: `1.0.24 --> 1.0.25`
-- libwacom: `2.0.0 --> 2.1.0`
-- libxfce4ui: `4.16.1 --> 4.17.3`
-- libxfce4util: `4.16.0 --> 4.17.1`
-- libxkbcommon: `1.3.1 --> 1.4.0`
-- Linux Kernel: `5.16.4 --> 5.16.10`
-- LLVM/Clang: `13.0.0 --> 13.0.1`
-- LVM2: `2.03.14 --> 2.03.15`
-- Man-DB: `2.9.4 --> 2.10.1`
-- Mesa: `21.3.5 --> 21.3.6`
-- Meson: `0.61.1 --> 0.61.2`
-- ModemManager: `1.18.4 --> 1.18.6`
-- Nano: `6.0 --> 6.1`
-- NSS: `3.74 --> 3.75`
-- OpenLDAP: `2.6.0 --> 2.6.1`
-- Pango: `1.50.3 --> 1.50.4`
-- Poppler: `22.01.0 --> 22.02.0`
-- Qpdf: `10.5.0 --> 10.6.0`
-- slang: `pre2.3.3-64 --> pre2.3.3-66`
-- Thunar: `4.16.10 --> 4.17.7`
-- Thunderbird: `91.5.1 --> 91.6.0`
-- Tumbler: `4.16.0 --> 4.17.0`
-- UPower: `0.99.13 --> 0.99.15`
-- util-linux: `2.37.3 --> 2.37.4`
-- Vala: `0.54.6 --> 0.54.7`
-- Vim: `8.2.4250 --> 8.2.4398`
-- WebKitGTK: `2.34.4 --> 2.34.5`
-- xf86-input-wacom: `0.40.0 --> 1.0.0`
-- xfce4-appfinder: `4.16.1 --> 4.17.0`
-- xfce4-notifyd: `0.6.2 --> 0.6.3`
-- xfce4-terminal: `0.8.10 --> 0.9.1`
-- XKeyboard-Config: `2.34 --> 2.35.1`
+- AccountsService: `22.04.62 --> 22.08.8`
+- AppStream: `0.15.1 --> 0.15.2`
+- btrfs-progs: `5.16 --> 5.16.2`
+- Bubblewrap: `0.5.0 --> 0.6.1`
+- CMake: `3.22.2 --> 3.23.0-rc2`
+- cups-filters: `1.28.11 --> 1.28.12`
+- D-Bus: `1.12.20 --> 1.12.22`
+- dracut: `055 --> 056`
+- efivar: `37 --> 38`
+- Expat: `2.4.3 --> 2.4.6`
+- Firefox: `97.0 --> 97.0.1`
+- FLAC: `1.3.3 --> 1.3.4`
+- Flatpak: `1.12.5 --> 1.12.6`
+- GeoClue: `2.5.7 --> 2.6.0`
+- HPLIP: `3.21.12 --> 3.22.2`
+- iana-etc: `20220207 --> 20220222`
+- libdrm: `2.4.109 --> 2.4.110`
+- libinput: `1.19.3 --> 1.20.0`
+- libjpeg-turbo: `2.1.2 --> 2.1.3`
+- librsvg: `2.52.5 --> 2.52.6`
+- libsecret: `0.20.4 --> 0.20.5`
+- libwnck: `40.0 --> 40.1`
+- libxfce4ui: `4.17.3 --> 4.17.4`
+- libxfce4util: `4.17.1 --> 4.17.2`
+- libxml2: `2.9.12 --> 2.9.13`
+- Linux Kernel: `5.16.10 --> 5.16.12`
+- lxml: `4.7.1 --> 4.8.0`
+- Mesa: `21.3.6 --> 21.3.7`
+- Nano: `6.1 --> 6.2`
+- NetworkManager: `1.34.0 --> 1.36.0`
+- OpenSSH: `8.8p1 --> 8.9p1`
+- Qpdf: `10.6.0 --> 10.6.2`
+- SQLite: `3.37.2 --> 3.38.0`
+- Thunderbird: `91.6.0 --> 91.6.1`
+- tree: `2.0.1 --> 2.0.2`
+- Unifont: `13.0.06 --> 14.0.01`
+- UPower: `0.99.15 --> 0.99.16`
+- Vim: `8.2.4398 --> 8.2.4482`
+- Vulkan-Headers: `1.3.204 --> 1.3.206`
+- Vulkan-Loader: `1.3.204 --> 1.3.206`
+- WebKitGTK: `2.34.5 --> 2.34.6`
+- whois: `5.5.11 --> 5.5.12`
+- x264: `0.164.3081 --> 0.164.3086`
+- x265: `3.5-19-g747a079f7 --> 3.5-35-g7a5709048`
 
 # Installing MassOS Using The Live CD ISO
 MassOS has a live CD ISO file which can be used to easily install MassOS.

@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.16.10.tar.xz
-cd linux-5.16.10
+tar -xf linux-5.16.12.tar.xz
+cd linux-5.16.12
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.16.10
+rm -rf linux-5.16.12
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -279,7 +279,7 @@ cp utils/massos-logo.png "$SRC"
 cp utils/massos-logo-small.png "$SRC"
 cp utils/massos-logo-notext.png "$SRC"
 cp utils/builtins "$SRC"
-cp -r utils/extra-package-files "$SRC"
+cp -r utils/extra-package-licenses "$SRC"
 cp -r utils/skel "$MASSOS"/etc
 mkdir -p "$MASSOS"/etc/profile.d
 cp utils/*.sh "$MASSOS"/etc/profile.d

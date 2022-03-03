@@ -1,0 +1,131 @@
+diff -aruN old/dvd+rw-format.cpp new/dvd+rw-format.cpp
+--- old/dvd+rw-format.cpp	2008-03-01 11:48:44.000000000 +0000
++++ new/dvd+rw-format.cpp	2022-02-19 15:42:51.597664730 +0000
+@@ -247,7 +247,7 @@
+ 	alarm(1);
+ 	while ((waitpid(pid,&i,0) != pid) && !WIFEXITED(i)) ;
+ 	if (WEXITSTATUS(i) == 0) fprintf (stderr,"\n");
+-	exit (0);
++	exit (WEXITSTATUS(i));
+     }
+ #endif
+
+diff -aruN old/growisofs.c new/growisofs.c
+--- old/growisofs.c	2008-03-04 09:15:03.000000000 +0000
++++ new/growisofs.c	2022-02-19 15:43:14.000614695 +0000
+@@ -442,6 +442,7 @@
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <assert.h>
++#include <sys/sysmacros.h>
+ #include "mp.h"
+
+ #if defined(__unix) || defined(__unix__)
+@@ -535,7 +536,7 @@
+  */
+ int        get_mmc_profile	(void *fd);
+ int        plusminus_r_C_parm	(void *fd,char *C_parm);
+-pwrite64_t poor_mans_setup	(void *fd,off64_t leadout);
++pwrite64_t poor_mans_setup	(void *fd,off64_t leadout,unsigned int lbreak);
+ char      *plusminus_locale	();
+ int        __1x			();
+ /*
+@@ -2447,7 +2448,7 @@
+ 			    goto out;
+ 			}
+ 			if (!progress.final) progress.final = tracksize;
+-			tracksize = layer_break*CD_BLOCK*2;
++			//tracksize = layer_break*CD_BLOCK*2;
+ 		    }
+ 		}
+ 		else if (capacity > outoff)
+@@ -2648,7 +2649,7 @@
+ 	 * further details on poor_mans_setup
+ 	 */
+ 	pwrite64_method = poor_mans_setup (ioctl_handle,
+-					   outoff+tracksize);
++					   outoff+tracksize, (unsigned int)layer_break);
+     }
+
+     if (!progress.final)
+diff -aruN old/growisofs_mmc.cpp new/growisofs_mmc.cpp
+--- old/growisofs_mmc.cpp	2008-03-04 17:47:49.000000000 +0000
++++ new/growisofs_mmc.cpp	2022-02-19 15:42:56.507580688 +0000
+@@ -1612,7 +1612,7 @@
+   return 0;
+ }
+
+-static void plus_r_dl_split (Scsi_Command &cmd,off64_t size)
++static void plus_r_dl_split (Scsi_Command &cmd,off64_t size,unsigned int lbreak)
+ { int           err;
+   unsigned int  blocks,split;
+   unsigned char dvd_20[4+8];
+@@ -1640,14 +1640,19 @@
+     blocks += 15, blocks &= ~15;
+
+     if (blocks <= split)
+-	fprintf (stderr,":-( more than 50%% of space will be *wasted*!\n"
+-			"    use single layer media for this recording\n"),
+-	exit (FATAL_START(EMEDIUMTYPE));
+-
+-    blocks /= 16;
+-    blocks += 1;
+-    blocks /= 2;
+-    blocks *= 16;
++	fprintf (stderr,":-? more than 50%% of space will be *wasted*!\n");
++
++    if (lbreak)
++      {
++	blocks=lbreak;
++      }
++    else
++      {
++	blocks /= 16;
++	blocks += 1;
++	blocks /= 2;
++	blocks *= 16;
++      }
+
+     fprintf (stderr,"%s: splitting layers at %u blocks\n",
+ 		    ioctl_device,blocks);
+@@ -2010,7 +2015,7 @@
+ typedef ssize_t (*pwrite64_t)(int,const void *,size_t,off64_t);
+
+ extern "C"
+-pwrite64_t poor_mans_setup (void *fd,off64_t leadout)
++pwrite64_t poor_mans_setup (void *fd,off64_t leadout,unsigned int lbreak)
+ { Scsi_Command cmd(ioctl_handle=fd);
+   int err,profile=mmc_profile&0xFFFF;
+
+@@ -2059,7 +2064,7 @@
+ 	case 0x2B:	// DVD+R Double Layer
+ 	    plusminus_pages_setup(cmd,profile);
+ 	    if (profile==0x2B && next_track==1 && dvd_compat && leadout)
+-		plus_r_dl_split (cmd,leadout);
++	      plus_r_dl_split (cmd,leadout,lbreak);
+ 	    atexit (plus_r_finalize);
+ 	    if (next_wr_addr)
+ 	    {	atsignals (no_r_finalize);
+diff -aruN old/transport.hxx new/transport.hxx
+--- old/transport.hxx	2008-03-01 10:34:43.000000000 +0000
++++ new/transport.hxx	2022-02-19 15:42:56.507580688 +0000
+@@ -9,8 +9,10 @@
+ #if defined(__unix) || defined(__unix__)
+ #include <stdio.h>
+ #include <stdlib.h>
++#include <limits.h>
+ #include <unistd.h>
+ #include <string.h>
++#include <limits.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+@@ -123,7 +125,7 @@
+ extern "C" char *plusminus_locale()
+ { static class __plusminus {
+     private:
+-	char str[4];
++	char str[MB_LEN_MAX];
+     public:
+ 	__plusminus()	{   setlocale(LC_CTYPE,ENV_LOCALE);
+ 			    int l = wctomb(str,(wchar_t)(unsigned char)'�');
