@@ -6682,19 +6682,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.11.tar.xz
-cd linux-5.16.11
+tar -xf linux-5.16.12.tar.xz
+cd linux-5.16.12
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.11-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.11-massos/vmlinuz
-cp System.map /boot/System.map-5.16.11-massos
-cp .config /boot/config-5.16.11-massos
-rm /usr/lib/modules/5.16.11-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.12-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.12-massos/vmlinuz
+cp System.map /boot/System.map-5.16.12-massos
+cp .config /boot/config-5.16.12-massos
+rm /usr/lib/modules/5.16.12-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.11-massos/build
+builddir=/usr/lib/modules/5.16.12-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6718,7 +6718,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.11
+rm -rf linux-5.16.12
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

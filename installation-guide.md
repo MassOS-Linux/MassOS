@@ -48,7 +48,7 @@ It also includes the following upgraded software, however there may be more befo
 - libxfce4ui: `4.17.3 --> 4.17.4`
 - libxfce4util: `4.17.1 --> 4.17.2`
 - libxml2: `2.9.12 --> 2.9.13`
-- Linux Kernel: `5.16.10 --> 5.16.11`
+- Linux Kernel: `5.16.10 --> 5.16.12`
 - lxml: `4.7.1 --> 4.8.0`
 - Mesa: `21.3.6 --> 21.3.7`
 - Nano: `6.1 --> 6.2`
