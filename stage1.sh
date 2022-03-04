@@ -134,7 +134,7 @@ rm -rf bash-5.1.16
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
-./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime --with-packager="MassOS"
 make
 make DESTDIR="$MASSOS" install
 mv "$MASSOS"/usr/bin/chroot "$MASSOS"/usr/sbin

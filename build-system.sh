@@ -916,7 +916,7 @@ cd coreutils-9.0
 patch -Np1 -i ../patches/coreutils-9.0-chmodfix.patch
 patch -Np1 -i ../patches/coreutils-9.0-progressbar.patch
 autoreconf -fi
-./configure --prefix=/usr --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --enable-no-install-program=kill,uptime --with-packager="MassOS"
 make
 make install
 mv /usr/bin/chroot /usr/sbin
@@ -1167,13 +1167,13 @@ install -t /usr/share/licenses/docutils -Dm644 COPYING.txt
 cd ..
 rm -rf docutils-0.18.1
 # MarkupSafe.
-tar -xf MarkupSafe-2.0.1.tar.gz
-cd MarkupSafe-2.0.1
+tar -xf MarkupSafe-2.1.0.tar.gz
+cd MarkupSafe-2.1.0
 python setup.py build
 python setup.py install --optimize=1
 install -t /usr/share/licenses/markupsafe -Dm644 LICENSE.rst
 cd ..
-rm -rf MarkupSafe-2.0.1
+rm -rf MarkupSafe-2.1.0
 # Jinja2.
 tar -xf Jinja2-3.0.3.tar.gz
 cd Jinja2-3.0.3
@@ -1735,15 +1735,16 @@ cd ../..
 cp systemd-units/* /usr/lib/systemd/system
 rm -rf systemd-stable-250.3
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
-tar -xf dbus-1.12.22.tar.gz
-cd dbus-1.12.22
+tar -xf dbus-dbus-1.14.0.tar.bz2
+cd dbus-dbus-1.14.0
+NOCONFIGURE=1 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
 ln -sf /etc/machine-id /var/lib/dbus
 install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
-rm -rf dbus-1.12.22
+rm -rf dbus-dbus-1.14.0
 # Man-DB.
 tar -xf man-db-2.10.1.tar.xz
 cd man-db-2.10.1
@@ -2669,9 +2670,9 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.75.tar.gz
-cd nss-3.75
-patch -Np1 -i ../patches/nss-3.69-standalone-1.patch
+tar -xf nss-3.76.tar.gz
+cd nss-3.76
+patch -Np1 -i ../patches/nss-3.56-Standalone.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
 cd ../dist
@@ -2685,7 +2686,7 @@ install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
-rm -rf nss-3.75
+rm -rf nss-3.76
 # Git.
 tar -xf git-2.35.1.tar.xz
 cd git-2.35.1
@@ -2878,8 +2879,8 @@ install -t /usr/share/licenses/js78 -Dm644 ../../extra-package-licenses/js78-lic
 cd ../..
 rm -rf firefox-78.15.0
 # Sudo.
-tar -xf sudo-1.9.9.tar.gz
-cd sudo-1.9.9
+tar -xf sudo-1.9.10.tar.gz
+cd sudo-1.9.10
 ./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
@@ -2898,7 +2899,7 @@ session   include     system-session
 END
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 cd ..
-rm -rf sudo-1.9.9
+rm -rf sudo-1.9.10
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -2980,15 +2981,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-3.4.0.tar.xz
-cd harfbuzz-3.4.0
+tar -xf harfbuzz-4.0.0.tar.xz
+cd harfbuzz-4.0.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-3.4.0
+rm -rf harfbuzz-4.0.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -3853,8 +3854,9 @@ END
 cd ../..
 rm -rf systemd-stable-250.3
 # D-Bus (rebuild for X and libaudit support).
-tar -xf dbus-1.12.22.tar.gz
-cd dbus-1.12.22
+tar -xf dbus-dbus-1.14.0.tar.bz2
+cd dbus-dbus-1.14.0
+NOCONFIGURE=1 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --enable-libaudit --enable-user-session --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
@@ -3872,7 +3874,7 @@ cat > /etc/dbus-1/session-local.conf << END
 </busconfig>
 END
 cd ..
-rm -rf dbus-1.12.22
+rm -rf dbus-dbus-1.14.0
 # D-Bus GLib.
 tar -xf dbus-glib-0.112.tar.gz
 cd dbus-glib-0.112
@@ -4270,14 +4272,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-3.4.0.tar.xz
-cd harfbuzz-3.4.0
+tar -xf harfbuzz-4.0.0.tar.xz
+cd harfbuzz-4.0.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-3.4.0
+rm -rf harfbuzz-4.0.0
 # Pango.
 tar -xf pango-1.50.4.tar.xz
 cd pango-1.50.4
@@ -4435,8 +4437,8 @@ install -t /usr/share/licenses/at-spi2-atk -Dm644 ../COPYING
 cd ../..
 rm -rf at-spi2-atk-2.38.0
 # GTK3.
-tar -xf gtk+-3.24.31.tar.xz
-cd gtk+-3.24.31
+tar -xf gtk+-3.24.32.tar.xz
+cd gtk+-3.24.32
 ./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-x11-backend --enable-wayland-backend
 make
 make install
@@ -4444,7 +4446,7 @@ gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gtk3 -Dm644 COPYING
 cd ..
-rm -rf gtk+-3.24.31
+rm -rf gtk+-3.24.32
 # Gtkmm3.
 tar -xf gtkmm-3.24.5.tar.xz
 cd gtkmm-3.24.5
@@ -4862,8 +4864,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4482.tar.gz
-cd vim-8.2.4482
+tar -xf vim-8.2.4500.tar.gz
+cd vim-8.2.4500
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4886,7 +4888,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4482
+rm -rf vim-8.2.4500
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5009,8 +5011,8 @@ install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
 rm -rf cups-2.4.1
 # Poppler.
-tar -xf poppler-22.02.0.tar.xz
-cd poppler-22.02.0
+tar -xf poppler-22.03.0.tar.xz
+cd poppler-22.03.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -5020,7 +5022,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-22.02.0
+rm -rf poppler-22.03.0
 # Ghostscript.
 tar -xf ghostscript-9.55.0.tar.xz
 cd ghostscript-9.55.0
@@ -5527,8 +5529,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.12.6.tar.xz
-cd flatpak-1.12.6
+tar -xf flatpak-1.13.1.tar.xz
+cd flatpak-1.13.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5550,7 +5552,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.12.6
+rm -rf flatpak-1.13.1
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
@@ -5842,10 +5844,19 @@ make install
 install -t /usr/share/licenses/faad2 -Dm644 COPYING
 cd ..
 rm -rf faad2-2_10_0
+# libmysofa.
+tar -xf libmysofa-1.2.1.tar.gz
+cd libmysofa-1.2.1
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libmysofa -Dm644 ../LICENSE
+cd ../..
+rm -rf libmysofa-1.2.1
 # FFmpeg.
 tar -xf ffmpeg-5.0.tar.xz
 cd ffmpeg-5.0
-./configure --prefix=/usr --disable-debug --disable-static --enable-gnutls --enable-gpl --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-shared --enable-small --enable-version3 --enable-vulkan
+./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gnutls --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -5856,6 +5867,7 @@ rm -rf ffmpeg-5.0
 # OpenAL.
 tar -xf openal-soft-1.21.1.tar.gz
 cd openal-soft-1.21.1/build
+sed -i "37i#include <thread>" ../utils/makemhr/loadsofa.cpp
 sed -i "s/AVCodec \*codec/const AVCodec \*codec/" ../examples/alffplay.cpp
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
 ninja
