@@ -2344,14 +2344,6 @@ make install
 install -t /usr/share/licenses/jansson -Dm644 LICENSE
 cd ..
 rm -rf jansson-2.13.1
-# libnghttp2 (rebuild to support more features).
-tar -xf nghttp2-1.47.0.tar.xz
-cd nghttp2-1.47.0
-./configure --prefix=/usr --disable-static --enable-lib-only
-make
-make install
-cd ..
-rm -rf nghttp2-1.47.0
 # libassuan.
 tar -xf libassuan-2.5.5.tar.bz2
 cd libassuan-2.5.5
