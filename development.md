@@ -82,7 +82,7 @@ rm gnome-text-editor-42.beta1.tar.xz
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-calculator/42/gnome-calculator-42.rc.tar.xz
 tar -xf gnome-calculator-42.rc.tar.xz
-cd gnome-calculator-42.rc.tar.xz
+cd gnome-calculator-42.rc
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
