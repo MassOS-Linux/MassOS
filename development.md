@@ -73,7 +73,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
 cd ../..
-rm -r ggnome-text-editor-42.beta1
+rm -r gnome-text-editor-42.beta1
 rm gnome-text-editor-42.beta1.tar.xz
 ```
 
