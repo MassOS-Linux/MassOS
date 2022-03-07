@@ -184,7 +184,7 @@ jack2
 jansson
 jasper
 jinja2
-js78
+js91
 json-c
 json-glib
 kbd
@@ -472,6 +472,8 @@ smproxy
 soundtouch
 speex
 speexdsp
+spirv-headers
+spirv-tools
 sqlite
 squashfs-tools
 squashfuse

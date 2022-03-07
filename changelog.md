@@ -4,18 +4,36 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Started migration of documentation to the MassOS wiki.
+- Moved from JS78 to JS91.
 
 Upgraded software:
 
+- Asciidoc: `10.1.1 --> 10.1.4`
+- curl: `7.81.0 --> 7.82.0`
+- Cyrus SASL: `2.1.27 --> 2.1.28`
 - D-Bus: `1.12.22 --> 1.14.0`
+- Expat: `2.4.6 --> 2.4.7`
+- Fakeroot: `1.27 --> 1.28`
+- Firefox: `97.0.1 --> 98.0`
 - Flatpak: `1.12.6 --> 1.13.1`
-- GTK3: `3.24.31 --> 3.24.32`
+- GPGME: `1.17.0 --> 1.17.1`
+- Graphviz: `2.50.0 --> 3.0.0`
+- GTK3: `3.24.31 --> 3.24.33`
 - HarfBuzz: `3.4.0 --> 4.0.0`
+- libgphoto2: `2.5.27 --> 2.5.29`
+- libostree: `2022.1 --> 2022.2`
+- libva: `2.13.0 --> 2.14.0`
 - MarkupSafe: `2.0.1 --> 2.1.0`
+- mtools: `4.0.37 --> 4.0.38`
+- NetworkManager: `1.36.0 --> 1.36.2`
 - NSS: `3.75 --> 3.76`
+- Pango: `1.50.4 --> 1.50.5`
 - Poppler: `22.02.0 --> 22.03.0`
 - Sudo: `1.9.9 --> 1.9.10`
+- Thunderbird: `91.6.1 --> 91.6.2`
 - Vim: `8.2.4482 --> 8.2.4500`
+- x264: `0.164.3086 --> 0.164.3094`
+- xfce4-screenshooter: `1.9.9 --> 1.9.10`
 
 # MassOS 2022.03
 Changes:
