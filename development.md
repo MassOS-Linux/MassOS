@@ -379,6 +379,23 @@ cd ..
 rm -r evolution-data-server-3.43.3
 rm evolution-data-server-3.43.3.tar.xz
 ```
+GSettings Desktop Schemas
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/42/gsettings-desktop-schemas-42.rc.tar.xz
+tar -xf gsettings-desktop-schemas-42.rc.tar.xz
+cd gsettings-desktop-schemas-42.rc
+sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in &&
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
+glib-compile-schemas /usr/share/glib-2.0/schemas
+cd ../..
+rm -r gsettings-desktop-schemas-42.rc
+rm gsettings-desktop-schemas-42.rc.tar.xz
+```
+
 Install Geocode Glib
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/geocode-glib/3.26/geocode-glib-3.26.2.tar.xz
@@ -415,7 +432,7 @@ tar -xf gnome-settings-daemon-42.rc.tar.xz
 cd gnome-settings-daemon-42.rc
 rm -fv /usr/lib/systemd/user/gsd-*
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+meson --prefix=/usr --buildtype=release -Dsystemd=true
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-settings-daemon -Dm644 ../COPYING
@@ -425,17 +442,17 @@ rm gnome-settings-daemon-42.rc.tar.xz
 ```
 Install Pipewire
 ```
-wget https://github.com/PipeWire/pipewire/archive/0.3.42/pipewire-0.3.42.tar.gz
-tar -xf pipewire-0.3.42.tar.gz
-cd pipewire-0.3.42
+wget https://github.com/PipeWire/pipewire/archive/0.3.9/pipewire-0.3.9.tar.gz
+tar -xf pipewire-0.3.9.tar.gz
+cd pipewire-0.3.9
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dsession-managers=
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 cd ../..
-rm -r pipewire-0.3.42
-rm pipewire-0.3.42.tar.gz
+rm -r pipewire-0.3.9
+rm pipewire-0.3.9.tar.gz
 ```
 
 Install Mutter
@@ -632,19 +649,6 @@ install -t /usr/share/licenses/samba -Dm644 ../COPYING
 cd ..
 rm -r samba-4.15.5
 rm samba-4.15.5.tar.gz
-```
-Install gsound
-```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
-tar -xf gsound-1.0.3.tar.xz
-cd gsound-1.0.3
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
-ninja
-ninja install
-cd ../..
-rm -r gsound-1.0.3
-rm gsound-1.0.3.tar.xz
 ```
 
 Now, we can install GNOME Settings
