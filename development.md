@@ -374,7 +374,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DENABLE_WEATHER=OFF
 make
 make install
-install -t /usr/share/licenses/evolution-data-server -Dm644 /COPYING
+install -t /usr/share/licenses/evolution-data-server -Dm644 COPYING
 cd ..
 rm -r evolution-data-server-3.43.3
 rm evolution-data-server-3.43.3.tar.xz
