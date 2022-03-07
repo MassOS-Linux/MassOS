@@ -547,9 +547,9 @@ rm gnome-tweaks-42.beta.tar.xz
 ## GNOME Settings
 Install Colord GTK
 ```
-wget https://www.freedesktop.org/software/colord/releases/colord-gtk-0.2.0.tar.xz
-tar -xf colord-gtk-0.2.0.tar.xz
-cd colord-gtk-0.2.0
+wget https://www.freedesktop.org/software/colord/releases/colord-gtk-0.3.0.tar.xz
+tar -xf colord-gtk-0.3.0.tar.xz
+cd colord-gtk-0.3.0
 mkdir build && cd build
 meson --prefix=/usr       \
       --buildtype=release \
@@ -559,9 +559,10 @@ meson --prefix=/usr       \
       -Dman=false
 ninja
 ninja install
+install -t /usr/share/licenses/colord-gtk -Dm644 ../COPYING
 cd ../..
-rm -r colord-gtk-0.2.0
-rm colord-gtk-0.2.0.tar.xz
+rm -r colord-gtk-0.3.0
+rm colord-gtk-0.3.0.tar.xz
 ```
 Install Parse-Yapp module
 ```
@@ -578,9 +579,9 @@ rm Parse-Yapp-1.21.tar.gz
 
 Install Samba
 ```
-wget https://download.samba.org/pub/samba/stable/samba-4.15.2.tar.gz
-tar -xf samba-4.15.2.tar.gz
-cd samba-4.15.2
+wget https://download.samba.org/pub/samba/stable/samba-4.15.5.tar.gz
+tar -xf samba-4.15.5.tar.gz
+cd samba-4.15.5
 python3 -m venv pyvenv &&
 ./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
 echo "^samba4.rpc.echo.*on.*ncacn_np.*with.*object.*nt4_dc" >> selftest/knownfail
@@ -613,9 +614,10 @@ install -v -m644    examples/LDAP/samba*              \
                     /etc/openldap/schema
 install -v -m755    examples/LDAP/{get*,ol*} \
                     /etc/openldap/schema
+install -t /usr/share/licenses/samba -Dm644 ../COPYING
 cd ..
-rm -r samba-4.15.2
-rm samba-4.15.2.tar.gz
+rm -r samba-4.15.5
+rm samba-4.15.5.tar.gz
 ```
 Install gsound
 ```
@@ -633,16 +635,17 @@ rm gsound-1.0.3.tar.xz
 
 Now, we can install GNOME Settings
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/41/gnome-control-center-41.2.tar.xz
-tar -xf gnome-control-center-41.2.tar.xz
-cd gnome-control-center-41.2
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/42/gnome-control-center-42.beta.tar.xz
+tar -xf gnome-control-center-42.beta.tar.xz
+cd ggnome-control-center-42.beta
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dcheese=false
 ninja
 ninja install
+install -t /usr/share/licenses/gnome-control-center -Dm644 ../COPYING
 cd ../..
-rm -r gnome-control-center-41.2
-rm gnome-control-center-41.2.tar.xz
+rm -r gnome-control-center-42.beta
+rm gnome-control-center-42.beta.tar.xz
 ```
 ## GNOME Themes Extra
 
@@ -653,7 +656,7 @@ cd gnome-themes-extra-3.28
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/ -Dm644 COPYING
+install -t /usr/share/licenses/gnome-themes-extra -Dm644 COPYING
 cd ..
 rm -r gnome-themes-extra-3.28
 rm gnome-themes-extra-3.28.tar.xz 
