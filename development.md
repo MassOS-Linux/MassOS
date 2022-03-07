@@ -255,7 +255,7 @@ wget https://github.com/flatpak/libportal/releases/download/0.5/libportal-0.5.ta
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false
+meson --prefix=/usr --buildtype=release -Ddocs=false -Dbackends=gtk4
 ninja
 ninja install
 install -t /usr/share/licenses/libportal -Dm644 ../COPYING
