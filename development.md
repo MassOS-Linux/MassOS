@@ -122,7 +122,7 @@ ninja install
 install -t /usr/share/licenses/gnome-system-monitor -Dm644 ../COPYING
 cd ../..
 rm -r gnome-system-monitor-42.rc
-rm gnome-system-monitor-42.rc .tar.xz
+rm gnome-system-monitor-42.rc.tar.xz
 ```
 ## Totem, GNOME's video player
 
