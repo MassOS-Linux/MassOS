@@ -30,7 +30,7 @@ Most discussion happens in The Sonic Master's [Discord Server](https://discord.g
 
 For general queries, you can alternatively send an email to [daniel@thesonicmaster.net](mailto:daniel@thesonicmaster.net).
 
-For queries related to MassOS GNOME, send a message to AaronTechnic#5995 on Discord.
+For queries related to MassOS GNOME, send a message to AaronTechnic#5995 on [Discord](https://discord.com).
 # Bug Reporting
 If you have found a bug in MassOS, please do the following before reporting it:
 
