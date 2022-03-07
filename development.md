@@ -296,7 +296,7 @@ rm nautilus-42.rc.tar.xz
 ## GSound
 ```
 wget ftp://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
-tar -xf sound-1.0.3.tar.xz
+tar -xf gsound-1.0.3.tar.xz
 cd gsound-1.0.3
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
