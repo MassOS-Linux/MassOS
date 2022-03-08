@@ -5,6 +5,7 @@ Changes:
 
 - Started migration of documentation to the MassOS wiki.
 - Moved from JS78 to JS91.
+- Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
 
 Upgraded software:
 
@@ -32,6 +33,7 @@ Upgraded software:
 - Sudo: `1.9.9 --> 1.9.10`
 - Thunderbird: `91.6.1 --> 91.6.2`
 - Vim: `8.2.4482 --> 8.2.4500`
+- Wget: `1.21.2 --> 1.21.3`
 - x264: `0.164.3086 --> 0.164.3094`
 - xfce4-screenshooter: `1.9.9 --> 1.9.10`
 

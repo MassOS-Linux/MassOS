@@ -259,6 +259,7 @@ https://files.libburnia-project.org/releases/libisofs-1.5.4.tar.gz
 https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.1.3/libjpeg-turbo-2.1.3.tar.gz
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.2.tar.xz
+https://launchpad.net/libmetalink/trunk/libmetalink-0.1.3/+download/libmetalink-0.1.3.tar.bz2
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmodplug-0.8.9.0.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmpeg2-0.5.1.tar.gz
 https://github.com/libmtp/libmtp/releases/download/v1.1.19/libmtp-1.1.19.tar.gz
@@ -534,7 +535,7 @@ https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.3.206/Vulkan-Loader-1.3
 https://wayland.freedesktop.org/releases/wayland-1.20.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.25.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.34.6.tar.xz
-https://mirror.lyrahosting.com/gnu/wget/wget-1.21.2.tar.gz
+https://mirror.lyrahosting.com/gnu/wget/wget-1.21.3.tar.gz
 https://mirror.lyrahosting.com/gnu/which/which-2.21.tar.gz
 https://github.com/rfc1036/whois/archive/v5.5.12/whois-5.5.12.tar.gz
 https://hewlettpackard.github.io/wireless-tools/wireless_tools.30.pre9.tar.gz

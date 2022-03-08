@@ -684,6 +684,15 @@ make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
 rm -rf expat-2.4.7
+# libmetalink.
+tar -xf libmetalink-0.1.3.tar.bz2
+cd libmetalink-0.1.3
+./configure --prefix=/usr --enable-static=no
+make
+make install
+install -t /usr/share/licenses/libmetalink -Dm644 COPYING
+cd ..
+rm -rf libmetalink-0.1.3
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -2201,15 +2210,6 @@ make install
 install -t /usr/share/licenses/libpsl -Dm644 COPYING
 cd ..
 rm -rf libpsl-0.21.1
-# Wget.
-tar -xf wget-1.21.2.tar.gz
-cd wget-1.21.2
-./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
-make
-make install
-install -t /usr/share/licenses/wget -Dm644 COPYING
-cd ..
-rm -rf wget-1.21.2
 # usbutils.
 tar -xf usbutils-014.tar.xz
 cd usbutils-014
@@ -2228,7 +2228,7 @@ Before=shutdown.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
+ExecStart=/usr/bin/curl -L http://www.linux-usb.org/usb.ids -o /usr/share/hwdata/usb.ids
 END
 cat > /usr/lib/systemd/system/update-usbids.timer << END
 [Unit]
@@ -2527,6 +2527,15 @@ make install
 install -t /usr/share/licenses/libnsl -Dm644 COPYING
 cd ..
 rm -rf libnsl-2.0.0
+# Wget.
+tar -xf wget-1.21.3.tar.gz
+cd wget-1.21.3
+./configure --prefix=/usr --sysconfdir=/etc --with-cares --with-metalink
+make
+make install
+install -t /usr/share/licenses/wget -Dm644 COPYING
+cd ..
+rm -rf wget-1.21.3
 # Audit.
 tar -xf audit-3.0.7.tar.gz
 cd audit-3.0.7
