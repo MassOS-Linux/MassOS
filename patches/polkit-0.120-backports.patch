@@ -1,0 +1,210 @@
+This patch backports the following upstream commits to polkit-0.120:
+
+* https://gitlab.freedesktop.org/polkit/polkit/-/commit/a2bf5c9c83b6ae46cbd5c779d3055bff81ded683
+* https://gitlab.freedesktop.org/polkit/polkit/-/commit/a6bedfd09b7bba753de7a107dc471da0db801858
+* https://gitlab.freedesktop.org/polkit/polkit/-/commit/41cb093f554da8772362654a128a84dd8a5542a7
+
+diff -aruN old/configure.ac new/configure.ac
+--- old/configure.ac	2021-09-29 20:16:29.000000000 +0100
++++ new/configure.ac	2022-03-07 18:27:23.989463897 +0000
+@@ -80,7 +80,7 @@
+ AC_SUBST(GLIB_CFLAGS)
+ AC_SUBST(GLIB_LIBS)
+ 
+-PKG_CHECK_MODULES(LIBJS, [mozjs-78])
++PKG_CHECK_MODULES(LIBJS, [mozjs-91])
+ 
+ AC_SUBST(LIBJS_CFLAGS)
+ AC_SUBST(LIBJS_CXXFLAGS)
+diff -aruN old/Makefile.am new/Makefile.am
+--- old/Makefile.am	2021-09-07 17:16:03.000000000 +0100
++++ new/Makefile.am	2022-03-07 18:29:07.052762094 +0000
+@@ -22,6 +22,8 @@
+ 	--disable-introspection							\
+ 	--enable-gtk-doc 							\
+ 	--with-systemdsystemunitdir=$$dc_install_base/$(systemdsystemunitdir)	\
++	--enable-libsystemd-login=yes						\
++	--enable-libelogind=no							\
+ 	$(NULL)
+ 
+ sign : dist
+diff -aruN old/meson.build new/meson.build
+--- old/meson.build	2021-09-29 20:16:29.000000000 +0100
++++ new/meson.build	2022-03-07 18:26:42.392802025 +0000
+@@ -133,7 +133,7 @@
+ assert(cc.has_header('expat.h', dependencies: expat_dep), 'Can\'t find expat.h. Please install expat.')
+ assert(cc.has_function('XML_ParserCreate', dependencies: expat_dep), 'Can\'t find expat library. Please install expat.')
+ 
+-mozjs_dep = dependency('mozjs-78')
++mozjs_dep = dependency('mozjs-91')
+ 
+ dbus_dep = dependency('dbus-1', required: false)
+ dbus_policydir = pk_prefix / pk_datadir / 'dbus-1/system.d'
+diff -aruN old/src/polkit/polkitsystembusname.c new/src/polkit/polkitsystembusname.c
+--- old/src/polkit/polkitsystembusname.c	2021-07-22 19:16:33.000000000 +0100
++++ new/src/polkit/polkitsystembusname.c	2022-03-07 18:26:42.392802025 +0000
+@@ -62,6 +62,10 @@
+   PROP_NAME,
+ };
+ 
++
++guint8 dbus_call_respond_fails;      // has to be global because of callback
++
++
+ static void subject_iface_init (PolkitSubjectIface *subject_iface);
+ 
+ G_DEFINE_TYPE_WITH_CODE (PolkitSystemBusName, polkit_system_bus_name, G_TYPE_OBJECT,
+@@ -364,6 +368,7 @@
+   if (!v)
+     {
+       data->caught_error = TRUE;
++      dbus_call_respond_fails += 1;
+     }
+   else
+     {
+@@ -405,6 +410,8 @@
+   tmp_context = g_main_context_new ();
+   g_main_context_push_thread_default (tmp_context);
+ 
++  dbus_call_respond_fails = 0;
++
+   /* Do two async calls as it's basically as fast as one sync call.
+    */
+   g_dbus_connection_call (connection,
+@@ -432,11 +439,34 @@
+ 			  on_retrieved_unix_uid_pid,
+ 			  &data);
+ 
+-  while (!((data.retrieved_uid && data.retrieved_pid) || data.caught_error))
+-    g_main_context_iteration (tmp_context, TRUE);
++  while (TRUE)
++  {
++    /* If one dbus call returns error, we must wait until the other call
++     * calls _call_finish(), otherwise fd leak is possible.
++     * Resolves: GHSL-2021-077
++    */
+ 
+-  if (data.caught_error)
+-    goto out;
++    if ( (dbus_call_respond_fails > 1) )
++    {
++      // we got two faults, we can leave
++      goto out;
++    }
++
++    if ((data.caught_error && (data.retrieved_pid || data.retrieved_uid)))
++    {
++      // we got one fault and the other call finally finished, we can leave
++      goto out;
++    }
++
++    if ( !(data.retrieved_uid && data.retrieved_pid) )
++    {
++      g_main_context_iteration (tmp_context, TRUE);
++    }
++    else
++    {
++      break;
++    }
++  }
+ 
+   if (out_uid)
+     *out_uid = data.uid;
+diff -aruN old/src/polkitbackend/polkitbackendjsauthority.cpp new/src/polkitbackend/polkitbackendjsauthority.cpp
+--- old/src/polkitbackend/polkitbackendjsauthority.cpp	2021-08-12 13:33:59.000000000 +0100
++++ new/src/polkitbackend/polkitbackendjsauthority.cpp	2022-03-07 18:26:42.392802025 +0000
+@@ -75,6 +75,13 @@
+ 
+ /* ---------------------------------------------------------------------------------------------------- */
+ 
++static class JsInitHelperType
++{
++public:
++	JsInitHelperType() { JS_Init(); }
++	~JsInitHelperType() { JS_ShutDown(); }
++} JsInitHelper;
++
+ struct _PolkitBackendJsAuthorityPrivate
+ {
+   gchar **rules_dirs;
+@@ -589,7 +596,6 @@
+   delete authority->priv->js_polkit;
+ 
+   JS_DestroyContext (authority->priv->cx);
+-  /* JS_ShutDown (); */
+ 
+   G_OBJECT_CLASS (polkit_backend_js_authority_parent_class)->finalize (object);
+ }
+@@ -665,8 +671,6 @@
+ 
+ 
+   g_type_class_add_private (klass, sizeof (PolkitBackendJsAuthorityPrivate));
+-
+-  JS_Init ();
+ }
+ 
+ /* ---------------------------------------------------------------------------------------------------- */
+diff -aruN old/src/programs/pkcheck.c new/src/programs/pkcheck.c
+--- old/src/programs/pkcheck.c	2018-05-31 12:52:53.000000000 +0100
++++ new/src/programs/pkcheck.c	2022-03-07 18:26:42.392802025 +0000
+@@ -363,6 +363,11 @@
+   local_agent_handle = NULL;
+   ret = 126;
+ 
++  if (argc < 1)
++    {
++      exit(126);
++    }
++
+   /* Disable remote file access from GIO. */
+   setenv ("GIO_USE_VFS", "local", 1);
+ 
+diff -aruN old/src/programs/pkexec.c new/src/programs/pkexec.c
+--- old/src/programs/pkexec.c	2018-05-31 12:52:53.000000000 +0100
++++ new/src/programs/pkexec.c	2022-03-07 18:26:42.392802025 +0000
+@@ -488,6 +488,15 @@
+   pid_t pid_of_caller;
+   gpointer local_agent_handle;
+ 
++
++  /*
++   * If 'pkexec' is called THIS wrong, someone's probably evil-doing. Don't be nice, just bail out.
++   */
++  if (argc<1)
++    {
++      exit(127);
++    }
++
+   ret = 127;
+   authority = NULL;
+   subject = NULL;
+@@ -614,10 +623,10 @@
+ 
+       path = g_strdup (pwstruct.pw_shell);
+       if (!path)
+-	{
++        {
+           g_printerr ("No shell configured or error retrieving pw_shell\n");
+           goto out;
+-	}
++        }
+       /* If you change this, be sure to change the if (!command_line)
+ 	 case below too */
+       command_line = g_strdup (path);
+@@ -636,7 +645,15 @@
+           goto out;
+         }
+       g_free (path);
+-      argv[n] = path = s;
++      path = s;
++
++      /* argc<2 and pkexec runs just shell, argv is guaranteed to be null-terminated.
++       * /-less shell shouldn't happen, but let's be defensive and don't write to null-termination
++       */
++      if (argv[n] != NULL)
++      {
++        argv[n] = path;
++      }
+     }
+   if (access (path, F_OK) != 0)
+     {

@@ -184,7 +184,7 @@ jack2
 jansson
 jasper
 jinja2
-js78
+js91
 json-c
 json-glib
 kbd
@@ -243,6 +243,7 @@ libisofs
 libjpeg-turbo
 libksba
 libmbim
+libmetalink
 libmodplug
 libmpeg2
 libmtp
@@ -472,6 +473,8 @@ smproxy
 soundtouch
 speex
 speexdsp
+spirv-headers
+spirv-tools
 sqlite
 squashfs-tools
 squashfuse

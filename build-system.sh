@@ -676,14 +676,23 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.6.tar.xz
-cd expat-2.4.6
+tar -xf expat-2.4.7.tar.xz
+cd expat-2.4.7
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.6
+rm -rf expat-2.4.7
+# libmetalink.
+tar -xf libmetalink-0.1.3.tar.bz2
+cd libmetalink-0.1.3
+./configure --prefix=/usr --enable-static=no
+make
+make install
+install -t /usr/share/licenses/libmetalink -Dm644 COPYING
+cd ..
+rm -rf libmetalink-0.1.3
 # Inetutils.
 tar -xf inetutils-2.2.tar.xz
 cd inetutils-2.2
@@ -1037,14 +1046,14 @@ install -t /usr/share/licenses/lmdb -Dm644 COPYRIGHT LICENSE
 cd ../../..
 rm -rf lmdb-LMDB_0.9.29
 # Cyrus SASL (will be rebuilt later to support krb5 and OpenLDAP).
-tar -xf cyrus-sasl-2.1.27.tar.gz
-cd cyrus-sasl-2.1.27
+tar -xf cyrus-sasl-2.1.28.tar.gz
+cd cyrus-sasl-2.1.28
 ./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
 make -j1
 make -j1 install
 install -t /usr/share/licenses/cyrus-sasl -Dm644 COPYING
 cd ..
-rm -rf cyrus-sasl-2.1.27
+rm -rf cyrus-sasl-2.1.28
 # iptables.
 tar -xf iptables-1.8.7.tar.bz2
 cd iptables-1.8.7
@@ -1685,11 +1694,11 @@ install -t /usr/share/licenses/itstool -Dm644 COPYING COPYING.GPL3
 cd ..
 rm -rf itstool-2.0.7
 # Asciidoc.
-tar -xf asciidoc-10.1.1.tar.gz
-cd asciidoc-10.1.1
+tar -xf asciidoc-10.1.4.tar.gz
+cd asciidoc-10.1.4
 python setup.py install --optimize=1
 cd ..
-rm -rf asciidoc-10.1.1
+rm -rf asciidoc-10.1.4
 # GNU-EFI.
 tar -xf gnu-efi-3.0.13.tar.bz2
 cd gnu-efi-3.0.13
@@ -1979,8 +1988,8 @@ install -t /usr/share/licenses/exfatprogs -Dm644 COPYING
 cd ..
 rm -rf exfatprogs-1.1.3
 # Fakeroot.
-tar -xf fakeroot_1.27.orig.tar.gz
-cd fakeroot-1.27
+tar -xf fakeroot_1.28.orig.tar.gz
+cd fakeroot-1.28
 ./configure --prefix=/usr --libdir=/usr/lib/libfakeroot --disable-static --with-ip=sysv
 make
 make install
@@ -1989,7 +1998,7 @@ echo "/usr/lib/libfakeroot" > /etc/ld.so.conf.d/fakeroot.conf
 ldconfig
 install -t /usr/share/licenses/fakeroot -Dm644 COPYING
 cd ..
-rm -rf fakeroot-1.27
+rm -rf fakeroot-1.28
 # Parted.
 tar -xf parted-3.4.tar.xz
 cd parted-3.4
@@ -2051,14 +2060,14 @@ install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
 rm -rf nghttp2-1.47.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
-tar -xf curl-7.81.0.tar.xz
-cd curl-7.81.0
+tar -xf curl-7.82.0.tar.xz
+cd curl-7.82.0
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
-rm -rf curl-7.81.0
+rm -rf curl-7.82.0
 # CMake.
 tar -xf cmake-3.23.0-rc2.tar.gz
 cd cmake-3.23.0-rc2
@@ -2201,15 +2210,6 @@ make install
 install -t /usr/share/licenses/libpsl -Dm644 COPYING
 cd ..
 rm -rf libpsl-0.21.1
-# Wget.
-tar -xf wget-1.21.2.tar.gz
-cd wget-1.21.2
-./configure --prefix=/usr --sysconfdir=/etc --with-ssl=openssl --with-cares
-make
-make install
-install -t /usr/share/licenses/wget -Dm644 COPYING
-cd ..
-rm -rf wget-1.21.2
 # usbutils.
 tar -xf usbutils-014.tar.xz
 cd usbutils-014
@@ -2228,7 +2228,7 @@ Before=shutdown.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/usr/bin/wget http://www.linux-usb.org/usb.ids -O /usr/share/hwdata/usb.ids
+ExecStart=/usr/bin/curl -L http://www.linux-usb.org/usb.ids -o /usr/share/hwdata/usb.ids
 END
 cat > /usr/lib/systemd/system/update-usbids.timer << END
 [Unit]
@@ -2434,13 +2434,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 cd ..
 rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
-tar -xf curl-7.81.0.tar.xz
-cd curl-7.81.0
+tar -xf curl-7.82.0.tar.xz
+cd curl-7.82.0
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.81.0
+rm -rf curl-7.82.0
 # OpenVPN.
 tar -xf openvpn-2.5.5.tar.gz
 cd openvpn-2.5.5
@@ -2479,15 +2479,15 @@ install -t /usr/share/licenses/libevent -Dm644 ../LICENSE
 cd ../..
 rm -rf libevent-2.1.12-stable
 # GPGME.
-tar -xf gpgme-1.17.0.tar.bz2
-cd gpgme-1.17.0
+tar -xf gpgme-1.17.1.tar.bz2
+cd gpgme-1.17.1
 sed -e 's/3\.9/3.10/' -e 's/:3/:4/' -e '23653 s/distutils"/setuptools"/' -i configure
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
-rm -rf gpgme-1.17.0
+rm -rf gpgme-1.17.1
 # SQLite.
 tar -xf sqlite-autoconf-3380000.tar.gz
 cd sqlite-autoconf-3380000
@@ -2502,13 +2502,13 @@ END
 cd ..
 rm -rf sqlite-autoconf-3380000
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
-tar -xf cyrus-sasl-2.1.27.tar.gz
-cd cyrus-sasl-2.1.27
+tar -xf cyrus-sasl-2.1.28.tar.gz
+cd cyrus-sasl-2.1.28
 ./configure --prefix=/usr --sysconfdir=/etc --enable-auth-sasldb --with-dbpath=/var/lib/sasl/sasldb2 --with-ldap --with-sphinx-build=no --with-saslauthd=/var/run/saslauthd
 make -j1
 make -j1 install
 cd ..
-rm -rf cyrus-sasl-2.1.27
+rm -rf cyrus-sasl-2.1.28
 # libtirpc.
 tar -xf libtirpc-1.3.2.tar.bz2
 cd libtirpc-1.3.2
@@ -2527,6 +2527,15 @@ make install
 install -t /usr/share/licenses/libnsl -Dm644 COPYING
 cd ..
 rm -rf libnsl-2.0.0
+# Wget.
+tar -xf wget-1.21.3.tar.gz
+cd wget-1.21.3
+./configure --prefix=/usr --sysconfdir=/etc --with-cares --with-metalink
+make
+make install
+install -t /usr/share/licenses/wget -Dm644 COPYING
+cd ..
+rm -rf wget-1.21.3
 # Audit.
 tar -xf audit-3.0.7.tar.gz
 cd audit-3.0.7
@@ -2847,29 +2856,29 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
-# JS78.
-tar -xf firefox-78.15.0esr.source.tar.xz
-cd firefox-78.15.0
-patch -Np1 -i ../patches/js78-78.15.0-python310.patch
-mkdir JS78-build; cd JS78-build
+# JS91.
+tar -xf firefox-91.6.0esr.source.tar.xz
+cd firefox-91.6.0
+mkdir JS91-build; cd JS91-build
 if mountpoint -q /dev/shm; then
   beforemounted="true"
 else
   mount -t tmpfs devshm /dev/shm
   beforemounted="false"
 fi
-SHELL=/bin/sh ../js/src/configure --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
+chmod +x ../js/src/configure.in
+SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
-rm /usr/lib/libjs_static.ajs
-sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js78-config
+rm -f /usr/lib/libjs_static.ajs
+sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
 if [ "$beforemounted" = "false" ]; then
   umount /dev/shm
 fi
 unset beforemounted
-install -t /usr/share/licenses/js78 -Dm644 ../../extra-package-licenses/js78-license.txt
+install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-78.15.0
+rm -rf firefox-91.6.0
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3333,14 +3342,14 @@ install -t /usr/share/licenses/libjpeg-turbo -Dm644 ../LICENSE.md ../README.ijg
 cd ../..
 rm -rf libjpeg-turbo-2.1.3
 # libgphoto2
-tar -xf libgphoto2-2.5.27.tar.xz
-cd libgphoto2-2.5.27
+tar -xf libgphoto2-2.5.29.tar.xz
+cd libgphoto2-2.5.29
 ./configure --prefix=/usr --disable-rpath
 make
 make install
 install -t /usr/share/licenses/libgphoto2 -Dm644 COPYING
 cd ..
-rm -rf libgphoto2-2.5.27
+rm -rf libgphoto2-2.5.29
 # Pixman.
 tar -xf pixman-0.40.0.tar.gz
 cd pixman-0.40.0
@@ -3680,7 +3689,7 @@ ninja install
 install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
 cd ../..
 rm -rf libdrm-2.4.110
-# glslang (required for Vulkan support in Mesa).
+# glslang.
 tar -xf glslang-11.8.0.tar.gz
 cd glslang-11.8.0
 tar -xf ../SPIRV-Tools-2022.1.tar.gz -C External
@@ -3696,6 +3705,8 @@ cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_L
 ninja
 ninja install
 install -t /usr/share/licenses/glslang -Dm644 ../LICENSE.txt
+install -t /usr/share/licenses/spirv-tools -Dm644 ../External/spirv-tools/LICENSE
+install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/external/spirv-headers/LICENSE
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
@@ -3719,14 +3730,14 @@ install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf Vulkan-Loader-1.3.206
 # libva (circular dependency; will be rebuilt later to support Mesa).
-tar -xf libva-2.13.0.tar.bz2
-cd libva-2.13.0
+tar -xf libva-2.14.0.tar.bz2
+cd libva-2.14.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/libva -Dm644 COPYING
 cd ..
-rm -rf libva-2.13.0
+rm -rf libva-2.14.0
 # libvdpau.
 tar -xf libvdpau-1.4.tar.bz2
 cd libvdpau-1.4
@@ -3749,13 +3760,13 @@ install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
 rm -rf mesa-21.3.7
 # libva (rebuild to support Mesa).
-tar -xf libva-2.13.0.tar.bz2
-cd libva-2.13.0
+tar -xf libva-2.14.0.tar.bz2
+cd libva-2.14.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 cd ..
-rm -rf libva-2.13.0
+rm -rf libva-2.14.0
 # xbitmaps.
 tar -xf xbitmaps-1.1.2.tar.bz2
 cd xbitmaps-1.1.2
@@ -4117,11 +4128,12 @@ rm -rf libisoburn-1.5.4
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
-patch -Np1 -i ../patches/polkit-0.120-CVE-2021-4034.patch
 groupadd -fg 27 polkitd
 useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+patch -Np1 -i ../patches/polkit-0.120-backports.patch
+autoreconf -fi
 sed -i "s:/sys/fs/cgroup/systemd/:/sys:g" configure
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-os-type=massos --enable-gtk-doc
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-man-pages
 make
 make install
 cat > /etc/pam.d/polkit-1 << END
@@ -4273,15 +4285,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-4.0.0
 # Pango.
-tar -xf pango-1.50.4.tar.xz
-cd pango-1.50.4
+tar -xf pango-1.50.5.tar.xz
+cd pango-1.50.5
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.4
+rm -rf pango-1.50.5
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -4359,16 +4371,16 @@ install -t /usr/share/licenses/libglade -Dm644 COPYING
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-2.50.0.tar.gz
-cd graphviz-2.50.0
+tar -xf graphviz-3.0.0.tar.gz
+cd graphviz-3.0.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
-./configure --prefix=/usr --disable-php --with-webp PS2PDF=true
+./configure --prefix=/usr --disable-php --enable-lefty --with-webp
 make
 make install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
-rm -rf graphviz-2.50.0
+rm -rf graphviz-3.0.0
 # Vala.
 tar -xf vala-0.54.7.tar.xz
 cd vala-0.54.7
@@ -4429,8 +4441,8 @@ install -t /usr/share/licenses/at-spi2-atk -Dm644 ../COPYING
 cd ../..
 rm -rf at-spi2-atk-2.38.0
 # GTK3.
-tar -xf gtk+-3.24.32.tar.xz
-cd gtk+-3.24.32
+tar -xf gtk+-3.24.33.tar.xz
+cd gtk+-3.24.33
 ./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-x11-backend --enable-wayland-backend
 make
 make install
@@ -4438,7 +4450,7 @@ gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gtk3 -Dm644 COPYING
 cd ..
-rm -rf gtk+-3.24.32
+rm -rf gtk+-3.24.33
 # Gtkmm3.
 tar -xf gtkmm-3.24.5.tar.xz
 cd gtkmm-3.24.5
@@ -5327,8 +5339,8 @@ systemctl enable upower
 cd ../..
 rm -rf upower-v0.99.16
 # NetworkManager.
-tar -xf NetworkManager-1.36.0.tar.xz
-cd NetworkManager-1.36.0
+tar -xf NetworkManager-1.36.2.tar.xz
+cd NetworkManager-1.36.2
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
@@ -5359,7 +5371,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.36.0
+rm -rf NetworkManager-1.36.2
 # libnma.
 tar -xf libnma-1.8.32.tar.xz
 cd libnma-1.8.32
@@ -5463,14 +5475,14 @@ install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-2.74.2
 # libostree.
-tar -xf libostree-2022.1.tar.xz
-cd libostree-2022.1
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-builtin-grub2-mkconfig --with-dracut --with-openssl --enable-experimental-api --disable-static
+tar -xf libostree-2022.2.tar.xz
+cd libostree-2022.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 install -t /usr/share/licenses/libostree -Dm644 COPYING
 cd ..
-rm -rf libostree-2022.1
+rm -rf libostree-2022.2
 # libxmlb.
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
@@ -5738,15 +5750,15 @@ install -t /usr/share/licenses/libcanberra -Dm644 LGPL
 cd ..
 rm -rf libcanberra-0.30
 # x264.
-tar -xf x264-0.164.3086.tar.xz
-cd x264-0.164.3086
+tar -xf x264-0.164.3094.tar.xz
+cd x264-0.164.3094
 ./configure --prefix=/usr --enable-shared
 make
 make install
 ln -sf libx264.so.164 /usr/lib/libx264.so
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 cd ..
-rm -rf x264-0.164.3086
+rm -rf x264-0.164.3094
 # x265.
 tar -xf x265-3.5-35-g7a5709048.tar.xz
 cd x265-3.5-35-g7a5709048
@@ -6283,14 +6295,14 @@ install -t /usr/share/licenses/blueman -Dm644 COPYING
 cd ..
 rm -rf blueman-2.2.2
 # xfce4-screenshooter.
-tar -xf xfce4-screenshooter-1.9.9.tar.bz2
-cd xfce4-screenshooter-1.9.9
+tar -xf xfce4-screenshooter-1.9.10.tar.bz2
+cd xfce4-screenshooter-1.9.10
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 cd ..
-rm -rf xfce4-screenshooter-1.9.9
+rm -rf xfce4-screenshooter-1.9.10
 # xfce4-taskmanager.
 tar -xf xfce4-taskmanager-1.5.2.tar.bz2
 cd xfce4-taskmanager-1.5.2
@@ -6389,8 +6401,8 @@ install -t /usr/share/licenses/gparted -Dm644 COPYING
 cd ..
 rm -rf gparted-1.3.1
 # mtools.
-tar -xf mtools-4.0.37.tar.gz
-cd mtools-4.0.37
+tar -xf mtools-4.0.38.tar.gz
+cd mtools-4.0.38
 sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
 ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
 make
@@ -6398,7 +6410,7 @@ make install
 install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
-rm -rf mtools-4.0.37
+rm -rf mtools-4.0.38
 # Mugshot.
 tar -xf mugshot-0.4.3.tar.gz
 cd mugshot-0.4.3
@@ -6604,7 +6616,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-97.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-98.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6647,7 +6659,7 @@ END
 cd ..
 rm -rf firefox-workaround-ffmpeg4libs
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.6.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.6.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
