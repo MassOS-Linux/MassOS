@@ -64,8 +64,9 @@ dbus-python
 desktop-file-utils
 dhclient
 dialog
-distro
 diffutils
+directx-headers
+distro
 djvulibre
 dkms
 dmg2img

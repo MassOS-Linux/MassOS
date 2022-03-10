@@ -67,9 +67,10 @@ https://gitlab.freedesktop.org/dbus/dbus/-/archive/dbus-1.14.0/dbus-dbus-1.14.0.
 https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
 https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
 https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz
-https://ftp.isc.org/isc/dhcp/4.4.2-P1/dhcp-4.4.2-P1.tar.gz
+https://ftp.isc.org/isc/dhcp/4.4.3/dhcp-4.4.3.tar.gz
 https://invisible-mirror.net/archives/dialog/dialog-1.3-20220117.tgz
 https://mirror.lyrahosting.com/gnu/diffutils/diffutils-3.8.tar.xz
+https://github.com/microsoft/DirectX-Headers/archive/v1.4.9/DirectX-Headers-1.4.9.tar.gz
 https://github.com/python-distro/distro/archive/v1.6.0/distro-1.6.0.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/djvulibre-3.5.28.tar.gz
 https://github.com/dell/dkms/archive/v3.0.3/dkms-3.0.3.tar.gz
@@ -108,7 +109,7 @@ https://ffmpeg.org/releases/ffmpeg-5.0.tar.xz
 https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.9.0.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/91.6.0esr/source/firefox-91.6.0esr.source.tar.xz
+https://archive.mozilla.org/pub/firefox/releases/91.7.0esr/source/firefox-91.7.0esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/98.0/linux-x86_64/en-US/firefox-98.0.tar.bz2
 https://archive.massos.org/workdev/firefox-workaround-ffmpeg4libs.tar.xz
 https://downloads.xiph.org/releases/flac/flac-1.3.4.tar.xz
@@ -352,7 +353,7 @@ https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.12.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.13.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -380,7 +381,7 @@ https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.0.tar.gz
 https://github.com/MassOS-Linux/massos-welcome/archive/7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a/massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-21.3.7.tar.xz
+https://archive.mesa3d.org/mesa-22.0.0.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.61.2/meson-0.61.2.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.1.tar.bz2
 https://archive.massos.org/sources/mobile-broadband-provider-info-20210805.tar.xz
@@ -518,15 +519,15 @@ https://archive.fr.xfce.org/src/xfce/tumbler/4.17/tumbler-4.17.0.tar.bz2
 https://github.com/njh/twolame/releases/download/0.4.0/twolame-0.4.0.tar.gz
 https://www.iana.org/time-zones/repository/releases/tzdata2021e.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
-https://unifoundry.com/pub/unifont/unifont-14.0.01/font-builds/unifont-14.0.01.pcf.gz
+https://unifoundry.com/pub/unifont/unifont-14.0.02/font-builds/unifont-14.0.02.pcf.gz
 https://archive.massos.org/sources/unzip60.tar.gz
-https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.16/upower-v0.99.16.tar.bz2
+https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.4.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.7.tar.xz
-https://github.com/vim/vim/archive/v8.2.4500/vim-8.2.4500.tar.gz
+https://github.com/vim/vim/archive/v8.2.4536/vim-8.2.4536.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.66.2/vte-0.66.2.tar.gz

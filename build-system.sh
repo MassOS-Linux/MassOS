@@ -237,6 +237,7 @@ cd zstd-1.5.2
 make CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr install
 rm -f /usr/lib/libzstd.a
+sed -i 's|/usr/local|/usr|' /usr/lib/pkgconfig/libzstd.pc
 install -t /usr/share/licenses/zstd -Dm644 COPYING LICENSE
 cd ..
 rm -rf zstd-1.5.2
@@ -2857,8 +2858,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.6.0esr.source.tar.xz
-cd firefox-91.6.0
+tar -xf firefox-91.7.0esr.source.tar.xz
+cd firefox-91.7.0
 mkdir JS91-build; cd JS91-build
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2878,7 +2879,7 @@ fi
 unset beforemounted
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.6.0
+rm -rf firefox-91.7.0
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3023,7 +3024,7 @@ cd ../..
 rm -rf woff2-1.0.2
 # Unifont.
 mkdir -p /usr/share/fonts/unifont
-pigz -cd unifont-14.0.01.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+pigz -cd unifont-14.0.02.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
 install -t /usr/share/licenses/unifont -Dm644 extra-package-licenses/LICENSE-unifont.txt
 # GRUB.
 tar -xf grub-2.06.tar.xz
@@ -3469,12 +3470,10 @@ install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
 rm -rf bind-9.16.25
 # dhclient.
-tar -xf dhcp-4.4.2-P1.tar.gz
-cd dhcp-4.4.2-P1
-sed -i '/o.*dhcp_type/d' server/mdb.c
-sed -r '/u.*(local|remote)_port/d' -i client/dhclient.c relay/dhcrelay.c
+tar -xf dhcp-4.4.3.tar.gz
+cd dhcp-4.4.3
 CFLAGS="$CFLAGS -fno-strict-aliasing -D_PATH_DHCLIENT_SCRIPT='\"/usr/sbin/dhclient-script\"' -D_PATH_DHCPD_CONF='\"/etc/dhcp/dhcpd.conf\"' -D_PATH_DHCLIENT_CONF='\"/etc/dhcp/dhclient.conf\"'" ./configure --prefix=/usr --sysconfdir=/etc/dhcp --localstatedir=/var --with-srv-lease-file=/var/lib/dhcpd/dhcpd.leases --with-srv6-lease-file=/var/lib/dhcpd/dhcpd6.leases --with-cli-lease-file=/var/lib/dhclient/dhclient.leases --with-cli6-lease-file=/var/lib/dhclient/dhclient6.leases
-make -j1
+make
 make -C client install
 install -m755 client/scripts/linux /usr/sbin/dhclient-script
 install -dm755 /etc/dhcp
@@ -3496,7 +3495,7 @@ END
 install -dm755 /var/lib/dhclient
 install -t /usr/share/licenses/dhclient -Dm644 LICENSE
 cd ..
-rm -rf dhcp-4.4.2-P1
+rm -rf dhcp-4.4.3
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -3689,6 +3688,16 @@ ninja install
 install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
 cd ../..
 rm -rf libdrm-2.4.110
+# DirectX-Headers.
+tar -xf DirectX-Headers-1.4.9.tar.gz
+cd DirectX-Headers-1.4.9
+mkdir DXH-build; cd DXH-build
+meson --prefix=/usr --buildtype=release -Dbuild-test=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
+cd ../..
+rm -rf DirectX-Headers-1.4.9
 # glslang.
 tar -xf glslang-11.8.0.tar.gz
 cd glslang-11.8.0
@@ -3749,16 +3758,16 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.4
 # Mesa.
-tar -xf mesa-21.3.7.tar.xz
-cd mesa-21.3.7
+tar -xf mesa-22.0.0.tar.xz
+cd mesa-22.0.0
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers="i915,iris,nouveau,r600,radeonsi,svga,swrast,virgl" -Ddri-drivers="i965,nouveau" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled ..
+meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-21.3.7
+rm -rf mesa-22.0.0
 # libva (rebuild to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4868,8 +4877,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4500.tar.gz
-cd vim-8.2.4500
+tar -xf vim-8.2.4536.tar.gz
+cd vim-8.2.4536
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4892,7 +4901,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4500
+rm -rf vim-8.2.4536
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5327,9 +5336,8 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # UPower.
-tar -xf upower-v0.99.16.tar.bz2
-cd upower-v0.99.16
-patch -Np1 -i ../patches/upower-0.99.16-FixLaptopLidClose.patch
+tar -xf upower-v0.99.17.tar.bz2
+cd upower-v0.99.17
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5337,7 +5345,7 @@ ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
-rm -rf upower-v0.99.16
+rm -rf upower-v0.99.17
 # NetworkManager.
 tar -xf NetworkManager-1.36.2.tar.xz
 cd NetworkManager-1.36.2
@@ -6698,19 +6706,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.12.tar.xz
-cd linux-5.16.12
+tar -xf linux-5.16.13.tar.xz
+cd linux-5.16.13
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.12-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.12-massos/vmlinuz
-cp System.map /boot/System.map-5.16.12-massos
-cp .config /boot/config-5.16.12-massos
-rm /usr/lib/modules/5.16.12-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.13-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.13-massos/vmlinuz
+cp System.map /boot/System.map-5.16.13-massos
+cp .config /boot/config-5.16.13-massos
+rm /usr/lib/modules/5.16.13-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.12-massos/build
+builddir=/usr/lib/modules/5.16.13-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6734,7 +6742,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.12
+rm -rf linux-5.16.13
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
