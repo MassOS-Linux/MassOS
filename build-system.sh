@@ -2319,7 +2319,7 @@ update-pciids
 cd ..
 rm -rf make-ca-1.9
 # pkcs11-helper.
-tar -xf pkcs11-helper-1.28.0.tar.bz2
+tar -xf pkcs11-helper-1.28.0.tar.gz
 cd pkcs11-helper-1.28.0
 ./configure --prefix=/usr
 make
@@ -4194,15 +4194,15 @@ rm -f /usr/lib/libGLU.a
 cd ../..
 rm -rf glu-9.0.2
 # FreeGLUT.
-tar -xf FreeGLUT-FG_3_2_2.tar.gz
-cd FreeGLUT-FG_3_2_2
+tar -xf freeglut-3.2.2.tar.gz
+cd freeglut-3.2.2
 mkdir fg-build; cd fg-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DFREEGLUT_BUILD_DEMOS=OFF -DFREEGLUT_BUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/freeglut -Dm644 ../COPYING
 cd ../..
-rm -rf FreeGLUT-FG_3_2_2
+rm -rf freeglut-3.2.2
 # libtiff.
 tar -xf tiff-4.3.0.tar.gz
 cd tiff-4.3.0
