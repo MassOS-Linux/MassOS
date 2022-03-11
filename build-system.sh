@@ -5859,6 +5859,7 @@ rm -rf faad2-2_10_0
 # libmysofa.
 tar -xf libmysofa-1.2.1.tar.gz
 cd libmysofa-1.2.1
+mkdir mysofa-build; cd mysofa-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
