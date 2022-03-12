@@ -1103,15 +1103,15 @@ install -t /usr/share/licenses/libunwind -Dm644 COPYING
 cd ..
 rm -rf libunwind-1.6.2
 # libuv.
-tar -xf libuv-v1.43.0.tar.gz
-cd libuv-v1.43.0
+tar -xf libuv-v1.44.1.tar.gz
+cd libuv-v1.44.1
 ./autogen.sh
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libuv -Dm644 LICENSE
 cd ..
-rm -rf libuv-v1.43.0
+rm -rf libuv-v1.44.1
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3
@@ -1192,12 +1192,12 @@ install -t /usr/share/licenses/jinja2 -Dm644 LICENSE.rst
 cd ..
 rm -rf Jinja2-3.0.3
 # Mako.
-tar -xf Mako-1.1.6.tar.gz
-cd Mako-1.1.6
+tar -xf Mako-1.2.0.tar.gz
+cd Mako-1.2.0
 python setup.py install --optimize=1
 install -t /usr/share/licenses/mako -Dm644 LICENSE
 cd ..
-rm -rf Mako-1.1.6
+rm -rf Mako-1.2.0
 # Pygments.
 tar -xf Pygments-2.11.2.tar.gz
 cd Pygments-2.11.2
@@ -1714,11 +1714,11 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.13
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-250.3.tar.gz
-cd systemd-stable-250.3
+tar -xf systemd-stable-250.4.tar.gz
+cd systemd-stable-250.4
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.4-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1743,7 +1743,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-stable-250.3
+rm -rf systemd-stable-250.4
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-dbus-1.14.0.tar.bz2
 cd dbus-dbus-1.14.0
@@ -2070,8 +2070,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.82.0
 # CMake.
-tar -xf cmake-3.23.0-rc2.tar.gz
-cd cmake-3.23.0-rc2
+tar -xf cmake-3.23.0-rc3.tar.gz
+cd cmake-3.23.0-rc3
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2079,7 +2079,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.23.0-rc2
+rm -rf cmake-3.23.0-rc3
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2983,15 +2983,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.0.0.tar.xz
-cd harfbuzz-4.0.0
+tar -xf harfbuzz-4.0.1.tar.xz
+cd harfbuzz-4.0.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.0.0
+rm -rf harfbuzz-4.0.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -3436,14 +3436,14 @@ install -t /usr/share/licenses/p7zip -Dm644 DOC/License.txt
 cd ..
 rm -rf p7zip-17.04-6-geb1bbb0
 # Ruby.
-tar -xf ruby-3.1.0.tar.xz
-cd ruby-3.1.0
+tar -xf ruby-3.1.1.tar.xz
+cd ruby-3.1.1
 ./configure --prefix=/usr --enable-shared
 make
 make install
 install -t /usr/share/licenses/ruby -Dm644 COPYING
 cd ..
-rm -rf ruby-3.1.0
+rm -rf ruby-3.1.1
 # slang.
 tar -xf slang-pre2.3.3-66.tar.gz
 cd slang-pre2.3.3-66
@@ -3719,25 +3719,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.206.tar.gz
-cd Vulkan-Headers-1.3.206
+tar -xf Vulkan-Headers-1.3.207.tar.gz
+cd Vulkan-Headers-1.3.207
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.206
+rm -rf Vulkan-Headers-1.3.207
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.206.tar.gz
-cd Vulkan-Loader-1.3.206
+tar -xf Vulkan-Loader-1.3.207.tar.gz
+cd Vulkan-Loader-1.3.207
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.206
+rm -rf Vulkan-Loader-1.3.207
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -3748,15 +3748,15 @@ install -t /usr/share/licenses/libva -Dm644 COPYING
 cd ..
 rm -rf libva-2.14.0
 # libvdpau.
-tar -xf libvdpau-1.4.tar.bz2
-cd libvdpau-1.4
+tar -xf libvdpau-1.5.tar.bz2
+cd libvdpau-1.5
 mkdir vdpau-build; cd vdpau-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
-rm -rf libvdpau-1.4
+rm -rf libvdpau-1.5
 # Mesa.
 tar -xf mesa-22.0.0.tar.xz
 cd mesa-22.0.0
@@ -3844,11 +3844,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.0
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-250.3.tar.gz
-cd systemd-stable-250.3
+tar -xf systemd-stable-250.4.tar.gz
+cd systemd-stable-250.4
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=250.4-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -3864,7 +3864,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-stable-250.3
+rm -rf systemd-stable-250.4
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-dbus-1.14.0.tar.bz2
 cd dbus-dbus-1.14.0
@@ -4285,14 +4285,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.0.0.tar.xz
-cd harfbuzz-4.0.0
+tar -xf harfbuzz-4.0.1.tar.xz
+cd harfbuzz-4.0.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.0.0
+rm -rf harfbuzz-4.0.1
 # Pango.
 tar -xf pango-1.50.5.tar.xz
 cd pango-1.50.5
@@ -4410,15 +4410,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.52.6.tar.xz
-cd librsvg-2.52.6
+tar -xf librsvg-2.52.7.tar.xz
+cd librsvg-2.52.7
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.52.6
+rm -rf librsvg-2.52.7
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -4545,15 +4545,15 @@ install -t /usr/share/licenses/exiv2 -Dm644 ../COPYING
 cd ../..
 rm -rf exiv2-0.27.5-Source
 # PyCairo.
-tar -xf pycairo-1.20.1.tar.gz
-cd pycairo-1.20.1
+tar -xf pycairo-1.21.0.tar.gz
+cd pycairo-1.21.0
 python setup.py build
 python setup.py install --optimize=1
 python setup.py install_pycairo_header
 python setup.py install_pkgconfig
 install -t /usr/share/licenses/pycairo -Dm644 COPYING COPYING-LGPL-2.1
 cd ..
-rm -rf pycairo-1.20.1
+rm -rf pycairo-1.21.0
 # PyGObject.
 tar -xf pygobject-3.42.0.tar.xz
 cd pygobject-3.42.0
@@ -5431,8 +5431,8 @@ install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
 cd ../..
 rm -rf network-manager-applet-1.24.0
 # NetworkManager-openvpn.
-tar -xf NetworkManager-openvpn-1.8.16.tar.xz
-cd NetworkManager-openvpn-1.8.16
+tar -xf NetworkManager-openvpn-1.8.18.tar.xz
+cd NetworkManager-openvpn-1.8.18
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
@@ -5440,7 +5440,7 @@ groupadd -g 85 nm-openvpn
 useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
 install -t /usr/share/licenses/networkmanager-openvpn -Dm644 COPYING
 cd ..
-rm -rf NetworkManager-openvpn-1.8.16
+rm -rf NetworkManager-openvpn-1.8.18
 # UDisks.
 tar -xf udisks-2.9.4.tar.bz2
 cd udisks-2.9.4
@@ -6668,7 +6668,7 @@ END
 cd ..
 rm -rf firefox-workaround-ffmpeg4libs
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.6.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.7.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
@@ -6707,19 +6707,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.13.tar.xz
-cd linux-5.16.13
+tar -xf linux-5.16.14.tar.xz
+cd linux-5.16.14
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.13-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.13-massos/vmlinuz
-cp System.map /boot/System.map-5.16.13-massos
-cp .config /boot/config-5.16.13-massos
-rm /usr/lib/modules/5.16.13-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.14-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.14-massos/vmlinuz
+cp System.map /boot/System.map-5.16.14-massos
+cp .config /boot/config-5.16.14-massos
+rm /usr/lib/modules/5.16.14-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.13-massos/build
+builddir=/usr/lib/modules/5.16.14-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6743,7 +6743,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.13
+rm -rf linux-5.16.14
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
