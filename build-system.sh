@@ -1032,7 +1032,7 @@ sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
 cd build_unix
 ../dist/configure --prefix=/usr --enable-compat185 --enable-dbm --disable-static --enable-cxx
 make
-make install
+make docdir=/usr/share/doc/db install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la}
 install -t /usr/share/licenses/db -Dm644 ../LICENSE
 cd ../..
