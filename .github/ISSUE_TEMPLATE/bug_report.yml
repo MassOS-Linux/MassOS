@@ -12,7 +12,6 @@ body:
         required: true
       - label: "If this is an issue with a specific program, I have checked the upstream project's issue tracker and determined that it is an issue with MassOS itself."
         required: true
-      - label: "My issue does not contain "
 - type: "input"
   attributes:
     label: "MassOS version"
