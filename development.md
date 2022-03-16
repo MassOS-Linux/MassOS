@@ -32,17 +32,17 @@ rm gtk-4.6.1.tar.xz
 ```
 ## Libadwaita
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/libadwaita/1.1/libadwaita-1.1.beta.tar.xz
-tar -xf libadwaita-1.1.beta.tar.xz
-cd libadwaita-1.1.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/libadwaita/1.1/libadwaita-1.1.rc.tar.xz
+tar -xf libadwaita-1.1.rc.tar.xz
+cd libadwaita-1.1.rc
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/libadwaita -Dm644 ../COPYING
 cd ../..
-rm -r libadwaita-1.1.beta
-rm libadwaita-1.1.beta.tar.xz
+rm -r libadwaita-1.1.rc
+rm libadwaita-1.1.rc.tar.xz
 ```
 ## GNOME Text Editor
 
@@ -64,17 +64,17 @@ rm gtksourceview-5.3.2.tar.xz
 Now, we can install GNOME Text Editor
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-text-editor/42/gnome-text-editor-42.beta1.tar.xz
-tar -xf gnome-text-editor-42.beta1.tar.xz
-cd gnome-text-editor-42.beta1
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-text-editor/42/gnome-text-editor-42.rc1.tar.xz
+tar -xf gnome-text-editor-42.rc1.tar.xz
+cd gnome-text-editor-42.rc1
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
 cd ../..
-rm -r gnome-text-editor-42.beta1
-rm gnome-text-editor-42.beta1.tar.xz
+rm -r gnome-text-editor-42.rc1
+rm gnome-text-editor-42.rc1.tar.xz
 ```
 
 ## Calculator
@@ -145,17 +145,17 @@ rm totem-pl-parser-3.26.6.tar.xz
 Install GNOME Desktop
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-desktop/42/gnome-desktop-42.beta.tar.xz
-tar -xf gnome-desktop-42.beta.tar.xz
-cd gnome-desktop-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-desktop/42/gnome-desktop-42.rc.tar.xz
+tar -xf gnome-desktop-42.rc.tar.xz
+cd gnome-desktop-42.rc
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dgnome_distributor="MassOS"
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-desktop -Dm644 ../COPYING
 cd ../..
-rm -r gnome-desktop-42.beta
-rm gnome-desktop-42.beta.tar.xz
+rm -r gnome-desktop-42.rc
+rm gnome-desktop-42.rc.tar.xz
 ```
 
 Install Clutter-gst
@@ -295,7 +295,7 @@ rm nautilus-42.rc.tar.xz
 ```
 ## GSound
 ```
-wget ftp://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
+wget https://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
 tar -xf gsound-1.0.3.tar.xz
 cd gsound-1.0.3
 mkdir build && cd build
@@ -311,17 +311,17 @@ rm gsound-1.0.3.tar.xz
 ## GNOME Bluetooth
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-bluetooth/42/gnome-bluetooth-42.beta.tar.xz
-tar -xf gnome-bluetooth-42.beta.tar.xz
-cd gnome-bluetooth-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-bluetooth/42/gnome-bluetooth-42.rc.tar.xz
+tar -xf gnome-bluetooth-42.rc.tar.xz
+cd gnome-bluetooth-42.rc
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-bluetooth -Dm644 ../COPYING
 cd ../..
-rm -r gnome-bluetooth-42.beta
-rm gnome-bluetooth-42.beta.tar.xz
+rm -r gnome-bluetooth-42.rc
+rm gnome-bluetooth-42.rc.tar.xz
 ```
 ## GNOME Session
 
