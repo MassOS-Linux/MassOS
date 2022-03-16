@@ -31,11 +31,11 @@ body:
     label: "Subject"
     description: "Which of the following best describes your issue (multiple responses are OK)?"
     options:
-      - "Issue at runtime of MassOS."
-      - "Issue with the MassOS Live CD."
-      - "Issue with installing MassOS."
-      - "Issue with the MassOS documentation."
-      - "Issue compiling MassOS from source."
+      - label: "Issue at runtime of MassOS."
+      - label: "Issue with the MassOS Live CD."
+      - label: "Issue with installing MassOS."
+      - label: "Issue with the MassOS documentation."
+      - label: "Issue compiling MassOS from source."
   validations:
     required: true
 - type: "textarea"
