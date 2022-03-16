@@ -876,8 +876,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.61.2.tar.gz
-cd meson-0.61.2
+tar -xf meson-0.61.3.tar.gz
+cd meson-0.61.3
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -885,7 +885,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.61.2
+rm -rf meson-0.61.3
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -2112,6 +2112,7 @@ rm -rf cryptsetup-2.4.3
 # libusb.
 tar -xf libusb-1.0.25.tar.bz2
 cd libusb-1.0.25
+patch -Np1 -i ../patches/libusb-1.0.25-UpstreamFix.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -2443,8 +2444,8 @@ make install
 cd ..
 rm -rf curl-7.82.0
 # OpenVPN.
-tar -xf openvpn-2.5.5.tar.gz
-cd openvpn-2.5.5
+tar -xf openvpn-2.5.6.tar.gz
+cd openvpn-2.5.6
 sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
 autoreconf -fi
 ./configure --prefix=/usr --enable-pkcs11 --enable-plugins --enable-systemd --enable-x509-alt-username
@@ -2459,7 +2460,7 @@ done <<< $(find contrib -type f)
 cp -r sample/sample-config-files /usr/share/openvpn/examples
 install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 cd ..
-rm -rf openvpn-2.5.5
+rm -rf openvpn-2.5.6
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2490,8 +2491,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380000.tar.gz
-cd sqlite-autoconf-3380000
+tar -xf sqlite-autoconf-3380100.tar.gz
+cd sqlite-autoconf-3380100
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2501,7 +2502,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380000
+rm -rf sqlite-autoconf-3380100
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2858,8 +2859,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.7.0esr.source.tar.xz
-cd firefox-91.7.0
+tar -xf firefox-91.7.1esr.source.tar.xz
+cd firefox-91.7.1
 mkdir JS91-build; cd JS91-build
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2879,7 +2880,7 @@ fi
 unset beforemounted
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.7.0
+rm -rf firefox-91.7.1
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3362,14 +3363,14 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.6.2.tar.gz
-cd qpdf-10.6.2
+tar -xf qpdf-10.6.3.tar.gz
+cd qpdf-10.6.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 cd ..
-rm -rf qpdf-10.6.2
+rm -rf qpdf-10.6.3
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3689,15 +3690,15 @@ install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm
 cd ../..
 rm -rf libdrm-2.4.110
 # DirectX-Headers.
-tar -xf DirectX-Headers-1.4.9.tar.gz
-cd DirectX-Headers-1.4.9
+tar -xf DirectX-Headers-1.600.10.tar.gz
+cd DirectX-Headers-1.600.10
 mkdir DXH-build; cd DXH-build
 meson --prefix=/usr --buildtype=release -Dbuild-test=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
 cd ../..
-rm -rf DirectX-Headers-1.4.9
+rm -rf DirectX-Headers-1.600.10
 # glslang.
 tar -xf glslang-11.8.0.tar.gz
 cd glslang-11.8.0
@@ -5263,8 +5264,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.15.5.tar.gz
-cd samba-4.15.5
+tar -xf samba-4.15.6.tar.gz
+cd samba-4.15.6
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
@@ -5287,7 +5288,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.15.5
+rm -rf samba-4.15.6
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20210805.tar.xz
 cd mobile-broadband-provider-info-20210805
@@ -5541,8 +5542,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.13.1.tar.xz
-cd flatpak-1.13.1
+tar -xf flatpak-1.13.2.tar.xz
+cd flatpak-1.13.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5564,7 +5565,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.13.1
+rm -rf flatpak-1.13.2
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
@@ -5889,65 +5890,65 @@ install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
 cd ../..
 rm -rf openal-soft-1.21.1
 # GStreamer.
-tar -xf gstreamer-1.20.0.tar.xz
-cd gstreamer-1.20.0
+tar -xf gstreamer-1.20.1.tar.xz
+cd gstreamer-1.20.1
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
 cd ../..
-rm -rf gstreamer-1.20.0
+rm -rf gstreamer-1.20.1
 # gst-plugins-base.
-tar -xf gst-plugins-base-1.20.0.tar.xz
-cd gst-plugins-base-1.20.0
+tar -xf gst-plugins-base-1.20.1.tar.xz
+cd gst-plugins-base-1.20.1
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-base-1.20.0
+rm -rf gst-plugins-base-1.20.1
 # gst-plugins-good.
-tar -xf gst-plugins-good-1.20.0.tar.xz
-cd gst-plugins-good-1.20.0
+tar -xf gst-plugins-good-1.20.1.tar.xz
+cd gst-plugins-good-1.20.1
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-good-1.20.0
+rm -rf gst-plugins-good-1.20.1
 # gst-plugins-bad.
-tar -xf gst-plugins-bad-1.20.0.tar.xz
-cd gst-plugins-bad-1.20.0
+tar -xf gst-plugins-bad-1.20.1.tar.xz
+cd gst-plugins-bad-1.20.1
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-bad-1.20.0
+rm -rf gst-plugins-bad-1.20.1
 # gst-plugins-ugly.
-tar -xf gst-plugins-ugly-1.20.0.tar.xz
-cd gst-plugins-ugly-1.20.0
+tar -xf gst-plugins-ugly-1.20.1.tar.xz
+cd gst-plugins-ugly-1.20.1
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-ugly-1.20.0
+rm -rf gst-plugins-ugly-1.20.1
 # gst-libav.
-tar -xf gst-libav-1.20.0.tar.xz
-cd gst-libav-1.20.0
+tar -xf gst-libav-1.20.1.tar.xz
+cd gst-libav-1.20.1
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
-rm -rf gst-libav-1.20.0
+rm -rf gst-libav-1.20.1
 # WebKitGTK.
 tar -xf webkitgtk-2.34.6.tar.xz
 cd webkitgtk-2.34.6
@@ -6429,8 +6430,8 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-41.3.tar.xz
-cd evince-41.3
+tar -xf evince-41.4.tar.xz
+cd evince-41.4
 find . -name meson.build | xargs sed -i '/merge_file/{n;d}'
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release -Dnautilus=false ..
@@ -6438,7 +6439,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-41.3
+rm -rf evince-41.4
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -6625,7 +6626,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-98.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-98.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
