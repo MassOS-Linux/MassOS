@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Started migration of documentation to the MassOS wiki.
+- Added a template for issues and bug reports opened on the MassOS repository.
 - Migrated from JS78 to JS91.
 - Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
 

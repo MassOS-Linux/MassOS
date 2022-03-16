@@ -1,0 +1,20 @@
+name: "Feature Request"
+description: "Request a feature for MassOS."
+title: "[Feature Request]: "
+labels: "feature request"
+body:
+- type: "checkboxes"
+  attributes:
+    label: "Checklist"
+    description: "Please make sure you have read the following."
+    options:
+      - label: "I have searched for [other issues](https://www.github.com/MassOS-Linux/MassOS/issues), and can confirm my feature request has not already been reported."
+        required: true
+      - label: "If I am suggesting the addition of a program, the program is free software and licensed under a [GPL-compatible license](https://www.gnu.org/licenses/license-list.html)."
+        required: true
+- type: "textarea"
+  attributes:
+    label: "Suggestion"
+    description: "A clear description of what you would like to see in a future release of MassOS, and an explanation of how it would benefit the project and/or users."
+  validations:
+    required: true
