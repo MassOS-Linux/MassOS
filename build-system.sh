@@ -79,13 +79,13 @@ make install
 cd ..
 rm -rf bison-3.8.2
 # Perl.
-tar -xf perl-5.34.0.tar.xz
-cd perl-5.34.0
+tar -xf perl-5.34.1.tar.xz
+cd perl-5.34.1
 ./Configure -des -Doptimize=-Os -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl
 make
 make install
 cd ..
-rm -rf perl-5.34.0
+rm -rf perl-5.34.1
 # Python.
 tar -xf Python-3.10.2.tar.xz
 cd Python-3.10.2
@@ -649,15 +649,15 @@ install -t /usr/share/licenses/bash-completion -Dm644 COPYING
 cd ..
 rm -rf bash-completion-2.11
 # libtool.
-tar -xf libtool-2.4.6.tar.xz
-cd libtool-2.4.6
+tar -xf libtool-2.4.7.tar.xz
+cd libtool-2.4.7
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/libltdl.a
 install -t /usr/share/licenses/libtool -Dm644 COPYING
 cd ..
-rm -rf libtool-2.4.6
+rm -rf libtool-2.4.7
 # GDBM.
 tar -xf gdbm-1.23.tar.gz
 cd gdbm-1.23
@@ -723,9 +723,8 @@ install -t /usr/share/licenses/less -Dm644 COPYING LICENSE
 cd ..
 rm -rf less-590
 # Perl.
-tar -xf perl-5.34.0.tar.xz
-cd perl-5.34.0
-patch -Np1 -i ../patches/perl-5.34.0-upstream_fixes-1.patch
+tar -xf perl-5.34.1.tar.xz
+cd perl-5.34.1
 export BUILD_ZLIB=False BUILD_BZIP2=0
 ./Configure -des -Doptimize=-Os -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib -Dusethreads
 make
@@ -733,7 +732,7 @@ make install
 unset BUILD_ZLIB BUILD_BZIP2
 install -t /usr/share/licenses/perl -Dm644 Artistic Copying
 cd ..
-rm -rf perl-5.34.0
+rm -rf perl-5.34.1
 # XML::Parser.
 tar -xf XML-Parser-2.46.tar.gz
 cd XML-Parser-2.46
@@ -808,26 +807,16 @@ make install
 install -t /usr/share/licenses/libffi -Dm644 LICENSE
 cd ..
 rm -rf libffi-3.4.2
-# OpenSSL Legacy (For compatibility with binaries linked to OpenSSL 1.1 libs).
-tar -xf openssl-1.1.1m.tar.gz
-cd openssl-1.1.1m
-./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
-make
-sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
-make MANSUFFIX=ssl install
-install -t /usr/share/licenses/openssl-legacy -Dm644 LICENSE
-cd ..
-rm -rf openssl-1.1.1m
-# OpenSSL (Newest version and the default which MassOS programs will use).
-tar -xf openssl-3.0.1.tar.gz
-cd openssl-3.0.1
+# OpenSSL.
+tar -xf openssl-3.0.2.tar.gz
+cd openssl-3.0.2
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
-rm -rf openssl-3.0.1
+rm -rf openssl-3.0.2
 # easy-rsa.
 tar -xf EasyRSA-3.0.8.tgz
 cd EasyRSA-3.0.8
@@ -1177,13 +1166,13 @@ install -t /usr/share/licenses/docutils -Dm644 COPYING.txt
 cd ..
 rm -rf docutils-0.18.1
 # MarkupSafe.
-tar -xf MarkupSafe-2.1.0.tar.gz
-cd MarkupSafe-2.1.0
+tar -xf MarkupSafe-2.1.1.tar.gz
+cd MarkupSafe-2.1.1
 python setup.py build
 python setup.py install --optimize=1
 install -t /usr/share/licenses/markupsafe -Dm644 LICENSE.rst
 cd ..
-rm -rf MarkupSafe-2.1.0
+rm -rf MarkupSafe-2.1.1
 # Jinja2.
 tar -xf Jinja2-3.0.3.tar.gz
 cd Jinja2-3.0.3
@@ -1205,6 +1194,36 @@ python setup.py install --optimize=1
 install -t /usr/share/licenses/pygments -Dm644 LICENSE
 cd ..
 rm -rf Pygments-2.11.2
+# toml.
+tar -xf toml-0.10.2.tar.gz
+cd toml-0.10.2
+python setup.py build
+python setup.py install --prefix=/usr --optimize=1 --skip-build
+install -t /usr/share/licenses/toml -Dm644 LICENSE
+cd ..
+rm -rf toml-0.10.2
+# smartypants.
+tar -xf smartypants.py-2.0.1.tar.gz
+cd smartypants.py-2.0.1
+python setup.py install --optimize=1
+install -t /usr/share/licenses/smartypants -Dm644 COPYING
+cd ..
+rm -rf smartypants.py-2.0.1.tar.gz
+# typogrify.
+tar -xf typogrify-2.0.7.tar.gz
+cd typogrify-2.0.7
+python setup.py install --optimize=1
+install -t /usr/share/licenses/typogrify -Dm644 LICENSE.txt
+cd ..
+rm -rf typogrify-2.0.7
+# gi-docgen (dependency of librsvg since 2.54.0).
+tar -xf gi-docgen-2022.1.tar.xz
+cd gi-docgen-2022.1
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/gi-docgen -Dm644 LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
+cd ..
+rm -rf gi-docgen-2022.1
 # dialog.
 tar -xf dialog-1.3-20220117.tgz
 cd dialog-1.3-20220117
@@ -3720,25 +3739,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.207.tar.gz
-cd Vulkan-Headers-1.3.207
+tar -xf Vulkan-Headers-1.3.208.tar.gz
+cd Vulkan-Headers-1.3.208
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.207
+rm -rf Vulkan-Headers-1.3.208
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.207.tar.gz
-cd Vulkan-Loader-1.3.207
+tar -xf Vulkan-Loader-1.3.208.tar.gz
+cd Vulkan-Loader-1.3.208
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.207
+rm -rf Vulkan-Loader-1.3.208
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4411,15 +4430,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.52.7.tar.xz
-cd librsvg-2.52.7
+tar -xf librsvg-2.54.0.tar.xz
+cd librsvg-2.54.0
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.52.7
+rm -rf librsvg-2.54.0
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -4727,9 +4746,9 @@ install -t /usr/share/licenses/libical -Dm644 ../COPYING ../LICENSE ../LICENSE.L
 cd ../..
 rm -rf libical-3.0.14
 # BlueZ.
-tar -xf bluez-5.63.tar.xz
-cd bluez-5.63
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-manpages --enable-library
+tar -xf bluez-5.64.tar.xz
+cd bluez-5.64
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-library
 make
 make install
 ln -sf ../libexec/bluetooth/bluetoothd /usr/sbin
@@ -4739,7 +4758,7 @@ systemctl enable bluetooth
 systemctl enable --global obex
 install -t /usr/share/licenses/bluez -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf bluez-5.63
+rm -rf bluez-5.64
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -4878,8 +4897,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4536.tar.gz
-cd vim-8.2.4536
+tar -xf vim-8.2.4586.tar.gz
+cd vim-8.2.4586
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4902,7 +4921,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4536
+rm -rf vim-8.2.4586
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0

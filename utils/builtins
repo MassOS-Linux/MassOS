@@ -122,6 +122,7 @@ geoclue
 gettext
 gexiv2
 ghostscript
+gi-docgen
 giflib
 git
 glib
@@ -469,6 +470,7 @@ sharutils
 shotwell
 sl
 slang
+smartypants
 smbclient
 smproxy
 soundtouch
@@ -495,8 +497,10 @@ thunar-volman
 thunderbird
 tk
 tldr
+toml
 tumbler
 twolame
+typogrify
 tzdata
 udisks
 unifont
