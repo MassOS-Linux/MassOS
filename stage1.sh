@@ -82,6 +82,7 @@ echo "rootsbindir=/usr/sbin" > configparms
 ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
 make
 make DESTDIR="$MASSOS" install
+ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..
