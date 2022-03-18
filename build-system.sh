@@ -4162,6 +4162,18 @@ make install
 install -t /usr/share/licenses/libisoburn -Dm644 COPYING COPYRIGHT
 cd ..
 rm -rf libisoburn-1.5.4
+# tealdeer.
+tar -xf tealdeer-1.5.0.tar.gz
+cd tealdeer-1.5.0
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" cargo build --release
+install -m755 target/release/tldr /usr/bin/tldr
+install -m644 bash_tealdeer /usr/share/bash-completion/completions/tldr
+install -m644 fish_tealdeer /usr/share/fish/vendor_completions.d/tldr.fish
+install -m644 zsh_tealdeer /usr/share/zsh/site-functions/_tldr
+install -t /usr/share/licenses/tealdeer -Dm644 LICENSE-APACHE LICENSE-MIT
+ln -sf tealdeer /usr/share/licenses/tldr
+cd ..
+rm -rf tealdeer-1.5.0
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
@@ -5195,8 +5207,6 @@ cd Python-3.10.2
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
-pip --no-color install requests
-pip --no-color install tldr
 cd ..
 rm -rf Python-3.10.2
 # python-distutils-extra.
@@ -5253,6 +5263,47 @@ python setup.py install --optimize=1 --skip-build
 install -t /usr/share/licenses/dnspython -Dm644 LICENSE
 cd ..
 rm -rf dnspython-2.2.0
+# chardet.
+tar -xf chardet-4.0.0.tar.gz
+cd chardet-4.0.0
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/chardet -Dm644 LICENSE
+cd ..
+rm -rf chardet-4.0.0
+# idna.
+tar -xf idna-3.3.tar.gz
+cd idna-3.3
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/idna -Dm644 LICENSE.md
+cd ..
+rm -rf idna-3.3
+# pyopenssl.
+tar -xf pyopenssl-22.0.0.tar.gz
+cd pyopenssl-22.0.0
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/pyopenssl -Dm644 LICENSE
+cd ..
+rm -rf pyopenssl-22.0.0
+# urllib3.
+tar -xf urllib3-1.26.9.tar.gz
+cd urllib3-1.26.9
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/urllib3 -Dm644 LICENSE.txt
+cd ..
+rm -rf urllib3-1.26.9
+# requests.
+tar -xf requests-2.27.1.tar.gz
+cd requests-2.27.1
+sed -e "/certifi/d" -e "s/,<.*'/'/" -e "/charset_normalizer/d" -i setup.py
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/requests -Dm644 LICENSE
+cd ..
+rm -rf requests-2.27.1
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0

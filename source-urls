@@ -44,6 +44,7 @@ https://www.cairographics.org/snapshots/cairo-1.17.4.tar.xz
 https://www.cairographics.org/releases/cairomm-1.14.0.tar.xz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://deb.debian.org/debian/pool/main/c/cdrkit/cdrkit_1.1.11.orig.tar.gz
+https://files.pythonhosted.org/packages/source/c/chardet/chardet-4.0.0.tar.gz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang-13.0.1.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
@@ -188,6 +189,7 @@ https://github.com/Mic92/iana-etc/releases/download/20220222/iana-etc-20220222.t
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-70-1/icu4c-70_1-src.tgz
+https://files.pythonhosted.org/packages/source/i/idna/idna-3.3.tar.gz
 https://github.com/python/importlib_metadata/archive/v4.10.1/importlib_metadata-4.10.1.tar.gz
 https://mirror.lyrahosting.com/gnu/inetutils/inetutils-2.2.tar.xz
 https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
@@ -460,12 +462,14 @@ https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
+https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
 https://www.python.org/ftp/python/3.10.2/Python-3.10.2.tar.xz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.6.3/qpdf-10.6.3.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/readline/readline-8.1.2.tar.gz
+https://github.com/psf/requests/releases/download/v2.27.1/requests-2.27.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
 https://oss.oetiker.ch/rrdtool/pub/rrdtool-1.7.2.tar.gz
@@ -507,6 +511,7 @@ https://github.com/systemd/systemd-stable/archive/v250.4/systemd-stable-250.4.ta
 https://taglib.github.io/releases/taglib-1.12.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.34.tar.xz
 https://archive.massos.org/sources/tcl8.6.12-src.tar.gz
+https://github.com/dbrgn/tealdeer/archive/v1.5.0/tealdeer-1.5.0.tar.gz
 https://mirror.lyrahosting.com/gnu/texinfo/texinfo-6.8.tar.xz
 https://archive.massos.org/sources/thin-provisioning-tools-0.9.0.tar.gz
 https://archive.fr.xfce.org/src/xfce/thunar/4.17/thunar-4.17.7.tar.bz2
@@ -525,6 +530,7 @@ https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks
 https://unifoundry.com/pub/unifont/unifont-14.0.02/font-builds/unifont-14.0.02.pcf.gz
 https://archive.massos.org/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.tar.bz2
+https://github.com/urllib3/urllib3/releases/download/1.26.9/urllib3-1.26.9.tar.gz
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.4.tar.xz

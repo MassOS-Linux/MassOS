@@ -5,6 +5,7 @@ Changes:
 
 - Started migration of documentation to the MassOS wiki.
 - Added a template for issues and bug reports opened on the MassOS repository.
+- Replaced Python tldr client for [tealdeer](https://github.com/dbrgn/tealdeer), a faster tldr client written in Rust.
 - Migrated from JS78 to JS91.
 - Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
 - Dropped OpenSSL Legacy (1.1.x).

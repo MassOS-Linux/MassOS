@@ -41,6 +41,7 @@ cairo
 cairomm
 cdparanoia
 cdrkit
+chardet
 check
 clang
 clutter
@@ -174,6 +175,7 @@ iana-etc
 iceauth
 icon-naming-utils
 icu
+idna
 importlib-metadata
 inetutils
 intel-vaapi-driver
@@ -441,6 +443,7 @@ pv
 pycairo
 pygments
 pygobject
+pyopenssl
 pyparsing
 python
 python-distutils-extra
@@ -489,6 +492,7 @@ sysprof
 systemd
 taglib
 tcl
+tealdeer
 texinfo
 thin-provisioning-tools
 thunar
@@ -506,6 +510,7 @@ udisks
 unifont
 unzip
 upower
+urllib3
 usbutil
 userspace-rcu
 util-linux
