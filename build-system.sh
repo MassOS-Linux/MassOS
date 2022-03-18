@@ -3475,20 +3475,28 @@ rm -f /usr/lib/libslang.a
 install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
 rm -rf slang-pre2.3.3-66
-# BIND Utilities.
-tar -xf bind-9.16.25.tar.xz
-cd bind-9.16.25
-./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
-make -C lib/dns
+# BIND Utils.
+tar -xf bind-9.18.1.tar.xz
+cd bind-9.18.1
+./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
-make -C lib/bind9
+make -C lib/dns
+make -C lib/ns
 make -C lib/isccfg
+make -C lib/bind9
 make -C lib/irs
 make -C bin/dig
+make -C lib/isc install
+make -C lib/dns install
+make -C lib/ns install
+make -C lib/isccfg install
+make -C lib/bind9 install
+make -C lib/irs install
 make -C bin/dig install
+install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf bind-9.16.25
+rm -rf bind-9.18.1
 # dhclient.
 tar -xf dhcp-4.4.3.tar.gz
 cd dhcp-4.4.3
@@ -4275,8 +4283,8 @@ install -t /usr/share/licenses/atkmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf atkmm-2.28.2
 # GDK-Pixbuf.
-tar -xf gdk-pixbuf-2.42.6.tar.xz
-cd gdk-pixbuf-2.42.6
+tar -xf gdk-pixbuf-2.42.8.tar.xz
+cd gdk-pixbuf-2.42.8
 mkdir pixbuf-build; cd pixbuf-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -4284,7 +4292,7 @@ ninja install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/gdk-pixbuf -Dm644 ../COPYING
 cd ../..
-rm -rf gdk-pixbuf-2.42.6
+rm -rf gdk-pixbuf-2.42.8
 # Cairo.
 tar -xf cairo-1.17.4.tar.xz
 cd cairo-1.17.4
@@ -6491,15 +6499,15 @@ install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
 # GNOME Software.
-tar -xf gnome-software-41.4.tar.xz
-cd gnome-software-41.4
+tar -xf gnome-software-41.5.tar.xz
+cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
 meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
-rm -rf gnome-software-41.4
+rm -rf gnome-software-41.5
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
 cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
@@ -6727,19 +6735,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.14.tar.xz
-cd linux-5.16.14
+tar -xf linux-5.16.15.tar.xz
+cd linux-5.16.15
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.14-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.14-massos/vmlinuz
-cp System.map /boot/System.map-5.16.14-massos
-cp .config /boot/config-5.16.14-massos
-rm /usr/lib/modules/5.16.14-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.15-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.15-massos/vmlinuz
+cp System.map /boot/System.map-5.16.15-massos
+cp .config /boot/config-5.16.15-massos
+rm /usr/lib/modules/5.16.15-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.14-massos/build
+builddir=/usr/lib/modules/5.16.15-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6763,7 +6771,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.14
+rm -rf linux-5.16.15
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

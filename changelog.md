@@ -12,6 +12,7 @@ Changes:
 Upgraded software:
 
 - Asciidoc: `10.1.1 --> 10.1.4`
+- BIND Utils: `9.16.25 --> 9.18.1`
 - BlueZ: `5.63 --> 5.64`
 - CMake: `3.23.0-rc2 --> 3.23.0-rc3`
 - curl: `7.81.0 --> 7.82.0`
@@ -23,6 +24,8 @@ Upgraded software:
 - Fakeroot: `1.27 --> 1.28`
 - Firefox: `97.0.1 --> 98.0.1`
 - Flatpak: `1.12.6 --> 1.13.2`
+- GDK-Pixbuf: `2.42.6 --> 2.42.8`
+- GNOME Software: `41.4 --> 41.5`
 - GPGME: `1.17.0 --> 1.17.1`
 - Graphviz: `2.50.0 --> 3.0.0`
 - gst-libav: `1.20.0 --> 1.20.1`
@@ -40,7 +43,7 @@ Upgraded software:
 - libuv: `1.43.0 --> 1.44.1`
 - libva: `2.13.0 --> 2.14.0`
 - libvdpau: `1.4 --> 1.5`
-- Linux Kernel: `5.16.12 --> 5.16.14`
+- Linux Kernel: `5.16.12 --> 5.16.15`
 - Mako: `1.1.6 --> 1.2.0`
 - MarkupSafe: `2.0.1 --> 2.1.1`
 - Mesa: `21.3.7 --> 22.0.0`
