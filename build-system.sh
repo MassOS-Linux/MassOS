@@ -1194,6 +1194,23 @@ python setup.py install --optimize=1
 install -t /usr/share/licenses/pygments -Dm644 LICENSE
 cd ..
 rm -rf Pygments-2.11.2
+# importlib-metadata
+tar -xf importlib_metadata-4.10.1.tar.gz
+cd importlib_metadata-4.10.1
+rm -f exercises.py
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/importlib-metadata -Dm644 LICENSE
+cd ..
+rm -rf importlib_metadata-4.10.1
+# Markdown.
+tar -xf Markdown-3.3.6.tar.gz
+cd Markdown-3.3.6
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/markdown -Dm644 LICENSE.md
+cd ..
+rm -rf Markdown-3.3.6
 # toml.
 tar -xf toml-0.10.2.tar.gz
 cd toml-0.10.2
@@ -5238,23 +5255,6 @@ python setup.py install --skip-build
 install -t /usr/share/licenses/cython -Dm644 COPYING.txt LICENSE.txt
 cd ..
 rm -rf Cython-0.29.25
-# importlib-metadata
-tar -xf importlib_metadata-4.10.1.tar.gz
-cd importlib_metadata-4.10.1
-rm -f exercises.py
-python setup.py build
-python setup.py install --optimize=1
-install -t /usr/share/licenses/importlib-metadata -Dm644 LICENSE
-cd ..
-rm -rf importlib_metadata-4.10.1
-# Markdown.
-tar -xf Markdown-3.3.6.tar.gz
-cd Markdown-3.3.6
-python setup.py build
-python setup.py install --optimize=1 --skip-build
-install -t /usr/share/licenses/markdown -Dm644 LICENSE.md
-cd ..
-rm -rf Markdown-3.3.6
 # dnspython.
 tar -xf dnspython-2.2.0.tar.gz
 cd dnspython-2.2.0
