@@ -18,17 +18,17 @@ rm gnome-backgrounds-42.beta.tar.xz
 ```
 ## Install GTK4
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gtk/4.6/gtk-4.6.1.tar.xz
-tar -xf gtk-4.6.1.tar.xz
-cd gtk-4.6.1
+wget https://ftp.acc.umu.se/pub/gnome/sources/gtk/4.6/gtk-4.6.2.tar.xz
+tar -xf gtk-4.6.2.tar.xz
+cd gtk-4.6.2
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dcolord=enabled -Dsysprof=enabled -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=enabled -Ddemos=false
 ninja
 ninja install
 install -t /usr/share/licenses/gtk4 -Dm644 ../COPYING
 cd ../..
-rm -r gtk-4.6.1
-rm gtk-4.6.1.tar.xz
+rm -r gtk-4.6.2
+rm gtk-4.6.2.tar.xz
 ```
 ## Libadwaita
 ```
@@ -48,17 +48,17 @@ rm libadwaita-1.1.rc.tar.xz
 
 Install GTK Source View
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/5.3/gtksourceview-5.3.2.tar.xz
-tar -xf gtksourceview-5.3.2.tar.xz
-cd gtksourceview-5.3.2
+wget https://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/5.4/gtksourceview-5.4.0.tar.xz
+tar -xf gtksourceview-5.4.0.tar.xz
+cd gtksourceview-5.4.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gtksourceview -Dm644 ../COPYING
 cd ../..
-rm -r gtksourceview-5.3.2 
-rm gtksourceview-5.3.2.tar.xz
+rm -r gtksourceview-5.4.0
+rm gtksourceview-5.4.0.tar.xz
 ```
 
 Now, we can install GNOME Text Editor
@@ -311,17 +311,17 @@ rm gsound-1.0.3.tar.xz
 ## GNOME Bluetooth
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-bluetooth/42/gnome-bluetooth-42.rc.tar.xz
-tar -xf gnome-bluetooth-42.rc.tar.xz
-cd gnome-bluetooth-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-bluetooth/42/gnome-bluetooth-42.0.tar.xz
+tar -xf gnome-bluetooth-42.0.tar.xz
+cd gnome-bluetooth-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-bluetooth -Dm644 ../COPYING
 cd ../..
-rm -r gnome-bluetooth-42.rc
-rm gnome-bluetooth-42.rc.tar.xz
+rm -r gnome-bluetooth-42.0
+rm gnome-bluetooth-42.0.tar.xz
 ```
 ## GNOME Session
 
@@ -358,9 +358,9 @@ rm dconf-0.40.0.tar.xz
 ## GNOME Shell
 Install Evolution Data Server
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/evolution-data-server/3.43/evolution-data-server-3.43.3.tar.xz
-tar -xf evolution-data-server-3.43.3.tar.xz
-cd evolution-data-server-3.43.3
+wget https://ftp.acc.umu.se/pub/gnome/sources/evolution-data-server/3.44/evolution-data-server-3.44.0.tar.xz
+tar -xf evolution-data-server-3.44.0.tar.xz
+cd evolution-data-server-3.44.0
 cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DSYSCONF_INSTALL_DIR=/etc    \
       -DENABLE_VALA_BINDINGS=ON     \
@@ -376,8 +376,8 @@ make
 make install
 install -t /usr/share/licenses/evolution-data-server -Dm644 COPYING
 cd ..
-rm -r evolution-data-server-3.43.3
-rm evolution-data-server-3.43.3.tar.xz
+rm -r evolution-data-server-3.44.0
+rm evolution-data-server-3.44.0.tar.xz
 ```
 GSettings Desktop Schemas
 ```
@@ -412,17 +412,19 @@ rm geocode-glib-3.26.2.tar.xz
 ```
 Install LibGweather
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/libgweather/40/libgweather-40.0.tar.xz
-tar -xf libgweather-40.0.tar.xz
-cd libgweather-40.0
+pip install typogrify
+pip install toml
+wget https://ftp.acc.umu.se/pub/gnome/sources/libgweather/4.0/libgweather-4.0.0.tar.xz
+tar -xf libgweather-4.0.0.tar.xz
+cd libgweather-4.0.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
-ninja
+ninja 
 ninja install
 install -t /usr/share/licenses/libgweather -Dm644 ../COPYING
 cd ../..
-rm -r libgweather-40.0
-rm libgweather-40.0.tar.xz
+rm -r libgweather-4.0.0
+rm libgweather-4.0.0.tar.xz
 ```
 
 Install GNOME Settings Daemon
@@ -442,24 +444,24 @@ rm gnome-settings-daemon-42.rc.tar.xz
 ```
 Install Pipewire
 ```
-wget https://github.com/PipeWire/pipewire/archive/0.3.9/pipewire-0.3.9.tar.gz
-tar -xf pipewire-0.3.9.tar.gz
-cd pipewire-0.3.9
+wget https://github.com/PipeWire/pipewire/archive/0.3.48/pipewire-0.3.48.tar.gz
+tar -xf pipewire-0.3.48.tar.gz
+cd pipewire-0.3.48
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 cd ../..
-rm -r pipewire-0.3.9
-rm pipewire-0.3.9.tar.gz
+rm -r pipewire-0.3.48
+rm pipewire-0.3.48.tar.gz
 ```
 
 Install Mutter
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/mutter/42/mutter-42.beta.tar.xz
-tar -xf mutter-42.beta.tar.xz
-cd mutter-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/mutter/42/mutter-42.0.tar.xz
+tar -xf mutter-42.0.tar.xz
+cd mutter-42.0
 sed -i '/libmutter_dep = declare_dependency(/a sources: mutter_built_sources,' src/meson.build
 wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/xorg-server/trunk/xvfb-run
 install -m755 xvfb-run /usr/bin/xvfb-run
@@ -469,9 +471,24 @@ ninja
 ninja install
 install -t /usr/share/licenses/mutter -Dm644 ../COPYING
 cd ../..
-rm -r mutter-42.beta
-rm mutter-42.beta.tar.xz
+rm -r mutter-42.0
+rm mutter-42.0.tar.xz
 ```
+## Install SpiderMonkey, not done yet
+```
+wget https://ftp.mozilla.org/pub/firefox/releases/91.0esr/source/firefox-91.0esr.source.tar.xz
+tar -xf firefox-91.0esr.source.tar.xz
+cd firefox-91.0esr.source/js/src
+mkdir _build
+cd _build
+../configure --disable-jemalloc --with-system-zlib --with-intl-api --enable-debug --enable-optimize --with-system-icu --prefix=/usr
+make
+make install
+cd ../../..
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig
+export LD_LIBRARY_PATH=/usr/lib
+```
+
 Install GJS
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gjs/1.71/gjs-1.71.90.tar.xz
