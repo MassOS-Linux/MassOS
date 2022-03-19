@@ -41,6 +41,7 @@ cairo
 cairomm
 cdparanoia
 cdrkit
+chardet
 check
 clang
 clutter
@@ -122,6 +123,7 @@ geoclue
 gettext
 gexiv2
 ghostscript
+gi-docgen
 giflib
 git
 glib
@@ -173,6 +175,7 @@ iana-etc
 iceauth
 icon-naming-utils
 icu
+idna
 importlib-metadata
 inetutils
 intel-vaapi-driver
@@ -440,6 +443,7 @@ pv
 pycairo
 pygments
 pygobject
+pyopenssl
 pyparsing
 python
 python-distutils-extra
@@ -469,6 +473,7 @@ sharutils
 shotwell
 sl
 slang
+smartypants
 smbclient
 smproxy
 soundtouch
@@ -487,6 +492,7 @@ sysprof
 systemd
 taglib
 tcl
+tealdeer
 texinfo
 thin-provisioning-tools
 thunar
@@ -495,13 +501,16 @@ thunar-volman
 thunderbird
 tk
 tldr
+toml
 tumbler
 twolame
+typogrify
 tzdata
 udisks
 unifont
 unzip
 upower
+urllib3
 usbutil
 userspace-rcu
 util-linux

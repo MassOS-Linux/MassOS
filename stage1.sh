@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.16.14.tar.xz
-cd linux-5.16.14
+tar -xf linux-5.16.15.tar.xz
+cd linux-5.16.15
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.16.14
+rm -rf linux-5.16.15
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -82,6 +82,7 @@ echo "rootsbindir=/usr/sbin" > configparms
 ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
 make
 make DESTDIR="$MASSOS" install
+ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..

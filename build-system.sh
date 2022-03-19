@@ -79,13 +79,13 @@ make install
 cd ..
 rm -rf bison-3.8.2
 # Perl.
-tar -xf perl-5.34.0.tar.xz
-cd perl-5.34.0
+tar -xf perl-5.34.1.tar.xz
+cd perl-5.34.1
 ./Configure -des -Doptimize=-Os -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl
 make
 make install
 cd ..
-rm -rf perl-5.34.0
+rm -rf perl-5.34.1
 # Python.
 tar -xf Python-3.10.2.tar.xz
 cd Python-3.10.2
@@ -649,15 +649,15 @@ install -t /usr/share/licenses/bash-completion -Dm644 COPYING
 cd ..
 rm -rf bash-completion-2.11
 # libtool.
-tar -xf libtool-2.4.6.tar.xz
-cd libtool-2.4.6
+tar -xf libtool-2.4.7.tar.xz
+cd libtool-2.4.7
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/libltdl.a
 install -t /usr/share/licenses/libtool -Dm644 COPYING
 cd ..
-rm -rf libtool-2.4.6
+rm -rf libtool-2.4.7
 # GDBM.
 tar -xf gdbm-1.23.tar.gz
 cd gdbm-1.23
@@ -723,9 +723,8 @@ install -t /usr/share/licenses/less -Dm644 COPYING LICENSE
 cd ..
 rm -rf less-590
 # Perl.
-tar -xf perl-5.34.0.tar.xz
-cd perl-5.34.0
-patch -Np1 -i ../patches/perl-5.34.0-upstream_fixes-1.patch
+tar -xf perl-5.34.1.tar.xz
+cd perl-5.34.1
 export BUILD_ZLIB=False BUILD_BZIP2=0
 ./Configure -des -Doptimize=-Os -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib -Dusethreads
 make
@@ -733,7 +732,7 @@ make install
 unset BUILD_ZLIB BUILD_BZIP2
 install -t /usr/share/licenses/perl -Dm644 Artistic Copying
 cd ..
-rm -rf perl-5.34.0
+rm -rf perl-5.34.1
 # XML::Parser.
 tar -xf XML-Parser-2.46.tar.gz
 cd XML-Parser-2.46
@@ -808,26 +807,16 @@ make install
 install -t /usr/share/licenses/libffi -Dm644 LICENSE
 cd ..
 rm -rf libffi-3.4.2
-# OpenSSL Legacy (For compatibility with binaries linked to OpenSSL 1.1 libs).
-tar -xf openssl-1.1.1m.tar.gz
-cd openssl-1.1.1m
-./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
-make
-sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
-make MANSUFFIX=ssl install
-install -t /usr/share/licenses/openssl-legacy -Dm644 LICENSE
-cd ..
-rm -rf openssl-1.1.1m
-# OpenSSL (Newest version and the default which MassOS programs will use).
-tar -xf openssl-3.0.1.tar.gz
-cd openssl-3.0.1
+# OpenSSL.
+tar -xf openssl-3.0.2.tar.gz
+cd openssl-3.0.2
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
-rm -rf openssl-3.0.1
+rm -rf openssl-3.0.2
 # easy-rsa.
 tar -xf EasyRSA-3.0.8.tgz
 cd EasyRSA-3.0.8
@@ -876,8 +865,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.61.2.tar.gz
-cd meson-0.61.2
+tar -xf meson-0.61.3.tar.gz
+cd meson-0.61.3
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -885,7 +874,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.61.2
+rm -rf meson-0.61.3
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -1032,7 +1021,7 @@ sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
 cd build_unix
 ../dist/configure --prefix=/usr --enable-compat185 --enable-dbm --disable-static --enable-cxx
 make
-make install
+make docdir=/usr/share/doc/db install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la}
 install -t /usr/share/licenses/db -Dm644 ../LICENSE
 cd ../..
@@ -1177,13 +1166,13 @@ install -t /usr/share/licenses/docutils -Dm644 COPYING.txt
 cd ..
 rm -rf docutils-0.18.1
 # MarkupSafe.
-tar -xf MarkupSafe-2.1.0.tar.gz
-cd MarkupSafe-2.1.0
+tar -xf MarkupSafe-2.1.1.tar.gz
+cd MarkupSafe-2.1.1
 python setup.py build
 python setup.py install --optimize=1
 install -t /usr/share/licenses/markupsafe -Dm644 LICENSE.rst
 cd ..
-rm -rf MarkupSafe-2.1.0
+rm -rf MarkupSafe-2.1.1
 # Jinja2.
 tar -xf Jinja2-3.0.3.tar.gz
 cd Jinja2-3.0.3
@@ -1205,6 +1194,53 @@ python setup.py install --optimize=1
 install -t /usr/share/licenses/pygments -Dm644 LICENSE
 cd ..
 rm -rf Pygments-2.11.2
+# importlib-metadata
+tar -xf importlib_metadata-4.10.1.tar.gz
+cd importlib_metadata-4.10.1
+rm -f exercises.py
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/importlib-metadata -Dm644 LICENSE
+cd ..
+rm -rf importlib_metadata-4.10.1
+# Markdown.
+tar -xf Markdown-3.3.6.tar.gz
+cd Markdown-3.3.6
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/markdown -Dm644 LICENSE.md
+cd ..
+rm -rf Markdown-3.3.6
+# toml.
+tar -xf toml-0.10.2.tar.gz
+cd toml-0.10.2
+python setup.py build
+python setup.py install --prefix=/usr --optimize=1 --skip-build
+install -t /usr/share/licenses/toml -Dm644 LICENSE
+cd ..
+rm -rf toml-0.10.2
+# smartypants.
+tar -xf smartypants.py-2.0.1.tar.gz
+cd smartypants.py-2.0.1
+python setup.py install --optimize=1
+install -t /usr/share/licenses/smartypants -Dm644 COPYING
+cd ..
+rm -rf smartypants.py-2.0.1.tar.gz
+# typogrify.
+tar -xf typogrify-2.0.7.tar.gz
+cd typogrify-2.0.7
+python setup.py install --optimize=1
+install -t /usr/share/licenses/typogrify -Dm644 LICENSE.txt
+cd ..
+rm -rf typogrify-2.0.7
+# gi-docgen (dependency of librsvg since 2.54.0).
+tar -xf gi-docgen-2022.1.tar.xz
+cd gi-docgen-2022.1
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/gi-docgen -Dm644 LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
+cd ..
+rm -rf gi-docgen-2022.1
 # dialog.
 tar -xf dialog-1.3-20220117.tgz
 cd dialog-1.3-20220117
@@ -2112,6 +2148,7 @@ rm -rf cryptsetup-2.4.3
 # libusb.
 tar -xf libusb-1.0.25.tar.bz2
 cd libusb-1.0.25
+patch -Np1 -i ../patches/libusb-1.0.25-UpstreamFix.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -2443,8 +2480,8 @@ make install
 cd ..
 rm -rf curl-7.82.0
 # OpenVPN.
-tar -xf openvpn-2.5.5.tar.gz
-cd openvpn-2.5.5
+tar -xf openvpn-2.5.6.tar.gz
+cd openvpn-2.5.6
 sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
 autoreconf -fi
 ./configure --prefix=/usr --enable-pkcs11 --enable-plugins --enable-systemd --enable-x509-alt-username
@@ -2459,7 +2496,7 @@ done <<< $(find contrib -type f)
 cp -r sample/sample-config-files /usr/share/openvpn/examples
 install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 cd ..
-rm -rf openvpn-2.5.5
+rm -rf openvpn-2.5.6
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2490,8 +2527,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380000.tar.gz
-cd sqlite-autoconf-3380000
+tar -xf sqlite-autoconf-3380100.tar.gz
+cd sqlite-autoconf-3380100
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2501,7 +2538,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380000
+rm -rf sqlite-autoconf-3380100
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2858,8 +2895,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.7.0esr.source.tar.xz
-cd firefox-91.7.0
+tar -xf firefox-91.7.1esr.source.tar.xz
+cd firefox-91.7.1
 mkdir JS91-build; cd JS91-build
 if mountpoint -q /dev/shm; then
   beforemounted="true"
@@ -2879,7 +2916,7 @@ fi
 unset beforemounted
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.7.0
+rm -rf firefox-91.7.1
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3362,14 +3399,14 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-10.6.2.tar.gz
-cd qpdf-10.6.2
+tar -xf qpdf-10.6.3.tar.gz
+cd qpdf-10.6.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 cd ..
-rm -rf qpdf-10.6.2
+rm -rf qpdf-10.6.3
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3455,20 +3492,28 @@ rm -f /usr/lib/libslang.a
 install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
 rm -rf slang-pre2.3.3-66
-# BIND Utilities.
-tar -xf bind-9.16.25.tar.xz
-cd bind-9.16.25
-./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl --without-python
-make -C lib/dns
+# BIND Utils.
+tar -xf bind-9.18.1.tar.xz
+cd bind-9.18.1
+./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
-make -C lib/bind9
+make -C lib/dns
+make -C lib/ns
 make -C lib/isccfg
+make -C lib/bind9
 make -C lib/irs
 make -C bin/dig
+make -C lib/isc install
+make -C lib/dns install
+make -C lib/ns install
+make -C lib/isccfg install
+make -C lib/bind9 install
+make -C lib/irs install
 make -C bin/dig install
+install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf bind-9.16.25
+rm -rf bind-9.18.1
 # dhclient.
 tar -xf dhcp-4.4.3.tar.gz
 cd dhcp-4.4.3
@@ -3689,15 +3734,15 @@ install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm
 cd ../..
 rm -rf libdrm-2.4.110
 # DirectX-Headers.
-tar -xf DirectX-Headers-1.4.9.tar.gz
-cd DirectX-Headers-1.4.9
+tar -xf DirectX-Headers-1.600.10.tar.gz
+cd DirectX-Headers-1.600.10
 mkdir DXH-build; cd DXH-build
 meson --prefix=/usr --buildtype=release -Dbuild-test=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
 cd ../..
-rm -rf DirectX-Headers-1.4.9
+rm -rf DirectX-Headers-1.600.10
 # glslang.
 tar -xf glslang-11.8.0.tar.gz
 cd glslang-11.8.0
@@ -3719,25 +3764,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.207.tar.gz
-cd Vulkan-Headers-1.3.207
+tar -xf Vulkan-Headers-1.3.208.tar.gz
+cd Vulkan-Headers-1.3.208
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.207
+rm -rf Vulkan-Headers-1.3.208
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.207.tar.gz
-cd Vulkan-Loader-1.3.207
+tar -xf Vulkan-Loader-1.3.208.tar.gz
+cd Vulkan-Loader-1.3.208
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.207
+rm -rf Vulkan-Loader-1.3.208
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4134,6 +4179,18 @@ make install
 install -t /usr/share/licenses/libisoburn -Dm644 COPYING COPYRIGHT
 cd ..
 rm -rf libisoburn-1.5.4
+# tealdeer.
+tar -xf tealdeer-1.5.0.tar.gz
+cd tealdeer-1.5.0
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" cargo build --release
+install -m755 target/release/tldr /usr/bin/tldr
+install -m644 bash_tealdeer /usr/share/bash-completion/completions/tldr
+install -m644 fish_tealdeer /usr/share/fish/vendor_completions.d/tldr.fish
+install -m644 zsh_tealdeer /usr/share/zsh/site-functions/_tldr
+install -t /usr/share/licenses/tealdeer -Dm644 LICENSE-APACHE LICENSE-MIT
+ln -sf tealdeer /usr/share/licenses/tldr
+cd ..
+rm -rf tealdeer-1.5.0
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
@@ -4255,8 +4312,8 @@ install -t /usr/share/licenses/atkmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf atkmm-2.28.2
 # GDK-Pixbuf.
-tar -xf gdk-pixbuf-2.42.6.tar.xz
-cd gdk-pixbuf-2.42.6
+tar -xf gdk-pixbuf-2.42.8.tar.xz
+cd gdk-pixbuf-2.42.8
 mkdir pixbuf-build; cd pixbuf-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -4264,7 +4321,7 @@ ninja install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/gdk-pixbuf -Dm644 ../COPYING
 cd ../..
-rm -rf gdk-pixbuf-2.42.6
+rm -rf gdk-pixbuf-2.42.8
 # Cairo.
 tar -xf cairo-1.17.4.tar.xz
 cd cairo-1.17.4
@@ -4410,15 +4467,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.52.7.tar.xz
-cd librsvg-2.52.7
+tar -xf librsvg-2.54.0.tar.xz
+cd librsvg-2.54.0
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.52.7
+rm -rf librsvg-2.54.0
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -4726,9 +4783,9 @@ install -t /usr/share/licenses/libical -Dm644 ../COPYING ../LICENSE ../LICENSE.L
 cd ../..
 rm -rf libical-3.0.14
 # BlueZ.
-tar -xf bluez-5.63.tar.xz
-cd bluez-5.63
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-manpages --enable-library
+tar -xf bluez-5.64.tar.xz
+cd bluez-5.64
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-library
 make
 make install
 ln -sf ../libexec/bluetooth/bluetoothd /usr/sbin
@@ -4738,7 +4795,7 @@ systemctl enable bluetooth
 systemctl enable --global obex
 install -t /usr/share/licenses/bluez -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf bluez-5.63
+rm -rf bluez-5.64
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -4877,8 +4934,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4536.tar.gz
-cd vim-8.2.4536
+tar -xf vim-8.2.4586.tar.gz
+cd vim-8.2.4586
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4901,7 +4958,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4536
+rm -rf vim-8.2.4586
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5167,8 +5224,6 @@ cd Python-3.10.2
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
-pip --no-color install requests
-pip --no-color install tldr
 cd ..
 rm -rf Python-3.10.2
 # python-distutils-extra.
@@ -5200,23 +5255,6 @@ python setup.py install --skip-build
 install -t /usr/share/licenses/cython -Dm644 COPYING.txt LICENSE.txt
 cd ..
 rm -rf Cython-0.29.25
-# importlib-metadata
-tar -xf importlib_metadata-4.10.1.tar.gz
-cd importlib_metadata-4.10.1
-rm -f exercises.py
-python setup.py build
-python setup.py install --optimize=1
-install -t /usr/share/licenses/importlib-metadata -Dm644 LICENSE
-cd ..
-rm -rf importlib_metadata-4.10.1
-# Markdown.
-tar -xf Markdown-3.3.6.tar.gz
-cd Markdown-3.3.6
-python setup.py build
-python setup.py install --optimize=1 --skip-build
-install -t /usr/share/licenses/markdown -Dm644 LICENSE.md
-cd ..
-rm -rf Markdown-3.3.6
 # dnspython.
 tar -xf dnspython-2.2.0.tar.gz
 cd dnspython-2.2.0
@@ -5225,6 +5263,47 @@ python setup.py install --optimize=1 --skip-build
 install -t /usr/share/licenses/dnspython -Dm644 LICENSE
 cd ..
 rm -rf dnspython-2.2.0
+# chardet.
+tar -xf chardet-4.0.0.tar.gz
+cd chardet-4.0.0
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/chardet -Dm644 LICENSE
+cd ..
+rm -rf chardet-4.0.0
+# idna.
+tar -xf idna-3.3.tar.gz
+cd idna-3.3
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/idna -Dm644 LICENSE.md
+cd ..
+rm -rf idna-3.3
+# pyopenssl.
+tar -xf pyopenssl-22.0.0.tar.gz
+cd pyopenssl-22.0.0
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/pyopenssl -Dm644 LICENSE
+cd ..
+rm -rf pyopenssl-22.0.0
+# urllib3.
+tar -xf urllib3-1.26.9.tar.gz
+cd urllib3-1.26.9
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/urllib3 -Dm644 LICENSE.txt
+cd ..
+rm -rf urllib3-1.26.9
+# requests.
+tar -xf requests-2.27.1.tar.gz
+cd requests-2.27.1
+sed -e "/certifi/d" -e "s/,<.*'/'/" -e "/charset_normalizer/d" -i setup.py
+python setup.py build
+python setup.py install --optimize=1 --skip-build
+install -t /usr/share/licenses/requests -Dm644 LICENSE
+cd ..
+rm -rf requests-2.27.1
 # libplist.
 tar -xf libplist-2.2.0.tar.bz2
 cd libplist-2.2.0
@@ -5263,8 +5342,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.15.5.tar.gz
-cd samba-4.15.5
+tar -xf samba-4.15.6.tar.gz
+cd samba-4.15.6
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
@@ -5287,7 +5366,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.15.5
+rm -rf samba-4.15.6
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20210805.tar.xz
 cd mobile-broadband-provider-info-20210805
@@ -5541,8 +5620,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
 cd ..
 rm -rf xdg-dbus-proxy-0.1.2
 # Flatpak.
-tar -xf flatpak-1.13.1.tar.xz
-cd flatpak-1.13.1
+tar -xf flatpak-1.13.2.tar.xz
+cd flatpak-1.13.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -5564,7 +5643,7 @@ flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.13.1
+rm -rf flatpak-1.13.2
 # libportal-gtk3.
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
@@ -5889,65 +5968,65 @@ install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
 cd ../..
 rm -rf openal-soft-1.21.1
 # GStreamer.
-tar -xf gstreamer-1.20.0.tar.xz
-cd gstreamer-1.20.0
+tar -xf gstreamer-1.20.1.tar.xz
+cd gstreamer-1.20.1
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
 cd ../..
-rm -rf gstreamer-1.20.0
+rm -rf gstreamer-1.20.1
 # gst-plugins-base.
-tar -xf gst-plugins-base-1.20.0.tar.xz
-cd gst-plugins-base-1.20.0
+tar -xf gst-plugins-base-1.20.1.tar.xz
+cd gst-plugins-base-1.20.1
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-base-1.20.0
+rm -rf gst-plugins-base-1.20.1
 # gst-plugins-good.
-tar -xf gst-plugins-good-1.20.0.tar.xz
-cd gst-plugins-good-1.20.0
+tar -xf gst-plugins-good-1.20.1.tar.xz
+cd gst-plugins-good-1.20.1
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-good-1.20.0
+rm -rf gst-plugins-good-1.20.1
 # gst-plugins-bad.
-tar -xf gst-plugins-bad-1.20.0.tar.xz
-cd gst-plugins-bad-1.20.0
+tar -xf gst-plugins-bad-1.20.1.tar.xz
+cd gst-plugins-bad-1.20.1
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-bad-1.20.0
+rm -rf gst-plugins-bad-1.20.1
 # gst-plugins-ugly.
-tar -xf gst-plugins-ugly-1.20.0.tar.xz
-cd gst-plugins-ugly-1.20.0
+tar -xf gst-plugins-ugly-1.20.1.tar.xz
+cd gst-plugins-ugly-1.20.1
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-ugly-1.20.0
+rm -rf gst-plugins-ugly-1.20.1
 # gst-libav.
-tar -xf gst-libav-1.20.0.tar.xz
-cd gst-libav-1.20.0
+tar -xf gst-libav-1.20.1.tar.xz
+cd gst-libav-1.20.1
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.0 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
-rm -rf gst-libav-1.20.0
+rm -rf gst-libav-1.20.1
 # WebKitGTK.
 tar -xf webkitgtk-2.34.6.tar.xz
 cd webkitgtk-2.34.6
@@ -6429,8 +6508,8 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-41.3.tar.xz
-cd evince-41.3
+tar -xf evince-41.4.tar.xz
+cd evince-41.4
 find . -name meson.build | xargs sed -i '/merge_file/{n;d}'
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release -Dnautilus=false ..
@@ -6438,7 +6517,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-41.3
+rm -rf evince-41.4
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -6471,15 +6550,15 @@ install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
 # GNOME Software.
-tar -xf gnome-software-41.4.tar.xz
-cd gnome-software-41.4
+tar -xf gnome-software-41.5.tar.xz
+cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
 meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
-rm -rf gnome-software-41.4
+rm -rf gnome-software-41.5
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
 cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
@@ -6625,7 +6704,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-98.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-98.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6707,19 +6786,19 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.14.tar.xz
-cd linux-5.16.14
+tar -xf linux-5.16.15.tar.xz
+cd linux-5.16.15
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.14-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.14-massos/vmlinuz
-cp System.map /boot/System.map-5.16.14-massos
-cp .config /boot/config-5.16.14-massos
-rm /usr/lib/modules/5.16.14-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.15-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/5.16.15-massos/vmlinuz
+cp System.map /boot/System.map-5.16.15-massos
+cp .config /boot/config-5.16.15-massos
+rm /usr/lib/modules/5.16.15-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.14-massos/build
+builddir=/usr/lib/modules/5.16.15-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6743,7 +6822,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.14
+rm -rf linux-5.16.15
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

@@ -4,51 +4,72 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Started migration of documentation to the MassOS wiki.
-- Moved from JS78 to JS91.
+- Added a template for issues and bug reports opened on the MassOS repository.
+- Replaced Python tldr client for [tealdeer](https://github.com/dbrgn/tealdeer), a faster tldr client written in Rust.
+- Migrated from JS78 to JS91.
 - Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
+- Dropped OpenSSL Legacy (1.1.x).
 
 Upgraded software:
 
 - Asciidoc: `10.1.1 --> 10.1.4`
+- BIND Utils: `9.16.25 --> 9.18.1`
+- BlueZ: `5.63 --> 5.64`
 - CMake: `3.23.0-rc2 --> 3.23.0-rc3`
 - curl: `7.81.0 --> 7.82.0`
 - Cyrus SASL: `2.1.27 --> 2.1.28`
 - D-Bus: `1.12.22 --> 1.14.0`
 - dhclient: `4.4.2-P1 --> 4.4.3`
+- Evince: `41.3 --> 41.4`
 - Expat: `2.4.6 --> 2.4.7`
 - Fakeroot: `1.27 --> 1.28`
-- Firefox: `97.0.1 --> 98.0`
-- Flatpak: `1.12.6 --> 1.13.1`
+- Firefox: `97.0.1 --> 98.0.1`
+- Flatpak: `1.12.6 --> 1.13.2`
+- GDK-Pixbuf: `2.42.6 --> 2.42.8`
+- GNOME Software: `41.4 --> 41.5`
 - GPGME: `1.17.0 --> 1.17.1`
 - Graphviz: `2.50.0 --> 3.0.0`
+- gst-libav: `1.20.0 --> 1.20.1`
+- gst-plugins-bad: `1.20.0 --> 1.20.1`
+- gst-plugins-base: `1.20.0 --> 1.20.1`
+- gst-plugins-good: `1.20.0 --> 1.20.1`
+- gst-plugins-ugly: `1.20.0 --> 1.20.1`
+- GStreamer: `1.20.0 --> 1.20.1`
 - GTK3: `3.24.31 --> 3.24.33`
 - HarfBuzz: `3.4.0 --> 4.0.1`
 - libgphoto2: `2.5.27 --> 2.5.29`
 - libostree: `2022.1 --> 2022.2`
-- librsvg: `2.52.6 --> 2.52.7`
+- librsvg: `2.52.6 --> 2.54.0`
+- libtool: `2.4.6 --> 2.4.7`
 - libuv: `1.43.0 --> 1.44.1`
 - libva: `2.13.0 --> 2.14.0`
 - libvdpau: `1.4 --> 1.5`
-- Linux Kernel: `5.16.12 --> 5.16.14`
+- Linux Kernel: `5.16.12 --> 5.16.15`
 - Mako: `1.1.6 --> 1.2.0`
-- MarkupSafe: `2.0.1 --> 2.1.0`
+- MarkupSafe: `2.0.1 --> 2.1.1`
 - Mesa: `21.3.7 --> 22.0.0`
+- Meson: `0.61.2 --> 0.61.3`
 - mtools: `4.0.37 --> 4.0.38`
 - NetworkManager: `1.36.0 --> 1.36.2`
 - NetworkManager-openvpn: `1.8.16 --> 1.8.18`
 - NSS: `3.75 --> 3.76`
+- OpenSSL: `3.0.1 --> 3.0.2`
+- OpenVPN: `2.5.5 --> 2.5.6`
 - Pango: `1.50.4 --> 1.50.5`
 - Poppler: `22.02.0 --> 22.03.0`
 - PyCairo: `1.20.1 --> 1.21.0`
+- Qpdf: `10.6.2 --> 10.6.3`
 - Ruby: `3.1.0 --> 3.1.1`
+- smbclient: `4.15.5 --> 4.15.6`
+- SQLite: `3.38.0 --> 3.38.1`
 - Sudo: `1.9.9 --> 1.9.10`
 - systemd: `250.3 --> 250.4`
 - Thunderbird: `91.6.1 --> 91.7.0`
 - Unifont: `14.0.01 --> 14.0.02`
 - UPower: `0.99.16 --> 0.99.17`
-- Vim: `8.2.4482 --> 8.2.4536`
-- Vulkan-Headers: `1.3.206 --> 1.3.207`
-- Vulkan-Loader: `1.3.206 --> 1.3.207`
+- Vim: `8.2.4482 --> 8.2.4586`
+- Vulkan-Headers: `1.3.206 --> 1.3.208`
+- Vulkan-Loader: `1.3.206 --> 1.3.208`
 - Wget: `1.21.2 --> 1.21.3`
 - x264: `0.164.3086 --> 0.164.3094`
 - xfce4-screenshooter: `1.9.9 --> 1.9.10`
