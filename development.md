@@ -474,19 +474,31 @@ cd ../..
 rm -r mutter-42.0
 rm mutter-42.0.tar.xz
 ```
-## Install SpiderMonkey, not done yet
+## Install SpiderMonkey 
 ```
-wget https://ftp.mozilla.org/pub/firefox/releases/91.0esr/source/firefox-91.0esr.source.tar.xz
-tar -xf firefox-91.0esr.source.tar.xz
-cd firefox-91.0esr.source/js/src
-mkdir _build
-cd _build
-../configure --disable-jemalloc --with-system-zlib --with-intl-api --enable-debug --enable-optimize --with-system-icu --prefix=/usr
+wget https://archive.mozilla.org/pub/firefox/releases/91.7.1esr/source/firefox-91.7.1esr.source.tar.xz
+cd firefox-91.7.1
+mkdir JS91-build; cd JS91-build
+if mountpoint -q /dev/shm; then
+  beforemounted="true"
+else
+  mount -t tmpfs devshm /dev/shm
+  beforemounted="false"
+fi
+chmod +x ../js/src/configure.in
+SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
-cd ../../..
-export PKG_CONFIG_PATH=/usr/lib/pkgconfig
-export LD_LIBRARY_PATH=/usr/lib
+rm -f /usr/lib/libjs_static.ajs
+sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
+if [ "$beforemounted" = "false" ]; then
+  umount /dev/shm
+fi
+unset beforemounted
+install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
+cd ../..
+rm -r firefox-91.7.1
+rm firefox-91.7.1esr.source.tar.xz
 ```
 
 Install GJS
@@ -508,9 +520,9 @@ rm gjs-1.71.90.tar.xz
 ```
 Install iBus
 ```
-wget https://github.com/ibus/ibus/releases/download/1.5.25/ibus-1.5.25.tar.gz
-tar -xf ibus-1.5.25.tar.gz
-cd ibus-1.5.25
+wget https://github.com/ibus/ibus/releases/download/1.5.26/ibus-1.5.26.tar.gz
+tar -xf ibus-1.5.26.tar.gz
+cd ibus-1.5.26
 sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
     data/dconf/org.freedesktop.ibus.gschema.xml
 ./configure --prefix=/usr --sysconfdir=/etc --disable-unicode-dict --disable-emoji-dict
@@ -520,23 +532,23 @@ make install
 install -t /usr/share/licenses/ibus -Dm644 ../COPYING
 gzip -dfv /usr/share/man/man{{1,5}/ibus*.gz,5/00-upstream-settings.5.gz}
 cd ..
-rm -r ibus-1.5.25
-rm ibus-1.5.25.tar.gz
+rm -r ibus-1.5.26
+rm ibus-1.5.26.tar.gz
 ```
 
 Now, we can install GNOME Shell
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-shell/42/gnome-shell-42.beta.tar.xz
-tar -xf gnome-shell-42.beta.tar.xz
-cd gnome-shell-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-shell/42/gnome-shell-42.0.tar.xz
+tar -xf gnome-shell-42.0.tar.xz
+cd gnome-shell-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-shell -Dm644 ../COPYING
 cd ../..
-rm -r gnome-shell-42.beta
-rm gnome-shell-42.beta.tar.xz
+rm -r gnome-shell-42.0
+rm gnome-shell-42.0.tar.xz
 ```
 ## GDM
 
