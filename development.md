@@ -477,6 +477,7 @@ rm mutter-42.0.tar.xz
 ## Install SpiderMonkey 
 ```
 wget https://archive.mozilla.org/pub/firefox/releases/91.7.1esr/source/firefox-91.7.1esr.source.tar.xz
+tar -xf firefox-91.7.1esr.source.tar.xz
 cd firefox-91.7.1
 mkdir JS91-build; cd JS91-build
 if mountpoint -q /dev/shm; then
@@ -557,7 +558,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/41/gdm-41.3.tar.xz
 tar -xf gdm-41.3.tar.xz
 cd gdm-41.3
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=massos
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=autodetect
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
@@ -682,17 +683,17 @@ rm samba-4.15.5.tar.gz
 
 Now, we can install GNOME Settings
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/42/gnome-control-center-42.beta.tar.xz
-tar -xf gnome-control-center-42.beta.tar.xz
-cd ggnome-control-center-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/42/gnome-control-center-42.0.tar.xz
+tar -xf gnome-control-center-42.0.tar.xz
+cd gnome-control-center-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dcheese=false
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-control-center -Dm644 ../COPYING
 cd ../..
-rm -r gnome-control-center-42.beta
-rm gnome-control-center-42.beta.tar.xz
+rm -r gnome-control-center-42.0
+rm gnome-control-center-42.0.tar.xz
 ```
 ## GNOME Themes Extra
 
@@ -703,7 +704,6 @@ cd gnome-themes-extra-3.28
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/gnome-themes-extra -Dm644 COPYING
 cd ..
 rm -r gnome-themes-extra-3.28
 rm gnome-themes-extra-3.28.tar.xz 
