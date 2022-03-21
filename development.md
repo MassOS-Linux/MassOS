@@ -487,6 +487,14 @@ cd ../..
 rm -r mutter-42.0
 rm mutter-42.0.tar.xz
 ```
+## Install Rust temporarily
+```
+wget https://static.rust-lang.org/dist/rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
+tar -xf rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
+cd rust-1.58.1-x86_64-unknown-linux-gnu
+sudo ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
+```
+
 ## Install SpiderMonkey 
 ```
 wget https://archive.mozilla.org/pub/firefox/releases/91.7.1esr/source/firefox-91.7.1esr.source.tar.xz
@@ -514,8 +522,11 @@ cd ../..
 rm -r firefox-91.7.1
 rm firefox-91.7.1esr.source.tar.xz
 ```
-
-Install GJS
+# Remove SpiderMonkey
+```
+sudo /usr/lib/rustlib/uninstall.sh
+```
+## Install GJS
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gjs/1.72/gjs-1.72.0.tar.xz
 tar -xf gjs-1.72.0.tar.xz
@@ -718,13 +729,22 @@ cd ..
 rm -r gnome-themes-extra-3.28
 rm gnome-themes-extra-3.28.tar.xz 
 ```
+## Cantarell fonts
+```
+wget https://github.com/AaronTechnic/Cantarell-for-MassOS/raw/main/Cantarell.zip
+unzip Cantarell.zip
+mkdir /usr/share/fonts/cantarell
+mv Cantarell-* /usr/share/fonts/cantarell/
+rm Cantarell.zip OFL.txt
+```
 
 ## Set theme
 
 ```
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 10'
-gsettings set org.gnome.desktop.interface font-name 'Noto Sans Regular 10'
+gsettings set org.gnome.desktop.interface document-font-name 'Cantarell Regular 10'
+gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
+gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 ```
