@@ -3,18 +3,46 @@
 ## GNOME Wallpapers
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-backgrounds/42/gnome-backgrounds-42.beta.tar.xz
-tar -xf gnome-backgrounds-42.beta.tar.xz
-cd gnome-backgrounds-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-backgrounds/42/gnome-backgrounds-42.0.tar.xz
+tar -xf gnome-backgrounds-42.0.tar.xz
+cd gnome-backgrounds-42.0
 mkdir build && cd build
 meson --prefix=/usr
 ninja
 ninja install
 cd ..
-install -t /usr/share/licenses/gnome-backgrounds -Dm644 COPYING COPYING_CCBY2 COPYING_CCBYSA2 COPYING_CCBYSA3
+install -t /usr/share/licenses/gnome-backgrounds -Dm644 COPYING
 cd ..
-rm -r gnome-backgrounds-42.beta
-rm gnome-backgrounds-42.beta.tar.xz
+rm -r gnome-backgrounds-42.0
+rm gnome-backgrounds-42.0.tar.xz
+```
+## Install Tracker
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/tracker/3.3/tracker-3.3.0.tar.xz
+tar -xf tracker-3.3.0.tar.xz
+cd tracker-3.3.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Ddocs=false -Dman=false
+ninja
+ninja install
+install -t /usr/share/licenses/tracker -Dm644 ../COPYING
+cd ../..
+rm -r tracker-3.3.0
+rm tracker-3.3.0.tar.xz
+```
+## Install LibCloudProviders
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/libcloudproviders/0.3/libcloudproviders-0.3.1.tar.xz
+tar -xf libcloudproviders-0.3.1.tar.xz
+cd libcloudproviders-0.3.1
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/tracker -Dm644 ../LICENSE
+cd ../..
+rm -r libcloudproviders-0.3.1
+rm libcloudproviders-0.3.1.tar.xz
 ```
 ## Install GTK4
 ```
@@ -22,7 +50,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gtk/4.6/gtk-4.6.2.tar.xz
 tar -xf gtk-4.6.2.tar.xz
 cd gtk-4.6.2
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dcolord=enabled -Dsysprof=enabled -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=enabled -Ddemos=false
+meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dcolord=enabled -Dsysprof=enabled -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=enabled -Ddemos=false -Dvulkan=enabled -Dtracker=enabled -Dcloudproviders=enabled
 ninja
 ninja install
 install -t /usr/share/licenses/gtk4 -Dm644 ../COPYING
@@ -32,17 +60,17 @@ rm gtk-4.6.2.tar.xz
 ```
 ## Libadwaita
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/libadwaita/1.1/libadwaita-1.1.rc.tar.xz
-tar -xf libadwaita-1.1.rc.tar.xz
-cd libadwaita-1.1.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/libadwaita/1.1/libadwaita-1.1.0.tar.xz
+tar -xf libadwaita-1.1.0.tar.xz
+cd libadwaita-1.1.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/libadwaita -Dm644 ../COPYING
 cd ../..
-rm -r libadwaita-1.1.rc
-rm libadwaita-1.1.rc.tar.xz
+rm -r llibadwaita-1.1.0
+rm libadwaita-1.1.0.tar.xz
 ```
 ## GNOME Text Editor
 
@@ -64,33 +92,33 @@ rm gtksourceview-5.4.0.tar.xz
 Now, we can install GNOME Text Editor
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-text-editor/42/gnome-text-editor-42.rc1.tar.xz
-tar -xf gnome-text-editor-42.rc1.tar.xz
-cd gnome-text-editor-42.rc1
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-text-editor/42/gnome-text-editor-42.0.tar.xz
+tar -xf gnome-text-editor-42.0.tar.xz
+cd gnome-text-editor-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
 cd ../..
-rm -r gnome-text-editor-42.rc1
-rm gnome-text-editor-42.rc1.tar.xz
+rm -r ggnome-text-editor-42.0
+rm gnome-text-editor-42.0.tar.xz
 ```
 
 ## Calculator
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-calculator/42/gnome-calculator-42.rc.tar.xz
-tar -xf gnome-calculator-42.rc.tar.xz
-cd gnome-calculator-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-calculator/42/gnome-calculator-42.0.tar.xz
+tar -xf gnome-calculator-42.0.tar.xz
+cd gnome-calculator-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-calculator -Dm644 ../COPYING
 cd ../..
-rm -r gnome-calculator-42.rc
-rm gnome-calculator-42.rc.tar.xz
+rm -r gnome-calculator-42.0
+rm gnome-calculator-42.0.tar.xz
 ```
 
 ## System Monitor
@@ -112,17 +140,17 @@ rm libgtop-2.40.0.tar.xz
 Now, we can install System Monitor.
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-system-monitor/42/gnome-system-monitor-42.rc.tar.xz
-tar -xf gnome-system-monitor-42.rc.tar.xz
-cd gnome-system-monitor-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-system-monitor/42/gnome-system-monitor-42.0.tar.xz
+tar -xf gnome-system-monitor-42.0.tar.xz
+cd gnome-system-monitor-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-system-monitor -Dm644 ../COPYING
 cd ../..
-rm -r gnome-system-monitor-42.rc
-rm gnome-system-monitor-42.rc.tar.xz
+rm -r gnome-system-monitor-42.0
+rm gnome-system-monitor-42.0.tar.xz
 ```
 ## Totem, GNOME's video player
 
@@ -145,17 +173,17 @@ rm totem-pl-parser-3.26.6.tar.xz
 Install GNOME Desktop
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-desktop/42/gnome-desktop-42.rc.tar.xz
-tar -xf gnome-desktop-42.rc.tar.xz
-cd gnome-desktop-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-desktop/42/gnome-desktop-42.0.tar.xz
+tar -xf gnome-desktop-42.0.tar.xz
+cd gnome-desktop-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dgnome_distributor="MassOS"
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-desktop -Dm644 ../COPYING
 cd ../..
-rm -r gnome-desktop-42.rc
-rm gnome-desktop-42.rc.tar.xz
+rm -r gnome-desktop-42.0
+rm gnome-desktop-42.0.tar.xz
 ```
 
 Install Clutter-gst
@@ -201,35 +229,35 @@ cd ../..
 rm -r libpeas-1.30.0
 rm libpeas-1.30.0.tar.xz
 ```
-Now, we can install Totem. (not working at the moment)
+Now, we can install Totem.
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/totem/42/totem-42.beta.tar.xz
-tar -xf totem-42.beta.tar.xz
-cd totem-42.beta
+wget https://ftp.acc.umu.se/pub/gnome/sources/totem/42/totem-42.0.tar.xz
+tar -xf totem-42.0.tar.xz
+cd totem-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/totem -Dm644 ../COPYING
 cd ../..
-rm -r totem-42.beta
-rm totem-42.beta.tar.xz
+rm -r totem-42.0
+rm totem-42.0.tar.xz
 ```
 # File Roller
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/file-roller/3.41/file-roller-3.41.90.tar.xz
-tar -xf file-roller-3.41.90.tar.xz
-cd file-roller-3.41.90
+wget https://ftp.acc.umu.se/pub/gnome/sources/file-roller/3.42/file-roller-3.42.0.tar.xz
+tar -xf file-roller-3.42.0.tar.xz
+cd file-roller-3.42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dpackagekit=false
 ninja
 ninja install
 install -t /usr/share/licenses/file-roller -Dm644 ../COPYING
 cd ../..
-rm -r file-roller-3.41.90
-rm file-roller-3.41.90.tar.xz
+rm -r file-roller-3.42.0
+rm file-roller-3.42.0.tar.xz
 ```
 
 # Nautilus
@@ -263,35 +291,21 @@ cd ../..
 rm -r libportal-0.5
 rm libportal-0.5.tar.xz
 ```
-Install Tracker
-```
-wget https://ftp.acc.umu.se/pub/gnome/sources/tracker/3.3/tracker-3.3.0.rc.tar.xz
-tar -xf tracker-3.3.0.rc.tar.xz
-cd tracker-3.3.0.rc
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Ddocs=false -Dman=false
-ninja
-ninja install
-install -t /usr/share/licenses/tracker -Dm644 ../COPYING
-cd ../..
-rm -r tracker-3.3.0.rc
-rm tracker-3.3.0.rc.tar.xz
-```
 
 Now, we can install Nautilus
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/nautilus/42/nautilus-42.rc.tar.xz
-tar -xf nautilus-42.rc.tar.xz
-cd nautilus-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/nautilus/42/nautilus-42.0.tar.xz
+tar -xf nautilus-42.0.tar.xz
+cd nautilus-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false
 ninja
 ninja install
 install -t /usr/share/licenses/nautilus -Dm644 ../COPYING
 cd ../..
-rm -r nautilus-42.rc
-rm nautilus-42.rc.tar.xz
+rm -r nautilus-42.0
+rm nautilus-42.0.tar.xz
 ```
 ## GSound
 ```
@@ -381,9 +395,9 @@ rm evolution-data-server-3.44.0.tar.xz
 ```
 GSettings Desktop Schemas
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/42/gsettings-desktop-schemas-42.rc.tar.xz
-tar -xf gsettings-desktop-schemas-42.rc.tar.xz
-cd gsettings-desktop-schemas-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/42/gsettings-desktop-schemas-42.0.tar.xz
+tar -xf gsettings-desktop-schemas-42.0.tar.xz
+cd gsettings-desktop-schemas-42.0
 sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in &&
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
@@ -392,10 +406,9 @@ ninja install
 install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
-rm -r gsettings-desktop-schemas-42.rc
-rm gsettings-desktop-schemas-42.rc.tar.xz
+rm -r gsettings-desktop-schemas-42.0
+rm gsettings-desktop-schemas-42.0.tar.xz
 ```
-
 Install Geocode Glib
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/geocode-glib/3.26/geocode-glib-3.26.2.tar.xz
@@ -405,7 +418,7 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Denable-gtk-doc=false
 ninja
 ninja install
-install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING
+install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING.LIB
 cd ../..
 rm -r geocode-glib-3.26.2
 rm geocode-glib-3.26.2.tar.xz
@@ -429,9 +442,9 @@ rm libgweather-4.0.0.tar.xz
 
 Install GNOME Settings Daemon
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-settings-daemon/42/gnome-settings-daemon-42.rc.tar.xz
-tar -xf gnome-settings-daemon-42.rc.tar.xz
-cd gnome-settings-daemon-42.rc
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-settings-daemon/42/gnome-settings-daemon-42.1.tar.xz
+tar -xf gnome-settings-daemon-42.1.tar.xz
+cd gnome-settings-daemon-42.1
 rm -fv /usr/lib/systemd/user/gsd-*
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dsystemd=true
@@ -439,8 +452,8 @@ ninja
 ninja install
 install -t /usr/share/licenses/gnome-settings-daemon -Dm644 ../COPYING
 cd ../..
-rm -r gnome-settings-daemon-42.rc
-rm gnome-settings-daemon-42.rc.tar.xz
+rm -r gnome-settings-daemon-42.1
+rm gnome-settings-daemon-42.1.tar.xz
 ```
 Install Pipewire
 ```
@@ -504,11 +517,9 @@ rm firefox-91.7.1esr.source.tar.xz
 
 Install GJS
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gjs/1.71/gjs-1.71.90.tar.xz
-tar -xf gjs-1.71.90.tar.xz
-cd gjs-1.71.90
-wget https://cdn.discordapp.com/attachments/845964267520917545/921711644915146772/gjs-1.70.0-meson-0.60.2.patch
-patch -Np1 -i gjs-1.71.90-meson-0.60.2.patch
+wget https://ftp.acc.umu.se/pub/gnome/sources/gjs/1.72/gjs-1.72.0.tar.xz
+tar -xf gjs-1.72.0.tar.xz
+cd gjs-1.72.0
 mkdir gjs-build && cd gjs-build
 meson --prefix=/usr --buildtype=release
 ninja
@@ -516,8 +527,8 @@ ninja install
 install -t /usr/share/licenses/gjs -Dm644 ../COPYING
 ln -sfv gjs-console /usr/bin/gjs
 cd ../..
-rm -r gjs-1.71.90
-rm gjs-1.71.90.tar.xz
+rm -r gjs-1.72.0
+rm gjs-1.72.0.tar.xz
 ```
 Install iBus
 ```
@@ -558,7 +569,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/41/gdm-41.3.tar.xz
 tar -xf gdm-41.3.tar.xz
 cd gdm-41.3
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=autodetect
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs -Dinitial-vt=7
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
@@ -566,7 +577,6 @@ groupadd -g 21 gdm &&
 useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
         -g gdm -s /bin/false gdm &&
 passwd -ql gdm
-systemctl enable gdm
 cd ../..
 rm -r gdm-41.3
 rm gdm-41.3.tar.xz
@@ -581,7 +591,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-terminal/3.43/gnome-terminal
 tar -xf gnome-terminal-3.43.90.tar.xz
 cd gnome-terminal-3.43.90
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dsearch_provider=false
+meson --prefix=/usr --buildtype=release -Dsearch_provider=true
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-terminal -Dm644 ../COPYING
@@ -600,7 +610,7 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
-install -t /usr/share/licenses/gnome-tweaks -Dm644 ../COPYING
+install -t /usr/share/licenses/gnome-tweaks -Dm644 ../LICENSES
 cd ../..
 rm -r gnome-tweaks-42.beta
 rm gnome-tweaks-42.beta.tar.xz
@@ -640,9 +650,9 @@ rm Parse-Yapp-1.21.tar.gz
 
 Install Samba
 ```
-wget https://download.samba.org/pub/samba/stable/samba-4.15.5.tar.gz
-tar -xf samba-4.15.5.tar.gz
-cd samba-4.15.5
+wget https://download.samba.org/pub/samba/stable/samba-4.16.0.tar.gz
+tar -xf samba-4.16.0.tar.gz
+cd samba-4.16.0
 python3 -m venv pyvenv &&
 ./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
 echo "^samba4.rpc.echo.*on.*ncacn_np.*with.*object.*nt4_dc" >> selftest/knownfail
@@ -677,8 +687,8 @@ install -v -m755    examples/LDAP/{get*,ol*} \
                     /etc/openldap/schema
 install -t /usr/share/licenses/samba -Dm644 ../COPYING
 cd ..
-rm -r samba-4.15.5
-rm samba-4.15.5.tar.gz
+rm -r samba-4.16.0
+rm samba-4.16.0.tar.gz
 ```
 
 Now, we can install GNOME Settings
