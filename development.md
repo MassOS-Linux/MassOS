@@ -525,6 +525,7 @@ rm firefox-91.7.1esr.source.tar.xz
 ## Remove Rust
 ```
 sudo /usr/lib/rustlib/uninstall.sh
+cd ..
 ```
 ## Install GJS
 ```
@@ -658,48 +659,18 @@ cd ..
 rm -r Parse-Yapp-1.21
 rm Parse-Yapp-1.21.tar.gz
 ```
-
-Install Samba
+## Install Libnma
 ```
-wget https://download.samba.org/pub/samba/stable/samba-4.16.0.tar.gz
-tar -xf samba-4.16.0.tar.gz
-cd samba-4.16.0
-python3 -m venv pyvenv &&
-./pyvenv/bin/pip3 install cryptography pyasn1 iso8601
-echo "^samba4.rpc.echo.*on.*ncacn_np.*with.*object.*nt4_dc" >> selftest/knownfail
-sed -e 's/!is_allowed/secure_channel_type == SEC_CHAN_NULL \&\& &/' \
-    -i source3/winbindd/winbindd_util.c
-PYTHON=$PWD/pyvenv/bin/python3             \
-CPPFLAGS="-I/usr/include/tirpc"            \
-LDFLAGS="-ltirpc"                          \
-./configure                                \
-    --prefix=/usr                          \
-    --sysconfdir=/etc                      \
-    --localstatedir=/var                   \
-    --with-piddir=/run/samba               \
-    --with-pammodulesdir=/usr/lib/security \
-    --enable-fhs                           \
-    --without-ad-dc                        \
-    --enable-selftest
-make -j$(nproc)
-sed '1s@^.*$@#!/usr/bin/python3@' \
-    -i ./bin/default/source4/scripting/bin/samba-gpupdate.inst
+wget https://ftp.acc.umu.se/pub/gnome/sources/libnma/1.8/libnma-1.8.34.tar.xz
+tar -xf libnma-1.8.34.tar.xz
+cd libnma-1.8.34
+./configure --prefix=/usr --with-libnma-gtk4=yes
+make
 make install
-install -v -m644    examples/smb.conf.default /etc/samba
-sed -e "s;log file =.*;log file = /var/log/samba/%m.log;" \
-    -e "s;path = /usr/spool/samba;path = /var/spool/samba;" \
-    -i /etc/samba/smb.conf.default
-mkdir -pv /etc/openldap/schema
-install -v -m644    examples/LDAP/README              \
-                    /etc/openldap/schema/README.LDAP
-install -v -m644    examples/LDAP/samba*              \
-                    /etc/openldap/schema
-install -v -m755    examples/LDAP/{get*,ol*} \
-                    /etc/openldap/schema
-install -t /usr/share/licenses/samba -Dm644 ../COPYING
+install -t /usr/share/licenses/libnma -Dm644 COPYING
 cd ..
-rm -r samba-4.16.0
-rm samba-4.16.0.tar.gz
+rm -r libnma-1.8.34
+rm libnma-1.8.34.tar.xz
 ```
 
 Now, we can install GNOME Settings
@@ -708,7 +679,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-control-center/42/gnome-cont
 tar -xf gnome-control-center-42.0.tar.xz
 cd gnome-control-center-42.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dcheese=false
+meson --prefix=/usr --buildtype=release -Dibus=true
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-control-center -Dm644 ../COPYING
