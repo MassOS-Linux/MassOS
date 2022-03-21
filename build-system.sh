@@ -1216,14 +1216,9 @@ python setup.py install --optimize=1
 install -t /usr/share/licenses/typogrify -Dm644 LICENSE.txt
 cd ..
 rm -rf typogrify-2.0.7
-# zipp.
-tar -xf zipp-3.7.0.tar.gz
-cd zipp-3.7.0
-python setup.py build
-python setup.py install --optimize=1
-install -t /usr/share/licenses/zipp -Dm644 LICENSE
-cd ..
-rm -rf zipp-3.7.0
+# zipp (precompiled for now, to avoid dependency hell).
+pip install zipp-3.7.0-py3-none-any.whl
+install -t /usr/share/licenses/zipp -Dm644 /usr/lib/python3.10/site-packages/zipp-3.7.0.dist-info/LICENSE
 # importlib-metadata
 tar -xf importlib_metadata-4.10.1.tar.gz
 cd importlib_metadata-4.10.1

@@ -639,6 +639,6 @@ https://www.x.org/archive/individual/app/xwud-1.0.5.tar.bz2
 https://archive.massos.org/sources/xz-5.2.5.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://archive.massos.org/sources/zip30.tar.gz
-https://github.com/jaraco/zipp/archive/v3.7.0/zipp-3.7.0.tar.gz
+https://files.pythonhosted.org/packages/52/c5/df7953fe6065185af5956265e3b16f13c2826c2b1ba23d43154f3af453bc/zipp-3.7.0-py3-none-any.whl
 https://zlib.net/zlib-1.2.11.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
