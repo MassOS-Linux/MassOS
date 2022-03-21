@@ -1527,7 +1527,6 @@ cd lynx2.8.9rel.1
 ./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx --with-zlib --with-bzlib --with-ssl --with-screen=ncursesw --enable-gzip-help --enable-locale-charset
 make
 make install-full
-chgrp -R root /usr/share/doc/lynx-2.8.9rel.1/lynx_doc
 sed -e '/#LOCALE/     a LOCALE_CHARSET:TRUE' -i /etc/lynx/lynx.cfg
 sed -e '/#DEFAULT_ED/ a DEFAULT_EDITOR:vi' -i /etc/lynx/lynx.cfg
 sed -e '/#PERSIST/    a PERSISTENT_COOKIES:TRUE' -i /etc/lynx/lynx.cfg
