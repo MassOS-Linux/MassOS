@@ -1,4 +1,4 @@
-# Progress in MassOS GNOME:
+# Compilation Instructions for MassOS GNOME:
 
 ## GNOME Wallpapers
 
