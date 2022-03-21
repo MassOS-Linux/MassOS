@@ -522,7 +522,7 @@ cd ../..
 rm -r firefox-91.7.1
 rm firefox-91.7.1esr.source.tar.xz
 ```
-# Remove SpiderMonkey
+## Remove Rust
 ```
 sudo /usr/lib/rustlib/uninstall.sh
 ```
