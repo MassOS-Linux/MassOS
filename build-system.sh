@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.1
 # Python.
-tar -xf Python-3.10.2.tar.xz
-cd Python-3.10.2
+tar -xf Python-3.10.3.tar.xz
+cd Python-3.10.3
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.10.2
+rm -rf Python-3.10.3
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -104,14 +104,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.37.4.tar.xz
-cd util-linux-2.37.4
+tar -xf util-linux-2.38-rc4.tar.xz
+cd util-linux-2.38-rc4
 mkdir -p /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.37.4
+rm -rf util-linux-2.38-rc4
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -841,8 +841,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.10.2.tar.xz
-cd Python-3.10.2
+tar -xf Python-3.10.3.tar.xz
+cd Python-3.10.3
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -853,7 +853,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 cd ..
-rm -rf Python-3.10.2
+rm -rf Python-3.10.3
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -1521,7 +1521,7 @@ rm -rf libxslt-1.1.34
 # Lynx.
 tar -xf lynx2.8.9rel.1.tar.bz2
 cd lynx2.8.9rel.1
-./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx-2.8.9rel.1 --with-zlib --with-bzlib --with-ssl --with-screen=ncursesw --enable-locale-charset
+./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx --with-zlib --with-bzlib --with-ssl --with-screen=ncursesw --enable-gzip-help --enable-locale-charset
 make
 make install-full
 chgrp -R root /usr/share/doc/lynx-2.8.9rel.1/lynx_doc
@@ -1810,14 +1810,14 @@ install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.37.4.tar.xz
-cd util-linux-2.37.4
+tar -xf util-linux-2.38-rc4.tar.xz
+cd util-linux-2.38-rc4
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
-rm -rf util-linux-2.37.4
+rm -rf util-linux-2.38-rc4
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
@@ -2004,8 +2004,9 @@ make install-dev
 cd ..
 rm -rf xfsprogs-5.14.2
 # ntfs-3g.
-tar -xf ntfs-3g_ntfsprogs-2021.8.22.tgz
-cd ntfs-3g_ntfsprogs-2021.8.22
+tar -xf ntfs-3g-2021.8.22.tar.gz
+cd ntfs-3g-2021.8.22
+./autogen.sh
 ./configure --prefix=/usr --disable-static --with-fuse=external
 make
 make install
@@ -2013,7 +2014,7 @@ ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
 install -t /usr/share/licenses/ntfs-3g -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf ntfs-3g_ntfsprogs-2021.8.22
+rm -rf ntfs-3g-2021.8.22
 # exfatprogs.
 tar -xf exfatprogs_1.1.3.orig.tar.xz
 cd exfatprogs-1.1.3
@@ -2046,14 +2047,15 @@ install -t /usr/share/licenses/parted -Dm644 COPYING
 cd ..
 rm -rf parted-3.4
 # Popt.
-tar -xf popt-1.18.tar.gz
-cd popt-1.18
+tar -xf popt-1.18-release.tar.gz
+cd popt-popt-1.18-release
+./autogen.sh
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/popt -Dm644 COPYING
 cd ..
-rm -rf popt-1.18
+rm -rf popt-popt-1.18-release
 # gptfdisk.
 tar -xf gptfdisk-1.0.8.tar.gz
 cd gptfdisk-1.0.8
@@ -2106,8 +2108,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.82.0
 # CMake.
-tar -xf cmake-3.23.0-rc3.tar.gz
-cd cmake-3.23.0-rc3
+tar -xf cmake-3.23.0-rc4.tar.gz
+cd cmake-3.23.0-rc4
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2115,7 +2117,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.23.0-rc3
+rm -rf cmake-3.23.0-rc4
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2402,14 +2404,14 @@ install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv
 cd ..
 rm -rf nettle-3.7.3
 # GNUTLS.
-tar -xf gnutls-3.7.3.tar.xz
-cd gnutls-3.7.3
+tar -xf gnutls-3.7.4.tar.xz
+cd gnutls-3.7.4
 ./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:"
 make
 make install
 install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
-rm -rf gnutls-3.7.3
+rm -rf gnutls-3.7.4
 # OpenLDAP.
 tar -xf openldap-2.6.1.tgz
 cd openldap-2.6.1
@@ -2767,16 +2769,16 @@ make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
 # GLib.
-tar -xf glib-2.70.4.tar.xz
-cd glib-2.70.4
-patch -Np1 -i ../patches/glib-2.68.4-skip_warnings-1.patch
+tar -xf glib-2.72.0.tar.xz
+cd glib-2.72.0
+patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.70.4
+rm -rf glib-2.72.0
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -2816,16 +2818,15 @@ install -t /usr/share/licenses/glibmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf glibmm-2.66.2
 # gobject-introspection.
-tar -xf gobject-introspection-1.70.0.tar.xz
-cd gobject-introspection-1.70.0
-patch -Np1 -i ../patches/gobject-introspection-1.70.0-meson-0.61.0-fix.patch
+tar -xf gobject-introspection-1.72.0.tar.xz
+cd gobject-introspection-1.72.0
 mkdir gobj-build; cd gobj-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gobject-introspection -Dm644 ../COPYING ../COPYING.GPL ../COPYING.LGPL
 cd ../..
-rm -rf gobject-introspection-1.70.0
+rm -rf gobject-introspection-1.72.0
 # shared-mime-info.
 tar -xf shared-mime-info-2.1.tar.gz
 cd shared-mime-info-2.1
@@ -3361,14 +3362,15 @@ END
 cd ..
 rm -rf lolcat-1.2
 # NASM.
-tar -xf nasm-2.15.05.tar.xz
-cd nasm-2.15.05
+tar -xf nasm-2.15.05.tar.gz
+cd nasm-nasm-2.15.05
+./autogen.sh
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/nasm -Dm644 LICENSE
 cd ..
-rm -rf nasm-2.15.05
+rm -rf nasm-nasm-2.15.05
 # libjpeg-turbo.
 tar -xf libjpeg-turbo-2.1.3.tar.gz
 cd libjpeg-turbo-2.1.3
@@ -4418,14 +4420,15 @@ install -t /usr/share/licenses/sdl -Dm644 COPYING
 cd ..
 rm -rf SDL-1.2.15
 # libwebp.
-tar -xf libwebp-1.2.1.tar.gz
-cd libwebp-1.2.1
+tar -xf libwebp-1.2.2.tar.gz
+cd libwebp-1.2.2
+./autogen.sh
 ./configure --prefix=/usr --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder --enable-libwebpextras --enable-swap-16bit-csp --disable-static
 make
 make install
 install -t /usr/share/licenses/libwebp -Dm644 COPYING
 cd ..
-rm -rf libwebp-1.2.1
+rm -rf libwebp-1.2.2
 # libglade.
 tar -xf libglade-2.6.4.tar.bz2
 cd libglade-2.6.4
@@ -4448,14 +4451,14 @@ install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
 rm -rf graphviz-3.0.0
 # Vala.
-tar -xf vala-0.54.7.tar.xz
-cd vala-0.54.7
+tar -xf vala-0.56.0.tar.xz
+cd vala-0.56.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/vala -Dm644 COPYING
 cd ..
-rm -rf vala-0.54.7
+rm -rf vala-0.56.0
 # libgusb.
 tar -xf libgusb-0.3.10.tar.xz
 cd libgusb-0.3.10
@@ -5219,13 +5222,13 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 cd ../..
 rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.10.2.tar.xz
-cd Python-3.10.2
+tar -xf Python-3.10.3.tar.xz
+cd Python-3.10.3
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.10.2
+rm -rf Python-3.10.3
 # python-distutils-extra.
 tar -xf python-distutils-extra-2.39.tar.gz
 cd python-distutils-extra-2.39
@@ -6786,19 +6789,20 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.16.15.tar.xz
-cd linux-5.16.15
+KVER=5.17.0
+tar -xf linux-5.17.tar.xz
+cd linux-5.17
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-5.16.15-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/5.16.15-massos/vmlinuz
-cp System.map /boot/System.map-5.16.15-massos
-cp .config /boot/config-5.16.15-massos
-rm /usr/lib/modules/5.16.15-massos/{source,build}
+cp arch/x86/boot/bzImage /boot/vmlinuz-$KVER-massos
+cp arch/x86/boot/bzImage /usr/lib/modules/$KVER-massos/vmlinuz
+cp System.map /boot/System.map-$KVER-massos
+cp .config /boot/config-$KVER-massos
+rm /usr/lib/modules/$KVER-massos/{source,build}
 make -s kernelrelease > version
-builddir=/usr/lib/modules/5.16.15-massos/build
+builddir=/usr/lib/modules/$KVER-massos/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -6822,7 +6826,8 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.16.15
+rm -rf linux-5.17
+unset KVER
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
