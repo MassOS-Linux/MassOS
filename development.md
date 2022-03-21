@@ -681,7 +681,7 @@ LDFLAGS="-ltirpc"                          \
     --enable-fhs                           \
     --without-ad-dc                        \
     --enable-selftest
-make
+make -j$(nproc)
 sed '1s@^.*$@#!/usr/bin/python3@' \
     -i ./bin/default/source4/scripting/bin/samba-gpupdate.inst
 make install
