@@ -340,19 +340,19 @@ rm gnome-bluetooth-42.0.tar.xz
 ## GNOME Session
 
 ```
-wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-session/41/gnome-session-41.3.tar.xz
-tar -xf gnome-session-41.3.tar.xz
-cd gnome-session-41.3
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-session/42/gnome-session-42.0.tar.xz
+tar -xf gnome-session-42.0.tar.xz
+cd gnome-session-42.0
 sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-session -Dm644 ../COPYING
-mv -v /usr/share/doc/gnome-session{,-41.3}
+mv -v /usr/share/doc/gnome-session{,-42.0}
 cd ../..
-rm -r gnome-session-41.3
-rm gnome-session-41.3.tar.xz
+rm -r gnome-session-42.0
+rm gnome-session-42.0.tar.xz
 ```
 ## Dconf
 
@@ -581,17 +581,17 @@ groupadd -g 21 gdm &&
 useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
         -g gdm -s /bin/false gdm &&
 passwd -ql gdm
-wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/41/gdm-41.3.tar.xz
-tar -xf gdm-41.3.tar.xz
-cd gdm-41.3
+wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/42/gdm-42.0.tar.xz
+tar -xf gdm-42.0.tar.xz
+cd gdm-42.0
 mkdir build && cd build
 meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs -Dinitial-vt=7
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
 cd ../..
-rm -r gdm-41.3
-rm gdm-41.3.tar.xz
+rm -r gdm-42.0
+rm gdm-42.0.tar.xz
 ```
 To set GDM as the default display manager:
 `systemctl enable gdm`
