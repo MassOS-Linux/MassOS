@@ -360,7 +360,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/dconf/0.40/dconf-0.40.0.tar.xz
 tar -xf dconf-0.40.0.tar.xz
 cd dconf-0.40.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dbash_completion=false
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/dconf -Dm644 ../COPYING
