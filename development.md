@@ -493,6 +493,7 @@ wget https://static.rust-lang.org/dist/rust-1.58.1-x86_64-unknown-linux-gnu.tar.
 tar -xf rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.58.1-x86_64-unknown-linux-gnu
 sudo ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
+cd ..
 ```
 
 ## Install SpiderMonkey 
@@ -525,7 +526,6 @@ rm firefox-91.7.1esr.source.tar.xz
 ## Remove Rust
 ```
 sudo /usr/lib/rustlib/uninstall.sh
-cd ..
 ```
 ## Install GJS
 ```
