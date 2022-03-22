@@ -15,7 +15,7 @@ Upgraded software:
 - Asciidoc: `10.1.1 --> 10.1.4`
 - BIND Utils: `9.16.25 --> 9.18.1`
 - BlueZ: `5.63 --> 5.64`
-- CMake: `3.23.0-rc2 --> 3.23.0-rc3`
+- CMake: `3.23.0-rc2 --> 3.23.0-rc4`
 - curl: `7.81.0 --> 7.82.0`
 - Cyrus SASL: `2.1.27 --> 2.1.28`
 - D-Bus: `1.12.22 --> 1.14.0`
@@ -26,7 +26,10 @@ Upgraded software:
 - Firefox: `97.0.1 --> 98.0.1`
 - Flatpak: `1.12.6 --> 1.13.2`
 - GDK-Pixbuf: `2.42.6 --> 2.42.8`
+- GLib: `2.70.4 --> 2.72.0`
 - GNOME Software: `41.4 --> 41.5`
+- GNUTLS: `3.7.3 --> 3.7.4`
+- gobject-introspection: `1.70.0 --> 1.72.0`
 - GPGME: `1.17.0 --> 1.17.1`
 - Graphviz: `2.50.0 --> 3.0.0`
 - gst-libav: `1.20.0 --> 1.20.1`
@@ -44,7 +47,8 @@ Upgraded software:
 - libuv: `1.43.0 --> 1.44.1`
 - libva: `2.13.0 --> 2.14.0`
 - libvdpau: `1.4 --> 1.5`
-- Linux Kernel: `5.16.12 --> 5.16.15`
+- libwebp: `1.2.1 --> 1.2.2`
+- Linux Kernel: `5.16.12 --> 5.17.0`
 - Mako: `1.1.6 --> 1.2.0`
 - MarkupSafe: `2.0.1 --> 2.1.1`
 - Mesa: `21.3.7 --> 22.0.0`
@@ -58,6 +62,7 @@ Upgraded software:
 - Pango: `1.50.4 --> 1.50.5`
 - Poppler: `22.02.0 --> 22.03.0`
 - PyCairo: `1.20.1 --> 1.21.0`
+- Python: `3.10.2 --> 3.10.3`
 - Qpdf: `10.6.2 --> 10.6.3`
 - Ruby: `3.1.0 --> 3.1.1`
 - smbclient: `4.15.5 --> 4.15.6`
@@ -67,6 +72,7 @@ Upgraded software:
 - Thunderbird: `91.6.1 --> 91.7.0`
 - Unifont: `14.0.01 --> 14.0.02`
 - UPower: `0.99.16 --> 0.99.17`
+- Vala: `0.54.7 --> 0.56.0`
 - Vim: `8.2.4482 --> 8.2.4586`
 - Vulkan-Headers: `1.3.206 --> 1.3.208`
 - Vulkan-Loader: `1.3.206 --> 1.3.208`

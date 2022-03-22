@@ -1,28 +1,7 @@
-Submitted By:            Bruce Dubbs <bdubbs@linuxfromscratch.org>
-Rediffed By:             Douglas R. Reno <renodr at linuxfromscratch dot org>
-Date:                    2017-10-15
-Rediffed Date:           2021-04-01
-Initial Package Version: 2.54.0
-Upstream Status:         Not submitted
-Origin:                  Self
-Description:             Adds a capabiility to skip printing warning messages using
-                         an environment variable: GLIB_LOG_LEVEL.  The value
-                         of the variable is a digit that correponds to:
-                         1  Alert
-                         2  Critical
-                         3  Error
-                         4  Warning
-                         5  Notice
-
-                         For instance GLIB_LOG_LEVEL=4 will skip output of Warning and 
-                         Notice messages (and Info/Debug messages if they are turned on).
-
-                         Rediffed for 2.68.0 to reduce the fuzz warnings.
-
-diff -Naurp glib-2.68.0.orig/glib/gmessages.c glib-2.68.0/glib/gmessages.c
---- glib-2.68.0.orig/glib/gmessages.c	2021-03-18 08:28:31.909625000 -0500
-+++ glib-2.68.0/glib/gmessages.c	2021-04-01 20:32:23.517596280 -0500
-@@ -528,6 +528,34 @@ static GDestroyNotify log_writer_user_da
+diff -aruN old/glib/gmessages.c new/glib/gmessages.c
+--- old/glib/gmessages.c	2022-03-17 15:01:31.000000000 +0000
++++ new/glib/gmessages.c	2022-03-21 17:05:58.527542608 +0000
+@@ -529,6 +529,34 @@
  
  /* --- functions --- */
  
@@ -57,7 +36,7 @@ diff -Naurp glib-2.68.0.orig/glib/gmessages.c glib-2.68.0/glib/gmessages.c
  static void _g_log_abort (gboolean breakpoint);
  
  static void
-@@ -2591,6 +2619,9 @@ g_log_writer_standard_streams (GLogLevel
+@@ -2607,6 +2635,9 @@
    g_return_val_if_fail (fields != NULL, G_LOG_WRITER_UNHANDLED);
    g_return_val_if_fail (n_fields > 0, G_LOG_WRITER_UNHANDLED);
  
@@ -67,7 +46,7 @@ diff -Naurp glib-2.68.0.orig/glib/gmessages.c glib-2.68.0/glib/gmessages.c
    stream = log_level_to_file (log_level);
    if (!stream || fileno (stream) < 0)
      return G_LOG_WRITER_UNHANDLED;
-@@ -2818,6 +2849,9 @@ _g_log_writer_fallback (GLogLevelFlags
+@@ -2836,6 +2867,9 @@
    FILE *stream;
    gsize i;
  

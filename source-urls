@@ -32,8 +32,8 @@ https://mirror.lyrahosting.com/gnu/binutils/binutils-2.38.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/blueman-project/blueman/releases/download/2.2.2/blueman-2.2.2.tar.xz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.64.tar.xz
-https://fossies.org/linux/misc/boost_1_78_0.tar.bz2
-https://fossies.org/linux/misc/brotli-1.0.9.tar.gz
+https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2
+https://github.com/google/brotli/archive/v1.0.9/brotli-1.0.9.tar.gz
 https://archive.massos.org/sources/bsd-games-3.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.16.2.tar.xz
 https://github.com/projectatomic/bubblewrap/releases/download/v0.6.1/bubblewrap-0.6.1.tar.xz
@@ -49,7 +49,7 @@ https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang-13.0.1.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.23.0-rc3/cmake-3.23.0-rc3.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.23.0-rc4/cmake-3.23.0-rc4.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://ftp.acc.umu.se/pub/gnome/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
@@ -139,7 +139,7 @@ https://archive.massos.org/sources/ghostscript-fonts-std-8.11.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://archive.massos.org/sources/giflib-5.2.1.tar.gz
 https://cdn.kernel.org/pub/software/scm/git/git-2.35.1.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glib/2.70/glib-2.70.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.70/glib-networking-2.70.1.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.35.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
@@ -151,8 +151,8 @@ https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.5.t
 https://archive.massos.org/sources/gnu-efi-3.0.13.tar.bz2
 https://archive.massos.org/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.34.tar.bz2
-https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.3.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gobject-introspection/1.70/gobject-introspection-1.70.0.tar.xz
+https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz
 https://archive.massos.org/sources/gparted-1.3.1.tar.gz
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.17.1.tar.bz2
@@ -183,7 +183,7 @@ https://archive.massos.org/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.11.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/4.0.1/harfbuzz-4.0.1.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
-https://fossies.org/linux/misc/hplip-3.22.2.tar.gz
+https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/hplip-3.22.2.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
 https://github.com/Mic92/iana-etc/releases/download/20220222/iana-etc-20220222.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
@@ -314,7 +314,7 @@ https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/1.5/libvdpau-1.5.tar.bz2
 https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz
 https://deb.debian.org/debian/pool/main/libv/libvpx/libvpx_1.11.0.orig.tar.gz
 https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.1.0/libwacom-2.1.0.tar.xz
-https://fossies.org/linux/www/libwebp-1.2.1.tar.gz
+https://github.com/webmproject/libwebp/archive/v1.2.2/libwebp-1.2.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libwnck/40/libwnck-40.1.tar.xz
 https://wpewebkit.org/releases/libwpe-1.12.0.tar.xz
 https://www.x.org/archive/individual/lib/libX11-1.7.3.tar.xz
@@ -356,7 +356,7 @@ https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.16.15.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -367,7 +367,7 @@ https://mirror.fileplanet.com/lfs/pub/blfs/11.0/l/LSB-Tools-0.9.tar.gz
 https://www.x.org/archive/individual/app/luit-1.1.1.tar.bz2
 https://archive.massos.org/precompiled/lvm2-2.03.15-x86_64-precompiled-MassOS.tar.xz
 https://files.pythonhosted.org/packages/source/l/lxml/lxml-4.8.0.tar.gz
-https://fossies.org/linux/www/lynx2.8.9rel.1.tar.bz2
+https://invisible-mirror.net/archives/lynx/tarballs/lynx2.8.9rel.1.tar.bz2
 https://github.com/lz4/lz4/archive/v1.9.3/lz4-1.9.3.tar.gz
 https://download.savannah.nongnu.org/releases/lzip/lzip-1.22.tar.gz
 https://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz
@@ -398,8 +398,8 @@ https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.38.tar.gz
 https://github.com/bluesabre/mugshot/releases/download/mugshot-0.4.3/mugshot-0.4.3.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
 https://nano-editor.org/dist/v6/nano-6.2.tar.xz
-https://fossies.org/linux/misc/nasm-2.15.05.tar.xz
-https://fossies.org/linux/misc/ncurses-6.3.tar.gz
+https://github.com/netwide-assembler/nasm/archive/refs/tags/nasm-2.15.05.tar.gz
+https://mirror.lyrahosting.com/gnu/ncurses/ncurses-6.3.tar.gz
 https://archive.massos.org/sources/net-snmp-5.9.1.tar.xz
 https://archive.massos.org/sources/netcat-0.7.1.tar.xz
 https://mirror.lyrahosting.com/gnu/nettle/nettle-3.7.3.tar.gz
@@ -413,7 +413,7 @@ https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
 https://archive.mozilla.org/pub/security/nss/releases/NSS_3_76_RTM/src/nss-3.76.tar.gz
-https://fossies.org/linux/misc/ntfs-3g_ntfsprogs-2021.8.22.tgz
+https://github.com/tuxera/ntfs-3g/archive/2021.8.22/ntfs-3g-2021.8.22.tar.gz
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
 https://archive.massos.org/sources/openjade-1.3.2.tar.gz
@@ -437,8 +437,8 @@ https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
 https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
 https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz
 https://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.7.0.tar.xz
-https://fossies.org/linux/misc/pcre-8.45.tar.bz2
-https://fossies.org/linux/misc/pcre2-10.39.tar.bz2
+https://archive.massos.org/sources/pcre-8.45.tar.bz2
+https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.1.tar.xz
 https://github.com/pexpect/pexpect/archive/4.8.0/pexpect-4.8.0.tar.gz
 https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.28.0/pkcs11-helper-1.28.0.tar.gz
@@ -451,7 +451,7 @@ https://www.freedesktop.org/software/polkit/releases/polkit-0.120.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
 https://poppler.freedesktop.org/poppler-22.03.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz
-https://fossies.org/linux/misc/popt-1.18.tar.gz
+https://github.com/rpm-software-management/popt/archive/refs/tags/popt-1.18-release.tar.gz
 https://download.samba.org/pub/ppp/ppp-2.4.9.tar.gz
 https://archive.massos.org/sources/ppp-2.4.9-extra-files.tar.xz
 https://archive.massos.org/sources/procps-ng-3.3.17.tar.xz
@@ -464,7 +464,7 @@ https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.6.tar.gz
-https://www.python.org/ftp/python/3.10.2/Python-3.10.2.tar.xz
+https://www.python.org/ftp/python/3.10.3/Python-3.10.3.tar.xz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.6.3/qpdf-10.6.3.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
@@ -533,9 +533,9 @@ https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.
 https://github.com/urllib3/urllib3/releases/download/1.26.9/urllib3-1.26.9.tar.gz
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
-https://cdn.kernel.org/pub/linux/utils/util-linux/v2.37/util-linux-2.37.4.tar.xz
+https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38-rc4.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/vala/0.54/vala-0.54.7.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.0.tar.xz
 https://github.com/vim/vim/archive/v8.2.4586/vim-8.2.4586.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
@@ -636,8 +636,9 @@ https://www.x.org/archive/individual/xserver/xwayland-21.1.4.tar.xz
 https://www.x.org/archive/individual/app/xwd-1.0.8.tar.bz2
 https://www.x.org/archive/individual/app/xwininfo-1.1.5.tar.bz2
 https://www.x.org/archive/individual/app/xwud-1.0.5.tar.bz2
-https://fossies.org/linux/misc/xz-5.2.5.tar.xz
+https://archive.massos.org/sources/xz-5.2.5.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://archive.massos.org/sources/zip30.tar.gz
+https://files.pythonhosted.org/packages/52/c5/df7953fe6065185af5956265e3b16f13c2826c2b1ba23d43154f3af453bc/zipp-3.7.0-py3-none-any.whl
 https://zlib.net/zlib-1.2.11.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
