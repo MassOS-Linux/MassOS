@@ -726,8 +726,8 @@ rm Cantarell.zip OFL.txt
 ```
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface document-font-name 'Cantarell Regular 10'
-gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 10'
+gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 11'
+gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop']"
