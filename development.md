@@ -551,6 +551,8 @@ mkdir build && cd build
 meson --prefix=/usr --buildtype=release
 ninja
 ninja install
+install -t /usr/share/licenses/seahorse -Dm644 ../COPYING
+cd ../..
 rm -r seahorse-41.0
 rm seahorse-41.0.tar.xz
 ```
