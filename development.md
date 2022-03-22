@@ -722,7 +722,7 @@ mv cantarell/ /usr/share/fonts/
 rm Cantarell.zip
 ```
 
-## Set theme
+## Set theme and small appearance fixes
 
 ```
 gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
@@ -731,5 +731,12 @@ gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 
 gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
-gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop']"
+
+touch /etc/dconf/profile/user
+echo user-db:user >> /etc/dconf/profile/user
+echo system-db:local >> /etc/dconf/profile/user
+mkdir /etc/dconf/db/local.d/
+touch /etc/dconf/db/local.d/00-favorite-apps
+echo [org/gnome/shell] >> /etc/dconf/db/local.d/00-favorite-apps
+echo favorite-apps = ['firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop'] >> /etc/dconf/db/local.d/00-favorite-apps
 ```
