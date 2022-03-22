@@ -865,8 +865,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.10.2
 # Meson.
-tar -xf meson-0.61.3.tar.gz
-cd meson-0.61.3
+tar -xf meson-0.62.0.tar.gz
+cd meson-0.62.0
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -874,7 +874,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.61.3
+rm -rf meson-0.62.0
 # PyParsing.
 tar -xf pyparsing_3.0.6.tar.gz
 cd pyparsing-pyparsing_3.0.6
@@ -2581,9 +2581,11 @@ rm -rf wget-1.21.3
 # Audit.
 tar -xf audit-3.0.7.tar.gz
 cd audit-3.0.7
+patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 make
 make install
+sed -i 's|"audit.h"|<linux/audit.h>|' /usr/include/libaudit.h
 install -dm0700 /var/log/audit
 install -dm0750 /etc/audit/rules.d
 cat > /etc/audit/rules.d/default.rules << END
@@ -2854,15 +2856,15 @@ install -t /usr/share/licenses/desktop-file-utils -Dm644 ../COPYING
 cd ../..
 rm -rf desktop-file-utils-0.26
 # Graphene.
-tar -xf graphene-1.10.6.tar.xz
-cd graphene-1.10.6
+tar -xf graphene-1.10.8.tar.gz
+cd graphene-1.10.8
 mkdir graphene-build; cd graphene-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dtests=false -Dinstalled_tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/graphene -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf graphene-1.10.6
+rm -rf graphene-1.10.8
 # Autoconf (2.13).
 tar -xf autoconf-2.13.tar.gz
 cd autoconf-2.13
@@ -3955,15 +3957,15 @@ install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 cd ..
 rm -rf alsa-lib-1.2.6.1
 # libepoxy.
-tar -xf libepoxy-1.5.9.tar.xz
-cd libepoxy-1.5.9
+tar -xf libepoxy-1.5.10.tar.gz
+cd libepoxy-1.5.10
 mkdir epoxy-build; cd epoxy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libepoxy -Dm644 ../COPYING
 cd ../..
-rm -rf libepoxy-1.5.9
+rm -rf libepoxy-1.5.10
 # libxcvt (dependency of Xorg-Server since 21.1.1).
 tar -xf libxcvt-0.1.1.tar.xz
 cd libxcvt-0.1.1
@@ -4327,14 +4329,15 @@ install -t /usr/share/licenses/gdk-pixbuf -Dm644 ../COPYING
 cd ../..
 rm -rf gdk-pixbuf-2.42.8
 # Cairo.
-tar -xf cairo-1.17.4.tar.xz
-cd cairo-1.17.4
-./configure --prefix=/usr --disable-static --enable-tee
-make
-make install
-install -t /usr/share/licenses/cairo -Dm644 COPYING COPYING-LGPL-2.1
-cd ..
-rm -rf cairo-1.17.4
+tar -xf cairo-1.17.6.tar.bz2
+cd cairo-1.17.6
+mkdir cairo-build; cd cairo-build
+meson --prefix=/usr --buildtype=release -Dgl-backend=auto -Dtee=enabled -Dtests=disabled -Dxlib-xcb=enabled -Dxml=enabled ..
+ninja
+ninja install
+install -t /usr/share/licenses/cairo -Dm644 ../COPYING ../COPYING-LGPL-2.1
+cd ../..
+rm -rf cairo-1.17.6
 # cairomm.
 tar -xf cairomm-1.14.0.tar.xz
 cd cairomm-1.14.0
@@ -4355,15 +4358,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-4.0.1
 # Pango.
-tar -xf pango-1.50.5.tar.xz
-cd pango-1.50.5
+tar -xf pango-1.50.6.tar.xz
+cd pango-1.50.6
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.5
+rm -rf pango-1.50.6
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -4491,15 +4494,15 @@ install -t /usr/share/licenses/adwaita-icon-theme -Dm644 COPYING COPYING_CCBYSA3
 cd ..
 rm -rf adwaita-icon-theme-41.0
 # at-spi2-core.
-tar -xf at-spi2-core-2.42.0.tar.xz
-cd at-spi2-core-2.42.0
+tar -xf at-spi2-core-2.44.0.tar.xz
+cd at-spi2-core-2.44.0
 mkdir spi2-build; cd spi2-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/at-spi2-core -Dm644 ../COPYING
 cd ../..
-rm -rf at-spi2-core-2.42.0
+rm -rf at-spi2-core-2.44.0
 # at-spi2-atk.
 tar -xf at-spi2-atk-2.38.0.tar.xz
 cd at-spi2-atk-2.38.0
@@ -4557,25 +4560,25 @@ gtk-xft-rgba = rgb
 gtk-cursor-theme-name = Adwaita
 END
 # libhandy.
-tar -xf libhandy-1.5.0.tar.xz
-cd libhandy-1.5.0
+tar -xf libhandy-1.6.1.tar.xz
+cd libhandy-1.6.1
 mkdir handy-build; cd handy-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
 cd ../..
-rm -rf libhandy-1.5.0
+rm -rf libhandy-1.6.1
 # libdazzle.
-tar -xf libdazzle-3.42.0.tar.xz
-cd libdazzle-3.42.0
+tar -xf libdazzle-3.44.0.tar.xz
+cd libdazzle-3.44.0
 mkdir DAZZLE-build; cd DAZZLE-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libdazzle -Dm644 ../COPYING
 cd ../..
-rm -rf libdazzle-3.42.0
+rm -rf libdazzle-3.44.0
 # Sysprof.
 tar -xf sysprof-3.42.1.tar.xz
 cd sysprof-3.42.1
@@ -4638,15 +4641,15 @@ install -t /usr/share/licenses/gexiv2 -Dm644 ../COPYING
 cd ../..
 rm -rf gexiv2-0.14.0
 # libpeas.
-tar -xf libpeas-1.30.0.tar.xz
-cd libpeas-1.30.0
+tar -xf libpeas-1.32.0.tar.xz
+cd libpeas-1.32.0
 mkdir libpeas-build; cd libpeas-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libpeas -Dm644 ../COPYING
 cd ../..
-rm -rf libpeas-1.30.0
+rm -rf libpeas-1.32.0
 # libgxps.
 tar -xf libgxps-0.3.2.tar.xz
 cd libgxps-0.3.2
@@ -5649,16 +5652,17 @@ flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
 rm -rf flatpak-1.13.2
-# libportal-gtk3.
-tar -xf libportal-0.5.tar.xz
-cd libportal-0.5
+# libportal / libportal-gtk3.
+tar -xf libportal-0.6.tar.xz
+cd libportal-0.6
 mkdir portal-build; cd portal-build
 meson --prefix=/usr --buildtype=release -Dbackends=gtk3 -Ddocs=false ..
 ninja
 ninja install
+install -t /usr/share/licenses/libportal -Dm644 ../COPYING
 install -t /usr/share/licenses/libportal-gtk3 -Dm644 ../COPYING
 cd ../..
-rm -rf libportal-0.5
+rm -rf libportal-0.6
 # GeoClue.
 tar -xf geoclue-2.6.0.tar.bz2
 cd geoclue-2.6.0
@@ -5670,23 +5674,23 @@ install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
 # xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.12.1.tar.xz
-cd xdg-desktop-portal-1.12.1
+tar -xf xdg-desktop-portal-1.14.1.tar.xz
+cd xdg-desktop-portal-1.14.1
 ./configure --prefix=/usr --disable-pipewire
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-1.12.1
+rm -rf xdg-desktop-portal-1.14.1
 # xdg-desktop-portal-gtk.
-tar -xf xdg-desktop-portal-gtk-1.12.0.tar.xz
-cd xdg-desktop-portal-gtk-1.12.0
+tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
+cd xdg-desktop-portal-gtk-1.14.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-gtk-1.12.0
+rm -rf xdg-desktop-portal-gtk-1.14.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -6033,8 +6037,8 @@ install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
 rm -rf gst-libav-1.20.1
 # WebKitGTK.
-tar -xf webkitgtk-2.34.6.tar.xz
-cd webkitgtk-2.34.6
+tar -xf webkitgtk-2.36.0.tar.xz
+cd webkitgtk-2.36.0
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -6042,7 +6046,7 @@ ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.34.6
+rm -rf webkitgtk-2.36.0
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6454,15 +6458,15 @@ install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
 cd ..
 rm -rf thunar-archive-plugin-0.4.0
 # gtksourceview4.
-tar -xf gtksourceview-4.8.2.tar.xz
-cd gtksourceview-4.8.2
+tar -xf gtksourceview-4.8.3.tar.xz
+cd gtksourceview-4.8.3
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
 cd ../..
-rm -rf gtksourceview-4.8.2
+rm -rf gtksourceview-4.8.3
 # Gedit.
 tar -xf gedit-41.0.tar.xz
 cd gedit-41.0

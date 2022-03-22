@@ -13,8 +13,10 @@ Changes:
 Upgraded software:
 
 - Asciidoc: `10.1.1 --> 10.1.4`
+- at-spi2-core: `2.42.0 --> 2.44.0`
 - BIND Utils: `9.16.25 --> 9.18.1`
 - BlueZ: `5.63 --> 5.64`
+- Cairo: `1.17.4 --> 1.17.6`
 - CMake: `3.23.0-rc2 --> 3.23.0-rc4`
 - curl: `7.81.0 --> 7.82.0`
 - Cyrus SASL: `2.1.27 --> 2.1.28`
@@ -27,10 +29,12 @@ Upgraded software:
 - Flatpak: `1.12.6 --> 1.13.2`
 - GDK-Pixbuf: `2.42.6 --> 2.42.8`
 - GLib: `2.70.4 --> 2.72.0`
+- gtksourceview4: `4.8.2 --> 4.8.3`
 - GNOME Software: `41.4 --> 41.5`
 - GNUTLS: `3.7.3 --> 3.7.4`
 - gobject-introspection: `1.70.0 --> 1.72.0`
 - GPGME: `1.17.0 --> 1.17.1`
+- Graphene: `1.10.6 --> 1.10.8`
 - Graphviz: `2.50.0 --> 3.0.0`
 - gst-libav: `1.20.0 --> 1.20.1`
 - gst-plugins-bad: `1.20.0 --> 1.20.1`
@@ -40,8 +44,14 @@ Upgraded software:
 - GStreamer: `1.20.0 --> 1.20.1`
 - GTK3: `3.24.31 --> 3.24.33`
 - HarfBuzz: `3.4.0 --> 4.0.1`
+- libdazzle: `3.42.0 --> 3.44.0`
+- libepoxy: `1.5.9 --> 1.5.10`
 - libgphoto2: `2.5.27 --> 2.5.29`
+- libhandy: `1.5.0 --> 1.6.1`
 - libostree: `2022.1 --> 2022.2`
+- libpeas: `1.30.0 --> 1.32.0`
+- libportal: `0.5 --> 0.6`
+- libportal-gtk3: `0.5 --> 0.6`
 - librsvg: `2.52.6 --> 2.54.0`
 - libtool: `2.4.6 --> 2.4.7`
 - libuv: `1.43.0 --> 1.44.1`
@@ -52,14 +62,14 @@ Upgraded software:
 - Mako: `1.1.6 --> 1.2.0`
 - MarkupSafe: `2.0.1 --> 2.1.1`
 - Mesa: `21.3.7 --> 22.0.0`
-- Meson: `0.61.2 --> 0.61.3`
+- Meson: `0.61.2 --> 0.62.0`
 - mtools: `4.0.37 --> 4.0.38`
 - NetworkManager: `1.36.0 --> 1.36.2`
 - NetworkManager-openvpn: `1.8.16 --> 1.8.18`
 - NSS: `3.75 --> 3.76`
 - OpenSSL: `3.0.1 --> 3.0.2`
 - OpenVPN: `2.5.5 --> 2.5.6`
-- Pango: `1.50.4 --> 1.50.5`
+- Pango: `1.50.4 --> 1.50.6`
 - Poppler: `22.02.0 --> 22.03.0`
 - PyCairo: `1.20.1 --> 1.21.0`
 - Python: `3.10.2 --> 3.10.3`
@@ -72,12 +82,16 @@ Upgraded software:
 - Thunderbird: `91.6.1 --> 91.7.0`
 - Unifont: `14.0.01 --> 14.0.02`
 - UPower: `0.99.16 --> 0.99.17`
+- util-linux: `2.37.4 --> 2.38-rc4`
 - Vala: `0.54.7 --> 0.56.0`
 - Vim: `8.2.4482 --> 8.2.4586`
 - Vulkan-Headers: `1.3.206 --> 1.3.208`
 - Vulkan-Loader: `1.3.206 --> 1.3.208`
+- WebKitGTK: `2.34.6 --> 2.36.0`
 - Wget: `1.21.2 --> 1.21.3`
 - x264: `0.164.3086 --> 0.164.3094`
+- xdg-desktop-portal: `1.12.1 --> 1.14.1`
+- xdg-desktop-portal-gtk: `1.12.0 --> 1.14.0`
 - xfce4-screenshooter: `1.9.9 --> 1.9.10`
 
 # MassOS 2022.03
