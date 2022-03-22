@@ -3366,15 +3366,14 @@ END
 cd ..
 rm -rf lolcat-1.2
 # NASM.
-tar -xf nasm-2.15.05.tar.gz
-cd nasm-nasm-2.15.05
-./autogen.sh
+tar -xf nasm-2.15.05.tar.xz
+cd nasm-2.15.05
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/nasm -Dm644 LICENSE
 cd ..
-rm -rf nasm-nasm-2.15.05
+rm -rf nasm-2.15.05
 # libjpeg-turbo.
 tar -xf libjpeg-turbo-2.1.3.tar.gz
 cd libjpeg-turbo-2.1.3
