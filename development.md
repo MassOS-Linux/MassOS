@@ -101,7 +101,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
 cd ../..
-rm -r ggnome-text-editor-42.0
+rm -r gnome-text-editor-42.0
 rm gnome-text-editor-42.0.tar.xz
 ```
 
@@ -321,7 +321,6 @@ cd ../..
 rm -r gsound-1.0.3
 rm gsound-1.0.3.tar.xz
 ```
-
 ## GNOME Bluetooth
 
 ```
@@ -470,7 +469,7 @@ rm -r pipewire-0.3.48
 rm pipewire-0.3.48.tar.gz
 ```
 
-Install Mutter
+## Install Mutter
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/mutter/42/mutter-42.0.tar.xz
 tar -xf mutter-42.0.tar.xz
@@ -541,6 +540,19 @@ ln -sfv gjs-console /usr/bin/gjs
 cd ../..
 rm -r gjs-1.72.0
 rm gjs-1.72.0.tar.xz
+```
+## Install Seahorse
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/seahorse/41/seahorse-41.0.tar.xz
+tar -xf seahorse-41.0.tar.xz
+cd seahorse-41.0
+sed -i -r 's:"(/apps):"/org/gnome\1:' data/*.xml
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+rm -r seahorse-41.0
+rm seahorse-41.0.tar.xz
 ```
 Install iBus
 ```
@@ -718,4 +730,5 @@ gsettings set org.gnome.desktop.interface document-font-name 'Cantarell Regular 
 gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 10'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.shell favorite-apps "['firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop']"
 ```
