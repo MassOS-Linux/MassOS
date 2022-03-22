@@ -69,7 +69,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/libadwaita -Dm644 ../COPYING
 cd ../..
-rm -r llibadwaita-1.1.0
+rm -r libadwaita-1.1.0
 rm libadwaita-1.1.0.tar.xz
 ```
 ## GNOME Text Editor
