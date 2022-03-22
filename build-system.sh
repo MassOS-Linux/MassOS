@@ -2581,9 +2581,11 @@ rm -rf wget-1.21.3
 # Audit.
 tar -xf audit-3.0.7.tar.gz
 cd audit-3.0.7
+patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 make
 make install
+sed -i 's|"audit.h"|<linux/audit.h>|' /usr/include/libaudit.h
 install -dm0700 /var/log/audit
 install -dm0750 /etc/audit/rules.d
 cat > /etc/audit/rules.d/default.rules << END
