@@ -577,6 +577,10 @@ rm gnome-shell-42.0.tar.xz
 ## GDM
 
 ```
+groupadd -g 21 gdm &&
+useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
+        -g gdm -s /bin/false gdm &&
+passwd -ql gdm
 wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/41/gdm-41.3.tar.xz
 tar -xf gdm-41.3.tar.xz
 cd gdm-41.3
@@ -585,10 +589,6 @@ meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
-groupadd -g 21 gdm &&
-useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
-        -g gdm -s /bin/false gdm &&
-passwd -ql gdm
 cd ../..
 rm -r gdm-41.3
 rm gdm-41.3.tar.xz
