@@ -718,9 +718,8 @@ rm gnome-themes-extra-3.28.tar.xz
 ```
 wget https://github.com/AaronTechnic/Cantarell-for-MassOS/raw/main/Cantarell.zip
 unzip Cantarell.zip
-mkdir /usr/share/fonts/cantarell
-mv Cantarell-* /usr/share/fonts/cantarell/
-rm Cantarell.zip OFL.txt
+mv cantarell/ /usr/share/fonts/
+rm Cantarell.zip
 ```
 
 ## Set theme
