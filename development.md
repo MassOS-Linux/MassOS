@@ -716,6 +716,49 @@ cd ../..
 rm -r gnome-control-center-42.0
 rm gnome-control-center-42.0.tar.xz
 ```
+## Baobab
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/baobab/42/baobab-42.0.tar.xz
+tar -xf baobab-42.0.tar.xz
+cd baobab-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
+cd ../..
+rm -rf baobab-42.0
+rm baobab-42.0.tar.xz
+```
+## GNOME Software 42
+Libsoup
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.5.tar.xz
+tar -xf libsoup-3.0.5.tar.xz
+cd libsoup-3.0.5
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
+cd ../..
+rm -r libsoup-3.0.5
+rm libsoup-3.0.5.tar.xz
+```
+GNOME Software
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
+tar -xf gnome-software-42.0.tar.xz
+cd gnome-software-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
+cd ../..
+rm -r gnome-software-42.0
+rm gnome-software-42.0.tar.xz
+```
 ## GNOME Themes Extra
 
 ```
