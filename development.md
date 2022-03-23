@@ -746,6 +746,8 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Re
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
 
+dconf update
+
 touch /etc/dconf/profile/user
 echo user-db:user >> /etc/dconf/profile/user
 echo system-db:local >> /etc/dconf/profile/user
