@@ -215,20 +215,6 @@ cd ../..
 rm -r grilo-0.3.14
 rm grilo-0.3.14.tar.xz
 ```
-Install Libpeas
-```
-wget https://ftp.acc.umu.se/pub/gnome/sources/libpeas/1.30/libpeas-1.30.0.tar.xz
-tar -xf libpeas-1.30.0.tar.xz 
-cd libpeas-1.30.0
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
-ninja
-ninja install
-install -t /usr/share/licenses/libpeas -Dm644 ../COPYING
-cd ../..
-rm -r libpeas-1.30.0
-rm libpeas-1.30.0.tar.xz
-```
 Now, we can install Totem.
 
 ```
@@ -745,13 +731,41 @@ cd ../..
 rm -r libsoup-3.0.5
 rm libsoup-3.0.5.tar.xz
 ```
+Flatpak
+```
+wget https://github.com/flatpak/flatpak/releases/download/1.12.7/flatpak-1.12.7.tar.xz
+tar -xf flatpak-1.12.7.tar.xz
+cd flatpak-1.12.7
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
+make
+make install
+cat > /etc/profile.d/flatpak.sh << END
+if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
+  pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
+elif [ -n "\$HOME" ] && [ -d "\$HOME/.local/share/flatpak/exports/bin" ]; then
+  pathappend "\$HOME/.local/share/flatpak/exports/bin"
+fi
+if [ -d /var/lib/flatpak/exports/bin ]; then
+  pathappend /var/lib/flatpak/exports/bin
+fi
+pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
+pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
+END
+groupadd -g 69 flatpak
+useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
+flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
+install -t /usr/share/licenses/flatpak -Dm644 COPYING
+cd ..
+rm -r flatpak-1.12.7
+rm flatpak-1.12.7.tar.xz
+```
 GNOME Software
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
 tar -xf gnome-software-42.0.tar.xz
 cd gnome-software-42.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
@@ -760,6 +774,20 @@ rm -r gnome-software-42.0
 rm gnome-software-42.0.tar.xz
 ```
 ## Eye Of GNOME Image Viewer
+Exempi
+```
+wget https://www.paldo.org/paldo/sources/exempi-2.0/exempi-2.1.1.tar.bz2
+tar -xf exempi-2.1.1.tar.bz2
+cd exempi-2.1.1
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/exempi -Dm644 ../COPYING
+cd ..
+rm -r exempi-2.1.1
+rm exempi-2.1.1.tar.bz2
+```
+Eye of GNOME
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/eog/42/eog-42.0.tar.xz
 tar -xf eog-42.0.tar.xz
@@ -767,7 +795,7 @@ cd eog-42.0
 sed "/dependency/s@'libportal'@'libportal-gtk3'@" -i meson.build
 sed "/portal-gtk3/s@portal/@portal-gtk3/@" -i src/eog-util.c
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=true
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false
 ninja
 ninja install
 install -t /usr/share/licenses/eog -Dm644 ../COPYING
@@ -835,6 +863,7 @@ logo='/usr/share/massos/massos-logo-small.png'
 END
 
 dconf update
+glib-compile-schemas /usr/share/glib-2.0/schemas
 
 sudo systemctl enable gdm
 ```
