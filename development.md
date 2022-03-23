@@ -279,17 +279,17 @@ rm gnome-autoar-0.4.3.tar.xz
 Install Libportal
 
 ```
-wget https://github.com/flatpak/libportal/releases/download/0.5/libportal-0.5.tar.xz
-tar -xf libportal-0.5.tar.xz
-cd libportal-0.5
+wget https://github.com/flatpak/libportal/releases/download/0.6/libportal-0.6.tar.xz
+tar -xf libportal-0.6.tar.xz
+cd libportal-0.6
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dbackends=gtk4
+meson --prefix=/usr --buildtype=release -Dbackends=gtk4 -Ddocs=false
 ninja
 ninja install
 install -t /usr/share/licenses/libportal -Dm644 ../COPYING
 cd ../..
-rm -r libportal-0.5
-rm libportal-0.5.tar.xz
+rm -r libportal-0.6
+rm libportal-0.6.tar.xz
 ```
 
 Now, we can install Nautilus
@@ -759,6 +759,37 @@ cd ../..
 rm -r gnome-software-42.0
 rm gnome-software-42.0.tar.xz
 ```
+## Eye Of GNOME Image Viewer
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/eog/42/eog-42.0.tar.xz
+tar -xf eog-42.0.tar.xz
+cd eog-42.0
+sed "/dependency/s@'libportal'@'libportal-gtk3'@" -i meson.build
+sed "/portal-gtk3/s@portal/@portal-gtk3/@" -i src/eog-util.c
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dgtk_doc=true
+ninja
+ninja install
+install -t /usr/share/licenses/eog -Dm644 ../COPYING
+update-desktop-database
+cd ../..
+rm -r eog-42.0
+rm eog-42.0.tar.xz
+```
+## Evince 42
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/evince/42/evince-42.1.tar.xz
+tar -xf evince-42.1.tar.xz
+cd evince-42.1
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false -Duser_doc=false
+ninja
+ninja install
+install -t /usr/share/licenses/evince -Dm644 ../COPYING
+cd ../..
+rm -r evince-42.1
+rm evince-42.1.tar.xz
+```
 ## GNOME Themes Extra
 
 ```
@@ -791,16 +822,16 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Re
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
 
+tee -a /etc/dconf/profile/gdm << END
+user-db:user
+system-db:gdm
+file-db:/usr/share/gdm/greeter-dconf-defaults
+END
+
+tee -a /etc/dconf/db/gdm.d/01-logo << END
+[org/gnome/login-screen]
+logo='/usr/share/massos/massos-logo-small.png'
+END
+
 dconf update
-
-touch /etc/dconf/profile/gdm
-
-
-touch /etc/dconf/profile/user
-echo user-db:user >> /etc/dconf/profile/user
-echo system-db:local >> /etc/dconf/profile/user
-mkdir /etc/dconf/db/local.d/
-touch /etc/dconf/db/local.d/00-favorite-apps
-echo [org/gnome/shell] >> /etc/dconf/db/local.d/00-favorite-apps
-echo favorite-apps = ['firefox.desktop', 'thunderbird.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Software.desktop'] >> /etc/dconf/db/local.d/00-favorite-apps
 ```
