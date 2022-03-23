@@ -835,4 +835,6 @@ logo='/usr/share/massos/massos-logo-small.png'
 END
 
 dconf update
+
+sudo systemctl enable gdm
 ```
