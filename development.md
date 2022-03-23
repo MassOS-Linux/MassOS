@@ -22,7 +22,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/tracker/3.3/tracker-3.3.0.tar.xz
 tar -xf tracker-3.3.0.tar.xz
 cd tracker-3.3.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Ddocs=false -Dman=false
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/tracker -Dm644 ../COPYING
@@ -207,7 +207,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/grilo/0.3/grilo-0.3.14.tar.xz
 tar -xf grilo-0.3.14.tar.xz
 cd grilo-0.3.14
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Denable-gtk-doc=false
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/grilo -Dm644 ../COPYING
@@ -283,7 +283,7 @@ wget https://github.com/flatpak/libportal/releases/download/0.5/libportal-0.5.ta
 tar -xf libportal-0.5.tar.xz
 cd libportal-0.5
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Ddocs=false -Dbackends=gtk4
+meson --prefix=/usr --buildtype=release -Dbackends=gtk4
 ninja
 ninja install
 install -t /usr/share/licenses/libportal -Dm644 ../COPYING
@@ -382,7 +382,6 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr   \
       -DWITH_OPENLDAP=OFF           \
       -DWITH_KRB5=OFF               \
       -DENABLE_INTROSPECTION=ON     \
-      -DENABLE_GTK_DOC=OFF          \
       -DWITH_LIBDB=OFF              \
       -DENABLE_WEATHER=OFF
 make
@@ -414,7 +413,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/geocode-glib/3.26/geocode-glib-3.2
 tar -xf geocode-glib-3.26.2.tar.xz
 cd geocode-glib-3.26.2
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Denable-gtk-doc=false
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING.LIB
@@ -599,7 +598,7 @@ wget https://ftp.acc.umu.se/pub/gnome/sources/gdm/42/gdm-42.0.tar.xz
 tar -xf gdm-42.0.tar.xz
 cd gdm-42.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs -Dinitial-vt=7
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
@@ -667,9 +666,7 @@ mkdir build && cd build
 meson --prefix=/usr       \
       --buildtype=release \
       -Dgtk2=true         \
-      -Dvapi=true         \
-      -Ddocs=false        \
-      -Dman=false
+      -Dvapi=true         
 ninja
 ninja install
 install -t /usr/share/licenses/colord-gtk -Dm644 ../COPYING
