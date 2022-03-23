@@ -625,6 +625,22 @@ cd ../..
 rm -r gnome-terminal-3.43.90
 rm gnome-terminal-3.43.90.tar.xz
 ```
+## Dconf editor
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/dconf-editor/3.38/dconf-editor-3.38.3.tar.xz
+tar -xf dconf-editor-3.38.3.tar.xz
+cd dconf-editor-3.38.3
+sed -e '/  desktop,/d' \
+    -e '/  appdata,/d' \
+    -i editor/meson.build
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+cd ../..
+rm -r dconf-editor-3.38.3
+rm dconf-editor-3.38.3.tar.xz
+```
 
 ## GNOME Tweaks
 
@@ -731,6 +747,7 @@ gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 
 gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
+gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
 
 touch /etc/dconf/profile/user
 echo user-db:user >> /etc/dconf/profile/user
