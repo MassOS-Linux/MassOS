@@ -3508,6 +3508,7 @@ make -C lib/isccfg
 make -C lib/bind9
 make -C lib/irs
 make -C bin/dig
+make -C doc/man
 make -C lib/isc install
 make -C lib/dns install
 make -C lib/ns install
