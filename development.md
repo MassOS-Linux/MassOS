@@ -828,6 +828,7 @@ system-db:gdm
 file-db:/usr/share/gdm/greeter-dconf-defaults
 END
 
+mkdir /etc/dconf/db/gdm.d/
 tee -a /etc/dconf/db/gdm.d/01-logo << END
 [org/gnome/login-screen]
 logo='/usr/share/massos/massos-logo-small.png'
