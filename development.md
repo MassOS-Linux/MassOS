@@ -666,6 +666,8 @@ mkdir build && cd build
 meson --prefix=/usr       \
       --buildtype=release \
       -Dgtk2=true         \
+      -Ddocs=false        \
+      -Dman=false         \
       -Dvapi=true         
 ninja
 ninja install
