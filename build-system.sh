@@ -6311,15 +6311,15 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
 rm -rf xfce4-terminal-0.9.1
 # Shotwell.
-tar -xf shotwell-0.30.14.tar.xz
-cd shotwell-0.30.14
+tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
+cd shotwell-0.31.3-133-gd55abab2
 mkdir SHOTWELL-build; cd SHOTWELL-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
-rm -rf shotwell-0.30.14
+rm -rf shotwell-0.31.3-133-gd55abab2
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.3.tar.bz2
 cd xfce4-notifyd-0.6.3
