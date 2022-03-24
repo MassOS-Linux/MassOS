@@ -6291,8 +6291,8 @@ install -t /usr/share/licenses/parole -Dm644 COPYING
 cd ..
 rm -rf parole-4.16.0
 # VTE.
-tar -xf vte-0.66.2.tar.gz
-cd vte-0.66.2
+tar -xf vte-0.67.90.tar.bz2
+cd vte-0.67.90
 mkdir vte-build; cd vte-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -6300,7 +6300,7 @@ ninja install
 rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
-rm -rf vte-0.66.2
+rm -rf vte-0.67.90
 # xfce4-terminal.
 tar -xf xfce4-terminal-0.9.1.tar.bz2
 cd xfce4-terminal-0.9.1
