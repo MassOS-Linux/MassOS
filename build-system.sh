@@ -4189,10 +4189,10 @@ rm -rf libisoburn-1.5.4
 tar -xf tealdeer-1.5.0.tar.gz
 cd tealdeer-1.5.0
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" cargo build --release
-install -m755 target/release/tldr /usr/bin/tldr
-install -m644 bash_tealdeer /usr/share/bash-completion/completions/tldr
-install -m644 fish_tealdeer /usr/share/fish/vendor_completions.d/tldr.fish
-install -m644 zsh_tealdeer /usr/share/zsh/site-functions/_tldr
+install -Dm755 target/release/tldr /usr/bin/tldr
+install -Dm644 bash_tealdeer /usr/share/bash-completion/completions/tldr
+install -Dm644 fish_tealdeer /usr/share/fish/vendor_completions.d/tldr.fish
+install -Dm644 zsh_tealdeer /usr/share/zsh/site-functions/_tldr
 install -t /usr/share/licenses/tealdeer -Dm644 LICENSE-APACHE LICENSE-MIT
 ln -sf tealdeer /usr/share/licenses/tldr
 cd ..
@@ -6037,8 +6037,8 @@ install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
 rm -rf gst-libav-1.20.1
 # WebKitGTK.
-tar -xf webkitgtk-2.36.0.tar.xz
-cd webkitgtk-2.36.0
+tar -xf webkitgtk-2.34.6.tar.xz
+cd webkitgtk-2.34.6
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -6046,7 +6046,7 @@ ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.36.0
+rm -rf webkitgtk-2.34.6
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6291,8 +6291,8 @@ install -t /usr/share/licenses/parole -Dm644 COPYING
 cd ..
 rm -rf parole-4.16.0
 # VTE.
-tar -xf vte-0.66.2.tar.gz
-cd vte-0.66.2
+tar -xf vte-0.67.90.tar.bz2
+cd vte-0.67.90
 mkdir vte-build; cd vte-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -6300,7 +6300,7 @@ ninja install
 rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
-rm -rf vte-0.66.2
+rm -rf vte-0.67.90
 # xfce4-terminal.
 tar -xf xfce4-terminal-0.9.1.tar.bz2
 cd xfce4-terminal-0.9.1
