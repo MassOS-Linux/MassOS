@@ -825,16 +825,17 @@ rm Cantarell.zip
 ```
 
 ## Set theme and small appearance fixes
-
+GSettings method
 ```
-gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
-gsettings set org.gnome.desktop.interface document-font-name 'Noto Sans Regular 11'
-gsettings set org.gnome.desktop.interface font-name 'Cantarell Regular 11'
+gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 11'
+gsettings set org.gnome.desktop.interface font-name 'Cantarell 11'
 gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Regular 11'
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
-
+```
+## GDM
+```
 tee -a /etc/dconf/profile/gdm << END
 user-db:user
 system-db:gdm
@@ -846,9 +847,10 @@ tee -a /etc/dconf/db/gdm.d/01-logo << END
 [org/gnome/login-screen]
 logo='/usr/share/massos/massos-logo-extrasmall.png'
 END
-
+```
+## Final touches
+```
 dconf update
 glib-compile-schemas /usr/share/glib-2.0/schemas
-
 sudo systemctl enable gdm
 ```
