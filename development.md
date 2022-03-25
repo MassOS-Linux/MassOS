@@ -8,7 +8,6 @@ tar -xf gnome-backgrounds-42.0.tar.xz
 cd gnome-backgrounds-42.0
 mkdir build && cd build
 meson --prefix=/usr
-ninja
 ninja install
 cd ..
 install -t /usr/share/licenses/gnome-backgrounds -Dm644 COPYING
