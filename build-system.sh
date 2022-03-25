@@ -87,13 +87,13 @@ make install
 cd ..
 rm -rf perl-5.34.1
 # Python.
-tar -xf Python-3.10.3.tar.xz
-cd Python-3.10.3
+tar -xf Python-3.10.4.tar.xz
+cd Python-3.10.4
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.10.3
+rm -rf Python-3.10.4
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -841,8 +841,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.10.3.tar.xz
-cd Python-3.10.3
+tar -xf Python-3.10.4.tar.xz
+cd Python-3.10.4
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -853,7 +853,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 cd ..
-rm -rf Python-3.10.3
+rm -rf Python-3.10.4
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
@@ -1054,13 +1054,13 @@ install -t /usr/share/licenses/iptables -Dm644 COPYING
 cd ..
 rm -rf iptables-1.8.7
 # IPRoute2.
-tar -xf iproute2-5.16.0.tar.xz
-cd iproute2-5.16.0
+tar -xf iproute2-5.17.0.tar.xz
+cd iproute2-5.17.0
 make
 make SBINDIR=/usr/sbin install
 install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 cd ..
-rm -rf iproute2-5.16.0
+rm -rf iproute2-5.17.0
 # Kbd.
 tar -xf kbd-2.4.0.tar.xz
 cd kbd-2.4.0
@@ -2455,8 +2455,8 @@ install -t /usr/share/licenses/gnupg -Dm644 COPYING COPYING.CC0 COPYING.GPL2 COP
 cd ..
 rm -rf gnupg-2.2.34
 # krb5.
-tar -xf krb5-1.19.2.tar.gz
-cd krb5-1.19.2/src
+tar -xf krb5-1.19.3.tar.gz
+cd krb5-1.19.3/src
 patch -Np2 -i ../../patches/krb5-1.19.2-OpenSSL3.patch
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
@@ -2464,7 +2464,7 @@ make
 make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
 cd ../..
-rm -rf krb5-1.19.2
+rm -rf krb5-1.19.3
 # rtmpdump.
 tar -xf rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 cd rtmpdump-2.4-20210219-gf1b83c1
@@ -3025,15 +3025,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.0.1.tar.xz
-cd harfbuzz-4.0.1
+tar -xf harfbuzz-4.1.0.tar.xz
+cd harfbuzz-4.1.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.0.1
+rm -rf harfbuzz-4.1.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -4298,15 +4298,15 @@ install -t /usr/share/licenses/jasper -Dm644 ../LICENSE
 cd ../..
 rm -rf jasper-version-2.0.33
 # ATK.
-tar -xf atk-2.36.0.tar.xz
-cd atk-2.36.0
+tar -xf atk-2.38.0.tar.xz
+cd atk-2.38.0
 mkdir atk-build; cd atk-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/atk -Dm644 ../COPYING
 cd ../..
-rm -rf atk-2.36.0
+rm -rf atk-2.38.0
 # Atkmm.
 tar -xf atkmm-2.28.2.tar.xz
 cd atkmm-2.28.2
@@ -4349,14 +4349,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.0.1.tar.xz
-cd harfbuzz-4.0.1
+tar -xf harfbuzz-4.1.0.tar.xz
+cd harfbuzz-4.1.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.0.1
+rm -rf harfbuzz-4.1.0
 # Pango.
 tar -xf pango-1.50.6.tar.xz
 cd pango-1.50.6
@@ -4485,14 +4485,14 @@ install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
 rm -rf librsvg-2.54.0
 # adwaita-icon-theme.
-tar -xf adwaita-icon-theme-41.0.tar.xz
-cd adwaita-icon-theme-41.0
+tar -xf adwaita-icon-theme-42.0.tar.xz
+cd adwaita-icon-theme-42.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/adwaita-icon-theme -Dm644 COPYING COPYING_CCBYSA3 COPYING_LGPL
 cd ..
-rm -rf adwaita-icon-theme-41.0
+rm -rf adwaita-icon-theme-42.0
 # at-spi2-core.
 tar -xf at-spi2-core-2.44.0.tar.xz
 cd at-spi2-core-2.44.0
@@ -4580,8 +4580,8 @@ install -t /usr/share/licenses/libdazzle -Dm644 ../COPYING
 cd ../..
 rm -rf libdazzle-3.44.0
 # Sysprof.
-tar -xf sysprof-3.42.1.tar.xz
-cd sysprof-3.42.1
+tar -xf sysprof-3.44.0.tar.xz
+cd sysprof-3.44.0
 mkdir SYSPROF-build; cd SYSPROF-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -4589,7 +4589,7 @@ ninja install
 sed -i 's/Development/System/' /usr/share/applications/org.gnome.Sysprof3.desktop
 install -t /usr/share/licenses/sysprof -Dm644 ../COPYING ../COPYING.gpl-2
 cd ../..
-rm -rf sysprof-3.42.1
+rm -rf sysprof-3.44.0
 # libgee.
 tar -xf libgee-0.20.5.tar.xz
 cd libgee-0.20.5
@@ -4942,8 +4942,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4586.tar.gz
-cd vim-8.2.4586
+tar -xf vim-8.2.4626.tar.gz
+cd vim-8.2.4626
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -4966,7 +4966,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4586
+rm -rf vim-8.2.4626
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5227,13 +5227,13 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 cd ../..
 rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.10.3.tar.xz
-cd Python-3.10.3
+tar -xf Python-3.10.4.tar.xz
+cd Python-3.10.4
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.10.3
+rm -rf Python-3.10.4
 # python-distutils-extra.
 tar -xf python-distutils-extra-2.39.tar.gz
 cd python-distutils-extra-2.39
@@ -5339,6 +5339,16 @@ make install
 install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
+# JSON (required by smblient 4.16+).
+tar -xf JSON-4.05.tar.gz
+cd JSON-4.05
+perl Makefile.PL
+make
+make install
+install -dm755 /usr/share/licenses/json
+cat lib/JSON.pm | tail -n9 | head -n6 > /usr/share/licenses/json/COPYING
+cd ..
+rm -rf JSON-4.05
 # Parse-Yapp.
 tar -xf Parse-Yapp-1.21.tar.gz
 cd Parse-Yapp-1.21
@@ -5350,8 +5360,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.15.6.tar.gz
-cd samba-4.15.6
+tar -xf samba-4.16.0.tar.gz
+cd samba-4.16.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
@@ -5374,7 +5384,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.15.6
+rm -rf samba-4.16.0
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20210805.tar.xz
 cd mobile-broadband-provider-info-20210805
@@ -5434,8 +5444,8 @@ systemctl enable upower
 cd ../..
 rm -rf upower-v0.99.17
 # NetworkManager.
-tar -xf NetworkManager-1.36.2.tar.xz
-cd NetworkManager-1.36.2
+tar -xf NetworkManager-1.36.4.tar.xz
+cd NetworkManager-1.36.4
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
@@ -5466,17 +5476,17 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.36.2
+rm -rf NetworkManager-1.36.4
 # libnma.
-tar -xf libnma-1.8.32.tar.xz
-cd libnma-1.8.32
+tar -xf libnma-1.8.36.tar.xz
+cd libnma-1.8.36
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnma -Dm644 ../COPYING ../COPYING.LGPL
 cd ../..
-rm -rf libnma-1.8.32
+rm -rf libnma-1.8.36
 # libnotify.
 tar -xf libnotify-0.7.9.tar.xz
 cd libnotify-0.7.9
@@ -5507,16 +5517,15 @@ install -t /usr/share/licenses/libwnck -Dm644 ../COPYING
 cd ../..
 rm -rf libwnck-40.1
 # network-manager-applet.
-tar -xf network-manager-applet-1.24.0.tar.xz
-cd network-manager-applet-1.24.0
-patch -Np1 -i ../patches/network-manager-applet-1.24.0-MesonBrokeYetAnotherPackage.patch
+tar -xf network-manager-applet-1.26.0.tar.xz
+cd network-manager-applet-1.26.0
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release -Dappindicator=no -Dselinux=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
 cd ../..
-rm -rf network-manager-applet-1.24.0
+rm -rf network-manager-applet-1.26.0
 # NetworkManager-openvpn.
 tar -xf NetworkManager-openvpn-1.8.18.tar.xz
 cd NetworkManager-openvpn-1.8.18
@@ -5550,15 +5559,15 @@ install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 cd ../..
 rm -rf gsettings-desktop-schemas-41.0
 # glib-networking.
-tar -xf glib-networking-2.70.1.tar.xz
-cd glib-networking-2.70.1
+tar -xf glib-networking-2.72.0.tar.xz
+cd glib-networking-2.72.0
 mkdir glibnet-build; cd glibnet-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib-networking -Dm644 ../COPYING
 cd ../..
-rm -rf glib-networking-2.70.1
+rm -rf glib-networking-2.72.0
 # libsoup.
 tar -xf libsoup-2.74.2.tar.xz
 cd libsoup-2.74.2
@@ -6713,7 +6722,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-98.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-98.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
