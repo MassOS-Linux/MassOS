@@ -717,55 +717,12 @@ rm -rf baobab-42.0
 rm baobab-42.0.tar.xz
 ```
 ## GNOME Software 42
-Libsoup
-```
-wget https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.5.tar.xz
-tar -xf libsoup-3.0.5.tar.xz
-cd libsoup-3.0.5
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
-ninja
-ninja install
-install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
-cd ../..
-rm -r libsoup-3.0.5
-rm libsoup-3.0.5.tar.xz
-```
-Flatpak
-```
-wget https://github.com/flatpak/flatpak/releases/download/1.12.7/flatpak-1.12.7.tar.xz
-tar -xf flatpak-1.12.7.tar.xz
-cd flatpak-1.12.7
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
-make
-make install
-cat > /etc/profile.d/flatpak.sh << END
-if [ -n "\$XDG_DATA_HOME" ] && [ -d "\$XDG_DATA_HOME/flatpak/exports/bin" ]; then
-  pathappend "\$XDG_DATA_HOME/flatpak/exports/bin"
-elif [ -n "\$HOME" ] && [ -d "\$HOME/.local/share/flatpak/exports/bin" ]; then
-  pathappend "\$HOME/.local/share/flatpak/exports/bin"
-fi
-if [ -d /var/lib/flatpak/exports/bin ]; then
-  pathappend /var/lib/flatpak/exports/bin
-fi
-pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
-pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
-END
-groupadd -g 69 flatpak
-useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
-flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
-install -t /usr/share/licenses/flatpak -Dm644 COPYING
-cd ..
-rm -r flatpak-1.12.7
-rm flatpak-1.12.7.tar.xz
-```
-GNOME Software
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
 tar -xf gnome-software-42.0.tar.xz
 cd gnome-software-42.0
 mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false -Dgsettings_desktop_schemas=enabled -Dman=true -Dpolkit=true -Dflatpak=true -Dsoup2=true
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
