@@ -702,6 +702,34 @@ cd ../..
 rm -r gnome-control-center-42.0
 rm gnome-control-center-42.0.tar.xz
 ```
+# GNOME Characters
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-characters/42/gnome-characters-42.0.tar.xz
+tar -xf gnome-characters-42.0.tar.xz
+cd gnome-characters-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-characters -Dm644 ../COPYING ../COPYINGv2
+cd ../..
+rm -r gnome-characters-42.0
+rm gnome-characters-42.0.tar.xz
+```
+# GNOME Calendar
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-calendar/42/gnome-calendar-42.0.tar.xz
+tar -xf gnome-calendar-42.0.tar.xz
+cd gnome-calendar-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-calendar -Dm644 ../COPYING
+cd ../..
+rm -r gnome-calendar-42.0
+rm gnome-calendar-42.0.tar.xz
+```
 ## Baobab
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/baobab/42/baobab-42.0.tar.xz
@@ -816,7 +844,7 @@ END
 mkdir /etc/dconf/db/gdm.d/
 tee -a /etc/dconf/db/gdm.d/01-logo << END
 [org/gnome/login-screen]
-logo='/usr/share/massos/massos-logo-small.png'
+logo='/usr/share/massos/massos-logo-extrasmall.png'
 END
 
 dconf update
