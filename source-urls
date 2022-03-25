@@ -44,6 +44,7 @@ https://gitlab.freedesktop.org/cairo/cairo/-/archive/1.17.6/cairo-1.17.6.tar.bz2
 https://www.cairographics.org/releases/cairomm-1.14.0.tar.xz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://deb.debian.org/debian/pool/main/c/cdrkit/cdrkit_1.1.11.orig.tar.gz
+https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.15.0.tar.gz
 https://files.pythonhosted.org/packages/source/c/chardet/chardet-4.0.0.tar.gz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang-13.0.1.src.tar.xz
@@ -57,6 +58,7 @@ https://mirror.lyrahosting.com/gnu/coreutils/coreutils-9.0.tar.xz
 https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
+https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-36.0.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.1/cups-2.4.1-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.12.tar.xz
@@ -447,6 +449,7 @@ https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://deb.debian.org/debian/pool/main/p/pigz/pigz_2.6.orig.tar.xz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
+https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
 https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/0.9.5/plymouth-0.9.5.tar.gz
 https://www.freedesktop.org/software/polkit/releases/polkit-0.120.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
@@ -461,6 +464,7 @@ https://files.pythonhosted.org/packages/source/p/ptyprocess/ptyprocess-0.7.0.tar
 https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz
+https://github.com/eliben/pycparser/archive/release_v2.21/pycparser-release_v2.21.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
 https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
@@ -484,7 +488,9 @@ https://cdn.kernel.org/pub/linux/bluetooth/sbc-1.5.tar.xz
 https://www.libsdl.org/release/SDL-1.2.15.tar.gz
 https://www.libsdl.org/release/SDL2-2.0.20.tar.gz
 https://mirror.lyrahosting.com/gnu/sed/sed-4.8.tar.xz
+https://files.pythonhosted.org/packages/64/ac/df31047966c4d0293e7bd16276ebc9f6654de36ad8e19061a09369380c0a/semantic_version-2.9.0-py2.py3-none-any.whl
 https://www.x.org/archive/individual/app/sessreg-1.1.2.tar.bz2
+https://files.pythonhosted.org/packages/3e/92/7d8e368c14284ff7dc7df5bf55883f0841a1f7cbcae5517417379c46718f/setuptools_rust-1.2.0-py3-none-any.whl
 https://www.x.org/archive/individual/app/setxkbmap-1.3.2.tar.bz2
 https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-0.6.3.tgz
 https://github.com/shadow-maint/shadow/releases/download/v4.11.1/shadow-4.11.1.tar.xz
@@ -525,6 +531,7 @@ https://files.pythonhosted.org/packages/source/t/toml/toml-0.10.2.tar.gz
 https://archive.massos.org/sources/tree-2.0.2.tgz
 https://archive.fr.xfce.org/src/xfce/tumbler/4.17/tumbler-4.17.0.tar.bz2
 https://github.com/njh/twolame/releases/download/0.4.0/twolame-0.4.0.tar.gz
+https://files.pythonhosted.org/packages/45/6b/44f7f8f1e110027cf88956b59f2fad776cca7e1704396d043f89effd3a0e/typing_extensions-4.1.1-py3-none-any.whl
 https://files.pythonhosted.org/packages/source/t/typogrify/typogrify-2.0.7.tar.gz
 https://www.iana.org/time-zones/repository/releases/tzdata2021e.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2

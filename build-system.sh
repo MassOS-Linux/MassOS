@@ -5287,6 +5287,41 @@ python setup.py install --optimize=1 --skip-build
 install -t /usr/share/licenses/idna -Dm644 LICENSE.md
 cd ..
 rm -rf idna-3.3
+# ply.
+tar -xf ply-3.11.tar.gz
+cd ply-3.11
+python setup.py install --optimize=1
+install -t /usr/share/licenses/ply -Dm644 ../extra-package-licenses/ply-license.txt
+cd ..
+rm -rf ply-3.11
+# pycparser.
+tar -xf pycparser-release_v2.21.tar.gz
+cd pycparser-release_v2.21
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/pycparser -Dm644 LICENSE
+cd ..
+rm -rf pycparser-release_v2.21
+# cffi.
+tar -xf cffi-1.15.0.tar.gz
+cd cffi-1.15.0
+python setup.py build
+python setup.py install --optimize=1
+install -t /usr/share/licenses/cffi -Dm644 LICENSE
+cd ..
+rm -rf cffi-1.15.0
+# cryptography.
+tar -xf cryptography-36.0.2.tar.gz
+cd cryptography-36.0.2
+## First, install the build dependencies.
+pip install typing_extensions-4.1.1-py3-none-any.whl semantic_version-2.9.0-py2.py3-none-any.whl setuptools_rust-1.2.0-py3-none-any.whl
+## Now build and install the package.
+python setup.py install --optimize=1
+install -t /usr/share/licenses/cryptography -Dm644 LICENSE*
+## Now uninstall the build dependencies since they aren't needed.
+pip uninstall setuptools-rust semantic-version typing-extensions -y
+cd ..
+rm -rf cryptography-36.0.2
 # pyopenssl.
 tar -xf pyopenssl-22.0.0.tar.gz
 cd pyopenssl-22.0.0
