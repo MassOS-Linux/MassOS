@@ -5,6 +5,8 @@ Changes:
 
 - Started migration of documentation to the MassOS wiki.
 - Added a template for issues and bug reports opened on the MassOS repository.
+- Kernel modules are now compressed with XZ, taking the total space consumed by modules from ~310MB to ~80MB.
+- Added Android ashmem and binder support to the kernel.
 - Replaced Python tldr client for [tealdeer](https://github.com/dbrgn/tealdeer), a faster tldr client written in Rust.
 - Migrated from JS78 to JS91.
 - Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
