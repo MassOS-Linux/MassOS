@@ -834,20 +834,8 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Re
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
 ```
-## Small Dconf stuff
+random stuff
 ```
-tee -a /etc/dconf/profile/user << END
-user-db:user
-system-db:local
-END
-
-mkdir /etc/dconf/db/local.d
-```
-## Add icons to the bottom dock
-```
-tee -a /etc/dconf/db/local.d/01-favorite-apps << END
-[/org/gnome/shell/favorite-apps]
-
 ['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
 END
 ```
@@ -864,14 +852,6 @@ mkdir /etc/dconf/db/gdm.d/
 tee -a /etc/dconf/db/gdm.d/01-logo << END
 [org/gnome/login-screen]
 logo='/usr/share/massos/massos-logo-extrasmall.png'
-END
-```
-## Fix text rendering in GTK4
-```
-mkdir /etc/gtk-4.0
-tee -a /etc/gtk-4.0/settings.ini << END
-[Settings]
-gtk-hint-font-metrics=true
 END
 ```
 ## Final touches
