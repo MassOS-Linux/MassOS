@@ -610,7 +610,7 @@ cd ../..
 rm -r gnome-terminal-3.43.90
 rm gnome-terminal-3.43.90.tar.xz
 ```
-## Dconf editor
+## Dconf editor (only for me, not for final build)
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/dconf-editor/3.38/dconf-editor-3.38.3.tar.xz
 tar -xf dconf-editor-3.38.3.tar.xz
