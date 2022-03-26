@@ -867,7 +867,7 @@ icon-theme='Adwaita'
 gtk-theme='Adwaita-dark'
 
 [org.gnome.desktop.wm.preferences]
-button-layout='appmenu:minimize,close'
+button-layout='appmenu:minimize,maximize,close'
 titlebar-font='Cantarell Bold 11'
 END
 ```
