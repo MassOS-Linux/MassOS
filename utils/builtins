@@ -41,6 +41,7 @@ cairo
 cairomm
 cdparanoia
 cdrkit
+cffi
 chardet
 check
 clang
@@ -52,6 +53,7 @@ colord
 coreutils
 cowsay
 cracklib
+cryptography
 cryptsetup
 cups
 cups-filters
@@ -189,6 +191,7 @@ jansson
 jasper
 jinja2
 js91
+json
 json-c
 json-glib
 kbd
@@ -430,6 +433,7 @@ pigz
 pinentry
 pip
 pixman
+ply
 plymouth
 polkit
 polkit-gnome
@@ -442,6 +446,7 @@ ptyprocess
 pulseaudio
 pv
 pycairo
+pycparser
 pygments
 pygobject
 pyopenssl

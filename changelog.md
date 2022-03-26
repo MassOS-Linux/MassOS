@@ -5,6 +5,8 @@ Changes:
 
 - Started migration of documentation to the MassOS wiki.
 - Added a template for issues and bug reports opened on the MassOS repository.
+- Kernel modules are now compressed with XZ, taking the total space consumed by modules from ~310MB to ~80MB.
+- Added Android ashmem and binder support to the kernel.
 - Replaced Python tldr client for [tealdeer](https://github.com/dbrgn/tealdeer), a faster tldr client written in Rust.
 - Migrated from JS78 to JS91.
 - Switched Wget from OpenSSL to GNUTLS (which is the upstream default).
@@ -12,8 +14,10 @@ Changes:
 
 Upgraded software:
 
+- adwaita-icon-theme: `41.0 --> 42.0`
 - Asciidoc: `10.1.1 --> 10.1.4`
 - at-spi2-core: `2.42.0 --> 2.44.0`
+- ATK: `2.36.0 --> 2.38.0`
 - BIND Utils: `9.16.25 --> 9.18.1`
 - BlueZ: `5.63 --> 5.64`
 - Cairo: `1.17.4 --> 1.17.6`
@@ -25,10 +29,11 @@ Upgraded software:
 - Evince: `41.3 --> 41.4`
 - Expat: `2.4.6 --> 2.4.7`
 - Fakeroot: `1.27 --> 1.28`
-- Firefox: `97.0.1 --> 98.0.1`
+- Firefox: `97.0.1 --> 98.0.2`
 - Flatpak: `1.12.6 --> 1.13.2`
 - GDK-Pixbuf: `2.42.6 --> 2.42.8`
 - GLib: `2.70.4 --> 2.72.0`
+- glib-networking: `2.70.1 --> 2.72.0`
 - gtksourceview4: `4.8.2 --> 4.8.3`
 - GNOME Software: `41.4 --> 41.5`
 - GNUTLS: `3.7.3 --> 3.7.4`
@@ -43,11 +48,14 @@ Upgraded software:
 - gst-plugins-ugly: `1.20.0 --> 1.20.1`
 - GStreamer: `1.20.0 --> 1.20.1`
 - GTK3: `3.24.31 --> 3.24.33`
-- HarfBuzz: `3.4.0 --> 4.0.1`
+- HarfBuzz: `3.4.0 --> 4.1.0`
+- IPRoute2: `5.16.0 --> 5.17.0`
+- krb5: `1.19.2 --> 1.19.3`
 - libdazzle: `3.42.0 --> 3.44.0`
 - libepoxy: `1.5.9 --> 1.5.10`
 - libgphoto2: `2.5.27 --> 2.5.29`
 - libhandy: `1.5.0 --> 1.6.1`
+- libnma: `1.8.32 --> 1.8.36`
 - libostree: `2022.1 --> 2022.2`
 - libpeas: `1.30.0 --> 1.32.0`
 - libportal: `0.5 --> 0.6`
@@ -64,7 +72,8 @@ Upgraded software:
 - Mesa: `21.3.7 --> 22.0.0`
 - Meson: `0.61.2 --> 0.62.0`
 - mtools: `4.0.37 --> 4.0.38`
-- NetworkManager: `1.36.0 --> 1.36.2`
+- network-manager-applet: `1.24.0 --> 1.26.0`
+- NetworkManager: `1.36.0 --> 1.36.4`
 - NetworkManager-openvpn: `1.8.16 --> 1.8.18`
 - NSS: `3.75 --> 3.76`
 - OpenSSL: `3.0.1 --> 3.0.2`
@@ -72,20 +81,21 @@ Upgraded software:
 - Pango: `1.50.4 --> 1.50.6`
 - Poppler: `22.02.0 --> 22.03.0`
 - PyCairo: `1.20.1 --> 1.21.0`
-- Python: `3.10.2 --> 3.10.3`
+- Python: `3.10.2 --> 3.10.4`
 - Qpdf: `10.6.2 --> 10.6.3`
 - Ruby: `3.1.0 --> 3.1.1`
 - Shotwell: `0.30.14 --> 0.31.3-133-gd55abab2`
-- smbclient: `4.15.5 --> 4.15.6`
+- smbclient: `4.15.5 --> 4.16.0`
 - SQLite: `3.38.0 --> 3.38.1`
 - Sudo: `1.9.9 --> 1.9.10`
+- Sysprof: `3.42.1 --> 3.44.0`
 - systemd: `250.3 --> 250.4`
 - Thunderbird: `91.6.1 --> 91.7.0`
 - Unifont: `14.0.01 --> 14.0.02`
 - UPower: `0.99.16 --> 0.99.17`
 - util-linux: `2.37.4 --> 2.38-rc4`
 - Vala: `0.54.7 --> 0.56.0`
-- Vim: `8.2.4482 --> 8.2.4586`
+- Vim: `8.2.4482 --> 8.2.4626`
 - VTE: `0.66.2 --> 0.67.90`
 - Vulkan-Headers: `1.3.206 --> 1.3.208`
 - Vulkan-Loader: `1.3.206 --> 1.3.208`
