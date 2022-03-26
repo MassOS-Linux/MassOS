@@ -895,6 +895,9 @@ gtk-theme='Adwaita-dark'
 [org.gnome.desktop.wm.preferences]
 button-layout='appmenu:minimize,maximize,close'
 titlebar-font='Cantarell Bold 11'
+
+[org.gnome.terminal.legacy]
+theme-variant='dark'
 END
 ```
 
