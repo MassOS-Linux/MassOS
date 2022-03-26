@@ -802,6 +802,12 @@ cd ../..
 rm -r evince-42.1
 rm evince-42.1.tar.xz
 ```
+## Chrome GNOME Shell for extension support
+Links for future reference:
+```
+https://extensions.gnome.org/extension-data/appindicatorsupportrgcjonas.gmail.com.v42.shell-extension.zip
+https://extensions.gnome.org/extension-data/clipboard-indicatortudmotu.com.v39.shell-extension.zip
+```
 ## GNOME Themes Extra
 
 ```
