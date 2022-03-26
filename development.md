@@ -802,11 +802,32 @@ cd ../..
 rm -r evince-42.1
 rm evince-42.1.tar.xz
 ```
-## Chrome GNOME Shell for extension support
-Links for future reference:
+## JQ
 ```
-https://extensions.gnome.org/extension-data/appindicatorsupportrgcjonas.gmail.com.v42.shell-extension.zip
-https://extensions.gnome.org/extension-data/clipboard-indicatortudmotu.com.v39.shell-extension.zip
+wget https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz
+tar -xf jq-1.6.tar.gz
+cd jq-1.6
+autoreconf -i
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/jq -Dm644 COPYING
+cd ..
+rm -r jq-1.6
+rm jq-1.6.tar.gz
+```
+## Chrome GNOME Shell for extension support
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/chrome-gnome-shell/10.1/chrome-gnome-shell-10.1.tar.xz
+tar -xf chrome-gnome-shell-10.1.tar.xz
+cd chrome-gnome-shell-10.1
+mkdir build && cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_EXTENSION=OFF ../
+make install
+install -t /usr/share/licenses/chrome-gnome-shell -Dm644 ../LICENSE
+cd ../..
+rm -r chrome-gnome-shell-10.1
+rm chrome-gnome-shell-10.1.tar.xz
 ```
 ## GNOME Themes Extra
 
