@@ -824,7 +824,7 @@ rm Cantarell.zip
 ```
 
 ## Set theme and small appearance fixes
-GSettings method
+GSettings method (not for final release
 ```
 gsettings set org.gnome.desktop.interface icon-theme 'Adwaita'
 gsettings set org.gnome.desktop.interface document-font-name 'Cantarell 11'
@@ -833,11 +833,28 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Noto Sans Mono Re
 gsettings set org.gnome.desktop.interface color-scheme prefer-dark
 gsettings set org.gnome.desktop.wm.preferences button-layout ':minimize,close'
 ```
-random stuff
+
+## Tweaks for default user experience
+
 ```
-['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
+tee -a /usr/share/glib-2.0/schemas/10_gnome-shell.gschema.override << END
+[org.gnome.shell]
+favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.clocks.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
+
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+cursor-theme='Adwaita'
+document-font-name='Cantarell 11'
+font-name='Cantarell 11'
+monospace-font-name='Noto Sans Mono Regular 11'
+icon-theme='Adwaita'
+
+[org.gnome.desktop.wm.preferences]
+button-layout='appmenu:minimize,close'
+titlebar-font='Cantarell Bold 11'
 END
 ```
+
 ## GDM
 ```
 tee -a /etc/dconf/profile/gdm << END
