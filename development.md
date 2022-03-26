@@ -743,6 +743,32 @@ cd ../..
 rm -rf baobab-42.0
 rm baobab-42.0.tar.xz
 ```
+## Yelp XSL
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/yelp-xsl/42/yelp-xsl-42.0.tar.xz
+tar -xf yelp-xsl-42.0.tar.xz
+cd yelp-xsl-42.0
+./configure --prefix=/usr
+make install
+install -t /usr/share/licenses/yelp-xsl -Dm644 ../COPYING ../COPYING.GPL ../COPYING.LGPL
+cd ..
+rm -r yelp-xsl-42.0
+rm yelp-xsl-42.0.tar.xz
+```
+
+## Yelp, GNOME Help program
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/yelp/42/yelp-42.0.tar.xz
+tar -xf yelp-42.0.tar.xz
+cd yelp-42.0
+./configure --prefix=/usr --disable-static --with-webkit2gtk-4-0
+make
+make install
+install -t /usr/share/licenses/yelp -Dm644 COPYING
+cd ..
+rm -r yelp-42.0
+rm yelp-42.0.tar.xz
+```
 ## GNOME Software 42
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
@@ -889,6 +915,7 @@ END
 ```
 ## Final touches
 ```
+update-desktop-database
 dconf update
 glib-compile-schemas /usr/share/glib-2.0/schemas
 systemctl enable gdm
