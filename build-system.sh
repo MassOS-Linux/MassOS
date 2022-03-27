@@ -6295,6 +6295,7 @@ systemctl enable gdm
 cd ../..
 rm -r gdm-42.0
 rm gdm-42.0.tar.xz
+
 # Plymouth.
 tar -xf plymouth-0.9.5.tar.gz
 cd plymouth-0.9.5
@@ -6513,9 +6514,7 @@ unset KVER
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
 # MassOS Backgrounds.
-install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
-mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
-ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
+install -Dm644 backgrounds/* /usr/share/backgrounds/gnome
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png
 # Install Neofetch.
