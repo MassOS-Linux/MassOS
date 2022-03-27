@@ -916,6 +916,14 @@ tee -a /etc/dconf/db/gdm.d/01-logo << END
 logo='/usr/share/massos/massos-logo-extrasmall.png'
 END
 ```
+## Fix GTK4 text rendering
+```
+mkdir /etc/gtk-4.0
+tee -a /etc/gtk-4.0/settings.ini << END
+[Settings]
+gtk-hint-font-metrics=true
+END
+```
 ## Final touches
 ```
 update-desktop-database
