@@ -6339,7 +6339,7 @@ ninja install
 install -t /usr/share/licenses/gnome-desktop -Dm644 ../COPYING
 cd ../..
 rm -r gnome-desktop-42.0
-# clutter-gst
+# clutter-gst.
 tar -xf clutter-gst-3.0.27.tar.xz
 cd clutter-gst-3.0.27
 ./configure --prefix=/usr
@@ -6358,6 +6358,79 @@ ninja install
 install -t /usr/share/licenses/grilo -Dm644 ../COPYING
 cd ../..
 rm -r grilo-0.3.14
+# totem.
+tar -xf totem-42.0.tar.xz
+cd totem-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/totem -Dm644 ../COPYING
+cd ../..
+rm -r totem-42.0
+# file-roller
+tar -xf file-roller-3.42.0.tar.xz
+cd file-roller-3.42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dpackagekit=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/file-roller -Dm644 ../COPYING
+cd ../..
+rm -r file-roller-3.42.0
+# gnome-autoar.
+tar -xf gnome-autoar-0.4.3.tar.xz
+cd gnome-autoar-0.4.3
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dvapi=true -Dtests=true ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-autoar -Dm644 ../COPYING
+cd ../..
+rm -r gnome-autoar-0.4.3
+# nautilus.
+tar -xf nautilus-42.0.tar.xz
+cd nautilus-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false
+ninja
+ninja install
+install -t /usr/share/licenses/nautilus -Dm644 ../COPYING
+cd ../..
+rm -r nautilus-42.0
+# gsound.
+tar -xf gsound-1.0.3.tar.xz
+cd gsound-1.0.3
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gsound -Dm644 ../COPYING
+cd ../..
+rm -r gsound-1.0.3
+# gnome-bluetooth.
+tar -xf gnome-bluetooth-42.0.tar.xz
+cd gnome-bluetooth-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-bluetooth -Dm644 ../COPYING
+cd ../..
+rm -r gnome-bluetooth-42.0
+# gnome-session.
+tar -xf gnome-session-42.0.tar.xz
+cd gnome-session-42.0
+sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-session -Dm644 ../COPYING
+mv -v /usr/share/doc/gnome-session{,-42.0}
+cd ../..
+rm -r gnome-session-42.0
+rm gnome-session-42.0.tar.xz
 # Evince.
 tar -xf evince-42.1.tar.xz
 cd evince-42.1
