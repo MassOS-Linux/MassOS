@@ -6269,58 +6269,32 @@ ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
 rm -r gnome-software-42.0
-# MassOS Welcome (modified version of Gnome Tour).
-tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
-cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
-mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
+# GNOME Tour.
+tar -xf gnome-tour-42.0.tar.xz
+cd gnome-tour-42.0
+mkdir build; cd build
 meson --prefix=/usr --buildtype=release ..
-RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
-install -m755 target/release/gnome-tour /usr/bin/massos-welcome
-cat > /usr/bin/firstlogin << "END"
-#!/bin/sh
-/usr/bin/massos-welcome
-rm -f ~/.config/autostart/firstlogin.desktop
-END
-chmod 755 /usr/bin/firstlogin
-install -dm755 /etc/skel/.config/autostart
-cat > /etc/skel/.config/autostart/firstlogin.desktop << "END"
-[Desktop Entry]
-Type=Application
-Name=First Login Welcome Program
-Exec=/usr/bin/firstlogin
-END
-install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-tour -Dm644 ../LICENSE.md
 cd ../..
-rm -rf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
-# lightdm.
-tar -xf lightdm-1.30.0.tar.xz
-cd lightdm-1.30.0
-groupadd -g 65 lightdm
-useradd -c "Lightdm Daemon" -d /var/lib/lightdm -u 65 -g lightdm -s /bin/false lightdm
-./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --localstatedir=/var --sbindir=/usr/bin --sysconfdir=/etc --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
-make
-make install
-cp tests/src/lightdm-session /usr/bin
-sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session
-rm -rf /etc/init
-install -dm755 -o lightdm -g lightdm /var/lib/lightdm
-install -dm755 -o lightdm -g lightdm /var/lib/lightdm-data
-install -dm755 -o lightdm -g lightdm /var/cache/lightdm
-install -dm770 -o lightdm -g lightdm /var/log/lightdm
-install -t /usr/share/licenses/lightdm -Dm644 COPYING.GPL3 COPYING.LGPL2 COPYING.LGPL3
-cd ..
-rm -rf lightdm-1.30.0
-# lightdm-gtk-greeter.
-tar -xf lightdm-gtk-greeter-2.0.8.tar.gz
-cd lightdm-gtk-greeter-2.0.8
-./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode
-make
-make install
-sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Contemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
-install -t /usr/share/licenses/lightdm-gtk-greeter -Dm644 COPYING
-systemctl enable lightdm
-cd ..
-rm -rf lightdm-gtk-greeter-2.0.8
+rm -r gnome-tour-42.0
+# gdm.
+groupadd -g 21 gdm &&
+useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
+        -g gdm -s /bin/false gdm &&
+passwd -ql gdm
+tar -xf gdm-42.0.tar.xz
+cd gdm-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs
+ninja
+ninja install
+install -t /usr/share/licenses/gdm -Dm644 ../COPYING
+systemctl enable gdm
+cd ../..
+rm -r gdm-42.0
+rm gdm-42.0.tar.xz
 # Plymouth.
 tar -xf plymouth-0.9.5.tar.gz
 cd plymouth-0.9.5
