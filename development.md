@@ -506,10 +506,6 @@ cd ../..
 rm -r firefox-91.7.1
 rm firefox-91.7.1esr.source.tar.xz
 ```
-## Remove Rust
-```
-sudo /usr/lib/rustlib/uninstall.sh
-```
 ## Install GJS
 ```
 wget https://ftp.acc.umu.se/pub/gnome/sources/gjs/1.72/gjs-1.72.0.tar.xz
@@ -944,4 +940,5 @@ update-desktop-database
 dconf update
 glib-compile-schemas /usr/share/glib-2.0/schemas
 systemctl enable gdm
+sudo /usr/lib/rustlib/uninstall.sh
 ```
