@@ -900,6 +900,20 @@ titlebar-font='Cantarell Bold 11'
 theme-variant='dark'
 END
 ```
+## GNOME Tour
+```
+wget https://ftp.acc.umu.se/pub/gnome/sources/gnome-tour/42/gnome-tour-42.0.tar.xz
+tar -xf gnome-tour-42.0.tar.xz
+cd gnome-tour-42.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/evince -Dm644 ../LICENSE.md
+cd ../..
+rm -r gnome-tour-42.0
+rm gnome-tour-42.0.tar.xz
+```
 
 ## GDM
 ```
