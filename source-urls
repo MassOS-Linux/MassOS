@@ -110,6 +110,7 @@ https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/fcron-3.2.1.src.t
 https://ffmpeg.org/releases/ffmpeg-5.0.tar.xz
 https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
+https://ftp.acc.umu.se/pub/gnome/sources/file-roller/3.42/file-roller-3.42.0.tar.xz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.9.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/91.7.1esr/source/firefox-91.7.1esr.source.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/98.0.2/linux-x86_64/en-US/firefox-98.0.2.tar.bz2
@@ -145,10 +146,13 @@ https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
 https://github.com/KhronosGroup/glslang/archive/11.8.0/glslang-11.8.0.tar.gz
 https://archive.mesa3d.org/glu/glu-9.0.2.tar.xz
 https://mirror.lyrahosting.com/gnu/gmp/gmp-6.2.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gnome-autoar/0.4/gnome-autoar-0.4.3.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-backgrounds/42/gnome-backgrounds-42.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gnome-bluetooth/42/gnome-bluetooth-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-calculator/42/gnome-calculator-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-desktop/42/gnome-desktop-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gnome-session/42/gnome-session-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-system-monitor/42/gnome-system-monitor-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-text-editor/42/gnome-text-editor-42.0.tar.xz
@@ -177,6 +181,7 @@ https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.20.1.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.20.1.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.20.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gsound/1.0/gsound-1.0.3.tar.xz
 https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.20.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtk/4.6/gtk-4.6.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtk-doc/1.33/gtk-doc-1.33.2.tar.xz
@@ -405,6 +410,7 @@ https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.38.tar.gz
 https://www.mupdf.com/downloads/archive/mupdf-1.18.0-source.tar.gz
 https://nano-editor.org/dist/v6/nano-6.2.tar.xz
 https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/nautilus/42/nautilus-42.0.tar.xz
 https://mirror.lyrahosting.com/gnu/ncurses/ncurses-6.3.tar.gz
 https://archive.massos.org/sources/net-snmp-5.9.1.tar.xz
 https://archive.massos.org/sources/netcat-0.7.1.tar.xz
@@ -528,6 +534,7 @@ https://archive.massos.org/sources/tk8.6.12-src.tar.gz
 https://files.pythonhosted.org/packages/source/t/toml/toml-0.10.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/tracker/3.3/tracker-3.3.0.tar.xz
 https://archive.massos.org/sources/tree-2.0.2.tgz
+https://ftp.acc.umu.se/pub/gnome/sources/totem/42/totem-42.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/totem-pl-parser/3.26/totem-pl-parser-3.26.6.tar.xz
 https://github.com/njh/twolame/releases/download/0.4.0/twolame-0.4.0.tar.gz
 https://files.pythonhosted.org/packages/45/6b/44f7f8f1e110027cf88956b59f2fad776cca7e1704396d043f89effd3a0e/typing_extensions-4.1.1-py3-none-any.whl
