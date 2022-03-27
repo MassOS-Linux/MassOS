@@ -160,7 +160,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2021e.tar.gz
+tar -xf ../../tzdata2022a.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -1794,14 +1794,14 @@ install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
 rm -rf dbus-dbus-1.14.0
 # Man-DB.
-tar -xf man-db-2.10.1.tar.xz
-cd man-db-2.10.1
+tar -xf man-db-2.10.2.tar.xz
+cd man-db-2.10.2
 ./configure --prefix=/usr --sysconfdir=/etc --with-systemdsystemunitdir=/usr/lib/systemd/system --with-db=gdbm --disable-setuid --enable-cache-owner=bin --with-browser=/usr/bin/lynx
 make
 make install
 install -t /usr/share/licenses/man-db -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf man-db-2.10.1
+rm -rf man-db-2.10.2
 # Procps-NG.
 tar -xf procps-ng-3.3.17.tar.xz
 cd procps-3.3.17
@@ -1979,15 +1979,15 @@ install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
 rm -rf btrfs-progs-v5.16.2
 # inih.
-tar -xf libinih_53.orig.tar.gz
-cd inih-r53
+tar -xf inih-r55.tar.gz
+cd inih-r55
 mkdir inih-build; cd inih-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/inih -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf inih-r53
+rm -rf inih-r55
 # Userspace-RCU (dependency of xfsprogs since 5.14.0).
 tar -xf userspace-rcu-0.13.1.tar.bz2
 cd userspace-rcu-0.13.1
@@ -2110,8 +2110,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.82.0
 # CMake.
-tar -xf cmake-3.23.0-rc4.tar.gz
-cd cmake-3.23.0-rc4
+tar -xf cmake-3.23.0-rc5.tar.gz
+cd cmake-3.23.0-rc5
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2119,7 +2119,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.23.0-rc4
+rm -rf cmake-3.23.0-rc5
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2531,8 +2531,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380100.tar.gz
-cd sqlite-autoconf-3380100
+tar -xf sqlite-autoconf-3380200.tar.gz
+cd sqlite-autoconf-3380200
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2542,7 +2542,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380100
+rm -rf sqlite-autoconf-3380200
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2579,9 +2579,10 @@ install -t /usr/share/licenses/wget -Dm644 COPYING
 cd ..
 rm -rf wget-1.21.3
 # Audit.
-tar -xf audit-3.0.7.tar.gz
-cd audit-3.0.7
+tar -xf audit-userspace-3.0.7.tar.gz
+cd audit-userspace-3.0.7
 patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
+./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 make
 make install
@@ -2598,7 +2599,7 @@ END
 systemctl enable auditd
 install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf audit-3.0.7
+rm -rf audit-userspace-3.0.7
 # AppArmor.
 tar -xf apparmor_3.0.3.orig.tar.gz
 cd apparmor-3.0.3
@@ -3247,15 +3248,15 @@ install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libqmi-1.30.4
 # libwacom.
-tar -xf libwacom-2.1.0.tar.xz
-cd libwacom-2.1.0
+tar -xf libwacom-2.2.0.tar.xz
+cd libwacom-2.2.0
 mkdir wacom-build; cd wacom-build
 meson --prefix=/usr --buildtype=release -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwacom -Dm644 ../COPYING
 cd ../..
-rm -rf libwacom-2.1.0
+rm -rf libwacom-2.2.0
 # mtdev.
 tar -xf mtdev-1.1.6.tar.bz2
 cd mtdev-1.1.6
@@ -4001,15 +4002,16 @@ install -t /usr/share/licenses/xwayland -Dm644 ../COPYING
 cd ../..
 rm -rf xwayland-21.1.4
 # libevdev.
-tar -xf libevdev-1.12.0.tar.xz
-cd libevdev-1.12.0
+tar -xf libevdev-1.12.1.tar.xz
+cd libevdev-1.12.1
+
 mkdir EVDEV-build; cd EVDEV-build
 meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var -Ddocumentation=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libevdev -Dm644 ../COPYING
 cd ../..
-rm -rf libevdev-1.12.0
+rm -rf libevdev-1.12.1
 # xf86-input-evdev.
 tar -xf xf86-input-evdev-2.10.6.tar.bz2
 cd xf86-input-evdev-2.10.6
@@ -6239,15 +6241,15 @@ install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
 rm -rf baobab-42.0
 # libglib-testing.
-tar -xf libglib-testing-0.1.0.tar.xz
-cd libglib-testing-0.1.0
+tar -xf libglib-testing-0.1.1.tar.bz2
+cd libglib-testing-0.1.1
 mkdir GLIBTEST-build; cd GLIBTEST-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libglib-testing -Dm644 ../COPYING
 cd ../..
-rm -rf libglib-testing-0.1.0
+rm -rf libglib-testing-0.1.1
 # malcontent (dependency of GNOME Software).
 tar -xf malcontent-0.10.3.tar.xz
 cd malcontent-0.10.3
