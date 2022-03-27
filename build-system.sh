@@ -6220,11 +6220,149 @@ install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.38
+# GNOME Backgrounds.
+tar -xf gnome-backgrounds-42.0.tar.xz
+cd gnome-backgrounds-42.0
+mkdir build; cd build
+meson --prefix=/usr ..
+ninja install
+cd ..
+install -t /usr/share/licenses/gnome-backgrounds -Dm644 COPYING
+cd ..
+rm -r gnome-backgrounds-42.0
+# tracker (not actual tracking software lol).
+tar -xf tracker-3.3.0.tar.xz
+cd tracker-3.3.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/tracker -Dm644 ../COPYING
+cd ../..
+rm -r tracker-3.3.0
+# libcloudproviders.
+tar -xf libcloudproviders-0.3.1.tar.xz
+cd libcloudproviders-0.3.1
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/tracker -Dm644 ../LICENSE
+cd ../..
+rm -r libcloudproviders-0.3.1
+# GTK4.
+tar -xf gtk-4.6.2.tar.xz
+cd gtk-4.6.2
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dcolord=enabled -Dsysprof=enabled -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=enabled -Ddemos=false -Dvulkan=enabled -Dtracker=enabled -Dcloudproviders=enabled ..
+ninja
+ninja install
+install -t /usr/share/licenses/gtk4 -Dm644 ../COPYING
+cd ../..
+rm -r gtk-4.6.2
+# libadwaita.
+tar -xf libadwaita-1.1.0.tar.xz
+cd libadwaita-1.1.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/libadwaita -Dm644 ../COPYING
+cd ../..
+rm -r libadwaita-1.1.0
+# gtksourceview5.
+tar -xf gtksourceview-5.4.0.tar.xz
+cd gtksourceview-5.4.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gtksourceview -Dm644 ../COPYING
+cd ../..
+rm -r gtksourceview-5.4.0
+# GNOME Text Editor
+tar -xf gnome-text-editor-42.0.tar.xz
+cd gnome-text-editor-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
+cd ../..
+rm -r gnome-text-editor-42.0
+# GNOME Calculator.
+tar -xf gnome-calculator-42.0.tar.xz
+cd gnome-calculator-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-calculator -Dm644 ../COPYING
+cd ../..
+rm -r gnome-calculator-42.0
+# libgtop.
+tar -xf libgtop-2.40.0.tar.xz
+cd libgtop-2.40.0
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libgtop -Dm644 COPYING
+cd ..
+rm -r libgtop-2.40.0
+# GNOME System Monitor.
+tar -xf gnome-system-monitor-42.0.tar.xz
+cd gnome-system-monitor-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-system-monitor -Dm644 ../COPYING
+cd ../..
+rm -r gnome-system-monitor-42.0
+# totem-pl-parser.
+tar -xf totem-pl-parser-3.26.6.tar.xz
+cd totem-pl-parser-3.26.6
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/totem-pl-parser -Dm644 ../COPYING.LIB
+cd ../..
+rm -r totem-pl-parser-3.26.6
+# GNOME Desktop.
+tar -xf gnome-desktop-42.0.tar.xz
+cd gnome-desktop-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dgnome_distributor="MassOS" ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-desktop -Dm644 ../COPYING
+cd ../..
+rm -r gnome-desktop-42.0
+# clutter-gst
+tar -xf clutter-gst-3.0.27.tar.xz
+cd clutter-gst-3.0.27
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/clutter-gst -Dm644 COPYING
+cd ..
+rm -r clutter-gst-3.0.27
+# grilo.
+tar -xf grilo-0.3.14.tar.xz
+cd grilo-0.3.14
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/grilo -Dm644 ../COPYING
+cd ../..
+rm -r grilo-0.3.14
 # Evince.
 tar -xf evince-42.1.tar.xz
 cd evince-42.1
 mkdir build; cd build
-meson --prefix=/usr --buildtype=release
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
