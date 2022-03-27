@@ -129,7 +129,7 @@ https://mirror.lyrahosting.com/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gedit/41/gedit-41.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gdm/42/gdm-42.0.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.6.0/geoclue-2.6.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
@@ -147,6 +147,7 @@ https://archive.mesa3d.org/glu/glu-9.0.2.tar.xz
 https://mirror.lyrahosting.com/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-online-accounts/3.40/gnome-online-accounts-3.40.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/42/gnome-software-42.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gnome-tour/42/gnome-tour-42.0.tar.xz
 https://archive.massos.org/sources/gnu-efi-3.0.13.tar.bz2
 https://archive.massos.org/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.34.tar.bz2
@@ -378,7 +379,6 @@ https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
 https://mandoc.bsd.lv/snapshots/mandoc-1.14.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.1.tar.gz
-https://github.com/MassOS-Linux/massos-welcome/archive/7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a/massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
 https://archive.mesa3d.org/mesa-22.0.0.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.62.0/meson-0.62.0.tar.gz
