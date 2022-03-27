@@ -6169,171 +6169,6 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.48.1
-# libxfce4util.
-tar -xf libxfce4util-4.17.2.tar.bz2
-cd libxfce4util-4.17.2
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
-cd ..
-rm -rf libxfce4util-4.17.2
-# xfconf.
-tar -xf xfconf-4.16.0.tar.bz2
-cd xfconf-4.16.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xfconf -Dm644 COPYING
-cd ..
-rm -rf xfconf-4.16.0
-# libxfce4ui.
-tar -xf libxfce4ui-4.17.4.tar.bz2
-cd libxfce4ui-4.17.4
-./configure --prefix=/usr --sysconfdir=/etc --with-vendor-info=MassOS
-make
-make install
-install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
-cd ..
-rm -rf libxfce4ui-4.17.4
-# Exo.
-tar -xf exo-4.17.1.tar.bz2
-cd exo-4.17.1
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/exo -Dm644 COPYING
-cd ..
-rm -rf exo-4.17.1
-# Garcon.
-tar -xf garcon-4.16.1.tar.bz2
-cd garcon-4.16.1
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/garcon -Dm644 COPYING
-cd ..
-rm -rf garcon-4.16.1
-# Thunar.
-tar -xf thunar-4.17.7.tar.bz2
-cd thunar-4.17.7
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/thunar -Dm644 COPYING
-cd ..
-rm -rf thunar-4.17.7
-# thunar-volman.
-tar -xf thunar-volman-4.16.0.tar.bz2
-cd thunar-volman-4.16.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
-cd ..
-rm -rf thunar-volman-4.16.0
-# Tumbler.
-tar -xf tumbler-4.17.0.tar.bz2
-cd tumbler-4.17.0
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/tumbler -Dm644 COPYING
-cd ..
-rm -rf tumbler-4.17.0
-# xfce4-appfinder.
-tar -xf xfce4-appfinder-4.17.0.tar.bz2
-cd xfce4-appfinder-4.17.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
-cd ..
-rm -rf xfce4-appfinder-4.17.0
-# xfce4-artwork.
-tar -xf xfce4-artwork_0.1.1a~git+20110420.orig.tar.gz
-cd xfce4-artwork-0.1.1a
-./configure --prefix=/usr
-make
-make backdropsdir=/usr/share/backgrounds/xfce install
-install -t /usr/share/licenses/xfce4-artwork -Dm644 COPYING
-cd ..
-rm -rf xfce4-artwork-0.1.1a
-# xfce4-panel.
-tar -xf xfce4-panel-4.16.3.tar.bz2
-cd xfce4-panel-4.16.3
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
-cd ..
-rm -rf xfce4-panel-4.16.3
-# xfce4-power-manager.
-tar -xf xfce4-power-manager-4.16.0.tar.bz2
-cd xfce4-power-manager-4.16.0
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
-cd ..
-rm -rf xfce4-power-manager-4.16.0
-# libxklavier.
-tar -xf libxklavier-5.4.tar.bz2
-cd libxklavier-5.4
-./configure --prefix=/usr --disable-static
-make
-make install
-install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
-cd ..
-rm -rf libxklavier-5.4
-# xfce4-settings.
-tar -xf xfce4-settings-4.16.2.tar.bz2
-cd xfce4-settings-4.16.2
-./configure --prefix=/usr --sysconfdir=/etc --enable-sound-settings
-make
-make install
-install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
-cd ..
-rm -rf xfce4-settings-4.16.2
-# xfdesktop.
-tar -xf xfdesktop-4.16.0.tar.bz2
-cd xfdesktop-4.16.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
-cd ..
-rm -rf xfdesktop-4.16.0
-# xfwm4.
-tar -xf xfwm4-4.16.1.tar.bz2
-cd xfwm4-4.16.1
-./configure --prefix=/usr
-make
-make install
-sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
-install -t /usr/share/licenses/xfwm4 -Dm644 COPYING
-cd ..
-rm -rf xfwm4-4.16.1
-# xfce4-session.
-tar -xf xfce4-session-4.16.0.tar.bz2
-cd xfce4-session-4.16.0
-./configure --prefix=/usr --sysconfdir=/etc --disable-legacy-sm
-make
-make install
-update-desktop-database
-update-mime-database /usr/share/mime
-install -t /usr/share/licenses/xfce4-session -Dm644 COPYING
-cd ..
-rm -rf xfce4-session-4.16.0
-# Parole.
-tar -xf parole-4.16.0.tar.bz2
-cd parole-4.16.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/parole -Dm644 COPYING
-cd ..
-rm -rf parole-4.16.0
 # VTE.
 tar -xf vte-0.67.90.tar.bz2
 cd vte-0.67.90
@@ -6345,34 +6180,6 @@ rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
 rm -rf vte-0.67.90
-# xfce4-terminal.
-tar -xf xfce4-terminal-0.9.1.tar.bz2
-cd xfce4-terminal-0.9.1
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
-cd ..
-rm -rf xfce4-terminal-0.9.1
-# Shotwell.
-tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
-cd shotwell-0.31.3-133-gd55abab2
-mkdir SHOTWELL-build; cd SHOTWELL-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
-cd ../..
-rm -rf shotwell-0.31.3-133-gd55abab2
-# xfce4-notifyd.
-tar -xf xfce4-notifyd-0.6.3.tar.bz2
-cd xfce4-notifyd-0.6.3
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
-cd ..
-rm -rf xfce4-notifyd-0.6.3
 # keybinder.
 tar -xf keybinder-3.0-0.3.2.tar.gz
 cd keybinder-3.0-0.3.2
@@ -6382,15 +6189,6 @@ make install
 install -t /usr/share/licenses/keybinder -Dm644 COPYING
 cd ..
 rm -rf keybinder-3.0-0.3.2
-# xfce4-pulseaudio-plugin.
-tar -xf xfce4-pulseaudio-plugin-0.4.3.tar.bz2
-cd xfce4-pulseaudio-plugin-0.4.3
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
-cd ..
-rm -rf xfce4-pulseaudio-plugin-0.4.3
 # pavucontrol.
 tar -xf pavucontrol-5.0.tar.xz
 cd pavucontrol-5.0
@@ -6400,138 +6198,6 @@ make install
 install -t /usr/share/licenses/pavucontrol -Dm644 LICENSE
 cd ..
 rm -rf pavucontrol-5.0
-# Blueman.
-tar -xf blueman-2.2.2.tar.xz
-cd blueman-2.2.2
-sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
-./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config='/etc/dhcp/dhclient.conf'
-make
-make install
-mv /etc/xdg/autostart/blueman.desktop /usr/share/blueman/autostart.desktop
-cat > /sbin/blueman-autostart << "END"
-#!/bin/bash
-
-not_root() {
-  echo "Error: $(basename $0) must be run as root." >&2
-  exit 1
-}
-
-usage() {
-  echo "Usage: $(basename $0) [enable|disable]" >&2
-  exit 1
-}
-
-[ $EUID -eq 0 ] || not_root
-
-[ ! -z "$1" ] || usage
-
-case "$1" in
-  enable) cp -af /usr/share/blueman/autostart.desktop /etc/xdg/autostart/blueman.desktop ;;
-  disable) rm -f /etc/xdg/autostart/blueman.desktop ;;
-  *) usage ;;
-esac
-END
-chmod 755 /sbin/blueman-autostart
-install -t /usr/share/licenses/blueman -Dm644 COPYING
-cd ..
-rm -rf blueman-2.2.2
-# xfce4-screenshooter.
-tar -xf xfce4-screenshooter-1.9.10.tar.bz2
-cd xfce4-screenshooter-1.9.10
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
-make
-make install
-install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
-cd ..
-rm -rf xfce4-screenshooter-1.9.10
-# xfce4-taskmanager.
-tar -xf xfce4-taskmanager-1.5.2.tar.bz2
-cd xfce4-taskmanager-1.5.2
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
-make
-make install
-install -t /usr/share/licenses/xfce4-taskmanager -Dm644 COPYING
-cd ..
-rm -rf xfce4-taskmanager-1.5.2
-# xfce4-clipman-plugin.
-tar -xf xfce4-clipman-plugin-1.6.2.tar.bz2
-cd xfce4-clipman-plugin-1.6.2
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
-make
-make install
-install -t /usr/share/licenses/xfce4-clipman-plugin -Dm644 COPYING
-cd ..
-rm -rf xfce4-clipman-plugin-1.6.2
-# xfce4-whiskermenu-plugin.
-tar -xf xfce4-whiskermenu-plugin-2.6.1.tar.bz2
-cd xfce4-whiskermenu-plugin-2.6.1
-mkdir whisker-build; cd whisker-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
-ninja
-ninja install
-install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 ../COPYING
-cd ../..
-rm -rf xfce4-whiskermenu-plugin-2.6.1
-# xfce4-screensaver.
-tar -xf xfce4-screensaver-4.16.0.tar.bz2
-cd xfce4-screensaver-4.16.0
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
-make
-make install
-install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
-cd ..
-rm -rf xfce4-screensaver-4.16.0
-# xarchiver.
-tar -xf xarchiver-0.5.4.17.tar.gz
-cd xarchiver-0.5.4.17
-./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
-make
-make install
-install -t /usr/share/licenses/xarchiver -Dm644 COPYING
-gtk-update-icon-cache -qtf /usr/share/icons/hicolor
-update-desktop-database -q
-cd ..
-rm -rf xarchiver-0.5.4.17
-# thunar-archive-plugin.
-tar -xf thunar-archive-plugin-0.4.0.tar.bz2
-cd thunar-archive-plugin-0.4.0
-./configure --prefix=/usr --sysconfdir=/etc  --libexecdir=/usr/lib/xfce4 --localstatedir=/var --disable-static
-make
-make install
-install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
-cd ..
-rm -rf thunar-archive-plugin-0.4.0
-# gtksourceview4.
-tar -xf gtksourceview-4.8.3.tar.xz
-cd gtksourceview-4.8.3
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
-cd ../..
-rm -rf gtksourceview-4.8.3
-# Gedit.
-tar -xf gedit-41.0.tar.xz
-cd gedit-41.0
-mkdir gedit-build; cd gedit-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gedit -Dm644 ../COPYING
-cd ../..
-rm -rf gedit-41.0
-# galculator.
-tar -xf galculator-2.1.4.tar.gz
-cd galculator-2.1.4
-sed -i 's/s_preferences/extern s_preferences/' src/main.c
-autoreconf -fi
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/galculator -Dm644 COPYING
-cd ..
-rm -rf galculator-2.1.4
 # Gparted.
 tar -xf gparted-1.3.1.tar.gz
 cd gparted-1.3.1
@@ -6552,35 +6218,26 @@ install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.38
-# Mugshot.
-tar -xf mugshot-0.4.3.tar.gz
-cd mugshot-0.4.3
-python setup.py install --optimize=1
-glib-compile-schemas /usr/share/glib-2.0/schemas
-install -t /usr/share/licenses/mugshot -Dm644 COPYING
-cd ..
-rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-41.4.tar.xz
-cd evince-41.4
-find . -name meson.build | xargs sed -i '/merge_file/{n;d}'
+tar -xf evince-42.1.tar.xz
+cd evince-42.1
 mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dnautilus=false ..
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-41.4
+rm -r evince-42.1
 # Baobab.
-tar -xf baobab-41.0.tar.xz
-cd baobab-41.0
-mkdir baobab-build; cd baobab-build
+tar -xf baobab-42.0.tar.xz
+cd baobab-42.0
+mkdir build; cd build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
-rm -rf baobab-41.0
+rm -rf baobab-42.0
 # libglib-testing.
 tar -xf libglib-testing-0.1.0.tar.xz
 cd libglib-testing-0.1.0
@@ -6603,15 +6260,15 @@ install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
 # GNOME Software.
-tar -xf gnome-software-41.5.tar.xz
-cd gnome-software-41.5
-mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
+tar -xf gnome-software-42.0.tar.xz
+cd gnome-software-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false -Dgsettings_desktop_schemas=enabled -Dman=true -Dpolkit=true -Dflatpak=true -Dsoup2=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
-rm -rf gnome-software-41.5
+rm -r gnome-software-42.0
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
 cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
