@@ -6569,6 +6569,96 @@ ninja install
 install -t /usr/share/licenses/gnome-tweaks -Dm644 ../LICENSES
 cd ../..
 rm -r gnome-tweaks-42.beta
+# colord-gtk
+tar -xf colord-gtk-0.3.0.tar.xz
+cd colord-gtk-0.3.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dgtk2=true -Ddocs=false -Dman=false -Dvapi=true ..     
+ninja
+ninja install
+install -t /usr/share/licenses/colord-gtk -Dm644 ../COPYING
+cd ../..
+rm -r colord-gtk-0.3.0
+# gnome-control-center
+tar -xf gnome-control-center-42.0.tar.xz
+cd gnome-control-center-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dibus=true ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-control-center -Dm644 ../COPYING
+cd ../..
+rm -r gnome-control-center-42.0
+# gnome-characters.
+tar -xf gnome-characters-42.0.tar.xz
+cd gnome-characters-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-characters -Dm644 ../COPYING ../COPYINGv2
+cd ../..
+rm -r gnome-characters-42.0
+# gnome-calendar.
+tar -xf gnome-calendar-42.0.tar.xz
+cd gnome-calendar-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-calendar -Dm644 ../COPYING
+cd ../..
+rm -r gnome-calendar-42.0
+# exempi.
+tar -xf exempi-2.1.1.tar.bz2
+cd exempi-2.1.1
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/exempi -Dm644 ../COPYING
+cd ..
+rm -r exempi-2.1.1
+# eog (Eye of GNOME).
+tar -xf eog-42.0.tar.xz
+cd eog-42.0
+sed "/dependency/s@'libportal'@'libportal-gtk3'@" -i meson.build
+sed "/portal-gtk3/s@portal/@portal-gtk3/@" -i src/eog-util.c
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/eog -Dm644 ../COPYING
+update-desktop-database
+cd ../..
+rm -r eog-42.0
+# jq.
+tar -xf jq-1.6.tar.gz
+cd jq-1.6
+autoreconf -i
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/jq -Dm644 COPYING
+cd ..
+rm -r jq-1.6
+# chrome-gnome-shell.
+tar -xf chrome-gnome-shell-10.1.tar.xz
+cd chrome-gnome-shell-10.1
+mkdir build; cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_EXTENSION=OFF ../
+make install
+install -t /usr/share/licenses/chrome-gnome-shell -Dm644 ../LICENSE
+cd ../..
+rm -r chrome-gnome-shell-10.1
+# gnome-themes-extra.
+tar -xf gnome-themes-extra-3.28.tar.xz 
+cd gnome-themes-extra-3.28
+./configure --prefix=/usr
+make
+make install
+cd ..
+rm -r gnome-themes-extra-3.28
+# Cantarell.
 
 # Evince.
 tar -xf evince-42.1.tar.xz
