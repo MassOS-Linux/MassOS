@@ -6431,6 +6431,7 @@ mv -v /usr/share/doc/gnome-session{,-42.0}
 cd ../..
 rm -r gnome-session-42.0
 rm gnome-session-42.0.tar.xz
+
 # Evince.
 tar -xf evince-42.1.tar.xz
 cd evince-42.1
