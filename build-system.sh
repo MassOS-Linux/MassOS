@@ -6832,8 +6832,7 @@ cd ..
 rm -rf vitetris-0.59.1
 # AppIndicators GNOME Extension.
 mkdir /usr/share/gnome-shell/extensions
-unzip appindicatorsupportrgcjonas.gmail.com.v42.shell-extension.zip -d /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
-
+unzip appindicatorsupport\@rgcjonas.gmail.com.zip -d /usr/share/gnome-shell/extensions/
 # Firefox.
 tar --no-same-owner -xf firefox-98.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
@@ -7009,6 +7008,7 @@ rm -rf /tmp/*
 tee -a /usr/share/glib-2.0/schemas/10_gnome-shell.gschema.override << END
 [org.gnome.shell]
 favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
+enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com']
 
 [org.gnome.desktop.interface]
 color-scheme='prefer-dark'
