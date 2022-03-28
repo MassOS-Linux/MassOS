@@ -6659,7 +6659,8 @@ make install
 cd ..
 rm -r gnome-themes-extra-3.28
 # Cantarell.
-
+unzip Cantarell.zip
+mv cantarell/ /usr/share/fonts/
 # Evince.
 tar -xf evince-42.1.tar.xz
 cd evince-42.1
@@ -6737,7 +6738,6 @@ systemctl enable gdm
 cd ../..
 rm -r gdm-42.0
 rm gdm-42.0.tar.xz
-
 # Plymouth.
 tar -xf plymouth-0.9.5.tar.gz
 cd plymouth-0.9.5
@@ -7001,6 +7001,50 @@ find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 find /usr/lib /usr/libexec -name \*.la -delete
 # Remove any temporary files.
 rm -rf /tmp/*
+# GSettings overrides for default MassOS GNOME experience.
+tee -a /usr/share/glib-2.0/schemas/10_gnome-shell.gschema.override << END
+[org.gnome.shell]
+favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
+
+[org.gnome.desktop.interface]
+color-scheme='prefer-dark'
+cursor-theme='Adwaita'
+document-font-name='Cantarell 11'
+font-name='Cantarell 11'
+monospace-font-name='Noto Sans Mono Regular 11'
+icon-theme='Adwaita'
+gtk-theme='Adwaita-dark'
+
+[org.gnome.desktop.wm.preferences]
+button-layout='appmenu:minimize,maximize,close'
+titlebar-font='Cantarell Bold 11'
+
+[org.gnome.terminal.legacy]
+theme-variant='dark'
+END
+# Add MassOS Extra Small logo to GDM.
+tee -a /etc/dconf/profile/gdm << END
+user-db:user
+system-db:gdm
+file-db:/usr/share/gdm/greeter-dconf-defaults
+END
+
+mkdir /etc/dconf/db/gdm.d/
+
+tee -a /etc/dconf/db/gdm.d/01-logo << END
+[org/gnome/login-screen]
+logo='/usr/share/massos/massos-logo-extrasmall.png'
+END
+# Fix GTK4 text rendering.
+mkdir /etc/gtk-4.0
+tee -a /etc/gtk-4.0/settings.ini << END
+[Settings]
+gtk-hint-font-metrics=true
+END
+# Update databases and compile schemas to apply changes.
+update-desktop-database
+dconf update
+glib-compile-schemas /usr/share/glib-2.0/schemas
 # As a finishing touch, run ldconfig.
 ldconfig
 # For massos-upgrade.
