@@ -6729,8 +6729,8 @@ useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
 passwd -ql gdm
 tar -xf gdm-42.0.tar.xz
 cd gdm-42.0
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs ..
 ninja
 ninja install
 install -t /usr/share/licenses/gdm -Dm644 ../COPYING
@@ -6830,6 +6830,10 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
+# AppIndicators GNOME Extension.
+mkdir /usr/share/gnome-shell/extensions
+unzip appindicatorsupportrgcjonas.gmail.com.v42.shell-extension.zip -d /usr/share/gnome-shell/extensions/appindicatorsupport@rgcjonas.gmail.com
+
 # Firefox.
 tar --no-same-owner -xf firefox-98.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
