@@ -5584,17 +5584,17 @@ install -t /usr/share/licenses/udisks -Dm644 COPYING
 cd ..
 rm -rf udisks-2.9.4
 # gsettings-desktop-schemas.
-tar -xf gsettings-desktop-schemas-41.0.tar.xz
-cd gsettings-desktop-schemas-41.0
-sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
-mkdir gsds-build; cd gsds-build
-meson --prefix=/usr --buildtype=release ..
+tar -xf gsettings-desktop-schemas-42.0.tar.xz
+cd gsettings-desktop-schemas-42.0
+sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in &&
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
 ninja
 ninja install
-glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
+glib-compile-schemas /usr/share/glib-2.0/schemas
 cd ../..
-rm -rf gsettings-desktop-schemas-41.0
+rm -r gsettings-desktop-schemas-42.0
 # glib-networking.
 tar -xf glib-networking-2.72.0.tar.xz
 cd glib-networking-2.72.0
@@ -6391,8 +6391,8 @@ rm -r gnome-autoar-0.4.3
 # nautilus.
 tar -xf nautilus-42.0.tar.xz
 cd nautilus-42.0
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/nautilus -Dm644 ../COPYING
@@ -6401,8 +6401,8 @@ rm -r nautilus-42.0
 # gsound.
 tar -xf gsound-1.0.3.tar.xz
 cd gsound-1.0.3
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gsound -Dm644 ../COPYING
@@ -6411,8 +6411,8 @@ rm -r gsound-1.0.3
 # gnome-bluetooth.
 tar -xf gnome-bluetooth-42.0.tar.xz
 cd gnome-bluetooth-42.0
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-bluetooth -Dm644 ../COPYING
@@ -6422,8 +6422,8 @@ rm -r gnome-bluetooth-42.0
 tar -xf gnome-session-42.0.tar.xz
 cd gnome-session-42.0
 sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-session -Dm644 ../COPYING
@@ -6431,6 +6431,144 @@ mv -v /usr/share/doc/gnome-session{,-42.0}
 cd ../..
 rm -r gnome-session-42.0
 rm gnome-session-42.0.tar.xz
+# dconf.
+tar -xf dconf-0.40.0.tar.xz
+cd dconf-0.40.0
+mkdir build && cd build
+meson --prefix=/usr --buildtype=release
+ninja
+ninja install
+install -t /usr/share/licenses/dconf -Dm644 ../COPYING
+cd ../..
+rm -r dconf-0.40.0
+# evolution-data-server.
+tar -xf evolution-data-server-3.44.0.tar.xz
+cd evolution-data-server-3.44.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr   \
+      -DSYSCONF_INSTALL_DIR=/etc    \
+      -DENABLE_VALA_BINDINGS=ON     \
+      -DENABLE_INSTALLED_TESTS=ON   \
+      -DENABLE_GOOGLE=ON            \
+      -DWITH_OPENLDAP=OFF           \
+      -DWITH_KRB5=OFF               \
+      -DENABLE_INTROSPECTION=ON     \
+      -DWITH_LIBDB=OFF              \
+      -DENABLE_WEATHER=OFF
+make
+make install
+install -t /usr/share/licenses/evolution-data-server -Dm644 COPYING
+cd ..
+rm -r evolution-data-server-3.44.0
+# geocode-glib.
+tar -xf geocode-glib-3.26.2.tar.xz
+cd geocode-glib-3.26.2
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING.LIB
+cd ../..
+rm -r geocode-glib-3.26.2
+# libgweather.
+pip install typogrify
+pip install toml
+tar -xf libgweather-4.0.0.tar.xz
+cd libgweather-4.0.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja 
+ninja install
+install -t /usr/share/licenses/libgweather -Dm644 ../COPYING
+cd ../..
+rm -r libgweather-4.0.0
+# gnome-settings-daemon.
+tar -xf gnome-settings-daemon-42.1.tar.xz
+cd gnome-settings-daemon-42.1
+rm -fv /usr/lib/systemd/user/gsd-*
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dsystemd=true ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-settings-daemon -Dm644 ../COPYING
+cd ../..
+rm -r gnome-settings-daemon-42.1
+# pipewire.
+tar -xf pipewire-0.3.48.tar.gz
+cd pipewire-0.3.48
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
+cd ../..
+rm -r pipewire-0.3.48
+# mutter.
+tar -xf mutter-42.0.tar.xz
+cd mutter-42.0
+sed -i '/libmutter_dep = declare_dependency(/a sources: mutter_built_sources,' src/meson.build
+wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/xorg-server/trunk/xvfb-run
+install -m755 xvfb-run /usr/bin/xvfb-run
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/mutter -Dm644 ../COPYING
+cd ../..
+rm -r mutter-42.0
+# gjs.
+tar -xf gjs-1.72.0.tar.xz
+cd gjs-1.72.0
+mkdir gjs-build; cd gjs-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gjs -Dm644 ../COPYING
+ln -sfv gjs-console /usr/bin/gjs
+cd ../..
+rm -r gjs-1.72.0
+# iBus.
+tar -xf ibus-1.5.26.tar.gz
+cd ibus-1.5.26
+sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
+    data/dconf/org.freedesktop.ibus.gschema.xml
+./configure --prefix=/usr --sysconfdir=/etc --disable-unicode-dict --disable-emoji-dict
+rm -f tools/main.c
+make
+make install
+install -t /usr/share/licenses/ibus -Dm644 ../COPYING
+gzip -dfv /usr/share/man/man{{1,5}/ibus*.gz,5/00-upstream-settings.5.gz}
+cd ..
+rm -r ibus-1.5.26
+# gnome-shell.
+tar -xf gnome-shell-42.0.tar.xz
+cd gnome-shell-42.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-shell -Dm644 ../COPYING
+cd ../..
+rm -r gnome-shell-42.0
+# gnome-terminal
+tar -xf gnome-terminal-3.43.90.tar.xz
+cd gnome-terminal-3.43.90
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release -Dsearch_provider=true ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-terminal -Dm644 ../COPYING
+cd ../..
+rm -r gnome-terminal-3.43.90
+# gnome-tweaks.
+tar -xf gnome-tweaks-42.beta.tar.xz
+cd gnome-tweaks-42.beta
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-tweaks -Dm644 ../LICENSES
+cd ../..
+rm -r gnome-tweaks-42.beta
 
 # Evince.
 tar -xf evince-42.1.tar.xz
