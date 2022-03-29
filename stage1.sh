@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.16.12.tar.xz
-cd linux-5.16.12
+tar -xf linux-5.17.1.tar.xz
+cd linux-5.17.1
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.16.12
+rm -rf linux-5.17.1
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -82,6 +82,7 @@ echo "rootsbindir=/usr/sbin" > configparms
 ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
 make
 make DESTDIR="$MASSOS" install
+ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..
@@ -134,7 +135,7 @@ rm -rf bash-5.1.16
 # Coreutils.
 tar -xf coreutils-9.0.tar.xz
 cd coreutils-9.0
-./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime
+./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime --with-packager="MassOS"
 make
 make DESTDIR="$MASSOS" install
 mv "$MASSOS"/usr/bin/chroot "$MASSOS"/usr/sbin
@@ -277,6 +278,7 @@ cp utils/{busybox,kernel}-config "$SRC"
 cp utils/massos-release.c "$SRC"
 cp utils/massos-logo.png "$SRC"
 cp utils/massos-logo-small.png "$SRC"
+cp utils/massos-logo-extrasmall.png "$SRC"
 cp utils/massos-logo-notext.png "$SRC"
 cp utils/builtins "$SRC"
 cp -r utils/extra-package-licenses "$SRC"

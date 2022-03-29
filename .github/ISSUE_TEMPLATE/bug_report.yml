@@ -1,0 +1,68 @@
+name: "Bug Report"
+description: "Report a bug in MassOS"
+title: "[Bug]: "
+labels: "bug"
+body:
+- type: "checkboxes"
+  attributes:
+    label: "Checklist"
+    description: "Please make sure you have read the following:"
+    options:
+      - label: "I have searched for [other issues](https://www.github.com/MassOS-Linux/MassOS/issues), and can confirm my issue has not already been reported."
+        required: true
+      - label: "If this is an issue with a specific program, I have checked the upstream project's issue tracker and determined that it is an issue with MassOS itself."
+        required: true
+- type: "input"
+  attributes:
+    label: "MassOS version"
+    description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure."
+    placeholder: "2022.03"
+  validations:
+    required: true
+- type: "input"
+  attributes:
+    label: "Kernel version"
+    description: "What is the output of `uname -srvm`?"
+    placeholder: "Linux 5.16.12-massos #1 SMP PREEMPT Thu Mar 3 05:15:15 UTC 2022 x86_64"
+  validations:
+    required: false
+- type: "checkboxes"
+  attributes:
+    label: "Subject"
+    description: "Which of the following best describes your issue (multiple responses are OK)?"
+    options:
+      - label: "Issue at runtime of MassOS."
+      - label: "Issue with the MassOS Live CD."
+      - label: "Issue with installing MassOS."
+      - label: "Issue with the MassOS documentation."
+      - label: "Issue compiling MassOS from source."
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Expected Behavior"
+    description: "A clear description of what you expected to happen."
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Actual Behavior"
+    description: "A clear description of what actually happened."
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Steps to reproduce"
+    description: "A clear description of how to reproduce the problem."
+    placeholder: "1. Open `...`
+                  2. Select `...`
+                  3. Click on `...`
+                  4. See error"
+  validations:
+    required: false
+- type: "textarea"
+  attributes:
+    label: "Additional Information"
+    description: "Any additional information you feel will be useful for debugging/solving your issue."
+  validations:
+    required: false

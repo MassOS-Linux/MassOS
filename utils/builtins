@@ -41,6 +41,8 @@ cairo
 cairomm
 cdparanoia
 cdrkit
+cffi
+chardet
 check
 clang
 clutter
@@ -51,6 +53,7 @@ colord
 coreutils
 cowsay
 cracklib
+cryptography
 cryptsetup
 cups
 cups-filters
@@ -64,8 +67,9 @@ dbus-python
 desktop-file-utils
 dhclient
 dialog
-distro
 diffutils
+directx-headers
+distro
 djvulibre
 dkms
 dmg2img
@@ -121,6 +125,7 @@ geoclue
 gettext
 gexiv2
 ghostscript
+gi-docgen
 giflib
 git
 glib
@@ -172,6 +177,7 @@ iana-etc
 iceauth
 icon-naming-utils
 icu
+idna
 importlib-metadata
 inetutils
 intel-vaapi-driver
@@ -184,7 +190,8 @@ jack2
 jansson
 jasper
 jinja2
-js78
+js91
+json
 json-c
 json-glib
 kbd
@@ -243,6 +250,7 @@ libisofs
 libjpeg-turbo
 libksba
 libmbim
+libmetalink
 libmodplug
 libmpeg2
 libmtp
@@ -261,6 +269,7 @@ libpeas
 libpipeline
 libplist
 libpng
+libportal
 libportal-gtk3
 libpsl
 libpwquality
@@ -424,6 +433,7 @@ pigz
 pinentry
 pip
 pixman
+ply
 plymouth
 polkit
 polkit-gnome
@@ -436,8 +446,10 @@ ptyprocess
 pulseaudio
 pv
 pycairo
+pycparser
 pygments
 pygobject
+pyopenssl
 pyparsing
 python
 python-distutils-extra
@@ -467,11 +479,14 @@ sharutils
 shotwell
 sl
 slang
+smartypants
 smbclient
 smproxy
 soundtouch
 speex
 speexdsp
+spirv-headers
+spirv-tools
 sqlite
 squashfs-tools
 squashfuse
@@ -483,6 +498,7 @@ sysprof
 systemd
 taglib
 tcl
+tealdeer
 texinfo
 thin-provisioning-tools
 thunar
@@ -491,13 +507,16 @@ thunar-volman
 thunderbird
 tk
 tldr
+toml
 tumbler
 twolame
+typogrify
 tzdata
 udisks
 unifont
 unzip
 upower
+urllib3
 usbutil
 userspace-rcu
 util-linux
@@ -603,5 +622,6 @@ xwininfo
 xwud
 xz
 zip
+zipp
 zlib
 zstd
