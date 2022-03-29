@@ -1,6 +1,6 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
-# Current Development
+# MassOS 2022.04
 Changes:
 
 - Started migration of documentation to the MassOS wiki.
@@ -22,6 +22,7 @@ Upgraded software:
 - BlueZ: `5.63 --> 5.64`
 - Cairo: `1.17.4 --> 1.17.6`
 - CMake: `3.23.0-rc2 --> 3.23.0-rc5`
+- cups-filters: `1.28.12 --> 1.28.13`
 - curl: `7.81.0 --> 7.82.0`
 - Cyrus SASL: `2.1.27 --> 2.1.28`
 - D-Bus: `1.12.22 --> 1.14.0`
@@ -38,6 +39,7 @@ Upgraded software:
 - GNOME Software: `41.4 --> 41.5`
 - GNUTLS: `3.7.3 --> 3.7.4`
 - gobject-introspection: `1.70.0 --> 1.72.0`
+- GParted: `1.3.1 --> 1.4.0`
 - GPGME: `1.17.0 --> 1.17.1`
 - Graphene: `1.10.6 --> 1.10.8`
 - Graphviz: `2.50.0 --> 3.0.0`
@@ -49,12 +51,14 @@ Upgraded software:
 - GStreamer: `1.20.0 --> 1.20.1`
 - GTK3: `3.24.31 --> 3.24.33`
 - HarfBuzz: `3.4.0 --> 4.1.0`
+- iana-etc: `20220222 --> 20220325`
 - inih: `53 --> 55`
 - IPRoute2: `5.16.0 --> 5.17.0`
 - krb5: `1.19.2 --> 1.19.3`
 - libdazzle: `3.42.0 --> 3.44.0`
 - libepoxy: `1.5.9 --> 1.5.10`
 - libevdev: `1.12.0 --> 1.12.1`
+- libgcrypt: `1.10.0 --> 1.10.1`
 - libglib-testing: `0.1.0 --> 0.1.1`
 - libgphoto2: `2.5.27 --> 2.5.29`
 - libhandy: `1.5.0 --> 1.6.1`
@@ -70,12 +74,14 @@ Upgraded software:
 - libvdpau: `1.4 --> 1.5`
 - libwacom: `2.1.0 --> 2.2.0`
 - libwebp: `1.2.1 --> 1.2.2`
-- Linux Kernel: `5.16.12 --> 5.17.0`
+- libXvMC: `1.0.12 --> 1.0.13`
+- Linux Kernel: `5.16.12 --> 5.17.1`
 - Mako: `1.1.6 --> 1.2.0`
 - Man-DB: `2.10.1 --> 2.10.2`
 - MarkupSafe: `2.0.1 --> 2.1.1`
 - Mesa: `21.3.7 --> 22.0.0`
 - Meson: `0.61.2 --> 0.62.0`
+- minizip: `1.2.11 --> 1.2.12`
 - mtools: `4.0.37 --> 4.0.38`
 - network-manager-applet: `1.24.0 --> 1.26.0`
 - NetworkManager: `1.36.0 --> 1.36.4`
@@ -89,6 +95,7 @@ Upgraded software:
 - Python: `3.10.2 --> 3.10.4`
 - Qpdf: `10.6.2 --> 10.6.3`
 - Ruby: `3.1.0 --> 3.1.1`
+- shared-mime-info: `2.1 --> 2.2`
 - Shotwell: `0.30.14 --> 0.31.3-133-gd55abab2`
 - smbclient: `4.15.5 --> 4.16.0`
 - SQLite: `3.38.0 --> 3.38.2`
@@ -99,7 +106,7 @@ Upgraded software:
 - tzdata: `2021e --> 2022a`
 - Unifont: `14.0.01 --> 14.0.02`
 - UPower: `0.99.16 --> 0.99.17`
-- util-linux: `2.37.4 --> 2.38-rc4`
+- util-linux: `2.37.4 --> 2.38`
 - Vala: `0.54.7 --> 0.56.0`
 - Vim: `8.2.4482 --> 8.2.4626`
 - VTE: `0.66.2 --> 0.67.90`
@@ -110,6 +117,7 @@ Upgraded software:
 - xdg-desktop-portal: `1.12.1 --> 1.14.1`
 - xdg-desktop-portal-gtk: `1.12.0 --> 1.14.0`
 - xfce4-screenshooter: `1.9.9 --> 1.9.10`
+- zlib: `1.2.11 --> 1.2.12`
 
 # MassOS 2022.03
 Changes:

@@ -61,7 +61,7 @@ https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9
 https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-36.0.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.1/cups-2.4.1-source.tar.gz
-https://www.openprinting.org/download/cups-filters/cups-filters-1.28.12.tar.xz
+https://www.openprinting.org/download/cups-filters/cups-filters-1.28.13.tar.xz
 https://curl.se/download/curl-7.82.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
 https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
@@ -155,7 +155,7 @@ https://archive.massos.org/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.2.34.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz
-https://archive.massos.org/sources/gparted-1.3.1.tar.gz
+https://gitlab.gnome.org/GNOME/gparted/-/archive/GPARTED_1_4_0/gparted-GPARTED_1_4_0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.17.1.tar.bz2
 https://archive.massos.org/precompiled/gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
@@ -187,7 +187,7 @@ https://github.com/harfbuzz/harfbuzz/releases/download/4.1.0/harfbuzz-4.1.0.tar.
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/hplip-3.22.2.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
-https://github.com/Mic92/iana-etc/releases/download/20220222/iana-etc-20220222.tar.gz
+https://github.com/Mic92/iana-etc/releases/download/20220325/iana-etc-20220325.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.8.tar.bz2
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-70-1/icu4c-70_1-src.tgz
@@ -243,7 +243,7 @@ https://github.com/libexif/libexif/releases/download/v0.6.23/libexif-0.6.23.tar.
 https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
 https://www.x.org/archive/individual/lib/libfontenc-1.1.4.tar.bz2
 https://www.x.org/archive/individual/lib/libFS-1.0.8.tar.bz2
-https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.0.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.1.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/libgdata/0.18/libgdata-0.18.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgee/0.20/libgee-0.20.5.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
@@ -353,13 +353,13 @@ https://deb.debian.org/debian/pool/main/libx/libxslt/libxslt_1.1.34.orig.tar.gz
 https://www.x.org/archive/individual/lib/libXt-1.2.1.tar.bz2
 https://www.x.org/archive/individual/lib/libXtst-1.2.3.tar.bz2
 https://www.x.org/archive/individual/lib/libXv-1.0.11.tar.bz2
-https://www.x.org/archive/individual/lib/libXvMC-1.0.12.tar.bz2
+https://www.x.org/archive/individual/lib/libXvMC-1.0.13.tar.xz
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/llvm-13.0.1.src.tar.xz
@@ -494,7 +494,7 @@ https://files.pythonhosted.org/packages/3e/92/7d8e368c14284ff7dc7df5bf55883f0841
 https://www.x.org/archive/individual/app/setxkbmap-1.3.2.tar.bz2
 https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-0.6.3.tgz
 https://github.com/shadow-maint/shadow/releases/download/v4.11.1/shadow-4.11.1.tar.xz
-https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.1/shared-mime-info-2.1.tar.gz
+https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.2/shared-mime-info-2.2.tar.gz
 https://mirror.lyrahosting.com/gnu/sharutils/sharutils-4.15.2.tar.xz
 https://archive.massos.org/sources/shotwell-0.31.3-133-gd55abab2.tar.xz
 https://github.com/mtoyoda/sl/archive/5.02/sl-5.02.tar.gz
@@ -541,7 +541,7 @@ https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.
 https://github.com/urllib3/urllib3/releases/download/1.26.9/urllib3-1.26.9.tar.gz
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
-https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38-rc4.tar.xz
+https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.0.tar.xz
 https://github.com/vim/vim/archive/v8.2.4626/vim-8.2.4626.tar.gz
@@ -648,5 +648,5 @@ https://archive.massos.org/sources/xz-5.2.5.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
 https://archive.massos.org/sources/zip30.tar.gz
 https://files.pythonhosted.org/packages/52/c5/df7953fe6065185af5956265e3b16f13c2826c2b1ba23d43154f3af453bc/zipp-3.7.0-py3-none-any.whl
-https://zlib.net/zlib-1.2.11.tar.xz
+https://zlib.net/zlib-1.2.12.tar.xz
 https://github.com/facebook/zstd/releases/download/v1.5.2/zstd-1.5.2.tar.gz
