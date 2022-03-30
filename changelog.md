@@ -7,7 +7,13 @@ Changes:
 
 Upgraded software:
 
-- Development has only just begun, check back soon!
+- Evince: `41.4 --> 42.1`
+- Ghostscript: `9.55.0 --> 9.56.0`
+- gnome-online-accounts: `3.40.1 --> 3.44.0`
+- GVFS: `1.48.1 --> 1.50.0`
+- HarfBuzz: `4.1.0 --> 4.2.0`
+- Mesa: `22.0.0 --> 22.0.1`
+- xdg-desktop-portal: `1.14.1 --> 1.14.2`
 
 # MassOS 2022.04
 Changes:

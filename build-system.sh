@@ -3025,15 +3025,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.1.0.tar.xz
-cd harfbuzz-4.1.0
+tar -xf harfbuzz-4.2.0.tar.xz
+cd harfbuzz-4.2.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.1.0
+rm -rf harfbuzz-4.2.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.11.1.tar.xz
 cd freetype-2.11.1
@@ -3809,8 +3809,8 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.5
 # Mesa.
-tar -xf mesa-22.0.0.tar.xz
-cd mesa-22.0.0
+tar -xf mesa-22.0.1.tar.xz
+cd mesa-22.0.1
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dvalgrind=disabled ..
@@ -3818,7 +3818,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.0.0
+rm -rf mesa-22.0.1
 # libva (rebuild to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4350,14 +4350,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.1.0.tar.xz
-cd harfbuzz-4.1.0
+tar -xf harfbuzz-4.2.0.tar.xz
+cd harfbuzz-4.2.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.1.0
+rm -rf harfbuzz-4.2.0
 # Pango.
 tar -xf pango-1.50.6.tar.xz
 cd pango-1.50.6
@@ -5104,9 +5104,9 @@ make prefix=/usr install
 cd ../../..
 rm -rf poppler-22.03.0
 # Ghostscript.
-tar -xf ghostscript-9.55.0.tar.xz
-cd ghostscript-9.55.0
-sed -i 's/gscms_transformm_color_const/gscms_transform_color_const/' base/gsicc_lcms2.c
+tar -xf ghostscript-9.56.0.tar.xz
+cd ghostscript-9.56.0
+patch -Rp1 -i ../MassOS/patches/ghostscript-9.56.0-reversefix.patch
 rm -rf freetype lcms2mt jpeg libpng openjpeg zlib
 ./configure --prefix=/usr --disable-compile-inits --enable-dynamic --with-system-libtiff
 make
@@ -5119,13 +5119,13 @@ make install
 make soinstall
 install -m644 base/*.h /usr/include/ghostscript
 ln -sfn ghostscript /usr/include/ps
-cp -r examples/ /usr/share/ghostscript/9.55.0/
+cp -r examples/ /usr/share/ghostscript/9.56.0/
 tar --no-same-owner -xf ../ghostscript-fonts-std-8.11.tar.gz -C /usr/share/ghostscript
 tar --no-same-owner -xf ../gnu-gs-fonts-other-6.0.tar.gz -C /usr/share/ghostscript
 fc-cache /usr/share/ghostscript/fonts
 install -t /usr/share/licenses/ghostscript -Dm644 LICENSE
 cd ..
-rm -rf ghostscript-9.55.0
+rm -rf ghostscript-9.56.0
 # MuPDF.
 tar -xf mupdf-1.18.0-source.tar.gz
 cd mupdf-1.18.0-source
@@ -5615,6 +5615,16 @@ ninja install
 install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-2.74.2
+# libsoup3.
+tar -xf libsoup-3.0.5.tar.xz
+cd libsoup-3.0.5
+mkdir soup3-build; cd soup3-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
+cd ../..
+rm -rf libsoup3-3.0.5
 # libostree.
 tar -xf libostree-2022.2.tar.xz
 cd libostree-2022.2
@@ -5720,14 +5730,14 @@ install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
 # xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.14.1.tar.xz
-cd xdg-desktop-portal-1.14.1
+tar -xf xdg-desktop-portal-1.14.2.tar.xz
+cd xdg-desktop-portal-1.14.2
 ./configure --prefix=/usr --disable-pipewire
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-1.14.1
+rm -rf xdg-desktop-portal-1.14.2
 # xdg-desktop-portal-gtk.
 tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
 cd xdg-desktop-portal-gtk-1.14.0
@@ -6086,7 +6096,7 @@ rm -rf gst-libav-1.20.1
 tar -xf webkitgtk-2.34.6.tar.xz
 cd webkitgtk-2.34.6
 mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_SOUP2=ON -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
 ninja install
 install -dm755 /usr/share/licenses/webkitgtk
@@ -6140,15 +6150,15 @@ install -t /usr/share/licenses/gspell -Dm644 COPYING
 cd ..
 rm -rf gspell-1.9.1
 # gnome-online-accounts.
-tar -xf gnome-online-accounts-3.40.1.tar.xz
-cd gnome-online-accounts-3.40.1
-mkdir GNOME-ONLINE-xbuild; cd GNOME-ONLINE-xbuild
-../configure --prefix=/usr --disable-static --enable-kerberos
+tar -xf gnome-online-accounts-3.44.0.tar.xz
+cd gnome-online-accounts-3.44.0
+mkdir goa-build; cd goa-build
+../configure --prefix=/usr --disable-static --enable-documentation --enable-kerberos
 make
 make install
 install -t /usr/share/licenses/gnome-online-accounts -Dm644 ../COPYING
 cd ../..
-rm -rf gnome-online-accounts-3.40.1
+rm -rf gnome-online-accounts-3.44.0
 # libgdata.
 tar -xf libgdata-0.18.1.tar.xz
 cd libgdata-0.18.1
@@ -6159,18 +6169,17 @@ ninja install
 install -t /usr/share/licenses/libgdata -Dm644 ../COPYING
 cd ../..
 rm -rf libgdata-0.18.1
-# Gvfs.
-tar -xf gvfs-1.48.1.tar.xz
-cd gvfs-1.48.1
-patch -Np1 -i ../patches/gvfs-1.48.1-mesonfix.patch
+# GVFS.
+tar -xf gvfs-1.50.0.tar.xz
+cd gvfs-1.50.0
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
-rm -rf gvfs-1.48.1
+rm -rf gvfs-1.50.0
 # libxfce4util.
 tar -xf libxfce4util-4.17.2.tar.bz2
 cd libxfce4util-4.17.2
@@ -6564,16 +6573,15 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-41.4.tar.xz
-cd evince-41.4
-find . -name meson.build | xargs sed -i '/merge_file/{n;d}'
+tar -xf evince-42.1.tar.xz
+cd evince-42.1
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-41.4
+rm -rf evince-42.1
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0

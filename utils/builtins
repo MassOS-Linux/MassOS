@@ -286,6 +286,7 @@ libsigsegv
 libsm
 libsndfile
 libsoup
+libsoup3
 libssh2
 libstemmer
 libtasn1
