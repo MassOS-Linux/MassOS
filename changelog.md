@@ -1,5 +1,14 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
+# Current Development
+Changes:
+
+- Development has only just begun, check back soon!
+
+Upgraded software:
+
+- Development has only just begun, check back soon!
+
 # MassOS 2022.04
 Changes:
 
