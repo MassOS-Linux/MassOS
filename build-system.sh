@@ -104,14 +104,14 @@ make install
 cd ..
 rm -rf texinfo-6.8
 # util-linux.
-tar -xf util-linux-2.38-rc4.tar.xz
-cd util-linux-2.38-rc4
+tar -xf util-linux-2.38.tar.xz
+cd util-linux-2.38
 mkdir -p /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 cd ..
-rm -rf util-linux-2.38-rc4
+rm -rf util-linux-2.38
 # Remove documentation from the temporary system.
 rm -rf /usr/share/{info,man,doc}/*
 # Remove libtool archives (.la).
@@ -125,9 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220222.tar.gz
-cp iana-etc-20220222/{protocols,services} /etc
-rm -rf iana-etc-20220222
+tar -xf iana-etc-20220325.tar.gz
+cp iana-etc-20220325/{protocols,services} /etc
+rm -rf iana-etc-20220325
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
@@ -183,8 +183,8 @@ CFLAGS="-w -Os -pipe"
 CXXFLAGS="-w -Os -pipe"
 export CFLAGS CXXFLAGS
 # zlib.
-tar -xf zlib-1.2.11.tar.xz
-cd zlib-1.2.11
+tar -xf zlib-1.2.12.tar.xz
+cd zlib-1.2.12
 ./configure --prefix=/usr
 make
 make install
@@ -192,7 +192,7 @@ install -dm755 /usr/share/licenses/zlib
 cat zlib.h | head -n28 | tail -n25 > /usr/share/licenses/zlib/LICENSE
 rm -f /usr/lib/libz.a
 cd ..
-rm -rf zlib-1.2.11
+rm -rf zlib-1.2.12
 # bzip2.
 tar -xf bzip2-1.0.8.tar.gz
 cd bzip2-1.0.8
@@ -1335,14 +1335,14 @@ install -t /usr/share/licenses/libgpg-error -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libgpg-error-1.44
 # libgcrypt.
-tar -xf libgcrypt-1.10.0.tar.bz2
-cd libgcrypt-1.10.0
+tar -xf libgcrypt-1.10.1.tar.bz2
+cd libgcrypt-1.10.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libgcrypt -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libgcrypt-1.10.0
+rm -rf libgcrypt-1.10.1
 # Unzip.
 tar -xf unzip60.tar.gz
 cd unzip60
@@ -1364,15 +1364,15 @@ install -t /usr/share/licenses/zip -Dm644 LICENSE
 cd ..
 rm -rf zip30
 # minizip.
-tar -xf zlib-1.2.11.tar.xz
-cd zlib-1.2.11/contrib/minizip
+tar -xf zlib-1.2.12.tar.xz
+cd zlib-1.2.12/contrib/minizip
 autoreconf -fi
 ./configure --prefix=/usr --enable-static=no
 make
 make install
 ln -sf zlib /usr/share/licenses/minizip
 cd ../../..
-rm -rf zlib-1.2.11
+rm -rf zlib-1.2.12
 # sgml-common.
 tar -xf sgml-common-0.6.3.tgz
 cd sgml-common-0.6.3
@@ -1812,14 +1812,14 @@ install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf procps-3.3.17
 # util-linux.
-tar -xf util-linux-2.38-rc4.tar.xz
-cd util-linux-2.38-rc4
+tar -xf util-linux-2.38.tar.xz
+cd util-linux-2.38
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-static --without-python runstatedir=/run
 make
 make install
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
-rm -rf util-linux-2.38-rc4
+rm -rf util-linux-2.38
 # fuse2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
@@ -2833,16 +2833,15 @@ install -t /usr/share/licenses/gobject-introspection -Dm644 ../COPYING ../COPYIN
 cd ../..
 rm -rf gobject-introspection-1.72.0
 # shared-mime-info.
-tar -xf shared-mime-info-2.1.tar.gz
-cd shared-mime-info-2.1
-patch -Np1 -i ../patches/shared-mime-info-2.1-mesonfix.patch
+tar -xf shared-mime-info-2.2.tar.gz
+cd shared-mime-info-2.2
 mkdir smi-build; cd smi-build
 meson --prefix=/usr --buildtype=release -Dupdate-mimedb=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/shared-mime-info -Dm644 ../COPYING
 cd ../..
-rm -rf shared-mime-info-2.1
+rm -rf shared-mime-info-2.2
 # desktop-file-utils.
 tar -xf desktop-file-utils-0.26.tar.xz
 cd desktop-file-utils-0.26
@@ -3702,7 +3701,7 @@ install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
 rm -rf libxcb-1.14
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.3 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.12 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.7.3 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4801,6 +4800,7 @@ make install
 ln -sf ../libexec/bluetooth/bluetoothd /usr/sbin
 install -dm755 /etc/bluetooth
 install -m644 src/main.conf /etc/bluetooth/main.conf
+install -dm755 /var/lib/bluetooth
 systemctl enable bluetooth
 systemctl enable --global obex
 install -t /usr/share/licenses/bluez -Dm644 COPYING COPYING.LIB
@@ -5157,8 +5157,8 @@ install -t /usr/share/licenses/mupdf -Dm644 COPYING
 cd ..
 rm -rf mupdf-1.18.0-source
 # cups-filters.
-tar -xf cups-filters-1.28.12.tar.xz
-cd cups-filters-1.28.12
+tar -xf cups-filters-1.28.13.tar.xz
+cd cups-filters-1.28.13
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-rcdir --disable-static --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
 make
 make install
@@ -5166,7 +5166,7 @@ install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.se
 install -t /usr/share/licenses/cups-filters -Dm644 COPYING
 systemctl enable cups-browsed
 cd ..
-rm -rf cups-filters-1.28.12
+rm -rf cups-filters-1.28.13
 # Gutenprint.
 tar -xf gutenprint-5.3.3.tar.xz
 cd gutenprint-5.3.3
@@ -5316,7 +5316,7 @@ rm -rf cffi-1.15.0
 tar -xf cryptography-36.0.2.tar.gz
 cd cryptography-36.0.2
 ## First, install the build dependencies.
-pip install typing_extensions-4.1.1-py3-none-any.whl semantic_version-2.9.0-py2.py3-none-any.whl setuptools_rust-1.2.0-py3-none-any.whl
+pip install ../typing_extensions-4.1.1-py3-none-any.whl ../semantic_version-2.9.0-py2.py3-none-any.whl ../setuptools_rust-1.2.0-py3-none-any.whl
 ## Now build and install the package.
 python setup.py install --optimize=1
 install -t /usr/share/licenses/cryptography -Dm644 LICENSE*
@@ -5692,7 +5692,7 @@ pathprepend /var/lib/flatpak/exports/share XDG_DATA_DIRS
 pathprepend "\$HOME/.local/share/flatpak/exports/share" XDG_DATA_DIRS
 END
 groupadd -g 69 flatpak
-useradd -c "User for flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
+useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
@@ -6200,15 +6200,16 @@ make install
 install -t /usr/share/licenses/pavucontrol -Dm644 LICENSE
 cd ..
 rm -rf pavucontrol-5.0
-# Gparted.
-tar -xf gparted-1.3.1.tar.gz
-cd gparted-1.3.1
-./configure --prefix=/usr --disable-doc --disable-static
+# GParted.
+tar -xf gparted-GPARTED_1_4_0.tar.bz2
+cd gparted-GPARTED_1_4_0
+autoreconf -fi
+./configure --prefix=/usr --disable-doc --disable-static --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
 make
 make install
 install -t /usr/share/licenses/gparted -Dm644 COPYING
 cd ..
-rm -rf gparted-1.3.1
+rm -rf gparted-GPARTED_1_4_0
 # mtools.
 tar -xf mtools-4.0.38.tar.gz
 cd mtools-4.0.38
@@ -6916,9 +6917,9 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-KVER=5.17.0
-tar -xf linux-5.17.tar.xz
-cd linux-5.17
+KVER=5.17.1
+tar -xf linux-$KVER.tar.xz
+cd linux-$KVER
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6953,7 +6954,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.17
+rm -rf linux-$KVER
 unset KVER
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
