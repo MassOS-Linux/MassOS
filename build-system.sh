@@ -677,14 +677,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.7.tar.xz
-cd expat-2.4.7
+tar -xf expat-2.4.8.tar.xz
+cd expat-2.4.8
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.7
+rm -rf expat-2.4.8
 # libmetalink.
 tar -xf libmetalink-0.1.3.tar.bz2
 cd libmetalink-0.1.3
@@ -714,14 +714,14 @@ install -t /usr/share/licenses/netcat -Dm644 COPYING
 cd ..
 rm -rf netcat-0.7.1
 # Less.
-tar -xf less-590.tar.gz
-cd less-590
+tar -xf less-600.tar.gz
+cd less-600
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/less -Dm644 COPYING LICENSE
 cd ..
-rm -rf less-590
+rm -rf less-600
 # Perl.
 tar -xf perl-5.34.1.tar.xz
 cd perl-5.34.1
@@ -1174,12 +1174,12 @@ install -t /usr/share/licenses/markupsafe -Dm644 LICENSE.rst
 cd ..
 rm -rf MarkupSafe-2.1.1
 # Jinja2.
-tar -xf Jinja2-3.0.3.tar.gz
-cd Jinja2-3.0.3
+tar -xf Jinja2-3.1.1.tar.gz
+cd Jinja2-3.1.1
 python setup.py install --optimize=1
 install -t /usr/share/licenses/jinja2 -Dm644 LICENSE.rst
 cd ..
-rm -rf Jinja2-3.0.3
+rm -rf Jinja2-3.1.1
 # Mako.
 tar -xf Mako-1.2.0.tar.gz
 cd Mako-1.2.0
@@ -1803,14 +1803,16 @@ install -t /usr/share/licenses/man-db -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf man-db-2.10.2
 # Procps-NG.
-tar -xf procps-ng-3.3.17.tar.xz
-cd procps-3.3.17
+tar -xf procps-v4.0.0.tar.bz2
+cd procps-v4.0.0
+sed -i 's/UNKNOWN/4.0.0/g' misc/git-version-gen
+./autogen.sh
 ./configure --prefix=/usr --disable-static --disable-kill --with-systemd
 make
 make install
 install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf procps-3.3.17
+rm -rf procps-v4.0.0
 # util-linux.
 tar -xf util-linux-2.38.tar.xz
 cd util-linux-2.38
@@ -2207,13 +2209,13 @@ make install
 cd ..
 rm -rf grep-3.7
 # Less (rebuild for PCRE2 support).
-tar -xf less-590.tar.gz
-cd less-590
+tar -xf less-600.tar.gz
+cd less-600
 ./configure --prefix=/usr --sysconfdir=/etc --with-regex=pcre2
 make
 make install
 cd ..
-rm -rf less-590
+rm -rf less-600
 # libunistring.
 tar -xf libunistring-1.0.tar.xz
 cd libunistring-1.0
@@ -2716,8 +2718,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.76.tar.gz
-cd nss-3.76
+tar -xf nss-3.76.1.tar.gz
+cd nss-3.76.1
 patch -Np1 -i ../patches/nss-3.56-Standalone.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2732,7 +2734,7 @@ install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
-rm -rf nss-3.76
+rm -rf nss-3.76.1
 # Git.
 tar -xf git-2.35.1.tar.xz
 cd git-2.35.1
@@ -3701,7 +3703,7 @@ install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
 rm -rf libxcb-1.14
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.3 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.7.4 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -3991,15 +3993,15 @@ install -t /usr/share/licenses/xorg-server -Dm644 ../COPYING
 cd ../..
 rm -rf xorg-server-21.1.3
 # Xwayland.
-tar -xf xwayland-21.1.4.tar.xz
-cd xwayland-21.1.4
+tar -xf xwayland-22.1.1.tar.xz
+cd xwayland-22.1.1
 mkdir XWLD-BUILD; cd XWLD-BUILD
 meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -t /usr/share/licenses/xwayland -Dm644 ../COPYING
 cd ../..
-rm -rf xwayland-21.1.4
+rm -rf xwayland-22.1.1
 # libevdev.
 tar -xf libevdev-1.12.1.tar.xz
 cd libevdev-1.12.1
@@ -4486,14 +4488,14 @@ install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
 rm -rf librsvg-2.54.0
 # adwaita-icon-theme.
-tar -xf adwaita-icon-theme-42.0.tar.xz
-cd adwaita-icon-theme-42.0
+tar -xf adwaita-icon-theme-41.0.tar.xz
+cd adwaita-icon-theme-41.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/adwaita-icon-theme -Dm644 COPYING COPYING_CCBYSA3 COPYING_LGPL
 cd ..
-rm -rf adwaita-icon-theme-42.0
+rm -rf adwaita-icon-theme-41.0
 # at-spi2-core.
 tar -xf at-spi2-core-2.44.0.tar.xz
 cd at-spi2-core-2.44.0

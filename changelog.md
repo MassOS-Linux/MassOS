@@ -7,13 +7,21 @@ Changes:
 
 Upgraded software:
 
+- adwaita-icon-theme: `42.0 --> 41.0` (rollback, see commit e84a375)
 - Evince: `41.4 --> 42.1`
+- Expat: `2.4.7 --> 2.4.8`
 - Ghostscript: `9.55.0 --> 9.56.0`
 - gnome-online-accounts: `3.40.1 --> 3.44.0`
 - GVFS: `1.48.1 --> 1.50.0`
 - HarfBuzz: `4.1.0 --> 4.2.0`
+- Jinja2: `3.0.3 --> 3.1.1`
+- less: `590 --> 600`
+- libX11: `1.7.3 --> 1.7.4`
 - Mesa: `22.0.0 --> 22.0.1`
+- NSS: `3.76 --> 3.76.1`
+- Procps-NG: `3.3.17 --> 4.0.0`
 - xdg-desktop-portal: `1.14.1 --> 1.14.2`
+- Xwayland: `21.1.4 --> 22.1.1`
 
 # MassOS 2022.04
 Changes:
