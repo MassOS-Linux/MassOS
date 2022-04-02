@@ -12,6 +12,7 @@ Upgraded software:
 - CMake: `3.23.0-rc5 --> 3.23.0`
 - Evince: `41.4 --> 42.1`
 - Expat: `2.4.7 --> 2.4.8`
+- fcron: `3.2.1 --> 3.3.1`
 - Fontconfig: `2.13.96 --> 2.14.0`
 - FreeType: `2.11.1 --> 2.12.0`
 - Ghostscript: `9.55.0 --> 9.56.0`
