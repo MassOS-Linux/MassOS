@@ -2105,6 +2105,7 @@ rm -rf nghttp2-1.47.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.82.0.tar.xz
 cd curl-7.82.0
+patch -Np1 -i ../patches/curl-7.82.0-UpstreamFixes.patch
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
@@ -2112,8 +2113,8 @@ install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.82.0
 # CMake.
-tar -xf cmake-3.23.0-rc5.tar.gz
-cd cmake-3.23.0-rc5
+tar -xf cmake-3.23.0.tar.gz
+cd cmake-3.23.0
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
 ninja
@@ -2121,7 +2122,7 @@ ninja install
 rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.23.0-rc5
+rm -rf cmake-3.23.0
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2480,6 +2481,7 @@ rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
 tar -xf curl-7.82.0.tar.xz
 cd curl-7.82.0
+patch -Np1 -i ../patches/curl-7.82.0-UpstreamFixes.patch
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
@@ -2706,6 +2708,18 @@ systemctl enable fcron
 install -t /usr/share/licenses/fcron -Dm644 doc/en/txt/gpl.txt
 cd ..
 rm -rf fcron-3.2.1
+# lsof.
+tar -xf lsof_4.94.0.linux.tar.bz2
+cd lsof_4.94.0.linux
+./Configure linux -n
+sed -i 's/-O/-Os/' Makefile
+make
+install -m755 lsof /usr/sbin/lsof
+install -m644 lsof.8 /usr/share/man/man8/lsof.8
+install -dm755 /usr/share/licenses/lsof
+cat main.c | head -n31 | tail -n23 > /usr/share/licenses/lsof/LICENSE
+cd ..
+rm -rf lsof_4.94.0.linux
 # NSPR.
 tar -xf nspr-4.33.tar.gz
 cd nspr-4.33/nspr
@@ -2718,8 +2732,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.76.1.tar.gz
-cd nss-3.76.1
+tar -xf nss-3.77.tar.gz
+cd nss-3.77
 patch -Np1 -i ../patches/nss-3.56-Standalone.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2734,7 +2748,7 @@ install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
-rm -rf nss-3.76.1
+rm -rf nss-3.77
 # Git.
 tar -xf git-2.35.1.tar.xz
 cd git-2.35.1
@@ -3005,16 +3019,17 @@ install -t /usr/share/licenses/libpng -Dm644 LICENSE
 cd ..
 rm -rf libpng-1.6.37
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
-tar -xf freetype-2.11.1.tar.xz
-cd freetype-2.11.1
+tar -xf freetype-2.12.0.tar.xz
+cd freetype-2.12.0
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
-./configure --prefix=/usr --enable-freetype-config --disable-static
-make
-make install
-install -t /usr/share/licenses/freetype -Dm644 LICENSE.TXT
-cd ..
-rm -rf freetype-2.11.1
+mkdir FT-build; cd FT-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=TRUE -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/freetype -Dm644 ../LICENSE.TXT ../doc/GPLv2.TXT
+cd ../..
+rm -rf freetype-2.12.0
 # Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -3037,15 +3052,16 @@ install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
 rm -rf harfbuzz-4.2.0
 # FreeType (rebuild to support HarfBuzz).
-tar -xf freetype-2.11.1.tar.xz
-cd freetype-2.11.1
+tar -xf freetype-2.12.0.tar.xz
+cd freetype-2.12.0
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
-./configure --prefix=/usr --enable-freetype-config --disable-static
-make
-make install
-cd ..
-rm -rf freetype-2.11.1
+mkdir FT-build; cd FT-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=TRUE -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ../..
+rm -rf freetype-2.12.0
 # Graphite2 (rebuild to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -3317,14 +3333,15 @@ install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 cd ..
 rm -rf enchant-2.3.2
 # Fontconfig.
-tar -xf fontconfig-2.13.96.tar.bz2
-cd fontconfig-2.13.96
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-docs
-make
-make install
-install -t /usr/share/licenses/fontconfig -Dm644 COPYING
-cd ..
-rm -rf fontconfig-2.13.96
+tar -xf fontconfig-2.14.0.tar.bz2
+cd fontconfig-2.14.0
+mkdir FC-build; cd FC-build
+meson --prefix=/usr --buildtype=release -Ddoc=disabled ..
+ninja
+ninja install
+install -t /usr/share/licenses/fontconfig -Dm644 ../COPYING
+cd ../..
+rm -rf fontconfig-2.14.0
 # Fribidi.
 tar -xf fribidi-1.0.11.tar.xz
 cd fribidi-1.0.11
@@ -3772,25 +3789,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.8.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.208.tar.gz
-cd Vulkan-Headers-1.3.208
+tar -xf Vulkan-Headers-1.3.210.tar.gz
+cd Vulkan-Headers-1.3.210
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.208
+rm -rf Vulkan-Headers-1.3.210
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.208.tar.gz
-cd Vulkan-Loader-1.3.208
+tar -xf Vulkan-Loader-1.3.210.tar.gz
+cd Vulkan-Loader-1.3.210
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.208
+rm -rf Vulkan-Loader-1.3.210
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -5618,15 +5635,15 @@ install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-2.74.2
 # libsoup3.
-tar -xf libsoup-3.0.5.tar.xz
-cd libsoup-3.0.5
+tar -xf libsoup-3.0.6.tar.xz
+cd libsoup-3.0.6
 mkdir soup3-build; cd soup3-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
-rm -rf libsoup3-3.0.5
+rm -rf libsoup3-3.0.6
 # libostree.
 tar -xf libostree-2022.2.tar.xz
 cd libostree-2022.2
@@ -6012,10 +6029,21 @@ ninja install
 install -t /usr/share/licenses/libmysofa -Dm644 ../LICENSE
 cd ../..
 rm -rf libmysofa-1.2.1
+# vmaf.
+tar -xf vmaf-2.3.0.tar.gz
+cd vmaf-2.3.0/libvmaf
+mkdir vmaf-build; cd vmaf-build
+meson --prefix=/usr --buildtype=release -Denable_docs=false ..
+ninja
+ninja install
+rm -f /usr/lib/libvmaf.a
+install -t /usr/share/licenses/vmaf -Dm644 ../../LICENSE
+cd ../../..
+rm -rf vmaf-2.3.0
 # FFmpeg.
 tar -xf ffmpeg-5.0.tar.xz
 cd ffmpeg-5.0
-./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gnutls --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
+./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gnutls --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvmaf --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -6201,14 +6229,14 @@ install -t /usr/share/licenses/xfconf -Dm644 COPYING
 cd ..
 rm -rf xfconf-4.16.0
 # libxfce4ui.
-tar -xf libxfce4ui-4.17.4.tar.bz2
-cd libxfce4ui-4.17.4
+tar -xf libxfce4ui-4.17.6.tar.bz2
+cd libxfce4ui-4.17.6
 ./configure --prefix=/usr --sysconfdir=/etc --with-vendor-info=MassOS
 make
 make install
 install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 cd ..
-rm -rf libxfce4ui-4.17.4
+rm -rf libxfce4ui-4.17.6
 # Exo.
 tar -xf exo-4.17.1.tar.bz2
 cd exo-4.17.1
@@ -6359,14 +6387,14 @@ install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 .
 cd ../..
 rm -rf vte-0.67.90
 # xfce4-terminal.
-tar -xf xfce4-terminal-0.9.1.tar.bz2
-cd xfce4-terminal-0.9.1
+tar -xf xfce4-terminal-1.0.0.tar.bz2
+cd xfce4-terminal-1.0.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
-rm -rf xfce4-terminal-0.9.1
+rm -rf xfce4-terminal-1.0.0
 # Shotwell.
 tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
 cd shotwell-0.31.3-133-gd55abab2

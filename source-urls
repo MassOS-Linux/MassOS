@@ -50,7 +50,7 @@ https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-13.0.1/clang-13.0.1.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v3.23.0-rc5/cmake-3.23.0-rc5.tar.gz
+https://github.com/Kitware/CMake/releases/download/v3.23.0/cmake-3.23.0.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://ftp.acc.umu.se/pub/gnome/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
@@ -119,9 +119,9 @@ https://downloads.xiph.org/releases/flac/flac-1.3.4.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.13.2/flatpak-1.13.2.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://www.x.org/archive/individual/font/font-util-1.3.2.tar.bz2
-https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/2.13.96/fontconfig-2.13.96.tar.bz2
+https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/2.14.0/fontconfig-2.14.0.tar.bz2
 https://github.com/FreeGLUTProject/freeglut/releases/download/v3.2.2/freeglut-3.2.2.tar.gz
-https://download-mirror.savannah.gnu.org/releases/freetype/freetype-2.11.1.tar.xz
+https://de.freedif.org/savannah/freetype/freetype-2.12.0.tar.xz
 https://github.com/fribidi/fribidi/releases/download/v1.0.11/fribidi-1.0.11.tar.xz
 https://github.com/libfuse/libfuse/releases/download/fuse-2.9.9/fuse-2.9.9.tar.gz
 https://github.com/libfuse/libfuse/releases/download/fuse-3.10.5/fuse-3.10.5.tar.xz
@@ -301,7 +301,7 @@ https://mirror.lyrahosting.com/gnu/libsigsegv/libsigsegv-2.14.tar.gz
 https://www.x.org/archive/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.0.31/libsndfile-1.0.31.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.5.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.6.tar.xz
 https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 https://archive.massos.org/sources/libstemmer-2.1.0.tar.xz
 https://mirror.lyrahosting.com/gnu/libtasn1/libtasn1-4.18.0.tar.gz
@@ -331,7 +331,7 @@ https://www.x.org/archive/individual/lib/libxcvt-0.1.1.tar.xz
 https://www.x.org/archive/individual/lib/libXdamage-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXdmcp-1.1.3.tar.bz2
 https://www.x.org/archive/individual/lib/libXext-1.3.4.tar.bz2
-https://archive.fr.xfce.org/src/xfce/libxfce4ui/4.17/libxfce4ui-4.17.4.tar.bz2
+https://archive.fr.xfce.org/src/xfce/libxfce4ui/4.17/libxfce4ui-4.17.6.tar.bz2
 https://archive.fr.xfce.org/src/xfce/libxfce4util/4.17/libxfce4util-4.17.2.tar.bz2
 https://www.x.org/archive/individual/lib/libXfixes-6.0.0.tar.bz2
 https://www.x.org/archive/individual/lib/libXfont2-2.0.5.tar.bz2
@@ -368,6 +368,7 @@ https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://github.com/LMDB/lmdb/archive/LMDB_0.9.29.tar.gz
 https://github.com/jaseg/lolcat/archive/v1.2/lolcat-1.2.tar.gz
 https://mirror.fileplanet.com/lfs/pub/blfs/11.0/l/LSB-Tools-0.9.tar.gz
+https://github.com/lsof-org/lsof/releases/download/4.94.0/lsof_4.94.0.linux.tar.bz2
 https://www.x.org/archive/individual/app/luit-1.1.1.tar.bz2
 https://archive.massos.org/precompiled/lvm2-2.03.15-x86_64-precompiled-MassOS.tar.xz
 https://files.pythonhosted.org/packages/source/l/lxml/lxml-4.8.0.tar.gz
@@ -416,7 +417,7 @@ https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
-https://archive.mozilla.org/pub/security/nss/releases/NSS_3_76_1_RTM/src/nss-3.76.1.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_77_RTM/src/nss-3.77.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2021.8.22/ntfs-3g-2021.8.22.tar.gz
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/openh264-2.1.1.tar.gz
@@ -547,10 +548,11 @@ https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.0.tar.xz
 https://github.com/vim/vim/archive/v8.2.4626/vim-8.2.4626.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
+https://github.com/Netflix/vmaf/archive/v2.3.0/vmaf-2.3.0.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.67.90/vte-0.67.90.tar.bz2
-https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.3.208/Vulkan-Headers-1.3.208.tar.gz
-https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.3.208/Vulkan-Loader-1.3.208.tar.gz
+https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.3.210/Vulkan-Headers-1.3.210.tar.gz
+https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.3.210/Vulkan-Loader-1.3.210.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.20.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.25.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.34.6.tar.xz
@@ -608,7 +610,7 @@ https://archive.fr.xfce.org/src/apps/xfce4-screenshooter/1.9/xfce4-screenshooter
 https://archive.fr.xfce.org/src/xfce/xfce4-session/4.16/xfce4-session-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfce4-settings/4.16/xfce4-settings-4.16.2.tar.bz2
 https://archive.fr.xfce.org/src/apps/xfce4-taskmanager/1.5/xfce4-taskmanager-1.5.2.tar.bz2
-https://archive.fr.xfce.org/src/apps/xfce4-terminal/0.9/xfce4-terminal-0.9.1.tar.bz2
+https://archive.fr.xfce.org/src/apps/xfce4-terminal/1.0/xfce4-terminal-1.0.0.tar.bz2
 https://archive.fr.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/2.6/xfce4-whiskermenu-plugin-2.6.1.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfconf/4.16/xfconf-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfdesktop/4.16/xfdesktop-4.16.0.tar.bz2

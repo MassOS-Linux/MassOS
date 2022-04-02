@@ -3,24 +3,32 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just begun, check back soon!
+- Added `lsof` utility.
+- Fixed app category icon issue (e84a375).
 
 Upgraded software:
 
 - adwaita-icon-theme: `42.0 --> 41.0` (rollback, see commit e84a375)
+- CMake: `3.23.0-rc5 --> 3.23.0`
 - Evince: `41.4 --> 42.1`
 - Expat: `2.4.7 --> 2.4.8`
+- Fontconfig: `2.13.96 --> 2.14.0`
+- FreeType: `2.11.1 --> 2.12.0`
 - Ghostscript: `9.55.0 --> 9.56.0`
 - gnome-online-accounts: `3.40.1 --> 3.44.0`
 - GVFS: `1.48.1 --> 1.50.0`
 - HarfBuzz: `4.1.0 --> 4.2.0`
 - Jinja2: `3.0.3 --> 3.1.1`
+- libxfce4ui: `4.17.4 --> 4.17.6`
 - less: `590 --> 600`
 - libX11: `1.7.3 --> 1.7.4`
 - Mesa: `22.0.0 --> 22.0.1`
-- NSS: `3.76 --> 3.76.1`
+- NSS: `3.76 --> 3.77`
 - Procps-NG: `3.3.17 --> 4.0.0`
+- Vulkan-Headers: `1.3.208 --> 1.3.210`
+- Vulkan-Loader: `1.3.208 --> 1.3.210`
 - xdg-desktop-portal: `1.14.1 --> 1.14.2`
+- xfce4-terminal: `0.9.1 --> 1.0.0`
 - Xwayland: `21.1.4 --> 22.1.1`
 
 # MassOS 2022.04
