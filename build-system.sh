@@ -1239,10 +1239,12 @@ rm -rf Markdown-3.3.6
 # gi-docgen (dependency of librsvg since 2.54.0).
 tar -xf gi-docgen-2022.1.tar.xz
 cd gi-docgen-2022.1
-python setup.py build
-python setup.py install --optimize=1 --skip-build
-install -t /usr/share/licenses/gi-docgen -Dm644 LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
-cd ..
+mkdir gi-docgen-build; cd gi-docgen-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gi-docgen -Dm644 ../LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
+cd ../..
 rm -rf gi-docgen-2022.1
 # dialog.
 tar -xf dialog-1.3-20220117.tgz
