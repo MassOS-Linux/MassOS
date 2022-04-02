@@ -207,6 +207,7 @@ https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.1.tar.gz
 https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.05.tar.gz
 https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
+https://github.com/open-source-parsers/jsoncpp/archive/1.9.5/jsoncpp-1.9.5.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.4.0.tar.xz
 https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-29.tar.xz
@@ -478,6 +479,7 @@ https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/readline/readline-8.1.2.tar.gz
 https://github.com/psf/requests/releases/download/v2.27.1/requests-2.27.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
+https://github.com/rhash/RHash/archive/v1.4.2/RHash-1.4.2.tar.gz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
 http://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz

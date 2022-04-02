@@ -2114,14 +2114,34 @@ make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
 rm -rf curl-7.82.0
+# jsoncpp.
+tar -xf jsoncpp-1.9.5.tar.gz
+cd jsoncpp-1.9.5
+mkdir jsoncpp-build; cd jsoncpp-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/jsoncpp -Dm644 ../LICENSE
+cd ../..
+rm -rf jsoncpp-1.9.5
+# rhash.
+tar -xf RHash-1.4.2.tar.gz
+cd RHash-1.4.2
+./configure --prefix=/usr --sysconfdir=/etc --extra-cflags="$CFLAGS"
+make
+make install
+make -C librhash install-lib-headers install-lib-shared install-so-link
+chmod 755 /usr/lib/librhash.so.0
+install -t /usr/share/licenses/rhash -Dm644 COPYING
+cd ..
+rm -rf RHash-1.4.2
 # CMake.
 tar -xf cmake-3.23.0.tar.gz
 cd cmake-3.23.0
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
-./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --system-libs --no-system-jsoncpp --no-system-librhash --mandir=/share/man --docdir=/share/doc/cmake
+./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --mandir=/share/man --docdir=/share/doc/cmake --system-libs
 ninja
 ninja install
-rm -rf /usr/share/doc/cmake
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
 rm -rf cmake-3.23.0

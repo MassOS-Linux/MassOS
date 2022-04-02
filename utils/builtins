@@ -194,6 +194,7 @@ js91
 json
 json-c
 json-glib
+jsoncpp
 kbd
 keybinder
 kmod
@@ -459,6 +460,7 @@ qrencode
 readline
 requests
 rest
+rhash
 rpcsvc-proto
 rrdtool
 rsync
