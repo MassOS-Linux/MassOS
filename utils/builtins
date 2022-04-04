@@ -297,6 +297,7 @@ libtirpc
 libtool
 libunistring
 libunwind
+liburing
 libusb
 libusbmuxd
 libuv

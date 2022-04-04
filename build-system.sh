@@ -1309,6 +1309,15 @@ make install
 install -t /usr/share/licenses/pv -Dm644 doc/COPYING
 cd ..
 rm -rf pv-1.6.20
+# liburing.
+tar -xf liburing-2.1.tar.bz2
+cd liburing-2.1
+./configure --prefix=/usr --mandir=/usr/share/man
+make
+make install
+rm -f /usr/lib/liburing.a
+cd ..
+rm -rf liburing-2.1
 # ICU.
 tar -xf icu4c-70_1-src.tgz
 cd icu/source
