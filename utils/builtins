@@ -413,6 +413,8 @@ openssh
 openssl
 openvpn
 opus
+orage
+orc
 os-prober
 p11-kit
 p7zip
@@ -588,6 +590,7 @@ xfce4-settings
 xfce4-taskmanager
 xfce4-terminal
 xfconf
+xfdashboard
 xfdesktop
 xfsprogs
 xfwm4

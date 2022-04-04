@@ -4,28 +4,39 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Added `lsof` utility.
+- Added Orage calendar program.
 - Fixed app category icon issue (e84a375).
 
 Upgraded software:
 
 - adwaita-icon-theme: `42.0 --> 41.0` (rollback, see commit e84a375)
+- AppArmor: `3.0.3 --> 3.0.4`
+- Audit: `3.0.7 --> 3.0.8`
 - CMake: `3.23.0-rc5 --> 3.23.0`
 - Evince: `41.4 --> 42.1`
 - Expat: `2.4.7 --> 2.4.8`
 - fcron: `3.2.1 --> 3.3.1`
 - Fontconfig: `2.13.96 --> 2.14.0`
 - FreeType: `2.11.1 --> 2.12.0`
+- Gedit: `41.0 --> 42.0`
 - Ghostscript: `9.55.0 --> 9.56.0`
 - gnome-online-accounts: `3.40.1 --> 3.44.0`
+- GNUPG: `2.2.34 --> 2.3.4`
 - GVFS: `1.48.1 --> 1.50.0`
 - HarfBuzz: `4.1.0 --> 4.2.0`
+- iceauth: `1.0.8 --> 1.0.9`
 - Jinja2: `3.0.3 --> 3.1.1`
+- libsndfile: `1.0.31 --> 1.1.0`
 - libxfce4ui: `4.17.4 --> 4.17.6`
 - less: `590 --> 600`
-- libX11: `1.7.3 --> 1.7.4`
+- libX11: `1.7.3 --> 1.7.5`
+- libXcursor: `1.2.0 --> 1.2.1`
 - Mesa: `22.0.0 --> 22.0.1`
+- mkfontscale: `1.2.1 --> 1.2.2`
 - NSS: `3.76 --> 3.77`
 - Procps-NG: `3.3.17 --> 4.0.0`
+- setxkbmap: `1.3.2 --> 1.3.3`
+- Thunar: `4.17.7 --> 4.17.8`
 - Vulkan-Headers: `1.3.208 --> 1.3.210`
 - Vulkan-Loader: `1.3.208 --> 1.3.210`
 - xdg-desktop-portal: `1.14.1 --> 1.14.2`

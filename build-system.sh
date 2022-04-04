@@ -2470,15 +2470,15 @@ install -t /usr/share/licenses/libksba -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv
 cd ..
 rm -rf libksba-1.6.0
 # GNUPG.
-tar -xf gnupg-2.2.34.tar.bz2
-cd gnupg-2.2.34
-sed -e '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' -i tools/Makefile.in
+tar -xf gnupg-2.3.4.tar.bz2
+cd gnupg-2.3.4
+sed -i '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' tools/Makefile.in
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-g13
 make
 make install
 install -t /usr/share/licenses/gnupg -Dm644 COPYING COPYING.CC0 COPYING.GPL2 COPYING.LGPL21 COPYING.LGPL3 COPYING.other
 cd ..
-rm -rf gnupg-2.2.34
+rm -rf gnupg-2.3.4
 # krb5.
 tar -xf krb5-1.19.3.tar.gz
 cd krb5-1.19.3/src
@@ -2605,8 +2605,8 @@ install -t /usr/share/licenses/wget -Dm644 COPYING
 cd ..
 rm -rf wget-1.21.3
 # Audit.
-tar -xf audit-userspace-3.0.7.tar.gz
-cd audit-userspace-3.0.7
+tar -xf audit-userspace-3.0.8.tar.gz
+cd audit-userspace-3.0.8
 patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
@@ -2625,13 +2625,10 @@ END
 systemctl enable auditd
 install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf audit-userspace-3.0.7
+rm -rf audit-userspace-3.0.8
 # AppArmor.
-tar -xf apparmor_3.0.3.orig.tar.gz
-cd apparmor-3.0.3
-patch -Np1 -i ../patches/apparmor-3.0.3-backport_python310_fix.patch
-cd libraries/libapparmor
-autoreconf -fi
+tar -xf apparmor-3.0.4.tar.gz
+cd apparmor-3.0.4/libraries/libapparmor
 ./configure --prefix=/usr --with-perl --with-python
 make
 cd ../..
@@ -2650,7 +2647,7 @@ chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
 cd ..
-rm -rf apparmor-3.0.3
+rm -rf apparmor-3.0.4
 # Linux-PAM (rebuild to support Audit).
 tar -xf Linux-PAM-1.5.2.tar.xz
 cd Linux-PAM-1.5.2
@@ -3739,7 +3736,7 @@ install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
 rm -rf libxcb-1.14
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.4 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.0 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.7.5 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -3874,7 +3871,7 @@ install -t /usr/share/licenses/xbitmaps -Dm644 COPYING
 cd ..
 rm -rf xbitmaps-1.1.2
 # Xorg Applications.
-for i in iceauth-1.0.8 luit-1.1.1 mkfontscale-1.2.1 sessreg-1.1.2 setxkbmap-1.3.2 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.1 xbacklight-1.2.3 xcmsdb-1.0.5 xcursorgen-1.0.7 xdpyinfo-1.3.2 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.10 xpr-1.0.5 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.5; do
+for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.3 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.1 xbacklight-1.2.3 xcmsdb-1.0.5 xcursorgen-1.0.7 xdpyinfo-1.3.2 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.10 xpr-1.0.5 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.5; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4783,15 +4780,15 @@ make install
 install -t /usr/share/licenses/flac -Dm644 COPYING.FDL COPYING.GPL COPYING.LGPL COPYING.Xiph
 cd ..
 rm -rf flac-1.3.4
-# libsndfile.
-tar -xf libsndfile-1.0.31.tar.bz2
-cd libsndfile-1.0.31
-./configure --prefix=/usr --disable-static
+# libsndfile (will be rebuilt later with LAME/mpg123 for MPEG support).
+tar -xf libsndfile-1.1.0.tar.xz
+cd libsndfile-1.1.0
+./configure --prefix=/usr --disable-static --disable-mpeg
 make
 make install
 install -t /usr/share/licenses/libsndfile -Dm644 COPYING
 cd ..
-rm -rf libsndfile-1.0.31
+rm -rf libsndfile-1.1.0
 # libsamplerate.
 tar -xf libsamplerate-0.2.2.tar.xz
 cd libsamplerate-0.2.2
@@ -5882,6 +5879,14 @@ make install
 install -t /usr/share/licenses/lame -Dm644 COPYING LICENSE
 cd ..
 rm -rf LAME-lame3_100
+# libsndfile (LAME/mpg123 rebuild).
+tar -xf libsndfile-1.1.0.tar.xz
+cd libsndfile-1.1.0
+./configure --prefix=/usr --disable-static
+make
+make install
+cd ..
+rm -rf libsndfile-1.1.0
 # twolame.
 tar -xf twolame-0.4.0.tar.gz
 cd twolame-0.4.0
@@ -6275,14 +6280,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
 rm -rf garcon-4.16.1
 # Thunar.
-tar -xf thunar-4.17.7.tar.bz2
-cd thunar-4.17.7
+tar -xf thunar-4.17.8.tar.bz2
+cd thunar-4.17.8
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 cd ..
-rm -rf thunar-4.17.7
+rm -rf thunar-4.17.8
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
@@ -6394,6 +6399,15 @@ make install
 install -t /usr/share/licenses/parole -Dm644 COPYING
 cd ..
 rm -rf parole-4.16.0
+# Orage.
+tar -xf orage-4.16.0.tar.bz2
+cd orage-4.16.0
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
+make
+make install
+install -t /usr/share/licenses/orage -Dm644 COPYING
+cd ..
+rm -rf orage-4.16.0
 # VTE.
 tar -xf vte-0.67.90.tar.bz2
 cd vte-0.67.90
@@ -6498,6 +6512,7 @@ rm -rf blueman-2.2.2
 # xfce4-screenshooter.
 tar -xf xfce4-screenshooter-1.9.10.tar.bz2
 cd xfce4-screenshooter-1.9.10
+patch -Np1 -i ../patches/xfce4-screenshooter-1.9.10-upstreamfix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
@@ -6572,15 +6587,15 @@ install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
 cd ../..
 rm -rf gtksourceview-4.8.3
 # Gedit.
-tar -xf gedit-41.0.tar.xz
-cd gedit-41.0
+tar -xf gedit-42.0.tar.xz
+cd gedit-42.0
 mkdir gedit-build; cd gedit-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/gedit -Dm644 ../COPYING
 cd ../..
-rm -rf gedit-41.0
+rm -rf gedit-42.0
 # galculator.
 tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4
