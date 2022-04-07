@@ -5628,17 +5628,17 @@ install -t /usr/share/licenses/udisks -Dm644 COPYING
 cd ..
 rm -rf udisks-2.9.4
 # gsettings-desktop-schemas.
-tar -xf gsettings-desktop-schemas-42.0.tar.xz
-cd gsettings-desktop-schemas-42.0
-sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in &&
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
+tar -xf gsettings-desktop-schemas-41.0.tar.xz
+cd gsettings-desktop-schemas-41.0
+sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
+mkdir gsds-build; cd gsds-build
+meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
-install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 glib-compile-schemas /usr/share/glib-2.0/schemas
+install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 cd ../..
-rm -r gsettings-desktop-schemas-42.0
+rm -rf gsettings-desktop-schemas-41.0
 # glib-networking.
 tar -xf glib-networking-2.72.0.tar.xz
 cd glib-networking-2.72.0
@@ -6243,6 +6243,180 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.50.0
+# libxfce4util.
+tar -xf libxfce4util-4.17.2.tar.bz2
+cd libxfce4util-4.17.2
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
+cd ..
+rm -rf libxfce4util-4.17.2
+# xfconf.
+tar -xf xfconf-4.16.0.tar.bz2
+cd xfconf-4.16.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xfconf -Dm644 COPYING
+cd ..
+rm -rf xfconf-4.16.0
+# libxfce4ui.
+tar -xf libxfce4ui-4.17.6.tar.bz2
+cd libxfce4ui-4.17.6
+./configure --prefix=/usr --sysconfdir=/etc --with-vendor-info=MassOS
+make
+make install
+install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
+cd ..
+rm -rf libxfce4ui-4.17.6
+# Exo.
+tar -xf exo-4.17.1.tar.bz2
+cd exo-4.17.1
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/exo -Dm644 COPYING
+cd ..
+rm -rf exo-4.17.1
+# Garcon.
+tar -xf garcon-4.16.1.tar.bz2
+cd garcon-4.16.1
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/garcon -Dm644 COPYING
+cd ..
+rm -rf garcon-4.16.1
+# Thunar.
+tar -xf thunar-4.17.8.tar.bz2
+cd thunar-4.17.8
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/thunar -Dm644 COPYING
+cd ..
+rm -rf thunar-4.17.8
+# thunar-volman.
+tar -xf thunar-volman-4.16.0.tar.bz2
+cd thunar-volman-4.16.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
+cd ..
+rm -rf thunar-volman-4.16.0
+# Tumbler.
+tar -xf tumbler-4.17.0.tar.bz2
+cd tumbler-4.17.0
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/tumbler -Dm644 COPYING
+cd ..
+rm -rf tumbler-4.17.0
+# xfce4-appfinder.
+tar -xf xfce4-appfinder-4.17.0.tar.bz2
+cd xfce4-appfinder-4.17.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
+cd ..
+rm -rf xfce4-appfinder-4.17.0
+# xfce4-artwork.
+tar -xf xfce4-artwork_0.1.1a~git+20110420.orig.tar.gz
+cd xfce4-artwork-0.1.1a
+./configure --prefix=/usr
+make
+make backdropsdir=/usr/share/backgrounds/xfce install
+install -t /usr/share/licenses/xfce4-artwork -Dm644 COPYING
+cd ..
+rm -rf xfce4-artwork-0.1.1a
+# xfce4-panel.
+tar -xf xfce4-panel-4.16.3.tar.bz2
+cd xfce4-panel-4.16.3
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
+cd ..
+rm -rf xfce4-panel-4.16.3
+# xfce4-power-manager.
+tar -xf xfce4-power-manager-4.16.0.tar.bz2
+cd xfce4-power-manager-4.16.0
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
+cd ..
+rm -rf xfce4-power-manager-4.16.0
+# libxklavier.
+tar -xf libxklavier-5.4.tar.bz2
+cd libxklavier-5.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
+cd ..
+rm -rf libxklavier-5.4
+# xfce4-settings.
+tar -xf xfce4-settings-4.16.2.tar.bz2
+cd xfce4-settings-4.16.2
+./configure --prefix=/usr --sysconfdir=/etc --enable-sound-settings
+make
+make install
+install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
+cd ..
+rm -rf xfce4-settings-4.16.2
+# xfdesktop.
+tar -xf xfdesktop-4.16.0.tar.bz2
+cd xfdesktop-4.16.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
+cd ..
+rm -rf xfdesktop-4.16.0
+# xfwm4.
+tar -xf xfwm4-4.16.1.tar.bz2
+cd xfwm4-4.16.1
+./configure --prefix=/usr
+make
+make install
+sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
+install -t /usr/share/licenses/xfwm4 -Dm644 COPYING
+cd ..
+rm -rf xfwm4-4.16.1
+# xfce4-session.
+tar -xf xfce4-session-4.16.0.tar.bz2
+cd xfce4-session-4.16.0
+./configure --prefix=/usr --sysconfdir=/etc --disable-legacy-sm
+make
+make install
+update-desktop-database
+update-mime-database /usr/share/mime
+install -t /usr/share/licenses/xfce4-session -Dm644 COPYING
+cd ..
+rm -rf xfce4-session-4.16.0
+# Parole.
+tar -xf parole-4.16.0.tar.bz2
+cd parole-4.16.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/parole -Dm644 COPYING
+cd ..
+rm -rf parole-4.16.0
+# Orage.
+tar -xf orage-4.16.0.tar.bz2
+cd orage-4.16.0
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
+make
+make install
+install -t /usr/share/licenses/orage -Dm644 COPYING
+cd ..
+rm -rf orage-4.16.0
 # VTE.
 tar -xf vte-0.67.90.tar.bz2
 cd vte-0.67.90
@@ -6254,6 +6428,34 @@ rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
 rm -rf vte-0.67.90
+# xfce4-terminal.
+tar -xf xfce4-terminal-1.0.0.tar.bz2
+cd xfce4-terminal-1.0.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
+cd ..
+rm -rf xfce4-terminal-1.0.0
+# Shotwell.
+tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
+cd shotwell-0.31.3-133-gd55abab2
+mkdir SHOTWELL-build; cd SHOTWELL-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
+cd ../..
+rm -rf shotwell-0.31.3-133-gd55abab2
+# xfce4-notifyd.
+tar -xf xfce4-notifyd-0.6.3.tar.bz2
+cd xfce4-notifyd-0.6.3
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
+cd ..
+rm -rf xfce4-notifyd-0.6.3
 # keybinder.
 tar -xf keybinder-3.0-0.3.2.tar.gz
 cd keybinder-3.0-0.3.2
@@ -6263,6 +6465,15 @@ make install
 install -t /usr/share/licenses/keybinder -Dm644 COPYING
 cd ..
 rm -rf keybinder-3.0-0.3.2
+# xfce4-pulseaudio-plugin.
+tar -xf xfce4-pulseaudio-plugin-0.4.3.tar.bz2
+cd xfce4-pulseaudio-plugin-0.4.3
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
+cd ..
+rm -rf xfce4-pulseaudio-plugin-0.4.3
 # pavucontrol.
 tar -xf pavucontrol-5.0.tar.xz
 cd pavucontrol-5.0
@@ -6272,6 +6483,139 @@ make install
 install -t /usr/share/licenses/pavucontrol -Dm644 LICENSE
 cd ..
 rm -rf pavucontrol-5.0
+# Blueman.
+tar -xf blueman-2.2.2.tar.xz
+cd blueman-2.2.2
+sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
+./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config='/etc/dhcp/dhclient.conf'
+make
+make install
+mv /etc/xdg/autostart/blueman.desktop /usr/share/blueman/autostart.desktop
+cat > /sbin/blueman-autostart << "END"
+#!/bin/bash
+
+not_root() {
+  echo "Error: $(basename $0) must be run as root." >&2
+  exit 1
+}
+
+usage() {
+  echo "Usage: $(basename $0) [enable|disable]" >&2
+  exit 1
+}
+
+[ $EUID -eq 0 ] || not_root
+
+[ ! -z "$1" ] || usage
+
+case "$1" in
+  enable) cp -af /usr/share/blueman/autostart.desktop /etc/xdg/autostart/blueman.desktop ;;
+  disable) rm -f /etc/xdg/autostart/blueman.desktop ;;
+  *) usage ;;
+esac
+END
+chmod 755 /sbin/blueman-autostart
+install -t /usr/share/licenses/blueman -Dm644 COPYING
+cd ..
+rm -rf blueman-2.2.2
+# xfce4-screenshooter.
+tar -xf xfce4-screenshooter-1.9.10.tar.bz2
+cd xfce4-screenshooter-1.9.10
+patch -Np1 -i ../patches/xfce4-screenshooter-1.9.10-upstreamfix.patch
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
+make
+make install
+install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
+cd ..
+rm -rf xfce4-screenshooter-1.9.10
+# xfce4-taskmanager.
+tar -xf xfce4-taskmanager-1.5.2.tar.bz2
+cd xfce4-taskmanager-1.5.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
+make
+make install
+install -t /usr/share/licenses/xfce4-taskmanager -Dm644 COPYING
+cd ..
+rm -rf xfce4-taskmanager-1.5.2
+# xfce4-clipman-plugin.
+tar -xf xfce4-clipman-plugin-1.6.2.tar.bz2
+cd xfce4-clipman-plugin-1.6.2
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
+make
+make install
+install -t /usr/share/licenses/xfce4-clipman-plugin -Dm644 COPYING
+cd ..
+rm -rf xfce4-clipman-plugin-1.6.2
+# xfce4-whiskermenu-plugin.
+tar -xf xfce4-whiskermenu-plugin-2.6.1.tar.bz2
+cd xfce4-whiskermenu-plugin-2.6.1
+mkdir whisker-build; cd whisker-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 ../COPYING
+cd ../..
+rm -rf xfce4-whiskermenu-plugin-2.6.1
+# xfce4-screensaver.
+tar -xf xfce4-screensaver-4.16.0.tar.bz2
+cd xfce4-screensaver-4.16.0
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
+make
+make install
+install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
+cd ..
+rm -rf xfce4-screensaver-4.16.0
+# xarchiver.
+tar -xf xarchiver-0.5.4.17.tar.gz
+cd xarchiver-0.5.4.17
+./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
+make
+make install
+install -t /usr/share/licenses/xarchiver -Dm644 COPYING
+gtk-update-icon-cache -qtf /usr/share/icons/hicolor
+update-desktop-database -q
+cd ..
+rm -rf xarchiver-0.5.4.17
+# thunar-archive-plugin.
+tar -xf thunar-archive-plugin-0.4.0.tar.bz2
+cd thunar-archive-plugin-0.4.0
+./configure --prefix=/usr --sysconfdir=/etc  --libexecdir=/usr/lib/xfce4 --localstatedir=/var --disable-static
+make
+make install
+install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
+cd ..
+rm -rf thunar-archive-plugin-0.4.0
+# gtksourceview4.
+tar -xf gtksourceview-4.8.3.tar.xz
+cd gtksourceview-4.8.3
+mkdir build; cd build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
+cd ../..
+rm -rf gtksourceview-4.8.3
+# Gedit.
+tar -xf gedit-42.0.tar.xz
+cd gedit-42.0
+mkdir gedit-build; cd gedit-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/gedit -Dm644 ../COPYING
+cd ../..
+rm -rf gedit-42.0
+# galculator.
+tar -xf galculator-2.1.4.tar.gz
+cd galculator-2.1.4
+sed -i 's/s_preferences/extern s_preferences/' src/main.c
+autoreconf -fi
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/galculator -Dm644 COPYING
+cd ..
+rm -rf galculator-2.1.4
 # GParted.
 tar -xf gparted-GPARTED_1_4_0.tar.bz2
 cd gparted-GPARTED_1_4_0
@@ -6293,467 +6637,34 @@ install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.38
-# GNOME Backgrounds.
-tar -xf gnome-backgrounds-42.0.tar.xz
-cd gnome-backgrounds-42.0
-mkdir build; cd build
-meson --prefix=/usr ..
-ninja install
+# Mugshot.
+tar -xf mugshot-0.4.3.tar.gz
+cd mugshot-0.4.3
+python setup.py install --optimize=1
+glib-compile-schemas /usr/share/glib-2.0/schemas
+install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
-install -t /usr/share/licenses/gnome-backgrounds -Dm644 COPYING
-cd ..
-rm -r gnome-backgrounds-42.0
-# tracker (not actual tracking software lol).
-tar -xf tracker-3.3.0.tar.xz
-cd tracker-3.3.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/tracker -Dm644 ../COPYING
-cd ../..
-rm -r tracker-3.3.0
-# libcloudproviders.
-tar -xf libcloudproviders-0.3.1.tar.xz
-cd libcloudproviders-0.3.1
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/tracker -Dm644 ../LICENSE
-cd ../..
-rm -r libcloudproviders-0.3.1
-# GTK4.
-tar -xf gtk-4.6.2.tar.xz
-cd gtk-4.6.2
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dbroadway-backend=true -Dcolord=enabled -Dsysprof=enabled -Dmedia-gstreamer=enabled -Dmedia-ffmpeg=enabled -Ddemos=false -Dvulkan=enabled -Dtracker=enabled -Dcloudproviders=enabled ..
-ninja
-ninja install
-install -t /usr/share/licenses/gtk4 -Dm644 ../COPYING
-cd ../..
-rm -r gtk-4.6.2
-# libadwaita.
-tar -xf libadwaita-1.1.0.tar.xz
-cd libadwaita-1.1.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/libadwaita -Dm644 ../COPYING
-cd ../..
-rm -r libadwaita-1.1.0
-# gtksourceview5.
-tar -xf gtksourceview-5.4.0.tar.xz
-cd gtksourceview-5.4.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gtksourceview -Dm644 ../COPYING
-cd ../..
-rm -r gtksourceview-5.4.0
-# GNOME Text Editor
-tar -xf gnome-text-editor-42.0.tar.xz
-cd gnome-text-editor-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-text-editor -Dm644 ../COPYING
-cd ../..
-rm -r gnome-text-editor-42.0
-# GNOME Calculator.
-tar -xf gnome-calculator-42.0.tar.xz
-cd gnome-calculator-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-calculator -Dm644 ../COPYING
-cd ../..
-rm -r gnome-calculator-42.0
-# libgtop.
-tar -xf libgtop-2.40.0.tar.xz
-cd libgtop-2.40.0
-./configure --prefix=/usr --disable-static
-make
-make install
-install -t /usr/share/licenses/libgtop -Dm644 COPYING
-cd ..
-rm -r libgtop-2.40.0
-# GNOME System Monitor.
-tar -xf gnome-system-monitor-42.0.tar.xz
-cd gnome-system-monitor-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-system-monitor -Dm644 ../COPYING
-cd ../..
-rm -r gnome-system-monitor-42.0
-# totem-pl-parser.
-tar -xf totem-pl-parser-3.26.6.tar.xz
-cd totem-pl-parser-3.26.6
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/totem-pl-parser -Dm644 ../COPYING.LIB
-cd ../..
-rm -r totem-pl-parser-3.26.6
-# GNOME Desktop.
-tar -xf gnome-desktop-42.0.tar.xz
-cd gnome-desktop-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dgnome_distributor="MassOS" ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-desktop -Dm644 ../COPYING
-cd ../..
-rm -r gnome-desktop-42.0
-# clutter-gst.
-tar -xf clutter-gst-3.0.27.tar.xz
-cd clutter-gst-3.0.27
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/clutter-gst -Dm644 COPYING
-cd ..
-rm -r clutter-gst-3.0.27
-# grilo.
-tar -xf grilo-0.3.14.tar.xz
-cd grilo-0.3.14
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/grilo -Dm644 ../COPYING
-cd ../..
-rm -r grilo-0.3.14
-# totem.
-tar -xf totem-42.0.tar.xz
-cd totem-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/totem -Dm644 ../COPYING
-cd ../..
-rm -r totem-42.0
-# file-roller
-tar -xf file-roller-3.42.0.tar.xz
-cd file-roller-3.42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dpackagekit=false ..
-ninja
-ninja install
-install -t /usr/share/licenses/file-roller -Dm644 ../COPYING
-cd ../..
-rm -r file-roller-3.42.0
-# gnome-autoar.
-tar -xf gnome-autoar-0.4.3.tar.xz
-cd gnome-autoar-0.4.3
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dvapi=true -Dtests=true ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-autoar -Dm644 ../COPYING
-cd ../..
-rm -r gnome-autoar-0.4.3
-# nautilus.
-tar -xf nautilus-42.0.tar.xz
-cd nautilus-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dselinux=false -Dpackagekit=false ..
-ninja
-ninja install
-install -t /usr/share/licenses/nautilus -Dm644 ../COPYING
-cd ../..
-rm -r nautilus-42.0
-# gsound.
-tar -xf gsound-1.0.3.tar.xz
-cd gsound-1.0.3
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gsound -Dm644 ../COPYING
-cd ../..
-rm -r gsound-1.0.3
-# gnome-bluetooth.
-tar -xf gnome-bluetooth-42.0.tar.xz
-cd gnome-bluetooth-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-bluetooth -Dm644 ../COPYING
-cd ../..
-rm -r gnome-bluetooth-42.0
-# gnome-session.
-tar -xf gnome-session-42.0.tar.xz
-cd gnome-session-42.0
-sed 's@/bin/sh@/bin/sh -l@' -i gnome-session/gnome-session.in
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-session -Dm644 ../COPYING
-mv -v /usr/share/doc/gnome-session{,-42.0}
-cd ../..
-rm -r gnome-session-42.0
-rm gnome-session-42.0.tar.xz
-# dconf.
-tar -xf dconf-0.40.0.tar.xz
-cd dconf-0.40.0
-mkdir build && cd build
-meson --prefix=/usr --buildtype=release
-ninja
-ninja install
-install -t /usr/share/licenses/dconf -Dm644 ../COPYING
-cd ../..
-rm -r dconf-0.40.0
-# evolution-data-server.
-tar -xf evolution-data-server-3.44.0.tar.xz
-cd evolution-data-server-3.44.0
-cmake -DCMAKE_INSTALL_PREFIX=/usr   \
-      -DSYSCONF_INSTALL_DIR=/etc    \
-      -DENABLE_VALA_BINDINGS=ON     \
-      -DENABLE_INSTALLED_TESTS=ON   \
-      -DENABLE_GOOGLE=ON            \
-      -DWITH_OPENLDAP=OFF           \
-      -DWITH_KRB5=OFF               \
-      -DENABLE_INTROSPECTION=ON     \
-      -DWITH_LIBDB=OFF              \
-      -DENABLE_WEATHER=OFF
-make
-make install
-install -t /usr/share/licenses/evolution-data-server -Dm644 COPYING
-cd ..
-rm -r evolution-data-server-3.44.0
-# geocode-glib.
-tar -xf geocode-glib-3.26.2.tar.xz
-cd geocode-glib-3.26.2
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING.LIB
-cd ../..
-rm -r geocode-glib-3.26.2
-# libgweather.
-pip install typogrify
-pip install toml
-tar -xf libgweather-4.0.0.tar.xz
-cd libgweather-4.0.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja 
-ninja install
-install -t /usr/share/licenses/libgweather -Dm644 ../COPYING
-cd ../..
-rm -r libgweather-4.0.0
-# gnome-settings-daemon.
-tar -xf gnome-settings-daemon-42.1.tar.xz
-cd gnome-settings-daemon-42.1
-rm -fv /usr/lib/systemd/user/gsd-*
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dsystemd=true ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-settings-daemon -Dm644 ../COPYING
-cd ../..
-rm -r gnome-settings-daemon-42.1
-# pipewire.
-tar -xf pipewire-0.3.48.tar.gz
-cd pipewire-0.3.48
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
-cd ../..
-rm -r pipewire-0.3.48
-# mutter.
-tar -xf mutter-42.0.tar.xz
-cd mutter-42.0
-sed -i '/libmutter_dep = declare_dependency(/a sources: mutter_built_sources,' src/meson.build
-wget https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/xorg-server/trunk/xvfb-run
-install -m755 xvfb-run /usr/bin/xvfb-run
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/mutter -Dm644 ../COPYING
-cd ../..
-rm -r mutter-42.0
-# gjs.
-tar -xf gjs-1.72.0.tar.xz
-cd gjs-1.72.0
-mkdir gjs-build; cd gjs-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gjs -Dm644 ../COPYING
-ln -sfv gjs-console /usr/bin/gjs
-cd ../..
-rm -r gjs-1.72.0
-# iBus.
-tar -xf ibus-1.5.26.tar.gz
-cd ibus-1.5.26
-sed -i 's@/desktop/ibus@/org/freedesktop/ibus@g' \
-    data/dconf/org.freedesktop.ibus.gschema.xml
-./configure --prefix=/usr --sysconfdir=/etc --disable-unicode-dict --disable-emoji-dict
-rm -f tools/main.c
-make
-make install
-install -t /usr/share/licenses/ibus -Dm644 ../COPYING
-gzip -dfv /usr/share/man/man{{1,5}/ibus*.gz,5/00-upstream-settings.5.gz}
-cd ..
-rm -r ibus-1.5.26
-# gnome-shell.
-tar -xf gnome-shell-42.0.tar.xz
-cd gnome-shell-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-shell -Dm644 ../COPYING
-cd ../..
-rm -r gnome-shell-42.0
-# gnome-terminal
-tar -xf gnome-terminal-3.43.90.tar.xz
-cd gnome-terminal-3.43.90
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dsearch_provider=true ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-terminal -Dm644 ../COPYING
-cd ../..
-rm -r gnome-terminal-3.43.90
-# gnome-tweaks.
-tar -xf gnome-tweaks-42.beta.tar.xz
-cd gnome-tweaks-42.beta
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-tweaks -Dm644 ../LICENSES
-cd ../..
-rm -r gnome-tweaks-42.beta
-# colord-gtk
-tar -xf colord-gtk-0.3.0.tar.xz
-cd colord-gtk-0.3.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dgtk2=true -Ddocs=false -Dman=false -Dvapi=true ..     
-ninja
-ninja install
-install -t /usr/share/licenses/colord-gtk -Dm644 ../COPYING
-cd ../..
-rm -r colord-gtk-0.3.0
-# gnome-control-center
-tar -xf gnome-control-center-42.0.tar.xz
-cd gnome-control-center-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dibus=true ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-control-center -Dm644 ../COPYING
-cd ../..
-rm -r gnome-control-center-42.0
-# gnome-characters.
-tar -xf gnome-characters-42.0.tar.xz
-cd gnome-characters-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-characters -Dm644 ../COPYING ../COPYINGv2
-cd ../..
-rm -r gnome-characters-42.0
-# gnome-calendar.
-tar -xf gnome-calendar-42.0.tar.xz
-cd gnome-calendar-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-calendar -Dm644 ../COPYING
-cd ../..
-rm -r gnome-calendar-42.0
-# exempi.
-tar -xf exempi-2.1.1.tar.bz2
-cd exempi-2.1.1
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/exempi -Dm644 ../COPYING
-cd ..
-rm -r exempi-2.1.1
-# eog (Eye of GNOME).
-tar -xf eog-42.0.tar.xz
-cd eog-42.0
-sed "/dependency/s@'libportal'@'libportal-gtk3'@" -i meson.build
-sed "/portal-gtk3/s@portal/@portal-gtk3/@" -i src/eog-util.c
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
-ninja
-ninja install
-install -t /usr/share/licenses/eog -Dm644 ../COPYING
-update-desktop-database
-cd ../..
-rm -r eog-42.0
-# jq.
-tar -xf jq-1.6.tar.gz
-cd jq-1.6
-autoreconf -i
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/jq -Dm644 COPYING
-cd ..
-rm -r jq-1.6
-# chrome-gnome-shell.
-tar -xf chrome-gnome-shell-10.1.tar.xz
-cd chrome-gnome-shell-10.1
-mkdir build; cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_EXTENSION=OFF ../
-make install
-install -t /usr/share/licenses/chrome-gnome-shell -Dm644 ../LICENSE
-cd ../..
-rm -r chrome-gnome-shell-10.1
-# gnome-themes-extra.
-tar -xf gnome-themes-extra-3.28.tar.xz 
-cd gnome-themes-extra-3.28
-./configure --prefix=/usr
-make
-make install
-cd ..
-rm -r gnome-themes-extra-3.28
-# Cantarell.
-unzip Cantarell.zip
-mv cantarell/ /usr/share/fonts/
+rm -rf mugshot-0.4.3
 # Evince.
 tar -xf evince-42.1.tar.xz
 cd evince-42.1
 mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -r evince-42.1
+rm -rf evince-42.1
 # Baobab.
-tar -xf baobab-42.0.tar.xz
-cd baobab-42.0
-mkdir build; cd build
+tar -xf baobab-41.0.tar.xz
+cd baobab-41.0
+mkdir baobab-build; cd baobab-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
-rm -rf baobab-42.0
+rm -rf baobab-41.0
 # libglib-testing.
 tar -xf libglib-testing-0.1.1.tar.bz2
 cd libglib-testing-0.1.1
@@ -6776,41 +6687,67 @@ install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
 # GNOME Software.
-tar -xf gnome-software-42.0.tar.xz
-cd gnome-software-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false -Dgsettings_desktop_schemas=enabled -Dman=true -Dpolkit=true -Dflatpak=true -Dsoup2=true ..
+tar -xf gnome-software-41.5.tar.xz
+cd gnome-software-41.5
+mkdir gnome-software-build; cd gnome-software-build
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
-rm -r gnome-software-42.0
-# GNOME Tour.
-tar -xf gnome-tour-42.0.tar.xz
-cd gnome-tour-42.0
-mkdir build; cd build
+rm -rf gnome-software-41.5
+# MassOS Welcome (modified version of Gnome Tour).
+tar -xf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a.tar.gz
+cd massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
+mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gnome-tour -Dm644 ../LICENSE.md
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
+install -m755 target/release/gnome-tour /usr/bin/massos-welcome
+cat > /usr/bin/firstlogin << "END"
+#!/bin/sh
+/usr/bin/massos-welcome
+rm -f ~/.config/autostart/firstlogin.desktop
+END
+chmod 755 /usr/bin/firstlogin
+install -dm755 /etc/skel/.config/autostart
+cat > /etc/skel/.config/autostart/firstlogin.desktop << "END"
+[Desktop Entry]
+Type=Application
+Name=First Login Welcome Program
+Exec=/usr/bin/firstlogin
+END
+install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
 cd ../..
-rm -r gnome-tour-42.0
-# gdm.
-groupadd -g 21 gdm &&
-useradd -c "GDM Daemon Owner" -d /var/lib/gdm -u 21 \
-        -g gdm -s /bin/false gdm &&
-passwd -ql gdm
-tar -xf gdm-42.0.tar.xz
-cd gdm-42.0
-mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dplymouth=enabled -Dgdm-xsession=true -Ddefault-pam-config=lfs ..
-ninja
-ninja install
-install -t /usr/share/licenses/gdm -Dm644 ../COPYING
-systemctl enable gdm
-cd ../..
-rm -r gdm-42.0
-rm gdm-42.0.tar.xz
+rm -rf massos-welcome-7b613e2fd58e3b6be495ddc6e59a67eeeef2c44a
+# lightdm.
+tar -xf lightdm-1.30.0.tar.xz
+cd lightdm-1.30.0
+groupadd -g 65 lightdm
+useradd -c "Lightdm Daemon" -d /var/lib/lightdm -u 65 -g lightdm -s /bin/false lightdm
+./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --localstatedir=/var --sbindir=/usr/bin --sysconfdir=/etc --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
+make
+make install
+cp tests/src/lightdm-session /usr/bin
+sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session
+rm -rf /etc/init
+install -dm755 -o lightdm -g lightdm /var/lib/lightdm
+install -dm755 -o lightdm -g lightdm /var/lib/lightdm-data
+install -dm755 -o lightdm -g lightdm /var/cache/lightdm
+install -dm770 -o lightdm -g lightdm /var/log/lightdm
+install -t /usr/share/licenses/lightdm -Dm644 COPYING.GPL3 COPYING.LGPL2 COPYING.LGPL3
+cd ..
+rm -rf lightdm-1.30.0
+# lightdm-gtk-greeter.
+tar -xf lightdm-gtk-greeter-2.0.8.tar.gz
+cd lightdm-gtk-greeter-2.0.8
+./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode
+make
+make install
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Contemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
+install -t /usr/share/licenses/lightdm-gtk-greeter -Dm644 COPYING
+systemctl enable lightdm
+cd ..
+rm -rf lightdm-gtk-greeter-2.0.8
 # Plymouth.
 tar -xf plymouth-0.9.5.tar.gz
 cd plymouth-0.9.5
@@ -6903,9 +6840,6 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
-# AppIndicators GNOME Extension.
-mkdir /usr/share/gnome-shell/extensions
-unzip appindicatorsupport\@rgcjonas.gmail.com.zip -d /usr/share/gnome-shell/extensions/
 # Firefox.
 tar --no-same-owner -xf firefox-98.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
@@ -7032,7 +6966,9 @@ unset KVER
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
 # MassOS Backgrounds.
-install -Dm644 backgrounds/* /usr/share/backgrounds/gnome
+install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
+mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
+ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png
 # Install Neofetch.
@@ -7077,51 +7013,6 @@ find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 find /usr/lib /usr/libexec -name \*.la -delete
 # Remove any temporary files.
 rm -rf /tmp/*
-# GSettings overrides for default MassOS GNOME experience.
-tee -a /usr/share/glib-2.0/schemas/10_gnome-shell.gschema.override << END
-[org.gnome.shell]
-favorite-apps=['firefox.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.TextEditor.desktop', 'org.gnome.Characters.desktop', 'org.gnome.Software.desktop']
-enabled-extensions=['appindicatorsupport@rgcjonas.gmail.com']
-
-[org.gnome.desktop.interface]
-color-scheme='prefer-dark'
-cursor-theme='Adwaita'
-document-font-name='Cantarell 11'
-font-name='Cantarell 11'
-monospace-font-name='Noto Sans Mono Regular 11'
-icon-theme='Adwaita'
-gtk-theme='Adwaita-dark'
-
-[org.gnome.desktop.wm.preferences]
-button-layout='appmenu:minimize,maximize,close'
-titlebar-font='Cantarell Bold 11'
-
-[org.gnome.terminal.legacy]
-theme-variant='dark'
-END
-# Add MassOS Extra Small logo to GDM.
-tee -a /etc/dconf/profile/gdm << END
-user-db:user
-system-db:gdm
-file-db:/usr/share/gdm/greeter-dconf-defaults
-END
-
-mkdir /etc/dconf/db/gdm.d/
-
-tee -a /etc/dconf/db/gdm.d/01-logo << END
-[org/gnome/login-screen]
-logo='/usr/share/massos/massos-logo-extrasmall.png'
-END
-# Fix GTK4 text rendering.
-mkdir /etc/gtk-4.0
-tee -a /etc/gtk-4.0/settings.ini << END
-[Settings]
-gtk-hint-font-metrics=true
-END
-# Update databases and compile schemas to apply changes.
-update-desktop-database
-dconf update
-glib-compile-schemas /usr/share/glib-2.0/schemas
 # As a finishing touch, run ldconfig.
 ldconfig
 # For massos-upgrade.

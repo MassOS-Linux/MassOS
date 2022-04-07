@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=First Login Welcome Program
+Exec=/usr/bin/firstlogin
