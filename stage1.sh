@@ -271,20 +271,15 @@ cd ../..
 rm -rf gcc-11.2.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
-cp utils/{adduser,mass-chroot,mkinitramfs,mklocales,set-default-tar} "$MASSOS"/usr/sbin
-cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} "$MASSOS"/etc
-cp utils/{un,}zman "$MASSOS"/usr/bin
-cp utils/{busybox,kernel}-config "$SRC"
-cp utils/massos-release.c "$SRC"
-cp utils/massos-logo.png "$SRC"
-cp utils/massos-logo-small.png "$SRC"
-cp utils/massos-logo-extrasmall.png "$SRC"
-cp utils/massos-logo-notext.png "$SRC"
+cp -r utils/etc/* "$MASSOS"/etc
+cp utils/massos-release "$MASSOS"/etc
+cp utils/programs/{adduser,mass-chroot,mkinitramfs,mklocales,set-default-tar} "$MASSOS"/usr/sbin
+cp utils/programs/{un,}zman "$MASSOS"/usr/bin
+cp utils/programs/massos-release.c "$SRC"
+cp -r utils/build-configs/* "$SRC"
+cp -r logo/* "$SRC"
 cp utils/builtins "$SRC"
 cp -r utils/extra-package-licenses "$SRC"
-cp -r utils/skel "$MASSOS"/etc
-mkdir -p "$MASSOS"/etc/profile.d
-cp utils/*.sh "$MASSOS"/etc/profile.d
 cp -r backgrounds "$SRC"
 cp LICENSE "$SRC"
 cp build-system.sh "$SRC"
