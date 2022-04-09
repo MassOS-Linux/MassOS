@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.17.1.tar.xz
-cd linux-5.17.1
+tar -xf linux-5.17.2.tar.xz
+cd linux-5.17.2
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.17.1
+rm -rf linux-5.17.2
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -175,7 +175,6 @@ rm -rf findutils-4.9.0
 # Gawk.
 tar -xf gawk-5.1.0.tar.xz
 cd gawk-5.1.0
-sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(./config.guess)
 make
 make DESTDIR="$MASSOS" install
@@ -190,13 +189,13 @@ make DESTDIR="$MASSOS" install
 cd ..
 rm -rf grep-3.7
 # Gzip.
-tar -xf gzip-1.11.tar.xz
-cd gzip-1.11
+tar -xf gzip-1.12.tar.xz
+cd gzip-1.12
 ./configure --prefix=/usr --host=$MASSOS_TARGET
 make
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf gzip-1.11
+rm -rf gzip-1.12
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3

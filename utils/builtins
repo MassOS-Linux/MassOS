@@ -170,9 +170,12 @@ gvfs
 gz2xz
 gzip
 harfbuzz
+help2man
+hdparm
 hicolor-icon-theme
 hplip
 htop
+hwdata
 iana-etc
 iceauth
 icon-naming-utils
@@ -351,9 +354,11 @@ lightdm
 lightdm-gtk-greeter
 linux
 linux-pam
+lld
 llvm
 lm-sensors
 lmdb
+locale-gettext
 lsb-tools
 luit
 lvm2
