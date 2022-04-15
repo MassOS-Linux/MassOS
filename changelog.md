@@ -1,6 +1,6 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
-# Current Development
+# MassOS 2022.04.2
 Changes:
 
 - Added `lsof` utility.
@@ -10,6 +10,7 @@ Changes:
 - Removed FFmpeg 5.0 workaround for Firefox (Firefox 99+ supports FFmpeg 5.0).
 - GTK-Doc documentation is no longer removed.
 - Added LLD as part of the LLVM/Clang toolchain.
+- Added Xfburn optical disc burning application.
 
 Upgraded software:
 
@@ -17,49 +18,65 @@ Upgraded software:
 - AppArmor: `3.0.3 --> 3.0.4`
 - Audit: `3.0.7 --> 3.0.8`
 - bc: `5.2.2 --> 5.2.3`
-- CMake: `3.23.0-rc5 --> 3.23.0`
-- cups-filters: `1.28.13 --> 1.28.14`
+- CMake: `3.23.0-rc5 --> 3.23.1`
+- cups-filters: `1.28.13 --> 1.28.15`
 - Evince: `41.4 --> 42.1`
 - Expat: `2.4.7 --> 2.4.8`
 - fcron: `3.2.1 --> 3.3.1`
-- Firefox: `98.0.2 --> 99.0`
+- Firefox: `98.0.2 --> 99.0.1`
 - Fontconfig: `2.13.96 --> 2.14.0`
 - FreeType: `2.11.1 --> 2.12.0`
 - Gedit: `41.0 --> 42.0`
 - Ghostscript: `9.55.0 --> 9.56.1`
+- Git: `2.35.1 --> 2.35.3`
+- glslang: `11.8.0 --> 11.9.0`
 - gnome-online-accounts: `3.40.1 --> 3.44.0`
 - GNUPG: `2.2.34 --> 2.3.4`
+- gsettings-desktop-schemas: `41.0 --> 42.0`
 - GVFS: `1.48.1 --> 1.50.0`
 - Gzip: `1.11 --> 1.12`
 - HarfBuzz: `4.1.0 --> 4.2.0`
+- iana-etc: `20220325 --> 20220401`
 - iceauth: `1.0.8 --> 1.0.9`
+- ICU: `70.1 --> 71.1`
 - Jinja2: `3.0.3 --> 3.1.1`
 - JS91: `91.7.1 --> 91.8.0`
 - less: `590 --> 600`
+- libaio: `0.3.112 --> 0.3.113`
 - libarchive: `3.6.0 --> 3.6.1`
+- libcap: `2.63 --> 2.64`
 - libgpg-error: `1.44 --> 1.45`
 - libnma: `1.8.36 --> 1.8.38`
 - libsndfile: `1.0.31 --> 1.1.0`
 - libstemmer: `2.1.0 --> 2.2.0`
+- libusb: `1.0.25 --> 1.0.26`
 - libX11: `1.7.3 --> 1.7.5`
 - libXcursor: `1.2.0 --> 1.2.1`
 - libxfce4ui: `4.17.4 --> 4.17.6`
-- Linux Kernel: `5.17.1 --> 5.17.2`
-- LLVM/Clang/LLD: `13.0.1 --> 14.0.0`
+- Linux Kernel: `5.17.1 --> 5.17.3`
+- LLVM/Clang/LLD: `13.0.1 --> 14.0.1`
 - Mesa: `22.0.0 --> 22.0.1`
 - mkfontscale: `1.2.1 --> 1.2.2`
 - mobile-broadband-provider-info: `20210805 --> 20220315`
 - Moreutils: `0.66 --> 0.67`
+- mtools: `4.0.38 --> 4.0.39`
+- MuPDF: `1.18.0 --> 1.19.1`
 - NSS: `3.76 --> 3.77`
 - OpenSSH: `8.9p1 --> 9.0p1`
 - Procps-NG: `3.3.17 --> 4.0.0`
+- PyParsing: `3.0.6 --> 3.0.7`
 - setxkbmap: `1.3.2 --> 1.3.3`
+- SPIRV-Headers: `1.3.204.0 --> 1.3.204.1`
+- SPIRV-Tools: `2022.1 --> 2022.2`
+- Systemd: `250.4 --> 251-rc1`
 - Thunar: `4.17.7 --> 4.17.8`
 - Vim: `8.2.4626 --> 8.2.4700`
+- VTE: `0.67.90 --> 0.68.0`
 - Vulkan-Headers: `1.3.208 --> 1.3.211`
 - Vulkan-Loader: `1.3.208 --> 1.3.211`
 - whois: `5.5.12 --> 5.5.13`
 - xdg-desktop-portal: `1.14.1 --> 1.14.2`
+- xdpyinfo: `1.3.2 --> 1.3.3`
 - xfce4-terminal: `0.9.1 --> 1.0.0`
 - xfsprogs: `5.14.2 --> 5.15.0`
 - Xwayland: `21.1.4 --> 22.1.1`

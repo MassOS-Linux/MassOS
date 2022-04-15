@@ -60,6 +60,7 @@ cups-filters
 curl
 cyrus-sasl
 cython
+dav1d
 db
 dbus
 dbus-glib
@@ -584,6 +585,7 @@ xf86-video-fbdev
 xf86-video-intel
 xf86-video-nouveau
 xf86-video-vmware
+xfburn
 xfce4-appfinder
 xfce4-notifyd
 xfce4-panel
@@ -633,6 +635,7 @@ xvinfo
 xwd
 xwininfo
 xwud
+xxhash
 xz
 zip
 zipp
