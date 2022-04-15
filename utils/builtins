@@ -60,6 +60,7 @@ cups-filters
 curl
 cyrus-sasl
 cython
+dav1d
 db
 dbus
 dbus-glib
@@ -170,9 +171,12 @@ gvfs
 gz2xz
 gzip
 harfbuzz
+help2man
+hdparm
 hicolor-icon-theme
 hplip
 htop
+hwdata
 iana-etc
 iceauth
 icon-naming-utils
@@ -194,6 +198,7 @@ js91
 json
 json-c
 json-glib
+jsoncpp
 kbd
 keybinder
 kmod
@@ -286,6 +291,7 @@ libsigsegv
 libsm
 libsndfile
 libsoup
+libsoup3
 libssh2
 libstemmer
 libtasn1
@@ -295,6 +301,7 @@ libtirpc
 libtool
 libunistring
 libunwind
+liburing
 libusb
 libusbmuxd
 libuv
@@ -348,9 +355,11 @@ lightdm
 lightdm-gtk-greeter
 linux
 linux-pam
+lld
 llvm
 lm-sensors
 lmdb
+locale-gettext
 lsb-tools
 luit
 lvm2
@@ -411,6 +420,8 @@ openssh
 openssl
 openvpn
 opus
+orage
+orc
 os-prober
 p11-kit
 p7zip
@@ -458,6 +469,7 @@ qrencode
 readline
 requests
 rest
+rhash
 rpcsvc-proto
 rrdtool
 rsync
@@ -524,6 +536,7 @@ util-macros
 vala
 vim
 vitetris
+vmaf
 volume-key
 vte
 vulkan-headers
@@ -572,6 +585,7 @@ xf86-video-fbdev
 xf86-video-intel
 xf86-video-nouveau
 xf86-video-vmware
+xfburn
 xfce4-appfinder
 xfce4-notifyd
 xfce4-panel
@@ -584,6 +598,7 @@ xfce4-settings
 xfce4-taskmanager
 xfce4-terminal
 xfconf
+xfdashboard
 xfdesktop
 xfsprogs
 xfwm4
@@ -620,6 +635,7 @@ xvinfo
 xwd
 xwininfo
 xwud
+xxhash
 xz
 zip
 zipp

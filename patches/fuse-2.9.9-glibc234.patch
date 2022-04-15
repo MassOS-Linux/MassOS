@@ -1,7 +1,25 @@
-diff -ruN old/configure.ac new/configure.ac
---- old/configure.ac	2019-01-04 13:37:03.000000000 +0000
-+++ new/configure.ac	2021-10-26 13:09:18.524659543 +0100
-@@ -55,6 +55,7 @@
+From ae2352bca9b4e607538412da0cc2a9625cd8b692 Mon Sep 17 00:00:00 2001
+From: Sam James <sam@gentoo.org>
+Date: Sat, 24 Jul 2021 22:02:45 +0100
+Subject: [PATCH] util/ulockmgr_server.c: conditionally define closefrom (fix
+ glibc-2.34+)
+
+closefrom(3) has joined us in glibc-land from *BSD and Solaris. Since
+it's available in glibc 2.34+, we want to detect it and only define our
+fallback if the libc doesn't provide it.
+
+Bug: https://bugs.gentoo.org/803923
+Signed-off-by: Sam James <sam@gentoo.org>
+---
+ configure.ac           | 1 +
+ util/ulockmgr_server.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
+
+diff --git a/configure.ac b/configure.ac
+index 9946a0efa..a2d481aa9 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -55,6 +55,7 @@ fi
  
  AC_CHECK_FUNCS([fork setxattr fdatasync splice vmsplice utimensat])
  AC_CHECK_FUNCS([posix_fallocate])
@@ -9,20 +27,22 @@ diff -ruN old/configure.ac new/configure.ac
  AC_CHECK_MEMBERS([struct stat.st_atim])
  AC_CHECK_MEMBERS([struct stat.st_atimespec])
  
-diff -ruN old/util/ulockmgr_server.c new/util/ulockmgr_server.c
---- old/util/ulockmgr_server.c	2019-01-04 13:33:33.000000000 +0000
-+++ new/util/ulockmgr_server.c	2021-10-26 13:09:18.541325848 +0100
-@@ -22,6 +22,9 @@
+diff --git a/util/ulockmgr_server.c b/util/ulockmgr_server.c
+index 273c7d923..a04dac5c6 100644
+--- a/util/ulockmgr_server.c
++++ b/util/ulockmgr_server.c
+@@ -22,6 +22,10 @@
  #include <sys/socket.h>
  #include <sys/wait.h>
  
 +#ifdef HAVE_CONFIG_H
-+#include "config.h"
++	#include "config.h"
 +#endif
++
  struct message {
  	unsigned intr : 1;
  	unsigned nofd : 1;
-@@ -124,6 +127,7 @@
+@@ -124,6 +128,7 @@ static int receive_message(int sock, void *buf, size_t buflen, int *fdp,
  	return res;
  }
  
@@ -30,7 +50,7 @@ diff -ruN old/util/ulockmgr_server.c new/util/ulockmgr_server.c
  static int closefrom(int minfd)
  {
  	DIR *dir = opendir("/proc/self/fd");
-@@ -141,6 +145,7 @@
+@@ -141,6 +146,7 @@ static int closefrom(int minfd)
  	}
  	return 0;
  }

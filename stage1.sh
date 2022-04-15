@@ -65,14 +65,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-11.2.0
 # Linux API Headers.
-tar -xf linux-5.17.1.tar.xz
-cd linux-5.17.1
+tar -xf linux-5.17.3.tar.xz
+cd linux-5.17.3
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.17.1
+rm -rf linux-5.17.3
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -175,7 +175,6 @@ rm -rf findutils-4.9.0
 # Gawk.
 tar -xf gawk-5.1.0.tar.xz
 cd gawk-5.1.0
-sed -i 's/extras//' Makefile.in
 ./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(./config.guess)
 make
 make DESTDIR="$MASSOS" install
@@ -190,13 +189,13 @@ make DESTDIR="$MASSOS" install
 cd ..
 rm -rf grep-3.7
 # Gzip.
-tar -xf gzip-1.11.tar.xz
-cd gzip-1.11
+tar -xf gzip-1.12.tar.xz
+cd gzip-1.12
 ./configure --prefix=/usr --host=$MASSOS_TARGET
 make
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf gzip-1.11
+rm -rf gzip-1.12
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3
@@ -271,20 +270,15 @@ cd ../..
 rm -rf gcc-11.2.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
-cp utils/{adduser,mass-chroot,mkinitramfs,mklocales,set-default-tar} "$MASSOS"/usr/sbin
-cp utils/{bashrc,dircolors,fstab,group,hostname,hosts,inputrc,locale.conf,locales,lsb-release,massos-release,os-release,passwd,profile,resolv.conf,shells,vconsole.conf} "$MASSOS"/etc
-cp utils/{un,}zman "$MASSOS"/usr/bin
-cp utils/{busybox,kernel}-config "$SRC"
-cp utils/massos-release.c "$SRC"
-cp utils/massos-logo.png "$SRC"
-cp utils/massos-logo-small.png "$SRC"
-cp utils/massos-logo-extrasmall.png "$SRC"
-cp utils/massos-logo-notext.png "$SRC"
+cp -r utils/etc/* "$MASSOS"/etc
+cp utils/massos-release "$MASSOS"/etc
+cp utils/programs/{adduser,mass-chroot,mkinitramfs,mklocales,set-default-tar} "$MASSOS"/usr/sbin
+cp utils/programs/{un,}zman "$MASSOS"/usr/bin
+cp utils/programs/massos-release.c "$SRC"
+cp -r utils/build-configs/* "$SRC"
+cp -r logo/* "$SRC"
 cp utils/builtins "$SRC"
 cp -r utils/extra-package-licenses "$SRC"
-cp -r utils/skel "$MASSOS"/etc
-mkdir -p "$MASSOS"/etc/profile.d
-cp utils/*.sh "$MASSOS"/etc/profile.d
 cp -r backgrounds "$SRC"
 cp LICENSE "$SRC"
 cp build-system.sh "$SRC"

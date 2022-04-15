@@ -25,6 +25,7 @@ echo "Entering chroot environment in $chrootdir..."
 
 mount --bind /dev "$chrootdir"/dev
 mount --bind /dev/pts "$chrootdir"/dev/pts
+mount -t tmpfs devshm "$chrootdir"/dev/shm
 mount -t proc proc "$chrootdir"/proc
 mount -t sysfs sysfs "$chrootdir"/sys
 mount -t tmpfs tmpfs "$chrootdir"/run
@@ -40,6 +41,7 @@ echo "Exiting chroot environment..."
 
 sync
 umount -R "$chrootdir"/dev/pts
+umount -R "$chrootdir"/dev/shm
 umount -R "$chrootdir"/dev
 umount -R "$chrootdir"/proc
 umount -R "$chrootdir"/sys
