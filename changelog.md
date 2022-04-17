@@ -1,5 +1,30 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
+# Current Development
+Changes:
+
+- Development has only just started, check back soon.
+
+Upgraded software:
+
+- AppStream: `0.15.2 --> 0.15.3`
+- Boost: `1.78.0 --> 1.79.0`
+- dialog: `1.3-20220117 --> 1.3-20220414`
+- Enchant: `2.3.2 --> 2.3.3`
+- Evince: `42.1 --> 42.2`
+- FFmpeg: `5.0 --> 5.0.1`
+- GLib: `2.72.0 --> 2.72.1`
+- gptfdisk: `1.0.8 --> 1.0.9`
+- libnl: `3.5.0 --> 3.6.0`
+- JACK2: `1.9.20 --> 1.9.21`
+- JSON-C: `0.15 --> 0.16`
+- Pango: `1.50.6 --> 1.50.7`
+- PCRE2: `10.39 --> 10.40`
+- rsync: `3.2.3 --> 3.2.4`
+- Ruby: `3.1.1 --> 3.1.2`
+- xdg-desktop-portal: `1.14.2 --> 1.14.3`
+- xfce4-panel: `4.16.3 --> 4.16.4`
+
 # MassOS 2022.04.2
 Changes:
 

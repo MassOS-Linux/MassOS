@@ -5,7 +5,7 @@ https://archive.massos.org/sources/acpi-1.7.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.6.1.tar.bz2
 https://launchpad.net/apparmor/3.0/3.0.4/+download/apparmor-3.0.4.tar.gz
-https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.2.tar.xz
+https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.3.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_7_18.tar.gz
 https://archive.massos.org/sources/arc-theme-20220102.tar.xz
 https://files.pythonhosted.org/packages/source/a/asciidoc/asciidoc-10.1.4.tar.gz
@@ -32,7 +32,7 @@ https://mirror.lyrahosting.com/gnu/binutils/binutils-2.38.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/blueman-project/blueman/releases/download/2.2.2/blueman-2.2.2.tar.xz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.64.tar.xz
-https://boostorg.jfrog.io/artifactory/main/release/1.78.0/source/boost_1_78_0.tar.bz2
+https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
 https://github.com/google/brotli/archive/v1.0.9/brotli-1.0.9.tar.gz
 https://archive.massos.org/sources/bsd-games-3.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.16.2.tar.xz
@@ -72,7 +72,7 @@ https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
 https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
 https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz
 https://ftp.isc.org/isc/dhcp/4.4.3/dhcp-4.4.3.tar.gz
-https://invisible-mirror.net/archives/dialog/dialog-1.3-20220117.tgz
+https://invisible-mirror.net/archives/dialog/dialog-1.3-20220414.tgz
 https://mirror.lyrahosting.com/gnu/diffutils/diffutils-3.8.tar.xz
 https://github.com/microsoft/DirectX-Headers/archive/v1.600.10/DirectX-Headers-1.600.10.tar.gz
 https://github.com/python-distro/distro/archive/v1.6.0/distro-1.6.0.tar.gz
@@ -100,8 +100,8 @@ http://mirror.lyrahosting.com/gnu/ed/ed-1.18.tar.lz
 https://deb.debian.org/debian/pool/main/e/efibootmgr/efibootmgr_17.orig.tar.gz
 https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2
 https://sourceware.org/ftp/elfutils/0.186/elfutils-0.186.tar.bz2
-https://github.com/AbiWord/enchant/releases/download/v2.3.2/enchant-2.3.2.tar.gz
-https://ftp.acc.umu.se/pub/gnome/sources/evince/42/evince-42.1.tar.xz
+https://github.com/AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz
+https://ftp.acc.umu.se/pub/gnome/sources/evince/42/evince-42.2.tar.xz
 https://deb.debian.org/debian/pool/main/e/exfatprogs/exfatprogs_1.1.3.orig.tar.xz
 https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz
 https://archive.fr.xfce.org/src/xfce/exo/4.17/exo-4.17.1.tar.bz2
@@ -109,7 +109,7 @@ https://github.com/libexpat/libexpat/releases/download/R_2_4_8/expat-2.4.8.tar.x
 https://github.com/knik0/faad2/archive/2_10_0/faad2-2_10_0.tar.gz
 https://deb.debian.org/debian/pool/main/f/fakeroot/fakeroot_1.28.orig.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_3_1/fcron-ver3_3_1.tar.gz
-https://ffmpeg.org/releases/ffmpeg-5.0.tar.xz
+https://ffmpeg.org/releases/ffmpeg-5.0.1.tar.xz
 https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.9.0.tar.xz
@@ -141,7 +141,7 @@ https://archive.massos.org/sources/ghostscript-fonts-std-8.11.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://archive.massos.org/sources/giflib-5.2.1.tar.gz
 https://cdn.kernel.org/pub/software/scm/git/git-2.35.3.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.35.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.2.tar.xz
@@ -159,7 +159,7 @@ https://gitlab.gnome.org/GNOME/gparted/-/archive/GPARTED_1_4_0/gparted-GPARTED_1
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.1.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.17.1.tar.bz2
 https://archive.massos.org/precompiled/gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
-https://archive.massos.org/sources/gptfdisk-1.0.8.tar.gz
+https://archive.massos.org/sources/gptfdisk-1.0.9.tar.gz
 https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
 https://github.com/silnrsi/graphite/releases/download/1.3.14/graphite2-1.3.14.tgz
 https://gitlab.com/graphviz/graphviz/-/archive/3.0.0/graphviz-3.0.0.tar.gz
@@ -202,12 +202,12 @@ https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.17.0.tar.xz
 https://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.9.0.orig.tar.xz
 https://archive.massos.org/sources/itstool-2.0.7.tar.bz2
-https://github.com/jackaudio/jack2/archive/v1.9.20/jack2-1.9.20.tar.gz
+https://github.com/jackaudio/jack2/archive/v1.9.21/jack2-1.9.21.tar.gz
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
 https://github.com/jasper-software/jasper/archive/version-2.0.33/jasper-2.0.33.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.1.tar.gz
 https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.05.tar.gz
-https://s3.amazonaws.com/json-c_releases/releases/json-c-0.15.tar.gz
+https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
 https://github.com/open-source-parsers/jsoncpp/archive/1.9.5/jsoncpp-1.9.5.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.4.0.tar.xz
@@ -276,7 +276,7 @@ https://github.com/libmtp/libmtp/releases/download/v1.1.19/libmtp-1.1.19.tar.gz
 https://github.com/hoene/libmysofa/archive/v1.2.1/libmysofa-1.2.1.tar.gz
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/libn/libndp/libndp_1.8.orig.tar.gz
 https://github.com/sahlberg/libnfs/archive/libnfs-4.0.0.tar.gz
-https://github.com/thom311/libnl/releases/download/libnl3_5_0/libnl-3.5.0.tar.gz
+https://github.com/thom311/libnl/releases/download/libnl3_6_0/libnl-3.6.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libnma/1.8/libnma-1.8.38.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libnotify/0.7/libnotify-0.7.9.tar.xz
 https://github.com/thkukuk/libnsl/releases/download/v2.0.0/libnsl-2.0.0.tar.xz
@@ -441,7 +441,7 @@ https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz
 https://archive.massos.org/sources/p7zip-17.04-6-geb1bbb0.tar.xz
 https://archive.massos.org/sources/pahole-1.23.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.6.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.7.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
@@ -450,7 +450,7 @@ https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
 https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz
 https://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.7.0.tar.xz
 https://archive.massos.org/sources/pcre-8.45.tar.bz2
-https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.39/pcre2-10.39.tar.bz2
+https://github.com/PhilipHazel/pcre2/releases/download/pcre2-10.40/pcre2-10.40.tar.bz2
 https://www.cpan.org/src/5.0/perl-5.34.1.tar.xz
 https://github.com/pexpect/pexpect/archive/4.8.0/pexpect-4.8.0.tar.gz
 https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.28.0/pkcs11-helper-1.28.0.tar.gz
@@ -488,9 +488,9 @@ https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://github.com/rhash/RHash/archive/v1.4.2/RHash-1.4.2.tar.gz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
 http://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/rrdtool-1.7.2.tar.gz
-https://www.samba.org/ftp/rsync/src/rsync-3.2.3.tar.gz
+https://www.samba.org/ftp/rsync/src/rsync-3.2.4.tar.gz
 https://archive.massos.org/sources/rtmpdump-2.4-20210219-gf1b83c1.tar.xz
-https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.1.tar.xz
+https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.xz
 https://static.rust-lang.org/dist/rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
 https://download.samba.org/pub/samba/stable/samba-4.16.0.tar.gz
 https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
@@ -590,7 +590,7 @@ https://www.x.org/archive/individual/app/xcmsdb-1.0.5.tar.bz2
 https://www.x.org/archive/individual/data/xcursor-themes-1.0.6.tar.bz2
 https://www.x.org/archive/individual/app/xcursorgen-1.0.7.tar.bz2
 https://github.com/flatpak/xdg-dbus-proxy/releases/download/0.1.2/xdg-dbus-proxy-0.1.2.tar.xz
-https://github.com/flatpak/xdg-desktop-portal/releases/download/1.14.2/xdg-desktop-portal-1.14.2.tar.xz
+https://github.com/flatpak/xdg-desktop-portal/releases/download/1.14.3/xdg-desktop-portal-1.14.3.tar.xz
 https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/1.14.0/xdg-desktop-portal-gtk-1.14.0.tar.xz
 https://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.17.tar.gz
 https://portland.freedesktop.org/download/xdg-utils-1.1.3.tar.gz
@@ -612,7 +612,7 @@ https://archive.fr.xfce.org/src/xfce/xfce4-appfinder/4.17/xfce4-appfinder-4.17.0
 https://deb.debian.org/debian/pool/main/x/xfce4-artwork/xfce4-artwork_0.1.1a~git+20110420.orig.tar.gz
 https://archive.fr.xfce.org/src/panel-plugins/xfce4-clipman-plugin/1.6/xfce4-clipman-plugin-1.6.2.tar.bz2
 https://archive.fr.xfce.org/src/apps/xfce4-notifyd/0.6/xfce4-notifyd-0.6.3.tar.bz2
-https://archive.fr.xfce.org/src/xfce/xfce4-panel/4.16/xfce4-panel-4.16.3.tar.bz2
+https://archive.fr.xfce.org/src/xfce/xfce4-panel/4.16/xfce4-panel-4.16.4.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfce4-power-manager/4.16/xfce4-power-manager-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/panel-plugins/xfce4-pulseaudio-plugin/0.4/xfce4-pulseaudio-plugin-0.4.3.tar.bz2
 https://archive.fr.xfce.org/src/apps/xfce4-screensaver/4.16/xfce4-screensaver-4.16.0.tar.bz2

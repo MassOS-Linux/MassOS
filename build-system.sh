@@ -1264,8 +1264,8 @@ install -t /usr/share/licenses/help2man -Dm644 COPYING
 cd ..
 rm -rf help2man-1.49.2
 # dialog.
-tar -xf dialog-1.3-20220117.tgz
-cd dialog-1.3-20220117
+tar -xf dialog-1.3-20220414.tgz
+cd dialog-1.3-20220414
 ./configure --prefix=/usr --enable-nls --with-libtool --with-ncursesw
 make
 make install
@@ -1273,7 +1273,7 @@ rm -f /usr/lib/libdialog.a
 chmod 755 /usr/lib/libdialog.so.15.0.0
 install -t /usr/share/licenses/dialog -Dm644 COPYING
 cd ..
-rm -rf dialog-1.3-20220117
+rm -rf dialog-1.3-20220414
 # acpi.
 tar -xf acpi-1.7.tar.gz
 cd acpi-1.7
@@ -1344,14 +1344,14 @@ install -t /usr/share/licenses/icu -Dm644 ../LICENSE
 cd ../..
 rm -rf icu
 # Boost.
-tar -xf boost_1_78_0.tar.bz2
-cd boost_1_78_0
+tar -xf boost_1_79_0.tar.bz2
+cd boost_1_79_0
 ./bootstrap.sh --prefix=/usr --with-icu
 ./b2 stage -j$(nproc) threading=multi link=shared
 ./b2 install threading=multi link=shared
 install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 cd ..
-rm -rf boost_1_78_0
+rm -rf boost_1_79_0
 # libgpg-error.
 tar -xf libgpg-error-1.45.tar.bz2
 cd libgpg-error-1.45
@@ -2090,25 +2090,36 @@ install -t /usr/share/licenses/popt -Dm644 COPYING
 cd ..
 rm -rf popt-popt-1.18-release
 # gptfdisk.
-tar -xf gptfdisk-1.0.8.tar.gz
-cd gptfdisk-1.0.8
-patch -Np1 -i ../patches/gptfdisk-1.0.8-convenience-1.patch
+tar -xf gptfdisk-1.0.9.tar.gz
+cd gptfdisk-1.0.9
 sed -i 's|ncursesw/||' gptcurses.cc
-sed -i 's|sbin|usr/sbin|' Makefile
 make
-make install
+install -t /usr/sbin -Dm755 gdisk cgdisk sgdisk fixparts
+install -t /usr/share/man/man8 -Dm644 gdisk.8 cgdisk.8 sgdisk.8 fixparts.8
 install -t /usr/share/licenses/gptfdisk -Dm644 COPYING
 cd ..
-rm -rf gptfdisk-1.0.8
+rm -rf gptfdisk-1.0.9
+## xxhash.
+tar -xf xxHash-0.8.1.tar.gz
+cd xxHash-0.8.1
+make PREFIX=/usr CFLAGS="$CFLAGS -fPIC"
+make PREFIX=/usr install
+rm -f /usr/lib/libxxhash.a
+ln -sf xxhsum.1 /usr/share/man/man1/xxh32sum.1
+ln -sf xxhsum.1 /usr/share/man/man1/xxh64sum.1
+ln -sf xxhsum.1 /usr/share/man/man1/xxh128sum.1
+install -t /usr/share/licenses/xxhash -Dm644 LICENSE
+cd ..
+rm -rf xxHash-0.8.1
 # rsync.
-tar -xf rsync-3.2.3.tar.gz
-cd rsync-3.2.3
-./configure --prefix=/usr --disable-lz4 --disable-xxhash --without-included-zlib
+tar -xf rsync-3.2.4.tar.gz
+cd rsync-3.2.4
+./configure --prefix=/usr --without-included-zlib
 make
 make install
 install -t /usr/share/licenses/rsync -Dm644 COPYING
 cd ..
-rm -rf rsync-3.2.3
+rm -rf rsync-3.2.4
 # Brotli.
 tar -xf brotli-1.0.9.tar.gz
 cd brotli-1.0.9
@@ -2183,15 +2194,15 @@ install -t /usr/share/licenses/c-ares -Dm644 ../LICENSE.md
 cd ../..
 rm -rf c-ares-1.18.1
 # JSON-C.
-tar -xf json-c-0.15.tar.gz
-cd json-c-0.15
+tar -xf json-c-0.16.tar.gz
+cd json-c-0.16
 mkdir json-c-build; cd json-c-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/json-c -Dm644 ../COPYING
 cd ../..
-rm -rf json-c-0.15
+rm -rf json-c-0.16
 # cryptsetup.
 tar -xf cryptsetup-2.4.3.tar.xz
 cd cryptsetup-2.4.3
@@ -2241,14 +2252,14 @@ install -t /usr/share/licenses/pcre -Dm644 LICENCE
 cd ..
 rm -rf pcre-8.45
 # PCRE2.
-tar -xf pcre2-10.39.tar.bz2
-cd pcre2-10.39
+tar -xf pcre2-10.40.tar.bz2
+cd pcre2-10.40
 ./configure --prefix=/usr --enable-unicode --enable-jit --enable-pcre2-16 --enable-pcre2-32 --enable-pcre2grep-libz --enable-pcre2grep-libbz2 --enable-pcre2test-libreadline --disable-static
 make
 make install
 install -t /usr/share/licenses/pcre2 -Dm644 LICENCE
 cd ..
-rm -rf pcre2-10.39
+rm -rf pcre2-10.40
 # Grep (rebuild for PCRE support).
 tar -xf grep-3.7.tar.xz
 cd grep-3.7
@@ -2779,21 +2790,9 @@ tar -xf dkms-3.0.3.tar.gz
 make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
-## xxhash.
-tar -xf xxHash-0.8.1.tar.gz
-cd xxHash-0.8.1
-make PREFIX=/usr CFLAGS="$CFLAGS -fPIC"
-make PREFIX=/usr install
-rm -f /usr/lib/libxxhash.a
-ln -sf xxhsum.1 /usr/share/man/man1/xxh32sum.1
-ln -sf xxhsum.1 /usr/share/man/man1/xxh64sum.1
-ln -sf xxhsum.1 /usr/share/man/man1/xxh128sum.1
-install -t /usr/share/licenses/xxhash -Dm644 LICENSE
-cd ..
-rm -rf xxHash-0.8.1
 # GLib.
-tar -xf glib-2.72.0.tar.xz
-cd glib-2.72.0
+tar -xf glib-2.72.1.tar.xz
+cd glib-2.72.1
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
@@ -2801,7 +2800,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.72.0
+rm -rf glib-2.72.1
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -3328,14 +3327,14 @@ make install
 cd ..
 rm -rf aspell6-en-2020.12.07-0
 # Enchant.
-tar -xf enchant-2.3.2.tar.gz
-cd enchant-2.3.2
+tar -xf enchant-2.3.3.tar.gz
+cd enchant-2.3.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 cd ..
-rm -rf enchant-2.3.2
+rm -rf enchant-2.3.3
 # Fontconfig.
 tar -xf fontconfig-2.14.0.tar.bz2
 cd fontconfig-2.14.0
@@ -3501,14 +3500,14 @@ install -t /usr/share/licenses/p7zip -Dm644 DOC/License.txt
 cd ..
 rm -rf p7zip-17.04-6-geb1bbb0
 # Ruby.
-tar -xf ruby-3.1.1.tar.xz
-cd ruby-3.1.1
+tar -xf ruby-3.1.2.tar.xz
+cd ruby-3.1.2
 ./configure --prefix=/usr --enable-shared
 make
 make install
 install -t /usr/share/licenses/ruby -Dm644 COPYING
 cd ..
-rm -rf ruby-3.1.1
+rm -rf ruby-3.1.2
 # slang.
 tar -xf slang-pre2.3.3-66.tar.gz
 cd slang-pre2.3.3-66
@@ -3580,14 +3579,14 @@ install -t /usr/share/licenses/xdg-utils -Dm644 LICENSE
 cd ..
 rm -rf xdg-utils-1.1.3
 # libnl.
-tar -xf libnl-3.5.0.tar.gz
-cd libnl-3.5.0
+tar -xf libnl-3.6.0.tar.gz
+cd libnl-3.6.0
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static
 make
 make install
 install -t /usr/share/licenses/libnl -Dm644 COPYING
 cd ..
-rm -rf libnl-3.5.0
+rm -rf libnl-3.6.0
 # wpa_supplicant.
 tar -xf wpa_supplicant-2.10.tar.gz
 cd wpa_supplicant-2.10/wpa_supplicant
@@ -4385,15 +4384,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-4.2.0
 # Pango.
-tar -xf pango-1.50.6.tar.xz
-cd pango-1.50.6
+tar -xf pango-1.50.7.tar.xz
+cd pango-1.50.7
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.6
+rm -rf pango-1.50.7
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -4801,14 +4800,14 @@ install -t /usr/share/licenses/libsamplerate -Dm644 COPYING
 cd ..
 rm -rf libsamplerate-0.2.2
 # JACK2.
-tar -xf jack2-1.9.20.tar.gz
-cd jack2-1.9.20
+tar -xf jack2-1.9.21.tar.gz
+cd jack2-1.9.21
 ./waf configure --prefix=/usr --htmldir=/usr/share/doc/jack2 --autostart=none --classic --dbus --systemd-unit
 ./waf build -j$(nproc)
 ./waf install
 install -t /usr/share/licenses/jack2 -Dm644 COPYING
 cd ..
-rm -rf jack2-1.9.20
+rm -rf jack2-1.9.21
 # SBC.
 tar -xf sbc-1.5.tar.xz
 cd sbc-1.5
@@ -5675,15 +5674,15 @@ install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
 cd ../..
 rm -rf libxmlb-0.3.6
 # AppStream.
-tar -xf AppStream-0.15.2.tar.xz
-cd AppStream-0.15.2
+tar -xf AppStream-0.15.3.tar.xz
+cd AppStream-0.15.3
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream -Dm644 ../COPYING
 cd ../..
-rm -rf AppStream-0.15.2
+rm -rf AppStream-0.15.3
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -5759,14 +5758,14 @@ install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
 # xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.14.2.tar.xz
-cd xdg-desktop-portal-1.14.2
+tar -xf xdg-desktop-portal-1.14.3.tar.xz
+cd xdg-desktop-portal-1.14.3
 ./configure --prefix=/usr --disable-pipewire
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-1.14.2
+rm -rf xdg-desktop-portal-1.14.3
 # xdg-desktop-portal-gtk.
 tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
 cd xdg-desktop-portal-gtk-1.14.0
@@ -6069,8 +6068,8 @@ install -t /usr/share/licenses/vmaf -Dm644 ../../LICENSE
 cd ../../..
 rm -rf vmaf-2.3.0
 # FFmpeg.
-tar -xf ffmpeg-5.0.tar.xz
-cd ffmpeg-5.0
+tar -xf ffmpeg-5.0.1.tar.xz
+cd ffmpeg-5.0.1
 ./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gnutls --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvmaf --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
@@ -6078,7 +6077,7 @@ make install
 install -m755 tools/qt-faststart /usr/bin
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 cd ..
-rm -rf ffmpeg-5.0
+rm -rf ffmpeg-5.0.1
 # OpenAL.
 tar -xf openal-soft-1.21.1.tar.gz
 cd openal-soft-1.21.1/build
@@ -6330,14 +6329,14 @@ install -t /usr/share/licenses/xfce4-artwork -Dm644 COPYING
 cd ..
 rm -rf xfce4-artwork-0.1.1a
 # xfce4-panel.
-tar -xf xfce4-panel-4.16.3.tar.bz2
-cd xfce4-panel-4.16.3
+tar -xf xfce4-panel-4.16.4.tar.bz2
+cd xfce4-panel-4.16.4
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 cd ..
-rm -rf xfce4-panel-4.16.3
+rm -rf xfce4-panel-4.16.4
 # xfce4-power-manager.
 tar -xf xfce4-power-manager-4.16.0.tar.bz2
 cd xfce4-power-manager-4.16.0
@@ -6640,15 +6639,15 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-42.1.tar.xz
-cd evince-42.1
+tar -xf evince-42.2.tar.xz
+cd evince-42.2
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-42.1
+rm -rf evince-42.2
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
