@@ -3,7 +3,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just started, check back soon.
+- Added TPM2 support. This allows programs like systemd to utilise TPM2 chips. It **does not** make TPM2 a system requirement.
 
 Upgraded software:
 

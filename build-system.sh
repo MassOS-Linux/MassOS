@@ -2212,6 +2212,32 @@ make install
 install -t /usr/share/licenses/cryptsetup -Dm644 COPYING COPYING.LGPL
 cd ..
 rm -rf cryptsetup-2.4.3
+# libtpms.
+tar -xf libtpms-0.9.2.tar.gz
+cd libtpms-0.9.2
+./autogen.sh --prefix=/usr --with-openssl --with-tpm2
+make
+make install
+rm -f /usr/lib/libtpms.a
+install -t /usr/share/licenses/libtpms -Dm644 LICENSE
+cd ..
+rm -rf libtpms-0.9.2
+# tpm2-tss.
+tar -xf tpm2-tss-3.2.0.tar.gz
+cd tpm2-tss-3.2.0
+cat > lib/tss2-tcti-libtpms.map << "END"
+{
+    global:
+        Tss2_Tcti_Info;
+        Tss2_Tcti_Libtpms_Init;
+    local:
+        *;
+};
+END
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-runstatedir=/run --with-sysusersdir=/usr/lib/sysusers.d --with-tmpfilesdir=/usr/lib/tmpfiles.d --with-udevrulesprefix="60-" --disable-static
+make
+make install
+install -t /usr/share/licenses/tpm2-tss -Dm644 LICENSE
 # libusb.
 tar -xf libusb-1.0.26.tar.bz2
 cd libusb-1.0.26
