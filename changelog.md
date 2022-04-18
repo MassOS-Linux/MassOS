@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Added TPM2 support. This allows programs like systemd to utilise TPM2 chips. It **does not** make TPM2 a system requirement.
+- The default initramfs filename is now `initramfs-<kernelversion>.img` instead of `initrd.img-<kernelversion>`. This fixes the `lsinitrd` program.
 
 Upgraded software:
 
