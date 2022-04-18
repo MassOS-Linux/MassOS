@@ -2950,22 +2950,12 @@ rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 tar -xf firefox-91.8.0esr.source.tar.xz
 cd firefox-91.8.0
 mkdir JS91-build; cd JS91-build
-if mountpoint -q /dev/shm; then
-  beforemounted="true"
-else
-  mount -t tmpfs devshm /dev/shm
-  beforemounted="false"
-fi
 chmod +x ../js/src/configure.in
 SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
 rm -f /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
-if [ "$beforemounted" = "false" ]; then
-  umount /dev/shm
-fi
-unset beforemounted
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
 rm -rf firefox-91.8.0
