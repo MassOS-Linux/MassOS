@@ -26,7 +26,7 @@ https://gitlab.com/sane-project/backends/-/archive/1.1.1/backends-1.1.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/baobab/41/baobab-41.0.tar.xz
 https://mirror.lyrahosting.com/gnu/bash/bash-5.1.16.tar.gz
 https://github.com/scop/bash-completion/releases/download/2.11/bash-completion-2.11.tar.xz
-https://github.com/gavinhoward/bc/releases/download/5.2.3/bc-5.2.3.tar.xz
+https://github.com/gavinhoward/bc/releases/download/5.2.4/bc-5.2.4.tar.xz
 https://ftp.isc.org/isc/bind9/9.18.1/bind-9.18.1.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-2.38.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
@@ -54,7 +54,7 @@ https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://ftp.acc.umu.se/pub/gnome/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.5.tar.xz
-https://mirror.lyrahosting.com/gnu/coreutils/coreutils-9.0.tar.xz
+https://mirror.lyrahosting.com/gnu/coreutils/coreutils-9.1.tar.xz
 https://github.com/tnalpgge/rank-amateur-cowsay/archive/cowsay-3.04.tar.gz
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
@@ -140,7 +140,7 @@ https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/g
 https://archive.massos.org/sources/ghostscript-fonts-std-8.11.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://archive.massos.org/sources/giflib-5.2.1.tar.gz
-https://cdn.kernel.org/pub/software/scm/git/git-2.35.3.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.36.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.35.tar.xz
@@ -167,7 +167,7 @@ https://mirror.lyrahosting.com/gnu/grep/grep-3.7.tar.xz
 https://mirror.lyrahosting.com/gnu/groff/groff-1.22.4.tar.gz
 https://mirror.lyrahosting.com/gnu/grub/grub-2.06.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/42/gsettings-desktop-schemas-42.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gspell/1.9/gspell-1.9.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gspell/1.10/gspell-1.10.0.tar.xz
 https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.20.1.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.1.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.20.1.tar.xz
@@ -189,7 +189,7 @@ https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/hplip-3.22.2.tar.
 https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
 https://mirror.lyrahosting.com/gnu/help2man/help2man-1.49.2.tar.xz
 https://github.com/vcrhonek/hwdata/archive/v0.358/hwdata-0.358.tar.gz
-https://github.com/Mic92/iana-etc/releases/download/20220401/iana-etc-20220401.tar.gz
+https://github.com/Mic92/iana-etc/releases/download/20220414/iana-etc-20220414.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.9.tar.xz
 https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-71-1/icu4c-71_1-src.tgz
@@ -446,7 +446,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.7.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
 https://archive.fr.xfce.org/src/apps/parole/4.16/parole-4.16.0.tar.bz2
 https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
-https://mirror.lyrahosting.com/gnu/parted/parted-3.4.tar.xz
+https://mirror.lyrahosting.com/gnu/parted/parted-3.5.tar.xz
 https://mirror.lyrahosting.com/gnu/patch/patch-2.7.6.tar.xz
 https://freedesktop.org/software/pulseaudio/pavucontrol/pavucontrol-5.0.tar.xz
 https://cdn.kernel.org/pub/software/utils/pciutils/pciutils-3.7.0.tar.xz
@@ -476,7 +476,7 @@ https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz
 https://github.com/eliben/pycparser/archive/release_v2.21/pycparser-release_v2.21.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.11.2.tar.gz
-https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.1.tar.xz
 https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.7.tar.gz
 https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tar.xz
@@ -548,7 +548,7 @@ https://files.pythonhosted.org/packages/45/6b/44f7f8f1e110027cf88956b59f2fad776c
 https://files.pythonhosted.org/packages/source/t/typogrify/typogrify-2.0.7.tar.gz
 https://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
-https://unifoundry.com/pub/unifont/unifont-14.0.02/font-builds/unifont-14.0.02.pcf.gz
+https://unifoundry.com/pub/unifont/unifont-14.0.03/font-builds/unifont-14.0.03.pcf.gz
 https://archive.massos.org/sources/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.tar.bz2
 https://github.com/urllib3/urllib3/releases/download/1.26.9/urllib3-1.26.9.tar.gz

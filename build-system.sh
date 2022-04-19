@@ -125,9 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220401.tar.gz
-cp iana-etc-20220401/{protocols,services} /etc
-rm -rf iana-etc-20220401
+tar -xf iana-etc-20220414.tar.gz
+cp iana-etc-20220414/{protocols,services} /etc
+rm -rf iana-etc-20220414
 # Glibc.
 unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
@@ -285,21 +285,23 @@ install -t /usr/share/licenses/m4 -Dm644 COPYING
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.2.3.tar.xz
-cd bc-5.2.3
-CC=gcc ./configure --prefix=/usr -G -Os
+tar -xf bc-5.2.4.tar.xz
+cd bc-5.2.4
+CC=gcc ./configure.sh --prefix=/usr --disable-generated-tests
 make
 make install
 install -t /usr/share/licenses/bc -Dm644 LICENSE.md
 cd ..
-rm -rf bc-5.2.3
+rm -rf bc-5.2.4
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
 ./configure --prefix=/usr --disable-static
 make
 make install
-ln -s flex /usr/bin/lex
+ln -sf flex /usr/bin/lex
+ln -sf flex.1 /usr/share/man/man1/lex.1
+ln -sf flex.info /usr/share/info/lex.info
 install -t /usr/share/licenses/flex -Dm644 COPYING
 cd ..
 rm -rf flex-2.6.4
@@ -911,11 +913,9 @@ install -t /usr/share/licenses/file -Dm644 COPYING
 cd ..
 rm -rf file-5.41
 # Coreutils.
-tar -xf coreutils-9.0.tar.xz
-cd coreutils-9.0
-patch -Np1 -i ../patches/coreutils-9.0-chmodfix.patch
-patch -Np1 -i ../patches/coreutils-9.0-progressbar.patch
-autoreconf -fi
+tar -xf coreutils-9.1.tar.xz
+cd coreutils-9.1
+patch -Np1 -i ../patches/coreutils-9.1-progressbar.patch
 ./configure --prefix=/usr --enable-no-install-program=kill,uptime --with-packager="MassOS"
 make
 make install
@@ -924,7 +924,7 @@ mv /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
 install -t /usr/share/licenses/coreutils -Dm644 COPYING
 cd ..
-rm -rf coreutils-9.0
+rm -rf coreutils-9.1
 # Moreutils.
 tar -xf moreutils_0.67.orig.tar.gz
 cd moreutils-0.67
@@ -2071,14 +2071,14 @@ install -t /usr/share/licenses/fakeroot -Dm644 COPYING
 cd ..
 rm -rf fakeroot-1.28
 # Parted.
-tar -xf parted-3.4.tar.xz
-cd parted-3.4
+tar -xf parted-3.5.tar.xz
+cd parted-3.5
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/parted -Dm644 COPYING
 cd ..
-rm -rf parted-3.4
+rm -rf parted-3.5
 # Popt.
 tar -xf popt-1.18-release.tar.gz
 cd popt-popt-1.18-release
@@ -2776,8 +2776,8 @@ install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
 rm -rf nss-3.77
 # Git.
-tar -xf git-2.35.3.tar.xz
-cd git-2.35.3
+tar -xf git-2.36.0.tar.xz
+cd git-2.36.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
@@ -2785,7 +2785,7 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.35.3
+rm -rf git-2.36.0
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -2951,7 +2951,7 @@ tar -xf firefox-91.8.0esr.source.tar.xz
 cd firefox-91.8.0
 mkdir JS91-build; cd JS91-build
 chmod +x ../js/src/configure.in
-SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
+SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
 rm -f /usr/lib/libjs_static.ajs
@@ -2962,7 +2962,7 @@ rm -rf firefox-91.8.0
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
-./configure --prefix=/usr --libexecdir=/usr/lib --with-secure-path --with-all-insults --with-env-editor --with-passprompt="[sudo] password for %p: "
+./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
@@ -3042,6 +3042,7 @@ rm -rf libpng-1.6.37
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf freetype-2.12.0.tar.xz
 cd freetype-2.12.0
+patch -Np1 -i ../patches/freetype-2.12.0-FixSegfault.patch
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static --with-harfbuzz=no
@@ -3074,6 +3075,7 @@ rm -rf harfbuzz-4.2.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.12.0.tar.xz
 cd freetype-2.12.0
+patch -Np1 -i ../patches/freetype-2.12.0-FixSegfault.patch
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static --with-harfbuzz=yes
@@ -3103,7 +3105,7 @@ cd ../..
 rm -rf woff2-1.0.2
 # Unifont.
 mkdir -p /usr/share/fonts/unifont
-pigz -cd unifont-14.0.02.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+pigz -cd unifont-14.0.03.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
 install -t /usr/share/licenses/unifont -Dm644 extra-package-licenses/LICENSE-unifont.txt
 # GRUB.
 tar -xf grub-2.06.tar.xz
@@ -3393,15 +3395,8 @@ rm -rf libexif-0.6.23
 tar -xf lolcat-1.2.tar.gz
 cd lolcat-1.2
 make CFLAGS="$CFLAGS"
-install -Dt /usr/bin -m755 censor lolcat
-install -dm755 /usr/share/licenses/lolcat
-cat > /usr/share/licenses/lolcat/LICENSE << "END"
-The license covering this software is equivalent to a public domain dedication,
-however the license document contains profanity, therefore it has not been
-included here. If you still wish to view the license document, it is can be
-viewed online at https://github.com/jaseg/lolcat/blob/main/LICENSE.
-END
-cd ..
+install -t /usr/bin -Dm755 censor lolcat
+install -t /usr/share/licenses/lolcat -Dm644 LICENSE
 rm -rf lolcat-1.2
 # NASM.
 tar -xf nasm-2.15.05.tar.xz
@@ -4673,16 +4668,15 @@ install -t /usr/share/licenses/pycairo -Dm644 COPYING COPYING-LGPL-2.1
 cd ..
 rm -rf pycairo-1.21.0
 # PyGObject.
-tar -xf pygobject-3.42.0.tar.xz
-cd pygobject-3.42.0
-mv tests/test_gdbus.py{,.nouse}
+tar -xf pygobject-3.42.1.tar.xz
+cd pygobject-3.42.1
 mkdir pygo-build; cd pygo-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/pygobject -Dm644 ../COPYING
 cd ../..
-rm -rf pygobject-3.42.0
+rm -rf pygobject-3.42.1
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -6214,14 +6208,14 @@ install -t /usr/share/licenses/libchamplain -Dm644 ../COPYING
 cd ../..
 rm -rf libchamplain-0.12.20
 # gspell.
-tar -xf gspell-1.9.1.tar.xz
-cd gspell-1.9.1
+tar -xf gspell-1.10.0.tar.xz
+cd gspell-1.10.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/gspell -Dm644 COPYING
 cd ..
-rm -rf gspell-1.9.1
+rm -rf gspell-1.10.0
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.44.0.tar.xz
 cd gnome-online-accounts-3.44.0
