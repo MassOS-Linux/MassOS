@@ -16,7 +16,6 @@ PATH="$MASSOS"/tools/bin:$PATH
 SRC="$MASSOS"/sources
 CONFIG_SITE="$MASSOS"/usr/share/config.site
 export MASSOS MASSOS_TARGET PATH SRC CONFIG_SITE
-cd "$SRC"
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Compiler flags for MassOS. We prefer to optimise for size.
@@ -34,7 +33,7 @@ ln -sf lib "$MASSOS"/usr/lib64
 ln -sf usr/lib "$MASSOS"/lib64
 # Directory where source tarballs will be placed while building.
 # Temporary toolchain directory.
-mkdir $MASSOS/tools
+mkdir "$MASSOS"/tools
 # Move sources into the temporary environment.
 mv sources "$SRC"
 # Copy patches into the temporary environment.
@@ -42,6 +41,8 @@ mkdir -p "$SRC"/patches
 cp patches/* "$SRC"/patches
 # Copy systemd units into the temporary environment.
 cp -r utils/systemd-units "$SRC"
+# Change to the sources directory.
+cd "$SRC"
 # Binutils (Pass 1).
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
