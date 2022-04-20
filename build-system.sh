@@ -1,19 +1,41 @@
 #!/bin/bash
 #
-# THIS SCRIPT MUST **ONLY** BE RUN IN THE MASSOS CHROOT ENVIRONMENT!!
-# RUNNING IT AS ROOT ON THE HOST SYSTEM **WILL** BREAK YOUR SYSTEM!!
+# Builds the full MassOS system in a chroot environment.
+# Copyright (C) 2021-2022 MassOS Developers.
 #
-# Build the full MassOS system.
+# This script is part of the MassOS build system. It is licensed under GPLv3+.
+# See the 'LICENSE' file for the full license text. On a MassOS system, this
+# document can also be found at '/usr/share/massos/LICENSE'.
+#
+# === IF RESUMING A FAILED BUILD, DO NOT REMOVE ANY LINES BEFORE LINE 38 ===
+#
+# Exit if something goes wrong.
 set -e
 # Disabling hashing is useful so the newly built tools are detected.
 set +h
-# Ensure we're running as root.
-if [ $EUID -ne 0 ]; then
-  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM."
-  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE."
-  echo "YOU HAVE BEEN WARNED!!!"
+# Ensure we're running in the MassOS chroot.
+if [ $EUID -ne 0 ] || [ ! -d /sources ]; then
+  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM." >&2
+  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE." >&2
+  echo "YOU HAVE BEEN WARNED!!!" >&2
   exit 1
 fi
+# Set the source directory correctly.
+export SRC=/sources
+cd $SRC
+# Set the PATH correctly.
+export PATH=/usr/bin:/usr/sbin
+# Set the locale correctly.
+export LC_ALL="en_US.UTF-8"
+# Build in parallel using all available CPU cores.
+export MAKEFLAGS="-j$(nproc)"
+# Allow building some packages as root.
+export FORCE_UNSAFE_CONFIGURE=1
+# Compiler flags for MassOS. We prefer to optimise for size.
+CFLAGS="-w -Os -pipe"
+CXXFLAGS="-w -Os -pipe"
+export CFLAGS CXXFLAGS
+# === IT IS SAFE TO REMOVE LINES BELOW THIS FOR A FAILED BUILD ===
 # Setup the full filesystem structure.
 mkdir -p /{boot,home,mnt,opt,srv}
 mkdir -p /boot/efi
@@ -37,31 +59,16 @@ touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
-# Set the source directory correctly.
-export SRC=/sources
-cd $SRC
-# Set the PATH correctly.
-export PATH=/usr/bin:/usr/sbin
-# Set the locale correctly.
-export LC_ALL="POSIX"
-# Build in parallel using all available CPU cores.
-export MAKEFLAGS="-j$(nproc)"
-# Allow building some packages as root.
-export FORCE_UNSAFE_CONFIGURE=1
 # libstdc++ from GCC (Pass 2).
 tar -xf gcc-11.2.0.tar.xz
 cd gcc-11.2.0
 ln -s gthr-posix.h libgcc/gthr-default.h
 mkdir build; cd build
-../libstdc++-v3/configure CXXFLAGS="-g -O2 -D_GNU_SOURCE" --prefix=/usr --disable-multilib --disable-nls --host=$(uname -m)-massos-linux-gnu --disable-libstdcxx-pch
+CFLAGS="-O2 -D_GNU_SOURCE" CXXFLAGS="-O2 -D_GNU_SOURCE" ../libstdc++-v3/configure --prefix=/usr --disable-multilib --disable-nls --host=$(uname -m)-massos-linux-gnu --disable-libstdcxx-pch
 make
 make install
 cd ../..
 rm -rf gcc-11.2.0
-# Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
-export CFLAGS CXXFLAGS
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
 cd gettext-0.21
@@ -129,13 +136,12 @@ tar -xf iana-etc-20220414.tar.gz
 cp iana-etc-20220414/{protocols,services} /etc
 rm -rf iana-etc-20220414
 # Glibc.
-unset CFLAGS CXXFLAGS
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
 patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
-../configure --prefix=/usr --disable-werror --enable-kernel=3.2 --enable-stack-protector=strong --with-headers=/usr/include libc_cv_slibdir=/usr/lib
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --disable-werror --enable-kernel=3.2 --enable-stack-protector=strong --with-headers=/usr/include libc_cv_slibdir=/usr/lib
 make
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 make install
@@ -147,8 +153,6 @@ install -Dm644 ../nscd/nscd.tmpfiles /usr/lib/tmpfiles.d/nscd.conf
 install -Dm644 ../nscd/nscd.service /usr/lib/systemd/system/nscd.service
 mkdir -p /usr/lib/locale
 mklocales
-# Now the en_US.UTF-8 locale is installed, set it as the default.
-export LC_ALL="en_US.UTF-8"
 cat > /etc/nsswitch.conf << END
 passwd: files
 group: files
@@ -179,9 +183,6 @@ include /etc/ld.so.conf.d/*.conf
 END
 cd ../..
 rm -rf glibc-2.35
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
-export CFLAGS CXXFLAGS
 # zlib.
 tar -xf zlib-1.2.12.tar.xz
 cd zlib-1.2.12
@@ -329,17 +330,13 @@ tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
 patch -Np1 -i ../patches/binutils-2.38-LTO.patch
 mkdir build; cd build
-unset CFLAGS CXXFLAGS
-../configure --prefix=/usr --enable-gold --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --with-system-zlib
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --enable-gold --enable-ld=default --enable-plugins --enable-shared --disable-werror --enable-64-bit-bfd --with-system-zlib
 make tooldir=/usr
 make tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 cd ../..
 rm -rf binutils-2.38
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
-export CFLAGS CXXFLAGS
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
 cd gmp-6.2.1
@@ -539,11 +536,7 @@ cd gcc-11.2.0
 sed -e '/static.*SIGSTKSZ/d' -e 's/return kAltStackSize/return SIGSTKSZ * 4/' -i libsanitizer/sanitizer_common/sanitizer_posix_libcdep.cpp
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
-# GCC must not be built with our custom compiler flags, so we unset them here.
-unset CFLAGS CXXFLAGS
-# Ensure GCC uses the linker from the latest installed binutils.
-export LD=ld
-../configure --prefix=/usr --enable-languages=c,c++ --with-system-zlib --enable-default-ssp --disable-bootstrap --disable-multilib
+CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-system-zlib --enable-default-ssp --disable-bootstrap --disable-multilib
 make
 make install
 rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/include-fixed/bits/
@@ -554,11 +547,6 @@ mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 install -t /usr/share/licenses/gcc -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB ../COPYING.RUNTIME
 cd ../..
 rm -rf gcc-11.2.0
-unset LD
-# Re-set compiler flags.
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
-export CFLAGS CXXFLAGS
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
 cd pkg-config-0.29.2
@@ -3111,12 +3099,11 @@ install -t /usr/share/licenses/unifont -Dm644 extra-package-licenses/LICENSE-uni
 tar -xf grub-2.06.tar.xz
 cd grub-2.06
 mkdir build-pc; cd build-pc
-unset CFLAGS CXXFLAGS
-../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
 make
 cd ..
 mkdir build-efi; cd build-efi
-../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=efi --disable-werror
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --sysconfdir=/etc --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=efi --disable-werror
 make
 make bashcompletiondir="/usr/share/bash-completion/completions" install
 cd ../build-pc
@@ -3187,9 +3174,6 @@ END
 install -t /usr/share/licenses/grub -Dm644 ../COPYING
 cd ../..
 rm -rf grub-2.06
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
-export CFLAGS CXXFLAGS
 # os-prober.
 tar -xf os-prober_1.79.tar.xz
 cd os-prober
