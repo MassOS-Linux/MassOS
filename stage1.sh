@@ -134,8 +134,8 @@ ln -s bash "$MASSOS"/bin/sh
 cd ..
 rm -rf bash-5.1.16
 # Coreutils.
-tar -xf coreutils-9.0.tar.xz
-cd coreutils-9.0
+tar -xf coreutils-9.1.tar.xz
+cd coreutils-9.1
 ./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime --with-packager="MassOS"
 make
 make DESTDIR="$MASSOS" install
@@ -144,7 +144,7 @@ mkdir -p "$MASSOS"/usr/share/man/man8
 mv "$MASSOS"/usr/share/man/man1/chroot.1 "$MASSOS"/usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' "$MASSOS"/usr/share/man/man8/chroot.8
 cd ..
-rm -rf coreutils-9.0
+rm -rf coreutils-9.1
 # Diffutils.
 tar -xf diffutils-3.8.tar.xz
 cd diffutils-3.8
