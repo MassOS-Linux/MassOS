@@ -21,18 +21,24 @@ Upgraded software:
 - gptfdisk: `1.0.8 --> 1.0.9`
 - gspell: `1.9.1 --> 1.10.0`
 - iana-etc: `20220401 --> 20220414`
+- libinput: `1.20.0 --> 1.20.1`
 - libnl: `3.5.0 --> 3.6.0`
+- Linux Kernel: `5.17.3 --> 5.17.4`
 - JACK2: `1.9.20 --> 1.9.21`
 - JSON-C: `0.15 --> 0.16`
 - Pango: `1.50.6 --> 1.50.7`
 - Parted: `3.4 --> 3.5`
+- pciutils: `3.7.0 --> 3.8.0`
 - PCRE2: `10.39 --> 10.40`
 - PyGObject: `3.42.0 --> 3.42.1`
 - rsync: `3.2.3 --> 3.2.4`
 - Ruby: `3.1.1 --> 3.1.2`
+- Thunderbird: `91.7.0 --> 91.8.1`
 - Unifont: `14.0.02 --> 14.0.03`
+- xauth: `1.1.1 --> 1.1.2`
 - xdg-desktop-portal: `1.14.2 --> 1.14.3`
 - xfce4-panel: `4.16.3 --> 4.16.4`
+- xfce4-terminal: `1.0.1 --> 1.0.2`
 
 # MassOS 2022.04.2
 Changes:
