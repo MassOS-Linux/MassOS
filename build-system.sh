@@ -2226,6 +2226,8 @@ END
 make
 make install
 install -t /usr/share/licenses/tpm2-tss -Dm644 LICENSE
+cd ..
+rm -rf tpm2-tss-3.2.0
 # libusb.
 tar -xf libusb-1.0.26.tar.bz2
 cd libusb-1.0.26
@@ -3381,6 +3383,7 @@ cd lolcat-1.2
 make CFLAGS="$CFLAGS"
 install -t /usr/bin -Dm755 censor lolcat
 install -t /usr/share/licenses/lolcat -Dm644 LICENSE
+cd ..
 rm -rf lolcat-1.2
 # NASM.
 tar -xf nasm-2.15.05.tar.xz
