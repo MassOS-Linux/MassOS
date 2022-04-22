@@ -30,6 +30,7 @@ Upgraded software:
 - Parted: `3.4 --> 3.5`
 - pciutils: `3.7.0 --> 3.8.0`
 - PCRE2: `10.39 --> 10.40`
+- pkcs11-helper: `1.28.0 --> 1.29.0`
 - PyGObject: `3.42.0 --> 3.42.1`
 - rsync: `3.2.3 --> 3.2.4`
 - Ruby: `3.1.1 --> 3.1.2`

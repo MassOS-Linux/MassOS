@@ -2385,14 +2385,14 @@ install -t /usr/share/licenses/make-ca -Dm644 LICENSE LICENSE.GPLv3 LICENSE.MIT
 cd ..
 rm -rf make-ca-1.9
 # pkcs11-helper.
-tar -xf pkcs11-helper-1.28.0.tar.gz
-cd pkcs11-helper-1.28.0
+tar -xf pkcs11-helper-1.29.0.tar.bz2
+cd pkcs11-helper-1.29.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/pkcs11-helper -Dm644 COPYING COPYING.BSD COPYING.GPL
 cd ..
-rm -rf pkcs11-helper-1.28.0
+rm -rf pkcs11-helper-1.29.0
 # libssh2.
 tar -xf libssh2-1.10.0.tar.gz
 cd libssh2-1.10.0
