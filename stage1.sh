@@ -47,14 +47,14 @@ cd "$SRC"
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/tools --with-sysroot="$MASSOS" --target=$MASSOS_TARGET --disable-nls --disable-werror
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/tools --with-sysroot="$MASSOS" --target=$MASSOS_TARGET --with-pkgversion="MassOS Binutils" --disable-nls --disable-werror
 make
 make -j1 install
 cd ../..
 rm -rf binutils-2.38
 # GCC (Pass 1).
-tar -xf gcc-11.2.0.tar.xz
-cd gcc-11.2.0
+tar -xf gcc-11.3.0.tar.xz
+cd gcc-11.3.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
@@ -62,22 +62,22 @@ mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make install
 cd ..
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
 cd ..
-rm -rf gcc-11.2.0
+rm -rf gcc-11.3.0
 # Linux API Headers.
-tar -xf linux-5.17.4.tar.xz
-cd linux-5.17.4
+tar -xf linux-5.17.5.tar.xz
+cd linux-5.17.5
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.17.4
+rm -rf linux-5.17.5
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -93,14 +93,14 @@ sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 cd ../..
 rm -rf glibc-2.35
 # libstdc++ from GCC (Pass 1).
-tar -xf gcc-11.2.0.tar.xz
-cd gcc-11.2.0
+tar -xf gcc-11.3.0.tar.xz
+cd gcc-11.3.0
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --host=$MASSOS_TARGET --build=$(../config.guess) --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$MASSOS_TARGET/include/c++/$($MASSOS_TARGET-gcc --version | head -n1 | cut -d')' -f2 | sed 's/ //')
 make
 make DESTDIR="$MASSOS" install
 cd ../..
-rm -rf gcc-11.2.0
+rm -rf gcc-11.3.0
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -233,7 +233,7 @@ rm -rf tar-1.34
 # XZ.
 tar -xf xz-5.2.5.tar.xz
 cd xz-5.2.5
-./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --disable-static --docdir=/usr/share/doc/xz-5.2.5
+./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --disable-static
 make
 make DESTDIR="$MASSOS" install
 cd ..
@@ -243,15 +243,15 @@ tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
 sed '6009s/$add_dir//' -i ltmain.sh
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --disable-nls --enable-shared --disable-werror --enable-64-bit-bfd
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --with-pkgversion="MassOS Binutils" --disable-nls --enable-shared --disable-werror --enable-64-bit-bfd
 make
 make -j1 DESTDIR="$MASSOS" install
 install -m755 libctf/.libs/libctf.so.0.0.0 "$MASSOS"/usr/lib
 cd ../..
 rm -rf binutils-2.38
 # GCC (Pass 2).
-tar -xf gcc-11.2.0.tar.xz
-cd gcc-11.2.0
+tar -xf gcc-11.3.0.tar.xz
+cd gcc-11.3.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
@@ -261,12 +261,12 @@ mv mpc-1.2.1 mpc
 mkdir build; cd build
 mkdir -p $MASSOS_TARGET/libgcc
 ln -s ../../../libgcc/gthr-posix.h $MASSOS_TARGET/libgcc/gthr-default.h
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure CC_FOR_TARGET=$MASSOS_TARGET-gcc --build=$(../config.guess) --host=$MASSOS_TARGET --prefix=/usr --enable-languages=c,c++ --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure CC_FOR_TARGET=$MASSOS_TARGET-gcc --build=$(../config.guess) --host=$MASSOS_TARGET --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make DESTDIR="$MASSOS" install
 ln -s gcc "$MASSOS"/usr/bin/cc
 cd ../..
-rm -rf gcc-11.2.0
+rm -rf gcc-11.3.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
 cp -r utils/etc/* "$MASSOS"/etc

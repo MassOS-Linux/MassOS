@@ -5,41 +5,64 @@ Changes:
 
 - Added TPM2 support. This allows programs like systemd to utilise TPM2 chips. It **does not** make TPM2 a system requirement.
 - The default initramfs filename is now `initramfs-<kernelversion>.img` instead of `initrd.img-<kernelversion>`. This fixes the `lsinitrd` program.
+- Fixed issues with zlib and GTK3.
 
 Upgraded software:
 
 - AppStream: `0.15.2 --> 0.15.3`
+- at-spi2-core: `2.44.0 --> 2.44.1`
 - bc: `5.2.3 --> 5.2.4`
+- BIND Utils: `9.18.1 --> 9.18.2`
 - Boost: `1.78.0 --> 1.79.0`
+- btrfs-progs: `5.16.2 --> 5.17`
 - Coreutils: `9.0 --> 9.1`
+- curl: `7.82.0 --> 7.83.0`
 - dialog: `1.3-20220117 --> 1.3-20220414`
+- elfutils: `0.186 --> 0.187`
 - Enchant: `2.3.2 --> 2.3.3`
 - Evince: `42.1 --> 42.2`
 - FFmpeg: `5.0 --> 5.0.1`
+- Fribidi: `1.0.11 --> 1.0.12`
+- GCC: `11.2.0 --> 11.3.0`
 - Git: `2.35.3 --> 2.36.0`
 - GLib: `2.72.0 --> 2.72.1`
+- GNUPG: `2.3.4 --> 2.3.6`
 - gptfdisk: `1.0.8 --> 1.0.9`
 - gspell: `1.9.1 --> 1.10.0`
+- GVFS: `1.50.0 --> 1.50.1`
+- HarfBuzz: `4.2.0 --> 4.2.1`
 - iana-etc: `20220401 --> 20220414`
+- libhandy: `1.6.1 --> 1.6.2`
 - libinput: `1.20.0 --> 1.20.1`
 - libnl: `3.5.0 --> 3.6.0`
-- Linux Kernel: `5.17.3 --> 5.17.4`
+- libpipeline: `1.5.5 --> 1.5.6`
+- librsvg: `2.54.0 --> 2.54.1`
+- libseccomp: `2.5.3 --> 2.5.4`
+- Linux Kernel: `5.17.3 --> 5.17.5`
+- LLVM/CLang/LLD: `14.0.1 --> 14.0.2`
 - JACK2: `1.9.20 --> 1.9.21`
 - JSON-C: `0.15 --> 0.16`
+- Mesa: `22.0.1 --> 22.0.2`
+- Meson: `0.62.0 --> 0.62.1`
 - Pango: `1.50.6 --> 1.50.7`
 - Parted: `3.4 --> 3.5`
 - pciutils: `3.7.0 --> 3.8.0`
 - PCRE2: `10.39 --> 10.40`
 - pkcs11-helper: `1.28.0 --> 1.29.0`
+- Pygments: `2.11.2 --> 2.12.0`
 - PyGObject: `3.42.0 --> 3.42.1`
 - rsync: `3.2.3 --> 3.2.4`
 - Ruby: `3.1.1 --> 3.1.2`
+- SDL2: `2.0.20 --> 2.0.22`
 - Thunderbird: `91.7.0 --> 91.8.1`
 - Unifont: `14.0.02 --> 14.0.03`
+- Vala: `0.56.0 --> 0.56.1`
+- Vim: `8.2.4700 --> 8.2.4826`
 - xauth: `1.1.1 --> 1.1.2`
 - xdg-desktop-portal: `1.14.2 --> 1.14.3`
 - xfce4-panel: `4.16.3 --> 4.16.4`
 - xfce4-terminal: `1.0.1 --> 1.0.2`
+- xorgproto: `2021.5 --> 2022.1`
 
 # MassOS 2022.04.2
 Changes:

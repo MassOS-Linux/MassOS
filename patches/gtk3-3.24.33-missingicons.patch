@@ -1,0 +1,2774 @@
+From 5a0ffbbb4568e39bdf26006e1bf18c1c1d0d597a Mon Sep 17 00:00:00 2001
+From: Jakub Steiner <jimmac@gmail.com>
+Date: Thu, 10 Mar 2022 22:04:39 +0100
+Subject: [PATCH] icons: add legacy icons
+
+- add legacy hicolor icons relied on in testsuite
+
+Fixes https://gitlab.gnome.org/GNOME/gtk/-/issues/4754
+---
+ gtk/icons/16x16/actions/application-exit.png  | Bin 0 -> 673 bytes
+ gtk/icons/16x16/actions/dialog-error.png      | Bin 0 -> 652 bytes
+ .../16x16/actions/dialog-information.png      | Bin 0 -> 616 bytes
+ gtk/icons/16x16/actions/dialog-password.png   | Bin 0 -> 551 bytes
+ gtk/icons/16x16/actions/dialog-question.png   | Bin 0 -> 500 bytes
+ gtk/icons/16x16/actions/dialog-warning.png    | Bin 0 -> 570 bytes
+ gtk/icons/16x16/actions/document-new.png      | Bin 0 -> 330 bytes
+ gtk/icons/16x16/actions/document-open.png     | Bin 0 -> 420 bytes
+ .../16x16/actions/document-print-preview.png  | Bin 0 -> 674 bytes
+ gtk/icons/16x16/actions/document-print.png    | Bin 0 -> 532 bytes
+ .../16x16/actions/document-properties.png     | Bin 0 -> 487 bytes
+ gtk/icons/16x16/actions/document-revert.png   | Bin 0 -> 460 bytes
+ gtk/icons/16x16/actions/document-save-as.png  | Bin 0 -> 509 bytes
+ gtk/icons/16x16/actions/document-save.png     | Bin 0 -> 459 bytes
+ gtk/icons/16x16/actions/drive-harddisk.png    | Bin 0 -> 838 bytes
+ gtk/icons/16x16/actions/edit-clear-all.png    | Bin 0 -> 605 bytes
+ gtk/icons/16x16/actions/edit-clear.png        | Bin 0 -> 249 bytes
+ gtk/icons/16x16/actions/edit-copy.png         | Bin 0 -> 401 bytes
+ gtk/icons/16x16/actions/edit-cut.png          | Bin 0 -> 781 bytes
+ gtk/icons/16x16/actions/edit-delete.png       | Bin 0 -> 806 bytes
+ gtk/icons/16x16/actions/edit-find-replace.png | Bin 0 -> 920 bytes
+ gtk/icons/16x16/actions/edit-find.png         | Bin 0 -> 825 bytes
+ gtk/icons/16x16/actions/edit-paste.png        | Bin 0 -> 582 bytes
+ gtk/icons/16x16/actions/edit-redo.png         | Bin 0 -> 465 bytes
+ gtk/icons/16x16/actions/edit-select-all.png   | Bin 0 -> 320 bytes
+ gtk/icons/16x16/actions/edit-undo.png         | Bin 0 -> 442 bytes
+ gtk/icons/16x16/actions/folder.png            | Bin 0 -> 492 bytes
+ .../16x16/actions/format-indent-less.png      | Bin 0 -> 432 bytes
+ .../16x16/actions/format-indent-more.png      | Bin 0 -> 438 bytes
+ .../16x16/actions/format-justify-center.png   | Bin 0 -> 276 bytes
+ .../16x16/actions/format-justify-fill.png     | Bin 0 -> 266 bytes
+ .../16x16/actions/format-justify-left.png     | Bin 0 -> 283 bytes
+ .../16x16/actions/format-justify-right.png    | Bin 0 -> 267 bytes
+ gtk/icons/16x16/actions/format-text-bold.png  | Bin 0 -> 670 bytes
+ .../16x16/actions/format-text-italic.png      | Bin 0 -> 697 bytes
+ .../actions/format-text-strikethrough.png     | Bin 0 -> 480 bytes
+ .../16x16/actions/format-text-underline.png   | Bin 0 -> 593 bytes
+ gtk/icons/16x16/actions/go-bottom.png         | Bin 0 -> 409 bytes
+ gtk/icons/16x16/actions/go-down.png           | Bin 0 -> 403 bytes
+ gtk/icons/16x16/actions/go-first-rtl.png      | Bin 0 -> 489 bytes
+ gtk/icons/16x16/actions/go-first.png          | Bin 0 -> 491 bytes
+ gtk/icons/16x16/actions/go-home.png           | Bin 0 -> 582 bytes
+ gtk/icons/16x16/actions/go-jump.png           | Bin 0 -> 343 bytes
+ gtk/icons/16x16/actions/go-last-rtl.png       | Bin 0 -> 491 bytes
+ gtk/icons/16x16/actions/go-last.png           | Bin 0 -> 489 bytes
+ gtk/icons/16x16/actions/go-next-rtl.png       | Bin 0 -> 403 bytes
+ gtk/icons/16x16/actions/go-next.png           | Bin 0 -> 388 bytes
+ gtk/icons/16x16/actions/go-previous-rtl.png   | Bin 0 -> 388 bytes
+ gtk/icons/16x16/actions/go-previous.png       | Bin 0 -> 403 bytes
+ gtk/icons/16x16/actions/go-top.png            | Bin 0 -> 431 bytes
+ gtk/icons/16x16/actions/go-up.png             | Bin 0 -> 336 bytes
+ gtk/icons/16x16/actions/help-about.png        | Bin 0 -> 530 bytes
+ gtk/icons/16x16/actions/help-contents.png     | Bin 0 -> 534 bytes
+ gtk/icons/16x16/actions/image-missing.png     | Bin 0 -> 405 bytes
+ gtk/icons/16x16/actions/list-add.png          | Bin 0 -> 380 bytes
+ gtk/icons/16x16/actions/list-remove.png       | Bin 0 -> 222 bytes
+ gtk/icons/16x16/actions/media-eject.png       | Bin 0 -> 333 bytes
+ gtk/icons/16x16/actions/media-flash.png       | Bin 0 -> 378 bytes
+ gtk/icons/16x16/actions/media-floppy.png      | Bin 0 -> 560 bytes
+ gtk/icons/16x16/actions/media-optical.png     | Bin 0 -> 1020 bytes
+ .../16x16/actions/media-playback-pause.png    | Bin 0 -> 268 bytes
+ .../16x16/actions/media-playback-start.png    | Bin 0 -> 369 bytes
+ .../16x16/actions/media-playback-stop.png     | Bin 0 -> 252 bytes
+ .../16x16/actions/media-playlist-repeat.png   | Bin 0 -> 393 bytes
+ .../16x16/actions/media-playlist-shuffle.png  | Bin 0 -> 441 bytes
+ gtk/icons/16x16/actions/media-record.png      | Bin 0 -> 419 bytes
+ gtk/icons/16x16/actions/media-removable.png   | Bin 0 -> 834 bytes
+ .../16x16/actions/media-seek-backward.png     | Bin 0 -> 332 bytes
+ .../16x16/actions/media-seek-forward.png      | Bin 0 -> 369 bytes
+ .../16x16/actions/media-skip-backward.png     | Bin 0 -> 401 bytes
+ .../16x16/actions/media-skip-forward.png      | Bin 0 -> 459 bytes
+ gtk/icons/16x16/actions/media-tape.png        | Bin 0 -> 506 bytes
+ gtk/icons/16x16/actions/multimedia-player.png | Bin 0 -> 586 bytes
+ .../actions/multimedia-volume-control.png     | Bin 0 -> 348 bytes
+ gtk/icons/16x16/actions/network-idle.png      | Bin 0 -> 535 bytes
+ gtk/icons/16x16/actions/printer-error.png     | Bin 0 -> 622 bytes
+ gtk/icons/16x16/actions/process-stop.png      | Bin 0 -> 422 bytes
+ gtk/icons/16x16/actions/system-run.png        | Bin 0 -> 305 bytes
+ gtk/icons/16x16/actions/text-x-generic.png    | Bin 0 -> 535 bytes
+ .../16x16/actions/tools-check-spelling.png    | Bin 0 -> 507 bytes
+ gtk/icons/16x16/actions/view-fullscreen.png   | Bin 0 -> 415 bytes
+ gtk/icons/16x16/actions/view-refresh.png      | Bin 0 -> 698 bytes
+ gtk/icons/16x16/actions/view-restore.png      | Bin 0 -> 338 bytes
+ .../16x16/actions/view-sort-ascending.png     | Bin 0 -> 359 bytes
+ .../16x16/actions/view-sort-descending.png    | Bin 0 -> 367 bytes
+ gtk/icons/16x16/actions/window-close.png      | Bin 0 -> 337 bytes
+ gtk/icons/16x16/actions/zoom-fit-best.png     | Bin 0 -> 481 bytes
+ gtk/icons/16x16/actions/zoom-in.png           | Bin 0 -> 492 bytes
+ gtk/icons/16x16/actions/zoom-original.png     | Bin 0 -> 507 bytes
+ gtk/icons/16x16/actions/zoom-out.png          | Bin 0 -> 450 bytes
+ .../audio-volume-high-symbolic.symbolic.png   | Bin 0 -> 297 bytes
+ gtk/icons/16x16/status/audio-volume-high.png  | Bin 0 -> 725 bytes
+ .../audio-volume-low-symbolic.symbolic.png    | Bin 0 -> 317 bytes
+ gtk/icons/16x16/status/audio-volume-low.png   | Bin 0 -> 433 bytes
+ .../audio-volume-medium-symbolic.symbolic.png | Bin 0 -> 315 bytes
+ .../16x16/status/audio-volume-medium.png      | Bin 0 -> 552 bytes
+ .../audio-volume-muted-symbolic.symbolic.png  | Bin 0 -> 305 bytes
+ gtk/icons/16x16/status/audio-volume-muted.png | Bin 0 -> 545 bytes
+ .../changes-allow-symbolic.symbolic.png       | Bin 0 -> 177 bytes
+ .../changes-prevent-symbolic.symbolic.png     | Bin 0 -> 168 bytes
+ .../dialog-password-symbolic.symbolic.png     | Bin 0 -> 237 bytes
+ .../dialog-warning-symbolic.symbolic.png      | Bin 0 -> 286 bytes
+ .../document-open-symbolic.symbolic.png       | Bin 0 -> 194 bytes
+ .../status/edit-clear-symbolic.symbolic.png   | Bin 0 -> 238 bytes
+ .../status/edit-find-symbolic.symbolic.png    | Bin 0 -> 316 bytes
+ .../status/list-add-symbolic.symbolic.png     | Bin 0 -> 116 bytes
+ .../status/list-remove-symbolic.symbolic.png  | Bin 0 -> 100 bytes
+ .../status/open-menu-symbolic.symbolic.png    | Bin 0 -> 106 bytes
+ .../status/pan-down-symbolic.symbolic.png     | Bin 0 -> 135 bytes
+ .../status/pan-end-symbolic.symbolic.png      | Bin 0 -> 147 bytes
+ .../status/pan-start-symbolic.symbolic.png    | Bin 0 -> 140 bytes
+ .../16x16/status/pan-up-symbolic.symbolic.png | Bin 0 -> 122 bytes
+ .../user-trash-full-symbolic.symbolic.png     | Bin 0 -> 357 bytes
+ .../status/user-trash-symbolic.symbolic.png   | Bin 0 -> 164 bytes
+ .../status/window-close-symbolic.symbolic.png | Bin 0 -> 195 bytes
+ .../window-maximize-symbolic.symbolic.png     | Bin 0 -> 149 bytes
+ .../window-minimize-symbolic.symbolic.png     | Bin 0 -> 104 bytes
+ .../window-restore-symbolic.symbolic.png      | Bin 0 -> 140 bytes
+ .../status/audio-volume-high-symbolic.svg     |   1 +
+ .../status/audio-volume-low-symbolic.svg      |   1 +
+ .../status/audio-volume-medium-symbolic.svg   |   1 +
+ .../status/audio-volume-muted-symbolic.svg    |   1 +
+ .../status/changes-allow-symbolic.svg         |   1 +
+ .../status/changes-prevent-symbolic.svg       |   1 +
+ .../status/dialog-password-symbolic.svg       |   7 +++
+ .../status/dialog-warning-symbolic.svg        |   1 +
+ .../status/document-open-symbolic.svg         |   1 +
+ .../scalable/status/edit-clear-symbolic.svg   |   4 ++
+ .../scalable/status/edit-find-symbolic.svg    |   7 +++
+ .../scalable/status/list-add-symbolic.svg     |   4 ++
+ .../scalable/status/list-remove-symbolic.svg  |   4 ++
+ .../scalable/status/open-menu-symbolic.svg    |   8 ++++
+ .../scalable/status/pan-down-symbolic.svg     |  41 ++++++++++++++++++
+ .../scalable/status/pan-end-symbolic.svg      |  41 ++++++++++++++++++
+ .../scalable/status/pan-start-symbolic.svg    |  41 ++++++++++++++++++
+ gtk/icons/scalable/status/pan-up-symbolic.svg |  41 ++++++++++++++++++
+ .../status/user-trash-full-symbolic.svg       |   1 +
+ .../scalable/status/user-trash-symbolic.svg   |   1 +
+ .../scalable/status/window-close-symbolic.svg |   1 +
+ .../status/window-maximize-symbolic.svg       |   1 +
+ .../status/window-minimize-symbolic.svg       |   1 +
+ .../status/window-restore-symbolic.svg        |   1 +
+ 142 files changed, 212 insertions(+)
+ create mode 100644 gtk/icons/16x16/actions/application-exit.png
+ create mode 100644 gtk/icons/16x16/actions/dialog-error.png
+ create mode 100644 gtk/icons/16x16/actions/dialog-information.png
+ create mode 100644 gtk/icons/16x16/actions/dialog-password.png
+ create mode 100644 gtk/icons/16x16/actions/dialog-question.png
+ create mode 100644 gtk/icons/16x16/actions/dialog-warning.png
+ create mode 100644 gtk/icons/16x16/actions/document-new.png
+ create mode 100644 gtk/icons/16x16/actions/document-open.png
+ create mode 100644 gtk/icons/16x16/actions/document-print-preview.png
+ create mode 100644 gtk/icons/16x16/actions/document-print.png
+ create mode 100644 gtk/icons/16x16/actions/document-properties.png
+ create mode 100644 gtk/icons/16x16/actions/document-revert.png
+ create mode 100644 gtk/icons/16x16/actions/document-save-as.png
+ create mode 100644 gtk/icons/16x16/actions/document-save.png
+ create mode 100644 gtk/icons/16x16/actions/drive-harddisk.png
+ create mode 100644 gtk/icons/16x16/actions/edit-clear-all.png
+ create mode 100644 gtk/icons/16x16/actions/edit-clear.png
+ create mode 100644 gtk/icons/16x16/actions/edit-copy.png
+ create mode 100644 gtk/icons/16x16/actions/edit-cut.png
+ create mode 100644 gtk/icons/16x16/actions/edit-delete.png
+ create mode 100644 gtk/icons/16x16/actions/edit-find-replace.png
+ create mode 100644 gtk/icons/16x16/actions/edit-find.png
+ create mode 100644 gtk/icons/16x16/actions/edit-paste.png
+ create mode 100644 gtk/icons/16x16/actions/edit-redo.png
+ create mode 100644 gtk/icons/16x16/actions/edit-select-all.png
+ create mode 100644 gtk/icons/16x16/actions/edit-undo.png
+ create mode 100644 gtk/icons/16x16/actions/folder.png
+ create mode 100644 gtk/icons/16x16/actions/format-indent-less.png
+ create mode 100644 gtk/icons/16x16/actions/format-indent-more.png
+ create mode 100644 gtk/icons/16x16/actions/format-justify-center.png
+ create mode 100644 gtk/icons/16x16/actions/format-justify-fill.png
+ create mode 100644 gtk/icons/16x16/actions/format-justify-left.png
+ create mode 100644 gtk/icons/16x16/actions/format-justify-right.png
+ create mode 100644 gtk/icons/16x16/actions/format-text-bold.png
+ create mode 100644 gtk/icons/16x16/actions/format-text-italic.png
+ create mode 100644 gtk/icons/16x16/actions/format-text-strikethrough.png
+ create mode 100644 gtk/icons/16x16/actions/format-text-underline.png
+ create mode 100644 gtk/icons/16x16/actions/go-bottom.png
+ create mode 100644 gtk/icons/16x16/actions/go-down.png
+ create mode 100644 gtk/icons/16x16/actions/go-first-rtl.png
+ create mode 100644 gtk/icons/16x16/actions/go-first.png
+ create mode 100644 gtk/icons/16x16/actions/go-home.png
+ create mode 100644 gtk/icons/16x16/actions/go-jump.png
+ create mode 100644 gtk/icons/16x16/actions/go-last-rtl.png
+ create mode 100644 gtk/icons/16x16/actions/go-last.png
+ create mode 100644 gtk/icons/16x16/actions/go-next-rtl.png
+ create mode 100644 gtk/icons/16x16/actions/go-next.png
+ create mode 100644 gtk/icons/16x16/actions/go-previous-rtl.png
+ create mode 100644 gtk/icons/16x16/actions/go-previous.png
+ create mode 100644 gtk/icons/16x16/actions/go-top.png
+ create mode 100644 gtk/icons/16x16/actions/go-up.png
+ create mode 100644 gtk/icons/16x16/actions/help-about.png
+ create mode 100644 gtk/icons/16x16/actions/help-contents.png
+ create mode 100644 gtk/icons/16x16/actions/image-missing.png
+ create mode 100644 gtk/icons/16x16/actions/list-add.png
+ create mode 100644 gtk/icons/16x16/actions/list-remove.png
+ create mode 100644 gtk/icons/16x16/actions/media-eject.png
+ create mode 100644 gtk/icons/16x16/actions/media-flash.png
+ create mode 100644 gtk/icons/16x16/actions/media-floppy.png
+ create mode 100644 gtk/icons/16x16/actions/media-optical.png
+ create mode 100644 gtk/icons/16x16/actions/media-playback-pause.png
+ create mode 100644 gtk/icons/16x16/actions/media-playback-start.png
+ create mode 100644 gtk/icons/16x16/actions/media-playback-stop.png
+ create mode 100644 gtk/icons/16x16/actions/media-playlist-repeat.png
+ create mode 100644 gtk/icons/16x16/actions/media-playlist-shuffle.png
+ create mode 100644 gtk/icons/16x16/actions/media-record.png
+ create mode 100644 gtk/icons/16x16/actions/media-removable.png
+ create mode 100644 gtk/icons/16x16/actions/media-seek-backward.png
+ create mode 100644 gtk/icons/16x16/actions/media-seek-forward.png
+ create mode 100644 gtk/icons/16x16/actions/media-skip-backward.png
+ create mode 100644 gtk/icons/16x16/actions/media-skip-forward.png
+ create mode 100644 gtk/icons/16x16/actions/media-tape.png
+ create mode 100644 gtk/icons/16x16/actions/multimedia-player.png
+ create mode 100644 gtk/icons/16x16/actions/multimedia-volume-control.png
+ create mode 100644 gtk/icons/16x16/actions/network-idle.png
+ create mode 100644 gtk/icons/16x16/actions/printer-error.png
+ create mode 100644 gtk/icons/16x16/actions/process-stop.png
+ create mode 100644 gtk/icons/16x16/actions/system-run.png
+ create mode 100644 gtk/icons/16x16/actions/text-x-generic.png
+ create mode 100644 gtk/icons/16x16/actions/tools-check-spelling.png
+ create mode 100644 gtk/icons/16x16/actions/view-fullscreen.png
+ create mode 100644 gtk/icons/16x16/actions/view-refresh.png
+ create mode 100644 gtk/icons/16x16/actions/view-restore.png
+ create mode 100644 gtk/icons/16x16/actions/view-sort-ascending.png
+ create mode 100644 gtk/icons/16x16/actions/view-sort-descending.png
+ create mode 100644 gtk/icons/16x16/actions/window-close.png
+ create mode 100644 gtk/icons/16x16/actions/zoom-fit-best.png
+ create mode 100644 gtk/icons/16x16/actions/zoom-in.png
+ create mode 100644 gtk/icons/16x16/actions/zoom-original.png
+ create mode 100644 gtk/icons/16x16/actions/zoom-out.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-high-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-high.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-low-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-low.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-medium-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-medium.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-muted-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/audio-volume-muted.png
+ create mode 100644 gtk/icons/16x16/status/changes-allow-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/changes-prevent-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/dialog-password-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/dialog-warning-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/document-open-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/edit-clear-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/edit-find-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/list-add-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/list-remove-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/open-menu-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/pan-down-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/pan-end-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/pan-start-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/pan-up-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/user-trash-full-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/user-trash-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/window-close-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/window-maximize-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/window-minimize-symbolic.symbolic.png
+ create mode 100644 gtk/icons/16x16/status/window-restore-symbolic.symbolic.png
+ create mode 100644 gtk/icons/scalable/status/audio-volume-high-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/audio-volume-low-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/audio-volume-medium-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/audio-volume-muted-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/changes-allow-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/changes-prevent-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/dialog-password-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/dialog-warning-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/document-open-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/edit-clear-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/edit-find-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/list-add-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/list-remove-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/open-menu-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/pan-down-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/pan-end-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/pan-start-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/pan-up-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/user-trash-full-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/user-trash-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/window-close-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/window-maximize-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/window-minimize-symbolic.svg
+ create mode 100644 gtk/icons/scalable/status/window-restore-symbolic.svg
+
+diff --git a/gtk/icons/16x16/actions/application-exit.png b/gtk/icons/16x16/actions/application-exit.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2b74d446b353c1459c2f8b2e4242892a3bb3d2d1
+GIT binary patch
+literal 673
+zcmV;S0$%-zP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007LNkl<ZcmY+D
+z1I#RE6o#K~cV_<Cu4=nsZQE{x+O`|3wtH>cwh>$-`fYnPzI&28$<8~*dA>vKjkjK%
+znaky002D+Oi^b4&9n(ypX&Op_=X%(V9q5KJXWZ!VFKJ@@<l|4Prlux_hleQ?3KWY)
+z9LFIZkMq}Gf0VBp0uu#6fa^Ny%dfwD9(Y9qR5F>Qs;Ual^N=5uQV75>jIv=IP16yW
+z$oG9j2{WO9m<Aw#R4Ns5-L`E6(7Adw2R{28f!;8BG-p2Y2ueZhI8X}><mW^p5rHJ~
+zc@Dhy4tGC)0lwq2<HHYmqM<%aR}>(JxG9Gu&i6ddSiYPqZa#^a9bgZ;R7$A|fVd}y
+z0tv6#efzke)WI27UPAB8b`E#+Q*d48>IR~#Qc31bnDUrb>2i4JgM*yDemz&dc@g~^
+zy3o$ixaY0Qsnk$yj;%9mM@9hQ>XIM}=-u6gb94yfOq2efdZ<+VvJ5341VlpMlv5aZ
+z^ilRMUCLFN6FBYJ^VvDKk=EuMq1>7hW-9ej2#`EP!f<c7h2En_>9Q<NZ#kJ;UP`lM
+zS`)9-)KDrF`0o4f`1`MaSA|I=^g<3Psa)L`U*y2AzjBGXj!Y_t4LFX4Wm~wO2M|O&
+zkbXB!6S+1wH*@B>=Wx-Vf3Wb|?_e|B`NwbM@_9<7BGPDpuZdykzO-{~Z7p#<#sd%C
+zhjgdBKj;2?2sJn~Aj5=hTZDZO=(?_CkcM)DTzSpqWsrgExeN>rpr~lP0AyA?-^H@5
+z0P&!$y<^MFSu^hL?dwrxv1`{(h$_sH7>5HDq*Cb_N~z!&ec$<Ympd3(00000NkvXX
+Hu0mjfg|R&F
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/dialog-error.png b/gtk/icons/16x16/actions/dialog-error.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c874dc47b2ce4ddc4087781b153e17077a089216
+GIT binary patch
+literal 652
+zcmV;70(1R|P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00070Nkl<Zcma)5
+zRhAS%5R9yr-SJt)-QD@YZ-N~F{lVb?$Ukxv+}+(_+-G`bce^W#>R!Vk-iz|6l$S|L
+zDSVIY%$W-Xuw62*2lHG#LrVFArM$$zndzC#V|<6v4>oNwbDuu#H*9;a8q*WvWI~{)
+z3lIWaEQ5179(eP<<@WcVsFg~`Rw(6;en4bqrcAjm67hMMF)gB+O{j7OT&sfsP$B_z
+zcLI?JTKDcdZoc>`RjsbxsFY^{Kx*Q|{S*$(!-Vk>e)}F65*h#$0JO4D=?sueAhd8n
+zMBRThXN;6b034uCW5z5b%erCBnh~LV5z28uLVz#|-%Dl=X2hbv_^~KoyV=y?tQ9Wv
+zc8Wzq)NBP}p~V3W1BRx*CZdtq_YO`I?PJG;1h7T0&NkV$@WsIcO#=M&=w9=Cs7e)P
+zEJ{qY-c(Y~g=IlC9E^GO3NQ@(6;dKKYZi=-Bv{HhLV6ychT_xw9|Ui;j+tRf<`-VW
+zS!P-$Qq!mZ)@3LK^*tkDc=fvf?xk>D_mW$$v$8BmDZ#&CaLydi-%}`rfoe@D=1W4l
+z?wNYN(DDR<+uBA1qYT6&pCcTC)ZRAI={^OV6S^cH>&p}M_a7UgGYM{Q|Gfu3Lm{BI
+z2esF49Y{X4QmOkvDc>csKy=fN#b!r!DU<)W;Q*}`6aWzpL&Ty`wvF1WH%+fveWP_N
+z{eBo}rVB)7T!<qe+8NeGVkY8b#N$Cib&lZan476|AEZ15;Ls1v^gZqnEhAuy7OvNK
+ma{vU{*6T}t%)Z<B4&MN#yNr`dEsJIV0000<MNUMnLSTZ?qbUji
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/dialog-information.png b/gtk/icons/16x16/actions/dialog-information.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..93a0fdc71b3f6187d6fc6f361e72baba2d1c22b1
+GIT binary patch
+literal 616
+zcmV-u0+;=XP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006nNkl<Zcma)&
+z1B@SC5Wv6StHW9`YsX3B+P1?wtc|m6TYGDqZQJ(U-`weYHU3I=JoB5`_a6ZKAxTL|
+z^H_nr#|cz5C(>h_NEvyN8s#La0_So4_x?YI34&O}id1JsRmu3s=y1=>%yff7p~xQ{
+z8_8^KZ_3Imlv)t54fk0Da1tHR&{#XI*XyRcdb<1@nrhFKmltkqZ*SVx*VlDuV4&}H
+zevwp#miSo)h}7WpRNtg>#It#3EIvY(WdZ=&kffXEVqP1ko|W}>B*&n>9xDLapi`F5
+z0hrL&53;^W0fv@x(ARW=u^n(;Gyb8N6-d2B0D7#}-Y%(8KO3Tzjoko%XC?q-EfNhF
+zXFauTEkQ5P1r1gJ^sBtWoQm%5dRHOibeVbj>9DLy1hc{)dg`ur!_2E~XuA_9F|REG
+zST=11E0Sf^wdF3a-#&YM`P!KSFm!bN_1mWooxON!e||o*niD9B%pq4<1Yi*)`VKEq
+zDV)e$4h{)uMCU?KuwNzfb(p-5e)Bf&vkJ(`A(o+`BwnJO@UYozGGL1y__QE0E`pG`
+z(k1{)Hj^1jP-%wJ@*>D0(;<UMfz0d_EkR}Y<GNiySXA(=l*fTqtAYB)8o(E%WhO&t
+zM9{2504LXvai5&t!{p=y)YVr*Hk|=Dc5?X`=Mccz_0tT+X8mzNd}1^Le3)?*aQl<f
+z2NmA>Lq2|fr^0!M09ZC|+`DAUu03@~09zbe>iYuxfb&1z;Y*qT0000<MNUMnLSTZJ
+C_aN;6
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/dialog-password.png b/gtk/icons/16x16/actions/dialog-password.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..66aa8ba729ac87448b698d85d6d1db3e91437bc8
+GIT binary patch
+literal 551
+zcmV+?0@(eDP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005*Nkl<ZcmcIj
+zLxLSa819&xcoS}Oi}0NwSI8Z*8&6L&w(YE9+s4eZ&9?hXRj`TKMt%6jL?V&DI{z<0
+zS6A0~mhF!S($H=}VoTy${t+jz{gTu*{bvLeJXMs3;x}$xHA>|oJkNussdzX1+Lzaf
+z?LoeG>30bLj3VGmBhg{cv<wtVSq#VDAf6sUTWP^Cb!^zQR^j=s*$ibOi)(_!Da7W7
+zlNVX-;p6+Z<JcG>z}LgikuPOHfvTo}lBP4sfZ&cYn>MdEEX%^@Eeu1@)3PnZQ&CWY
+z1W~5no;-PEKYaYaqR)QdLzK8Wvw7<#%kw>`ssaismI}z`Qh4+3C0@OKjyJ<Epr{?_
+zx(;4q&vD}5`C6?4x^3CEDPTxucRqjq%zO0sfqUr40hes>JQuBY6R%#sz{}UqNDgwK
+zs;AGKa88^&>i9%32m**Qr!f8f{c|Lldnc{sPYrT?t2S-fV4ga2!pLOPK6Ul%#S<jc
+zF{ru<3Zh`gbx^L9AjsV1uPVUvy^98ffyMG#K2|Q5Lh7Vc&Lf?TBbkY!)~LWG1lx9O
+zG3dJQ_CcT6H*ft$sS}Nk_%z8hX+apEO5&$rP8eMM(@tbrc0Ml-u94OWZ#Qq*;FB;F
+pN#-w8<=>qJ+L;so|1kZ@`5vAF4vA=O9FPD2002ovPDHLkV1fu13TglV
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/dialog-question.png b/gtk/icons/16x16/actions/dialog-question.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6df7daf1f642bb3d09f4967435a4188f21951e80
+GIT binary patch
+literal 500
+zcmV<Q0So?#P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005INkl<ZcmbW0
+zgK{N76o&Vqf;U;0YmLI%j&0kvZQFJVadO91|Mux?W32C+?t@zZ9PWY7ih}~56rIwU
+z?w#$9;ipAusde+BAgf5Inic8ZQvruFnifT!q@rj37&=))RQZ%si5;BTyeJBihUUpb
+zl=knSerz8k3oDrr97(L;v<CXKhQ^6QR1EH+a&Q*~-J9&ZgBwvrP~n)J!~`eT&x`a?
+z<<Ktjy0>6lR`xHD(zJs7&JA4Y6#UK`5m<0d5*}>|)U}`>w{sIoO{++6TSr#=2AjqK
+zm&DgCBD`V_DUD0GxRLQIXISumQWV4m0W4Kl3@#toMrg%6qHC8BU%!mRh7}GsjO}sw
+zXW<lHCJiFKb{?l!5&|9<o`R2nnf~OB3e3#FB?OhtB8-W`E9VhfK8Me_6L=awi2EU3
+zc$Yqcvug=IvrQu~$AIQ`&Lm+B{FF0+*D1rG<zZO2HOz-!kmfK8zjK-7TE?gBaXcU}
+zv<vrwJFVbAf?d_YFN5S=#whLtb>MCKup`)cB~pqg$^=DM&2jj9&Jc$^?gjdo0(E*t
+q0UI*S*<%6i6lF>kojvGA-}nEYH};@d?qVtc0000<MNUMnLSTYqNaF4Q
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/dialog-warning.png b/gtk/icons/16x16/actions/dialog-warning.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b576a6bee318ea2ccf6d3cbb07f5a7b561deeb0b
+GIT binary patch
+literal 570
+zcmV-A0>%A_P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00063Nkl<Zcmbu1
+z1B`T67(mZ=?|t*;4VSYSudS#-ZG<($+O};oW}~`cquL0o-&U|1<K0E{o9FV=!CJfD
+zGyfoig@>H~3lFNl%J-8yP@m!eC>{FH44*roht8YwP2d9#z<veA2jwiCnjVu#LR2)N
+zRATg$^8Iq$;R$4kVEkQ`9QVX)L)<u$oCw;0_ugR%3J-9JB&Sk{LZ!!0sbNGpB3&aR
+z^AE_m2Nygkre@-ANHiG|6F{}5P#wKs48(GwhVtHB>QM(2?3m*^=@^Jfvx-U%a_?(j
+ztQ?&jM%g;HwKuVSmMixw*nYi)YC8H{AQ%dX8$!i9>4-TbS^}uHG!k%e!?AE(yw}#;
+zChk6hqHs?jmT+{VgwBp)8)Z_h4yiT=+pM6o<Cta{6KVIP&MkWg{<%ilnmTxI#3dxr
+zHY6N_B~iY^p|{Ij`Ae)FF`5W-;aZc&)?6hq00U6BJRS<UM*C%SeiZ6OKyl)52>b>V
+zwt!zpX9qEx|HO4L1&2p~`{b7^$tc7BLm4;ZrU!8*Plpu*eZuPiG=IDctOe^+`{PTh
+z+t;&d2PNgxZyNAo!ox9s6`kzCugoE$VCii6_$olK)dFC#)<@??aCWVyC4}C!!1MCW
+zrED5Xl8t#B5wj&&y@NIK)df7_!z0$>as-G_SvvQMwU%RH5n7A5`lsA&X#fBK07*qo
+IM6N<$f-15Fp8x;=
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-new.png b/gtk/icons/16x16/actions/document-new.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0dcbfec95d17f5192b77d6da7a07856c26916ff6
+GIT binary patch
+literal 330
+zcmV-Q0k!^#P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003INkl<Zcmd7Q
+zHC6;M7zgmZ6I57_)8p<Z!1W+F{kprm?>0Ep_>P9jhZBL4|9kP|H>$%aR<g!iDTP=i
+zUrq~!N@i8Zind8boYaIGy1G7p){reO@bvUZEty;rpv#-{TCtp6B!E;d2Eg<46SXAM
+zF=TZZQMp<`sa#wjfLJO7fFRVk1t*>ks{{~=`2Y|_fmxi1Q#7z;LX9)~sD6AeS~s!V
+z{sH)cZU7`nq83;33?G7m^WN8x9st~42LQ4xQ%m25kpe)80N`+208kW#T3Y6h5gCB)
+z0I<8v-2b3|)5O1n-vD3sk`9dRxA6c18Qj*s!t_2|`QtDjAcOaQ9Q;3k+iNr6fBi27
+c@BMoA1tgx^5)%wHasU7T07*qoM6N<$f(`(UW&i*H
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-open.png b/gtk/icons/16x16/actions/document-open.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..47547143ad51535ade7d99c74bcb00955fbad09d
+GIT binary patch
+literal 420
+zcmV;V0bBlwP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004NNkl<Zcmbu6
+z1F~FE5I|=oDOYxoC1n%Q*j6dl*v3<A+Zx+`o!b+94eNK+DKySS3l1IG>%!Anhj2uI
+z-B1o;KYLAhe7(Ra>O5ht!1J4qJv?Qv0Ob<(sB6Mws|60>_-@PwH-ox8+>V&wR>;6-
+z9U>lYwBUvV${{|vRDj%xm;q~d;|qvdfx0dl9}rwUrvtS{4obCbAy~s6oFTWH91vgw
+z&-1V>u!cQL1$YWZnu;$31AEpA>h<bEHWGB2C18S9pgo$UFdi+?Zq@97z-*Gkov0mh
+z@9#jX@By0nchJnefyS>_Q2+S?YTuth_1hCDeY!uF2pErIN_(~c&0N3$#m|rDL%Ek}
+z$h}A{h0GCwPscY%bG!T*I^{3O{G{BgG!dkhl7CJ85wKoeEB}UpU(e$3^J#Q5p2eW>
+zmcu8E$rCiu7u5OL_s2olhL`ktp7m(%2r_Qv5hD43@81U2tNBj0aP&9DtinR6j^v^M
+O0000<MNUMnLSTa4#lfQh
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-print-preview.png b/gtk/icons/16x16/actions/document-print-preview.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0b28f415c6cb70d23de6733e09b7e23666b1696f
+GIT binary patch
+literal 674
+zcmV;T0$u%yP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007MNkl<Zcmaix
+z1CVQJ7zMK`V_Ejv2%l|^&1c)@*tTukwr$(y*?f2GTh-Bjx+B)#Jl>^$1>1*2r6ecS
+zG(OB~Xscl}XhU0a$YuS-;my2y^9mlGZm6xRMt67DrqG7A<d91N=;&$V`OBxm!z!q#
+zDnUX@45AVuI4yD-J9h7cn4|>u9XbdRadFx(TXM)<4BWYY2L**W5D`0zcOT#2=!s)^
+z_3kCuJRXjnItBjDT{wK=1Z`-$Dxj-{i&rioDK#F_@-o<e_z-sQ-;eFP_kb<nL&rdu
+z&K968IZFWpBR$9|DIhH)X$2wC(U5&)gFhv78Dt(>BP1$@w&W}YoLn67UhN|W2L~3Z
+zs%r&XRv#}+!w{QZf}n(a+|mvNN7evOUw<TLDRBG#T^u@o9L41Yi^xB-#{+|4w6(Qk
+ze0-cCE~gR?g|D$io|3Z^IDh#f1j6sjyue~H{BYtu+`_XNapB6Z?SxBMHhwv)PR?Rr
+zR!mx&dGh-03slyZAUw|re@be@)F%~nt$mo7nn6eZIHL2K;T@faUxfj3$YuS_<~{nG
+z%b%ja)8~&cH8X*l?mWo7u*5^dV0gq7Att{WK^YAQPb<e;^Dz9l|0>8Kmv!XG5f+=x
+z{(=H`?%hJyP!oDa+R)t53yz!tUYm!*KQ^EF5#L*c;a@3j{QftWzNWp9PniHg0aG($
+z&^10ag6Y{QWL0P3nwk&(k=AAS_tbqxcK33@AAkH#5rY*0WmQFNb}6YS;Hz)HV`Om&
+zQ3}+q2uMncLrO+sBj|kLpZX}IQOLE$z&|{`D;;hH?G_y3e{79l0kF88bpQYW07*qo
+IM6N<$f}fo<-T(jq
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-print.png b/gtk/icons/16x16/actions/document-print.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f34cfc304d8c82b106e1999ab9e5a90dbd8d35a6
+GIT binary patch
+literal 532
+zcmV+v0_**WP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005oNkl<Zcma)!
+z1B_e^7)9UjKepAF<#26#cUT)iZQEv?)ClW_wQa6#8>f4NwZ7!ey!Y-o*BEQH&Kqy{
+ztxa{iT6XQ((XnU$E{2L2v2x@ZW6aj}O<Oi``N~ByGJjE4Ryt(Fh?OH(0~|QCpY<Ep
+zc9uVxF>@MDcN(eA6cSSs@eA}P&E+H{BAgV5LyTBC$n6?fvU~~eKfER-EtzdQw-6l{
+z!=`N;F<Gs|BqU(-4<IrwPK?+-0|)mpcfmX!KDmcyvX{`v2m(Vx@eK^ZWVdnP$U${o
+z5i6%_;K;E<Oqw=@r_UdbC}QPw4V*oHhV8p{Qd3hsqKK8#HL!U3QX*nw`Sk7mh$2=_
+z*TC%gbFl{op=ZM|295ej)29&{6)mT0pd-!W(F>cmZs14OXYRZ`tMK5{HNIrLBR@Z1
+zQ7?`phXXlsjj<-{s<9SZtBSSjSJB$uOnTW{Ugg~3MfOdFoXW50)Qjun+vLbKqN1V<
+zlgadtiY3byQCgczd3_;m?JZO_mQvMFLP>279dxKi+^FE-|K-Rv^rNUadFnX2rq+7e
+zI$Fsp|EOm^6+Gm7@pJWv6R-3em_BnVL!A1d2V5QpZm)B&s2_Y_oYi(g<!}+#bKp0z
+Wx?v21gHn$G0000<MNUMnLSTZc-}gxX
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-properties.png b/gtk/icons/16x16/actions/document-properties.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8b85637e16ce5fd50939d3920ef4a7cd83e40762
+GIT binary patch
+literal 487
+zcmV<D0T}*?P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00055Nkl<Zcmajd
+z!@68S6b0Zod6>LT&y#s<JCkeMwr$(CZ`=0D**i{kSJwBHtNz0al+Epx&ehFDL@R5X
+zOaArk<qsF4McEXFBwn8v=js!Wf_#+%ZnrC9SzcXW=uC6s-Pl@rBLIu5vkZ7V?ucb!
+zX%;>G9oX7g$KvXoPXJ~YCmHbhywXCMTbc?Bz~t;G1Af0xS}0R<V<Ip*F~mS15cpMQ
+zW~Y&nm4<?%T<jn0@f>Ara##e0M*0~D27|v!U40Gu`g>qB8Bti2hvVZT28KubMWBDE
+zn}JX$gvF%=)YeynQd?K8jOSssSy5V61PbjHfWE;l0yt?IDQInLLS<DMD8;3PeEV5B
+z8KBT!DUgwsirw8UjE#?=pfDGDgC0hs5!nhr(0_rWqeCR6#6hDu=buQcRm0_SpsTwR
+z#U%ywKga+Mzp%{g48$kKA}KimZS5_Lbab}y+}*o(uZuvG`2BvyT3Q<!A?(fDmlGd8
+z+`1tH1SBmZ6-~|ca5$`JX=&_#`SQsFl}dH_$A8e<PXD^BboR6&AvqSU?M(+xr~P(A
+dL&Hrv`wcXgu@N-wa@PO=002ovPDHLkV1kHB+^zrs
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-revert.png b/gtk/icons/16x16/actions/document-revert.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b86b2a012dc5fa024df38c63c87ebc49485c6e85
+GIT binary patch
+literal 460
+zcmV;-0W<!IP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004#Nkl<Zcmb`_
+zL)#Sr7{>9pZ__&4u5S=F*|y!TO>UKK`?Zg4+djj)nJ0G`p6mJ_41U8Fd5jkAOPxuD
+zTItPd#$eGLYN<8SMk4A=nJFU>^p+&#cwL}aEL2USQxfD4dCNw#c3%ac(hU$$Diy1y
+zR1e_ohnFy04N&O@nF?S))k6Tol<OwXpt@JA0D1;G2w+*}mjcl=ww-Ooq;<D3QR>D!
+z6FLS}l|V;#D*+tGeJ>cxVEU$en7QR1w2l~#U+cx#)i-hcYA>F5+h+d)w6=dBfam$|
+z?Y`KKDI4y<<Vm1V=CI`WD~wov9n&`5MXxdF{{{Ha`i1~O5WY8W`$MR0QOHv$vG7N8
+za`f91&PbPmA>V=bpI%qI2McySg25H1-z+B}Q(!2oFNJldKa?8+yDxRn>Dv4$<V!3T
+z9eqicKrOrWly<BK_@X(wfwQ*WhtZwDsT=*Y^Tf3`Fnq<$p^X5VSh|RPmpd_S<6XL;
+zyDqfj!Sk2&80!G_N8a}T1Fh}vUdZoyGs)ZjyzggTU97VzHMv#*0000<MNUMnLSTZ?
+CQ`rpw
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-save-as.png b/gtk/icons/16x16/actions/document-save-as.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..458b0fac3f4fc24d7c2e146bb6585c10078a4750
+GIT binary patch
+literal 509
+zcmV<Z0RsMsP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005RNkl<Zcma)(
+z1Fu~{9K=u3Z&SOClQMp`t)PtS9-~HF+qT{4*|zO_cDnyG*PLWM^IHid&6E?&6WX|<
+ziHM{amO5q_YP{eSh5Pz?5lk!BZv<luPW5sxL0kZ$+P00GcP{&ufB+I@TmYgGHB$BV
+z_Q13>_X+4e1o6D5s!QahoddoBf44XxnC{%Uv&0AB5F(MPO0nEL$jguqfYBVSaZhxR
+zI6da^-X4Cx;o%`%zj4(CxOU?TMn;Cw-Q7j7uHYxo#Ey>6c303TXTQC@jR38|PoRi9
+zbyFSv{^KisE1aVKx9?w|8_I~PirWK*Hx=EeS{5f`O`?eOlKnVx>@Yrk`iL)IKI6D}
+zl;*IOuaReC(e-*iz}DTjXK#IM#@(;&c<`eOkAL;y+227t`O}YwKYMWRTPJRPYQdGa
+zjo4g#W5y4_sncZ_>p-RG*lkQtPs6E(#zy2wuaSGY8abzH7<mH%N_n{CLLIUX-b6xj
+z0uqwq{+E<wq#u99GOQ|=ZdThH3IhQOZ%*f*twG-D8oo<4%RX7dGEP+UKqX5vtLzlL
+z(oWVY?L@W05fHGc_(sM0f@_GRY$&=>=gj>Btt%-rsi1|l00000NkvXXu0mjf5JmNj
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/document-save.png b/gtk/icons/16x16/actions/document-save.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..26aaea493243f86d1fdce1d4ed179271ca73d265
+GIT binary patch
+literal 459
+zcmV;+0W|)JP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004!Nkl<Zcmd^7
+z!=jW?91o8aSDBkTwyjkUko(5UZL@9LtFdiwa((C5nQW}@;oqL}yXE#XE8SkENN?Wb
+zVU|w$-$fN0<w^;KVgVE`{g?8QBS)rtd`<uWAq3RGyUAj}<8kt-aF5>p4+aRm{V|Wq
+zaQ{&GO|53DiNT<c{Rj4bF|hBz9t?*AG#YhKBlX`$;AN`STIGu(fbZZ+rTpiXy4}oj
+zU%)fE|KKiImi=OY!nk+;4t#$1@V7%X$FeW6aM66sUoamgvjOWjuEVWcH*x3AZERvT
+zz+^E%DwBZA<6yRBZ{{Zhi&q_fdFW;VNAFf};z1p!AGLArX%A<fba3)v6UXk=aOhSM
+zd#>g%*LvW^PX=aN_CI&*N`qclHXg?F=g;wZWpg>`oR^{Bl7MbYl8j}4X~0gEZ9CJ@
+zt~m&iR0NSk@bSu|P;R<JRKYk=1`_Nn^REn;4?Z_;OTw@vNxdY9Hk>4?P=YGNh$0YY
+zWxg0I^~PASC;IM}2Ig1~L}!}z;a~17%YpP~z4u8tjxFhmLgfGe002ovPDHLkV1i%q
+B+*tqs
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/drive-harddisk.png b/gtk/icons/16x16/actions/drive-harddisk.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..bec3a098f135dc0348bf94d0ec6918c2b54005a0
+GIT binary patch
+literal 838
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<Z~8yL>4nJ
+z@ErkR#;MwT(m+AU64!{5;QX|b^2DN4hVt@qz0ADq;^f4FRK5J7^x5xhq=1T~L5e~$
+zOL9^f98<~@GfNT`Jd^YD6hcyS3vv=mQn&7YZVyx@0aE5zT9T1p#Nh7d@9V1Il3JXZ
+z4pNtxo6uKQ2UHUTQsbOoP+63jo>9W!?5yBeQc{$eR9cdmpQjs~0d$39PG)whLPkkR
+zft9{~a#3nxNoHAUa(-@ZeqJ%iQTjQV$*Fn8sm1z9mAb`=`X+h?`iDc3SQ!|Yq&!_5
+zLo9lGC!fy>c9b|;|M{#+`J`KF8;{yYYLo_we^Ydc*?D#D1@?lsPOb%t98F3hM?wqr
+zYgtTpe3aEvEQ~hrowa4>_h;wi#djX_(*3fgE%99WxpKb64Esv=?dj06Qx1A66X2C<
+zcx3wa_jhWSTFvd_tt;EGuWs?Ot#<tK?`yBU|L(MS=PeV1O@`NEmIgUyCzigwG}Gld
+zR~tKfM+dK>3_n}*szjD`&kT<h6qdgI-*xU`Ok*)$vdKO6J>NA1&v0x|WDro+aINf9
+z?<g*s_uQwyKhq?-Mc@L{vOAoD4_{>X?A_P$o$tBKJ<%OWer4+zM9!vht2TX?%RR;D
+z8Ym&?nC(2xPn;!Q>%XhY>ELP8rg17V{Qk_i`R17pj!LuG73}X<Ms>Sz-1|GZz2m{2
+z_P>`LIT)9UG#}J|we{Ack2<IQSXWJPa_Laqz|Yb1!EV9UWl1_pMP<FN2TjgSFk)tq
+z>{U3{&{43pmNk0!fr63~C9{|Wl2U9WFTei!^Wxi!dD{gi8Z`^+YM6$vyZ*W(W6R13
+z&y9E8)w_CRQ)Tw#r&C2kZhpSgI7RY@06)L_mMC5ZGqXIsocP`Q>awPqoPNd^VtJra
+z{Qkbm<CB;7-@N<RWs*un_C`;qB;lN-jb@Q|-oO2;($bJ&aQLCYcfIiU_Bo%welG7*
+zdpT3_-@&J4%6tDmm?!1Gtd;4;t*RZlJ(WwQSlusIv6^t*+FE}8f3~)L^5J&JV*G$<
+OkipZ{&t;ucLK6UsDOzv<
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-clear-all.png b/gtk/icons/16x16/actions/edit-clear-all.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..caa8eefe8c477ab641c58a0aea50945461eed989
+GIT binary patch
+literal 605
+zcmV-j0;2tiP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006cNkl<Zcma))
+zQ(z=P5QaClakg#Swr$(CZQsk;wl%Y{lVNPE?Yf?goriYU_m_A8P~~xUhV}5v^X#L~
+z&$KdLnrnZIyQ{MC#hF&~uP<~`d^<e=*r#*g!YmtAl>rxL@mw#>u@w^!r@@YC4FSJ2
+z7_Q87{8)9sY}+HRcehYyeOU|4(|K@pzN6yYbnE_=0?5A}pQC=b&bhkKPQpBy4Vj<U
+zz}>Yq6&#RzuMiL%9Bf1V^@W6>W-8*3CnWst1Yb_J)n1uv|9k&_o@J!~2K#Y}!2=+N
+zegx{wO^`+Q2jaJ<De8;c7W8aUE+B<p+kwG-p3!(cbyDadLwsNeuzmz&#JmLoy8_66
+z?k4iD+m12;<aZY@8uN}xjqIS*3)g~Cyb<(*jUY+94oM+=VE7c!*w}l&e(|hJ0a$-e
+zS7c0PlD)O6jQL;?tuq4@Df7A2JZQXwHtd(Xdr{E>w`trvC_TEXT9G;vMDe5Z)YpNK
+znotP9yfkG3kn+!z@OCO>jI!PcsjoK=5j!44%w$ld&#M?f{d3m{m?7K;gDiQ9**GPl
+z9i)d30%_uGRDr&r7p_4G^w0(e^K8oSz@s;68a0jk=r}Ku!`dhrthzcaY!Fgk0&xL#
+zfCHoI1eUB?!G^%y>k)t5_n>gn(5htkb+xG>eL<Eo15nve8GCA|e;&Ka29y{vm}e^r
+r^S(|0^Ae-F>p1{72+Xy6$-n;rJc-GzXtXm100000NkvXXu0mjfwLTq0
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-clear.png b/gtk/icons/16x16/actions/edit-clear.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..279cf0e4af9b490488b1e86980ea2e1a1bd2c50b
+GIT binary patch
+literal 249
+zcmV<V00#ewP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002MNkl<Zcmc(e
+zGa5rt5QVezm{sg7A~tsr+kEW9$#=TgD8}=j$15SCx9mFt@pM?0NJr?dr6RG%;mdX#
+z))~}fwVNms3s58;Ae-Hc-X(#{R~AK{YPB*sJ+`&OZQE3;CG^e&F2XQ|S+oFjI!zd0
+z^m<1Ex1Kqfjxobwe+3XWo($LNY<&K(fZOL-b-OJB4D0nf<ncLI4?jYqQ6+#p&kSJ5
+z(R=140xo9?Nd|@-y@x;JBleje=?#(a|4-u{sAe7h)!3I000000NkvXXu0mjf*|%pq
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-copy.png b/gtk/icons/16x16/actions/edit-copy.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0d7bbce00ea95cdfe696dff99a9d5e8188545b2d
+GIT binary patch
+literal 401
+zcmV;C0dD?@P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00044Nkl<Zcmb7=
+z1&&oQ6o&uyo=XIYp;2rp<1@R!qqs(JcXwwA&uud}#BeyLEz{on+`r_n>qoENJUhci
+z4m#_|IfoEyL+xWj4WTHyxP9xcW9a13lY8t&;Kr>hejPePEJ6VA;nO=PrP2UED8iyO
+ztJdKkGoc40EJ=e1<zg97DoM)p)FeE9T`!1*(*t76&Cfw89bS<VUf^M7417TpMJN`E
+z$rqrLA2?uUb_O06!NbRQU8h)_K6k=-e*FCIe*OOG{{H>rnEyEuam*b0o+HN&_7tmI
+z|CY<<k<I27lWhovPx^w-Uq6O?`tkuDFILz8X065a%yc6n3^5FAOe&F4snkMZiW_3d
+zSStW%`LY!lgafcJKi?&mlvWq_AKY`$7()#~J~q@LS}Sbauo<ONxl?R7tuteZ)#$-E
+vVtXDij#xquMiuMV^*mq{u}VSWc*({87iFIT3-5_v00000NkvXXu0mjfkS?!|
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-cut.png b/gtk/icons/16x16/actions/edit-cut.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..71387323a21d40c2d12f6acc725bcda96218b364
+GIT binary patch
+literal 781
+zcmV+o1M>WdP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0008iNkl<Zcma)3
+zQ-CB#7_P?IdW@Zy*tTsuFR|^6x_f8VHpX|iwr$(CM~&V2Q#G;gp^G1@5da{;psNrB
+z?K@<BBA<@ed?x6%C1mY82n`RCv$8WJp4Ywde`JnRy_1`lC5DCvO1}$)1-TSihV;xd
+zk@M3$@vme-^?GhzwntGE2nq>s{3amixtYbqIgn)u($bHK9H+kb@6OuivvM*;MUi1)
+zVHWfT-NbJKdIMM4+*IeCpPd3p65&{?UDWARxBN=h@~X$PveQLkFgH61O-*&1etNF-
+zHvx|O;f&C*K*z{%KTJ)GfXCwo`!TCqtNrn6olbp!W@fr5dOR>WJ`BTyy(GR9bI$rr
+zfP6f!dNwgJ);ToT=M!-_)*w7GL{2s(Dh|iGk37)d4Y6^NZj$I%-k*AE`5zw$2@Q0#
+zwKjQ^Qxc$mpbrufW5HrGlGq!;p#csxr@s4-oWH%aMx#01&%jUOhlP>RAs8MR1hO^+
+z2!r_U)W70=LkdDSnQ3|;g`yPl84v9D+JXZhDmn}zB10fD$N<T^cW)+RIQcMk49|D@
+z1TgvGqq}ywhOWOJRv&y2Rv&r@Ixf7>YuvRH44;40EqwRosA<n07=7(E@A{*U!urDx
+z!|07S!tuR(omk`vWMP>6i8tSbhV#!CEnBy`Z98_z>yJDFW|s9}@lz5JI@!F16@6!0
+zw{DmiMyfscTu=YC*8=7iAtOb(7w@|dOk1`{Sn;wHmi3Z7IsdgMUON}=y%)$G!I&}j
+zR}8W;OdW||div=uBX%f1>nwNYRab3d_2gd#EHoY8e$`bQ)#sh(wrtxbVT^0=y6eEg
+zvNgzv(EE8uj<{!TyA75fcmRfRH2cn-F5>j7KoUY1<7%#ftF8j#Jafw}kaPI38&`Y>
+zl_138R}C`K^a_b&rRg?Ixbd&Q3!hzQ!D&qtwPvE}In3d#2r)kajY)lhskU;b00000
+LNkvXXu0mjfnZRxb
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-delete.png b/gtk/icons/16x16/actions/edit-delete.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9f7209ad7e45e008ba43a1fb3d7d67cb1c0c2e17
+GIT binary patch
+literal 806
+zcmV+>1KIqEP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0008*Nkl<ZcmZXT
+z1CTUF6vuyWW>z<QuH^jLb}3HTh;7@pZM&4RzZ7CS=h&N5)vZp8>3*4xF`oY8sajN(
+ze;!k-S1<F8Il`#!XQF7UwHCFuKmLB*sJ^&tYU=BM^8aNpy?XUoekysJS=^V_jy-(3
+zIzbgXHcpfqv(@3zimBGFUXjn=ixd9SU}D*_mlEx5d+XLsA*C{Qath5CP(WH+kd8ee
+z8#4dS`*YRti4RxL%pB-UJb<yjzO!h`?rm4E49&n05-H)Om(j9&H?8rVz3g&CJsg(V
+zwk7o1T6T?OGUoxvj~yM$B#{_OZ{N}&xiOLlA58k(^Y8*65dlD58OAdI(1TQ7cmdnj
+zL*cbI=hc`^fwA_8bbDJ;%CmS&mXbQ>T<(3~UZTiw&e`YUnt113x6|6z##v{cMg4;h
+zk%@6qz1_*#?|wKwhza|VNe8A_Bz571;0e?DJU{&KJ=foG4OW$0F2{xq8$cj^(utHW
+zx`-gm2Ecxv8<nI|FgK64emySTi!QjB&W=ug`uS&^xTmLwGfq1Thk4Fub`C#mz#3PA
+zF}V70^Hz&X85Ga=005Vi0E+#Sql!imI82S{k4hy-Ca4b%;YbfX{2*gvV{~<O#hG;Q
+zbDYI}58UUlm@|kvZaiv%A+KJqzg{brj5cIgc=kE0iSUDfrAwD`>BX0ENqnzdxsou(
+ztu-t>{R|SPUw0bS*X1)<sfk2?`__1j`8<hZk0pKP86X}a0H6w>R33kV>Jv|(?d{}0
+z{cO$}vt3k`&qOZpo11QE*|0ve6O;Js*12xuZ`=rg86IZgndgWG`U$!^DUOWJ#U<Rh
+zUG;Wn03!0K$SaBF=3Uu!YeK13(YQvPn@7Q=jMvnNO(vQB;;T7RD)nzw-3L|c3;=K@
+zAH#X#`!|KXJxRZ%IS5*s0f>qvOrdDze;KQ&F*k09JDvD{yAj|Mk>vu%tH^$+Zu-M}
+k2-Vjuys$&{%YX8J1)`vu%H5Vg(EtDd07*qoM6N<$f=dXE&j0`b
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-find-replace.png b/gtk/icons/16x16/actions/edit-find-replace.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e53765894346da337c4136b45ce12cfea70167d0
+GIT binary patch
+literal 920
+zcmV;J184k+P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV000ADNkl<ZcmZvb
+zQ-B;<6o&h0y|FX4tzc~1R*!8qV%xTzjAPpw+qSFg-|9teFCMPX_nlL?3;=Xf3@@0W
+z!YpKIMio6)jVK)AH~yTz$3GK@r5inw54vKa8gjKOlKWz6--%ij6m{Xrvp$qP>cH;v
+z<<qL+*Sq9{ubTX?K-TY!iAM0n(bZc%AvLE2D$C=i7mC`DbC(#CO1h!M(Nm96Q8NJ3
+zgzKZ5%)_Gl6%;sBi|dz{|A8Upd1Qv1_pz=F&P!Ok?;|7>LkUSWj{<!Y*UjP4sfQGF
+z+=~}WI1&NOy}XBe4x>R&3vHgB7__pQ=u=TS&5&~4!?Fp#G#MIm3vwDsgr>F;hsk96
+z)YMe(nwpww@9gY+?d0aSIn>IF+_GUcwryI6OF5aS%gsfvigFi2#(CT0kc0y0nr@s{
+z)MFL|1qJyZJ9J2|qT;g>B{()XICybCH}34Fja*#0auMa_<=C=@g9kny=+KmX$`H3%
+zGZdXz3T^%Mq^7RJRt_iM`s0fiLbbJTX4cogpY>slt=aup>9KdmBXN2k8=I&Kc5K^>
+zf?)UYMuSB&7^3ERLt!y@pl7^|)YW(2xMj-*<Lc^n^Q)_?zyA=sRPAHv4+8_2yvWHy
+zKUAI!#>S0nuzhtFE+=}4{r(k1O*0-l`=7*0tG(0e`bl@zty^XB_0_9IU$PW6D7b&%
+zA|Lie|9MY*&C|fX{3xi{roN;<<5Gh}mbTsc2`8V^SZT4J@Ciy{maTSk`WX5nmD!ty
+zzvXJ+c7Pl#Jhl)^4H8(iV6lGu3?YNWE_=_TFm*gS?P|M@coi~Z@{i0uf57=#xb7o~
+zz_4==UKvdaiHL^@{z!a@iHKqHNL1h&yh#v4{{<fi!nb^-;Nf=^lBTIhOwECmn9$hb
+z1#>O_63~(-yS#|LM;kEpAmMkooPuxqh(XVqO)Omz#nUu#n@)<4##&Yy#Do?PQxa`j
+z&{-TmtD_)>;7yHy=&i*!mKH8~EFff!VxBG0Phc%xDjK(B;k+IVP0jxJm~f=Vhx3FM
+z&F`fJLG~&qlYMl_&Z2a56vUF{Inr<5`7wSGyf{=wE2?!X%1Jhw8R&wV|9xnnF5F_b
+uQu1?0VT?Of&1^yNUlKK{HS=MrHT(u^5J+EZdPPqF0000<MNUMnLSTX}z`@)A
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-find.png b/gtk/icons/16x16/actions/edit-find.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e3dc2b2f687eea4c697881b31b2190a7fafbdba5
+GIT binary patch
+literal 825
+zcmV-91IGM`P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00093Nkl<Zcmb7?
+z191Fk7>93kwrktn*{18=+P0PaZQHJG+uZhS+o)~3$>zO$gX%mp&&=<8@q`Znz$ON`
+z^l4+F{R(Se#|I{R+7}QgqZ;a=ncZv#y@)z1lc@TMz1Kh8$SCRtX~zV7`0)(9`TiKB
+zR{lbo;EfY{k@Z%8DbNWivoepYUcMRkJ)FGoIv8^gldq^a(J#nLXhSTT$}jl<e(jnA
+z>m!ZJXm*D{(?9QN-N1s0GuJ)?N8b!e-5{FMF!hrPth{6K{U>wuEqq^-Q+KDrh;-Ro
+z?+=51P{D*2v$G}ePP^iS*Q`e$XaQaGV-$-mzD5v4P*+!H%ErdV==k{f7al$#v1)o@
+z)Pux#;MkqFH?(}xuWSmmJrh2NIwA$k`aWr3Nk}6iB0>vtax8!S^#?;nP%u9~UmX`0
+zcU*@RBE@X3Qb}3g0NU9Us5#wQ*njj5U<>ZjEX*zb+O^A$-+lV2Vt4nK&-C_w^X!jb
+zeyNOVW)@EIMi%GjjO?F5&FS{Sra;B^(n8FEHn5Z=(3rsYeq7u=NoVKRFLicyK7v3Q
+z)i9pteRJ-0`d-{upkjA<o51?a2cDtDz;{R|%>>8V?%cUy_tWQ}zdAAT(~}64QO%gU
+zzl~>~K<+;w1+=p%P!Jxy!gjg4<`Gm1e7j64DB>7VU0r7S!w)~af<QSa;xK`U<7A<D
+zJy`iAQwqW(TQ5;gaQJCO;n4|K|9r4^&nJZr`IN}@PEF{Z2RK6Ha=V6Wn=Z5W%A<p0
+zYC(y=pH@^>i`o7oA&Hf;==hS8PcFFlm4Mi#h?F>&(GsUpTI7;XdIVK~S4b&nSf7NW
+zCoh1es^W^=%P-jN_?3}_d7KF|`<rVvp6TG>UksiBrC{%!4dxEFC<Wd=8OzFtJa%|L
+z+`e)OR2AhG83}vGe~lhTUU1}!lJM9EjBEjcGOEcbs2q}i<;5v;7HjtK0US;q#$}4H
+zzBG*%|1-=L9T+AJbT#^IgcvY+v-y7{rVN7&NYM8ON%=b{^z!Et00000NkvXXu0mjf
+DE+LY(
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-paste.png b/gtk/icons/16x16/actions/edit-paste.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e4f39b7f0520a47825b7b0f85a7f880d26d54636
+GIT binary patch
+literal 582
+zcmV-M0=fN(P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006FNkl<Zcma)4
+z0}LHO5Pf(5P}^=$#Yt`J|Hf%pgtcwkwr#sXZN;u__uuZ#bZ-weUh<ZMH<JM~|H1`}
+z=8T#%cV>3hoar3w3l_{7_^Vw=<MiA{lYB{onSCpMJezHXUOoH4aU6J_hlPvgpau>{
+zP6RL{U`|huxiJDKr`8tFuB_l!w>D|sJh7Aq4erO+Zd~Cj*DmT^-SvBH^YqGc-aWjE
+zU}jiCdY0wn!iRfj!3-=v>Y+!EJ}6wM5Mp%d*cpo!&BM?(E(`<6Q?5RQ$XZaagz&&1
+zDCp0^?k9{LKMp^mYN^24g@U#hLg=$4g98&{w6B>H4`gLL;Zh(1l7<oC$dm9)kKO=P
+z24VTiC6lmiP(^-zZ4KYq*EQj))l2w)FmJ&up%pNbA|pmtNWDLP`cTO>B0@ng+O~Mn
+zlJJDE!XA(hVnz%Z1+Xj&Cy$?m_EwD1s%4AB&Jw>WfRG{zV54oit@1UsiWsr2@(r6v
+zz7M8f6{J!r96xqEECFU%0Ryeuw2l%<JqKV8N}yj9q|6l3>9pQW)6`0s8AN`RNWk)?
+z)DQe?4>XP(J{mYH8pveYAsLuh0Tk$`CdNZTL}=BzRT4l-0S1TV+K~cPpUi%IZ{;dl
+z4KbKs=sj<qeE1uDB5A2kPd~hI;$UXB5Fuyb1{gS~k22t}=42Z6u4x!dw(U;;3fgt8
+UFtre0?EnA(07*qoM6N<$g7~fh+W-In
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-redo.png b/gtk/icons/16x16/actions/edit-redo.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0daca9c9f03e16515d826d747f9733da4ae77360
+GIT binary patch
+literal 465
+zcmV;?0WSWDP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004)Nkl<ZcmZSh
+z|NlQln0^NM&t}i|o5}XbZx&lyLjwa7$p!#5-rI3~_W$m^G5>vMvdse-LXrVK(^)6B
+z?~M5W`RCjJAlhdJ#1N=67#O`KvU_+=V%z97iR~{C|Hp;vxBC2l`t2&1_L|5x53Jd(
+zhxJn8BGvy>PbdE0`)0!bgCC~i#b-aS`hWSu_W%Bq1pYHPx3hRe&5{1U;9<i5!p%ni
+zeR_HSyR@<5#92!X{_lG=1x!1)vd(63Y+~71x=-(a>Kdj0j*YC#92z)fu!VtRBU@X-
+zeC7Wu9~J%w(jc{vFtDp;`BigC?Z0~m$A8-@RwEpN2vo=VD0{8e|Ild?|81+8=P|%y
+z!McoPW8x;E|Dg-`{#%u?E;BD<!0G~<a@K6?GUj_WWh@gJkkf%>DT{|^H~0UFi%S0^
+z7YYBjuV(*mRl;)Ex|pTis)X6wxSW9>U-W_iqg5%(CGQ@-|Jgg_|F_=N```Y+;BebR
+z{q~Lr2Hxdol<*n=Gldc45}-jFfwuoec7b^=10T&Z6Ga#RI@@~*p1d7@00000NkvXX
+Hu0mjf#m(zS
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-select-all.png b/gtk/icons/16x16/actions/edit-select-all.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..33146777d243c1542d53d64850ab70fe367ba4e5
+GIT binary patch
+literal 320
+zcmV-G0l)r<P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00038Nkl<Zcma))
+z1x^ED5Jr1eoGai?Jh)we2<}#Qca7F>fWy#llInDazT~a%Tls%elT1Ewm&``V$W$)&
+zk<P~#Ohz;=`Xz<;k9VrpN^gzGsv0oIDt&bYBLph-(t9SCm=S?!GRT4DqsuODf@Rj?
+z4bqeOj&g-GMU$Zq5eP=T9JmctR6!`_`xOCi(8+<lQ+Jnl;Yydl7jnsf(_`bnUAU?W
+zTwc2j*c@gK?4Nm5f!%4A0kiFq1NV`dD!{cO@M3-7z`?m!72sOKz(cgI`F~(yVV8!d
+zHzBs0Hwg>_xbgmY9by}S<_%5tz+}f8V7nP;Mw$%z4+eh&o8$QwbG@J1KllR#m2}GP
+SN91(?0000<MNUMnLSTaRhm4c}
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/edit-undo.png b/gtk/icons/16x16/actions/edit-undo.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d419eb5073cab606a919fe661d6a82778f5f17ff
+GIT binary patch
+literal 442
+zcmV;r0Y(0aP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004jNkl<Zcmc(e
+z1B@O(5QSfDn?Y?iX6=S;%sN)X{<UqLZQHhO+xESiv#liGddCBj<6;5@JjP59RebSO
+zMY7BfMlPWHvvQKpeKs{zQiP<BT!4IbSB7$e_iZ*eH&AA}D&ysd1vvh}zbKcRqPd7N
+z)8P+>qDe4w{EhP@X0!>g|F@L&)sd_(H(^b|n<1&nd%=`|8}!iGN~`Y(rwD=ZXDIuc
+zoMd&0DP^X~Ck%?^&v^{C+RdVb>vUFMMdOb+kH-=Ny?0P{)7#GS?5C8OdT;P$Ab*YC
+zV6)y^X!{zkWVF);%GwMh+k|L6hq8m}8U|bMq2>!D4;D0y7dUGCX$JE`XH(wQgJhQw
+z<;Qp_q$@ocxDNh3#%8(K_Rw9-Nc$C(wb_s<(tM1i{~zI!k^-;(E8wB=YBs$L*0MNm
+zKTW?c;{V4uKcs--q|?h9bIx6=%Rc|AKIfcAP39TKx*ed|&*c<r!U@b6Qox^wSk}`5
+kp-C`n)lB(J64T#}Ew3A_TNL2d{r~^~07*qoM6N<$g3{>JhX4Qo
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/folder.png b/gtk/icons/16x16/actions/folder.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..135781a36a77ab89ecba626d6fc84514f44afdc8
+GIT binary patch
+literal 492
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbKJbFq_W2nPqp?T7vkfLzW3kH}&M
+z2EHR8%s5q>PZ}sFS>hT|5}cn_Ql40p%1~Zju9umYU7Va)kgAtols@~NjTBIk6i87>
+zW=T#egJVj0VrEIAf?Ix0N@|gUXL5dC@m%)!r9f5UAXSc~B^mie3_ghk`3la7If=Q6
+zc_~GynfE73X#tf4fs{Ds7gQEyre~BeI6EsimXs7_CY6?C=I7}KX8_&cn3I{Es*q7q
+zQedU8pInrhSdv+mnw+1T3$zI2B>kMs<kY<4)MEXlO5Nf_eG@$c{lg(itU%NK0(?ST
+zf%N?Th6NKE7WFqQnbfjqV&kHTO^YWr0~w1aHZBCB{(7L)0w4(#nbf>wa?8>wEz731
+z?q4_e!20<ocPu}5c>9H;J1-vHb??fl-PJ-XfhO{n1o;IsIQRv<c=hVloA+OT{*F*S
+ztpSt>@N{tuk(he+)J@R_1s<1+9lwnhxE=X&e}%-s#j+LupQ(nFbsTHjl=fMW-@h^3
+zCboZtFIP@!^2_%JKI^?IXfc(`xuv8a{)Ct1rz3~x!^NiRE-k{|{*O+70GiF<>FVdQ
+I&MBb@07W&u9smFU
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-indent-less.png b/gtk/icons/16x16/actions/format-indent-less.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b832b208ce89d48710a9fde206ec80f00802628d
+GIT binary patch
+literal 432
+zcmV;h0Z;ykP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004ZNkl<ZcmbtT
+zGn-yP7=5EQw%x{MoK$hvwr$(CZQJhFw)Hm_XYW*>U0jULGe-nK;PLcwYjSaOf;^A2
+zt3#6rz_;&TQC?Mo;<5r{=Vc%{Edeockq8M7gpa=$T-=>tV{Zi$GefYwA^?vcKWw^j
+z<2vMd?%usEdILot^7QeL%Gu4sxk=zqFrA*(qm*fV+MY5XJH{CuJuT?yZb4I9J!<MJ
+zQCd-iyuxgxq$h%{^B<nkr^5AsmpI<*#IynJ%jEpv!M!Gd!#>Y(w3G|>oz$a9xw+05
+zknya^IUJ1#VK?R-Ms#R%=o6il=)0Szs|fdTT`HV+yo|#>JxtkOMz1=h5aU=;Q-;dg
+zGL%*pp|B(m8QH0V-1$HTHK}mi`T`D{KA`O{ZPUYt51Pbtf6ye3N-zh)9gJ-HP5bpf
+z$xh`Qh)gi<@^nBV0OKALABCvca4!Er@DKEXr?(rNTpeIzXUTQINI)ME0Oq?q9S{Lf
+a_BjE-w`a<yaVT;C0000<MNUMnLSTZehQ#Oq
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-indent-more.png b/gtk/icons/16x16/actions/format-indent-more.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..cfc64321ea9457fcf595a52ca402f4dcfdb977ca
+GIT binary patch
+literal 438
+zcmV;n0ZIOeP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004fNkl<Zcmb_b
+zvx1mm5ZtJZZMSh5CsmBIZQHhO+qP}nc#XrH`Quo8#_kTt$iyH^M^6j;X}Sj5SpaBz
+zqc2}Sqo%$Rm9=FkD$PSyUOJM~;t?Gef#9$Jc>8(4#mx~`w&qy5%lP2Yqla17u3g1`
+z+MPRhm>B>#QlkzDQtOnU*-kNXgf*SqeyC@t%Zrb;u0|GhiqqucOd&=so}){gBDa6C
+zQnRav6C9lFU}<9pLlb>y>8L|VMFEmB;;WcYs~Gu=nmonAKqywm?VsGce~%ZR+qZ9K
+zQPl@J-6TTe(=KnY&}xNlnKS5;AnAQ$Q2L)7JJc^?zDx|gnitV3x|M<6GViRl>uGJW
+zL3zJvc0TJJT9wbCQjm#(y`v4RY|LS7Y5*NQO{l0T?$86Je<!u9pEQ~Gi+rqiv2gF+
+zoh+`}k52~%46d0?SC8p|9bO0w@k3CkKm3DyR<-Z$<pL*Hd)U}p!PMMnTg}Wy_gT1R
+gdf+xQgX6+r3BI~!xl0c_<NyEw07*qoM6N<$f?t)*C;$Ke
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-justify-center.png b/gtk/icons/16x16/actions/format-justify-center.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..80e83203c1df121456c6c1483674545a29fa761c
+GIT binary patch
+literal 276
+zcmV+v0qg#WP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002nNkl<Zcmc(e
+z18zhC6h*s<+FeSqlG?V$wr%VCZ|{z6Cwbw^Nv;+EjCGR(ynVhBkI(lQ<Q|^yi8jFD
+z(E%8q0KsICNJkI|d*N_fVK8f<RLdZg{NeNG9rsVSDE_tq_V#v&<>e&|avPf)#AH1f
+zMt{wRr?L+<{S=!m=}%^22u1yH`y8;?jnEoYkSfIZ6Mp0E^9A>hH#oaEsrfLp{+bUP
+zYsADnsNL(^Gci~P+5t5$irS0$o2+_h^h(GI`u~ML`1pD)=`a3t1?=o>6aBSs5EI?P
+a`~i855R(ls3Q%bP0000<MNUMnLSTaAZ+k)j
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-justify-fill.png b/gtk/icons/16x16/actions/format-justify-fill.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d400f56667d529ba8e9cf403bed99c3395e5511a
+GIT binary patch
+literal 266
+zcmV+l0rmcgP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002dNkl<Zcmc)G
+z!(jzM7y#fusw3<qIA`zSF*aL>)5z>KXe4$8iyw<oY`-@)z8bAH{3iU(0gKD?N<_N9
+zvrz+t8>^dvKcKU#L(ebGLXqb{%)mrI#5R-9?ArV|hKO){cmjL7`!)W6*0xra#PPRY
+z(9lpHUR~V;e`By<4YKbVXlt<c#9(Y<7)sj~7GUP5+5esI4A>hGoSvLLF=%a8Ns?C6
+zU~yJudHzj<(i&_(8uSnLg0?ZwauAWn{Duh<!PUj}qd{|XlS0HQ8dUWF1BHd$;UkFC
+Q$N&HU07*qoM6N<$g7tWGxBvhE
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-justify-left.png b/gtk/icons/16x16/actions/format-justify-left.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1b419d1f8624d0338a96efa10d08d4c731416cd3
+GIT binary patch
+literal 283
+zcmV+$0p$LPP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002uNkl<Zcmc(d
+z!(jwa00q-T?4*;RlGrxawr$(q*52CoVNTyOe-6M%jAw(lj~Cy=(;fQZ@#)UjvcbXO
+zK9boOV#yGEAvf$UGxR16<SGgHA`TcVDhT9XynVi)Ft=rco!uSZ;^G4OVSRngH+~1N
+z130K~|9IzXa1aQ4itl&0tuR`2P-*25%LL%?nV`@~_$7Sd_2U_L57#(7KQ6hbI@sAN
+zIT(PowH4nO9lSmHdiH<0_cbqWaA30PVYKR?HK>aHg%TdvJO-$A5`O+Z8~V3wu(h@6
+h8?^t}{=w`w$N^zIl_ceDiKYMm002ovPDHLkV1jcuf`|YB
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-justify-right.png b/gtk/icons/16x16/actions/format-justify-right.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a80e1c80865a9eb884ca0d8f4b180328303b448a
+GIT binary patch
+literal 267
+zcmV+m0rdWfP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002eNkl<Zcmc)G
+z<3UDI7y#fm&5=gQt{t+i6>^K5?{8QndxYD;wQU|7Pn#^uP$ZOlz|rv`;srLFW}~{R
+zb#;C{=Q&_#cu-ziT>w!KfDo!?qGzhLDY3^e#_;<51`qd-ZJq=A`+E_`{ik|CS6652
+z=jU&(9D}1%_3tdz-yH*4HMlSg^uKRxt%9Vs8D&5z^<+Y{ni#ciK;ZrD!!Zc{y>0`4
+z*gx7sk|@r`8%V0bZRiVhlZmM@5JfT61QP;3U%!rlKlJwYAdK;BEe6dWpa9Z4%i#xy
+RK@<Q0002ovPDHLkV1fl%a&rIx
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-text-bold.png b/gtk/icons/16x16/actions/format-text-bold.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..300152f165e695f7dccb4e06241f9bbf26975ea9
+GIT binary patch
+literal 670
+zcmV;P0%84$P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007INkl<Zcmbu8
+z1B_i+7{~wT;@R(wJ+rnQt`)5}UdLLiHsZ#$-DrX;Ms0U&JzTwu^Yu(Io@jo_F+MXQ
+z!dy@=fdvZ|1TcYADn;ex<?a_>eBogh#xz*Ad~q{@-o<^0MjIb(62ORa%5vh(3S+DO
+z`)}d7X&?Og*KhQ}ho8cAJvfdH+jc~=?>56Qk<De19T_IaF|**(6DwD)?44wSZkjvy
+z?%nwn01hw*fJa0gCxWJ1F~(#Fb6BzHMr_ww3*g&{8jSJfmtO`0fk0H2<&-3O5hC`a
+z%lW$Vmv4j~ZfZhpO%;X)darNXu=&w34aB2zNPIDfJx!n*t7v2-0YN~3<2rUS5d(oE
+z91fwQ&8QxW!bcx{^gNT;vD&)&NFte%i3qOeK@5;2CYppxmoEl0=`^CzFe0L9njRYa
+zKr^)8!;x6LwX+N6^&0><!E*}$WDqGtqzZGKx|%9~Fc?HM6oRhn82i99%y*Kh4EzB<
+z>Z&Vo=Hw}hbLVTul#7;SX^NseEeQ=vOT`_Z52j^7*Cu>m7<#CtrV^^E;^BuM#<eS#
+zz22T|6A`mipZW`dfAaLR&q+f=Bghvt1cD)Gx`u{^hCoY8i=`BcRyOGOhZ4y+eBzTg
+z-+D8A^vKc0p2wxy+PZKs9F&Gf^62R9M?upNi^gDCMbmR#t){N#xGYOb;&w~RE1FqU
+zd;9ufJ1&dG5&_F`{9+#$&Yml@wYD%x^~<j7L6`*LGBp&9OMP9PjSPU#@AofZjD5{H
+zF99F{%wV$ALPTe{>uwj1zV|r)98-`OJ2dBNlrTr`0F>f2)6`!CbN~PV07*qoM6N<$
+Ef>#4EkN^Mx
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-text-italic.png b/gtk/icons/16x16/actions/format-text-italic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..320927b2da3db6587a719f0ef7af8e0deb5989c6
+GIT binary patch
+literal 697
+zcmV;q0!ICbP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007jNkl<ZcmcH&
+z18k&C^sjAeYumQn?$%xXzV)V8^FwVL;n_yq=nyA&v2*sV%6C&MI!*HY-poAx0RTS*
+zzvqIkF3g4Oz(qtmcDJ*e{M6oo%i8dk=SXfPNvwcGGSYA0M9Z5K!3_;H9D>ATQ?t{G
+zg{4K9nw^E-fk9}+38=2Gl{YrmuMG|lLH}U?Ms;1){r$k|>S`UHfP1aGw_83pzW@Wn
+z!%$sUBNd4FlE44`>q`NRx>-i2Lo?O}Q!`T_t`aJ^T(0N-1uQn>Du!dL!((H>7l}3*
+zO!`*_n{kTCWV+GW^jHS7Vwv?9^Xn-d2ma^$x5{GE&+gZNO3g1tN@)vDKuKjK6jBS`
+z&}cM|!>Lhe1veU-8rB<I>VZnjm**DeQnoM1%*-^)%*yzDx~>lX=kXyeJyn{PmK1k5
+zI3*>;GcP|^J~KN7MI|(OYI^eceix#m!v8BSEtX&;fnF}$h>niBbiA-JF;Q1JJnlM&
+z&x7!YFj;VLu<8B<fq?-JMPd<jbay~lc<2{zZ|~?mBjWvi{e7=SMMuiZnJfs4h>&`F
+zdlE<Hz{S<&Q+H1Xv|`QR?(X*0-rl|v0oBRbaoN+`Qx=n$xRIHc5An$<K(VLDkS&Vh
+zK*8+oDNnX9u(GmzoSmNsnR$8O<?E-Q*xP?}c6Ip@93BA)sp$}tlnlX<(ctXvzHVx2
+zBD1uy{$yuwuP`w&dAWUorlw|-shOF~(=PzFz}d|mtZi*2dU|>i4GoP=Ep08iUq~42
+zft!~P7#JE!P+a%+1?Z?ND=QBxE33Rl^n;3u$_=DDg}@VmD$+ee6t+M~Noh@0RrM*-
+f34g;f{UCe;Ym+uZlk}V|00000NkvXXu0mjfcv?&i
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-text-strikethrough.png b/gtk/icons/16x16/actions/format-text-strikethrough.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b44416df9db28dcef7c598c99fdde3b7cf39f195
+GIT binary patch
+literal 480
+zcmV<60U!Q}P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004}Nkl<Zcmc(e
+z1FRfD0EVA!+qP{xdbVwy?TZ@Kw%yp=*r{XIKHuNj+Qwr1ePas%zxDqefkZB%#8Ls?
+z{z9=pBM|Z~31z~R9}+N_>$rIN3QnIrheJn>V%yGLkSOHl_05(0EY^bWcLj5cv(((e
+zjB$Qx?)l>K!sGSL^(TCh2rKKW`l*@8LqD_z9UUEx<KulHgM))<BP0DI1bn`<x{86}
+z{%aozRyUT9udFTMSALqcsHv@nR4#&2E&HjTW@y$TEG+c6zrP=T<)_(qb0Lp)OkB*P
+z;<8f2#>MIr5)y{u<Kxpv9FdusRvjG^WnNld1c~w0MNCXe(64Q-AvZ7QNnB#wIDv~&
+zQ<L|lXQVyr?e76k$VYs9+}8zB(UEsI80(mr8aHQTq(4eePkr3l)@tnR?LmD@3p#rH
+z5E>Sy2@VNHNJt3vnZVoIdrLxMf~KRV2VMRBsB3OPYF0Laf<vBr`}k;Tnwn8r*MQRM
+zT6lQ4<1+zyoE#h-PT1Mo>1=In&31Nn8V3i5+awl{m?CAcwY7nbjSWZ{MKk~ZHogQ+
+WSy>O2s3DR70000<MNUMnLSTX&1L0@@
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/format-text-underline.png b/gtk/icons/16x16/actions/format-text-underline.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..aa2180662637d5a39016ff5404cccb975b2a7a38
+GIT binary patch
+literal 593
+zcmV-X0<QguP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006QNkl<Zcmb7;
+z1B@JD6o9L}%mwAyHfC9#vF51Dv%TK48PvAz#^%OpRL82_^S#d0?Rk>#fBrHn0N@{b
+z`n%lSy&dq2&hC!Uj?UJ*oqe52%=~|5H5^VW+_`rjuHCo^XU|`NgGY}--(dfY&0&7y
+za@Bb+DyXTicGuKZP1QEke5r4&`(U+OKelyrLX*`zQBhTXc2NNXK@gs$rTQR~$&^x5
+zWGE`HEc?=6HiNOy@MuASR;%zO2<$M1YaU>P<_k`004HcjY}DD>Lg(1$c?A-Q1eM7p
+z?}|!FCTkm;pvh(jM@uWTb#(zoQP4Ly03wMH<`tx8rk|536rjSfncV!`51H8+A2Tx3
+zzGh^kO=RU{ecioxH>9QSm|wsX@Lu9ODd6#WV_Yt(LQyoD%jNp>cxWbv%bq@Q>KM>*
+zenEUf+=Rt$0lt9uF(y8yG%hY~TXJ&Z$<)-8&pLw^+B(}IHa2E{K}2NuE1Sa#<rQT!
+zD4O~{H8uHzTp^z#by^V0WI$+j5F8RR8W<D^K|w+8SpqLFuaUU;xKUiI1<GK6e5nkQ
+zIa~+`4EnOk%WE`OB89Ac5v1kh!TR;<V3vUX5X2KX@8RJw&SJ4<=s1cX$a6Y&(9uoz
+zfW=w^Yu2m*x;N_&md!r`v#s$`lcfQc19S6RkeinSz5QJ<INY}+m|f=Pw;(Jm<dUDC
+fFDwV<hPnL)kN8B$BEeDf00000NkvXXu0mjfKcN>a
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-bottom.png b/gtk/icons/16x16/actions/go-bottom.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5cc6469f8906c65721337aa81867dd57081a5b3e
+GIT binary patch
+literal 409
+zcmV;K0cQS*P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004CNkl<ZcmbtS
+zLw+=I6#OpoT_gtxx3O*8ZpThe6Rxrud!}bUw)>?kHW&4)hkEtrKO*`QK5T4ktu0CG
+zd=&ht0ne}I@gj503(OhMGX)O~4696F<Nz-*C92NKiOf0X2nI;pZka-%AnopNX9R&Q
+zeQyV-qwf#+NUzrt79|+K(P}eODwU#WH1fg(cs`6ibY`=Guw#M&wza*xnUUSjcTHXo
+zLkB&M`*?{f>|*K0mXwiY$D_&C&U%L7mbSnT!{|c?{hL=<T%0WxBrfA}*&j`gPxk3y
+z7<Kfa`|ug3X2(kzZaL$0-kIcbIRYa`9sMu=!T9({>EiNy#^JP4JRT)5a@4>5kp@Tl
+zN@wS$GnZHA1V;YjpV-siS>Dsvl?4ClD+Ar#P5;548Z@@lcQ>^(1Xa)vkZfvg=qDJ|
+zHB`$Mi;?_(@3#Rx<_HFr)#d#vk}Bv22v${9bi?2V5wz0ouP1VS00000NkvXXu0mjf
+Dtzx?e
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-down.png b/gtk/icons/16x16/actions/go-down.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..76cd3291cc7ec65b8f0581827ec6a2da66cc16c4
+GIT binary patch
+literal 403
+zcmV;E0c`$>P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00046Nkl<ZcmbtT
+zLwYS?5bce;jl2bf(`(zdZ3XLzhp~+f#7-_MePVM^->HM{-wYAGTeaRwvRo~k0>MA3
+z4-I_GA_2et!JlXFhx+>r3Wd!7LMb~@C}u|sg>3t0dr&B6yV=}YzLXuqchH!0E;+Wd
+zvqgtT2h`hNt*3Jd&U-U}4u5}tkLKoQD3eQ0Kxg8~=-SHa5?x(g(dp?4J7Te(NJKc#
+zrwI-nK5|P-^At};M&U7`kiR>dPt~`!Hg3(6lM~7pGxcD^$3XxH4jn#n$cJM7_Qy^1
+z`P`gDDpudzTEG9vF{Ltzy4UaS1%g9|j~w!EPQl@}aw5@CeRFf|@h6p9=@!AE!$<DJ
+zV>DS!9DmST-`H5a{ixY&-Xb`3_+Q=wy<Wp{dz|(4^;J4QKP4bI^lx7zrAEfFIjr^J
+xkwF52|M(_K<U*cQF1iH%`Yi|qf`7oz>IOaT-Ob&lnh*d0002ovPDHLkV1i^?yIlYP
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-first-rtl.png b/gtk/icons/16x16/actions/go-first-rtl.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..27c97c8a13869fb72b815b3cc435e7a9f11d3811
+GIT binary patch
+literal 489
+zcmV<F0T%v=P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00057Nkl<Zcmbu7
+zMV8x85Jh_<*+?%SIBf1VGcz-Y73ST9nVBQc!z>>|<<~!EhC!WcKh?X!6#!Tf1ZGu`
+z*n5J=UJ(TL0A}Mxlo=n{RYZ|-;eQ(P5_`2$QQ*gq?{MbashTKq>*EBZtbSD91L60M
+zfSmcwo42o^TCKwG-@hhFPyk=Qeg<S$AhSnKojFlcDjz0G#tCq6d9q}(U}njX;P}a-
+zMfsTU8;L=gE36+sDc2O`eMfTg^syStmNxM?!xgCjNd;KOU&!`Z3dPLH3m4B&0nXif
+zw}517nn~}=7c*3V9C-!FOl+MOncA;kzi9cxhj+m8rCKT*r&o~5#Hj!|^bBIL@Op_U
+zkn&Gje*fVu6iT@o=IxzmJWK`1K0zStUC-q+-SYc4kjbWMnD?F}5b{w0vLo<#90!u=
+zc&GgC-D`*^qcxY;HS`_0y-q4Xb_6zu<;t^XPe4`w!P~d5Ash+T>~_mgxwT6L$d15h
+z*5A8w^)ftu`~Z9bZ_Q}YjV!lzzrTL-5(w3fKx5oq)#`VyYW2HsH2Uo$n2j5qZpTIT
+f6f(Y!V43+3#X{LET!T?>00000NkvXXu0mjfATH$3
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-first.png b/gtk/icons/16x16/actions/go-first.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..55ea8270ca78718154e6102b74b2e37fa427babc
+GIT binary patch
+literal 491
+zcmV<H0Tlj;P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00059Nkl<Zcmbu8
+zQ+gx;6os>q*~lzl_!`@`(e7gGWH+&$wEaGI_1Cylr)@r*?_8a~SrtT7Auch)!XoPy
+zMW!EpHVI4YM?qw*{33fS2+V8DLJK)8x!ewt{d=~sC~}osI~%^Q-@eex%M)&I5&`t}
+z>t}-J3jhB7i@aVhnau_gMD{2*AWPWoani=tnokhew|N2C!kA;99Z+C624FZX0RTtO
+zvbyT^&6RlA?V#25C7+(tgu<)q%i5(C;Ws=4P-_(c5PX4Ic%{)Qr0bgtgdy77-y(Uo
+z9(`4W@k;Q}U|ul;0Ko~pa;BQ)bv~!l4gmf7^^16s@y#iwGrxnWnF#<0jvktxo~YF5
+zR6d8(7J>XE9i#DKp7tG#jt>Js@YoXbiJ?k`a^B}~SYr^CTH(Vy2{16!2LQp*C#rv_
+zzj9`7%4fG*VvxCo8DHN}-^UoBySI}7fTK@UPfus%#N?RIX0wna{UejfK;3<v))=6z
+zqvgBBY9iUCY|lblXLIH7=#cO3?wXE{4{>`O12i|+^*6QDyJZcd&!(oP`nQcO^+)pE
+hO=DYa>}f1Z{{aPJ*!9}CRIC61002ovPDHLkV1h46>%9N~
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-home.png b/gtk/icons/16x16/actions/go-home.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c564b8c6199a6998cf943bf278c32309299a4f7f
+GIT binary patch
+literal 582
+zcmV-M0=fN(P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006FNkl<Zcma%1
+zwYC*O5X2=V<}1k1hzL?X1BZ2Y<-O|>?jf2W5$^8p*WInz9^BcTnL1Tnr)>%V{Pwzm
+zwbJ#iSBS{}bbl*)p2ejy@zJyAPXQ76e<hfhn3(H&)`9&8_du`Lh2d~W5IO1?|6>Br
+z^X5k_Up;mDB#cHwXt$e?&Amq?9CeJN@0SFwYcBFaJA3cm-N-zGMxzGjFPw#N!b3z(
+zbc~}9{a+I}fw6od7W8ttENQt?DZ$a>hq2l-&$Cw{B1awL=tIBl8!JeH$Z+YwgL`Dw
+zZ1z3u*}D^5-#$Gtq0U1CqU{=|ckSK=A3nS%zDJMlgQhF@J|zgOb62lkB4RQf1KZK#
+zs;bWTeoo|yD#f=<`f&H|Ew~c-MVY-o5}2mCOgGi1njsGqUD}1BtchzRm9L624}!!s
+zMUh#9Iw#P(S%K=%+~(I5Pc8VmL{a9tPoF&oUSz7sS)OjbeEAH@<s!U@kYY9xeG|2z
+z`>~X<xMCOvVCb4*W=?sk&J$jtcvnmXpJSH%-yg>w?Y?IDD>z*a6s90J*w9QtcGqpm
+z`l`uUE~*rgpxsvjEKoHC%9?|DnX)@8Vx)PDB#T&%l0X&^@V+b){rv7_85uY)qtwsy
+z2-mmXk|2(~GK{@<5P9%J7hd2H$bPt<b+ujdZMz06$AD?;Ff8q^TWTo@Htg+!6}aWw
+UHmIunn*aa+07*qoM6N<$f|`646951J
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-jump.png b/gtk/icons/16x16/actions/go-jump.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3c3e46aa5d2f0848e3d33b66c2cc808418982b41
+GIT binary patch
+literal 343
+zcmV-d0jU0oP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003VNkl<ZcmbV~
+zLw<xo5XEzmTqFkwm$7YIV|(U6@iMkg5L<(nc`>>_E$a6#S2Z#K2qh8=*@I!<9Z6dz
+z(g2GAfK+K9nrL7H^@;j6Q1J^I7`+Qwq45oDw#h83-L#aJd5hhW^D}0#PZU_~<^!AE
+zw7@)Jg9+2v!s^;G&dyHZ^}FKZrja80N!sV<XJCB7G`b{gFfuxLu(P{`=jUhK-rm6B
+zvc-o-2V*2{`nR^$k<ObJHs~AbE-;xV;>X7aUrj=h07)D4Gu}Jcn<Kr%j_!`4(edH<
+z(a}DOkW3~?(59bp)mLb3Z7LcZ>W?2D?&IO%4kT^*H9up0Q%zA%Uw3?VZW<(Q-T$Df
+pw!Eaew&IC2^pPlKWo4PN*ek@~+s5Xlpke?3002ovPDHLkV1nr7olpP(
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-last-rtl.png b/gtk/icons/16x16/actions/go-last-rtl.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..55ea8270ca78718154e6102b74b2e37fa427babc
+GIT binary patch
+literal 491
+zcmV<H0Tlj;P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00059Nkl<Zcmbu8
+zQ+gx;6os>q*~lzl_!`@`(e7gGWH+&$wEaGI_1Cylr)@r*?_8a~SrtT7Auch)!XoPy
+zMW!EpHVI4YM?qw*{33fS2+V8DLJK)8x!ewt{d=~sC~}osI~%^Q-@eex%M)&I5&`t}
+z>t}-J3jhB7i@aVhnau_gMD{2*AWPWoani=tnokhew|N2C!kA;99Z+C624FZX0RTtO
+zvbyT^&6RlA?V#25C7+(tgu<)q%i5(C;Ws=4P-_(c5PX4Ic%{)Qr0bgtgdy77-y(Uo
+z9(`4W@k;Q}U|ul;0Ko~pa;BQ)bv~!l4gmf7^^16s@y#iwGrxnWnF#<0jvktxo~YF5
+zR6d8(7J>XE9i#DKp7tG#jt>Js@YoXbiJ?k`a^B}~SYr^CTH(Vy2{16!2LQp*C#rv_
+zzj9`7%4fG*VvxCo8DHN}-^UoBySI}7fTK@UPfus%#N?RIX0wna{UejfK;3<v))=6z
+zqvgBBY9iUCY|lblXLIH7=#cO3?wXE{4{>`O12i|+^*6QDyJZcd&!(oP`nQcO^+)pE
+hO=DYa>}f1Z{{aPJ*!9}CRIC61002ovPDHLkV1h46>%9N~
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-last.png b/gtk/icons/16x16/actions/go-last.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..27c97c8a13869fb72b815b3cc435e7a9f11d3811
+GIT binary patch
+literal 489
+zcmV<F0T%v=P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00057Nkl<Zcmbu7
+zMV8x85Jh_<*+?%SIBf1VGcz-Y73ST9nVBQc!z>>|<<~!EhC!WcKh?X!6#!Tf1ZGu`
+z*n5J=UJ(TL0A}Mxlo=n{RYZ|-;eQ(P5_`2$QQ*gq?{MbashTKq>*EBZtbSD91L60M
+zfSmcwo42o^TCKwG-@hhFPyk=Qeg<S$AhSnKojFlcDjz0G#tCq6d9q}(U}njX;P}a-
+zMfsTU8;L=gE36+sDc2O`eMfTg^syStmNxM?!xgCjNd;KOU&!`Z3dPLH3m4B&0nXif
+zw}517nn~}=7c*3V9C-!FOl+MOncA;kzi9cxhj+m8rCKT*r&o~5#Hj!|^bBIL@Op_U
+zkn&Gje*fVu6iT@o=IxzmJWK`1K0zStUC-q+-SYc4kjbWMnD?F}5b{w0vLo<#90!u=
+zc&GgC-D`*^qcxY;HS`_0y-q4Xb_6zu<;t^XPe4`w!P~d5Ash+T>~_mgxwT6L$d15h
+z*5A8w^)ftu`~Z9bZ_Q}YjV!lzzrTL-5(w3fKx5oq)#`VyYW2HsH2Uo$n2j5qZpTIT
+f6f(Y!V43+3#X{LET!T?>00000NkvXXu0mjfATH$3
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-next-rtl.png b/gtk/icons/16x16/actions/go-next-rtl.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..be7de5b04d709dd7fac0bee26ece4872166ab0e2
+GIT binary patch
+literal 403
+zcmV;E0c`$>P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00046Nkl<Zcmb7@
+zQ(~i06o9jl*~lzl(7wjDZTluaYVW4DZ7iU68=S`G!}a}+4+Q|44va*-7>-Wk1e(LJ
+z=<h~<n!-39qmGUbC+;8aV1IuXFaoW&7f=JgzP`ZM*B2Zg9{`4<*+zfc!q+#KFg!Y#
+zz%cZ;t$=25_P&{`UBXQSAQYw#jr5n{>kAkdA`_8VFb59|^@YfO>@~aAo++NF=T|V~
+z{ajmL&cWF+IW-EIyP=|%?B~o1*|qkZ`{4FD=qMgeTwb2%1iZYwKpc-ITwZ&73yNCo
+zb_+Ea_9reb&k91GAsh`RviEIcP#i{!j_UQf6Bie!B_aNRH<7(>E1)>kIyKedvL(*X
+zPf9{u9!El@Q}uRSi3)|3YO$IUXJ;qy`S}4yM+YERNl&}#1(B3b)f;t*&CNBKotpuX
+xL@?Ktfb8J$*nhbK_AF1pUgwIKU36m?;|Fc%;826Y>_Gqk002ovPDHLkV1fcVvwQ#m
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-next.png b/gtk/icons/16x16/actions/go-next.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..64a6cf723d04db92ecbd5d37a47aa78e414a3beb
+GIT binary patch
+literal 388
+zcmV-~0ek+5P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003?Nkl<Zcmbso
+zLxLnhaNpGrSRUK9ZM)0s;cv#ajr-VW#8lRptwUzm5uX6y%}0_29!X<kB!%^mB=+S!
+zy>}fDG}b#eHv@ZnyU^11uSik2pe_e&<dv1xCAhk}g45HJ2Pd^VV6Y$mTK*Kbwl_X>
+zg1&bjQm*C%eN8#xlz#vHnPq;FrwG19=kbi-_g|*CwYC1><nRAqMGVV{I0s0Xg@E8&
+zG<unA;%`T13+Dj6(Xk<5d6zY15KV*x1XU=WoSbmR8yjnY5xHV485ULTK`7)G<O&(q
+z_?R<Z-&loAE>%SQs!jCxoq|+4@o2oh0*Pd-i1<~f;BZ*JMC0KH<F&PA2uFiOo6}a?
+z9+)hK9<<7rmlv?Qx(xn+w`evSYTrbyUOm>++YQsx6X5bVi&}%KzFSaeB|N2C+N)H{
+iRupQ<kLuUh;JX15@!`2ARqoFK0000<MNUMnLSTaWU$l$>
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-previous-rtl.png b/gtk/icons/16x16/actions/go-previous-rtl.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..64a6cf723d04db92ecbd5d37a47aa78e414a3beb
+GIT binary patch
+literal 388
+zcmV-~0ek+5P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003?Nkl<Zcmbso
+zLxLnhaNpGrSRUK9ZM)0s;cv#ajr-VW#8lRptwUzm5uX6y%}0_29!X<kB!%^mB=+S!
+zy>}fDG}b#eHv@ZnyU^11uSik2pe_e&<dv1xCAhk}g45HJ2Pd^VV6Y$mTK*Kbwl_X>
+zg1&bjQm*C%eN8#xlz#vHnPq;FrwG19=kbi-_g|*CwYC1><nRAqMGVV{I0s0Xg@E8&
+zG<unA;%`T13+Dj6(Xk<5d6zY15KV*x1XU=WoSbmR8yjnY5xHV485ULTK`7)G<O&(q
+z_?R<Z-&loAE>%SQs!jCxoq|+4@o2oh0*Pd-i1<~f;BZ*JMC0KH<F&PA2uFiOo6}a?
+z9+)hK9<<7rmlv?Qx(xn+w`evSYTrbyUOm>++YQsx6X5bVi&}%KzFSaeB|N2C+N)H{
+iRupQ<kLuUh;JX15@!`2ARqoFK0000<MNUMnLSTaWU$l$>
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-previous.png b/gtk/icons/16x16/actions/go-previous.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..be7de5b04d709dd7fac0bee26ece4872166ab0e2
+GIT binary patch
+literal 403
+zcmV;E0c`$>P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00046Nkl<Zcmb7@
+zQ(~i06o9jl*~lzl(7wjDZTluaYVW4DZ7iU68=S`G!}a}+4+Q|44va*-7>-Wk1e(LJ
+z=<h~<n!-39qmGUbC+;8aV1IuXFaoW&7f=JgzP`ZM*B2Zg9{`4<*+zfc!q+#KFg!Y#
+zz%cZ;t$=25_P&{`UBXQSAQYw#jr5n{>kAkdA`_8VFb59|^@YfO>@~aAo++NF=T|V~
+z{ajmL&cWF+IW-EIyP=|%?B~o1*|qkZ`{4FD=qMgeTwb2%1iZYwKpc-ITwZ&73yNCo
+zb_+Ea_9reb&k91GAsh`RviEIcP#i{!j_UQf6Bie!B_aNRH<7(>E1)>kIyKedvL(*X
+zPf9{u9!El@Q}uRSi3)|3YO$IUXJ;qy`S}4yM+YERNl&}#1(B3b)f;t*&CNBKotpuX
+xL@?Ktfb8J$*nhbK_AF1pUgwIKU36m?;|Fc%;826Y>_Gqk002ovPDHLkV1fcVvwQ#m
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-top.png b/gtk/icons/16x16/actions/go-top.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1e68e57ba1a147b7d676a1d5e221bc2723cd6fdb
+GIT binary patch
+literal 431
+zcmV;g0Z{&lP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004YNkl<Zcmb7C
+zgKl#H7`-p@zsUapV_ZaYZQHin_nD&E_Tt$nzTMN=yG_2H9HzKTA`w=`laW*Qh{N3`
+zQeiC-F$_z#x3)Lv`1tV8hdg?O0W4vW<0m-9CnpTx?Yj$S!vB8qe;kOXB0_vJAm@QZ
+zBFZmS3f2AnT>^stc_0+^^Yg___44w9>h(GS!J+>;;P<=vsZ0W8y1TohlanJLfkTJ?
+z?SR8=<;N1?>cz!ld2@4}3dIZ%oS?%;?$dzPYT^gOezts$Fl}tEkw56IT5P5~5F9#u
+z<dA<E(3y0tUZ4B5ys=7dkF%;bX__G*IP~Wc<n?AvCt*OPmJcl~&e84d4Xv-Qkj-JK
+zDmBV?9}^rpeB_pv7fGd2tP%#Ka`E`c=n&1$PLs)OsLEvGW;vTr2U3~%B@i4s{Hdu4
+zLS7~p4?}1ACH?>VMZLoVqTW@JsJ9a$4rO9rPY8|8cDMG4dWYEjIC?)miElpvhbNKy
+ZJpglZ+Jo~$OZfl*002ovPDHLkV1nzW%%A`O
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/go-up.png b/gtk/icons/16x16/actions/go-up.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d26a540d530e07c7f81d3f20d46fa8a0d4f98881
+GIT binary patch
+literal 336
+zcmV-W0k8gvP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003ONkl<Zcmcgq
+zMOFhr6wJ9e0J=o(5qEcYPws-dyXzKrh<v6RhndD%)T?h*tui7Kg)ivt@&(-2VB}H|
+zE&BbQj$}Gs+1uM8FmjH8xcL11jB2$Sfq5p9;+vZrIyyQ4b4?`0TiY8{D(Apl6G?GA
+z8LbGH7z6W6WNx>;DV7L7i?`M(5(`$G9vd41BS-zw1oMKfjTu<&rXJijnwy(z<PUl)
+zHk;|yHj$%_{`K`0t*$MT)oxy41_qOMY-DtZ78d8o?R8Z2CJhruVj+7l>^lb|M;-mS
+zxoN_@!KCYD23oD6L9J8tYP8A~l~%>J1wbq?fgfvHt+Gj&>rrb}W6(){B(WXvKhh8I
+icRLWfga6&ZXK@D*eCL8h4VZ}l0000<MNUMnLSTZ~`i;{7
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/help-about.png b/gtk/icons/16x16/actions/help-about.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f8afa4c3a713cd1b1c44ee13a9795bf24047b860
+GIT binary patch
+literal 530
+zcmV+t0`2{YP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005mNkl<ZcmbVL
+zL!gyW5I&dLwyj;ZZLZQL+umhklYV8_Huvk<w(WO~uja0@7UzsT!vOsB$pY*Ai8E9X
+zB>GqHmjYEVyo!G_)u#&V)jvD<B(PzjPrBLNjtqo6?r10apB%`d>19#cX}`}~iK5gq
+zepNKT{A&kPvnthfxb2CkEx84cBNd8Zb`bx!4m5%FQ$-`E3MP9&+&+)1`aSH$XW@0m
+zqaf~}hxnRg;z;is2kH&hTop~6ey^cDRhjIo%)16#*<;ieoq)SafT#Kq+_f5NOCBR5
+zc!^KH*TAmwMvm+P4rJa~68W-^w<vi%ic`0uFkul&QkJ7CcQ5QE=K`-PcONRU_o6cY
+z5{goGAmU{&ugn`tJ_xKElQ}j(6D^^kPutnj^@%9WJcP2$Jt$3EgNm%JUkrDmy5Kyj
+z3a%kLVi`gox3+1bDU|HK>4CzrMT%&M*6-G@&5m5*E6v!7qQrTq$T^0b=vBU;dktzy
+zPI|wc!bgrxQYEXsFljAvqsE{(Wdk(HY$yKT?g4F~p7g#SvLi<$;eBrq{V$6|<;)6s
+z(72``ZZh--4Qq)0=UdQ4OGxDNHa=Z6hy2$ueY(kp$eh7V@V^`coZM#P3I6VV20t0p
+ULCH`v_5c6?07*qoM6N<$g2jFO4FCWD
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/help-contents.png b/gtk/icons/16x16/actions/help-contents.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b3858b66a2751169b3a421935ebb33bf782aa437
+GIT binary patch
+literal 534
+zcmV+x0_pvUP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005qNkl<ZcmbW$
+zgOVIU9LMo{hAW=^IB`-;ULv-=-q>f`wr$&3TUFm|&&4^9`T5Uu_b&hlP^e_jU&x+%
+zpTB&<L00jsct^Y|0pfz&<L01~*Xxy#Uw}}>G&MU;ePcD1HKjYQjm@=e>edmHc;`Q0
+zdTxUGr5To27g^g_VN<t(-mrziq{rxA4MrV0!{+Y5%={z^%X73B7m)JxBPxwTT2tdc
+z(_dYI$!rwJ?!fHA6uCFAk`Ng|=c9WJjrKD<HbAFRMp9HHMR#xe5yS34b3rx<QIV`)
+zz0B5$<CK)-QR-iH=gzY6MoV&ZwD^+UfyB@6>3;qg-Kmr02L_TYe@Tu)CLQZ9oM+(k
+z2h!rd><%b3a>gcyrK;JA7nm(3><%0GY6Y!L^~^8LiZ<CBn4BJ?qoa*1l^l!JjKgUs
+zPphV_tr>^IzBiEk=^Ya?e`S@D_~<CI)e3SoD&k|JF=l77mXSe5!sp$AmcktJLxQnC
+zeTwPL8(LZ#Xl-r8R9u9+riQ|p7zS&rcL&5E%D;Ar{P1vA(^7G{oVeXCbak~9#l=x}
+z`zAKKbq`>1dlYt-7LoRIAZZn3#D8J9z7~hmfz@XD9}vOt93o6UpYL~=jv8l`dOObF
+Y0ccbpiJWLYeE<Le07*qoM6N<$g0eXOvH$=8
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/image-missing.png b/gtk/icons/16x16/actions/image-missing.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3aa024cc75eb76522564c145595eb44a1febd4de
+GIT binary patch
+literal 405
+zcmV;G0c!q<P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00048Nkl<Zcmb`G
+z1F{=H7{~t`XIu`#QF?&lDz$rnx>u;}c3krYwQZX(Hdk*qwts7VoW-b+cOPFp=7P^b
+z4}=hqQtDAPspbNNkVkm^{<)Ata{K;uVF22r&hg{NSN#3^3!NzB3otOo(2i&{j8rPA
+z#t0ILSbG5lB|vxW{0#*Bu-WXeT5Xt^_@{mDB!HrsP$&S#D5g)Jq1sG+QSAlMOkTS{
+zRacL8ss1t{fF>C9gHqbY0$LSNy(k2)22!=ETYmrl?lI8wNF;<Z>cNC=)paZuK{lId
+z$bw1xQAP#se^sMq>eOlF{gRO5Cr^TN2A^*hTuztDPC}UKEr`csEy1jZbB=|J7U0pN
+z$N2v9J0$q>1_3UYS4B3DPI$c@yngitI-@4DY0buUn@{7|iNiwn$(5^@<gPv2<h}#D
+zSE7uG0FTwiJSj_`r2f;iL4aWKhIL!cVO&fCCJs?m1K4jH00000NkvXXu0mjf`rf(b
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/list-add.png b/gtk/icons/16x16/actions/list-add.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..d401aea2627133bac434c996894d209e88158410
+GIT binary patch
+literal 380
+zcmV-?0fYXDP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003)Nkl<Zcmc&z
+zGk9206#k!Iy-#(g+S+Pv_5M|Hw%Ay+C384t50}`s#@Km0C$@ckk0~%S_A^8Pha=#*
+zM@IOgKdJWYo_+6HfMvS@{y!ecK3^Zmv+vF5WNb2+S+*S)jXgti?_FEK%ov?8(LXc+
+z$F{Mp1&{xvggXue5RuHxIH@bf@R*_Z4^KiMGH(1z<e335I}i|4m-;t!l>pN)1KvHm
+zCaa1JB7*C(-q1OKz8L|}?_Sh3RRR%XeA1Njiy8v}tP(J1=Fpgl^5$*;0z`3ki*t8X
+zd;ij#nPzCM^)8U>#N-z?1Q4^#Ob{i>`26yoUe`5<w&qsDwrm{>E=Y<Lvnp5{?Ta7d
+zIWD7$zsF|th4-<%8QtbtAi}AW8qS?LxwlFb1;KF%kR@^Mz3W1fRXHXhDKlX4y&2u{
+acjGkLHO-hDu;;4)0000<MNUMnLSTaU@~Nr-
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/list-remove.png b/gtk/icons/16x16/actions/list-remove.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..1cf6fef45539e9baa32a35556dcde4fe23435987
+GIT binary patch
+literal 222
+zcmV<403rX0P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0001`Nkl<ZcmeHF
+zwLt_?6r9ykXaTE$PM`$b=>+=N1Si77YvA10X3jl3x3ACLkc3f|31Dqt#AUaDt^NDU
+zDB=-GTM{G!^<NMhxFkS|VBqfS;o!W-fM52H_I5XH*ReqoB0#Be+4=KD-}at=j{x)<
+zh{6!5oR5$H1ONl3S-WQAH#)FHL}4(P0^{h;d-^$|WJ~M{y(|32jV#ByLvyVsaUKj*
+Y0QGlujR7_ST>t<807*qoM6N<$f)h<%0{{R3
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-eject.png b/gtk/icons/16x16/actions/media-eject.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a7b77d8c0d87d4a575536b96ecdcc8cbd6c9ca43
+GIT binary patch
+literal 333
+zcmV-T0kZyyP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003LNkl<Zcmcgr
+z19HVs6fJhwJ#-a+3$<<Awr$(Sw;!T8&CR%WX0ClEF9N`i=<gb|w6sKzPmQ#XPYtz`
+z{^bT^lf$(KM|*Pra7T_z4%U950TmCWZSAa!Fbg3V3SfPERgmvf4F-lfZF39Lg7Gj8
+zPIhr}aR|m4$Tu+5ZF{#tOM89nz;Lf%ER3VmeH@+b<MQSVcIN}6A~87JCn)FD2Bnon
+zF^w&?f)Z&utxhL!!J(KwUDqvYZmk!T`=UX9arQ(`eg^Uiv)?7kDJagF`2GLD>~7D=
+z&%|dazbME4qCr|lk_Fg<{SF?l3!!ijs-}WI!!V%h8dO!a@Sxlm4N}sR>`5u{_ykb{
+f``^EXe{1jrjIso*G4+{s00000NkvXXu0mjfzoC%@
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-flash.png b/gtk/icons/16x16/actions/media-flash.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..da5b7676037f84b6162ce6db6d10a98e3a564aed
+GIT binary patch
+literal 378
+zcmV-=0fqjFP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003&Nkl<ZcmcK3
+z159pF00;1Adw$mNjOrrS%#69YG26B|WzEZt+0EIu?SJ=t85e2W@j1Wa8vt(nQJ{-{
+z%TtgTw*S&h1x?e>$XFRb8uSfyVPK>u8c07?P0iJR6jgEzAdT_fUs0ZP3l&K>&J1OV
+zHxcLcS=N_~IR#XuKEURT7qA#}5LPBbG2G#bp*9;#b{cZfO@5#z^A)fV08D5AQ#x21
+zRzX|k8`S3AMNiEgER9%^m52dBTnGW?T`<*akG2LA3^(gyambVdETsT}z=S%+n!ckp
+z|0$YFUt+TP9j05JbAUMk#LmF`VBdpnwwN2VmMxux*&ZGKGdQ?~ME+YSC%53ue+yE>
+zH3D)BEBcg4A6|f@IpM~Ff%Fjsrl%(b10O&>iDW=mU;8-lho-ZB$ti4+N~z%w#rTu4
+YJEE^!PUqEIZ2$lO07*qoM6N<$g3C0Z@c;k-
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-floppy.png b/gtk/icons/16x16/actions/media-floppy.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..311dfb3a4724948b102eae402d06b8f4fa6e064e
+GIT binary patch
+literal 560
+zcmV-00?+-4P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005^Nkl<Zcma)*
+zHGmZ{5QhI`bN5_u*9NJM25)eu!>z;}YOcq%M;aVTyvO<qcbDC#nF&nJ{l2x>Z2pX>
+zrOTI`c8<3&v-vh`19}5LKMH1N*|~Fu$Znl8XI`MSMq>OF^oCdc7ou1ynTPl8ZZkv_
+zXr=Jz(Ied6wHHwoqB~NlG-e-pf=P9CAR=R|C9rc)T0tq`=g*($j&wQ=treVORI61O
+zvKGwb2ZezH2ckVnp$)Q@nMDDNyqFkTX$W7wd_i}N7%>9kFLn%3-*^OWRxoVX(DwVI
+zJ>oMa0+EH07g>T*3gvPcu~-b<A#1z>Zc*U>By8BU4vl!nI(gW^U%n6dHaoG|2gC$n
+z;=~CUK4N&YgG8Bpy-H?8Q4xQC|HZFAzriF5tSInDfG}Xd08F1T9jRm*vDz4FYhtKY
+zD?VI>VgVN~Uck#&FEM89Sp5F=8)Vxl2%`{z4)E#odmKA*62gIl`~Mq97}$R>{)VB?
+z7jdEk!%{m1Q5g9%#^VY96)M#VDwT?lR2YWdSotWhx6@2q{r>$sa=ARhDDsnuSQ3qR
+zV;O_<8%VpY6RoYReE9Iur5Q7)r(`0~8bMHl`uamCmWom|$fUDSfHz1clRnhtQdv}5
+y)tJ8X0e5@u{5f%1#LVc5YgcZFp(tTv%$a{W+fW^TQAh0n0000<MNUMnLSTZ0z4~+j
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-optical.png b/gtk/icons/16x16/actions/media-optical.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6d37b581741382e5add2082cf8bd9abb44f44def
+GIT binary patch
+literal 1020
+zcmXAmdraC_6vuzY>6n>r$uy~LSxC3lc8##4HJYZ&Lcv;6r&d|!(sdKvPxz$@4t_1O
+zSsK=E$<{spsQ5tZ3$@C?R+y|Rf`afv(DKqE55?I6B0fRv61(oQeRJ+Pxi_D4&-dp3
+zP*PNonsP7&f}m8|d1@)Bug4cI5#(dpua$w4$U94;<8V0la<LC=U#UC)2@itObn%tY
+za3bvxILt)z%h57UHOgmjVTjM?6A|_mUKOJbCUUq;(Z-pB06G+h=m=T^L*y^`3<PBm
+zXjL3GfezQ!)i6-_kI}#f06P%J$X8JohYJ-H6@Qpdpu#+a8Rr<a6~A1&0hrP_L*dlb
+za}g#Bg(wsP8AZ8B<y92nu(Qipzy-MmxdIbdC|Y-#M5^M#3>3KrS8-}<Ic#3s6sZQO
+zg4sNnN2;vP<}pa8i0_fK^vWa%N)VJ3((}O-fj}@YF!18VfLg5<3WYkIPAV1Oy>kb{
+zFo~oOWQF2^$K%oK^)A=ETs|mjY7~i@nwuMX#GQk`OGKhZvA9F0)kvlNGbW>MLgR5Q
+z%+J}pu7z3C^!&W7v!k`6qs?xewOVFG&5g}X!l4JUKb4A+5v4}0>c7|1-`_hlBn7>i
+z@iFr>=5;&09+%tY^thd~v(uJYlf!Q5?rQJp>bTd}4S2i#QA>+ZA-}I2mK*e1%%JP;
+zYzKgHcxdF|@aTxr<9-Z!TSd)nq9#dyFNRGSG5wswrWzYnsm65L$tj&yKczG1r>2cY
+zlgT(^nw~M6trp<WVzXN9HXE4eu-jY<PPg+haN_m27rmY(uXkzD>s#{pmKK+NzLmc~
+zEC>860sqrr;7Ksx4+aCP!QkquKeQTH3$2FNLhB&Hp^f$M=EnNgdU$JdV`m%0R%B;8
+z8rg~MMvvm(G=o1VMoWvzpqG-9aVJmZ<mR0|Lnc%5&yA_Z$JLt2Nv+;sz%Zj}`Dq}u
+zwY?LGM4~{uK(W}~-rlpg_Tzf~zyA48C!h62!POxel}ta7nLUw2nJh_9ws3Caop`4g
+zFG#(8gnhK)8{E6epEdj)b3R`y@*Uongqk8>`A5Up@o@A}@2hX+tni%`$Ag!0^DYo~
+z-H;-?rIkrU6Eh0b=IbRN-9oCrEdN<ZtG@iBvGCIi@>aGXn8-U8TiLx)KvD<UDWij#
+z5o(PvgENMI<NeJEd{)Zamvb6qzd{!)U#5IaW#%f~m-ei`IR>*Vd4*Bgxo^K`-K-a9
+zyfa=fapdcP?~)>YgNIq=4XsRBPGZS*;pcfL9@-?DE(iXn_N==^eN2@8Bz-O|ukF@u
+a&;9)brJp97@Jqem)etSeh$=f<ar0llA2)aa
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-playback-pause.png b/gtk/icons/16x16/actions/media-playback-pause.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..6cd5e19c85b15e4fb0a27f83f2dfa9880e647932
+GIT binary patch
+literal 268
+zcmV+n0rUQeP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002fNkl<Zcmds$
+zg>l6&3_xWFY>-*Xyj!_P#X-t2O&Je^k{iW^&&&$wo#CBP7-OKDkT#8q;QH?3>FV~(
+z@OP85Ej#-w<NAgIV<=dfUxlUlHK3er83eP_3otjcSkyNZq-k2@=a+{+wpqaE*N5ds
+zf;f%=i6BZM=D#u_1bD8;+)R)FVg^whG5?iGA;5J#<`zbP2wLm15lAV)^Zc44(3JuX
+zJKR!%VoAd(RLs|}8UYbC9|30R^YO_+z^s&h=1hpsJ9`^NndY*Jn25X3Wqbo0S(v?t
+SbYD#X0000<MNUMnLSTZk<#NIR
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-playback-start.png b/gtk/icons/16x16/actions/media-playback-start.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..54722efb29a9db6b6af4fd96956c2f9bbd4f9f3e
+GIT binary patch
+literal 369
+zcmV-%0gnEOP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003vNkl<Zcmc&z
+zLxLPo6ijx#$~|(4+#xsUS&wbowr!hj+qP}vjb}CH=c=Bn>K6cf=zea1Gt?3N^!%s}
+zg+d|T72xFj0JJ)F6ooyto}3^4e^-EbJPx5y5QJi0_^Kk}>FM6zR|nYH-+)LY3<jeX
+z><%lq+|DG9fDZ2+ZuK7=9Q=7Pz~aj6O?J6T0(>zCWLLl2;{v0}5Z~F~@+_>*rU1b2
+zCj*R44uL=5y8(;k0#Iq?U^MH&=l4P^7KPRIMHrhJ`uAjj?!I>L`aBO{v(<PL&|uWZ
+zr{^ZT-Mt;pSJ2p8dy`GAQ-H_o0*BL)Tv(b3w{<l4SM^lAJcF`|B8Wz#S70~n@9%_b
+z>#K-mWd*NiAv-r6C{%K^w7kfgotN=;9pvU^(6e&V>X1kz;%B_@BLOY}zkvk99N6~4
+P00000NkvXXu0mjfxxlRP
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-playback-stop.png b/gtk/icons/16x16/actions/media-playback-stop.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..29feb6fa30f55213c81ab98d7c64d764ddeaaeeb
+GIT binary patch
+literal 252
+zcmV<Y00aMtP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0002PNkl<ZcmdUu
+z<6#9s7)9@3@jp&#iB(}(N$iyJ*uZ-5J=?r%oHJ%xYfKXkV7UT`mb`sF7qwP9=o7|x
+z>EiTyx37TU)1wRe6-p~8RXrFZnBn*TYiD2$k|Y78RL&!eLxfQXDJ4AD!`{vTeIMKh
+zQ4}FlsuQ+{Pt~XI!vrz1EbW5n${DBcBh(<vx?q<Ce54vwf9Qlg&+jXcodW9Z?ae(1
+z3veOqRS*oCu|ow}nv@<MZ+FlqQpgfIvi@sfdVvA?S!Q1Jahj3<0000<MNUMnLSTa8
+C250#I
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-playlist-repeat.png b/gtk/icons/16x16/actions/media-playlist-repeat.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..102f29227ce178381d5dd14cc30e7b7d05203b94
+GIT binary patch
+literal 393
+zcmV;40e1e0P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003{Nkl<Zcmd6m
+zgK~v26omUq|4Y@jZQHhOcUaqQhSxT>_oTLwnRxdLj}w3|<$nTbX=xFLM*G<K)G*%4
+z6H_CYo*QEm6BEKMpns^FEw3&>A``=4(8F%G^K7+RVX>HDG8ths8lczfpis)OzPZ97
+zw}8IEZk%2mVPt#&4%n-CY+?usg&YIJJ-9nUdjn3+4?y)>XC{qKrzPzjpt7bEdxu+~
+z`Yixy=qOa*0`dy8uye2hsvjFlD+}B`yj)ORUSPY?8Vm-~-T_k66S2Lwf$ZFLq@*Pv
+zBQu4Ib8|DfnNmSv4xcM1%7Id;Kw3u99UwL#iZwRZVsmGe?<6uhluzE6=_Tk@Y&IKI
+zDiylA+mT<Gb@vMXp<Y5*L=X!I@_}D~7lK3m`3_=ZBW`yP6Bo(n0)u^#lAg%&OR|J_
+n{ltjaV1hV|ezt!c3t!2XWK#hDipJCM00000NkvXXu0mjfOeLo>
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-playlist-shuffle.png b/gtk/icons/16x16/actions/media-playlist-shuffle.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..64d03cf7fa0dd16b05d29ae1b94270fcc2374e2f
+GIT binary patch
+literal 441
+zcmV;q0Y?6bP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004iNkl<ZcmdT@
+z0~!=i5YBagy+PO5BW1g_ZQHi3581Y@wWc@O<}?4{zW@M!s{dJlVkL9CP|iTHn5Dh}
+zpwVbc1Y+)8o`4Oc&%{#xC4q#u$7;2%C{%KLO4ZyY@@a-2EA_$vNO>0o0aoyZoawPs
+zhv4w>{m^Jvz-%)-OK0QVW~cfLKb$&u94=iw4>xaLhX)Vu!E2C@G$23|yUWtm8#Pd>
+z=I204wNdOQGto&R9f4di^+tnaHbVW#2O<%T!WXfP{*VVhLnfb?`+{zx$K#>ky+7=^
+zjh{UM2lcZ~R44>1%{Dz8KYavn#{D-(L8KQ^<QlQj7j(^m6rDjmM~zT3yeFpKe&K8$
+z>%%B;?sEA|5(U=8;kI`1v)yT)<74y*`UclBg=p~b;eB`)1OZm;rfr|1$|ueog_n|5
+z&sZE<*JRN@!>C|%FiNlcYmhe@Y~H%=?)r_ZVZ)|1vu!&zU)sEN{T>9ye89ZG{P?T}
+j-;;@-^uhl{rcd?fKLO%aL~E%700000NkvXXu0mjfy1dNC
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-record.png b/gtk/icons/16x16/actions/media-record.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5014fdcd0f81ab1651b18cab6a82f0cf566c4ded
+GIT binary patch
+literal 419
+zcmV;U0bKrxP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004MNkl<Zcmc&y
+zC3ss=6n=T}ZoGvP6$UeAX6DU*Lzj422G!`Ymt|%QGlPmP|GnqhGK<3u0)PX-;U{Pp
+zgwsue(9kTAL>XNsN;2tpOu!s(H%q0Z;fD{GA}$xwm6aembpQSm>B+uj0;)hx!T<je
+z{reZe@81#l@&%rU4-x$N6CNg$o%}XU&@2dUUitTL9+<7FLcYEp38xd21_OL=-=f!M
+zTcmL|O+d3!yE7IGLT}z6$+}1}i2e8h@0BZ<)MzmC^eM=1(*(4zba^>uWHNXd#BSU`
+z{J{f691eIcT)_1C^YFfW3G&;z16DC$HY0fPB4Tnm5()*UB>QwaOkcYO^4od`H*PGZ
+zzkTCD8MPXDt(H@gqt~yaQ>o-T*!~Ld-y{F-9g224N+uHuY$w@Uw=l=#CQ;;9*!~Zg
+z(}>x;7-tJBync<y&70^~sTN63_Fa7<b9T3gBL769ByazT2Y{1Luntp_k22yf4WR%4
+N002ovPDHLkV1ly4xI+K{
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-removable.png b/gtk/icons/16x16/actions/media-removable.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3cdbc6ac47402bdd63f8c77d1670092034b9bc3a
+GIT binary patch
+literal 834
+zcmV-I1HJr-P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00009a7bBm000id
+z000id0mpBsWB>pF8FWQhbW?9;ba!ELWdL_~cP?peYja~^aAhuUa%Y?FJQ@H102_2g
+zSaeirbZlh+L1cGfX>?&ANn>wrAXH^-aBN|8WwpEKKL7v#7<5HgbU}4=Xm4@=M@~;o
+zMIc0Fb7^O8AXH^xZD5XeegFUfQglUFbVF}&d2(rIXmkKWLm)wPbaH88b#!TOZY@)2
+zVRB_bY-wv{AZT=Sa5^t9V{&C-bZK^FV{dJ3Z*FrgZ*pfZY-wX<ZgXXGFJgHub73zu
+zE-){{RAL1H00JgSL_t(Ijg^o~NR&|&$A9PEI}dBdvT3qXun>ADg(%U`A_y{C&q^T*
+z7nQ4mz)g$V_CVUSvV<t8anqtjE&{^`^jNe?BM=vXHX1sL&dhhe@3wFz8Xbdva5m@h
+zKj(i0Af3J*+a7m=0qz840%wf#BL-g|TA9eUE{+>O;rQ%?hp8dn0Z2NX*4tu<p<^va
+zQ|;|1BdnuXDDrIJ1&?<0W3*#w8K!^W3LZC4zok#r#*z=}_v}8EO0`9-@8NlcipXYv
+zVjV;xLO2A8I%qkJXwAKm4h|}7ZBNIAvs?1{RRZ6~Iad+$^9!V6(`X6)TxB#gHegi1
+zE#q9EwNf-UA0Qr&1K<yjQoMZ^!eM^hxXSD0Ca%<~3Xw!DOhc;zu+|cb#n#)0Vv(JR
+zI%H#oumNDN0`PsmO3S~IlB)Xe$r8@36UZ&)Hg?rSaZ=3y1SMmpoS2;W`q!X_`*${9
+zFW|QB0%kFxkYO&H#j_sPTCDXE0j(8AhtMHII2wW@=Rvu$0dn6a*DerI{$g&y1c9qq
+z;&}iCL<Dg#J~)ct5NDC%D%m_Fqc|hD$73U3t|88_2~GPNn7{Z05y-EskbK@lG*|`f
+z$EqJ1JI8T^{()pyTl#V*f?$kZ6UY~M_3{m!GfzL&xO}?$i%VSU>VDs}zy3@-9w(Vh
+zB7jng;o%Q6i%WBjnM}st^lShh>7AOI?Gt9(;Cnee8Q^*|nT!wc8|@R@J_iWZtpET3
+M07*qoM6N<$f=iKJHvj+t
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-seek-backward.png b/gtk/icons/16x16/actions/media-seek-backward.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..cd4bfa642035683f101576f82506e9df54fdeb3b
+GIT binary patch
+literal 332
+zcmV-S0ki&zP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003KNkl<ZcmdrL
+zQ({9wu*Nx(`_;B>+qP{h{I33!JbU&{Z5!(y(+v?nw12Mv_nG;Lpwqp#u(06u4E&*h
+z$%RSd?82n!==eaMo*O5pgnrM#?`Rz!9|)XZnig1&(SZPtj1R#2dbj^$@P&nj8v&i2
+zjfU>N_Fb#pBnhH`3`-$^hMhgF(B0c^dJNvsa7#daQ;liYyhBt~L5g;wBujWU>YJ+d
+z$KZ91)prFH7iSyFtBQ9ww$>y?k@0GjlovpGWs&JIctb<t!x-e`qzBg4RSFD4>t}>n
+zIcboepYQ(|JTdX1fb*T07->w+NHXp0Y{_v6QRIy9IryV>a5~&W!h(V#qC@vi3B8_!
+e|KnbG^*#alobjKk_F!ND0000<MNUMnLSTa0rktGs
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-seek-forward.png b/gtk/icons/16x16/actions/media-seek-forward.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c1f50d5cb498fdc764f96df40a69e850034a048
+GIT binary patch
+literal 369
+zcmV-%0gnEOP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003vNkl<Zcmd5)
+zgMNcS44+<RdbQcMZQHiDy8UUkZSzp1{xrMiOY)EH0N`8Oh7^p721SM)D-wyEth8tJ
+zHx-NzqRs7fIwl@o8y)R;e~<o5LEm5(!UV(3?KMbb<EVeIJJM*icc6ozi=|_z*Ft}$
+zpt-dk-QC~9&i)oWK0UzF$|7m+Y+7n=tH(lmTSwDUOG}*#PeDa>3A%r{gM*`8xVpIn
+ztyT-`8>_nV%3__6zP7%qtEws6<SEE2%t8;34{&jH21b`>W~WGTY2H$9ekSJ9r)Q=}
+zVR7D4PEH!%gXGkBL@9ymn`@}7E=8&7iIGuJQBFxIaTfX&R8%qa=Q)Uo3PDPhoW><a
+zuZ4#PGT9D~3^vo_qj>aZ3Ic<DMgD=_u~zNY?H}YT^7Z#*=r-KS|E53>XcPW*qBw^d
+P00000NkvXXu0mjfrgW*z
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-skip-backward.png b/gtk/icons/16x16/actions/media-skip-backward.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2380d2f6a73c27c44ea69fc805bdaa8e1a886e97
+GIT binary patch
+literal 401
+zcmV;C0dD?@P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00044Nkl<Zcmds$
+zgL=h46ohNM$9=!rwr$(CZQHi(c5|njWb4g`x?P_$GykVV1Hgy&F9FmwR&LieRHCl2
+zdi$BES=U%)Lia#ZQ<IKTUuufsv$GS3w^&y<RjcZost1=>7O!bfphg3wz67YKF2Tm;
+z8pOM_vdFlxrS{_V>_kljg0jjY(%G47$m=&XCCPxol3eWVZ9}|A#s;r0E-!F$dIUo5
+zke!!Ka`Q6>dHtj$2FS`y$KL)9diuI>dwYYU;{#k>UqKv+DY5GQp+4btKOs5x36PwY
+zfc1?Ph<8^{$JNcvH6BJ-WDtpr4jJV1DZp6<#KcEperX2c?dRud9G?(<adL937L7iB
+z9waa@(2&=6c4mOkh#-tlk3hV|+S%D!<?iJ&*w@!{?cii1h(>;&0Rn@4xBUaX5ftM4
+v_#M!pX=Y(!Vr6SSK#e*|{r~bWd}QAPc|Q0VtpQW300000NkvXXu0mjf<tMzR
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-skip-forward.png b/gtk/icons/16x16/actions/media-skip-forward.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e3a11a772b4f63f4e105c306ecee2a24233c915c
+GIT binary patch
+literal 459
+zcmV;+0W|)JP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004!Nkl<Zcmds$
+zgYw*95Wwqp+!yJq)#l&E*|u$K+EH!WZj*dpPTS~wqq>dr+nx1p0DvF5{}Kb)VzS8G
+z)5T(OOHVkS=St~2nS26r#pDNu@8A{lNp%0=-8w7GX5+hf<?%dQNFq#QC{}W~SPbsu
+z6l2K{2S0uO2<2)X#gpMPtk-BF(B-8{4n-NBOh*xgNJwR4IM^}Z_S(^xub<)3(+5CO
+z1l+iFo%RP^H{3ou9_FE_w_UH-AsqALU{Ek%Fl*3P;tM=`@fbdQdJnBu3+~>#-PRk`
+z?O}fT>LtJ!f!FWC#-NcmAXADEK@#xp!y8~jzI6Elt=7tJNagFepI^LmfwtI<ZHgkn
+z>NH`aQ82K$Jd5ge8a{sd2u8COEw9d>nV6W^vamEG@DE@x@myz6BZ446XH+u=)_DV`
+zCyt}D=W6wt`N=z{P95oX;nbO9JfEHDa=A)^zA|-DsHAv(T`+Lu*n#4qBm1TquLE;%
+z=;(psfkS%+xLCS&XJu^x*2T*o7{23w*@YjuzX1fy|5iG8{+|E<002ovPDHLkV1oI&
+B-lPBk
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/media-tape.png b/gtk/icons/16x16/actions/media-tape.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..319495f513bad1fb3a49dbea053faf8c34f65279
+GIT binary patch
+literal 506
+zcmV<W0R{evP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005ONkl<Zcmc(e
+zgN~kk97Oj<zOTK32DNS5wqM(8+qUhfW>5sR+e@f*x>K#9I?3dj%<ue9_=Ew!lwTLD
+zUB5c8Zo?XWGAF}S!o$N~d;A_eJ}+Ls7oXqP7cbh}J{RiRbQ7aJ6beaz1nfL$cr$8U
+z0%JBOGFI7=$T($l0%JGDqpnRiF=DqLF!T#nY}kh_y@z>*O3bNUEH+oO#9YNvOBM4C
+z<?7mW6C+k{z6eGxj$xCd_~U{@*(^Mg#iApbD2w~D<V)1Q?_$Jmv=^bb60q4(_~A3S
+zcoFv>+@+<hnOk>ma`4~*7A{;cbdywX`UShZB`;PSOJ~}&sXTl3grbr>?%uu4`t|FW
+zFk$?#P3#_DNxxu!p!mfaLmIQ^%q18e&gs*qiHVJ4_3BmZ+qV~k*}~<k*D+gdtX#DU
+zvHN@l{enZ`B`-FZQaBdM#t~P*@$f9H(RmyXW?%@<P}ioL7{ne5FYXr{3om-J*OiPv
+zsfg_IX5w-xDX4Cvw7!$-)?RgOx`{#Tu~1>Zz>`w-HjrFMWNINXX+=cqn_i?4m#(hu
+w%T0_}PfFz%!H5N+NR^+-{|m#<{rkW16N4XtpP>D}IsgCw07*qoM6N<$g8SI<ivR!s
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/multimedia-player.png b/gtk/icons/16x16/actions/multimedia-player.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9e9726bea14b8a6c562cce6f4ba278ffda1a97d9
+GIT binary patch
+literal 586
+zcmV-Q0=4~#P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006JNkl<ZcmZ`%
+z1CnJy5bV(IUDk(Pdk-<5`L=D_dj6`d?6Eo`<JBu<W<xw&?RNWZtJV6-Xg8Zp3qZ{H
+z!gwQ|TiI;(MZI4C-Dotl!C<gmE|;Y1IvIvRh>=5$dw!w!(Qvg|4X~P~swyoO3+nZH
+z#EKG#k<&B{|5~L|@!umUl}b|CG)>t&91dmkX0wq%j2vp{fe@4Yki)rL?oFXkfU<0u
+z&*!w=ZfUpM-2-x{p$A(l7K=K&cnyLtd~jP><b6Ux?i)k<{T^T7#todH7c-em=95UL
+z)9q_!MNuT|t}|*hYXnzz*Eua$OLF_{AVB@*Oqif45{ZNfOE@ejTb4=rLWa(4N8}HB
+z$mTq|M*xTD#Wx<0n<5sAnHWS8hou`j#S&pjkW9sI2wYwpt=DVxz`i8lSwlpl(avl(
+zqi(m0Ly`zb12kXEXr-*k;l7~dazSpd9S%{y*+L`|X^CJk__bE6ZIQS>2W$xnmSq8m
+zk;9qX4D*B9hC-pwA`l3?V`yMUaWopyYPCW$>;j09!wpEM==J;kn%C=nBd|Ok&%b0c
+zsY3}3Aev66c)|c;<YWy!+^g}-A91}74-a3uT&@V;h<0b6cyRz?nL`adZnry(8O+`z
+zaX1|RoK7d6=?==*XMh+vu4{I?{jVH;Zk?W<emFlr|7Ek;`uyDh9QSze=kf9J`-lDi
+Y0rN*2;!c1%Q2+n{07*qoM6N<$f*w*15&!@I
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/multimedia-volume-control.png b/gtk/icons/16x16/actions/multimedia-volume-control.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..96970fc3858c1ac220acf73f73f1ec1e4564572b
+GIT binary patch
+literal 348
+zcmV-i0i*tjP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003aNkl<Zcmd6h
+zvtk4R7=-sV@)U6ut4p0WRj!Iv#Xgs5W81cE+qN~?iEZ4!9(?-?zcPjn@j7;)WznWC
+zsr@#dS@qP~1Ywfbn?-#|td^~BevYwI%CNaxT9=h)X6uIlEHccJfh5jb+`yXJhgash
+zua%_oaDS;hY*VTToBS|PDh;!bkcAXS$U;~13v$nAW~NX0P5u3{EHtvTycjPHb^31t
+z#J}z_ys@$N?BdXW6QEE@(bL<7mu7Nm0`%VnEH2JtbZi*iJ)NkkDMx){&DGUE(EBmK
+z%E}Vv=B6<|F@nLNJ`vQ8mbL~=%}jm_u(!8+0~p1C2<W;2OizCRpj1o!8QR|7#QwoP
+uj*pLUbaaHd`592B&)kO~kFT4u#?2+fcq!;J-KU-a0000<MNUMnLSTYLjiWFC
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/network-idle.png b/gtk/icons/16x16/actions/network-idle.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..465ca9a838d14dfb768923ed1871c7df9dfbd40c
+GIT binary patch
+literal 535
+zcmV+y0_gpTP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005rNkl<ZcmbW0
+zGXNZ07)H;`{<C^7wws`i`Ytxwu#at9ZEV|i`XXv$o1=@YW1iiaxxU{Sh_#k7(`HPW
+z8AZ_~W3*TRYq7cGM`du7h%6Mo!1w)0Lk16#nl)>YNoPo>(};KkfnPZMARq{f<yWs>
+z$<Cd-#(%Xy9LJKM)T-k+EEJA}<D!kmaUIg0hXp?PAy+n!AXc$_wSd;DFxVBLdb9TY
+zmrYW)dX}5FU(m8i4I0$`AEgWzP94T^9JJCnQ>Rb<V{ePg!?*#buH59(rV%V(u>$!^
+zZ+7h1jncZ3K>pTS=?G&i;1rbQU%anu8OO(uAJEz;QA+0u8fy*87(5Xkz4}Pi|I;{b
+zf_qQi5h+!O?YeI6s#q|8c78FHOeU8W6XXtSpjM3<WHTu|3z?LlVohk^eW<_kZrip^
+zuIxru>m!u}#v1NkJBziHu$6M|`jvOr?p=8F@KN@_{zE6lSgqc^eJf|y4ks6hq?g1K
+z565*&6E$%hk$co-Z)VMy1Aut)!5KVs;G8fF$6ISF-$nlVWw}h*d-KMv6DT3ATC_Of
+zBoZU7HNtNwd-DZy_x}Bpy?Xb^HfY#@-%<9?CHdc$qDk)UdbfJj+AM!S*}H%L{w|;a
+ZJ^@$Yb``}C*--!h002ovPDHLkV1jmx|A_zq
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/printer-error.png b/gtk/icons/16x16/actions/printer-error.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..457c05587030e3ab5d93ef4e4afe405ff7150375
+GIT binary patch
+literal 622
+zcmV-!0+IcRP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0006tNkl<Zcma)&
+zLx7!27({zKvwknO&C9WE+qP}n+Qr_+wrwZtv5m_8f{w8`&8qW*Z4!$^w@5Vx99&(-
+zOUsL=%d1N9Cn!T%>QI+$6pE*E^K)_V(0;so{|23%9e;!}l%)=JNr39wDrDtk$Sz;Q
+zKfo8xu8weUwug<q4K#JM;OOEEePbioJ2_E?veW@}xgb6%9uFVgg}tL43QO`~W@(Px
+z!W;<1VwhW7L!zY(6H80VQ1%BwO(jCYLvi`q1-N;+!@$HCItB*N(9wlJDnWI94c&1l
+zOC2t#Z>)u<uQ#sWy!=m4mO5Opd+#n3m6o8tzwe)*EOodbE-3-V78ZE&;^EIcy^n_p
+zF?g_i8Sbd5(u|VTs}Y|V&jkny3xQNe_tODm9C;br<>hgA)+}_InW4|m4>UiRI~T|1
+z&cWu-f@w!LH&8jRARFs9tmmZ8nS=W>27-dnCoA>}g`k=C59iH8+Jc4CY?DBox=AFN
+zAVEe}Dk`hXI9FzWezJ)Pde*Gr(4NjOs;IOxQ&UqW5D1h=5T6)}Q)iEH?x?DOUVD0U
+z6c`)hOplC!&hN;{4U>RiBxq@E`d+Yj(I4O7fxP_l?*x7UKHmv02l?UIqD7znfvG9z
+zAJ9zu=d))I-j$cn_)g&B<^)%FXO5d}e`Lo0cr<@LIxQ^F7Z3oNpU<5;bWcIy<{`!u
+zxL~tbvX3M`vRNQP*1Y*RrKW~k^76Q#tTK2<UOwkMV~W)K09x2pKQfw0;Q#;t07*qo
+IM6N<$f|=GMJpcdz
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/process-stop.png b/gtk/icons/16x16/actions/process-stop.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..110c0b89337dab27df8a45af40c3bc7bd43472c4
+GIT binary patch
+literal 422
+zcmV;X0a^ZuP)<h;3K|Lk000e1NJLTq000mG000mO0{{R3C@l|D0002GP)t-s|NsAp
+zh=PiYh=_`Xi;ahjj)~39%I@y$jE#xdrlqC?1f&1}*{iA8sHdw84BsFi>m(%RA0Ofx
+z8q*OGstXI-8yo2&BIO<);Taj-6co=44A&MG<sBX48ynvj7u*sO*bWZM2M6LA8Q~Zh
+z-xe0!6BF4F57r9{(gz3I5)$1L6V?n2(+CLA1O(R&4cHG4)e8&F0RhSe2Ga=%)CmdF
+z2nf*z2G0Wn%m4ty005~93daHh&jbX{0s<IZKym;8010$bPE!Ca^8fMh{{Qe~!&2k`
+z005FnL_t(|0bR}oZbdN+MA5l+sLb8}p8h^cqEen4E5c52j>t#?w8D(MCCY}duO(!6
+z$o?I_A*ZXmdnvVQTFCrpbXul6$b#d_He3NJ5<c(PkrH%q`FdGq&Ay?2JinjyU&;nW
+zdEmk55DP3K#u#P%02U<7Q%rt3oW5=DN!x)GF>_KRdiEvR6NJZxP{P0b0iV-0^kx+w
+QNB{r;07*qoM6N<$f=gPafdBvi
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/system-run.png b/gtk/icons/16x16/actions/system-run.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..099cd0c25581b53f6534ad70aa45df47e1f5cb92
+GIT binary patch
+literal 305
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbK}LV!<*>;M1%flMIT(9jSO9Uc)K
+zHh;m~;*!F3>sA++7Oq{pX8ne>$4?v!4G(s5b_9|@6c!PZlb6-e)q3>kk@M%zJ$(4!
+z(W3|N-o5$w@#Ck@pT2+p{^Q4w-@kwV`SbhVzklgW!rdT?OM?7@85kLvHgEs->laA&
+z@4tUH>;j#Eas{3)jv*C{seQ~$2Ld=8(v{Eb`LBCC|7lg_D}&FvS2;5m1$=H!vz)FL
+z@YO^-(@^;Ifs$vAb$)L`ER0q7A1-6?lKb*lR=!$b>)Q>ouQ&3powZH9bW{4qM{6G(
+wzV$P&)%bDWohc8NO$q%O^h9o=JmW8M^~K!R_dVXU3TQWjr>mdKI;Vst0IG(PCIA2c
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/text-x-generic.png b/gtk/icons/16x16/actions/text-x-generic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..47f5c2ec120c0694e9921681a4bffedad3325840
+GIT binary patch
+literal 535
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbKJbFq_W2nPqp?T7vkfLzW3kH}&M
+z2EHR8%s5q>PZ}sFS>hT|5}cn_Ql40p%1~Zju9umYU7Va)kgAtols@~NjTBIk2uP7*
+zX-P(Y5rbD^c4?AAa7k)rUTV>^-{19t@}eMlm(=3qqRfJl%=|ot+|1n6lFEYAV)Kn}
+zQ-BH-A-0qjC8siEl#~=$>FZ}@=H@0Q>*bafXC`MP=H%!lS7oL>jsq(03h)VW1=7ck
+zt=hbK^X}cd_wQf7Z{PNPyLTMeyZzw)T?hB>Jal09K_J?{YyZBT2S8}YK_Izz2ao~e
+z9^Aik-`?%}_wG2jf5-m4+rff6_U+jQWCNvux(@B%c?d`z*nRQB>8qE|zkKoR^{W?e
+zUIWpqcW+;R`uO4Vr;lGgfBO36^S7^GL?tIp0=h=JB*-tAfs>10ASgJpxPH>}*KfXk
+z|Na9Ae*XIP`}d!E+qk(vWm%psjv*3L=bqWk*PtNaa#4_3N`Nal_0NC)FQE^TV^g+n
+z{y4>aa-hT8Sx2%}xD5VIC^_e`AuYLzf8D7@a~=z)V9yR7sonfq?57{xx;9@ZtnvBb
+wF7q1wj=DOLFFGD~6MNTx@=@&To}qq-ReZje%X6kAH=wNyp00i_>zopr0LPm6#{d8T
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/tools-check-spelling.png b/gtk/icons/16x16/actions/tools-check-spelling.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..466db4607676ef4e2f711de6083b4b4f2ec6c027
+GIT binary patch
+literal 507
+zcmV<X0R;YuP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005PNkl<Zcmb_Z
+zGq_wq7@g-=r;fUCZGHFIwvDx_*tW4M<GzTiRI$~BeUX%RPiFpA?BdLs-(mm=O1<$q
+z2XZi7O6&1C$p16YQ&v`1D2%a03}?@sA?9+DF_zC+=m<YdpwJoH%BpLzcKsT3^>(7O
+zrvnC?9crDikq41Z;ImF-wZUNcJi()tYu2ErzdP$JRaQc!Gv56y0pZNq)9{DF*>2dv
+zva(Vk?Af;m14DgiZfhZK?P$wXBYAMR4^~Oy+>hRY-dqBO!7$y_){gZX*J5OB5L&YZ
+zBjZCD9Uq28DkI0S$x)0?jzDEFVuJsLEtf!Ve7|MeHq1Du2p*pc`wr~IjB6ToO^xI@
+z>z>9emmL)q*t>5xM!rsP?8H&{0&bL5SCc{F?DM-ZJ~d9VFX)Cp=z%}rfye7aMQ!bu
+z2|mBGLZ@3y|DQuv>ddC>75)XR^<>GVmS}OZB~o-}!v<E^5-I-BmMHzHEc`_rC_$uH
+z-uOg;;R|!Xjl{cN>whY*d$<fdp-c&yBSp7_a_dVqJXh!a4pWlmlSMZu0Rzi#iIzP3
+xN#$>3;V<H{OB6zLr1<0Kv;IuZ1pk*Sd;*YLBRm|k9^L=|002ovPDHLkV1hAz@C5(>
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/view-fullscreen.png b/gtk/icons/16x16/actions/view-fullscreen.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c4adae6bee8fd96f869fbc1f85525a2b80f233cd
+GIT binary patch
+literal 415
+zcmV;Q0bu@#P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004INkl<ZcmZSh
+z|NlQu%n-VYS=_Cg8?PFClFB|^HOhXS%gHi8&b>oh*{|!XMquApC9gIgk_>QgXkbzB
+zYCi|W|3O&MyW@q7d!G<411Q2M0S2NwdRjgECiFb&=xY6sj6q@`IglD-<C&}|21p0C
+z2?L$F3B(2|ym9mT|382J!11vYhyI^9brfs}NR6UbM~%Ekn-|ysU;wG9_;o#1^6C5r
+z5&+ru;nVy7uiw6e;{%8H{6BO4B-kb3*zxV`QSj>cr{L3`!Jy#TRt6OKt>n}39cI9r
+zcd!4W0gxDq0m{Bz|A6>1*b6}0qk$p)3TD8^&mYkBgT&wlD0y{ss`_{B0VOhcAS(KF
+z=)(;7^7S(|3^zdDv)z!Pp@9h_8es<D!$hS6km(8m4Fbp*l(?{|#hHnKVRA;nyW_7S
+z1mBbLZQvp)CCYnuYN`P9f~tS_S9zZ{OHwlvEOsh^QPqP_4FE&<ubl&?=sW-b002ov
+JPDHLkV1f$O!jS*~
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/view-refresh.png b/gtk/icons/16x16/actions/view-refresh.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5aff77fa36ea896d306d499a0885cbfaf21a1238
+GIT binary patch
+literal 698
+zcmV;r0!96aP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007kNkl<Zcmbu7
+z1B`T66o6~H4I8J8y-{sjv9tErGcPmGYumPM+qP{DR;TyA&DQvFlk0Q7!v_H1w@DDh
+zBdibk9mi8qEKe=5Jh_4PUe<@o<9YfW#+R`}_imP_>sXe26YKn@Ow;ts_@lC_3^q2_
+z;o{-~uCA`YX0yWX?ha&TrvU;VFD@-WUtbR(Xxnc9o;SVD`Oxz-v(ti-*?a~^M+b0l
+zu!nbi7v7hbmjI9b{arwwz;6I_sa{=M!Bz#O`i5GFi;sf9U_XeBi-h)$Rzb;PG5;OF
+z`chwH=VZY3^%Zh;8&c8|f#In}hG#zIIQo0Whnm2`_<d(*>o)++nr;9bPgd;h?Fw!-
+zHP>TuElwu>WO%Y}ZhjX2IxxUU8g2kcVa#kc3$aE<hXcy?d$)--Qbc$EKrdGK+teA<
+zzX1-dR*Mk3f1nTGYTN>JMx7lJoY3l3pwZ!}1hrNHDvcbJYWWR-WQ-e!$okRI5yU0L
+zfXPI>k3a5oK0uI$gu$T!I5|0n&dzqw5!!}dvVVE_FAesDTB{61a}imOm&@hP{sz$N
+zHNV6s#KPg>KAfGMLPlm9s5OdurB?c}Mk9Jvp_YE7P)WPX%1dDhHBn-69LN-6m)`(5
+z<4TpRp`^4(NTk(jg~`bYh(&#1Bne1LNr3tJS=30E=>HH>)006Y@e=(8z>7p8c?D4y
+zYHF)~YnaQ+3)CCeXulNh_#J!a;pH|a5{aJt697+<$n`ZZkw*nZo1mq&5hka`VSRlS
+zW>I^WSCj(7(ct3lRN~>`@f?=_E8w^3>f!pSo4aF?i>p(=v#aA4nsZJrj-d`N4qu>f
+gAHp(!1>D#C6~;N|OUzj~MgRZ+07*qoM6N<$f|7Giod5s;
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/view-restore.png b/gtk/icons/16x16/actions/view-restore.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ecc2d0b47eebdccd573585784471352f7d57c527
+GIT binary patch
+literal 338
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!63?wyl`GbK}MSxF;>;M1%85n@5fuW&6J9Mg=
+zZ;zsPn?cN!j-FO|?{;~g4h63^1rXWcQLr?vf3Jd9d*6f}kNm|zhJttd%w4yE3`OsD
+zHNSS3>;)ZNtzD}xOy7QU-rjqcub;nh^ZM(zFW<a-{o&L5kDot$`TF_Wx37Qx`~h0p
+z(8W;=bc0w)kY6wZBNG#kh^?z<R(4+gyd|sdKYIM*=P!rr`c^;{#hxyXAr*|Fr<z3>
+z3<X>-Zq1ec8!qu#_UZkeg->5x{!$ZuH*C(+eMQO3LuXgk9Ce-2=Pf#0=G9Kg>4sY`
+z7;C79Y=4ydcz@CVfV;bTYMuI)zji2nz3UunYq4|b3dJP_`Sy9c)te6;e(>;vQHAOS
+el@Asj8V<+n_!+mA=kEtv&*16m=d#Wzp$Pz<P?((n
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/view-sort-ascending.png b/gtk/icons/16x16/actions/view-sort-ascending.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..19b8ac20fa10f25b15efd469aeee3ec04b0ee0a2
+GIT binary patch
+literal 359
+zcmV-t0hs=YP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003lNkl<ZcmbV}
+z18zi77=<U@RKtc{KyBN$ji3%{+x7~&h2kMj%JICs(|e*ZufD6_hUk***qEw4iIaN(
+z2G4o-d{ce@bp0+^?)he*AVhn3k-)t#1wz<rG#MfI?Nb4TgD3zS>G>8?2v@gf&~+W8
+z=Np%xbMJ5)nx=t_NWt>j0vrwp$cRFinVW>&ZUY%n6-LGfVY695MpT8)o;Fx47LXBz
+zP}fimv)KeP<RliC6;>3N7RV)K1;c_cnT!w=Gk>bMtl*9B0TrZYroOGLEu*`q6Jige
+z@t5QoD{D(g&q|d8hLD(?FxB4K3RRUs{{H@uP!vh91<9$2!vU+%+uIwJoD#px&$2Ax
+z=jV$A&%Eb*;3~K%Y3pc#Bz=H%6%H7JhmwVitTZoS&VNlE!(2eU+06g|002ovPDHLk
+FV1k1Vor?ef
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/view-sort-descending.png b/gtk/icons/16x16/actions/view-sort-descending.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca6255f50bdfb63bdd55371a42f60656675b1a46
+GIT binary patch
+literal 367
+zcmV-#0g(QQP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003tNkl<ZcmbV}
+zgKoo77{!~t)WU^(fmzXP2D2T^wr$&HFa%>fvu@A+C+u$BB<KFVtB*40uwGY}n1Kh1
+zHUOESva_?D7FT9lSJoG>xH8woz2Uu#9|2(L_yM#{eLg(dgG!|Y$vw~iIpAl}f%qAK
+zNhfAYm|2)8+&$QWLZJYu*Xu#b<#LcS3zHR~11_dCFx>n2{PK*I^(9C)v|265<+Vke
+zogYhf->pRlEuBqKZ5>Uwt({F3tsPC!Xfz;OI~xlnKJwmt34*F>%Ar=PKyq(=3WADC
+z^VvX<;+^R!2ujaNVKYGrcea&~kQ58K{1>En$Hl5b!-Meq`vcM;2YvxQ`1$z)=}-xt
+z-tPGN`UL6F6!`J;^BtrkQ=o&7tLsZTP&!nChqp(h^!d)q$30fO`vXDv)L1({WNZKc
+N002ovPDHLkV1lJDsLlWY
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/window-close.png b/gtk/icons/16x16/actions/window-close.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..603fa3a7dbcf0e26105662331c72e0ed76edf187
+GIT binary patch
+literal 337
+zcmV-X0j~auP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0003PNkl<Zcmd5*
+z19HSr816kc$zylij@BEa=CD_&Z5tP;Jq)h!`oG#%oc#HiNre#NOZz_~Ktv5NN9UB|
+z{Noo9QnPYK81h~u0N}yEaJSH{VuGn=-8{!s(TjR6?jPzBtP=0M<{&G<lQSd2cJ)h=
+z8?YoU8-<u~RP|~HgsFz>Tgm+Lv<T|l#B%f-aDus(e@}@rido-On=Amy#PqPRJw1W!
+z1vz^!f!@$m8!xTSipkkgVcO*wGbQ&f0?IYr3+#ApYf02M1u?|Aj8H6RpCx&iA4;?w
+zBVGh$zs5-@mnCX?NzdIQ!PPGk@H9D<nWZY`4?iQ67)cT!J$~5%MI9_nPC&Kz*s6w=
+j9Lx@2*8czgg)i+F3_Zjxq85WO00000NkvXXu0mjf3&WA-
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/zoom-fit-best.png b/gtk/icons/16x16/actions/zoom-fit-best.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5b034553327488c1a3595a4ee04e592cb2794671
+GIT binary patch
+literal 481
+zcmV<70UrK|P)<h;3K|Lk000e1NJLTq000mG000mO0{{R3C@l|D0002MP)t-sczAeP
+zT2*6XUbwxuVq;&uz`9{$UvqVEyui7>z`AjAZ=0N%!^XgLb#eXu{a;~Sd3tudzqq`=
+zxnW~pZ*gpOcXE4vc!7j}goc5Rkc*U;k(Zj3nw^)Rqn)9oo~Egzs;#E9wy?dxxxT@=
+zzQMc7%*oNx(9_e=;^X1u<l^Mz<LKz-@9*yM@$m8T@bdEV^7HZY^YZia^Yrxd_4W1k
+z_VxDm_V@Sp`T6+y`T6_%`~3X;{r&y^{{8;`{{R2~{Z+@+0000JbW%=J05&!@&d$%z
+z&(HPs_4oMt`uh4Q_XV;5006y7L_t(|0WF9{VgoT0Lq~F$lU13Sd;d#hRc6|T(POzo
+z?}LDWDYXwW+IbVulus_#GcM1|hK1vX3o~5fxWIDNb{`)frRa5Swam6$<>VaB;e1(f
+zYSVkc+(W|sE#!Sv01wy(wj)7YDA?NC3Z~OU<S93aahZrN^!<L{1Brx=3duu`$WbH=
+zMGrvxh}c*3Jm)HuzCKtk^W&>j(3~@i&g$x_G12S5&S<|!b7jm&f0mkke7t6Syp8n_
+X6t#!r^8FMX00000NkvXXu0mjf$>9y2
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/zoom-in.png b/gtk/icons/16x16/actions/zoom-in.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..ba83a09d8de5d36f9c1c595df91c2eee7793ae6e
+GIT binary patch
+literal 492
+zcmV<I0Tcd-P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005ANkl<Zcma)*
+zgOVgs6hz-w^_Q$|+qP}nw(amRu(nxtRqmX{ST`c0Z@)aJS!Je7nPRToyi&Sx=W6+l
+z+gFlXcdx6pz`)|*8kYNy?)Z*tt0)S!H88L^xaQWKYvrEjQYg!^b_Es(*W9>$HQ^wR
+zV?|NauE65pnp=0TDbI6xp4T9~`t)d!#yt+Mxq0U*A4`^H$#ES0{P~k;*oYzeH|(|N
+zFt9kd=E9{jO4GEa{4UqEHEGItO`9>9;4-z(>0n@SaLuukhZM(=K7alw+qN`s;cT@u
+zbTF_uxMuHxT?ztUZ{NL<<JelYcDd3lCAA_up@V_N!8Mz=ZIJ6adhy~JKaO_p*`^)4
+zw`$wY&0-jK&gfuZad6G5HOu)}diMN@Jm0I$p`-g1Coy4f(81#1ngxsI%62Thdi|m{
+ze&Flkm2<ju^*mwctO0|AYo<<{l>GYjQy)Km(1#E2M8Ys^F10-@4z3wLaZGu2b*1=7
+z-@bj-*RNk%4Gb&}uIb;uS843H(SBuBg}6w9AZRr(uoEVZ4RN`hO}B0xOMUzIF7Ms9
+iXHxU1)&c{IgZmqtXJVRTtU@6G0000<MNUMnLSTXgQ1|x$
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/zoom-original.png b/gtk/icons/16x16/actions/zoom-original.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..9b9a42c80dcc2f7f310097715334e02f7cfcce6c
+GIT binary patch
+literal 507
+zcmV<X0R;YuP)<h;3K|Lk000e1NJLTq000mG000mO0{{R3C@l|D0002tP)t-sczAeP
+zT2*6XUbwxuVq;&uz`9{$UvqVEyui7>z`AjAZ^OpGbaioGVO@E8cD%p1yuZ0&V_$!P
+ze1wL9iHwGhkc*FzjFgs;mztEEpPHVbnxUkgrKh8)tEH-~rn0rKw6?Iiy|%r;xxT@=
+zzQMcE($Le>(c9eF-QC;Y;N9Zm;pOGy=H}(-=;rF`>Few2?Ck6A?(FaH?(p#M@bK{Q
+z@$m8T@bdEV^7HZY^YZlc^Yrxe_4W1k_VxDm_V@Sp_xJbr`1knu`1$$x`T6<!`uh9(
+z`~3X;{r&y^{{H{}{{hiZB>(^b5p+^cQvfzLHqOq^&(F{G_4oSv`udjYKRW;b0Jup+
+zK~#7FHOVzXgFz4l;5UN1ogod*{Vza+OGSgbLpD1S{lDr7LB=N5F!cNvPBOW%L>S8V
+zleSE5FGe<|7oT-vp$5R{3Gl*%uH-+6ul|6|3h0Vv7EE8t-q?N=U^X?<L9_!1Igr8O
+zW+8`wq?viJcig{Q0tmbJin;~b$^dHs)*rI}_J<q{L5!XY01QxQHAy_T2>Hw)t6F{*
+xI$7_~BQ*Y5wBF?M1cu7neI?M?gks44J-d$jX~4bQZ9M=0002ovPDHLkV1lV`B0m5C
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/actions/zoom-out.png b/gtk/icons/16x16/actions/zoom-out.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..0ab78bfa6c8a41d95fd2e2e3cfcebf88a8fb70a0
+GIT binary patch
+literal 450
+zcmV;z0X_bSP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004rNkl<Zcmb7=
+zC9oR-7zV%l!^vf0%3hVZHD&OkTwewoU1o4)^tw#4%(~1>mv`K^Gf&<G#0Ku$J+fxA
+zsf*VxPQ7~b(!;AaE(X_cT}j)4gG)nevlq;sTC0?AOr11+{M=a!3v*`9S37WUX=tsO
+zv!fHnPO7@Kx{@SO9LH_J!KI<KBuz(Et2KpTs3?lM0+)u?%$!1+rahm4hSvB24BTE2
+z1Z}~=r2%VsEq?S5ksK%0u07ke@4)U%*l=)ZXw7SR{RiTKv!`<FuC{O8l?fXTE)A`<
+zT7A4-1z{-1apbzLqBzQg4F{Ko);!PSkHR33Sx${cLub#Q%7hIEmxh*iz>86mCXyp9
+zUA#iemaNQ#4F{KomOJ2}^7*{JeEHNBxHPo(@9)1bi4&EIWfcp>uE3?CwIB?hzkT~g
+zwOUQZVo8NUu`M{bG_>~f`}ftSPM`8#zIv%rsVvv6w*?3H?71_2v^IF~h&!J?zMpgG
+s@WDqLH?I%ZZ(OT(;NZT0_jVTTf8p8YppD;r=>Px#07*qoM6N<$f{+c^N&o-=
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-high-symbolic.symbolic.png b/gtk/icons/16x16/status/audio-volume-high-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..2797d4953dbea869a8f5aa5911b4a16f60ad9936
+GIT binary patch
+literal 297
+zcmV+^0oMMBP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00004b3#c}2nYxW
+zd<bNS0002sNkl<ZIE}s1F-ikb5Qp&}no0|MA*RvBPO#QCjkTSSDy5B0@B$veQ+NPD
+z5%d6oR6#|-kYJ&erC}|00%7x>SuFg+gKwFc@4@WjpHtu-jo+GfFv`@%A?f9YTX>D8
+z>dig0gFms68h(j}lwgWI+{SlzzL+|*+A*$!FVP9Usw;TFVek;!!B2GsA6O6m!rB~L
+zsV*XsqQbM8X<fkp`@wJ644%{#T;M$T1_#0YYGVt}^1tyLyULeX;3Re1mU6o(!5NN%
+v-<69^risT)Z4!dh-0-p#xWnpS1q=BBVY5(9pxA*&00000NkvXXu0mjfHn4%k
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-high.png b/gtk/icons/16x16/status/audio-volume-high.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3ece98e2ebb63f6509c00e533d73c67f620db1a5
+GIT binary patch
+literal 725
+zcmV;`0xJE9P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0007<Nkl<Zcma)*
+z19aqI5P<V=wyoN>jYVynYx8ZrINP>u+qP}nH<vlqZ8YD^OTPRhVq#*NeGjHoIS;0&
+zxz%g+zQ_?4xC^B0O?3sj-lX7`9$lB%pnxqXv=YfUZ#aTNs9qmJsThROG;*|sWy09U
+zHpye%>j=2qLOp?m`Qpyqn^0X~L?70j{PUARv?^E3U2~_<-1BGNtRWBzi+YnEKRkEg
+z)c0@SzkysOgz9pugt1|^DH9%8rB3XLc?f^eb&6=210j&G_Hu>AUxiZE$9)HOe|!4$
+zDd4ee#iCz=L7{4Xe_BO9WPjGYxdEI7OynrlT5U|p1`WaF7Qwyy_W<LEkMH5k*)#Ct
+z#}81Hh<^zz6UHbUGo~y=jxJqGkE__Q1vy#0%`s!x&P&APX_EjCjCbzbgqd@u!MpeG
+zpn#F}OAsz!H6Ts5{V{U(hyz^<Cmei*oHce|U&iDk_lTIpSU7j?9AMnEbv=}nE8)r0
+z$B>ql{7VoaSvi;#JVj2|ZPzaxfA9u!-q-_{q~I*!?(GdDMvMTA2M+E72CERRUB3dc
+ziP7+T@W#lTGNvv;jwxB|6IZ(NAaa^^n{USOUAqZeC+DM9_Kx7>;rU53RQ*-1l)<6H
+z2Z0(v`#p$MwOo&`8Hnu1Sg<01wNQW@tz65CE?GbS-!%D9D7}Mep$~Zi&X4Uow}Nj_
+zK&@#U<!qZg;f_zn%+|3bOIil;7vBrzEqAH0kUTs*^t=LmUyK?(@`sD3=RbkDPf2@n
+zA>AGlS`~x2YxcB!kNlaN>Rrlq&dyd2u5NFzTh;6O!D<7Hda;^LmI>o-+9gkLX>c>y
+zI5@c5IlI=`OarOvE`umlNA+krb@k2E>|2kbbs)Q<s$TmE0p^;CvJ?OO00000NkvXX
+Hu0mjfk9}a+
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-low-symbolic.symbolic.png b/gtk/icons/16x16/status/audio-volume-low-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..3e73b4f47fc12922a905253c70aa031693bd9b86
+GIT binary patch
+literal 317
+zcmV-D0mA-?P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00004b3#c}2nYxW
+zd<bNS0002=Nkl<ZIE|&#%}N6?6b0aKDoO<xBKU_$D=0DwzJrh8O8OAKhp!}V+`1FQ
+zjsH@SsvxdvcjIF2fD9R!;(?Hpo12r9<c5D@X3G2l*6>sXI*Ftmyfz5@U>SLnKo95G
+zNbJ0a%NXaFtqb&U5q$~=nBX0ARbB^0v}g2diwYcLgbdq}2kWULq;P_p;H&ryzSveE
+z$5-%qjDvUE3KX?*_BY-};2KN8$KitVNm~h=Vn6r@E5W}jfh<}dj|sbH%IYg{kFA({
+zt2=nXAs!l>Twy_3i4zQ)EN|kjVeUv-mAh3Sbq7P`e@LN=58O8GJ~e&;(y1w~ad)$A
+P00000NkvXXu0mjfF>rz;
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-low.png b/gtk/icons/16x16/status/audio-volume-low.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..75bb78e9e5ef8123e1f513ecbd93dda56b9003c7
+GIT binary patch
+literal 433
+zcmV;i0Z#sjP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0004aNkl<ZcmZPw
+z2??PHV-+kY&9E-1%-=zl0r@4FdSz7wp9)Gc|C4M$VPU3HNk#6vN00CSC)t3~(kuy}
+z=I2+gUHJRw@1OtG^`*oaP*Rb1xUe+)cWGtb_any+{(1fS^?wjpvu*|00C~^$Vi}(n
+zX`BY+7H0i_^7P4n5dH1@*Z-F;U;6*=-@pGg4dq}1bR#C!m?q3xj?;jdb7p{T1ksNk
+z-Tyy-(VYKZzJB?ik&^^Az`uHfY+Tpgm$<_qGW7qID_8!5=pDPa{%>fm{r~Fq%l~mn
+z(O?4tD%L9i4S0>y0Bd{u|9yRZ|3UPz<46AI<YoT9bNAN&(8yr00eTUWs>~8*ufl17
+zp_%z<J!8}VW;V7zI=b6`SJzhkKXLN-fA0VvNFaK*S1b8;$PtW22QM!PcOTE^MI{CQ
+z_U_;P-_gy5^n_$%W20o};`naD#QuL4wzmJtO3Fs&=6WWUR-ZuLB0Dn~n3z}_nOhQ_
+bnJB^lo@{GSD6VS*00000NkvXXu0mjf?vvOA
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-medium-symbolic.symbolic.png b/gtk/icons/16x16/status/audio-volume-medium-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..456b6d0c7e4375b64f09c33d95c62c919937abb3
+GIT binary patch
+literal 315
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<bU#XaSXBO
+zU3%Hpi^WlZ^}%`3#IrsksS^VOQqHjGFQ{Nt{>b7sTl-j3xe&j?jG3C<r=&6$b!IQ<
+zIe4Xk=dM9Fzf@d!`2MP^_J4#o2S1ZfmhAUkFx}(U5pTDICf6yJjZEPZTONs?D-ixH
+zRGj-&X-%l%EhhUL2kW+Mx@eJMW|OG9@uNn}*8-u+4U@7ITNU-1-apj+;S}B|wEZCa
+z51xDPwF0*OICH;3ywUm%n|!j}k0q-QsGe(%PuBcVZN2e;$3Ln48+)0*ny%X}YqQ$F
+za!O%Q7yno9KV4;$B91zzy){^sZ`yc8vghi5#a6qx!uhN1OzRk@OBu)~Rq%j9gTd3)
+K&t;ucLK6UNV0}jb
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-medium.png b/gtk/icons/16x16/status/audio-volume-medium.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a51e1260b9fb5128bd9fc61a6cd1881429586cff
+GIT binary patch
+literal 552
+zcmV+@0@wYCP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005+Nkl<ZcmZPw
+z2??PHV-+kY&9E-1%-=zl0r@4FdSz7wp9)Gc|09bldbP+CG@!6BQ>mmP_uZq%_x~ds
+zpyt~nqTtp3O5Uf<5~l&BrCAa{&Cjn~yYTnV-#`DW>q}8wpcgUO&oE}%Grid9Vkicb
+zROB5lEY1F1TABC#$gzWeUcY|*9|YE{TLCse-m|?}#-~LZ#CFbGve>0ySuTnJxrJH(
+zpFDl?A4Grq{`LQ*%a{KD`}gmEO+z`@0Nsd5HKqx(mV?;AjhlVLTDI*%F<|DL8DJYh
+z^rJ`j|Ic4E=l_?lU;bz0B!La^uihXV*R}U0h@ISbOek~O@einB5E=Ua%9ShsLG+H@
+zTmLsS*ZzO?`sM$)q-bOVUW3^2U3--?ryjqDVt}>1{r|qczW*Tl*zqI(bMi9(-?@A1
+ze`sXze@Ng>sxnKMy$Y<MVY5S6<M!hy1{j)|pVl)r{cmPt`=g_~{daY3)&CPGkN@`$
+z@PP!PcYC#xZ-*R+?Ub`@olD;G60Fha;N>OZ?&JBqsHEWE-u=7(JG!}`MdJi>!{}*`
+z91`Yp;7mw1Ha1FjE{^XeOzi(>VQULFK--~#2bho^Dtfks5KPKO=H_}PmR6rY-a-~v
+qc5hc9Ix`uVm{=Q`TN0g_D8c|!sD1NZL7D0R0000<MNUMnLSTYX0T^!p
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-muted-symbolic.symbolic.png b/gtk/icons/16x16/status/audio-volume-muted-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c932a208853346df8a21951690b52355d3dcc09c
+GIT binary patch
+literal 305
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<iGHAaSXBO
+zU3%%P*I@^V)`!Qtk_s1cELwV@WTBI*i~hmWFShO~eC;K|8u%x2M*z#g)?2;DT=z8w
+zs7-p*nCLfY^7k6aL-wZj$#p%xHcO=E`eaD^^ET+ONxs6OQP5MjtWtb=q3xkVCJPRD
+zzOj6p+$65EEQURGjXRI=S!SDLzUYa~aqonSZXFE$!Mmp|K9@V<VDt|?yTkfhS*Mu(
+z53XLG!(DMa>Ic70`}`}?McuCisx7htmmIh&qL3M*Z5{lVU3}&o#drT1?i}0v{ziV$
+zWS*o+bNE8pXDU?l?sQwaQTRzsm_ui_%mbmP`l?&35)F+LIDvj<@O1TaS?83{1OQtQ
+BcvAoX
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/audio-volume-muted.png b/gtk/icons/16x16/status/audio-volume-muted.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8fdb4cd920ce668203afecf64ce4100ef137a066
+GIT binary patch
+literal 545
+zcmV++0^a?JP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV0005#Nkl<Zcmbu8
+z!-5=97=`OGW<C4Zwr$&PjoG$VvDvmA+qP{dg;R))S$tRL>K8F`<j4l`(?wCq+zzse
+zCGr2dV2NyA<I+mebCGNw{`ms2cwVure9`0UH?H8HFDNOQU&I~0bMo|2nxZLG)s?_t
+z(#UlNHOYaWz^!ZKgsgn=4spo>vZP}1o1ME0)Pn~P003_9HfZ%KGL?y8$F2fL9=Spq
+zNp2pA2jTHL1)W$Vo{yWiZi4S$zj=k@Cys+*7*yAnp<Ypg!j3FPjTs@}54k^&10k=V
+z6U$dE0|4;-_3Kx#cEc*XeDxA@7fwe-RT=*(f8YoFL64vlBgc)x$&)9+_wiH&^~xID
+ze{c_zr%!;iM1)i(4!6(o&Ea+2Bi?{p(1{LRy1-(wfbVzj*@=aV=i%a|^B6U51UH_K
+zXd?X6AGo~^K_{BEZgZe<i&kjevC~_fQA<|URATSGJs2=_AZE{<fneD8`Oup6D?g7N
+zt}TN8IgDNV_b=)*u-_etOvGezDRk@I6H}&7BDXp=!RvPkczjN{JPtUVTd;QhYC-=d
+zDLQuSSlqd1x5qZSm1*0l6DCa=Cm%b0G|7RVKu(x6PX0q?HE+|Vam#k?pYvw@cQG|>
+j*|J0PHtqhenEn+O@@m^^Mt`@s00000NkvXXu0mjfgi{4f
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/changes-allow-symbolic.symbolic.png b/gtk/icons/16x16/status/changes-allow-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b64050770d3012aea88254e1b4e36cd8d50cdee6
+GIT binary patch
+literal 177
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<Y#!gIEGmC
+zzMbgJ*Py_|%KrEecVU3V<a=!A8fH(L@MwA6qf?%{9*DNFEl6iln$V~;wNYVja8hwV
+z_y&$iIp2Jrsd|e!?mat&U+l49KkH++XLfTRgdRNf@BjAo@eMom=48bje94*jkvoC4
+XTSK0~@#v&_pq&h!u6{1-oD!M<f37~i
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/changes-prevent-symbolic.symbolic.png b/gtk/icons/16x16/status/changes-prevent-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..500525e81797fb3989f92b681b0dc007229dbcad
+GIT binary patch
+literal 168
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<i~ruIEGmC
+zCMPUle2|ckFyqL910SX}Ha@f$*`EsJa!gg`P*cowIWF93_<%QLqvoU;njvp^4cQLl
+zD0|K6lo0;NxJs&E3ggwz7mOV`bu7mcT_!8A8Z6q~pkt7AAc29w@tDldYP;Pas~9|8
+L{an^LB{Ts5fh0Ah
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/dialog-password-symbolic.symbolic.png b/gtk/icons/16x16/status/dialog-password-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..af421b5a29fca446771ed3bb0b3c62119ced06df
+GIT binary patch
+literal 237
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<S+4baSXBO
+z-8<2j>yQIa>;9DrJ6^|@sD5Rey3Tfj!S)YI|GqHHJK(Hw>0N1JOVa&6I$iv7jT354
+zrX(bpI&gn^#=YTe?zaQl4{Fan3HW@yl;;8;*L4R~hV-iu5i$Rs%vlk8)a-@PybnFO
+z1-%!2`KQi_+{3(^WdV!Wfk4K*12Q*M6s9)ugnr&xmTt$$e(d{)PDkaHi>of&7iH4e
+j8RNk5ge&r!|6WG^E*p&ximDYr_cD08`njxgN@xNADl=SP
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/dialog-warning-symbolic.symbolic.png b/gtk/icons/16x16/status/dialog-warning-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..df44c9816d66a0dd665629e2fdcaeb625dc7cb06
+GIT binary patch
+literal 286
+zcmV+(0pb3MP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00004b3#c}2nYxW
+zd<bNS0002hNkl<ZIE|IkKS~2Z7>4nm2^K*Fv9qwS6fY1Z!7`=j5$rsHjg8oZwDz_(
+z-ok(vNRiZO(xekD6emS?VcDH=cVGBm{(R3f!!V?Cf)Bi+_fKCk?+95vw}r0?aKH~v
+zo5EepN`ip5rh?l7bc0bg{=<14+{3aU$dk{fb%OiSwabEl>lA!|bpycyyD`B;_2FWI
+zfV(n$jPFR}5SNkl750mQmq=4xJ?8KkeiKa>7$o*San!++?dOT5gPp|Q9v-N^e4Cng
+kafp6)TAO@f+>)tg1FBSK|9H+{NdN!<07*qoM6N<$f~FpNoB#j-
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/document-open-symbolic.symbolic.png b/gtk/icons/16x16/status/document-open-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..a3f259da410916445948d844876d765880256308
+GIT binary patch
+literal 194
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<X3vSIEGmC
+z9-ZvS)u15YI{)I;S9*F@Y2EJxOIyQkx;d6?IoV`aBT@Qnp?ph>@dFn52GL)}o`(;r
+z8)Pyr{mZjS#kstJVdJGnF#)54DrZ05;+P=8maxlfve$aXfV$0Idl{;i{5Sr=vf=kG
+p)f1u#UtHe`d){kU`1f6$c<D)dwLJ$HIRPEP;OXk;vd$@?2>__-MmPWf
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/edit-clear-symbolic.symbolic.png b/gtk/icons/16x16/status/edit-clear-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b5db5186f7f7c9cf5a12d4e818b4df680aa7fbf6
+GIT binary patch
+literal 238
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<S+GfaSXBO
+zJ$q>**C7W1mJ96)PuRC?+rZJWXm6|hvicRhx1u9Bl9nf==jav8Gwkf$VX$GhL9uc9
+zar-d&Y!Tia$)T?Iwku5EvGmDZ@h43E%O)rG8S6!~-0gOl`!-Oa$B?sj9#>A5j+|jn
+z5??_FtJO<gwX3dTXCsZSKhrnp&UwCY{xZQ=E?$Q;6Qs)WnJygu);#%GdXDgNuInKS
+jL^6L*ogT`xf33Re&PunijsPK`gBd(s{an^LB{Ts5A%s|i
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/edit-find-symbolic.symbolic.png b/gtk/icons/16x16/status/edit-find-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..e805eba1bbb70eac56f251326af46850ce7d3563
+GIT binary patch
+literal 316
+zcmV-C0mJ@@P)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00004b3#c}2nYxW
+zd<bNS0002<Nkl<ZIE|gsOHKk&5QX6{hQJDx#KZ}@2T@pwt_9qKj~!@W6Hb_$5KW9@
+z0t2H{j7-2mSI4I5N5V;Ny1Gx*-?wgEw$;ZN3#>552t74w-~pS8br*SsN{g2mpo1n(
+z<9!+aeNk~gQ+!_XgKh@0)6OW2K}Cx&jJ&73u?VA612~JkdEQus(X0WqBJVf*@c`cu
+zpVR<S|0@reM0`~PxQ^!}Z}j|6p<7aXfgh|R-qCFaGL+1}B{{g8DBi^O+eLte<ffI~
+z!Zki4elLT-rDV=C$!X8<7_A-RH6R~2E`wC*2yX$I?gL06FL>S;u%$om=1LL(GAOqI
+O0000<MNUMnLSTXmfPex3
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/list-add-symbolic.symbolic.png b/gtk/icons/16x16/status/list-add-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c44642f24693a1e73ced7188c9f0c60d1fb6f430
+GIT binary patch
+literal 116
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<ZFAnIEGmC
+zCMPT~{K0?Jf>C&>S&!6#0|z*kerz+b`zx}$K|sQn{fj|E641~OtRkjWd;5Xf7(8A5
+KT-G@yGywqpyB|sb
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/list-remove-symbolic.symbolic.png b/gtk/icons/16x16/status/list-remove-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..5dd2f10972561c2c0c4e6cb5a3c10d06dd6ca8d2
+GIT binary patch
+literal 100
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<V$<HIEGmC
+uCMQU+9%e9bdinp!tMo<Fyxk5?U}Nz1XJlD!6cG+o#^CAd=d#Wzp$PyGKN!&f
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/open-menu-symbolic.symbolic.png b/gtk/icons/16x16/status/open-menu-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..789f1de8b2c56d5edd544fb1dc89b3d29ab1275a
+GIT binary patch
+literal 106
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<STl*IEGmC
+zCMQT_9N<{`fAZ@2ol$y{hZ0N#Rx-FTPi$mlxOtYDYmeWyBS6Irp00i_>zopr0KbhJ
+Awg3PC
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/pan-down-symbolic.symbolic.png b/gtk/icons/16x16/status/pan-down-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..feebd469f1b5040459816df1b0f7e9bdf7de2822
+GIT binary patch
+literal 135
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<lA|=IEGmC
+zCMQU+hOqMT@bLWaJW@JEqAA$eu<c6lBiTi!haD^pXU+U5Q81;kv2kK!<3j~zW@qJ<
+e+xnS=7#N<;RJq5udh$G=NerH@elF{r5}E*bktV7D
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/pan-end-symbolic.symbolic.png b/gtk/icons/16x16/status/pan-end-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..50a9fa1ff74ed56cbe1fbc5eb3db2b5afb0cce25
+GIT binary patch
+literal 147
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<a>F#IEGmC
+zp1rh@lR-hi`QrNS?3c%;rK@&i6uKSZ`M{y_A(?4H$N`Zh%xo#51`Ad+NJlb8t5`i)
+rWm2GP#Qe_E{lN?F@IIB;pSe=c_2p|dP2Rf#O=a+O^>bP0l+XkK2YoDn
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/pan-start-symbolic.symbolic.png b/gtk/icons/16x16/status/pan-start-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..371cefed8abd813f5a2f29e0deb4499f695b409d
+GIT binary patch
+literal 140
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<U4!1IEGmC
+zCMQUEEocln`(NYYpZPJ&3A0WbF+>`lWLuDZER#W)k9ptZBx$_>zaDOmMm8^A2eXzO
+j=7hF@6oxYs961;|X36{id-2r;XdHv5tDnm{r-UW|Z^|e0
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/pan-up-symbolic.symbolic.png b/gtk/icons/16x16/status/pan-up-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..b39e16acd8ee62eec200971aca622cf599729384
+GIT binary patch
+literal 122
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<QsarIEGmC
+zCMQU+ny~Zo@bJh^$@s^AR7JXJjbxj&#zmgPU#DcKWpEhI>MT2{p}@$%@UKAmgYEs!
+QcR<Yyp00i_>zopr05ww}3jhEB
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/user-trash-full-symbolic.symbolic.png b/gtk/icons/16x16/status/user-trash-full-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..cdfe11584a2144dc45a6570553f77a9ab6d4ea77
+GIT binary patch
+literal 357
+zcmV-r0h<1aP)<h;3K|Lk000e1NJLTq000mG000mO1^@s6AM^iV00004b3#c}2nYxW
+zd<bNS0003TNkl<ZIE}57u}%U}5Jk@}R1g{}j6kE2nD7CZ7^8n+L1jW^Y5W6!z|z()
+zut0u*4s5KnAZloAER+x`379BY?49s<fej(t<Yn&6-gkHB?L3&rB`^S{G3y(+VhM&4
+z#bFAJED4<AS_s$OxN#g2wb5373N*y6-zIP(-jcpz26rmd9Ko??P<2etq`x(To(ct`
+zgB<}G&!7l=if>Eb0Z1wN)#jw~q-T%;e#8Ud5BLg!39}&yWYp8wxX1#1@q}VJ1jfLJ
+z-e{YifwE^%2A;%sh(_Su=AffkQfvW-p1}d|Ail5oY7Z~e!nN`}pet@?@B-|L-$;LM
+z23thEzp)y+(&yabJ@L2DUv=L#4?HseR~D^_ba{Y(J8xSv3$t{p00000NkvXXu0mjf
+DF(#E~
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/user-trash-symbolic.symbolic.png b/gtk/icons/16x16/status/user-trash-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..8f12ce9ce17e643931a2dddb64a2152931dc16db
+GIT binary patch
+literal 164
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<VSnDIEGmC
+zCMP(sHuCWBoR^T0`1knW`US5xG=&Ga{y0$2#@4pnfKPdnLS#c{Os@&!1_vciT|50h
+z#~l|lbRAB(!tjU9;L(E2=S|lGq~iTt{Bq7;;8j-BPEN^Wn6O;CN>%4@9?%*FPgg&e
+IbxsLQ07+>xl>h($
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/window-close-symbolic.symbolic.png b/gtk/icons/16x16/status/window-close-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..db9f61b481f25aed70552476b32cb217163d1f62
+GIT binary patch
+literal 195
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<X3sRIEGmC
+zzMW{z)nLHmARp)0%E$NU@B0T2@&cy-S(+l#cd_ue8nS<IR6P59s?d*0B_`Q`RWW>9
+zf_|q=Iu@wH`ao4&r->_KO3H)^)~s%YsV)i3vz8xw<66M9dzXBXk43_>f5ibCH*@?-
+oIiT6Oonw*5m+Zc3VS7&TNv5h%l{J31fUaQhboFyt=akR{0Li{Vr~m)}
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/window-maximize-symbolic.symbolic.png b/gtk/icons/16x16/status/window-maximize-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c66b18c56bcf20f60c88fa9ddbb96cec028fbcb4
+GIT binary patch
+literal 149
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<okHKIEGmC
+zCMQUIY7p#}5N5Rf|3UJ=nF9wtw2OF0e$e>S@2{-L{LeAA`Md)g8{46OsvK<h7-A9+
+t9BDXwKBSy++lqryu^tT?(|Hvc7?>>CCHaH--UH2L@O1TaS?83{1OSNbEQ|mE
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/window-minimize-symbolic.symbolic.png b/gtk/icons/16x16/status/window-minimize-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..c1f38b7532d920eea5e74d8703392033bba9bb6b
+GIT binary patch
+literal 104
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf683a)46*1<
+xPLN<-oM6D<rjzua<3*y=vkd~7FEkD?Gt{nPWbgQBJ`t#t!PC{xWt~$(698V(8Ych%
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/16x16/status/window-restore-symbolic.symbolic.png b/gtk/icons/16x16/status/window-restore-symbolic.symbolic.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..f1740eaefd263e27b49f017705ddb8b92f52d4a2
+GIT binary patch
+literal 140
+zcmeAS@N?(olHy`uVBq!ia0vp^0wB!61|;P_|4#%`EX7WqAsj$Z!;#Vf<U4!1IEGmC
+zCMQU+_E;R5S<vxc`4~eQ8(W+Gk*JQ-Y7#&Ak6JL=G5>RX`Z3Ds1S<<8H{;=tR`a#=
+j4v6;dIKsIrLxqVU*MnWK$CEJ-XdHv5tDnm{r-UW|XF4Y&
+
+literal 0
+HcmV?d00001
+
+diff --git a/gtk/icons/scalable/status/audio-volume-high-symbolic.svg b/gtk/icons/scalable/status/audio-volume-high-symbolic.svg
+new file mode 100644
+index 0000000000..703d9a7cb6
+--- /dev/null
++++ b/gtk/icons/scalable/status/audio-volume-high-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g fill="#474747"><path d="M0 5h2.484l2.97-3H6v12h-.475l-3.04-3H0z" style="marker:none" color="#bebebe" overflow="visible"/><path d="M15 8c0-2.814-1-5.172-2.586-7H11v1.48C12.265 4 13 5.7 13 8c0 2.3-.78 4-2 5.52V15h1.381C13.847 13.36 15 10.814 15 8z" style="marker:none" color="#000" overflow="visible"/><path d="M12 8c0-2.166-.739-4.02-2-5H9v2c.607.789 1 1.76 1 3 0 1.241-.393 2.22-1 3v2h1c1.223-.995 2-2.873 2-5z" style="marker:none" color="#000" overflow="visible"/><path d="M9 8c0-1.257-.312-2.216-1-3H7v6h1c.672-.837 1-1.742 1-3z" style="line-height:normal;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#000" font-weight="400" font-family="Sans" overflow="visible"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/audio-volume-low-symbolic.svg b/gtk/icons/scalable/status/audio-volume-low-symbolic.svg
+new file mode 100644
+index 0000000000..0924c71e70
+--- /dev/null
++++ b/gtk/icons/scalable/status/audio-volume-low-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g fill="#474747"><path d="M0 5h2.484l2.97-3H6v12h-.475l-3.04-3H0z" style="marker:none" color="#bebebe" overflow="visible"/><path d="M15 8c0-2.814-1-5.172-2.586-7H11v1.48C12.265 4 13 5.7 13 8c0 2.3-.78 4-2 5.52V15h1.381C13.847 13.36 15 10.814 15 8z" style="marker:none" color="#000" overflow="visible" opacity=".35"/><path d="M12 8c0-2.166-.739-4.02-2-5H9v2c.607.789 1 1.76 1 3 0 1.241-.393 2.22-1 3v2h1c1.223-.995 2-2.873 2-5z" style="marker:none" color="#000" overflow="visible" opacity=".35"/><path d="M9 8c0-1.257-.312-2.216-1-3H7v6h1c.672-.837 1-1.742 1-3z" style="line-height:normal;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#000" font-weight="400" font-family="Sans" overflow="visible"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/audio-volume-medium-symbolic.svg b/gtk/icons/scalable/status/audio-volume-medium-symbolic.svg
+new file mode 100644
+index 0000000000..d18794ab91
+--- /dev/null
++++ b/gtk/icons/scalable/status/audio-volume-medium-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g fill="#474747"><path d="M15 8c0-2.814-1-5.172-2.586-7H11v1.48C12.265 4 13 5.7 13 8c0 2.3-.78 4-2 5.52V15h1.381C13.847 13.36 15 10.814 15 8z" style="marker:none" color="#000" overflow="visible" opacity=".35"/><path d="M12 8c0-2.166-.739-4.02-2-5H9v2c.607.789 1 1.76 1 3 0 1.241-.393 2.22-1 3v2h1c1.223-.995 2-2.873 2-5z" style="marker:none" color="#000" overflow="visible"/><path d="M9 8c0-1.257-.312-2.216-1-3H7v6h1c.672-.837 1-1.742 1-3z" style="line-height:normal;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#000" font-weight="400" font-family="Sans" overflow="visible"/><path d="M0 5h2.484l2.97-3H6v12h-.475l-3.04-3H0z" style="marker:none" color="#bebebe" overflow="visible"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/audio-volume-muted-symbolic.svg b/gtk/icons/scalable/status/audio-volume-muted-symbolic.svg
+new file mode 100644
+index 0000000000..1d9e6a418b
+--- /dev/null
++++ b/gtk/icons/scalable/status/audio-volume-muted-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g fill="#474747"><path d="M11 11h1.375l1.125 1.094L14.594 11H16v1.469l-1.094 1.062L16 14.594V16h-1.438L13.5 14.937 12.437 16H11v-1.406l1.062-1.063L11 12.47zM0 5h2.484l2.97-3H6v12h-.475l-3.04-3H0z" style="marker:none" color="#bebebe" overflow="visible"/><path d="M11 1v1.48C12.265 4 13 5.7 13 8c0 .723-.085 1.382-.229 2h2.034c.124-.645.195-1.314.195-2 0-2.814-1-5.172-2.586-7z" style="marker:none" color="#000" overflow="visible" opacity=".35"/><path d="M9 3v2c.607.789 1 1.759 1 3s-.393 2.22-1 3v2h1v-3h1.75c.158-.626.25-1.297.25-2 0-2.167-.739-4.02-2-5z" style="marker:none" color="#000" overflow="visible" opacity=".35"/><path d="M9 8c0-1.257-.312-2.216-1-3H7v6h1c.672-.837 1-1.742 1-3z" style="line-height:normal;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#000" font-weight="400" font-family="Sans" overflow="visible" opacity=".35"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/changes-allow-symbolic.svg b/gtk/icons/scalable/status/changes-allow-symbolic.svg
+new file mode 100644
+index 0000000000..374103710a
+--- /dev/null
++++ b/gtk/icons/scalable/status/changes-allow-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g color="#bebebe" fill="#474747"><path d="M3 9h10c.554 0 1 .446 1 1v3c0 .554-.446 1-1 1H3c-.554 0-1-.446-1-1v-3c0-.554.446-1 1-1z" style="marker:none" overflow="visible"/><path d="M7 0s-.709-.014-1.447.356C4.814.725 4 1.666 4 3v3h2V3c0-.667.186-.725.447-.855C6.71 2.014 7 2 7 2h2s.291.014.553.145c.261.13.447.188.447.855v8h2V3c0-1.333-.814-2.275-1.553-2.644C9.71-.014 9 0 9 0z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal;marker:none" font-weight="400" font-family="sans-serif" overflow="visible"/><path d="M2 12h12v4H2z" style="marker:none" overflow="visible"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/changes-prevent-symbolic.svg b/gtk/icons/scalable/status/changes-prevent-symbolic.svg
+new file mode 100644
+index 0000000000..132b656be6
+--- /dev/null
++++ b/gtk/icons/scalable/status/changes-prevent-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g color="#bebebe" fill="#474747"><path d="M3 7h10c.554 0 1 .446 1 1v3c0 .554-.446 1-1 1H3c-.554 0-1-.446-1-1V8c0-.554.446-1 1-1z" style="marker:none" overflow="visible"/><path d="M7 1s-.709-.014-1.447.355C4.814 1.725 4 2.667 4 4v4h2V4c0-.667.186-.725.447-.855C6.71 3.014 7 3 7 3h2s.291.014.553.145c.261.13.447.188.447.855v4h2V4c0-1.333-.814-2.275-1.553-2.645C9.71.986 9 1 9 1z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal;marker:none" font-weight="400" font-family="sans-serif" overflow="visible"/><path d="M2 10h12v4H2z" style="marker:none" overflow="visible"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/dialog-password-symbolic.svg b/gtk/icons/scalable/status/dialog-password-symbolic.svg
+new file mode 100644
+index 0000000000..100a80a2d0
+--- /dev/null
++++ b/gtk/icons/scalable/status/dialog-password-symbolic.svg
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <g fill="#2e3436">
++        <path d="m 11 6 c 0 -2.761719 -2.238281 -5 -5 -5 s -5 2.238281 -5 5 s 2.238281 5 5 5 s 5 -2.238281 5 -5 z m -5 -1 c 0 0.550781 -0.449219 1 -1 1 s -1 -0.449219 -1 -1 s 0.449219 -1 1 -1 s 1 0.449219 1 1 z m 0 0"/>
++        <path d="m 15 15 v -3 l -6 -6 l -1 4 l 1 1 v 2 h 2 v 2 z m 0 0"/>
++    </g>
++</svg>
+diff --git a/gtk/icons/scalable/status/dialog-warning-symbolic.svg b/gtk/icons/scalable/status/dialog-warning-symbolic.svg
+new file mode 100644
+index 0000000000..dff0822c2b
+--- /dev/null
++++ b/gtk/icons/scalable/status/dialog-warning-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M7.906.094c-.525-.029-1.038.283-1.437.969L.219 12.655C-.315 13.62.267 15 1.313 15h13.156c.982 0 1.903-1.16 1.219-2.344L9.375 1.125C8.976.479 8.432.122 7.906.094zM7.97 4.03c.544-.017 1.048.487 1.031 1.032V9c.007.528-.471 1-1 1-.528 0-1.007-.472-1-1V5.062a1.033 1.033 0 01.813-1 1 1 0 01.156-.03zM8 11a1 1 0 110 2 1 1 0 010-2z" style="marker:none" color="#bebebe" overflow="visible" fill="#474747"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/document-open-symbolic.svg b/gtk/icons/scalable/status/document-open-symbolic.svg
+new file mode 100644
+index 0000000000..faca97c76e
+--- /dev/null
++++ b/gtk/icons/scalable/status/document-open-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><g fill="#474747"><path d="M.985 2.986A1 1 0 000 4v9s-.014.459.23.947C.476 14.436 1.168 15 2 15h1.832a1 1 0 00.326 0H14s.459.014.947-.23C15.436 14.525 16 13.833 16 13v-3a1 1 0 00-1-1H4a1 1 0 00-1 1v3H2V4A1 1 0 00.985 2.986zM5 11h9v2H5z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill-rule="evenodd"/><path d="M4 11h11v3H4zm11-1h1v1h-1zM3 9h1v1H3zM1 3h2v5H1z"/><path d="M5 0a1 1 0 00-1 1v7h2V2h4.086L13 4.914V8h2V4.5a1 1 0 00-.293-.707l-3.5-3.5A1 1 0 0010.5 0z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;shape-padding:0;isolation:auto;mix-blend-mode:normal" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill-rule="evenodd"/><path d="M10 1v4h4z" fill-rule="evenodd"/><path d="M15 9h1v1h-1z"/></g></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/edit-clear-symbolic.svg b/gtk/icons/scalable/status/edit-clear-symbolic.svg
+new file mode 100644
+index 0000000000..a252196442
+--- /dev/null
++++ b/gtk/icons/scalable/status/edit-clear-symbolic.svg
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <path d="m 5.996094 2 c -0.265625 0 -0.519532 0.105469 -0.707032 0.292969 l -5 5 c -0.390624 0.390625 -0.390624 1.023437 0 1.414062 l 5 5 c 0.1875 0.1875 0.441407 0.292969 0.707032 0.292969 h 8.5 s 0.332031 0.015625 0.695312 -0.167969 c 0.363282 -0.183593 0.804688 -0.75 0.804688 -1.332031 v -9 c 0 -0.582031 -0.441406 -1.148438 -0.804688 -1.332031 c -0.363281 -0.183594 -0.695312 -0.167969 -0.695312 -0.167969 z m 1.003906 3 h 1 h 0.03125 c 0.253906 0.011719 0.511719 0.128906 0.6875 0.3125 l 1.28125 1.28125 l 1.3125 -1.28125 c 0.265625 -0.230469 0.445312 -0.304688 0.6875 -0.3125 h 1 v 1 c 0 0.285156 -0.035156 0.550781 -0.25 0.75 l -1.28125 1.28125 l 1.25 1.25 c 0.1875 0.1875 0.28125 0.453125 0.28125 0.71875 v 1 h -1 c -0.265625 0 -0.53125 -0.09375 -0.71875 -0.28125 l -1.28125 -1.28125 l -1.28125 1.28125 c -0.1875 0.1875 -0.453125 0.28125 -0.71875 0.28125 h -1 v -1 c 0 -0.265625 0.09375 -0.53125 0.28125 -0.71875 l 1.28125 -1.25 l -1.28125 -1.28125 c -0.210938 -0.195312 -0.304688 -0.46875 -0.28125 -0.75 z m 0 0" fill="#2e3436" fill-rule="evenodd"/>
++</svg>
+diff --git a/gtk/icons/scalable/status/edit-find-symbolic.svg b/gtk/icons/scalable/status/edit-find-symbolic.svg
+new file mode 100644
+index 0000000000..2a3770eef0
+--- /dev/null
++++ b/gtk/icons/scalable/status/edit-find-symbolic.svg
+@@ -0,0 +1,7 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <g fill="#2e3436">
++        <path d="m 10.804688 10 c -0.8125 0.144531 -1.105469 1.15625 -0.5 1.71875 l 3 3 c 0.957031 0.9375 2.363281 -0.5 1.40625 -1.4375 l -3 -3 c -0.238282 -0.242188 -0.578126 -0.347656 -0.90625 -0.28125 z m 0 0"/>
++        <path d="m 6.5 0 c -3.578125 0 -6.5 2.921875 -6.5 6.5 s 2.921875 6.496094 6.5 6.496094 s 6.5 -2.917969 6.5 -6.496094 s -2.921875 -6.5 -6.5 -6.5 z m 0 2 c 2.496094 0 4.5 2.003906 4.5 4.5 s -2.003906 4.496094 -4.5 4.496094 s -4.5 -2 -4.5 -4.496094 s 2.003906 -4.5 4.5 -4.5 z m 0 0"/>
++    </g>
++</svg>
+diff --git a/gtk/icons/scalable/status/list-add-symbolic.svg b/gtk/icons/scalable/status/list-add-symbolic.svg
+new file mode 100644
+index 0000000000..cf6862242e
+--- /dev/null
++++ b/gtk/icons/scalable/status/list-add-symbolic.svg
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <path d="m 7 1 v 6 h -6 v 2 h 6 v 6 h 2 v -6 h 6 v -2 h -6 v -6 z m 0 0" fill="#2e3436"/>
++</svg>
+diff --git a/gtk/icons/scalable/status/list-remove-symbolic.svg b/gtk/icons/scalable/status/list-remove-symbolic.svg
+new file mode 100644
+index 0000000000..b20ba0b709
+--- /dev/null
++++ b/gtk/icons/scalable/status/list-remove-symbolic.svg
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <path d="m 1 7 h 14 v 2 h -14 z m 0 0" fill="#2e3436"/>
++</svg>
+diff --git a/gtk/icons/scalable/status/open-menu-symbolic.svg b/gtk/icons/scalable/status/open-menu-symbolic.svg
+new file mode 100644
+index 0000000000..7f4474335d
+--- /dev/null
++++ b/gtk/icons/scalable/status/open-menu-symbolic.svg
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<svg height="16px" viewBox="0 0 16 16" width="16px" xmlns="http://www.w3.org/2000/svg">
++    <g fill="#2e3436">
++        <path d="m 1 2 h 14 v 2 h -14 z m 0 0"/>
++        <path d="m 1 7 h 14 v 2 h -14 z m 0 0"/>
++        <path d="m 1 12 h 14 v 2 h -14 z m 0 0"/>
++    </g>
++</svg>
+diff --git a/gtk/icons/scalable/status/pan-down-symbolic.svg b/gtk/icons/scalable/status/pan-down-symbolic.svg
+new file mode 100644
+index 0000000000..5d3c5ea1ad
+--- /dev/null
++++ b/gtk/icons/scalable/status/pan-down-symbolic.svg
+@@ -0,0 +1,41 @@
++<?xml version='1.0' encoding='UTF-8' standalone='no'?>
++<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:dc='http://purl.org/dc/elements/1.1/' sodipodi:docname='pan-down-symbolic.svg' inkscape:export-filename='/home/sam/source-symbolic.png' inkscape:export-xdpi='270' inkscape:export-ydpi='270' height='16' id='svg7384' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' style='enable-background:new' xmlns:svg='http://www.w3.org/2000/svg' version='1.1' inkscape:version='1.0 (4035a4fb49, 2020-05-01)' width='16' xmlns='http://www.w3.org/2000/svg'>
++  <sodipodi:namedview inkscape:bbox-nodes='true' inkscape:bbox-paths='false' bordercolor='#000000' borderlayer='false' borderopacity='0.50196078' inkscape:current-layer='layer10' inkscape:cx='-8.85234' inkscape:cy='7.9624984' inkscape:document-rotation='0' gridtolerance='10' inkscape:guide-bbox='true' guidetolerance='10' id='namedview88' inkscape:measure-end='0,0' inkscape:measure-start='0,0' inkscape:object-nodes='true' inkscape:object-paths='true' objecttolerance='10' pagecolor='#e2e2e2' inkscape:pageopacity='0' inkscape:pageshadow='2' showborder='false' showgrid='true' showguides='false' inkscape:showpageshadow='false' inkscape:snap-bbox='true' inkscape:snap-bbox-edge-midpoints='false' inkscape:snap-bbox-midpoints='true' inkscape:snap-center='false' inkscape:snap-global='true' inkscape:snap-grids='true' inkscape:snap-intersection-paths='false' inkscape:snap-midpoints='true' inkscape:snap-nodes='true' inkscape:snap-object-midpoints='true' inkscape:snap-others='true' inkscape:snap-page='false' inkscape:snap-smooth-nodes='true' inkscape:snap-to-guides='true' inkscape:window-height='1205' inkscape:window-maximized='0' inkscape:window-width='1553' inkscape:window-x='26' inkscape:window-y='23' inkscape:zoom='1'>
++    <inkscape:grid color='#000000' dotted='false' empcolor='#0800ff' empopacity='0.4627451' empspacing='4' enabled='true' id='grid4866' opacity='0.16470588' originx='-152.00586' originy='-952' snapvisiblegridlinesonly='true' spacingx='1' spacingy='1' type='xygrid' visible='true'/>
++    <inkscape:grid dotted='true' empcolor='#3f3fff' empopacity='0' empspacing='4' id='grid3540' originx='-152.00586' originy='-952' spacingx='0.5' spacingy='0.5' type='xygrid'/>
++  </sodipodi:namedview>
++  <metadata id='metadata90'>
++    <rdf:RDF>
++      <cc:Work rdf:about=''>
++        <dc:format>image/svg+xml</dc:format>
++        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
++        <dc:title>Gnome Symbolic Icons</dc:title>
++        <cc:license rdf:resource='http://creativecommons.org/licenses/by-sa/4.0/'/>
++      </cc:Work>
++      <cc:License rdf:about='http://creativecommons.org/licenses/by-sa/4.0/'>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Reproduction'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Distribution'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Notice'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Attribution'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#DerivativeWorks'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#ShareAlike'/>
++      </cc:License>
++    </rdf:RDF>
++  </metadata>
++  <title id='title8473'>Gnome Symbolic Icons</title>
++  <defs id='defs7386'/>
++  <g inkscape:groupmode='layer' id='layer10' inkscape:label='ui' transform='translate(-152.00586,-952)'>
++    <path inkscape:connector-curvature='0' d='m 166,957 -5.99414,5.99999 L 154,957 Z' id='path6424' sodipodi:nodetypes='cccc' style='fill:#2e3436;fill-opacity:1;stroke:none'/>
++    
++  </g>
++  <g inkscape:groupmode='layer' id='layer1' inkscape:label='status' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer11' inkscape:label='legacy' transform='translate(-152.00586,-952)'/>
++  <g inkscape:groupmode='layer' id='layer7' inkscape:label='places' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer6' inkscape:label='mimetypes' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer5' inkscape:label='emotes' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer9' inkscape:label='emblems' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer2' inkscape:label='devices' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer8' inkscape:label='categories' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer3' inkscape:label='apps' transform='translate(-152.00586,-888)'/>
++  <g inkscape:groupmode='layer' id='layer4' inkscape:label='actions' transform='translate(-152.00586,-888)'/>
++</svg>
+diff --git a/gtk/icons/scalable/status/pan-end-symbolic.svg b/gtk/icons/scalable/status/pan-end-symbolic.svg
+new file mode 100644
+index 0000000000..c0a42f07b3
+--- /dev/null
++++ b/gtk/icons/scalable/status/pan-end-symbolic.svg
+@@ -0,0 +1,41 @@
++<?xml version='1.0' encoding='UTF-8' standalone='no'?>
++<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:dc='http://purl.org/dc/elements/1.1/' sodipodi:docname='pan-end-symbolic.svg' inkscape:export-filename='/home/sam/source-symbolic.png' inkscape:export-xdpi='270' inkscape:export-ydpi='270' height='16' id='svg7384' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' style='enable-background:new' xmlns:svg='http://www.w3.org/2000/svg' version='1.1' inkscape:version='1.0 (4035a4fb49, 2020-05-01)' width='16' xmlns='http://www.w3.org/2000/svg'>
++  <sodipodi:namedview inkscape:bbox-nodes='true' inkscape:bbox-paths='false' bordercolor='#000000' borderlayer='false' borderopacity='0.50196078' inkscape:current-layer='layer10' inkscape:cx='31.147668' inkscape:cy='7.96251' inkscape:document-rotation='0' gridtolerance='10' inkscape:guide-bbox='true' guidetolerance='10' id='namedview88' inkscape:measure-end='0,0' inkscape:measure-start='0,0' inkscape:object-nodes='true' inkscape:object-paths='true' objecttolerance='10' pagecolor='#e2e2e2' inkscape:pageopacity='0' inkscape:pageshadow='2' showborder='false' showgrid='true' showguides='false' inkscape:showpageshadow='false' inkscape:snap-bbox='true' inkscape:snap-bbox-edge-midpoints='false' inkscape:snap-bbox-midpoints='true' inkscape:snap-center='false' inkscape:snap-global='true' inkscape:snap-grids='true' inkscape:snap-intersection-paths='false' inkscape:snap-midpoints='true' inkscape:snap-nodes='true' inkscape:snap-object-midpoints='true' inkscape:snap-others='true' inkscape:snap-page='false' inkscape:snap-smooth-nodes='true' inkscape:snap-to-guides='true' inkscape:window-height='1205' inkscape:window-maximized='0' inkscape:window-width='1553' inkscape:window-x='26' inkscape:window-y='23' inkscape:zoom='1'>
++    <inkscape:grid color='#000000' dotted='false' empcolor='#0800ff' empopacity='0.4627451' empspacing='4' enabled='true' id='grid4866' opacity='0.16470588' originx='-112.00585' originy='-951.99999' snapvisiblegridlinesonly='true' spacingx='1' spacingy='1' type='xygrid' visible='true'/>
++    <inkscape:grid dotted='true' empcolor='#3f3fff' empopacity='0' empspacing='4' id='grid3540' originx='-112.00585' originy='-951.99999' spacingx='0.5' spacingy='0.5' type='xygrid'/>
++  </sodipodi:namedview>
++  <metadata id='metadata90'>
++    <rdf:RDF>
++      <cc:Work rdf:about=''>
++        <dc:format>image/svg+xml</dc:format>
++        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
++        <dc:title>Gnome Symbolic Icons</dc:title>
++        <cc:license rdf:resource='http://creativecommons.org/licenses/by-sa/4.0/'/>
++      </cc:Work>
++      <cc:License rdf:about='http://creativecommons.org/licenses/by-sa/4.0/'>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Reproduction'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Distribution'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Notice'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Attribution'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#DerivativeWorks'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#ShareAlike'/>
++      </cc:License>
++    </rdf:RDF>
++  </metadata>
++  <title id='title8473'>Gnome Symbolic Icons</title>
++  <defs id='defs7386'/>
++  <g inkscape:groupmode='layer' id='layer10' inkscape:label='ui' transform='translate(-112.00585,-951.99999)'>
++    <path inkscape:connector-curvature='0' d='m 117,966 6.00585,-6.00001 L 117,954 Z' id='path6412' sodipodi:nodetypes='cccc' style='fill:#2e3436;fill-opacity:1;stroke:none'/>
++    
++  </g>
++  <g inkscape:groupmode='layer' id='layer1' inkscape:label='status' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer11' inkscape:label='legacy' transform='translate(-112.00585,-951.99999)'/>
++  <g inkscape:groupmode='layer' id='layer7' inkscape:label='places' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer6' inkscape:label='mimetypes' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer5' inkscape:label='emotes' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer9' inkscape:label='emblems' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer2' inkscape:label='devices' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer8' inkscape:label='categories' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer3' inkscape:label='apps' transform='translate(-112.00585,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer4' inkscape:label='actions' transform='translate(-112.00585,-887.99999)'/>
++</svg>
+diff --git a/gtk/icons/scalable/status/pan-start-symbolic.svg b/gtk/icons/scalable/status/pan-start-symbolic.svg
+new file mode 100644
+index 0000000000..7f8a80d786
+--- /dev/null
++++ b/gtk/icons/scalable/status/pan-start-symbolic.svg
+@@ -0,0 +1,41 @@
++<?xml version='1.0' encoding='UTF-8' standalone='no'?>
++<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:dc='http://purl.org/dc/elements/1.1/' sodipodi:docname='pan-start-symbolic.svg' inkscape:export-filename='/home/sam/source-symbolic.png' inkscape:export-xdpi='270' inkscape:export-ydpi='270' height='16' id='svg7384' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' style='enable-background:new' xmlns:svg='http://www.w3.org/2000/svg' version='1.1' inkscape:version='1.0 (4035a4fb49, 2020-05-01)' width='16' xmlns='http://www.w3.org/2000/svg'>
++  <sodipodi:namedview inkscape:bbox-nodes='true' inkscape:bbox-paths='false' bordercolor='#000000' borderlayer='false' borderopacity='0.50196078' inkscape:current-layer='layer10' inkscape:cx='51.147672' inkscape:cy='7.96251' inkscape:document-rotation='0' gridtolerance='10' inkscape:guide-bbox='true' guidetolerance='10' id='namedview88' inkscape:measure-end='0,0' inkscape:measure-start='0,0' inkscape:object-nodes='true' inkscape:object-paths='true' objecttolerance='10' pagecolor='#e2e2e2' inkscape:pageopacity='0' inkscape:pageshadow='2' showborder='false' showgrid='true' showguides='false' inkscape:showpageshadow='false' inkscape:snap-bbox='true' inkscape:snap-bbox-edge-midpoints='false' inkscape:snap-bbox-midpoints='true' inkscape:snap-center='false' inkscape:snap-global='true' inkscape:snap-grids='true' inkscape:snap-intersection-paths='false' inkscape:snap-midpoints='true' inkscape:snap-nodes='true' inkscape:snap-object-midpoints='true' inkscape:snap-others='true' inkscape:snap-page='false' inkscape:snap-smooth-nodes='true' inkscape:snap-to-guides='true' inkscape:window-height='1205' inkscape:window-maximized='0' inkscape:window-width='1553' inkscape:window-x='26' inkscape:window-y='23' inkscape:zoom='1'>
++    <inkscape:grid color='#000000' dotted='false' empcolor='#0800ff' empopacity='0.4627451' empspacing='4' enabled='true' id='grid4866' opacity='0.16470588' originx='-92.005848' originy='-951.99999' snapvisiblegridlinesonly='true' spacingx='1' spacingy='1' type='xygrid' visible='true'/>
++    <inkscape:grid dotted='true' empcolor='#3f3fff' empopacity='0' empspacing='4' id='grid3540' originx='-92.005848' originy='-951.99999' spacingx='0.5' spacingy='0.5' type='xygrid'/>
++  </sodipodi:namedview>
++  <metadata id='metadata90'>
++    <rdf:RDF>
++      <cc:Work rdf:about=''>
++        <dc:format>image/svg+xml</dc:format>
++        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
++        <dc:title>Gnome Symbolic Icons</dc:title>
++        <cc:license rdf:resource='http://creativecommons.org/licenses/by-sa/4.0/'/>
++      </cc:Work>
++      <cc:License rdf:about='http://creativecommons.org/licenses/by-sa/4.0/'>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Reproduction'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Distribution'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Notice'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Attribution'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#DerivativeWorks'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#ShareAlike'/>
++      </cc:License>
++    </rdf:RDF>
++  </metadata>
++  <title id='title8473'>Gnome Symbolic Icons</title>
++  <defs id='defs7386'/>
++  <g inkscape:groupmode='layer' id='layer10' inkscape:label='ui' transform='translate(-92.005848,-951.99999)'>
++    <path inkscape:connector-curvature='0' d='M 103,966 97.00585,959.99999 103,954 Z' id='path6400' sodipodi:nodetypes='cccc' style='fill:#2e3436;fill-opacity:1;stroke:none'/>
++    
++  </g>
++  <g inkscape:groupmode='layer' id='layer1' inkscape:label='status' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer11' inkscape:label='legacy' transform='translate(-92.005848,-951.99999)'/>
++  <g inkscape:groupmode='layer' id='layer7' inkscape:label='places' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer6' inkscape:label='mimetypes' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer5' inkscape:label='emotes' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer9' inkscape:label='emblems' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer2' inkscape:label='devices' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer8' inkscape:label='categories' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer3' inkscape:label='apps' transform='translate(-92.005848,-887.99999)'/>
++  <g inkscape:groupmode='layer' id='layer4' inkscape:label='actions' transform='translate(-92.005848,-887.99999)'/>
++</svg>
+diff --git a/gtk/icons/scalable/status/pan-up-symbolic.svg b/gtk/icons/scalable/status/pan-up-symbolic.svg
+new file mode 100644
+index 0000000000..f8d605a6a3
+--- /dev/null
++++ b/gtk/icons/scalable/status/pan-up-symbolic.svg
+@@ -0,0 +1,41 @@
++<?xml version='1.0' encoding='UTF-8' standalone='no'?>
++<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:dc='http://purl.org/dc/elements/1.1/' sodipodi:docname='pan-up-symbolic.svg' inkscape:export-filename='/home/sam/source-symbolic.png' inkscape:export-xdpi='270' inkscape:export-ydpi='270' height='16' id='svg7384' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' style='enable-background:new' xmlns:svg='http://www.w3.org/2000/svg' version='1.1' inkscape:version='1.0 (4035a4fb49, 2020-05-01)' width='16' xmlns='http://www.w3.org/2000/svg'>
++  <sodipodi:namedview inkscape:bbox-nodes='true' inkscape:bbox-paths='false' bordercolor='#000000' borderlayer='false' borderopacity='0.50196078' inkscape:current-layer='layer10' inkscape:cx='11.14767' inkscape:cy='7.9625016' inkscape:document-rotation='0' gridtolerance='10' inkscape:guide-bbox='true' guidetolerance='10' id='namedview88' inkscape:measure-end='0,0' inkscape:measure-start='0,0' inkscape:object-nodes='true' inkscape:object-paths='true' objecttolerance='10' pagecolor='#e2e2e2' inkscape:pageopacity='0' inkscape:pageshadow='2' showborder='false' showgrid='true' showguides='false' inkscape:showpageshadow='false' inkscape:snap-bbox='true' inkscape:snap-bbox-edge-midpoints='false' inkscape:snap-bbox-midpoints='true' inkscape:snap-center='false' inkscape:snap-global='true' inkscape:snap-grids='true' inkscape:snap-intersection-paths='false' inkscape:snap-midpoints='true' inkscape:snap-nodes='true' inkscape:snap-object-midpoints='true' inkscape:snap-others='true' inkscape:snap-page='false' inkscape:snap-smooth-nodes='true' inkscape:snap-to-guides='true' inkscape:window-height='1205' inkscape:window-maximized='0' inkscape:window-width='1553' inkscape:window-x='26' inkscape:window-y='23' inkscape:zoom='1'>
++    <inkscape:grid color='#000000' dotted='false' empcolor='#0800ff' empopacity='0.4627451' empspacing='4' enabled='true' id='grid4866' opacity='0.16470588' originx='-132.00585' originy='-952' snapvisiblegridlinesonly='true' spacingx='1' spacingy='1' type='xygrid' visible='true'/>
++    <inkscape:grid dotted='true' empcolor='#3f3fff' empopacity='0' empspacing='4' id='grid3540' originx='-132.00585' originy='-952' spacingx='0.5' spacingy='0.5' type='xygrid'/>
++  </sodipodi:namedview>
++  <metadata id='metadata90'>
++    <rdf:RDF>
++      <cc:Work rdf:about=''>
++        <dc:format>image/svg+xml</dc:format>
++        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
++        <dc:title>Gnome Symbolic Icons</dc:title>
++        <cc:license rdf:resource='http://creativecommons.org/licenses/by-sa/4.0/'/>
++      </cc:Work>
++      <cc:License rdf:about='http://creativecommons.org/licenses/by-sa/4.0/'>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Reproduction'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#Distribution'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Notice'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#Attribution'/>
++        <cc:permits rdf:resource='http://creativecommons.org/ns#DerivativeWorks'/>
++        <cc:requires rdf:resource='http://creativecommons.org/ns#ShareAlike'/>
++      </cc:License>
++    </rdf:RDF>
++  </metadata>
++  <title id='title8473'>Gnome Symbolic Icons</title>
++  <defs id='defs7386'/>
++  <g inkscape:groupmode='layer' id='layer10' inkscape:label='ui' transform='translate(-132.00585,-952)'>
++    <path inkscape:connector-curvature='0' d='M 146,963 140.00585,956.99999 134,963 Z' id='path6418' sodipodi:nodetypes='cccc' style='fill:#2e3436;fill-opacity:1;stroke:none'/>
++    
++  </g>
++  <g inkscape:groupmode='layer' id='layer1' inkscape:label='status' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer11' inkscape:label='legacy' transform='translate(-132.00585,-952)'/>
++  <g inkscape:groupmode='layer' id='layer7' inkscape:label='places' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer6' inkscape:label='mimetypes' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer5' inkscape:label='emotes' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer9' inkscape:label='emblems' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer2' inkscape:label='devices' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer8' inkscape:label='categories' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer3' inkscape:label='apps' transform='translate(-132.00585,-888)'/>
++  <g inkscape:groupmode='layer' id='layer4' inkscape:label='actions' transform='translate(-132.00585,-888)'/>
++</svg>
+diff --git a/gtk/icons/scalable/status/user-trash-full-symbolic.svg b/gtk/icons/scalable/status/user-trash-full-symbolic.svg
+new file mode 100644
+index 0000000000..fe5ded209c
+--- /dev/null
++++ b/gtk/icons/scalable/status/user-trash-full-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16.001" height="16"><path d="M12 2v-.969H5V2zm.531-1.969c.49 0 .796.229 1.031.469.236.24.438.559.438 1.031V2h2v2H1V2h2v-.375c.024-.43.17-.752.406-1.031A1.53 1.53 0 014.562.062v-.03h7.969zM4 5H2C.326 7.927.862 10.854 2 13.781 2.435 14.901 2.982 16 4.188 16h8.625c1.205 0 1.776-1.09 2.187-2.219C16.042 10.92 16.599 8.027 15 5h-2c1.721 2.948.985 5.97 0 9H4c-1.096-3.033-1.631-6.05 0-9zm4.969-.016V13H8V4.983zM7 4.984c-1.762 2.223-.83 5.631 0 8.017H6c-.825-2.309-1.84-5.628 0-8.017zm3.969 0c1.817 2.609.856 5.813 0 8.017H10c.865-2.222 1.663-5.47 0-8.017z" style="line-height:normal;text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#bebebe" font-weight="400" font-family="Bitstream Vera Sans" overflow="visible" fill="#474747"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/user-trash-symbolic.svg b/gtk/icons/scalable/status/user-trash-symbolic.svg
+new file mode 100644
+index 0000000000..734827ec63
+--- /dev/null
++++ b/gtk/icons/scalable/status/user-trash-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M13 5v9H4V5H2v9c0 2 2 2 2 2h9c2 0 2-2 2-2V5zM9 6H8v6h1zM7 6H6v6h1zm4 0h-1v6h1zm1-6c2 0 2 2 2 2h2v2H1V2h2c0-2 2-2 2-2zm0 1H5v1h7z" fill="#474747"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/window-close-symbolic.svg b/gtk/icons/scalable/status/window-close-symbolic.svg
+new file mode 100644
+index 0000000000..8efbba5837
+--- /dev/null
++++ b/gtk/icons/scalable/status/window-close-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M4 4h1.031c.255.011.51.129.688.313L8 6.592l2.312-2.28c.266-.231.447-.306.688-.313h1v1c0 .286-.034.55-.25.75L9.469 8.031l2.25 2.25c.188.188.281.454.281.719v1h-1c-.265 0-.53-.093-.719-.281L8 9.438l-2.281 2.28A1.015 1.015 0 015 12H4v-1c0-.265.093-.53.281-.719l2.281-2.25-2.28-2.281A.909.909 0 014 5z" style="line-height:normal;-inkscape-font-specification:'Andale Mono';text-indent:0;text-align:start;text-decoration-line:none;text-transform:none;marker:none" color="#bebebe" font-weight="400" font-family="Andale Mono" overflow="visible" fill="#2e3436"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/window-maximize-symbolic.svg b/gtk/icons/scalable/status/window-maximize-symbolic.svg
+new file mode 100644
+index 0000000000..a017fe37a2
+--- /dev/null
++++ b/gtk/icons/scalable/status/window-maximize-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M3.988 3.992v8.012H12V3.992zm2 2H10v4.012H5.988z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;isolation:auto;mix-blend-mode:normal;solid-color:#000;solid-opacity:1;marker:none" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill="#2e3436"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/window-minimize-symbolic.svg b/gtk/icons/scalable/status/window-minimize-symbolic.svg
+new file mode 100644
+index 0000000000..29f419fd58
+--- /dev/null
++++ b/gtk/icons/scalable/status/window-minimize-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M4 10.009h8v1.989H4z" style="marker:none" color="#000" overflow="visible" fill="#2e3436" fill-rule="evenodd"/></svg>
+\ No newline at end of file
+diff --git a/gtk/icons/scalable/status/window-restore-symbolic.svg b/gtk/icons/scalable/status/window-restore-symbolic.svg
+new file mode 100644
+index 0000000000..92cb9911c9
+--- /dev/null
++++ b/gtk/icons/scalable/status/window-restore-symbolic.svg
+@@ -0,0 +1 @@
++<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><path d="M4.988 4.992v6.012H11V4.992zm2 2H9v2.012H6.988z" style="line-height:normal;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000;text-transform:none;text-orientation:mixed;white-space:normal;shape-padding:0;isolation:auto;mix-blend-mode:normal;solid-color:#000;solid-opacity:1;marker:none" color="#000" font-weight="400" font-family="sans-serif" overflow="visible" fill="#2e3436"/></svg>
+\ No newline at end of file
+-- 
+GitLab
+
