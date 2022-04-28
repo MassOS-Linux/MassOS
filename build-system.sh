@@ -3827,12 +3827,23 @@ ninja install
 install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.5
+# libglvnd.
+tar -xf libglvnd-v1.4.0.tar.bz2
+cd libglvnd-v1.4.0
+cat README.md | tail -n211 | head -n22 | sed 's/    //g' > COPYING
+mkdir glvnd-build; cd glvnd-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
+cd ../..
+rm -rf libglvnd-v1.4.0
 # Mesa.
 tar -xf mesa-22.0.2.tar.xz
 cd mesa-22.0.2
 patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
+meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglvnd=true -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst

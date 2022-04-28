@@ -5,6 +5,7 @@ Changes:
 
 - Added TPM2 support. This allows programs like systemd to utilise TPM2 chips. It **does not** make TPM2 a system requirement.
 - The default initramfs filename is now `initramfs-<kernelversion>.img` instead of `initrd.img-<kernelversion>`. This fixes the `lsinitrd` program.
+- Added libglvnd to provide additional graphics libraries which some packages depend on. It also provides some existing Mesa libs, however does not conflict with Mesa.
 - Fixed issues with zlib and GTK3.
 
 Upgraded software:
