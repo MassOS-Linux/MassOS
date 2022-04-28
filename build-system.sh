@@ -1124,8 +1124,8 @@ install -t /usr/share/licenses/gtar -Dm644 COPYING
 cd ..
 rm -rf tar-1.34
 # Nano (Vim will be installed later, after Xorg, to support a GUI).
-tar -xf nano-6.2.tar.xz
-cd nano-6.2
+tar -xf nano-6.3.tar.xz
+cd nano-6.3
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
@@ -1133,7 +1133,7 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 install -t /usr/share/licenses/nano -Dm644 COPYING
 cd ..
-rm -rf nano-6.2
+rm -rf nano-6.3
 # dos2unix.
 tar -xf dos2unix-7.4.2.tar.gz
 cd dos2unix-7.4.2
@@ -2555,8 +2555,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380200.tar.gz
-cd sqlite-autoconf-3380200
+tar -xf sqlite-autoconf-3380300.tar.gz
+cd sqlite-autoconf-3380300
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2566,7 +2566,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380200
+rm -rf sqlite-autoconf-3380300
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -3252,14 +3252,14 @@ install -t /usr/share/licenses/libgudev -Dm644 ../COPYING
 cd ../..
 rm -rf libgudev-237
 # libmbim.
-tar -xf libmbim-1.26.2.tar.xz
-cd libmbim-1.26.2
+tar -xf libmbim-1.26.4.tar.xz
+cd libmbim-1.26.4
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libmbim -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libmbim-1.26.2
+rm -rf libmbim-1.26.4
 # libqmi.
 tar -xf libqmi-1.30.4.tar.xz
 cd libqmi-1.30.4
@@ -5562,15 +5562,15 @@ install -t /usr/share/licenses/libnma -Dm644 ../COPYING ../COPYING.LGPL
 cd ../..
 rm -rf libnma-1.8.38
 # libnotify.
-tar -xf libnotify-0.7.9.tar.xz
-cd libnotify-0.7.9
+tar -xf libnotify-0.7.11.tar.xz
+cd libnotify-0.7.11
 mkdir notify-build; cd notify-build
-meson --prefix=/usr --buildtype=release -Dman=false ..
+meson --prefix=/usr --buildtype=release -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnotify -Dm644 ../COPYING
 cd ../..
-rm -rf libnotify-0.7.9
+rm -rf libnotify-0.7.11
 # startup-notification.
 tar -xf startup-notification-0.12.tar.gz
 cd startup-notification-0.12

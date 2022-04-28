@@ -238,6 +238,7 @@ libfs
 libgcrypt
 libgdata
 libglade
+libglvnd
 libgpg-error
 libgphoto2
 libgudev
