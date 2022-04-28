@@ -93,7 +93,7 @@ https://files.pythonhosted.org/packages/57/b1/b880503681ea1b64df05106fc7e3c4e380
 https://waterlan.home.xs4all.nl/dos2unix/dos2unix-7.4.2.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/boot/dracut/dracut-056.tar.gz
-http://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/dvd+rw-tools-7.1.tar.gz
+http://mirror.lyrahosting.com/gentoo/distfiles/dvd+rw-tools-7.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
 http://mirror.lyrahosting.com/gnu/ed/ed-1.18.tar.lz
@@ -185,13 +185,13 @@ https://archive.massos.org/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.12.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/4.2.1/harfbuzz-4.2.1.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/hplip-3.22.2.tar.gz
+https://mirror.lyrahosting.com/gentoo/distfiles/hplip-3.22.2.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.1.2/htop-3.1.2.tar.xz
 https://mirror.lyrahosting.com/gnu/help2man/help2man-1.49.2.tar.xz
 https://github.com/vcrhonek/hwdata/archive/v0.358/hwdata-0.358.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20220414/iana-etc-20220414.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.9.tar.xz
-https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
+https://mirror.lyrahosting.com/ubuntuarchive/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-71-1/icu4c-71_1-src.tgz
 https://files.pythonhosted.org/packages/source/i/idna/idna-3.3.tar.gz
 https://github.com/python/importlib_metadata/archive/v4.10.1/importlib_metadata-4.10.1.tar.gz
@@ -223,7 +223,7 @@ https://github.com/libarchive/libarchive/releases/download/v3.6.1/libarchive-3.6
 https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2
 https://archive-4.kali.org/kali/pool/main/liba/libatasmart/libatasmart_0.19.orig.tar.xz
-http://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libavc1394-0.5.4.tar.gz
+http://mirror.lyrahosting.com/gentoo/distfiles/libavc1394-0.5.4.tar.gz
 https://github.com/storaged-project/libblockdev/releases/download/2.26-1/libblockdev-2.26.tar.gz
 https://videolan.mirrors.nublue.co.uk/libbluray/1.3.0/libbluray-1.3.0.tar.bz2
 https://files.libburnia-project.org/releases/libburn-1.5.4.tar.gz
@@ -255,7 +255,7 @@ https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v1.4.0/libglvnd-v1.4.0.t
 https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.45.tar.bz2
 https://github.com/gphoto/libgphoto2/releases/download/v2.5.29/libgphoto2-2.5.29.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libgusb-0.3.10.tar.xz
+https://mirror.lyrahosting.com/gentoo/distfiles/libgusb-0.3.10.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgxps/0.3/libgxps-0.3.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libhandy/1.6/libhandy-1.6.2.tar.xz
 https://github.com/libical/libical/releases/download/v3.0.14/libical-3.0.14.tar.gz
@@ -271,11 +271,11 @@ https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.1.3/libjpeg-turbo-2.1.3
 https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.0.tar.bz2
 https://www.freedesktop.org/software/libmbim/libmbim-1.26.4.tar.xz
 https://launchpad.net/libmetalink/trunk/libmetalink-0.1.3/+download/libmetalink-0.1.3.tar.bz2
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmodplug-0.8.9.0.tar.gz
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libmpeg2-0.5.1.tar.gz
+https://mirror.lyrahosting.com/gentoo/distfiles/libmodplug-0.8.9.0.tar.gz
+https://mirror.lyrahosting.com/gentoo/distfiles/libmpeg2-0.5.1.tar.gz
 https://github.com/libmtp/libmtp/releases/download/v1.1.19/libmtp-1.1.19.tar.gz
 https://github.com/hoene/libmysofa/archive/v1.2.1/libmysofa-1.2.1.tar.gz
-https://mirrorservice.org/sites/archive.ubuntu.com/ubuntu/pool/main/libn/libndp/libndp_1.8.orig.tar.gz
+https://mirror.lyrahosting.com/ubuntuarchive/ubuntu/pool/main/libn/libndp/libndp_1.8.orig.tar.gz
 https://github.com/sahlberg/libnfs/archive/libnfs-4.0.0.tar.gz
 https://github.com/thom311/libnl/releases/download/libnl3_6_0/libnl-3.6.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libnma/1.8/libnma-1.8.38.tar.xz
@@ -347,7 +347,7 @@ https://www.x.org/archive/individual/lib/libxkbfile-1.1.0.tar.bz2
 https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
 https://www.x.org/archive/individual/lib/libXi-1.8.tar.bz2
 https://www.x.org/archive/individual/lib/libXinerama-1.1.4.tar.bz2
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/libxml2-2.9.13.tar.xz
+https://mirror.lyrahosting.com/gentoo/distfiles/libxml2-2.9.13.tar.xz
 https://github.com/hughsie/libxmlb/archive/0.3.6/libxmlb-0.3.6.tar.gz
 https://www.x.org/archive/individual/lib/libXmu-1.1.3.tar.bz2
 https://www.x.org/archive/individual/lib/libXpm-3.5.13.tar.bz2
@@ -473,7 +473,7 @@ https://gitlab.com/procps-ng/procps/-/archive/v4.0.0/procps-v4.0.0.tar.bz2
 https://gitlab.com/psmisc/psmisc/-/archive/v23.4/psmisc-23.4.tar.gz
 https://files.pythonhosted.org/packages/source/p/ptyprocess/ptyprocess-0.7.0.tar.gz
 https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-15.0.tar.xz
-https://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/pv-1.6.20.tar.bz2
+https://mirror.lyrahosting.com/gentoo/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz
 https://github.com/eliben/pycparser/archive/release_v2.21/pycparser-release_v2.21.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.12.0.tar.gz
@@ -489,7 +489,7 @@ https://github.com/psf/requests/releases/download/v2.27.1/requests-2.27.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://github.com/rhash/RHash/archive/v1.4.2/RHash-1.4.2.tar.gz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz
-http://mirrorservice.org/sites/distfiles.gentoo.org/distfiles/rrdtool-1.7.2.tar.gz
+http://mirror.lyrahosting.com/gentoo/distfiles/rrdtool-1.7.2.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.2.4.tar.gz
 https://archive.massos.org/sources/rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.xz
