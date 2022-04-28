@@ -333,7 +333,7 @@ patch -Np1 -i ../patches/binutils-2.38-LTO.patch
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --with-pkgversion="MassOS Binutils" --with-system-zlib --enable-gold --enable-ld=default --enable-plugins --enable-shared --enable-64-bit-bfd --disable-werror
 make tooldir=/usr
-make tooldir=/usr install
+make -j1 tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 cd ../..
