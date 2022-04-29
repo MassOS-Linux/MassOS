@@ -24,7 +24,7 @@ fi
 export SRC=/sources
 cd $SRC
 # Set the PATH correctly.
-export PATH=/usr/bin:/usr/sbin
+export PATH=/usr/bin:/usr/sbin:/sources/sphinx/bin
 # Set the locale correctly.
 export LC_ALL="en_US.UTF-8"
 # Build in parallel using all available CPU cores.
@@ -845,6 +845,9 @@ ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 cd ..
 rm -rf Python-3.10.4
+# Sphinx (required to build man pages of some packages).
+tar -xf sphinx-4.5.0-x86_64-venv.tar.xz
+mv sphinx{-4.5.0-x86_64-venv,}
 # Ninja.
 tar -xf ninja-1.10.2.tar.gz
 cd ninja-1.10.2
