@@ -39,5 +39,5 @@ else
 fi
 # Generate the initramfs.
 printf "Generating an initramfs for kernel $KVER... "
-dracut -q --force "/boot/initrd.img-$KVER" "$KVER"
+dracut -q --force "/boot/initramfs-$KVER.img" "$KVER"
 echo "Done!"
