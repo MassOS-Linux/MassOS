@@ -47,7 +47,7 @@ https://deb.debian.org/debian/pool/main/c/cdrkit/cdrkit_1.1.11.orig.tar.gz
 https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.15.0.tar.gz
 https://files.pythonhosted.org/packages/source/c/chardet/chardet-4.0.0.tar.gz
 https://github.com/libcheck/check/releases/download/0.15.2/check-0.15.2.tar.gz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.2/clang-14.0.2.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/clang-14.0.3.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
 https://github.com/Kitware/CMake/releases/download/v3.23.1/cmake-3.23.1.tar.gz
@@ -292,7 +292,7 @@ https://archive.massos.org/sources/libpng-1.6.37.tar.xz
 https://github.com/flatpak/libportal/releases/download/0.6/libportal-0.6.tar.xz
 https://github.com/rockdaboot/libpsl/releases/download/0.21.1/libpsl-0.21.1.tar.gz
 https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.4/libpwquality-1.4.4.tar.bz2
-https://www.freedesktop.org/software/libqmi/libqmi-1.30.4.tar.xz
+https://www.freedesktop.org/software/libqmi/libqmi-1.30.6.tar.xz
 https://www.libraw.org/data/LibRaw-0.20.2.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libraw1394-2.1.2.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.54/librsvg-2.54.1.tar.xz
@@ -314,7 +314,7 @@ https://mirror.lyrahosting.com/gnu/libtool/libtool-2.4.7.tar.xz
 https://github.com/stefanberger/libtpms/archive/v0.9.2/libtpms-0.9.2.tar.gz
 https://mirror.lyrahosting.com/gnu/libunistring/libunistring-1.0.tar.xz
 https://de.freedif.org/savannah/libunwind/libunwind-1.6.2.tar.gz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.2/libunwind-14.0.2.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/libunwind-14.0.3.src.tar.xz
 https://git.kernel.dk/cgit/liburing/snapshot/liburing-2.1.tar.bz2
 https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2
 https://github.com/libimobiledevice/libusbmuxd/releases/download/2.0.2/libusbmuxd-2.0.2.tar.bz2
@@ -369,8 +369,8 @@ https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-gre
 https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.5.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.2/lld-14.0.2.src.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.2/llvm-14.0.2.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/lld-14.0.3.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/llvm-14.0.3.src.tar.xz
 https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://github.com/LMDB/lmdb/archive/LMDB_0.9.29.tar.gz
 https://www.cpan.org/authors/id/P/PV/PVANDRY/Locale-gettext-1.07.tar.gz
@@ -401,7 +401,7 @@ https://archive.mesa3d.org/mesa-22.0.2.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.62.1/meson-0.62.1.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
 https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/archive/20220315/mobile-broadband-provider-info-20220315.tar.bz2
-https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.6.tar.xz
+https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.8.tar.xz
 https://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.67.orig.tar.gz
 https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
 https://mirror.lyrahosting.com/gnu/mpfr/mpfr-4.1.0.tar.xz
@@ -425,7 +425,7 @@ https://github.com/ninja-build/ninja/archive/v1.10.2/ninja-1.10.2.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
-https://archive.mozilla.org/pub/security/nss/releases/NSS_3_77_RTM/src/nss-3.77.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_78_RTM/src/nss-3.78.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2021.8.22/ntfs-3g-2021.8.22.tar.gz
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://github.com/cisco/openh264/archive/v2.1.1/openh264-2.1.1.tar.gz

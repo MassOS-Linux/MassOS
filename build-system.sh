@@ -2749,8 +2749,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.33
 # NSS.
-tar -xf nss-3.77.tar.gz
-cd nss-3.77
+tar -xf nss-3.78.tar.gz
+cd nss-3.78
 patch -Np1 -i ../patches/nss-3.56-Standalone.patch
 cd nss
 make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
@@ -2765,7 +2765,7 @@ install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
-rm -rf nss-3.77
+rm -rf nss-3.78
 # Git.
 tar -xf git-2.36.0.tar.xz
 cd git-2.36.0
@@ -2914,13 +2914,13 @@ install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
 cd ..
 rm -rf autoconf-2.13
 # LLVM/Clang/LLD.
-tar -xf llvm-14.0.2.src.tar.xz
+tar -xf llvm-14.0.3.src.tar.xz
 mkdir -p libunwind
-tar -xf libunwind-14.0.2.src.tar.xz -C libunwind --strip-components=1
-cd llvm-14.0.2.src
+tar -xf libunwind-14.0.3.src.tar.xz -C libunwind --strip-components=1
+cd llvm-14.0.3.src
 mkdir -p tools/{clang,lld}
-tar -xf ../clang-14.0.2.src.tar.xz -C tools/clang --strip-components=1
-tar -xf ../lld-14.0.2.src.tar.xz -C tools/lld --strip-components=1
+tar -xf ../clang-14.0.3.src.tar.xz -C tools/clang --strip-components=1
+tar -xf ../lld-14.0.3.src.tar.xz -C tools/lld --strip-components=1
 mkdir LLVM-build; cd LLVM-build
 CFLAGS="$CFLAGS -flarge-source-files" CXXFLAGS="$CXXFLAGS -flarge-source-files" cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;X86" -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -2930,7 +2930,7 @@ ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
 rm -rf libunwind
-rm -rf llvm-14.0.2.src
+rm -rf llvm-14.0.3.src
 # Rust (will be uninstalled later).
 tar -xf rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.58.1-x86_64-unknown-linux-gnu
@@ -3264,14 +3264,14 @@ install -t /usr/share/licenses/libmbim -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libmbim-1.26.4
 # libqmi.
-tar -xf libqmi-1.30.4.tar.xz
-cd libqmi-1.30.4
+tar -xf libqmi-1.30.6.tar.xz
+cd libqmi-1.30.6
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libqmi-1.30.4
+rm -rf libqmi-1.30.6
 # libwacom.
 tar -xf libwacom-2.2.0.tar.xz
 cd libwacom-2.2.0
@@ -3844,7 +3844,6 @@ rm -rf libglvnd-v1.4.0
 # Mesa.
 tar -xf mesa-22.0.2.tar.xz
 cd mesa-22.0.2
-patch -Np1 -i ../patches/mesa-21.3.3-xdemos.patch
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglvnd=true -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
 ninja
@@ -5472,14 +5471,14 @@ install -t /usr/share/licenses/mobile-broadband-provider-info -Dm644 COPYING
 cd ..
 rm -rf mobile-broadband-provider-info-20220315
 # ModemManager.
-tar -xf ModemManager-1.18.6.tar.xz
-cd ModemManager-1.18.6
+tar -xf ModemManager-1.18.8.tar.xz
+cd ModemManager-1.18.8
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-systemd-journal --with-systemd-suspend-resume --disable-static
 make
 make install
 install -t /usr/share/licenses/modemmanager -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf ModemManager-1.18.6
+rm -rf ModemManager-1.18.8
 # libndp.
 tar -xf libndp_1.8.orig.tar.gz
 cd libndp-1.8

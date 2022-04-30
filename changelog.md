@@ -1,6 +1,6 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
-# Current Development
+# MassOS 2022.05
 Changes:
 
 - Added TPM2 support. This allows programs like systemd to utilise TPM2 chips. It **does not** make TPM2 a system requirement.
@@ -39,15 +39,18 @@ Upgraded software:
 - libnl: `3.5.0 --> 3.6.0`
 - libnotify: `0.7.9 --> 0.7.11`
 - libpipeline: `1.5.5 --> 1.5.6`
+- libqmi: `1.30.4 --> 1.30.6`
 - librsvg: `2.54.0 --> 2.54.1`
 - libseccomp: `2.5.3 --> 2.5.4`
 - Linux Kernel: `5.17.3 --> 5.17.5`
-- LLVM/CLang/LLD: `14.0.1 --> 14.0.2`
+- LLVM/CLang/LLD: `14.0.1 --> 14.0.3`
 - JACK2: `1.9.20 --> 1.9.21`
 - JSON-C: `0.15 --> 0.16`
 - Mesa: `22.0.1 --> 22.0.2`
 - Meson: `0.62.0 --> 0.62.1`
+- ModemManager: `1.18.6 --> 1.18.8`
 - Nano: `6.2 --> 6.3`
+- NSS: `3.77 --> 3.78`
 - Pango: `1.50.6 --> 1.50.7`
 - Parted: `3.4 --> 3.5`
 - pciutils: `3.7.0 --> 3.8.0`
