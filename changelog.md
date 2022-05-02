@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Fixed missing `lspci` program since pciutils 3.8.0.
+- Neofetch is now installed correctly as a package.
 
 Upgraded software:
 

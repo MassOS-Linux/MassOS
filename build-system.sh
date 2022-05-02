@@ -135,6 +135,14 @@ rm -rf man-pages-5.13
 tar -xf iana-etc-20220414.tar.gz
 cp iana-etc-20220414/{protocols,services} /etc
 rm -rf iana-etc-20220414
+# Neofetch.
+tar -xf neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055.tar.gz
+cd neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055
+install -t /usr/bin -Dm755 neofetch
+install -t /usr/share/man/man1 -Dm644 neofetch.1
+install -t /usr/share/licenses/neofetch -Dm644 LICENSE.md
+cd ..
+rm -rf neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055
 # Glibc.
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -6964,10 +6972,6 @@ ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png massos-logo-sidetext.png
 for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
-# Install Neofetch.
-curl --fail-with-body -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch -o /usr/bin/neofetch
-chmod 755 /usr/bin/neofetch
-curl --fail-with-body -s https://raw.githubusercontent.com/TheSonicMaster/neofetch/bc2a8e60dbbd3674f4fa4dd167f904116eb07055/neofetch.1 -o /usr/share/man/man1/neofetch.1
 # MassOS container tool.
 curl --fail-with-body -s https://raw.githubusercontent.com/ClickNinYT/mct/c0ae1ac88dc6a7d9a97f4c2710b02591e398cead/mct -o /usr/sbin/mct
 chmod 755 /usr/sbin/mct
