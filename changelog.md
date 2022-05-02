@@ -3,11 +3,11 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development:
 Changes:
 
-- Development has only just begun! Check back soon.
+- Fixed missing `lspci` program since pciutils 3.8.0.
 
 Upgraded software:
 
-- Development has only just begun! Check back soon.
+- hwdata: `0.358 --> 0.359`
 
 # MassOS 2022.05
 Changes:

@@ -1770,12 +1770,12 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.13
 # hwdata.
-tar -xf hwdata-0.358.tar.gz
-cd hwdata-0.358
+tar -xf hwdata-0.359.tar.gz
+cd hwdata-0.359
 install -t /usr/share/hwdata -Dm644 pci.ids pnp.ids usb.ids
 install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
-rm -rf hwdata-0.358
+rm -rf hwdata-0.359
 # Systemd (initial build; will be rebuilt later to support more features).
 tar -xf systemd-251-rc1.tar.gz
 cd systemd-251-rc1
@@ -6983,8 +6983,6 @@ busybox --install -s
 # Redundant since we use systemd.
 rm -f /usr/bin/sv
 rm -f /linuxrc
-# Conflicts with /usr/sbin/lspci.
-rm -f /usr/bin/lspci
 # Conflicts with /usr/sbin/lsof.
 rm -f /usr/bin/lsof
 # Unused package managers, potentially dangerous on MassOS.
