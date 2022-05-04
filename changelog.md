@@ -5,6 +5,7 @@ Changes:
 
 - Fixed missing `lspci` program since pciutils 3.8.0.
 - Neofetch is now installed correctly as a package.
+- Added SGMLSpm (small Perl module) to fix man page generation of some packages.
 
 Upgraded software:
 

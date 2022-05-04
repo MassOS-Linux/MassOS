@@ -732,6 +732,18 @@ unset BUILD_ZLIB BUILD_BZIP2
 install -t /usr/share/licenses/perl -Dm644 Artistic Copying
 cd ..
 rm -rf perl-5.34.1
+# SGMLSpm
+tar -xf SGMLSpm-1.1.tar.gz
+cd SGMLSpm-1.1
+chmod +w MYMETA.yml
+perl Makefile.PL
+make
+make install
+rm -f /usr/lib/perl5/5.34/core_perl/perllocal.pod
+ln -sf sgmlspl.pl /usr/bin/sgmlspl
+install -t /usr/share/licenses/sgmlspm -Dm644 COPYING
+cd ..
+rm -rf SGMLSpm-1.1
 # XML::Parser.
 tar -xf XML-Parser-2.46.tar.gz
 cd XML-Parser-2.46
