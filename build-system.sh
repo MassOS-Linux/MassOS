@@ -2742,8 +2742,8 @@ for i in crondyn cronsighup crontab; do ln -sf f$i /usr/bin/$i; done
 ln -sf fcron /usr/sbin/cron
 for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/man1/$i; done
 for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/fr/man1/$i; done
-for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/man5/$i; done
-for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/fr/man5/$i; done
+ln -sf fcrontab.5 /usr/share/man/man5/crontab.5
+ln -sf fcrontab.5 /usr/share/man/fr/man5/crontab.5
 ln -sf fcron.8 /usr/share/man/man8/cron.8
 ln -sf fcron.8 /usr/share/man/fr/man8/cron.8
 systemctl enable fcron
