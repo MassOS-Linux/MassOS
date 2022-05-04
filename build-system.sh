@@ -2735,12 +2735,17 @@ groupadd -g 22 fcron
 useradd -d /dev/null -c "Fcron User" -g fcron -s /bin/false -u 22 fcron
 autoupdate
 autoconf
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-sendmail --with-piddir=/run --with-boot-install=no --with-editor=/usr/bin/nano
-sed -e 's|$(MAKE) -C doc doc-if-none|# $(MAKE) -C doc doc-if-none|' -e 's|$(MAKE) -C doc install-staged|# $(MAKE) -C doc install-staged|' -e 's|$(MAKE) -C doc perms|# $(MAKE) -C doc perms|' -i Makefile
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-sendmail --with-piddir=/run --with-boot-install=no --with-editor=/usr/bin/nano --with-dsssl-dir=/usr/share/sgml/docbook/dsssl-stylesheets-1.79
 make
 make install
 for i in crondyn cronsighup crontab; do ln -sf f$i /usr/bin/$i; done
 ln -sf fcron /usr/sbin/cron
+for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/man1/$i; done
+for i in crontab.1 crondyn.1; do ln -sf f$i /usr/share/man/fr/man1/$i; done
+for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/man5/$i; done
+for i in fcrontab.5 fcron.conf.5; do ln -sf f$i /usr/share/man/fr/man5/$i; done
+ln -sf fcron.8 /usr/share/man/man8/cron.8
+ln -sf fcron.8 /usr/share/man/fr/man8/cron.8
 systemctl enable fcron
 install -t /usr/share/licenses/fcron -Dm644 doc/en/gpl.sgml
 cd ..
