@@ -295,14 +295,14 @@ install -t /usr/share/licenses/m4 -Dm644 COPYING
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-5.2.4.tar.xz
-cd bc-5.2.4
+tar -xf bc-5.2.5.tar.xz
+cd bc-5.2.5
 CC=gcc ./configure.sh --prefix=/usr --disable-generated-tests
 make
 make install
 install -t /usr/share/licenses/bc -Dm644 LICENSE.md
 cd ..
-rm -rf bc-5.2.4
+rm -rf bc-5.2.5
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -819,15 +819,15 @@ install -t /usr/share/licenses/libffi -Dm644 LICENSE
 cd ..
 rm -rf libffi-3.4.2
 # OpenSSL.
-tar -xf openssl-3.0.2.tar.gz
-cd openssl-3.0.2
+tar -xf openssl-3.0.3.tar.gz
+cd openssl-3.0.3
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
-rm -rf openssl-3.0.2
+rm -rf openssl-3.0.3
 # easy-rsa.
 tar -xf EasyRSA-3.0.8.tgz
 cd EasyRSA-3.0.8
@@ -1468,14 +1468,14 @@ END
 cd ..
 rm -rf docbook-4.5
 # libxml2.
-tar -xf libxml2-2.9.13.tar.xz
-cd libxml2-2.9.13
+tar -xf libxml2-2.9.14.tar.xz
+cd libxml2-2.9.14
 ./configure --prefix=/usr --disable-static --with-history --with-icu --with-python=/usr/bin/python3 --with-threads
 make
 make install
 install -t /usr/share/licenses/libxml2 -Dm644 COPYING
 cd ..
-rm -rf libxml2-2.9.13
+rm -rf libxml2-2.9.14
 # libarchive.
 tar -xf libarchive-3.6.1.tar.xz
 cd libarchive-3.6.1
@@ -1797,11 +1797,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
 rm -rf hwdata-0.359
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-251-rc1.tar.gz
-cd systemd-251-rc1
+tar -xf systemd-251-rc2.tar.gz
+cd systemd-251-rc2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc2-massos -Dshared-lib-tag=251-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1826,7 +1826,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-251-rc1
+rm -rf systemd-251-rc2
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -1866,7 +1866,7 @@ make install
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 cd ..
 rm -rf util-linux-2.38
-# fuse2.
+# FUSE2.
 tar -xf fuse-2.9.9.tar.gz
 cd fuse-2.9.9
 patch -Np1 -i ../patches/fuse-2.9.9-glibc234.patch
@@ -1879,12 +1879,12 @@ chmod 4755 /usr/bin/fusermount
 install -t /usr/share/licenses/fuse2 -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf fuse-2.9.9
-# fuse3.
-tar -xf fuse-3.10.5.tar.xz
-cd fuse-3.10.5
+# FUSE3.
+tar -xf fuse-3.11.0.tar.xz
+cd fuse-3.11.0
 sed -i '/^udev/,$ s/^/#/' util/meson.build
 mkdir fuse3-build; cd fuse3-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dexamples=false -Dtests=false ..
 ninja
 ninja install
 chmod u+s /usr/bin/fusermount3
@@ -1901,7 +1901,7 @@ cat > /etc/fuse.conf << END
 END
 install -t /usr/share/licenses/fuse3 -Dm644 ../LICENSE ../GPL2.txt ../LGPL2.txt
 cd ../..
-rm -rf fuse-3.10.5
+rm -rf fuse-3.11.0
 # e2fsprogs.
 tar -xf e2fsprogs-1.46.5.tar.xz
 cd e2fsprogs-1.46.5
@@ -2040,13 +2040,13 @@ install -t /usr/share/licenses/userspace-rcu -Dm644 LICENSE gpl-2.0.txt lgpl-2.1
 cd ..
 rm -rf userspace-rcu-0.13.1
 # xfsprogs.
-tar -xf xfsprogs-5.15.0.tar.xz
-cd xfsprogs-5.15.0
+tar -xf xfsprogs-5.16.0.tar.xz
+cd xfsprogs-5.16.0
 make DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
 make install
 make install-dev
 cd ..
-rm -rf xfsprogs-5.15.0
+rm -rf xfsprogs-5.16.0
 # ntfs-3g.
 tar -xf ntfs-3g-2021.8.22.tar.gz
 cd ntfs-3g-2021.8.22
@@ -2578,8 +2578,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380300.tar.gz
-cd sqlite-autoconf-3380300
+tar -xf sqlite-autoconf-3380400.tar.gz
+cd sqlite-autoconf-3380400
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2589,7 +2589,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380300
+rm -rf sqlite-autoconf-3380400
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2751,17 +2751,17 @@ install -t /usr/share/licenses/fcron -Dm644 doc/en/gpl.sgml
 cd ..
 rm -rf fcron-ver3_3_1
 # lsof.
-tar -xf lsof_4.94.0.linux.tar.bz2
-cd lsof_4.94.0.linux
+tar -xf lsof_4.95.0.linux.tar.bz2
+cd lsof_4.95.0.linux
 ./Configure linux -n
-sed -i 's/-O/-Os/' Makefile
+sed -i "s/-O/$CFLAGS/" Makefile
 make
 install -m755 lsof /usr/sbin/lsof
 install -m644 lsof.8 /usr/share/man/man8/lsof.8
 install -dm755 /usr/share/licenses/lsof
 cat main.c | head -n31 | tail -n23 > /usr/share/licenses/lsof/LICENSE
 cd ..
-rm -rf lsof_4.94.0.linux
+rm -rf lsof_4.95.0.linux
 # NSPR.
 tar -xf nspr-4.33.tar.gz
 cd nspr-4.33/nspr
@@ -2872,15 +2872,15 @@ install -t /usr/share/licenses/libsigc++ -Dm644 ../COPYING
 cd ../..
 rm -rf libsigc++-2.10.8
 # GLibmm.
-tar -xf glibmm-2.66.2.tar.xz
-cd glibmm-2.66.2
+tar -xf glibmm-2.66.4.tar.xz
+cd glibmm-2.66.4
 mkdir glibmm-build; cd glibmm-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/glibmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
-rm -rf glibmm-2.66.2
+rm -rf glibmm-2.66.4
 # gobject-introspection.
 tar -xf gobject-introspection-1.72.0.tar.xz
 cd gobject-introspection-1.72.0
@@ -2963,8 +2963,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.8.0esr.source.tar.xz
-cd firefox-91.8.0
+tar -xf firefox-91.9.0esr.source.tar.xz
+cd firefox-91.9.0
 mkdir JS91-build; cd JS91-build
 chmod +x ../js/src/configure.in
 SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
@@ -2974,7 +2974,7 @@ rm -f /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.8.0
+rm -rf firefox-91.9.0
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3056,9 +3056,8 @@ install -t /usr/share/licenses/libpng -Dm644 LICENSE
 cd ..
 rm -rf libpng-1.6.37
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
-tar -xf freetype-2.12.0.tar.xz
-cd freetype-2.12.0
-patch -Np1 -i ../patches/freetype-2.12.0-FixSegfault.patch
+tar -xf freetype-2.12.1.tar.xz
+cd freetype-2.12.1
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static --with-harfbuzz=no
@@ -3066,7 +3065,7 @@ make
 make install
 install -t /usr/share/licenses/freetype -Dm644 LICENSE.TXT docs/GPLv2.TXT
 cd ..
-rm -rf freetype-2.12.0
+rm -rf freetype-2.12.1
 # Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -3089,16 +3088,15 @@ install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
 rm -rf harfbuzz-4.2.1
 # FreeType (rebuild to support HarfBuzz).
-tar -xf freetype-2.12.0.tar.xz
-cd freetype-2.12.0
-patch -Np1 -i ../patches/freetype-2.12.0-FixSegfault.patch
+tar -xf freetype-2.12.1.tar.xz
+cd freetype-2.12.1
 sed -ri "s:.*(AUX_MODULES.*valid):\1:" modules.cfg
 sed -r "s:.*(#.*SUBPIXEL_RENDERING) .*:\1:" -i include/freetype/config/ftoption.h
 ./configure --prefix=/usr --enable-freetype-config --disable-static --with-harfbuzz=yes
 make
 make install
 cd ..
-rm -rf freetype-2.12.0
+rm -rf freetype-2.12.1
 # Graphite2 (rebuild to support HarfBuzz).
 tar -xf graphite2-1.3.14.tgz
 cd graphite2-1.3.14
@@ -3732,24 +3730,24 @@ install -t /usr/share/licenses/libxdmcp -Dm644 COPYING
 cd ..
 rm -rf libXdmcp-1.1.3
 # xcb-proto.
-tar -xf xcb-proto-1.14.1.tar.xz
-cd xcb-proto-1.14.1
+tar -xf xcb-proto-1.15.tar.xz
+cd xcb-proto-1.15
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make install
 install -t /usr/share/licenses/xcb-proto -Dm644 COPYING
 cd ..
-rm -rf xcb-proto-1.14.1
+rm -rf xcb-proto-1.15
 # libxcb.
-tar -xf libxcb-1.14.tar.xz
-cd libxcb-1.14
+tar -xf libxcb-1.15.tar.xz
+cd libxcb-1.15
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --without-doxygen
 make
 make install
 install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
-rm -rf libxcb-1.14
+rm -rf libxcb-1.15
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.7.5 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.8 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -3817,25 +3815,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.9.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.211.tar.gz
-cd Vulkan-Headers-1.3.211
+tar -xf Vulkan-Headers-1.3.212.tar.gz
+cd Vulkan-Headers-1.3.212
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.211
+rm -rf Vulkan-Headers-1.3.212
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.211.tar.gz
-cd Vulkan-Loader-1.3.211
+tar -xf Vulkan-Loader-1.3.212.tar.gz
+cd Vulkan-Loader-1.3.212
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.211
+rm -rf Vulkan-Loader-1.3.212
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -3952,11 +3950,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.0
 # Systemd (rebuild to support more features).
-tar -xf systemd-251-rc1.tar.gz
-cd systemd-251-rc1
+tar -xf systemd-251-rc2.tar.gz
+cd systemd-251-rc2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc2-massos -Dshared-lib-tag=251-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -3972,7 +3970,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-251-rc1
+rm -rf systemd-251-rc2
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4588,15 +4586,15 @@ install -t /usr/share/licenses/gtk3 -Dm644 COPYING
 cd ..
 rm -rf gtk+-3.24.33
 # Gtkmm3.
-tar -xf gtkmm-3.24.5.tar.xz
-cd gtkmm-3.24.5
+tar -xf gtkmm-3.24.6.tar.xz
+cd gtkmm-3.24.6
 mkdir gmm-build; cd gmm-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dbuild-demos=false -Dbuild-tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gtkmm3 -Dm644 ../COPYING ../COPYING.tools
 cd ../..
-rm -rf gtkmm-3.24.5
+rm -rf gtkmm-3.24.6
 # Arc (GTK Theme).
 tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
 gtk-update-icon-cache /usr/share/icons/Arc
@@ -5461,8 +5459,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.16.0.tar.gz
-cd samba-4.16.0
+tar -xf samba-4.16.1.tar.gz
+cd samba-4.16.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --without-pie --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
@@ -5485,7 +5483,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.16.0
+rm -rf samba-4.16.1
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20220315.tar.bz2
 cd mobile-broadband-provider-info-20220315
@@ -5589,15 +5587,15 @@ install -t /usr/share/licenses/libnma -Dm644 ../COPYING ../COPYING.LGPL
 cd ../..
 rm -rf libnma-1.8.38
 # libnotify.
-tar -xf libnotify-0.7.11.tar.xz
-cd libnotify-0.7.11
+tar -xf libnotify-0.7.12.tar.xz
+cd libnotify-0.7.12
 mkdir notify-build; cd notify-build
 meson --prefix=/usr --buildtype=release -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnotify -Dm644 ../COPYING
 cd ../..
-rm -rf libnotify-0.7.11
+rm -rf libnotify-0.7.12
 # startup-notification.
 tar -xf startup-notification-0.12.tar.gz
 cd startup-notification-0.12
@@ -5690,14 +5688,14 @@ install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup3-3.0.6
 # libostree.
-tar -xf libostree-2022.2.tar.xz
-cd libostree-2022.2
+tar -xf libostree-2022.3.tar.xz
+cd libostree-2022.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 install -t /usr/share/licenses/libostree -Dm644 COPYING
 cd ..
-rm -rf libostree-2022.2
+rm -rf libostree-2022.3
 # libxmlb.
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
@@ -5793,14 +5791,14 @@ install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
 # xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.14.3.tar.xz
-cd xdg-desktop-portal-1.14.3
+tar -xf xdg-desktop-portal-1.14.4.tar.xz
+cd xdg-desktop-portal-1.14.4
 ./configure --prefix=/usr --disable-pipewire
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-1.14.3
+rm -rf xdg-desktop-portal-1.14.4
 # xdg-desktop-portal-gtk.
 tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
 cd xdg-desktop-portal-gtk-1.14.0
@@ -6125,65 +6123,75 @@ install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
 cd ../..
 rm -rf openal-soft-1.21.1
 # GStreamer.
-tar -xf gstreamer-1.20.1.tar.xz
-cd gstreamer-1.20.1
+tar -xf gstreamer-1.20.2.tar.xz
+cd gstreamer-1.20.2
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgst_debug=false -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
 cd ../..
-rm -rf gstreamer-1.20.1
+rm -rf gstreamer-1.20.2
 # gst-plugins-base.
-tar -xf gst-plugins-base-1.20.1.tar.xz
-cd gst-plugins-base-1.20.1
+tar -xf gst-plugins-base-1.20.2.tar.xz
+cd gst-plugins-base-1.20.2
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-base-1.20.1
+rm -rf gst-plugins-base-1.20.2
 # gst-plugins-good.
-tar -xf gst-plugins-good-1.20.1.tar.xz
-cd gst-plugins-good-1.20.1
+tar -xf gst-plugins-good-1.20.2.tar.xz
+cd gst-plugins-good-1.20.2
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-good-1.20.1
+rm -rf gst-plugins-good-1.20.2
 # gst-plugins-bad.
-tar -xf gst-plugins-bad-1.20.1.tar.xz
-cd gst-plugins-bad-1.20.1
+tar -xf gst-plugins-bad-1.20.2.tar.xz
+cd gst-plugins-bad-1.20.2
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-bad-1.20.1
+rm -rf gst-plugins-bad-1.20.2
 # gst-plugins-ugly.
-tar -xf gst-plugins-ugly-1.20.1.tar.xz
-cd gst-plugins-ugly-1.20.1
+tar -xf gst-plugins-ugly-1.20.2.tar.xz
+cd gst-plugins-ugly-1.20.2
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
 cd ../..
-rm -rf gst-plugins-ugly-1.20.1
+rm -rf gst-plugins-ugly-1.20.2
 # gst-libav.
-tar -xf gst-libav-1.20.1.tar.xz
-cd gst-libav-1.20.1
+tar -xf gst-libav-1.20.2.tar.xz
+cd gst-libav-1.20.2
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.1 (MassOS)" -Dpackage-origin="https://massos.org" ..
+meson --prefix=/usr --buildtype=release -Dpackage-name="GStreamer 1.20.2 (MassOS)" -Dpackage-origin="https://massos.org" ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
 cd ../..
-rm -rf gst-libav-1.20.1
+rm -rf gst-libav-1.20.2
+# gstreamer-vaapi.
+tar -xf gstreamer-vaapi-1.20.2.tar.xz
+cd gstreamer-vaapi-1.20.2
+mkdir gstreamer-vaapi-build; cd gstreamer-vaapi-build
+meson --prefix=/usr --buildtype=release -Dpackage-origin="https://massos.org" ..
+ninja
+ninja install
+install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
+cd ../..
+rm -rf gstreamer-vaapi-1.20.2
 # WebKitGTK.
 tar -xf webkitgtk-2.34.6.tar.xz
 cd webkitgtk-2.34.6
@@ -6604,14 +6612,14 @@ update-desktop-database -q
 cd ..
 rm -rf xarchiver-0.5.4.17
 # thunar-archive-plugin.
-tar -xf thunar-archive-plugin-0.4.0.tar.bz2
-cd thunar-archive-plugin-0.4.0
+tar -xf thunar-archive-plugin-0.5.0.tar.bz2
+cd thunar-archive-plugin-0.5.0
 ./configure --prefix=/usr --sysconfdir=/etc  --libexecdir=/usr/lib/xfce4 --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
 cd ..
-rm -rf thunar-archive-plugin-0.4.0
+rm -rf thunar-archive-plugin-0.5.0
 # gtksourceview4.
 tar -xf gtksourceview-4.8.3.tar.xz
 cd gtksourceview-4.8.3
@@ -6870,7 +6878,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-99.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-100.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -6901,7 +6909,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.8.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.9.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {

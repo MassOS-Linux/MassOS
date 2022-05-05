@@ -6,10 +6,41 @@ Changes:
 - Fixed missing `lspci` program since pciutils 3.8.0.
 - Neofetch is now installed correctly as a package.
 - Added SGMLSpm (small Perl module) and fix man page generation of some packages.
+- Added gstreamer-vaapi, a GStreamer plugin for hardware-accelerated video encoding/decoding.
 
 Upgraded software:
 
+- bc: `5.2.4 --> 5.2.5`
+- Firefox: `99.0.1 --> 100.0`
+- FreeType: `2.12.0 --> 2.12.1`
+- FUSE3: `3.10.5 --> 3.11.0`
+- GLibmm: `2.66.2 --> 2.66.4`
+- gst-libav: `1.20.1 --> 1.20.2`
+- gst-plugins-bad: `1.20.1 --> 1.20.2`
+- gst-plugins-base: `1.20.1 --> 1.20.2`
+- gst-plugins-good: `1.20.1 --> 1.20.2`
+- gst-plugins-ugly: `1.20.1 --> 1.20.2`
+- GStreamer: `1.20.1 --> 1.20.2`
+- Gtkmm3: `3.24.5 --> 3.24.6`
 - hwdata: `0.358 --> 0.359`
+- JS91: `91.8.0 --> 91.9.0`
+- libnotify: `0.7.11 --> 0.7.12`
+- libostree: `2022.2 --> 2022.3`
+- libX11: `1.7.5 --> 1.8`
+- libxcb: `1.14 --> 1.15`
+- libxml2: `2.9.13 --> 2.9.14`
+- lsof: `4.94.0 --> 4.95.0`
+- OpenSSL: `3.0.2 --> 3.0.3`
+- smbclient: `4.16.0 --> 4.16.1`
+- SQLite: `3.38.3 --> 3.38.4`
+- systemd: `251-rc1 --> 251-rc2`
+- thunar-archive-plugin: `0.4.0 --> 0.5.0`
+- Thunderbird: `91.8.1 --> 91.9.0`
+- Vulkan-Headers: `1.3.211 --> 1.3.212`
+- Vulkan-Loader: `1.3.211 --> 1.3.212`
+- xcb-proto: `1.14.1 --> 1.15`
+- xdg-desktop-portal: `1.14.3 --> 1.14.4`
+- xfsprogs: `5.15.0 --> 5.16.0`
 
 # MassOS 2022.05
 Changes:
