@@ -128,7 +128,7 @@ https://github.com/libfuse/libfuse/releases/download/fuse-3.11.0/fuse-3.11.0.tar
 https://github.com/galculator/galculator/archive/v2.1.4/galculator-2.1.4.tar.gz
 https://archive.fr.xfce.org/src/xfce/garcon/4.16/garcon-4.16.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/gawk/gawk-5.1.0.tar.xz
-https://mirror.lyrahosting.com/gnu/gcc/gcc-11.3.0/gcc-11.3.0.tar.xz
+https://mirror.lyrahosting.com/gnu/gcc/gcc-12.1.0/gcc-12.1.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz
@@ -398,7 +398,7 @@ https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.1.tar.gz
 https://github.com/MassOS-Linux/massos-welcome/archive/cc649f83e04f0daa880edf1df8e4d5165b79787c/massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-22.0.2.tar.xz
+https://archive.mesa3d.org/mesa-22.0.3.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.62.1/meson-0.62.1.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
 https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/archive/20220315/mobile-broadband-provider-info-20220315.tar.bz2
@@ -466,7 +466,7 @@ https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
 https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/0.9.5/plymouth-0.9.5.tar.gz
 https://www.freedesktop.org/software/polkit/releases/polkit-0.120.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
-https://poppler.freedesktop.org/poppler-22.03.0.tar.xz
+https://poppler.freedesktop.org/poppler-22.05.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.11.tar.gz
 https://github.com/rpm-software-management/popt/archive/refs/tags/popt-1.18-release.tar.gz
 https://download.samba.org/pub/ppp/ppp-2.4.9.tar.gz

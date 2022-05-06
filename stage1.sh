@@ -53,8 +53,8 @@ make -j1 install
 cd ../..
 rm -rf binutils-2.38
 # GCC (Pass 1).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
@@ -68,7 +68,7 @@ make install
 cd ..
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
 cd ..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # Linux API Headers.
 tar -xf linux-5.17.5.tar.xz
 cd linux-5.17.5
@@ -93,14 +93,14 @@ sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 cd ../..
 rm -rf glibc-2.35
 # libstdc++ from GCC (Pass 1).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --host=$MASSOS_TARGET --build=$(../config.guess) --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$MASSOS_TARGET/include/c++/$($MASSOS_TARGET-gcc --version | head -n1 | cut -d')' -f2 | sed 's/ //')
 make
 make DESTDIR="$MASSOS" install
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -250,8 +250,8 @@ install -m755 libctf/.libs/libctf.so.0.0.0 "$MASSOS"/usr/lib
 cd ../..
 rm -rf binutils-2.38
 # GCC (Pass 2).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
@@ -266,7 +266,7 @@ make
 make DESTDIR="$MASSOS" install
 ln -s gcc "$MASSOS"/usr/bin/cc
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 cd ../..
 # Copy extra utilities and configuration files into the environment.
 cp -r utils/etc/* "$MASSOS"/etc

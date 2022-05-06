@@ -60,15 +60,15 @@ chgrp utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
 # libstdc++ from GCC (Pass 2).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 ln -s gthr-posix.h libgcc/gthr-default.h
 mkdir build; cd build
 CFLAGS="-O2 -D_GNU_SOURCE" CXXFLAGS="-O2 -D_GNU_SOURCE" ../libstdc++-v3/configure --prefix=/usr --disable-multilib --disable-nls --host=$(uname -m)-massos-linux-gnu --disable-libstdcxx-pch
 make
 make install
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
 cd gettext-0.21
@@ -540,8 +540,8 @@ install -t /usr/share/licenses/shadow -Dm644 COPYING
 cd ..
 rm -rf shadow-4.11.1
 # GCC.
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-system-zlib --enable-default-ssp --disable-bootstrap --disable-multilib
@@ -554,7 +554,7 @@ mkdir -p /usr/share/gdb/auto-load/usr/lib
 mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 install -t /usr/share/licenses/gcc -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB ../COPYING.RUNTIME
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
 cd pkg-config-0.29.2
@@ -3865,15 +3865,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.0.2.tar.xz
-cd mesa-22.0.2
+tar -xf mesa-22.0.3.tar.xz
+cd mesa-22.0.3
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglvnd=true -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.0.2
+rm -rf mesa-22.0.3
 # libva (rebuild to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -5160,8 +5160,8 @@ install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
 rm -rf cups-2.4.1
 # Poppler.
-tar -xf poppler-22.03.0.tar.xz
-cd poppler-22.03.0
+tar -xf poppler-22.05.0.tar.xz
+cd poppler-22.05.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -5171,7 +5171,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-22.03.0
+rm -rf poppler-22.05.0
 # Ghostscript.
 tar -xf ghostscript-9.56.1.tar.xz
 cd ghostscript-9.56.1
