@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Fixed missing `lspci` program since pciutils 3.8.0.
+- Went back to Mousepad as the default text editor, since Gedit has major integration issues with Xfce.
 - Neofetch is now installed correctly as a package.
 - Added SGMLSpm (small Perl module) and fix man page generation of some packages.
 - Added gstreamer-vaapi, a GStreamer plugin for hardware-accelerated video encoding/decoding.

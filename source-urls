@@ -132,7 +132,6 @@ https://mirror.lyrahosting.com/gnu/gcc/gcc-12.1.0/gcc-12.1.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gedit/42/gedit-42.0.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.6.0/geoclue-2.6.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gettext/gettext-0.21.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
@@ -404,6 +403,7 @@ https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
 https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/archive/20220315/mobile-broadband-provider-info-20220315.tar.bz2
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.8.tar.xz
 https://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.67.orig.tar.gz
+https://archive.fr.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.9.tar.bz2
 https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
 https://mirror.lyrahosting.com/gnu/mpfr/mpfr-4.1.0.tar.xz
 https://mpg123.org/download/mpg123-1.29.3.tar.bz2

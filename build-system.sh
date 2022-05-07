@@ -6630,16 +6630,15 @@ ninja install
 install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
 cd ../..
 rm -rf gtksourceview-4.8.3
-# Gedit.
-tar -xf gedit-42.0.tar.xz
-cd gedit-42.0
-mkdir gedit-build; cd gedit-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/gedit -Dm644 ../COPYING
-cd ../..
-rm -rf gedit-42.0
+# Mousepad.
+tar -xf mousepad-0.5.9.tar.bz2
+cd mousepad-0.5.9
+./configure --prefix=/usr --enable-gtksourceview4 --enable-keyfile-settings
+make
+make install
+install -t /usr/share/licenses/mousepad -Dm644 COPYING
+cd ..
+rm -rf mousepad-0.5.9
 # galculator.
 tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4
