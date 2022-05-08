@@ -8,6 +8,7 @@ Changes:
 - Neofetch is now installed correctly as a package.
 - Added SGMLSpm (small Perl module) and fix man page generation of some packages.
 - Added gstreamer-vaapi, a GStreamer plugin for hardware-accelerated video encoding/decoding.
+- Added run-parts and fixed periodic cron jobs.
 
 Upgraded software:
 

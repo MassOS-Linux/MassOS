@@ -2110,7 +2110,31 @@ install -t /usr/share/man/man8 -Dm644 gdisk.8 cgdisk.8 sgdisk.8 fixparts.8
 install -t /usr/share/licenses/gptfdisk -Dm644 COPYING
 cd ..
 rm -rf gptfdisk-1.0.9
-## xxhash.
+# run-parts (from debianutils).
+tar -xf debianutils-5.5.tar.gz
+cd debianutils-5.5
+./configure --prefix=/usr
+make run-parts
+install -t /usr/bin -Dm755 run-parts
+install -t /usr/share/man/man8 -Dm644 run-parts.8
+install -t /usr/share/licenses/run-parts -Dm644 /usr/share/licenses/gptfdisk/COPYING
+cd ..
+rm -rf debianutils-5.5
+# libpaper.
+tar -xf libpaper_1.1.28.tar.gz
+cd libpaper-1.1.28
+autoreconf -fi
+./configure --prefix=/usr --sysconfdir=/etc --disable-static
+make
+make install
+cat > /etc/papersize << "END"
+# Specify the default paper size here. See papersize(5) for more information.
+END
+install -dm755 /etc/libpaper.d
+install -t /usr/share/licenses/libpaper -Dm644 COPYING
+cd ..
+rm -rf libpaper-1.1.28
+# xxhash.
 tar -xf xxHash-0.8.1.tar.gz
 cd xxHash-0.8.1
 make PREFIX=/usr CFLAGS="$CFLAGS -fPIC"
@@ -2746,8 +2770,16 @@ ln -sf fcrontab.5 /usr/share/man/man5/crontab.5
 ln -sf fcrontab.5 /usr/share/man/fr/man5/crontab.5
 ln -sf fcron.8 /usr/share/man/man8/cron.8
 ln -sf fcron.8 /usr/share/man/fr/man8/cron.8
+install -dm754 /etc/cron.{hourly,daily,weekly,monthly}
+cat > /var/spool/fcron/systab.orig << "END"
+&bootrun 01 * * * *  /usr/bin/run-parts /etc/cron.hourly
+&bootrun 02 00 * * * /usr/bin/run-parts /etc/cron.daily
+&bootrun 22 00 * * 0 /usr/bin/run-parts /etc/cron.weekly
+&bootrun 42 00 1 * * /usr/bin/run-parts /etc/cron.monthly
+END
+fcrontab -z -u systab
 systemctl enable fcron
-install -t /usr/share/licenses/fcron -Dm644 doc/en/gpl.sgml
+install -t /usr/share/licenses/fcron -Dm644 doc/en/txt/gpl.txt
 cd ..
 rm -rf fcron-ver3_3_1
 # lsof.

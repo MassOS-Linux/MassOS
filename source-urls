@@ -70,6 +70,7 @@ https://download.oracle.com/berkeley-db/db-5.3.28.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.14.0.tar.xz
 https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.112.tar.gz
 https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.2.18.tar.gz
+https://clint.pages.debian.net/debianutils-tarballs/artifacts/debianutils-5.5.tar.gz
 https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.26.tar.xz
 https://ftp.isc.org/isc/dhcp/4.4.3/dhcp-4.4.3.tar.gz
 https://invisible-mirror.net/archives/dialog/dialog-1.3-20220414.tgz
@@ -283,6 +284,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libnotify/0.7/libnotify-0.7.12.tar.xz
 https://github.com/thkukuk/libnsl/releases/download/v2.0.0/libnsl-2.0.0.tar.xz
 https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz
 https://github.com/ostreedev/ostree/releases/download/v2022.3/libostree-2022.3.tar.xz
+https://deb.debian.org/debian/pool/main/libp/libpaper/libpaper_1.1.28.tar.gz
 https://www.tcpdump.org/release/libpcap-1.10.1.tar.gz
 https://www.x.org/archive/individual/lib/libpciaccess-0.16.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/libpeas/1.32/libpeas-1.32.0.tar.xz

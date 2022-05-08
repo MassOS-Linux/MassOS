@@ -270,6 +270,7 @@ libnotify
 libnsl
 libogg
 libostree
+libpaper
 libpcap
 libpciaccess
 libpeas
@@ -478,6 +479,7 @@ rrdtool
 rsync
 rtmpdump
 ruby
+run-parts
 sane
 sassc
 sbc
