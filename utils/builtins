@@ -207,6 +207,7 @@ krb5
 lame
 laptop-detect
 lcms2
+ldac
 less
 libaio
 libarchive
@@ -364,6 +365,7 @@ lm-sensors
 lmdb
 locale-gettext
 lsb-tools
+lua
 luit
 lvm2
 lxml
@@ -447,12 +449,14 @@ pkg-config
 pigz
 pinentry
 pip
+pipewire
 pixman
 ply
 plymouth
 polkit
 polkit-gnome
 poppler
+popsicle
 popt
 ppp
 procps-ng
@@ -554,6 +558,7 @@ wget
 which
 whois
 wireless-tools
+wireplumber
 woff2
 wpa-supplicant
 wpebackend-fdo

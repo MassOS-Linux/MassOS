@@ -59,6 +59,9 @@ touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
+# Set the locale correctly.
+mkdir -p /usr/lib/locale
+mklocales
 # libstdc++ from GCC (Pass 2).
 tar -xf gcc-12.1.0.tar.xz
 cd gcc-12.1.0
@@ -159,7 +162,6 @@ cp ../nscd/nscd.conf /etc/nscd.conf
 mkdir -p /var/cache/nscd
 install -Dm644 ../nscd/nscd.tmpfiles /usr/lib/tmpfiles.d/nscd.conf
 install -Dm644 ../nscd/nscd.service /usr/lib/systemd/system/nscd.service
-mkdir -p /usr/lib/locale
 mklocales
 cat > /etc/nsswitch.conf << END
 passwd: files
@@ -721,6 +723,17 @@ make install
 install -t /usr/share/licenses/less -Dm644 COPYING LICENSE
 cd ..
 rm -rf less-600
+# Lua.
+tar -xf lua-5.4.4.tar.gz
+cd lua-5.4.4
+patch -Np1 -i ../patches/lua-5.4.4-sharedlib+pkgconfig.patch
+cat src/lua.h | tail -n24 | head -n20 | sed -e 's/* //g' -e 's/*//g' > COPYING
+make MYCFLAGS="$CFLAGS -fPIC" linux-readline
+make INSTALL_DATA="cp -d" INSTALL_TOP=/usr INSTALL_MAN=/usr/share/man/man1 TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.4" install
+install -t /usr/lib/pkgconfig -Dm644 lua.pc
+install -t /usr/share/licenses/lua -Dm644 COPYING
+cd ..
+rm -rf lua-5.4.4
 # Perl.
 tar -xf perl-5.34.1.tar.xz
 cd perl-5.34.1
@@ -788,17 +801,17 @@ make
 make install
 cd ..
 rm -rf autoconf-archive-2021.02.19
-# Psmisc.
-tar -xf psmisc-23.4.tar.gz
-cd psmisc-v23.4-5fab6b7ab385080f1db725d6803136ec1841a15f
-sed -i 's/UNKNOWN/23.4/g' misc/git-version-gen
+# PSmisc.
+tar -xf psmisc-v23.5.tar.bz2
+cd psmisc-v23.5
+sed -i 's/UNKNOWN/23.5/g' misc/git-version-gen
 ./autogen.sh
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/psmisc -Dm644 COPYING
 cd ..
-rm -rf psmisc-v23.4-5fab6b7ab385080f1db725d6803136ec1841a15f
+rm -rf psmisc-v23.5
 # elfutils.
 tar -xf elfutils-0.187.tar.bz2
 cd elfutils-0.187
@@ -2486,9 +2499,9 @@ install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
 rm -rf gnutls-3.7.4
 # OpenLDAP.
-tar -xf openldap-2.6.1.tgz
-cd openldap-2.6.1
-patch -Np1 -i ../patches/openldap-2.6.1-MassOS.patch
+tar -xf openldap-2.6.2.tgz
+cd openldap-2.6.2
+patch -Np1 -i ../patches/openldap-2.6.2-fixes.patch
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning=yes --disable-debug --disable-slapd
 make depend
@@ -2496,7 +2509,7 @@ make
 make install
 install -t /usr/share/licenses/openldap -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf openldap-2.6.1
+rm -rf openldap-2.6.2
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -2602,8 +2615,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380400.tar.gz
-cd sqlite-autoconf-3380400
+tar -xf sqlite-autoconf-3380500.tar.gz
+cd sqlite-autoconf-3380500
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2613,7 +2626,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380400
+rm -rf sqlite-autoconf-3380500
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2824,8 +2837,8 @@ install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
 cd ../..
 rm -rf nss-3.78
 # Git.
-tar -xf git-2.36.0.tar.xz
-cd git-2.36.0
+tar -xf git-2.36.1.tar.xz
+cd git-2.36.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
@@ -2833,7 +2846,7 @@ make perllibdir=/usr/lib/perl5/5.34/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.36.0
+rm -rf git-2.36.1
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -4882,6 +4895,16 @@ make install
 install -t /usr/share/licenses/sbc -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf sbc-1.5
+# ldac.
+tar -xf ldacBT-2.0.2.3.tar.gz
+cd ldacBT
+mkdir ldac-build; cd ldac-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/ldac -Dm644 ../LICENSE
+cd ../..
+rm -rf ldacBT
 # libical.
 tar -xf libical-3.0.14.tar.gz
 cd libical-3.0.14
@@ -5045,11 +5068,11 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4826.tar.gz
-cd vim-8.2.4826
+tar -xf vim-8.2.4926.tar.gz
+cd vim-8.2.4926
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
-./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
+./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
 make
 make install
 cat > /etc/vimrc << "END"
@@ -5069,7 +5092,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4826
+rm -rf vim-8.2.4926
 # libwpe.
 tar -xf libwpe-1.12.0.tar.xz
 cd libwpe-1.12.0
@@ -5166,7 +5189,7 @@ useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false
 mv po/fur.po po/ur.po
 sed -i 's/fur/ur/' po/LINGUAS
 mkdir colord-build; cd colord-build
-meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dbash_completion=false -Ddocs=false -Dman=false ..
+meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/ppp -Dm644 ../COPYING
@@ -5725,6 +5748,7 @@ cd libostree-2022.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
+sed -i '/reproducible/d' /etc/dracut.conf.d/ostree.conf
 install -t /usr/share/licenses/libostree -Dm644 COPYING
 cd ..
 rm -rf libostree-2022.3
@@ -6224,6 +6248,23 @@ ninja install
 install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.2
+# PipeWire + WirePlumber.
+tar -xf pipewire-0.3.51.tar.gz
+cd pipewire-0.3.51
+tar -xf ../wireplumber-0.4.9.tar.gz -C subprojects
+mv subprojects/wireplumber{-0.4.9,}
+sed -i '5 s/false/true/' subprojects/wireplumber/meson_options.txt
+mkdir pipewire-build; cd pipewire-build
+meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber ..
+ninja
+ninja install
+systemctl --global enable pipewire.socket pipewire-pulse.socket
+systemctl --global enable wireplumber
+echo "autospawn = no" >> /etc/pulse/client.conf
+install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
+install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
+cd ../..
+rm -rf pipewire-0.3.51
 # WebKitGTK.
 tar -xf webkitgtk-2.34.6.tar.xz
 cd webkitgtk-2.34.6
@@ -6703,6 +6744,13 @@ install -m644 mtools.conf /etc/mtools.conf
 install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.39
+# Popsicle.
+tar -xf popsicle-1.3.0-54-ga1561b3.tar.xz
+cd popsicle-1.3.0-54-ga1561b3
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" make prefix=/usr install
+install -t /usr/share/licenses/popsicle -Dm644 LICENSE
+cd ..
+rm -rf popsicle-1.3.0-54-ga1561b3
 # Mugshot.
 tar -xf mugshot-0.4.3.tar.gz
 cd mugshot-0.4.3
@@ -6749,6 +6797,7 @@ mkdir malcontent-build; cd malcontent-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
+rm -f /usr/share/applications/org.freedesktop.MalcontentControl.desktop
 install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.3
@@ -6979,7 +7028,7 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-KVER=5.17.5
+KVER=5.17.6
 tar -xf linux-$KVER.tar.xz
 cd linux-$KVER
 cp ../kernel-config .config
@@ -7086,6 +7135,7 @@ if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
   useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
 fi
+test ! -f /etc/dracut.conf.d/ostree.conf.new || mv /etc/dracut.conf.d/ostree.conf{.new,}
 # hwdata package is now used instead of systemd timers.
 if grep -q hwdata /usr/share/massos/builtins; then
   systemctl disable update-pciids.timer || true
@@ -7097,7 +7147,9 @@ test ! -d /usr/lib/firefox/libav || rm -rf /usr/lib/firefox/libav
 # Fix /etc/profile.d/flatpak.sh
 test ! -e /etc/profile.d/flatpak.sh.new || mv /etc/profile.d/flatpak.sh{.new,}
 # Now using BGRT theme instead of spinner.
-plymouth-set-default-theme bgrt
+! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt
+# Now using PipeWire instead of PulseAudio.
+grep -q "autospawn = no" /etc/pulse/client.conf || echo "autospawn = no" >> /etc/pulse/client.conf
 END
 # Clean sources directory and self destruct.
 cd ..

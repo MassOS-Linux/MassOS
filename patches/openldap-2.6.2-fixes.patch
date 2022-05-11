@@ -1,7 +1,7 @@
 diff -aruN old/doc/man/man5/slapd.conf.5 new/doc/man/man5/slapd.conf.5
---- old/doc/man/man5/slapd.conf.5	2022-01-19 18:32:34.000000000 +0000
-+++ new/doc/man/man5/slapd.conf.5	2022-02-14 22:28:35.852089553 +0000
-@@ -2123,7 +2123,7 @@
+--- old/doc/man/man5/slapd.conf.5	2022-05-04 15:55:23.000000000 +0100
++++ new/doc/man/man5/slapd.conf.5	2022-05-09 18:47:50.485248211 +0100
+@@ -2122,7 +2122,7 @@
  # The database directory MUST exist prior to
  # running slapd AND should only be accessible
  # by the slapd/tools. Mode 0700 recommended.
@@ -11,9 +11,9 @@ diff -aruN old/doc/man/man5/slapd.conf.5 new/doc/man/man5/slapd.conf.5
  index     objectClass  eq
  index     cn,sn,mail   pres,eq,approx,sub
 diff -aruN old/doc/man/man5/slapd-config.5 new/doc/man/man5/slapd-config.5
---- old/doc/man/man5/slapd-config.5	2022-01-19 18:32:34.000000000 +0000
-+++ new/doc/man/man5/slapd-config.5	2022-02-14 22:28:35.852089553 +0000
-@@ -2234,7 +2234,7 @@
+--- old/doc/man/man5/slapd-config.5	2022-05-04 15:55:23.000000000 +0100
++++ new/doc/man/man5/slapd-config.5	2022-05-09 18:47:50.488581503 +0100
+@@ -2233,7 +2233,7 @@
  # The database directory MUST exist prior to
  # running slapd AND should only be accessible
  # by the slapd/tools. Mode 0700 recommended.
@@ -22,54 +22,32 @@ diff -aruN old/doc/man/man5/slapd-config.5 new/doc/man/man5/slapd-config.5
  # Indices to maintain
  olcDbIndex:     objectClass  eq
  olcDbIndex:     cn,sn,mail   pres,eq,approx,sub
-diff -aruN old/doc/man/man8/lloadd.8 new/doc/man/man8/lloadd.8
---- old/doc/man/man8/lloadd.8	2022-01-19 18:32:34.000000000 +0000
-+++ new/doc/man/man8/lloadd.8	2022-02-14 22:28:35.855422895 +0000
-@@ -5,7 +5,7 @@
- .SH NAME
- lloadd \- LDAP Load Balancer Daemon
- .SH SYNOPSIS
--.B LIBEXECDIR/lloadd
-+.B SBINDIR/lloadd
- [\c
- .BR \-4 | \-6 ]
- [\c
-diff -aruN old/doc/man/man8/slapd.8 new/doc/man/man8/slapd.8
---- old/doc/man/man8/slapd.8	2022-01-19 18:32:34.000000000 +0000
-+++ new/doc/man/man8/slapd.8	2022-02-14 22:28:35.855422895 +0000
-@@ -5,7 +5,7 @@
- .SH NAME
- slapd \- Stand-alone LDAP Daemon
- .SH SYNOPSIS
--.B LIBEXECDIR/slapd 
-+.B SBINDIR/slapd 
- [\c
- .BR \-V [ V [ V ]]
- [\c
 diff -aruN old/include/ldap_defaults.h new/include/ldap_defaults.h
---- old/include/ldap_defaults.h	2022-01-19 18:32:34.000000000 +0000
-+++ new/include/ldap_defaults.h	2022-02-14 22:28:35.855422895 +0000
-@@ -39,7 +39,7 @@
- #define LDAP_ENV_PREFIX "LDAP"
+--- old/include/ldap_defaults.h	2022-05-04 15:55:23.000000000 +0100
++++ new/include/ldap_defaults.h	2022-05-09 18:47:50.488581503 +0100
+@@ -40,7 +40,8 @@
  
  /* default ldapi:// socket */
+ #ifndef LDAPI_SOCK
 -#define LDAPI_SOCK LDAP_RUNDIR LDAP_DIRSEP "run" LDAP_DIRSEP "ldapi"
 +#define LDAPI_SOCK LDAP_RUNDIR LDAP_DIRSEP "run" LDAP_DIRSEP "openldap" LDAP_DIRSEP "ldapi"
++
+ #endif
  
  /*
-  * SLAPD DEFINITIONS
-@@ -47,7 +47,7 @@
- 	/* location of the default slapd config file */
- #define SLAPD_DEFAULT_CONFIGFILE	LDAP_SYSCONFDIR LDAP_DIRSEP "slapd.conf"
+@@ -54,7 +55,8 @@
  #define SLAPD_DEFAULT_CONFIGDIR		LDAP_SYSCONFDIR LDAP_DIRSEP "slapd.d"
+ #endif
+ #ifndef SLAPD_DEFAULT_DB_DIR
 -#define SLAPD_DEFAULT_DB_DIR		LDAP_RUNDIR LDAP_DIRSEP "openldap-data"
 +#define SLAPD_DEFAULT_DB_DIR        LDAP_RUNDIR LDAP_DIRSEP "lib" LDAP_DIRSEP "openldap"
++
+ #endif
  #define SLAPD_DEFAULT_DB_MODE		0600
- #define SLAPD_DEFAULT_UCDATA		LDAP_DATADIR LDAP_DIRSEP "ucdata"
  	/* default max deref depth for aliases */
 diff -aruN old/libraries/liblber/Makefile.in new/libraries/liblber/Makefile.in
---- old/libraries/liblber/Makefile.in	2022-01-19 18:32:34.000000000 +0000
-+++ new/libraries/liblber/Makefile.in	2022-02-14 22:28:35.855422895 +0000
+--- old/libraries/liblber/Makefile.in	2022-05-04 15:55:23.000000000 +0100
++++ new/libraries/liblber/Makefile.in	2022-05-09 18:47:50.488581503 +0100
 @@ -51,6 +51,6 @@
  
  install-local: FORCE
@@ -79,8 +57,8 @@ diff -aruN old/libraries/liblber/Makefile.in new/libraries/liblber/Makefile.in
  	$(LTFINISH) $(DESTDIR)$(libdir)
  
 diff -aruN old/libraries/libldap/Makefile.in new/libraries/libldap/Makefile.in
---- old/libraries/libldap/Makefile.in	2022-01-19 18:32:34.000000000 +0000
-+++ new/libraries/libldap/Makefile.in	2022-02-14 22:28:35.855422895 +0000
+--- old/libraries/libldap/Makefile.in	2022-05-04 15:55:23.000000000 +0100
++++ new/libraries/libldap/Makefile.in	2022-05-09 18:47:50.488581503 +0100
 @@ -82,7 +82,7 @@
  
  install-local: $(CFFILES) FORCE
@@ -91,8 +69,8 @@ diff -aruN old/libraries/libldap/Makefile.in new/libraries/libldap/Makefile.in
  	-$(MKDIR) $(DESTDIR)$(sysconfdir)
  	@for i in $(CFFILES); do \
 diff -aruN old/servers/slapd/Makefile.in new/servers/slapd/Makefile.in
---- old/servers/slapd/Makefile.in	2022-01-19 18:32:34.000000000 +0000
-+++ new/servers/slapd/Makefile.in	2022-02-14 22:28:35.855422895 +0000
+--- old/servers/slapd/Makefile.in	2022-05-04 15:55:23.000000000 +0100
++++ new/servers/slapd/Makefile.in	2022-05-09 18:47:50.488581503 +0100
 @@ -374,9 +374,10 @@
  
  install-slapd: FORCE
@@ -126,8 +104,8 @@ diff -aruN old/servers/slapd/Makefile.in new/servers/slapd/Makefile.in
  	done
  
 diff -aruN old/servers/slapd/slapd.conf new/servers/slapd/slapd.conf
---- old/servers/slapd/slapd.conf	2022-01-19 18:32:34.000000000 +0000
-+++ new/servers/slapd/slapd.conf	2022-02-14 22:28:35.855422895 +0000
+--- old/servers/slapd/slapd.conf	2022-05-04 15:55:23.000000000 +0100
++++ new/servers/slapd/slapd.conf	2022-05-09 18:47:50.488581503 +0100
 @@ -10,8 +10,9 @@
  # service AND an understanding of referrals.
  #referral	ldap://root.openldap.org
@@ -150,8 +128,8 @@ diff -aruN old/servers/slapd/slapd.conf new/servers/slapd/slapd.conf
  index	objectClass	eq
  
 diff -aruN old/servers/slapd/slapd.ldif new/servers/slapd/slapd.ldif
---- old/servers/slapd/slapd.ldif	2022-01-19 18:32:34.000000000 +0000
-+++ new/servers/slapd/slapd.ldif	2022-02-14 22:28:35.855422895 +0000
+--- old/servers/slapd/slapd.ldif	2022-05-04 15:55:23.000000000 +0100
++++ new/servers/slapd/slapd.ldif	2022-05-09 18:47:50.488581503 +0100
 @@ -9,8 +9,8 @@
  #
  # Define global ACLs to disable default read access.
@@ -173,8 +151,8 @@ diff -aruN old/servers/slapd/slapd.ldif new/servers/slapd/slapd.ldif
  olcDbIndex: objectClass eq
  
 diff -aruN old/servers/slapd/slapi/Makefile.in new/servers/slapd/slapi/Makefile.in
---- old/servers/slapd/slapi/Makefile.in	2022-01-19 18:32:34.000000000 +0000
-+++ new/servers/slapd/slapi/Makefile.in	2022-02-14 22:28:35.855422895 +0000
+--- old/servers/slapd/slapi/Makefile.in	2022-05-04 15:55:23.000000000 +0100
++++ new/servers/slapd/slapi/Makefile.in	2022-05-09 18:47:50.488581503 +0100
 @@ -46,6 +46,6 @@
  install-local: FORCE
  	if test "$(BUILD_MOD)" = "yes"; then \

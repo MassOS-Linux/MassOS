@@ -1,11 +1,14 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
-# Current Development:
+
+# Current Development
 Changes:
 
+- MassOS has now switched to PipeWire as the primary sound server, with PulseAudio compatibility.
 - Fixed missing `lspci` program since pciutils 3.8.0.
 - Went back to Mousepad as the default text editor, since Gedit has major integration issues with Xfce.
 - Neofetch is now installed correctly as a package.
+- Added Popsicle, a small USB image writing program.
 - Added SGMLSpm (small Perl module) and fix man page generation of some packages.
 - Added gstreamer-vaapi, a GStreamer plugin for hardware-accelerated video encoding/decoding.
 - Added run-parts and fixed periodic cron jobs.
@@ -17,6 +20,7 @@ Upgraded software:
 - FreeType: `2.12.0 --> 2.12.1`
 - FUSE3: `3.10.5 --> 3.11.0`
 - GCC: `11.3.0 --> 12.1.0`
+- Git: `2.36.0 --> 2.36.1`
 - GLibmm: `2.66.2 --> 2.66.4`
 - gst-libav: `1.20.1 --> 1.20.2`
 - gst-plugins-bad: `1.20.1 --> 1.20.2`
@@ -32,15 +36,19 @@ Upgraded software:
 - libX11: `1.7.5 --> 1.8`
 - libxcb: `1.14 --> 1.15`
 - libxml2: `2.9.13 --> 2.9.14`
+- Linux Kernel: `5.17.5 --> 5.17.6`
 - lsof: `4.94.0 --> 4.95.0`
 - Mesa: `22.0.2 --> 22.0.3`
+- OpenLDAP: `2.6.1 --> 2.6.2`
 - OpenSSL: `3.0.2 --> 3.0.3`
 - Poppler: `22.03.0 --> 22.05.0`
+- PSmisc: `23.4 --> 23.5`
 - smbclient: `4.16.0 --> 4.16.1`
-- SQLite: `3.38.3 --> 3.38.4`
+- SQLite: `3.38.3 --> 3.38.5`
 - systemd: `251-rc1 --> 251-rc2`
 - thunar-archive-plugin: `0.4.0 --> 0.5.0`
 - Thunderbird: `91.8.1 --> 91.9.0`
+- Vim: `8.2.4826 --> 8.2.4926`
 - Vulkan-Headers: `1.3.211 --> 1.3.212`
 - Vulkan-Loader: `1.3.211 --> 1.3.212`
 - xcb-proto: `1.14.1 --> 1.15`
