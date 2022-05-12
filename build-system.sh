@@ -7074,6 +7074,7 @@ install -t /usr/lib/modules/$KVER-massos/extramodules -Dm644 kernel-open/*.ko
 strip --strip-debug /usr/lib/modules/$KVER-massos/extramodules/*.ko
 for i in /usr/lib/modules/$KVER-massos/extramodules/*.ko; do xz "$i"; done
 echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/nvidia.conf
+depmod $KVER-massos
 install -t /usr/share/licenses/nvidia-open-kernel-modules -Dm644 COPYING
 cd ..
 rm -rf cd open-gpu-kernel-modules-515.43.04
