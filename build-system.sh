@@ -1789,9 +1789,9 @@ cd asciidoc-10.1.4
 python setup.py install --optimize=1
 cd ..
 rm -rf asciidoc-10.1.4
-# GNU-EFI.
-tar -xf gnu-efi-3.0.13.tar.bz2
-cd gnu-efi-3.0.13
+# gnu-efi.
+tar -xf gnu-efi-3.0.14.tar.bz2
+cd gnu-efi-3.0.14
 make
 make -C lib
 make -C gnuefi
@@ -1801,7 +1801,7 @@ make PREFIX=/usr install
 install -Dm644 apps/*.efi -t /usr/share/gnu-efi/apps/x86_64
 install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
-rm -rf gnu-efi-3.0.13
+rm -rf gnu-efi-3.0.14
 # hwdata.
 tar -xf hwdata-0.359.tar.gz
 cd hwdata-0.359
@@ -2191,14 +2191,14 @@ install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
 rm -rf nghttp2-1.47.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
-tar -xf curl-7.83.0.tar.xz
-cd curl-7.83.0
+tar -xf curl-7.83.1.tar.xz
+cd curl-7.83.1
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
-rm -rf curl-7.83.0
+rm -rf curl-7.83.1
 # jsoncpp.
 tar -xf jsoncpp-1.9.5.tar.gz
 cd jsoncpp-1.9.5
@@ -2560,13 +2560,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 cd ..
 rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
-tar -xf curl-7.83.0.tar.xz
-cd curl-7.83.0
+tar -xf curl-7.83.1.tar.xz
+cd curl-7.83.1
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.83.0
+rm -rf curl-7.83.1
 # OpenVPN.
 tar -xf openvpn-2.5.6.tar.gz
 cd openvpn-2.5.6
@@ -4390,16 +4390,15 @@ install -t /usr/share/licenses/lcms2 -Dm644 COPYING
 cd ..
 rm -rf lcms2-2.13.1
 # JasPer.
-tar -xf jasper-2.0.33.tar.gz
-cd jasper-version-2.0.33
-sed -i '/GLUT_glut_LIBRARY/s/^/#/' build/cmake/modules/JasOpenGL.cmake
+tar -xf jasper-version-3.0.3.tar.gz
+cd jasper-version-3.0.3
 mkdir jasper-build; cd jasper-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -DJAS_ENABLE_AUTOMATIC_DEPENDENCIES=OFF -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
-install -t /usr/share/licenses/jasper -Dm644 ../LICENSE
+install -t /usr/share/licenses/jasper -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf jasper-version-2.0.33
+rm -rf jasper-version-3.0.3
 # ATK.
 tar -xf atk-2.38.0.tar.xz
 cd atk-2.38.0
@@ -5783,15 +5782,15 @@ install -t /usr/share/licenses/appstream-glib -Dm644 ../COPYING
 cd ../..
 rm -rf appstream-glib-appstream_glib_0_7_18
 # Bubblewrap.
-tar -xf bubblewrap-0.6.1.tar.xz
-cd bubblewrap-0.6.1
+tar -xf bubblewrap-0.6.2.tar.xz
+cd bubblewrap-0.6.2
 mkdir bwrap-build; cd bwrap-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
 cd ../..
-rm -rf bubblewrap-0.6.1
+rm -rf bubblewrap-0.6.2
 # xdg-dbus-proxy.
 tar -xf xdg-dbus-proxy-0.1.2.tar.xz
 cd xdg-dbus-proxy-0.1.2
@@ -6251,8 +6250,8 @@ rm -rf gstreamer-vaapi-1.20.2
 # PipeWire + WirePlumber.
 tar -xf pipewire-0.3.51.tar.gz
 cd pipewire-0.3.51
-tar -xf ../wireplumber-0.4.9.tar.gz -C subprojects
-mv subprojects/wireplumber{-0.4.9,}
+tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects
+mv subprojects/wireplumber{-0.4.10,}
 sed -i '5 s/false/true/' subprojects/wireplumber/meson_options.txt
 mkdir pipewire-build; cd pipewire-build
 meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber ..
@@ -7028,7 +7027,7 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-KVER=5.17.6
+KVER=5.17.7
 tar -xf linux-$KVER.tar.xz
 cd linux-$KVER
 cp ../kernel-config .config
