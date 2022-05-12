@@ -1,4 +1,5 @@
-These backgrounds are created by IKGissmart <https://github.com/IKGissmart>.
+With the exception of the "MassOS-Furturistic" backgrounds, the backgrounds are
+created by IKGissmart <https://github.com/IKGissmart>.
 
 You can download more backgrounds created by IKGissmart from this repository:
 <https://github.com/IKGissmart/MassOS-Additional-Wallpapers>.

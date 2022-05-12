@@ -6,6 +6,7 @@ Changes:
 
 - MassOS has now switched to PipeWire as the primary sound server, with PulseAudio compatibility.
 - Added NVIDIA Open (i.e. free/libre) kernel modules for improved NVIDIA GPU support.
+- Finally updated the default wallpaper.
 - Fixed missing `lspci` program since pciutils 3.8.0.
 - Went back to Mousepad as the default text editor, since Gedit has major integration issues with Xfce.
 - Neofetch is now installed correctly as a package.

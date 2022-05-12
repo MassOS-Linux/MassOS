@@ -3226,7 +3226,7 @@ GRUB_GFXPAYLOAD_LINUX="keep"
 #GRUB_COLOR_HIGHLIGHT="light-cyan/blue"
 
 # Uncomment one of them for the gfx desired, a image background or a gfxtheme
-GRUB_BACKGROUND="/usr/share/backgrounds/xfce/MassOS-Contemporary.png"
+GRUB_BACKGROUND="/usr/share/backgrounds/xfce/MassOS-Futuristic-Dark.png"
 #GRUB_THEME="/path/to/theme"
 
 # Uncomment to get a beep at GRUB start
@@ -6857,7 +6857,7 @@ cd lightdm-gtk-greeter-2.0.8
 ./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode
 make
 make install
-sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Contemporary.png/' /etc/lightdm/lightdm-gtk-greeter.conf
+sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Futuristic-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
 install -t /usr/share/licenses/lightdm-gtk-greeter -Dm644 COPYING
 systemctl enable lightdm
 cd ..
@@ -7084,7 +7084,7 @@ install -m755 massos-release /usr/bin/massos-release
 # MassOS Backgrounds.
 install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
 mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
-ln -s MassOS-Contemporary.png /usr/share/backgrounds/xfce/xfce-verticals.png
+ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png massos-logo-sidetext.png
 for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
@@ -7161,6 +7161,10 @@ test ! -e /etc/profile.d/flatpak.sh.new || mv /etc/profile.d/flatpak.sh{.new,}
 ! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt
 # Now using PipeWire instead of PulseAudio.
 grep -q "autospawn = no" /etc/pulse/client.conf || echo "autospawn = no" >> /etc/pulse/client.conf
+# New default wallpaper for MassOS 2022.06+.
+if [ "$(readlink /usr/share/backgrounds/xfce/xfce-verticals.png)" = "MassOS-Contemporary.png" ]; then
+  ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
+done
 END
 # Clean sources directory and self destruct.
 cd ..
