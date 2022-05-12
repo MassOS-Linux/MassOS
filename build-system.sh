@@ -7066,6 +7066,17 @@ ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
 rm -rf linux-$KVER
+# NVIDIA Open kernel modules.
+tar -xf open-gpu-kernel-modules-515.43.04.tar.gz
+cd open-gpu-kernel-modules-515.43.04
+make SYSSRC=/usr/src/linux
+install -t /usr/lib/modules/$KVER-massos/extramodules -Dm644 kernel-open/*.ko
+strip --strip-debug /usr/lib/modules/$KVER-massos/extramodules/*.ko
+for i in /usr/lib/modules/$KVER-massos/extramodules/*.ko; do xz "$i"; done
+echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/nvidia.conf
+install -t /usr/share/licenses/nvidia-open-kernel-modules -Dm644 COPYING
+cd ..
+rm -rf cd open-gpu-kernel-modules-515.43.04
 unset KVER
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
