@@ -4745,6 +4745,15 @@ ninja install
 install -t /usr/share/licenses/pygobject -Dm644 ../COPYING
 cd ../..
 rm -rf pygobject-3.42.1
+# D-Bus Python.
+tar -xf dbus-python-1.2.18.tar.gz
+cd dbus-python-1.2.18
+PYTHON=/usr/bin/python3 ./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/dbus-python -Dm644 COPYING
+cd ..
+rm -rf dbus-python-1.2.18
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5577,15 +5586,6 @@ make install
 install -t /usr/share/licenses/newt -Dm644 COPYING
 cd ..
 rm -rf newt-0.52.21
-# D-Bus Python.
-tar -xf dbus-python-1.2.18.tar.gz
-cd dbus-python-1.2.18
-PYTHON=/usr/bin/python3 ./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/dbus-python -Dm644 COPYING
-cd ..
-rm -rf dbus-python-1.2.18
 # UPower.
 tar -xf upower-v0.99.17.tar.bz2
 cd upower-v0.99.17
