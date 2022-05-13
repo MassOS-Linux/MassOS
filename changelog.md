@@ -11,9 +11,9 @@ Changes:
 - Went back to Mousepad as the default text editor, since Gedit has major integration issues with Xfce.
 - Neofetch is now installed correctly as a package.
 - Added Popsicle, a small USB image writing program.
-- Added SGMLSpm (small Perl module) and fix man page generation of some packages.
-- Added gstreamer-vaapi, a GStreamer plugin for hardware-accelerated video encoding/decoding.
-- Added run-parts and fixed periodic cron jobs.
+- Added SGMLSpm (small Perl module) to fix man page generation of some packages.
+- Added patchelf, a useful small utility for some programs and for distributing binaries.
+- Added run-parts to fix periodic cron jobs.
 
 Upgraded software:
 

@@ -439,6 +439,7 @@ parole
 parse-yapp
 parted
 patch
+patchelf
 pavucontrol
 pciutils
 pcre

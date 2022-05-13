@@ -822,6 +822,15 @@ rm -f /usr/lib/lib{asm,dw,elf}.a
 install -t /usr/share/licenses/elfutils -Dm644 COPYING COPYING-GPLV2 COPYING-LGPLV3
 cd ..
 rm -rf elfutils-0.187
+# patchelf.
+tar -xf patchelf-0.14.5.tar.bz2
+cd patchelf-0.14.5
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/patchelf -Dm644 COPYING
+cd ..
+rm -rf patchelf-0.14.5
 # libffi.
 tar -xf libffi-3.4.2.tar.gz
 cd libffi-3.4.2
