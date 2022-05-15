@@ -115,7 +115,7 @@ https://archive-4.kali.org/kali/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.41.tar.gz
 https://mirror.lyrahosting.com/gnu/findutils/findutils-4.9.0.tar.xz
 https://archive.mozilla.org/pub/firefox/releases/91.9.0esr/source/firefox-91.9.0esr.source.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/100.0/linux-x86_64/en-US/firefox-100.0.tar.bz2
+https://archive.mozilla.org/pub/firefox/releases/100.0.1/linux-x86_64/en-US/firefox-100.0.1.tar.bz2
 https://downloads.xiph.org/releases/flac/flac-1.3.4.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.13.2/flatpak-1.13.2.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
@@ -153,7 +153,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gnome-software/41/gnome-software-41.5.t
 https://archive.massos.org/sources/gnu-efi-3.0.14.tar.bz2
 https://archive.massos.org/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.6.tar.bz2
-https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.4.tar.xz
+https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.5.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz
 https://gitlab.gnome.org/GNOME/gparted/-/archive/GPARTED_1_4_0/gparted-GPARTED_1_4_0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.1.tar.gz
@@ -200,7 +200,7 @@ https://mirror.lyrahosting.com/gnu/inetutils/inetutils-2.2.tar.xz
 https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
 https://archive.massos.org/sources/intltool-0.51.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.17.0.tar.xz
-https://www.netfilter.org/projects/iptables/files/iptables-1.8.7.tar.bz2
+https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2
 https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.9.0.orig.tar.xz
 https://archive.massos.org/sources/itstool-2.0.7.tar.bz2
 https://github.com/jackaudio/jack2/archive/v1.9.21/jack2-1.9.21.tar.gz
@@ -222,7 +222,7 @@ https://github.com/EHfive/ldacBT/releases/download/v2.0.2.3/ldacBT-2.0.2.3.tar.g
 https://www.greenwoodsoftware.com/less/less-600.tar.gz
 https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
 https://github.com/libarchive/libarchive/releases/download/v3.6.1/libarchive-3.6.1.tar.xz
-https://github.com/libass/libass/releases/download/0.15.2/libass-0.15.2.tar.xz
+https://github.com/libass/libass/releases/download/0.16.0/libass-0.16.0.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-2.5.5.tar.bz2
 https://archive-4.kali.org/kali/pool/main/liba/libatasmart/libatasmart_0.19.orig.tar.xz
 http://mirror.lyrahosting.com/gentoo/distfiles/libavc1394-0.5.4.tar.gz
@@ -298,7 +298,7 @@ https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.6.tar.xz
 https://www.libraw.org/data/LibRaw-0.20.2.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libraw1394-2.1.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.54/librsvg-2.54.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.54/librsvg-2.54.3.tar.xz
 https://github.com/libsndfile/libsamplerate/releases/download/0.2.2/libsamplerate-0.2.2.tar.xz
 https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.4/libseccomp-2.5.4.tar.gz
@@ -404,11 +404,12 @@ https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
 https://archive.mesa3d.org/mesa-22.0.3.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.62.1/meson-0.62.1.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
-https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/archive/20220315/mobile-broadband-provider-info-20220315.tar.bz2
+https://gitlab.gnome.org/GNOME/mobile-broadband-provider-info/-/archive/20220511/mobile-broadband-provider-info-20220511.tar.bz2
 https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.8.tar.xz
 https://deb.debian.org/debian/pool/main/m/moreutils/moreutils_0.67.orig.tar.gz
 https://archive.fr.xfce.org/src/apps/mousepad/0.5/mousepad-0.5.9.tar.bz2
 https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
+https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz
 https://mirror.lyrahosting.com/gnu/mpfr/mpfr-4.1.0.tar.xz
 https://mpg123.org/download/mpg123-1.29.3.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
@@ -423,7 +424,7 @@ https://archive.massos.org/sources/net-snmp-5.9.1.tar.xz
 https://archive.massos.org/sources/netcat-0.7.1.tar.xz
 https://mirror.lyrahosting.com/gnu/nettle/nettle-3.7.3.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.26/network-manager-applet-1.26.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.36/NetworkManager-1.36.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.38/NetworkManager-1.38.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager-openvpn/1.8/NetworkManager-openvpn-1.8.18.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.xz
@@ -437,7 +438,7 @@ https://github.com/NVIDIA/open-gpu-kernel-modules/archive/515.43.04/open-gpu-ker
 https://github.com/kcat/openal-soft/archive/1.21.1/openal-soft-1.21.1.tar.gz
 https://github.com/cisco/openh264/archive/v2.1.1/openh264-2.1.1.tar.gz
 https://archive.massos.org/sources/openjade-1.3.2.tar.gz
-https://github.com/uclouvain/openjpeg/archive/v2.4.0/openjpeg-2.4.0.tar.gz
+https://github.com/uclouvain/openjpeg/archive/v2.5.0/openjpeg-2.5.0.tar.gz
 https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.2.tgz
 https://archive.massos.org/sources/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-9.0p1.tar.gz
@@ -539,7 +540,7 @@ https://www.freedesktop.org/software/startup-notification/releases/startup-notif
 https://www.sudo.ws/sudo/dist/sudo-1.9.10.tar.gz
 https://archive.massos.org/sources/swig-4.0.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/sysprof/3.44/sysprof-3.44.0.tar.xz
-https://github.com/systemd/systemd/archive/v251-rc2/systemd-251-rc2.tar.gz
+https://github.com/systemd/systemd/archive/v251-rc3/systemd-251-rc3.tar.gz
 https://taglib.github.io/releases/taglib-1.12.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.34.tar.xz
 https://archive.massos.org/sources/tcl8.6.12-src.tar.gz
@@ -575,8 +576,8 @@ https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/Netflix/vmaf/archive/v2.3.0/vmaf-2.3.0.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.68.0/vte-0.68.0.tar.bz2
-https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.3.212/Vulkan-Headers-1.3.212.tar.gz
-https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.3.212/Vulkan-Loader-1.3.212.tar.gz
+https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.3.213/Vulkan-Headers-1.3.213.tar.gz
+https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.3.213/Vulkan-Loader-1.3.213.tar.gz
 https://wayland.freedesktop.org/releases/wayland-1.20.0.tar.xz
 https://wayland.freedesktop.org/releases/wayland-protocols-1.25.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.34.6.tar.xz
@@ -605,7 +606,7 @@ https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.1.tar.bz2
 https://www.x.org/archive/individual/app/xcmsdb-1.0.5.tar.bz2
 https://www.x.org/archive/individual/data/xcursor-themes-1.0.6.tar.bz2
 https://www.x.org/archive/individual/app/xcursorgen-1.0.7.tar.bz2
-https://github.com/flatpak/xdg-dbus-proxy/releases/download/0.1.2/xdg-dbus-proxy-0.1.2.tar.xz
+https://github.com/flatpak/xdg-dbus-proxy/releases/download/0.1.4/xdg-dbus-proxy-0.1.4.tar.xz
 https://github.com/flatpak/xdg-desktop-portal/releases/download/1.14.4/xdg-desktop-portal-1.14.4.tar.xz
 https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/1.14.0/xdg-desktop-portal-gtk-1.14.0.tar.xz
 https://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.17.tar.gz
@@ -636,7 +637,7 @@ https://archive.fr.xfce.org/src/apps/xfce4-screenshooter/1.9/xfce4-screenshooter
 https://archive.fr.xfce.org/src/xfce/xfce4-session/4.16/xfce4-session-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfce4-settings/4.16/xfce4-settings-4.16.2.tar.bz2
 https://archive.fr.xfce.org/src/apps/xfce4-taskmanager/1.5/xfce4-taskmanager-1.5.2.tar.bz2
-https://archive.fr.xfce.org/src/apps/xfce4-terminal/1.0/xfce4-terminal-1.0.2.tar.bz2
+https://archive.fr.xfce.org/src/apps/xfce4-terminal/1.0/xfce4-terminal-1.0.3.tar.bz2
 https://archive.fr.xfce.org/src/panel-plugins/xfce4-whiskermenu-plugin/2.6/xfce4-whiskermenu-plugin-2.6.1.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfconf/4.16/xfconf-4.16.0.tar.bz2
 https://archive.fr.xfce.org/src/xfce/xfdesktop/4.16/xfdesktop-4.16.0.tar.bz2

@@ -862,6 +862,16 @@ install -m644 x509-types/* /etc/easy-rsa/x509-types/
 install -t /usr/share/licenses/easy-rsa -Dm644 COPYING.md gpl-2.0.txt
 cd ..
 rm -rf EasyRSA-3.0.8
+# mpdecimal.
+tar -xf mpdecimal-2.5.1.tar.gz
+cd mpdecimal-2.5.1
+./configure --prefix=/usr
+make
+make install
+rm -f /usr/lib/libmpdec{,++}.a
+install -t /usr/share/licenses/mpdecimal -Dm644 LICENSE.txt
+cd ..
+rm -rf mpdecimal-2.5.1
 # kmod.
 tar -xf kmod-29.tar.xz
 cd kmod-29
@@ -876,7 +886,7 @@ rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
 tar -xf Python-3.10.4.tar.xz
 cd Python-3.10.4
-./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
+./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
 make
 make install
 ln -sf python3 /usr/bin/python
@@ -1076,14 +1086,16 @@ install -t /usr/share/licenses/cyrus-sasl -Dm644 COPYING
 cd ..
 rm -rf cyrus-sasl-2.1.28
 # iptables.
-tar -xf iptables-1.8.7.tar.bz2
-cd iptables-1.8.7
+tar -xf iptables-1.8.8.tar.bz2
+cd iptables-1.8.8
+rm -f include/linux/types.h
+ln -sfr libiptc/linux_list.h include/libiptc
 ./configure --prefix=/usr --disable-nftables --enable-libipq
 make
 make install
 install -t /usr/share/licenses/iptables -Dm644 COPYING
 cd ..
-rm -rf iptables-1.8.7
+rm -rf iptables-1.8.8
 # IPRoute2.
 tar -xf iproute2-5.17.0.tar.xz
 cd iproute2-5.17.0
@@ -1448,7 +1460,7 @@ rm -rf sgml-common-0.6.3
 # Docbook 3.1 DTD.
 mkdir docbk31
 cd docbk31
-unzip ../docbk31.zip
+unzip -q ../docbk31.zip
 sed -i -e '/ISO 8879/d' -e 's|DTDDECL "-//OASIS//DTD DocBook V3.1//EN"|SGMLDECL|g' docbook.cat
 install -dm755 /usr/share/sgml/docbook/sgml-dtd-3.1
 chown -R root:root .
@@ -1468,7 +1480,7 @@ rm -rf docbk31
 # Docbook 4.5 DTD.
 mkdir docbook-4.5
 cd docbook-4.5
-unzip ../docbook-4.5.zip
+unzip -q ../docbook-4.5.zip
 sed -i -e '/ISO 8879/d' -e '/gml/d' docbook.cat
 install -d /usr/share/sgml/docbook/sgml-dtd-4.5
 chown -R root:root .
@@ -1514,7 +1526,7 @@ rm -rf libarchive-3.6.1
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 cd docbook-xml-4.5
-unzip ../docbook-xml-4.5.zip
+unzip -q ../docbook-xml-4.5.zip
 install -dm755 /usr/share/xml/docbook/xml-dtd-4.5
 install -dm755 /etc/xml
 chown -R root:root .
@@ -1667,7 +1679,7 @@ install -t /usr/share/licenses/docbook-utils -Dm644 COPYING
 cd ..
 rm -rf docbook-utils-0.6.14
 # Docbook XML 5.0.
-unzip docbook-5.0.zip
+unzip -q docbook-5.0.zip
 cd docbook-5.0
 install -dm755 /usr/share/xml/docbook/schema/{dtd,rng,sch,xsd}/5.0
 install -m644  dtd/* /usr/share/xml/docbook/schema/dtd/5.0
@@ -1735,7 +1747,7 @@ rm -rf docbook-5.0
 # Docbook XML 5.1.
 mkdir docbook-5.1
 cd docbook-5.1
-unzip ../docbook-v5.1-os.zip
+unzip -q ../docbook-v5.1-os.zip
 install -dm755 /usr/share/xml/docbook/schema/{rng,sch}/5.1
 install -m644 schemas/rng/* /usr/share/xml/docbook/schema/rng/5.1
 install -m644 schemas/sch/* /usr/share/xml/docbook/schema/sch/5.1
@@ -1819,11 +1831,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
 rm -rf hwdata-0.359
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-251-rc2.tar.gz
-cd systemd-251-rc2
+tar -xf systemd-251-rc3.tar.gz
+cd systemd-251-rc3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc2-massos -Dshared-lib-tag=251-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc3-massos -Dshared-lib-tag=251-rc3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1848,7 +1860,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-251-rc2
+rm -rf systemd-251-rc3
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -2499,14 +2511,14 @@ install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv
 cd ..
 rm -rf nettle-3.7.3
 # GNUTLS.
-tar -xf gnutls-3.7.4.tar.xz
-cd gnutls-3.7.4
-./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:"
+tar -xf gnutls-3.7.5.tar.xz
+cd gnutls-3.7.5
+./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:" --enable-openssl-compatibility --enable-ssl3-support
 make
 make install
 install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
-rm -rf gnutls-3.7.4
+rm -rf gnutls-3.7.5
 # OpenLDAP.
 tar -xf openldap-2.6.2.tgz
 cd openldap-2.6.2
@@ -3869,25 +3881,25 @@ install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/exte
 cd ../..
 rm -rf glslang-11.9.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.212.tar.gz
-cd Vulkan-Headers-1.3.212
+tar -xf Vulkan-Headers-1.3.213.tar.gz
+cd Vulkan-Headers-1.3.213
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.212
+rm -rf Vulkan-Headers-1.3.213
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.212.tar.gz
-cd Vulkan-Loader-1.3.212
+tar -xf Vulkan-Loader-1.3.213.tar.gz
+cd Vulkan-Loader-1.3.213
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.212
+rm -rf Vulkan-Loader-1.3.213
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4004,11 +4016,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.0
 # Systemd (rebuild to support more features).
-tar -xf systemd-251-rc2.tar.gz
-cd systemd-251-rc2
+tar -xf systemd-251-rc3.tar.gz
+cd systemd-251-rc3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc2-massos -Dshared-lib-tag=251-rc2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc3-massos -Dshared-lib-tag=251-rc3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4024,7 +4036,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-251-rc2
+rm -rf systemd-251-rc3
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4587,15 +4599,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.54.1.tar.xz
-cd librsvg-2.54.1
+tar -xf librsvg-2.54.3.tar.xz
+cd librsvg-2.54.3
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.54.1
+rm -rf librsvg-2.54.3
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -5121,8 +5133,8 @@ install -t /usr/share/licenses/libwpe -Dm644 ../COPYING
 cd ../..
 rm -rf libwpe-1.12.0
 # OpenJPEG.
-tar -xf openjpeg-2.4.0.tar.gz
-cd openjpeg-2.4.0
+tar -xf openjpeg-2.5.0.tar.gz
+cd openjpeg-2.5.0
 mkdir ojpg-build; cd ojpg-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja ..
 ninja
@@ -5131,7 +5143,7 @@ cd ../doc
 for man in man/man?/*; do install -v -D -m 644 $man /usr/share/$man; done
 install -t /usr/share/licenses/openjpeg -Dm644 ../LICENSE
 cd ../..
-rm -rf openjpeg-2.4.0
+rm -rf openjpeg-2.5.0
 # libsecret.
 tar -xf libsecret-0.20.5.tar.xz
 cd libsecret-0.20.5
@@ -5365,7 +5377,7 @@ rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
 tar -xf Python-3.10.4.tar.xz
 cd Python-3.10.4
-./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-ensurepip=yes --enable-optimizations
+./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
@@ -5557,14 +5569,14 @@ install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarificatio
 cd ..
 rm -rf samba-4.16.1
 # mobile-broadband-provider-info.
-tar -xf mobile-broadband-provider-info-20220315.tar.bz2
-cd mobile-broadband-provider-info-20220315
+tar -xf mobile-broadband-provider-info-20220511.tar.bz2
+cd mobile-broadband-provider-info-20220511
 ./autogen.sh --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/mobile-broadband-provider-info -Dm644 COPYING
 cd ..
-rm -rf mobile-broadband-provider-info-20220315
+rm -rf mobile-broadband-provider-info-20220511
 # ModemManager.
 tar -xf ModemManager-1.18.8.tar.xz
 cd ModemManager-1.18.8
@@ -5606,8 +5618,8 @@ systemctl enable upower
 cd ../..
 rm -rf upower-v0.99.17
 # NetworkManager.
-tar -xf NetworkManager-1.36.4.tar.xz
-cd NetworkManager-1.36.4
+tar -xf NetworkManager-1.38.0.tar.xz
+cd NetworkManager-1.38.0
 mkdir nm-build; cd nm-build
 meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
 ninja
@@ -5638,7 +5650,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.36.4
+rm -rf NetworkManager-1.38.0
 # libnma.
 tar -xf libnma-1.8.38.tar.xz
 cd libnma-1.8.38
@@ -5801,14 +5813,15 @@ install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
 cd ../..
 rm -rf bubblewrap-0.6.2
 # xdg-dbus-proxy.
-tar -xf xdg-dbus-proxy-0.1.2.tar.xz
-cd xdg-dbus-proxy-0.1.2
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 COPYING
-cd ..
-rm -rf xdg-dbus-proxy-0.1.2
+tar -xf xdg-dbus-proxy-0.1.4.tar.xz
+cd xdg-dbus-proxy-0.1.4
+mkdir xdp-build; cd xdp-build
+meson --prefix=/usr --buildtype=release ..
+ninja
+ninja install
+install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 ../COPYING
+cd ../..
+rm -rf xdg-dbus-proxy-0.1.4
 # Flatpak.
 tar -xf flatpak-1.13.2.tar.xz
 cd flatpak-1.13.2
@@ -5910,14 +5923,14 @@ install -t /usr/share/licenses/wpebackend-fdo -Dm644 ../COPYING
 cd ../..
 rm -rf wpebackend-fdo-1.12.0
 # libass.
-tar -xf libass-0.15.2.tar.xz
-cd libass-0.15.2
+tar -xf libass-0.16.0.tar.xz
+cd libass-0.16.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libass -Dm644 COPYING
 cd ..
-rm -rf libass-0.15.2
+rm -rf libass-0.16.0
 # OpenH264.
 tar -xf openh264-2.1.1.tar.gz
 cd openh264-2.1.1
@@ -6545,14 +6558,14 @@ install -t /usr/share/licenses/xfburn -Dm644 COPYING
 cd ..
 rm -rf xfburn-0.6.2
 # xfce4-terminal.
-tar -xf xfce4-terminal-1.0.2.tar.bz2
-cd xfce4-terminal-1.0.2
+tar -xf xfce4-terminal-1.0.3.tar.bz2
+cd xfce4-terminal-1.0.3
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
-rm -rf xfce4-terminal-1.0.2
+rm -rf xfce4-terminal-1.0.3
 # Shotwell.
 tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
 cd shotwell-0.31.3-133-gd55abab2
@@ -6966,7 +6979,7 @@ install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
 # Firefox.
-tar --no-same-owner -xf firefox-100.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-100.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

@@ -5,6 +5,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - MassOS has now switched to PipeWire as the primary sound server, with PulseAudio compatibility.
+- Switched to GRUB (instead of Limine) for UEFI on the MassOS Live CD. Fixes multiple booting issues.
 - Added NVIDIA Open (i.e. free/libre) kernel modules for improved NVIDIA GPU support.
 - Finally updated the default wallpaper.
 - Fixed missing `lspci` program since pciutils 3.8.0.
@@ -20,7 +21,7 @@ Upgraded software:
 - bc: `5.2.4 --> 5.2.5`
 - Bubblewrap: `0.6.1 --> 0.6.2`
 - curl: `7.83.0 --> 7.83.1`
-- Firefox: `99.0.1 --> 100.0`
+- Firefox: `99.0.1 --> 100.0.1`
 - FreeType: `2.12.0 --> 2.12.1`
 - FUSE3: `3.10.5 --> 3.11.0`
 - GCC: `11.3.0 --> 12.1.0`
@@ -35,30 +36,37 @@ Upgraded software:
 - GStreamer: `1.20.1 --> 1.20.2`
 - Gtkmm3: `3.24.5 --> 3.24.6`
 - hwdata: `0.358 --> 0.359`
+- iptables: `1.8.7 --> 1.8.8`
 - JasPer: `2.0.33 --> 3.0.3`
 - JS91: `91.8.0 --> 91.9.0`
+- libass: `0.15.2 --> 0.16.0`
 - libnotify: `0.7.11 --> 0.7.12`
 - libostree: `2022.2 --> 2022.3`
+- librsvg: `2.54.1 --> 2.54.3`
 - libX11: `1.7.5 --> 1.8`
 - libxcb: `1.14 --> 1.15`
 - libxml2: `2.9.13 --> 2.9.14`
 - Linux Kernel: `5.17.5 --> 5.17.7`
 - lsof: `4.94.0 --> 4.95.0`
 - Mesa: `22.0.2 --> 22.0.3`
+- NetworkManager: `1.36.4 --> 1.38.0`
+- OpenJPEG: `2.4.0 --> 2.5.0`
 - OpenLDAP: `2.6.1 --> 2.6.2`
 - OpenSSL: `3.0.2 --> 3.0.3`
 - Poppler: `22.03.0 --> 22.05.0`
 - PSmisc: `23.4 --> 23.5`
 - smbclient: `4.16.0 --> 4.16.1`
 - SQLite: `3.38.3 --> 3.38.5`
-- systemd: `251-rc1 --> 251-rc2`
+- systemd: `251-rc1 --> 251-rc3`
 - thunar-archive-plugin: `0.4.0 --> 0.5.0`
 - Thunderbird: `91.8.1 --> 91.9.0`
 - Vim: `8.2.4826 --> 8.2.4926`
-- Vulkan-Headers: `1.3.211 --> 1.3.212`
-- Vulkan-Loader: `1.3.211 --> 1.3.212`
+- Vulkan-Headers: `1.3.211 --> 1.3.213`
+- Vulkan-Loader: `1.3.211 --> 1.3.213`
 - xcb-proto: `1.14.1 --> 1.15`
+- xdg-dbus-proxy: `0.1.2 --> 0.1.4`
 - xdg-desktop-portal: `1.14.3 --> 1.14.4`
+- xfce4-terminal: `1.0.2 --> 1.0.3`
 - xfsprogs: `5.15.0 --> 5.16.0`
 
 # MassOS 2022.05
