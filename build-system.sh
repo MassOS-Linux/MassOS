@@ -7186,6 +7186,8 @@ grep -q "autospawn = no" /etc/pulse/client.conf || echo "autospawn = no" >> /etc
 # New default wallpaper for MassOS 2022.06+.
 if [ "$(readlink /usr/share/backgrounds/xfce/xfce-verticals.png)" = "MassOS-Contemporary.png" ]; then
   ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
+  ! grep -q "MassOS-Contemporary.png" /etc/lightdm/lightdm-gtk-greeter.conf || sed -i 's/Contemporary/Futuristic-Dark/' /etc/lightdm/lightdm-gtk-greeter.conf
+  ! grep -q "MassOS-Contemporary.png" /etc/default/grub || sed -i 's/Contemporary/Futuristic-Dark/' /etc/default/grub
 done
 END
 # Clean sources directory and self destruct.
