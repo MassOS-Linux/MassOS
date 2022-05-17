@@ -4319,6 +4319,87 @@ install -t /usr/share/licenses/tealdeer -Dm644 LICENSE-APACHE LICENSE-MIT
 ln -sf tealdeer /usr/share/licenses/tldr
 cd ..
 rm -rf tealdeer-1.5.0
+# htop.
+tar -xf htop-3.1.2.tar.xz
+cd htop-3.1.2
+./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
+make
+make install
+mv /usr/bin/{,p}top
+mv /usr/share/man/man1/{,p}top.1
+ln -sf htop /usr/bin/top
+ln -sf htop.1 /usr/share/man/man1/top.1
+rm -f /usr/share/applications/htop.desktop
+install -t /usr/share/licenses/htop -Dm644 COPYING
+cd ..
+rm -rf htop-3.1.2
+# bsd-games.
+tar -xf bsd-games-3.1.tar.gz
+cd bsd-games-3.1
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/bsd-games -Dm644 LICENSE
+cd ..
+rm -rf bsd-games-3.1
+# sl.
+tar -xf sl-5.02.tar.gz
+cd sl-5.02
+gcc $CFLAGS sl.c -o sl -s -lncursesw
+install -m755 sl /usr/bin/sl
+install -m644 sl.1 /usr/share/man/man1/sl.1
+install -t /usr/share/licenses/sl -Dm644 LICENSE
+cd ..
+rm -rf sl-5.02
+# cowsay.
+tar -xf cowsay-3.04.tar.gz
+cd rank-amateur-cowsay-cowsay-3.04
+patch -Np1 -i ../patches/cowsay-3.04-prefix.patch
+sed -i 's|/man/|/share/man/|' install.sh
+echo "/usr" | ./install.sh
+rm /usr/share/cows/mech-and-cow
+install -t /usr/share/licenses/cowsay -Dm644 LICENSE
+cd ..
+rm -rf rank-amateur-cowsay-cowsay-3.04
+# figlet.
+tar -xf figlet_2.2.5.orig.tar.gz
+cd figlet-2.2.5
+make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts all
+make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts install
+install -t /usr/share/licenses/figlet -Dm644 LICENSE
+cd ..
+rm -rf figlet-2.2.5
+# CMatrix.
+tar -xf cmatrix-v2.0-Butterscotch.tar
+cd cmatrix
+mkdir cmatrix-build; cd cmatrix-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
+ninja
+ninja install
+cd ..
+install -Dm644 mtx.pcf /usr/share/fonts/misc/mtx.pcf
+install -Dm644 matrix.fnt /usr/share/kbd/consolefonts/matrix.fnt
+install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
+install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
+install -t /usr/share/licenses/cmatrix -Dm644 COPYING
+cd ..
+rm -rf cmatrix
+# vitetris.
+tar -xf vitetris_0.59.1.orig.tar.gz
+cd vitetris-0.59.1
+sed -i 's|#define CONFIG_FILENAME ".vitetris"|#define CONFIG_FILENAME ".config/vitetris"|' src/config2.h
+./configure --prefix=/usr --with-ncurses --without-x
+make
+make gameserver
+make install
+mv /usr/bin/tetris /usr/bin/vitetris
+install -m755 gameserver /usr/bin/vitetris-gameserver
+for i in tetris tetris-gameserver; do ln -sf vi$i /usr/bin/$i; done
+rm -f /usr/share/applications/vitetris.desktop
+rm -f /usr/share/pixmaps/vitetris.xpm
+install -t /usr/share/licenses/vitetris -Dm644 licence.txt
+cd ..
+rm -rf vitetris-0.59.1
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
@@ -6897,87 +6978,6 @@ install -t /usr/share/licenses/plymouth -Dm644 COPYING
 plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
-# htop.
-tar -xf htop-3.1.2.tar.xz
-cd htop-3.1.2
-./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
-make
-make install
-mv /usr/bin/{,p}top
-mv /usr/share/man/man1/{,p}top.1
-ln -sf htop /usr/bin/top
-ln -sf htop.1 /usr/share/man/man1/top.1
-rm -f /usr/share/applications/htop.desktop
-install -t /usr/share/licenses/htop -Dm644 COPYING
-cd ..
-rm -rf htop-3.1.2
-# bsd-games.
-tar -xf bsd-games-3.1.tar.gz
-cd bsd-games-3.1
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/bsd-games -Dm644 LICENSE
-cd ..
-rm -rf bsd-games-3.1
-# sl.
-tar -xf sl-5.02.tar.gz
-cd sl-5.02
-gcc $CFLAGS sl.c -o sl -s -lncursesw
-install -m755 sl /usr/bin/sl
-install -m644 sl.1 /usr/share/man/man1/sl.1
-install -t /usr/share/licenses/sl -Dm644 LICENSE
-cd ..
-rm -rf sl-5.02
-# cowsay.
-tar -xf cowsay-3.04.tar.gz
-cd rank-amateur-cowsay-cowsay-3.04
-patch -Np1 -i ../patches/cowsay-3.04-prefix.patch
-sed -i 's|/man/|/share/man/|' install.sh
-echo "/usr" | ./install.sh
-rm /usr/share/cows/mech-and-cow
-install -t /usr/share/licenses/cowsay -Dm644 LICENSE
-cd ..
-rm -rf rank-amateur-cowsay-cowsay-3.04
-# figlet.
-tar -xf figlet_2.2.5.orig.tar.gz
-cd figlet-2.2.5
-make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts all
-make BINDIR=/usr/bin MANDIR=/usr/share/man DEFAULTFONTDIR=/usr/share/figlet/fonts install
-install -t /usr/share/licenses/figlet -Dm644 LICENSE
-cd ..
-rm -rf figlet-2.2.5
-# CMatrix.
-tar -xf cmatrix-v2.0-Butterscotch.tar
-cd cmatrix
-mkdir cmatrix-build; cd cmatrix-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
-ninja
-ninja install
-cd ..
-install -Dm644 mtx.pcf /usr/share/fonts/misc/mtx.pcf
-install -Dm644 matrix.fnt /usr/share/kbd/consolefonts/matrix.fnt
-install -Dm644 matrix.psf.gz /usr/share/kbd/consolefonts/matrix.psf.gz
-install -Dm644 cmatrix.1 /usr/share/man/man1/cmatrix.1
-install -t /usr/share/licenses/cmatrix -Dm644 COPYING
-cd ..
-rm -rf cmatrix
-# vitetris.
-tar -xf vitetris_0.59.1.orig.tar.gz
-cd vitetris-0.59.1
-sed -i 's|#define CONFIG_FILENAME ".vitetris"|#define CONFIG_FILENAME ".config/vitetris"|' src/config2.h
-./configure --prefix=/usr --with-ncurses --without-x
-make
-make gameserver
-make install
-mv /usr/bin/tetris /usr/bin/vitetris
-install -m755 gameserver /usr/bin/vitetris-gameserver
-for i in tetris tetris-gameserver; do ln -sf vi$i /usr/bin/$i; done
-rm -f /usr/share/applications/vitetris.desktop
-rm -f /usr/share/pixmaps/vitetris.xpm
-install -t /usr/share/licenses/vitetris -Dm644 licence.txt
-cd ..
-rm -rf vitetris-0.59.1
 # Firefox.
 tar --no-same-owner -xf firefox-100.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
