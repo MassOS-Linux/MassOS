@@ -851,9 +851,8 @@ install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
 rm -rf openssl-3.0.3
 # easy-rsa.
-tar -xf EasyRSA-3.0.8.tgz
-cd EasyRSA-3.0.8
-sed -e 's|./easyrsa|easyrsa|' -e 's|$prog_dir|$PWD|' -e 's|"$PWD/pki"|"$EASYRSA/pki"|' -i easyrsa
+tar -xf EasyRSA-v3.0.9.tgz
+cd EasyRSA-v3.0.9
 install -Dm755 easyrsa /usr/bin/easyrsa
 install -Dm644 openssl-easyrsa.cnf /etc/easy-rsa/openssl-easyrsa.cnf
 install -Dm644 vars.example /etc/easy-rsa/vars
@@ -861,7 +860,7 @@ install -dm755 /etc/easy-rsa/x509-types/
 install -m644 x509-types/* /etc/easy-rsa/x509-types/
 install -t /usr/share/licenses/easy-rsa -Dm644 COPYING.md gpl-2.0.txt
 cd ..
-rm -rf EasyRSA-3.0.8
+rm -rf EasyRSA-v3.0.9
 # mpdecimal.
 tar -xf mpdecimal-2.5.1.tar.gz
 cd mpdecimal-2.5.1
@@ -929,6 +928,13 @@ python setup.py install --prefix=/usr --optimize=1
 install -t /usr/share/licenses/pyparsing -Dm644 LICENSE
 cd ..
 rm -rf pyparsing-pyparsing_3.0.7
+# packaging (required by UPower since 0.99.18).
+tar -xf packaging-21.3.tar.gz
+cd packaging-21.3
+python setup.py install --optimize=1
+install -t /usr/share/licenses/packaging -Dm644 LICENSE{,.APACHE,.BSD}
+cd ..
+rm -rf packaging-21.3
 # distro.
 tar -xf distro-1.6.0.tar.gz
 cd distro-1.6.0
@@ -3472,7 +3478,7 @@ tar -xf lolcat-1.2.tar.gz
 cd lolcat-1.2
 make CFLAGS="$CFLAGS"
 install -t /usr/bin -Dm755 censor lolcat
-help2man lolcat > /usr/share/man/man1/lolcat.1
+help2man -N lolcat > /usr/share/man/man1/lolcat.1
 install -t /usr/share/licenses/lolcat -Dm644 LICENSE
 cd ..
 rm -rf lolcat-1.2
@@ -4855,6 +4861,13 @@ make install
 install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
+# python-dbusmock.
+tar -xf python-dbusmock-0.27.5.tar.gz
+cd python-dbusmock-0.27.5
+python setup.py install --optimize=1
+install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
+cd ..
+rm -rf python-dbusmock-0.27.5
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5688,8 +5701,8 @@ install -t /usr/share/licenses/newt -Dm644 COPYING
 cd ..
 rm -rf newt-0.52.21
 # UPower.
-tar -xf upower-v0.99.17.tar.bz2
-cd upower-v0.99.17
+tar -xf upower-v0.99.18.tar.bz2
+cd upower-v0.99.18
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5697,12 +5710,12 @@ ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
-rm -rf upower-v0.99.17
+rm -rf upower-v0.99.18
 # NetworkManager.
 tar -xf NetworkManager-1.38.0.tar.xz
 cd NetworkManager-1.38.0
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd ..
+meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd -Dtests=no ..
 ninja
 ninja install
 cat >> /etc/NetworkManager/NetworkManager.conf << END
@@ -7049,20 +7062,20 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-KVER=5.17.7
-tar -xf linux-$KVER.tar.xz
-cd linux-$KVER
+tar -xf linux-5.17.9.tar.xz
+cd linux-5.17.9
 cp ../kernel-config .config
 make olddefconfig
 make
 make INSTALL_MOD_PATH=/usr INSTALL_MOD_STRIP=1 modules_install
-cp arch/x86/boot/bzImage /boot/vmlinuz-$KVER-massos
-cp arch/x86/boot/bzImage /usr/lib/modules/$KVER-massos/vmlinuz
-cp System.map /boot/System.map-$KVER-massos
-cp .config /boot/config-$KVER-massos
-rm /usr/lib/modules/$KVER-massos/{source,build}
-make -s kernelrelease > version
-builddir=/usr/lib/modules/$KVER-massos/build
+KREL=$(make -s kernelrelease)
+cp arch/x86/boot/bzImage /boot/vmlinuz-$KREL
+cp arch/x86/boot/bzImage /usr/lib/modules/$KREL/vmlinuz
+cp System.map /boot/System.map-$KREL
+cp .config /boot/config-$KREL
+rm /usr/lib/modules/$KREL/{source,build}
+echo $KREL > version
+builddir=/usr/lib/modules/$KREL/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
 install -Dt "$builddir/kernel" -m644 kernel/Makefile
 install -Dt "$builddir/arch/x86" -m644 arch/x86/Makefile
@@ -7086,20 +7099,21 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-$KVER
+rm -rf linux-5.17.9
+unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz
 cd open-gpu-kernel-modules-515.43.04
 make SYSSRC=/usr/src/linux
-install -t /usr/lib/modules/$KVER-massos/extramodules -Dm644 kernel-open/*.ko
-strip --strip-debug /usr/lib/modules/$KVER-massos/extramodules/*.ko
-for i in /usr/lib/modules/$KVER-massos/extramodules/*.ko; do xz "$i"; done
+install -t /usr/lib/modules/$KREL/extramodules -Dm644 kernel-open/*.ko
+strip --strip-debug /usr/lib/modules/$KREL/extramodules/*.ko
+for i in /usr/lib/modules/$KREL/extramodules/*.ko; do xz "$i"; done
 echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/nvidia.conf
-depmod $KVER-massos
+depmod $KREL
 install -t /usr/share/licenses/nvidia-open-kernel-modules -Dm644 COPYING
 cd ..
 rm -rf cd open-gpu-kernel-modules-515.43.04
-unset KVER
+unset KREL
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release

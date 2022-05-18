@@ -96,7 +96,7 @@ https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.t
 https://cdn.kernel.org/pub/linux/utils/boot/dracut/dracut-056.tar.gz
 http://mirror.lyrahosting.com/gentoo/distfiles/dvd+rw-tools-7.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.46.5/e2fsprogs-1.46.5.tar.xz
-https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.8/EasyRSA-3.0.8.tgz
+https://github.com/OpenVPN/easy-rsa/releases/download/v3.0.9/EasyRSA-v3.0.9.tgz
 http://mirror.lyrahosting.com/gnu/ed/ed-1.18.tar.lz
 https://github.com/rhboot/efibootmgr/releases/download/17/efibootmgr-17.tar.bz2
 https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2
@@ -369,7 +369,7 @@ https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://libzip.org/download/libzip-1.8.0.tar.xz
 https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.7.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.17.9.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2-docs.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.3/lld-14.0.3.src.tar.xz
@@ -450,6 +450,7 @@ https://gitlab.freedesktop.org/gstreamer/orc/-/archive/0.4.32/orc-0.4.32.tar.gz
 https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.79.tar.xz
 https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz
 https://archive.massos.org/sources/p7zip-17.04-6-geb1bbb0.tar.xz
+https://github.com/pypa/packaging/releases/download/21.3/packaging-21.3.tar.gz
 https://archive.massos.org/sources/pahole-1.23.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pango/1.50/pango-1.50.7.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
@@ -492,6 +493,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.1.tar.xz
 https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.7.tar.gz
 https://www.python.org/ftp/python/3.10.4/Python-3.10.4.tar.xz
+https://github.com/martinpitt/python-dbusmock/releases/download/0.27.5/python-dbusmock-0.27.5.tar.gz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.6.3/qpdf-10.6.3.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
@@ -564,7 +566,7 @@ https://www.iana.org/time-zones/repository/releases/tzdata2022a.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
 https://unifoundry.com/pub/unifont/unifont-14.0.03/font-builds/unifont-14.0.03.pcf.gz
 https://archive.massos.org/sources/unzip60.tar.gz
-https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.17/upower-v0.99.17.tar.bz2
+https://gitlab.freedesktop.org/upower/upower/-/archive/v0.99.18/upower-v0.99.18.tar.bz2
 https://github.com/urllib3/urllib3/releases/download/1.26.9/urllib3-1.26.9.tar.gz
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2

@@ -433,6 +433,7 @@ orc
 os-prober
 p11-kit
 p7zip
+packaging
 pahole
 pango
 pangomm
@@ -474,6 +475,7 @@ pygobject
 pyopenssl
 pyparsing
 python
+python-dbusmock
 python-distutils-extra
 qpdf
 qrencode

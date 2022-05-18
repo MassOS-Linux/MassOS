@@ -21,6 +21,7 @@ Upgraded software:
 - bc: `5.2.4 --> 5.2.5`
 - Bubblewrap: `0.6.1 --> 0.6.2`
 - curl: `7.83.0 --> 7.83.1`
+- EasyRSA: `3.0.8 --> 3.0.9`
 - Firefox: `99.0.1 --> 100.0.1`
 - FreeType: `2.12.0 --> 2.12.1`
 - FUSE3: `3.10.5 --> 3.11.0`
@@ -46,7 +47,7 @@ Upgraded software:
 - libX11: `1.7.5 --> 1.8`
 - libxcb: `1.14 --> 1.15`
 - libxml2: `2.9.13 --> 2.9.14`
-- Linux Kernel: `5.17.5 --> 5.17.7`
+- Linux Kernel: `5.17.5 --> 5.17.9`
 - lsof: `4.94.0 --> 4.95.0`
 - Mesa: `22.0.2 --> 22.0.3`
 - NetworkManager: `1.36.4 --> 1.38.0`
@@ -60,6 +61,7 @@ Upgraded software:
 - systemd: `251-rc1 --> 251-rc3`
 - thunar-archive-plugin: `0.4.0 --> 0.5.0`
 - Thunderbird: `91.8.1 --> 91.9.0`
+- UPower: `0.99.17 --> 0.99.18`
 - Vim: `8.2.4826 --> 8.2.4926`
 - Vulkan-Headers: `1.3.211 --> 1.3.213`
 - Vulkan-Loader: `1.3.211 --> 1.3.213`
