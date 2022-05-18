@@ -59,6 +59,8 @@ touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
+# Install MassOS Backgrounds.
+install -t /usr/share/backgrounds/xfce -Dm644 backgrounds/*
 # Set the locale correctly.
 mkdir -p /usr/lib/locale
 mklocales
@@ -6600,6 +6602,8 @@ cd xfdesktop-4.16.0
 ./configure --prefix=/usr
 make
 make install
+mv /usr/share/backgrounds/xfce/xfce-verticals{,1}.png
+ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
 cd ..
 rm -rf xfdesktop-4.16.0
@@ -7117,10 +7121,6 @@ unset KREL
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
 install -m755 massos-release /usr/bin/massos-release
-# MassOS Backgrounds.
-install -Dm644 backgrounds/* /usr/share/backgrounds/xfce
-mv /usr/share/backgrounds/xfce/xfce-verticals.png /usr/share/backgrounds/xfce/xfce-verticals1.png
-ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png massos-logo-sidetext.png
 for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
