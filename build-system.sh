@@ -853,8 +853,8 @@ install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
 rm -rf openssl-3.0.3
 # easy-rsa.
-tar -xf EasyRSA-v3.0.9.tgz
-cd EasyRSA-v3.0.9
+tar -xf EasyRSA-3.1.0.tgz
+cd EasyRSA-3.1.0
 install -Dm755 easyrsa /usr/bin/easyrsa
 install -Dm644 openssl-easyrsa.cnf /etc/easy-rsa/openssl-easyrsa.cnf
 install -Dm644 vars.example /etc/easy-rsa/vars
@@ -862,7 +862,7 @@ install -dm755 /etc/easy-rsa/x509-types/
 install -m644 x509-types/* /etc/easy-rsa/x509-types/
 install -t /usr/share/licenses/easy-rsa -Dm644 COPYING.md gpl-2.0.txt
 cd ..
-rm -rf EasyRSA-v3.0.9
+rm -rf EasyRSA-3.1.0
 # mpdecimal.
 tar -xf mpdecimal-2.5.1.tar.gz
 cd mpdecimal-2.5.1
@@ -902,15 +902,15 @@ rm -rf Python-3.10.4
 tar -xf sphinx-4.5.0-x86_64-venv.tar.xz
 mv sphinx{-4.5.0-x86_64-venv,}
 # Ninja.
-tar -xf ninja-1.10.2.tar.gz
-cd ninja-1.10.2
+tar -xf ninja-1.11.0.tar.gz
+cd ninja-1.11.0
 python configure.py --bootstrap
 install -m755 ninja /usr/bin
 install -Dm644 misc/bash-completion /usr/share/bash-completion/completions/ninja
 install -Dm644 misc/zsh-completion /usr/share/zsh/site-functions/_ninja
 install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
-rm -rf ninja-1.10.2
+rm -rf ninja-1.11.0
 # Meson.
 tar -xf meson-0.62.1.tar.gz
 cd meson-0.62.1
@@ -1839,11 +1839,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
 rm -rf hwdata-0.359
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-251-rc3.tar.gz
-cd systemd-251-rc3
+tar -xf systemd-251.tar.gz
+cd systemd-251
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc3-massos -Dshared-lib-tag=251-rc3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-massos -Dshared-lib-tag=251-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1868,7 +1868,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-251-rc3
+rm -rf systemd-251
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -2048,11 +2048,16 @@ make install
 install -t /usr/share/licenses/thin-provisioning-tools -Dm644 COPYING
 cd ..
 rm -rf thin-provisioning-tools-0.9.0
-# LVM2 (precompiled package, to avoid a segfault at runtime).
-tar --no-same-owner -xpf lvm2-2.03.15-x86_64-precompiled-MassOS.tar.xz
-cp -a lvm2-2.03.15-x86_64-precompiled-MassOS/BINARY/* /
-ldconfig
-rm -rf lvm2-2.03.15-x86_64-precompiled-MassOS
+# LVM2.
+tar -xf LVM2.2.03.16.tgz
+cd LVM2.2.03.16
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-cmdlib --enable-dmeventd --enable-lvmpolld --enable-pkgconfig --enable-readline --enable-udev_rules --enable-udev_sync
+make
+make install
+make install_systemd_units
+install -t /usr/share/licenses/lvm2 -Dm644 COPYING{,.BSD,.LIB}
+cd ..
+rm -rf LVM2.2.03.16
 # btrfs-progs.
 tar -xf btrfs-progs-v5.17.tar.xz
 cd btrfs-progs-v5.17
@@ -3037,8 +3042,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.9.0esr.source.tar.xz
-cd firefox-91.9.0
+tar -xf firefox-91.9.1esr.source.tar.xz
+cd firefox-91.9.1
 mkdir JS91-build; cd JS91-build
 chmod +x ../js/src/configure.in
 SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
@@ -3048,7 +3053,7 @@ rm -f /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.9.0
+rm -rf firefox-91.9.1
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3152,15 +3157,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.2.1.tar.xz
-cd harfbuzz-4.2.1
+tar -xf harfbuzz-4.3.0.tar.xz
+cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.2.1
+rm -rf harfbuzz-4.3.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.12.1.tar.xz
 cd freetype-2.12.1
@@ -3617,8 +3622,8 @@ install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
 rm -rf slang-pre2.3.3-66
 # BIND Utils.
-tar -xf bind-9.18.2.tar.xz
-cd bind-9.18.2
+tar -xf bind-9.18.3.tar.xz
+cd bind-9.18.3
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
 make -C lib/dns
@@ -3638,7 +3643,7 @@ make -C bin/dig install
 install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf bind-9.18.2
+rm -rf bind-9.18.3
 # dhclient.
 tar -xf dhcp-4.4.3.tar.gz
 cd dhcp-4.4.3
@@ -3939,15 +3944,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.0.3.tar.xz
-cd mesa-22.0.3
+tar -xf mesa-22.1.0.tar.xz
+cd mesa-22.1.0
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglvnd=true -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.0.3
+rm -rf mesa-22.1.0
 # libva (rebuild to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4014,21 +4019,21 @@ install -t /usr/share/licenses/xkeyboard-config -Dm644 ../COPYING
 cd ../..
 rm -rf xkeyboard-config-2.35.1
 # libxkbcommon.
-tar -xf libxkbcommon-1.4.0.tar.xz
-cd libxkbcommon-1.4.0
+tar -xf libxkbcommon-1.4.1.tar.xz
+cd libxkbcommon-1.4.1
 mkdir xkb-build; cd xkb-build
 meson --prefix=/usr --buildtype=release -Denable-docs=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
-rm -rf libxkbcommon-1.4.0
+rm -rf libxkbcommon-1.4.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-251-rc3.tar.gz
-cd systemd-251-rc3
+tar -xf systemd-251.tar.gz
+cd systemd-251
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-rc3-massos -Dshared-lib-tag=251-rc3-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-massos -Dshared-lib-tag=251-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4044,7 +4049,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-251-rc3
+rm -rf systemd-251
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4562,14 +4567,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.2.1.tar.xz
-cd harfbuzz-4.2.1
+tar -xf harfbuzz-4.3.0.tar.xz
+cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.2.1
+rm -rf harfbuzz-4.3.0
 # Pango.
 tar -xf pango-1.50.7.tar.xz
 cd pango-1.50.7
@@ -4727,18 +4732,50 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/at-spi2-atk -Dm644 ../COPYING
 cd ../..
 rm -rf at-spi2-atk-2.38.0
+# Colord.
+tar -xf colord-1.4.6.tar.xz
+cd colord-1.4.6
+groupadd -g 71 colord
+useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false colord
+mv po/fur.po po/ur.po
+sed -i 's/fur/ur/' po/LINGUAS
+mkdir colord-build; cd colord-build
+meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/ppp -Dm644 ../COPYING
+cd ../..
+rm -rf colord-1.4.6
+# CUPS.
+tar -xf cups-2.4.1-source.tar.gz
+cd cups-2.4.1
+useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
+groupadd -g 19 lpadmin
+./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
+make
+make install
+echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf
+gtk-update-icon-cache -qtf /usr/share/icons/hicolor
+cat > /etc/pam.d/cups << END
+auth    include system-auth
+account include system-account
+session include system-session
+END
+systemctl enable cups
+install -t /usr/share/licenses/cups -Dm644 LICENSE
+cd ..
+rm -rf cups-2.4.1
 # GTK3.
-tar -xf gtk+-3.24.33.tar.xz
-cd gtk+-3.24.33
-git apply ../patches/gtk3-3.24.33-missingicons.patch
-./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-x11-backend --enable-wayland-backend
+tar -xf gtk+-3.24.34.tar.xz
+cd gtk+-3.24.34
+./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-colord --enable-cups --enable-wayland-backend --enable-x11-backend
 make
 make install
 gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gtk3 -Dm644 COPYING
 cd ..
-rm -rf gtk+-3.24.33
+rm -rf gtk+-3.24.34
 # Gtkmm3.
 tar -xf gtkmm-3.24.6.tar.xz
 cd gtkmm-3.24.6
@@ -5219,15 +5256,15 @@ install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
 rm -rf vim-8.2.4926
 # libwpe.
-tar -xf libwpe-1.12.0.tar.xz
-cd libwpe-1.12.0
+tar -xf libwpe-1.13.1.tar.xz
+cd libwpe-1.13.1
 mkdir wpe-build; cd wpe-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwpe -Dm644 ../COPYING
 cd ../..
-rm -rf libwpe-1.12.0
+rm -rf libwpe-1.13.1
 # OpenJPEG.
 tar -xf openjpeg-2.5.0.tar.gz
 cd openjpeg-2.5.0
@@ -5306,39 +5343,6 @@ END
 install -t /usr/share/licenses/polkit-gnome -Dm644 COPYING
 cd ..
 rm -rf polkit-gnome-0.105
-# Colord.
-tar -xf colord-1.4.5.tar.xz
-cd colord-1.4.5
-groupadd -g 71 colord
-useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false colord
-mv po/fur.po po/ur.po
-sed -i 's/fur/ur/' po/LINGUAS
-mkdir colord-build; cd colord-build
-meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
-ninja
-ninja install
-install -t /usr/share/licenses/ppp -Dm644 ../COPYING
-cd ../..
-rm -rf colord-1.4.5
-# CUPS.
-tar -xf cups-2.4.1-source.tar.gz
-cd cups-2.4.1
-useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
-groupadd -g 19 lpadmin
-./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
-make
-make install
-echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf
-gtk-update-icon-cache -qtf /usr/share/icons/hicolor
-cat > /etc/pam.d/cups << END
-auth    include system-auth
-account include system-account
-session include system-session
-END
-systemctl enable cups
-install -t /usr/share/licenses/cups -Dm644 LICENSE
-cd ..
-rm -rf cups-2.4.1
 # Poppler.
 tar -xf poppler-22.05.0.tar.xz
 cd poppler-22.05.0
@@ -6383,16 +6387,16 @@ install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LIC
 cd ../..
 rm -rf pipewire-0.3.51
 # WebKitGTK.
-tar -xf webkitgtk-2.34.6.tar.xz
-cd webkitgtk-2.34.6
+tar -xf webkitgtk-2.36.2.tar.xz
+cd webkitgtk-2.36.2
 mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DUSE_LIBHYPHEN=OFF -DENABLE_GAMEPAD=OFF -DENABLE_MINIBROWSER=ON -DUSE_SOUP2=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DENABLE_GAMEPAD=OFF -DENABLE_GLES2=ON -DENABLE_GTKDOC=ON -DENABLE_MINIBROWSER=ON -DUSE_LIBHYPHEN=OFF -DUSE_SOUP2=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
 ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.34.6
+rm -rf webkitgtk-2.36.2
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6507,14 +6511,14 @@ install -t /usr/share/licenses/exo -Dm644 COPYING
 cd ..
 rm -rf exo-4.17.1
 # Garcon.
-tar -xf garcon-4.16.1.tar.bz2
-cd garcon-4.16.1
+tar -xf garcon-4.17.0.tar.bz2
+cd garcon-4.17.0
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
-rm -rf garcon-4.16.1
+rm -rf garcon-4.17.0
 # Thunar.
 tar -xf thunar-4.17.8.tar.bz2
 cd thunar-4.17.8
@@ -6561,14 +6565,14 @@ install -t /usr/share/licenses/xfce4-artwork -Dm644 COPYING
 cd ..
 rm -rf xfce4-artwork-0.1.1a
 # xfce4-panel.
-tar -xf xfce4-panel-4.16.4.tar.bz2
-cd xfce4-panel-4.16.4
+tar -xf xfce4-panel-4.17.0.tar.bz2
+cd xfce4-panel-4.17.0
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 cd ..
-rm -rf xfce4-panel-4.16.4
+rm -rf xfce4-panel-4.17.0
 # xfce4-power-manager.
 tar -xf xfce4-power-manager-4.16.0.tar.bz2
 cd xfce4-power-manager-4.16.0
@@ -6898,20 +6902,11 @@ ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
 rm -rf baobab-41.0
-# libglib-testing.
-tar -xf libglib-testing-0.1.1.tar.bz2
-cd libglib-testing-0.1.1
-mkdir GLIBTEST-build; cd GLIBTEST-build
-meson --prefix=/usr --buildtype=release ..
-ninja
-ninja install
-install -t /usr/share/licenses/libglib-testing -Dm644 ../COPYING
-cd ../..
-rm -rf libglib-testing-0.1.1
-# malcontent (dependency of GNOME Software).
-tar -xf malcontent-0.10.3.tar.xz
-cd malcontent-0.10.3
-patch -Np1 -i ../patches/malcontent-0.10.3-mesonfix.patch
+# Malcontent (dependency of GNOME Software).
+tar -xf malcontent-0.10.4.tar.xz
+cd malcontent-0.10.4
+tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
+mv subprojects/libglib-testing{-0.1.1,}
 mkdir malcontent-build; cd malcontent-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -6919,12 +6914,12 @@ ninja install
 rm -f /usr/share/applications/org.freedesktop.MalcontentControl.desktop
 install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
-rm -rf malcontent-0.10.3
+rm -rf malcontent-0.10.4
 # GNOME Software.
 tar -xf gnome-software-41.5.tar.xz
 cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
@@ -6996,7 +6991,7 @@ plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
 # Firefox.
-tar --no-same-owner -xf firefox-100.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-100.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -7027,7 +7022,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.9.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.9.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
