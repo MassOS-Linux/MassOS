@@ -139,9 +139,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220414.tar.gz
-cp iana-etc-20220414/{protocols,services} /etc
-rm -rf iana-etc-20220414
+tar -xf iana-etc-20220520.tar.gz
+cp iana-etc-20220520/{protocols,services} /etc
+rm -rf iana-etc-20220520
 # Neofetch.
 tar -xf neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055.tar.gz
 cd neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055
@@ -1815,11 +1815,11 @@ install -t /usr/share/licenses/itstool -Dm644 COPYING COPYING.GPL3
 cd ..
 rm -rf itstool-2.0.7
 # Asciidoc.
-tar -xf asciidoc-10.1.4.tar.gz
-cd asciidoc-10.1.4
+tar -xf asciidoc-10.2.0.tar.gz
+cd asciidoc-10.2.0
 python setup.py install --optimize=1
 cd ..
-rm -rf asciidoc-10.1.4
+rm -rf asciidoc-10.2.0
 # gnu-efi.
 tar -xf gnu-efi-3.0.14.tar.bz2
 cd gnu-efi-3.0.14
@@ -1841,11 +1841,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
 rm -rf hwdata-0.359
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-251.tar.gz
-cd systemd-251
+tar -xf systemd-stable-251.1.tar.gz
+cd systemd-stable-251.1
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-massos -Dshared-lib-tag=251-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.1-massos -Dshared-lib-tag=251.1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1870,7 +1870,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-251
+rm -rf systemd-stable-251.1
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -2119,8 +2119,8 @@ install -t /usr/share/licenses/exfatprogs -Dm644 COPYING
 cd ..
 rm -rf exfatprogs-1.1.3
 # Fakeroot.
-tar -xf fakeroot_1.28.orig.tar.gz
-cd fakeroot-1.28
+tar -xf fakeroot_1.29.orig.tar.gz
+cd fakeroot-1.29
 ./configure --prefix=/usr --libdir=/usr/lib/libfakeroot --disable-static --with-ip=sysv
 make
 make install
@@ -2129,7 +2129,7 @@ echo "/usr/lib/libfakeroot" > /etc/ld.so.conf.d/fakeroot.conf
 ldconfig
 install -t /usr/share/licenses/fakeroot -Dm644 COPYING
 cd ..
-rm -rf fakeroot-1.28
+rm -rf fakeroot-1.29
 # Parted.
 tar -xf parted-3.5.tar.xz
 cd parted-3.5
@@ -2257,15 +2257,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 cd ..
 rm -rf RHash-1.4.2
 # CMake.
-tar -xf cmake-3.23.1.tar.gz
-cd cmake-3.23.1
+tar -xf cmake-3.23.2.tar.gz
+cd cmake-3.23.2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --mandir=/share/man --docdir=/share/doc/cmake --system-libs
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.23.1
+rm -rf cmake-3.23.2
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2528,6 +2528,7 @@ rm -rf nettle-3.7.3
 # GNUTLS.
 tar -xf gnutls-3.7.5.tar.xz
 cd gnutls-3.7.5
+patch -Np1 -i ../patches/gnutls-3.7.5-upstreamfix.patch
 ./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:" --enable-openssl-compatibility --enable-ssl3-support
 make
 make install
@@ -3020,13 +3021,13 @@ install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
 cd ..
 rm -rf autoconf-2.13
 # LLVM/Clang/LLD.
-tar -xf llvm-14.0.3.src.tar.xz
+tar -xf llvm-14.0.4.src.tar.xz
 mkdir -p libunwind
-tar -xf libunwind-14.0.3.src.tar.xz -C libunwind --strip-components=1
-cd llvm-14.0.3.src
+tar -xf libunwind-14.0.4.src.tar.xz -C libunwind --strip-components=1
+cd llvm-14.0.4.src
 mkdir -p tools/{clang,lld}
-tar -xf ../clang-14.0.3.src.tar.xz -C tools/clang --strip-components=1
-tar -xf ../lld-14.0.3.src.tar.xz -C tools/lld --strip-components=1
+tar -xf ../clang-14.0.4.src.tar.xz -C tools/clang --strip-components=1
+tar -xf ../lld-14.0.4.src.tar.xz -C tools/lld --strip-components=1
 mkdir LLVM-build; cd LLVM-build
 CFLAGS="$CFLAGS -flarge-source-files" CXXFLAGS="$CXXFLAGS -flarge-source-files" cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;X86" -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -3036,7 +3037,7 @@ ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
 rm -rf libunwind
-rm -rf llvm-14.0.3.src
+rm -rf llvm-14.0.4.src
 # Rust (will be uninstalled later).
 tar -xf rust-1.58.1-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.58.1-x86_64-unknown-linux-gnu
@@ -4031,11 +4032,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-251.tar.gz
-cd systemd-251
+tar -xf systemd-stable-251.1.tar.gz
+cd systemd-stable-251.1
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251-massos -Dshared-lib-tag=251-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.1-massos -Dshared-lib-tag=251.1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4051,7 +4052,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-251
+rm -rf systemd-stable-251.1
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4116,7 +4117,7 @@ tar -xf xorg-server-21.1.3.tar.xz
 cd xorg-server-21.1.3
 patch -Np1 -i ../patches/xorg-server-21.1.2-addxvfbrun.patch
 mkdir XSRV-BUILD; cd XSRV-BUILD
-meson --prefix=/usr -Dglamor=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
+meson --prefix=/usr -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -m755 ../xvfb-run /usr/bin/xvfb-run
@@ -4126,15 +4127,15 @@ install -t /usr/share/licenses/xorg-server -Dm644 ../COPYING
 cd ../..
 rm -rf xorg-server-21.1.3
 # Xwayland.
-tar -xf xwayland-22.1.1.tar.xz
-cd xwayland-22.1.1
+tar -xf xwayland-22.1.2.tar.xz
+cd xwayland-22.1.2
 mkdir XWLD-BUILD; cd XWLD-BUILD
 meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -t /usr/share/licenses/xwayland -Dm644 ../COPYING
 cd ../..
-rm -rf xwayland-22.1.1
+rm -rf xwayland-22.1.2
 # libevdev.
 tar -xf libevdev-1.12.1.tar.xz
 cd libevdev-1.12.1
@@ -5232,8 +5233,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.4926.tar.gz
-cd vim-8.2.4926
+tar -xf vim-8.2.5018.tar.gz
+cd vim-8.2.5018
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5256,7 +5257,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.4926
+rm -rf vim-8.2.5018
 # libwpe.
 tar -xf libwpe-1.13.1.tar.xz
 cd libwpe-1.13.1
@@ -5625,15 +5626,15 @@ install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
 # JSON (required by smblient 4.16+).
-tar -xf JSON-4.05.tar.gz
-cd JSON-4.05
+tar -xf JSON-4.06.tar.gz
+cd JSON-4.06
 perl Makefile.PL
 make
 make install
 install -dm755 /usr/share/licenses/json
 cat lib/JSON.pm | tail -n9 | head -n6 > /usr/share/licenses/json/COPYING
 cd ..
-rm -rf JSON-4.05
+rm -rf JSON-4.06
 # Parse-Yapp.
 tar -xf Parse-Yapp-1.21.tar.gz
 cd Parse-Yapp-1.21
@@ -5885,15 +5886,15 @@ install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
 cd ../..
 rm -rf libxmlb-0.3.6
 # AppStream.
-tar -xf AppStream-0.15.3.tar.xz
-cd AppStream-0.15.3
+tar -xf AppStream-0.15.4.tar.xz
+cd AppStream-0.15.4
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream -Dm644 ../COPYING
 cd ../..
-rm -rf AppStream-0.15.3
+rm -rf AppStream-0.15.4
 # appstream-glib.
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
@@ -6122,14 +6123,14 @@ install -t /usr/share/licenses/soundtouch -Dm644 COPYING.TXT
 cd ..
 rm -rf soundtouch-2.3.1
 # libdvdread.
-tar -xf libdvdread-6.1.2.tar.bz2
-cd libdvdread-6.1.2
+tar -xf libdvdread-6.1.3.tar.bz2
+cd libdvdread-6.1.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libdvdread -Dm644 COPYING
 cd ..
-rm -rf libdvdread-6.1.2
+rm -rf libdvdread-6.1.3
 # libdvdnav.
 tar -xf libdvdnav-6.1.1.tar.bz2
 cd libdvdnav-6.1.1
@@ -6662,14 +6663,14 @@ install -t /usr/share/licenses/xfburn -Dm644 COPYING
 cd ..
 rm -rf xfburn-0.6.2
 # xfce4-terminal.
-tar -xf xfce4-terminal-1.0.3.tar.bz2
-cd xfce4-terminal-1.0.3
+tar -xf xfce4-terminal-1.0.4.tar.bz2
+cd xfce4-terminal-1.0.4
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
-rm -rf xfce4-terminal-1.0.3
+rm -rf xfce4-terminal-1.0.4
 # Shotwell.
 tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
 cd shotwell-0.31.3-133-gd55abab2
@@ -6762,14 +6763,14 @@ install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 cd ..
 rm -rf xfce4-screenshooter-1.9.10
 # xfce4-taskmanager.
-tar -xf xfce4-taskmanager-1.5.2.tar.bz2
-cd xfce4-taskmanager-1.5.2
+tar -xf xfce4-taskmanager-1.5.3.tar.bz2
+cd xfce4-taskmanager-1.5.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-taskmanager -Dm644 COPYING
 cd ..
-rm -rf xfce4-taskmanager-1.5.2
+rm -rf xfce4-taskmanager-1.5.3
 # xfce4-clipman-plugin.
 tar -xf xfce4-clipman-plugin-1.6.2.tar.bz2
 cd xfce4-clipman-plugin-1.6.2
@@ -6885,15 +6886,15 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf evince-42.2.tar.xz
-cd evince-42.2
+tar -xf evince-42.3.tar.xz
+cd evince-42.3
 mkdir build; cd build
 meson --prefix=/usr --buildtype=release -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-42.2
+rm -rf evince-42.3
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -7063,8 +7064,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.17.9.tar.xz
-cd linux-5.17.9
+tar -xf linux-5.18.tar.xz
+cd linux-5.18
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7074,7 +7075,7 @@ cp arch/x86/boot/bzImage /boot/vmlinuz-$KREL
 cp arch/x86/boot/bzImage /usr/lib/modules/$KREL/vmlinuz
 cp System.map /boot/System.map-$KREL
 cp .config /boot/config-$KREL
-rm /usr/lib/modules/$KREL/{source,build}
+rm -f /usr/lib/modules/$KREL/{source,build}
 echo $KREL > version
 builddir=/usr/lib/modules/$KREL/build
 install -Dt "$builddir" -m644 .config Makefile Module.symvers System.map version vmlinux
@@ -7100,7 +7101,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.17.9
+rm -rf linux-5.18
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz

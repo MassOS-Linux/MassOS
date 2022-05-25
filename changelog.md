@@ -19,12 +19,17 @@ Changes:
 
 Upgraded software:
 
+- AppStream: `0.15.3 --> 0.15.4`
+- Asciidoc: `10.1.4 --> 10.2.0`
 - bc: `5.2.4 --> 5.2.5`
 - BIND Utils: `9.18.2 --> 9.18.3`
 - Bubblewrap: `0.6.1 --> 0.6.2`
+- CMake: `3.23.1 --> 3.23.2`
 - colord: `1.4.5 --> 1.4.6`
 - curl: `7.83.0 --> 7.83.1`
 - EasyRSA: `3.0.8 --> 3.1.0`
+- Evince: `42.2 --> 42.3`
+- Fakeroot: `1.28 --> 1.29`
 - Firefox: `99.0.1 --> 100.0.2`
 - FreeType: `2.12.0 --> 2.12.1`
 - FUSE3: `3.10.5 --> 3.11.0`
@@ -43,10 +48,13 @@ Upgraded software:
 - Gtkmm3: `3.24.5 --> 3.24.6`
 - HarfBuzz: `4.2.1 --> 4.3.0`
 - hwdata: `0.358 --> 0.359`
+- iana-etc: `20220414 --> 20220520`
 - iptables: `1.8.7 --> 1.8.8`
 - JasPer: `2.0.33 --> 3.0.3`
 - JS91: `91.8.0 --> 91.9.1`
+- JSON: `4.05 --> 4.06`
 - libass: `0.15.2 --> 0.16.0`
+- libdvdread: `6.1.2 --> 6.1.3`
 - libnotify: `0.7.11 --> 0.7.12`
 - libostree: `2022.2 --> 2022.3`
 - librsvg: `2.54.1 --> 2.54.3`
@@ -55,7 +63,8 @@ Upgraded software:
 - libxcb: `1.14 --> 1.15`
 - libxkbcommon: `1.4.0 --> 1.4.1`
 - libxml2: `2.9.13 --> 2.9.14`
-- Linux Kernel: `5.17.5 --> 5.17.9`
+- Linux Kernel: `5.17.5 --> 5.18.0`
+- LLVM/Clang/LLD: `14.0.3 --> 14.0.4`
 - lsof: `4.94.0 --> 4.95.0`
 - LVM2: `2.03.15 --> 2.03.16`
 - Malcontent: `0.10.3 --> 0.10.4`
@@ -69,11 +78,11 @@ Upgraded software:
 - PSmisc: `23.4 --> 23.5`
 - smbclient: `4.16.0 --> 4.16.1`
 - SQLite: `3.38.3 --> 3.38.5`
-- systemd: `251-rc1 --> 251`
+- systemd: `251-rc1 --> 251.1`
 - thunar-archive-plugin: `0.4.0 --> 0.5.0`
 - Thunderbird: `91.8.1 --> 91.9.1`
 - UPower: `0.99.17 --> 0.99.18`
-- Vim: `8.2.4826 --> 8.2.4926`
+- Vim: `8.2.4826 --> 8.2.5018`
 - Vulkan-Headers: `1.3.211 --> 1.3.213`
 - Vulkan-Loader: `1.3.211 --> 1.3.213`
 - WebKitGTK: `2.34.6 --> 2.36.2`
@@ -81,8 +90,10 @@ Upgraded software:
 - xdg-dbus-proxy: `0.1.2 --> 0.1.4`
 - xdg-desktop-portal: `1.14.3 --> 1.14.4`
 - xfce4-panel: `4.16.4 --> 4.17.0`
-- xfce4-terminal: `1.0.2 --> 1.0.3`
+- xfce4-taskmanager: `1.5.2 --> 1.5.3`
+- xfce4-terminal: `1.0.2 --> 1.0.4`
 - xfsprogs: `5.15.0 --> 5.16.0`
+- Xwayland: `22.1.1 --> 22.1.2`
 
 # MassOS 2022.05
 Changes:
