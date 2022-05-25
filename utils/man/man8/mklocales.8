@@ -1,0 +1,36 @@
+.TH "MKLOCALES" "8" "May 2022" "mklocales" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+mklocales - Generate or regenerate system locales.
+.SH SYNOPSIS
+.PP
+\f[B]mklocales\f[R]
+.SH DESCRIPTION
+.PP
+\f[B]mklocales\f[R] generates or regenerates system locales specified in the /etc/locales file.
+
+If you want to add or remove a locale, comment or uncomment the relevant line in /etc/locales, then run \f[B]mklocales\f[R].
+
+\f[B]mklocales\f[R] is automatically invoked by the MassOS Installer when installing or upgrading MassOS, so unless you want to change the system locales, you won't normally need to manually run it.
+.SH EXIT STATUS
+.PP
+\f[B]mklocales\f[R] will exit with 0 for success and >0 for failure.
+.SH EXAMPLES
+.TP
+\f[B]mklocales\f[R]
+Generate or regenerate system locales.
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

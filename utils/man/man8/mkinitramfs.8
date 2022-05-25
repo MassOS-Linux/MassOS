@@ -1,0 +1,46 @@
+.TH "MKINITRAMFS" "8" "May 2022" "mkinitramfs" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+mkinitramfs - Generate or regenerate an initramfs.
+.SH SYNOPSIS
+.PP
+\f[B]mkinitramfs\f[R] [\f[I]kernel_version\f[R]]
+.SH DESCRIPTION
+.PP
+\f[B]mkinitramfs\f[R] is a wrapper around dracut(8) used to easily (re)generate an initramfs.
+
+The initramfs is a small compressed filesystem containing the modules and drivers needed to mount the root filesystem, which is loaded by the bootloader immediately after the kernel.
+
+\f[B]mkinitramfs\f[R] will generate or regenerate an initramfs using dracut(8). The output image will be written to /boot/initramfs-<kernel_version>.img (any existing initramfs will be automatically overwritten).
+
+If no argument is passed, \f[B]mkinitramfs\f[R] will try to generate for the currently booted kernel. In some situations such as a chroot environment, this may fail. Therefore, the target kernel version can also be passed as an argument to \f[B]mkinitramfs\f[R].
+
+NOTE: If you are generating the first initramfs for a newly installed kernel, you may subsequently need to update the bootloader configuration file using grub-mkconfig(8).
+.SH EXIT STATUS
+.PP
+\f[B]mkinitramfs\f[R] will exit with 0 for success and >0 for failure.
+.SH EXAMPLES
+.TP
+\f[B]mkinitramfs\f[R]
+Generate or regenerate an initramfs for the currently booted kernel.
+.TP
+\f[B]mkinitramfs 5.18.0-massos\f[R]
+Generate or regenerate an initramfs for kernel version 5.18.0-massos.
+.SH SEE ALSO
+.TP
+dracut(8), grub-mkconfig(8)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

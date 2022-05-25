@@ -61,6 +61,8 @@ chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
 # Install MassOS Backgrounds.
 install -t /usr/share/backgrounds/xfce -Dm644 backgrounds/*
+# Install man pages for MassOS system utilities.
+cp -r man/* /usr/share/man
 # Set the locale correctly.
 mkdir -p /usr/lib/locale
 mklocales

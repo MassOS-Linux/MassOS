@@ -11,6 +11,7 @@ Changes:
 - Fixed missing `lspci` program since pciutils 3.8.0.
 - Went back to Mousepad as the default text editor, since Gedit has major integration issues with Xfce.
 - Neofetch is now installed correctly as a package.
+- Added manual pages for MassOS system utilities.
 - Added Popsicle, a small USB image writing program.
 - Added SGMLSpm (small Perl module) to fix man page generation of some packages.
 - Added patchelf, a useful small utility for some programs and for distributing binaries.

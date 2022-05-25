@@ -1,0 +1,42 @@
+.TH "ZMAN" "1" "May 2022" "zman" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+zman - Apply compression to groups of man pages in bulk.
+.SH SYNOPSIS
+.PP
+\f[B]zman\f[R] <\f[I]directory\f[R]>
+.SH DESCRIPTION
+.PP
+\f[B]zman\f[R] is a small utility which will apply gzip compression to groups of man pages in bulk.
+
+\f[B]zman\f[R] will take a directory as its input and recursively scan and compress man pages within it. Take care when using it.
+
+\f[B]zman\f[R] will automatically deal with symbolic links and other issues that can occur when attempting to compress man pages.
+.SH EXIT STATUS
+.PP
+\f[B]zman\f[R] will exit with 0 for success and 1 for failure.
+.SH EXAMPLES
+.TP
+\f[B]zman /usr/local/share/man\f[R]
+Recursively scans /usr/local/share/man and compresses every detected man page.
+.TP
+\f[B]zman ./mydocs/man-pages\f[R]
+Recursively scans ./mydocs/man-pages and compresses every detected man page.
+.SH SEE ALSO
+.TP
+unzman(1)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

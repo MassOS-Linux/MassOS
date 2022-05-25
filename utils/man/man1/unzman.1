@@ -1,0 +1,42 @@
+.TH "UNZMAN" "1" "May 2022" "unzman" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+unzman - Decompress groups of man pages in bulk.
+.SH SYNOPSIS
+.PP
+\f[B]unzman\f[R] <\f[I]directory\f[R]>
+.SH DESCRIPTION
+.PP
+\f[B]unzman\f[R] is a small utility which will decompress groups of man pages in bulk which were previously compressed with gzip.
+
+\f[B]unzman\f[R] will take a directory as its input and recursively scan and decompress man pages within it. Take care when using it.
+
+\f[B]unzman\f[R] will automatically deal with symbolic links and other issues that can occur when attempting to decompress man pages.
+.SH EXIT STATUS
+.PP
+\f[B]unzman\f[R] will exit with 0 for success and 1 for failure.
+.SH EXAMPLES
+.TP
+\f[B]unzman /usr/local/share/man\f[R]
+Recursively scans /usr/local/share/man and decompresses every detected man page.
+.TP
+\f[B]unzman ./mydocs/man-pages\f[R]
+Recursively scans ./mydocs/man-pages and decompresses every detected man page.
+.SH SEE ALSO
+.TP
+zman(1)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.
