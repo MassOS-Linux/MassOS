@@ -2061,14 +2061,14 @@ install -t /usr/share/licenses/lvm2 -Dm644 COPYING{,.BSD,.LIB}
 cd ..
 rm -rf LVM2.2.03.16
 # btrfs-progs.
-tar -xf btrfs-progs-v5.17.tar.xz
-cd btrfs-progs-v5.17
+tar -xf btrfs-progs-v5.18.tar.xz
+cd btrfs-progs-v5.18
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
-rm -rf btrfs-progs-v5.17
+rm -rf btrfs-progs-v5.18
 # inih.
 tar -xf inih-r55.tar.gz
 cd inih-r55
@@ -2845,16 +2845,16 @@ cat main.c | head -n31 | tail -n23 > /usr/share/licenses/lsof/LICENSE
 cd ..
 rm -rf lsof_4.95.0.linux
 # NSPR.
-tar -xf nspr-4.33.tar.gz
-cd nspr-4.33/nspr
-sed -ri '/^RELEASE/s/^/#/' pr/src/misc/Makefile.in
+tar -xf nspr-4.34.tar.gz
+cd nspr-4.34/nspr
+sed -Ei '/^RELEASE/s/^/#/' pr/src/misc/Makefile.in
 sed -i 's#$(LIBRARY) ##' config/rules.mk
 ./configure --prefix=/usr --with-mozilla --with-pthreads --enable-64bit
 make
 make install
 install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
-rm -rf nspr-4.33
+rm -rf nspr-4.34
 # NSS.
 tar -xf nss-3.78.tar.gz
 cd nss-3.78
@@ -4750,8 +4750,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../COPYING
 cd ../..
 rm -rf colord-1.4.6
 # CUPS.
-tar -xf cups-2.4.1-source.tar.gz
-cd cups-2.4.1
+tar -xf cups-2.4.2-source.tar.gz
+cd cups-2.4.2
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
@@ -4767,7 +4767,7 @@ END
 systemctl enable cups
 install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
-rm -rf cups-2.4.1
+rm -rf cups-2.4.2
 # GTK3.
 tar -xf gtk+-3.24.34.tar.xz
 cd gtk+-3.24.34
@@ -6467,8 +6467,8 @@ install -t /usr/share/licenses/libgdata -Dm644 ../COPYING
 cd ../..
 rm -rf libgdata-0.18.1
 # GVFS.
-tar -xf gvfs-1.50.1.tar.xz
-cd gvfs-1.50.1
+tar -xf gvfs-1.50.2.tar.xz
+cd gvfs-1.50.2
 mkdir gvfs-build; cd gvfs-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
 ninja
@@ -6476,7 +6476,7 @@ ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
-rm -rf gvfs-1.50.1
+rm -rf gvfs-1.50.2
 # libxfce4util.
 tar -xf libxfce4util-4.17.2.tar.bz2
 cd libxfce4util-4.17.2
@@ -7189,8 +7189,6 @@ fi
 # Workaround no longer needed since Firefox 99+ supports FFmpeg 5.0.
 test ! -e /etc/ld.so.conf.d/firefox-libav.conf || rm -f /etc/ld.so.conf.d/firefox-libav.conf
 test ! -d /usr/lib/firefox/libav || rm -rf /usr/lib/firefox/libav
-# Fix /etc/profile.d/flatpak.sh
-test ! -e /etc/profile.d/flatpak.sh.new || mv /etc/profile.d/flatpak.sh{.new,}
 # Now using BGRT theme instead of spinner.
 ! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt
 # Now using PipeWire instead of PulseAudio.
@@ -7200,7 +7198,7 @@ if [ "$(readlink /usr/share/backgrounds/xfce/xfce-verticals.png)" = "MassOS-Cont
   ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
   ! grep -q "MassOS-Contemporary.png" /etc/lightdm/lightdm-gtk-greeter.conf || sed -i 's/Contemporary/Futuristic-Dark/' /etc/lightdm/lightdm-gtk-greeter.conf
   ! grep -q "MassOS-Contemporary.png" /etc/default/grub || sed -i 's/Contemporary/Futuristic-Dark/' /etc/default/grub
-done
+fi
 END
 # Clean sources directory and self destruct.
 cd ..

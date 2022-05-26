@@ -35,7 +35,7 @@ https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.64.tar.xz
 https://boostorg.jfrog.io/artifactory/main/release/1.79.0/source/boost_1_79_0.tar.bz2
 https://github.com/google/brotli/archive/v1.0.9/brotli-1.0.9.tar.gz
 https://archive.massos.org/sources/bsd-games-3.1.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.17.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v5.18.tar.xz
 https://github.com/projectatomic/bubblewrap/releases/download/v0.6.2/bubblewrap-0.6.2.tar.xz
 https://www.busybox.net/downloads/busybox-1.35.0.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
@@ -60,7 +60,7 @@ https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-2.9.7.tar
 https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9.7.bz2
 https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-36.0.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.4/cryptsetup-2.4.3.tar.xz
-https://github.com/OpenPrinting/cups/releases/download/v2.4.1/cups-2.4.1-source.tar.gz
+https://github.com/OpenPrinting/cups/releases/download/v2.4.2/cups-2.4.2-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.15.tar.xz
 https://curl.se/download/curl-7.83.1.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
@@ -181,7 +181,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gtk+/3.24/gtk+-3.24.34.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtkmm/3.24/gtkmm-3.24.6.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gtksourceview/4.8/gtksourceview-4.8.3.tar.xz
 https://archive.massos.org/sources/gutenprint-5.3.3.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gvfs/1.50/gvfs-1.50.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gvfs/1.50/gvfs-1.50.2.tar.xz
 https://archive.massos.org/sources/gz2xz-1.0.2.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.12.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/4.3.0/harfbuzz-4.3.0.tar.xz
@@ -431,7 +431,7 @@ https://github.com/nghttp2/nghttp2/releases/download/v1.47.0/nghttp2-1.47.0.tar.
 https://github.com/ninja-build/ninja/archive/v1.11.0/ninja-1.11.0.tar.gz
 https://gitlab.com/TheSonicMaster/noto-fonts-tarball/-/raw/3/noto-fonts3.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
-https://archive.mozilla.org/pub/nspr/releases/v4.33/src/nspr-4.33.tar.gz
+https://archive.mozilla.org/pub/nspr/releases/v4.34/src/nspr-4.34.tar.gz
 https://archive.mozilla.org/pub/security/nss/releases/NSS_3_78_RTM/src/nss-3.78.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2021.8.22/ntfs-3g-2021.8.22.tar.gz
 https://github.com/NVIDIA/open-gpu-kernel-modules/archive/515.43.04/open-gpu-kernel-modules-515.43.04.tar.gz
