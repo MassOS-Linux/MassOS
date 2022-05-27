@@ -7122,9 +7122,6 @@ install -m755 massos-release /usr/bin/massos-release
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png massos-logo-sidetext.png
 for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
-# MassOS container tool.
-curl --fail-with-body -s https://raw.githubusercontent.com/ClickNinYT/mct/c0ae1ac88dc6a7d9a97f4c2710b02591e398cead/mct -o /usr/sbin/mct
-chmod 755 /usr/sbin/mct
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 # Compress manual pages.
