@@ -1,9 +1,10 @@
 # People who have contributed to MassOS:
 
-- [AaronTechnic](https://github.com/AaronTechnic) - Suggested some useful features and is working on bringing the GNOME desktop environment to MassOS.
-- [ClickNinYT](https://github.com/ClickNinYT) - Created the MassOS container tool and is working on an extensions manager for MassOS.
-- [IKGissmart](https://github.com/IKGissmart) - Created the MassOS logo and the default logo-themed desktop backgrounds.
+- [AaronTechnic](https://github.com/AaronTechnic) - Is working on bringing the GNOME desktop environment to MassOS.
+- [clerickx](https://github.com/clerickx) - Made many improvements to the MassOS website.
+- [ClickNinYT](https://github.com/ClickNinYT) - Created the MassOS container tool and is working on porting useful software to MassOS.
+- [IKGissmart](https://github.com/IKGissmart) - Designed the MassOS logo and created some of the default logo-themed desktop backgrounds.
 - [PaintedAmdree](https://github.com/PaintedAmdree) - Created the MassOS ASCII art for Neofetch.
-- [poopman97](https://github.com/poopman97) - Helped with locating build issues and compiled some past builds of MassOS.
+- [RetronEletron](https://github.com/RetronEletron) - Is working on bringing the KDE Plasma desktop environment to MassOS.
 
 **If you make a significant contribution to MassOS, you may have your name featured here too.**

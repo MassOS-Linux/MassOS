@@ -1,0 +1,37 @@
+.TH "MASS-CHROOT" "8" "May 2022" "mass-chroot" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+mass-chroot - an easy to use and convenient wrapper around chroot.
+.SH SYNOPSIS
+.PP
+\f[B]mass-chroot\f[R] <\f[I]chroot_dir\f[R]> [\f[I]optional_custom_command\f[R]]
+.SH DESCRIPTION
+.PP
+\f[B]mass-chroot\f[R] is a wrapper around chroot designed to make life easier for MassOS developers and anyone else who uses chroot a lot.
+
+\f[B]mass-chroot\f[R] will automatically mount the needed virtual filesystems (/dev, /proc, /sys, etc.), so you don't have to mount them manually, and will also automatically unmount them when you exit the chroot.
+.SH EXIT STATUS
+.PP
+\f[B]mass-chroot\f[R] will exit with the same exit status as that of the program which was run. This is normally 0 for success and >0 for failure. The status is also verbosely reported.
+.SH EXAMPLES
+.TP
+\f[B]mass-chroot /mnt/massos\f[R]
+Enters a chroot environment in /mnt/massos and launches the default shell.
+.TP
+\f[B]mass-chroot /mnt/massos /bin/bash --login\f[R]
+Enters a chroot environment in /mnt/massos and launches a login Bash shell.
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

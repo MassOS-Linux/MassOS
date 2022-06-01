@@ -1,0 +1,48 @@
+.TH "ADDUSER" "1" "May 2022" "adduser" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+adduser - Interactively add a new user to the system.
+.SH SYNOPSIS
+.PP
+\f[B]adduser\f[R] [\f[I]username\f[R]]
+.SH DESCRIPTION
+.PP
+\f[B]adduser\f[R] is an interactive frontend for useradd(8) which can be used to add new users to the system.
+
+\f[B]adduser\f[R] will provide a series of prompts to set up the new user, including their username (if not supplied as an argument), full name, login shell and privileges. It will then call passwd(1) to set the password for the user.
+
+\f[B]adduser\f[R] can optionally be provided the username as an argument (see examples below), which will cause the username prompt to be skipped.
+
+\f[B]adduser\f[R] will also automatically set up the default user configuration files by copying the files from /etc/skel to the new user's home directory. useradd(8) will NOT do this by default, so if using this, you must do it manually.
+
+\f[B]adduser\f[R] is designed to be run by humans. As such, it is not possible to use non-interactively. If you want that, try useradd(8) instead.
+
+\f[B]adduser\f[R] was inspired by the Debian utility of the same name, however our version is written from scratch and not based on the Debian version.
+.SH EXIT STATUS
+.PP
+\f[B]adduser\f[R] will exit with 0 for success and 1 for failure.
+.SH EXAMPLES
+.TP
+\f[B]adduser\f[R]
+Interactively creates a new user.
+.TP
+\f[B]adduser john\f[R]
+Interactively creates a new user with the username "john".
+.SH SEE ALSO
+.TP
+useradd(8), passwd(1)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

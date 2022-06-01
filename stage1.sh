@@ -9,6 +9,8 @@ if [ ! -d sources ]; then
   echo "Error: You must run retrieve-sources.sh first!" >&2
   exit 1
 fi
+# Starting message.
+echo "Starting Stage 1 Build..."
 # Setup the environment.
 MASSOS="$PWD"/massos-rootfs
 MASSOS_TARGET=x86_64-massos-linux-gnu
@@ -43,7 +45,7 @@ cp patches/* "$SRC"/patches
 cp -r utils/systemd-units "$SRC"
 # Change to the sources directory.
 cd "$SRC"
-# Binutils (Pass 1).
+# Binutils (Initial build for bootstrapping).
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
 mkdir build; cd build
@@ -52,9 +54,9 @@ make
 make -j1 install
 cd ../..
 rm -rf binutils-2.38
-# GCC (Pass 1).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+# GCC (Initial build for bootstrapping).
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
@@ -68,23 +70,23 @@ make install
 cd ..
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
 cd ..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # Linux API Headers.
-tar -xf linux-5.17.5.tar.xz
-cd linux-5.17.5
+tar -xf linux-5.18.1.tar.xz
+cd linux-5.18.1
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.17.5
+rm -rf linux-5.18.1
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
 patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --disable-default-pie --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
 make
 make DESTDIR="$MASSOS" install
 ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
@@ -92,15 +94,15 @@ sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..
 rm -rf glibc-2.35
-# libstdc++ from GCC (Pass 1).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+# libstdc++ from GCC (Could not be built with bootstrap GCC).
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --host=$MASSOS_TARGET --build=$(../config.guess) --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$MASSOS_TARGET/include/c++/$($MASSOS_TARGET-gcc --version | head -n1 | cut -d')' -f2 | sed 's/ //')
+CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$MASSOS_TARGET/include/c++/$($MASSOS_TARGET-gcc -dumpversion)
 make
 make DESTDIR="$MASSOS" install
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -238,36 +240,38 @@ make
 make DESTDIR="$MASSOS" install
 cd ..
 rm -rf xz-5.2.5
-# Binutils (Pass 2).
+# Binutils (For stage 2, built using our new bootstrap toolchain).
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38
-sed '6009s/$add_dir//' -i ltmain.sh
+sed -i '6009s/$add_dir//' ltmain.sh
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --with-pkgversion="MassOS Binutils" --disable-nls --enable-shared --disable-werror --enable-64-bit-bfd
 make
 make -j1 DESTDIR="$MASSOS" install
-install -m755 libctf/.libs/libctf.so.0.0.0 "$MASSOS"/usr/lib
 cd ../..
 rm -rf binutils-2.38
-# GCC (Pass 2).
-tar -xf gcc-11.3.0.tar.xz
-cd gcc-11.3.0
+# GCC (For stage 2, built using our new bootstrap toolchain).
+tar -xf gcc-12.1.0.tar.xz
+cd gcc-12.1.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
 mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
+sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build
-mkdir -p $MASSOS_TARGET/libgcc
-ln -s ../../../libgcc/gthr-posix.h $MASSOS_TARGET/libgcc/gthr-default.h
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure CC_FOR_TARGET=$MASSOS_TARGET-gcc --build=$(../config.guess) --host=$MASSOS_TARGET --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
 make
 make DESTDIR="$MASSOS" install
-ln -s gcc "$MASSOS"/usr/bin/cc
+ln -sf gcc "$MASSOS"/usr/bin/cc
 cd ../..
-rm -rf gcc-11.3.0
+rm -rf gcc-12.1.0
 cd ../..
+# Remove bootstrap toolchain directory.
+rm -rf "$MASSOS"/tools
+# Remove temporary system documentation.
+rm -rf "$MASSOS"/usr/share/{info,man,doc}/*
 # Copy extra utilities and configuration files into the environment.
 cp -r utils/etc/* "$MASSOS"/etc
 cp utils/massos-release "$MASSOS"/etc
@@ -279,7 +283,8 @@ cp -r logo/* "$SRC"
 cp utils/builtins "$SRC"
 cp -r utils/extra-package-licenses "$SRC"
 cp -r backgrounds "$SRC"
+cp -r utils/man "$SRC"
 cp LICENSE "$SRC"
 cp build-system.sh "$SRC"
-echo -e "\nThe bootstrap system was built successfully."
+echo -e "\nThe Stage 1 bootstrap system was built successfully."
 echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."

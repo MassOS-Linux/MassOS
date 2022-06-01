@@ -160,6 +160,7 @@ gst-plugins-base
 gst-plugins-good
 gst-plugins-ugly
 gstreamer
+gstreamer-vaapi
 gtar
 gtk-doc
 gtk2
@@ -206,6 +207,7 @@ krb5
 lame
 laptop-detect
 lcms2
+ldac
 less
 libaio
 libarchive
@@ -269,6 +271,7 @@ libnotify
 libnsl
 libogg
 libostree
+libpaper
 libpcap
 libpciaccess
 libpeas
@@ -362,6 +365,7 @@ lm-sensors
 lmdb
 locale-gettext
 lsb-tools
+lua
 luit
 lvm2
 lxml
@@ -390,6 +394,7 @@ mobile-broadband-provider-info
 modemmanager
 moreutils
 mpc
+mpdecimal
 mpfr
 mpg123
 mtdev
@@ -399,6 +404,7 @@ mupdf
 nano
 nasm
 ncurses
+neofetch
 net-snmp
 netcat
 nettle
@@ -412,6 +418,7 @@ npth
 nspr
 nss
 ntfs-3g
+nvidia-open-kernel-modules
 openal
 openjade
 openjpeg
@@ -426,6 +433,7 @@ orc
 os-prober
 p11-kit
 p7zip
+packaging
 pahole
 pango
 pangomm
@@ -433,6 +441,7 @@ parole
 parse-yapp
 parted
 patch
+patchelf
 pavucontrol
 pciutils
 pcre
@@ -444,12 +453,14 @@ pkg-config
 pigz
 pinentry
 pip
+pipewire
 pixman
 ply
 plymouth
 polkit
 polkit-gnome
 poppler
+popsicle
 popt
 ppp
 procps-ng
@@ -464,6 +475,7 @@ pygobject
 pyopenssl
 pyparsing
 python
+python-dbusmock
 python-distutils-extra
 qpdf
 qrencode
@@ -476,6 +488,7 @@ rrdtool
 rsync
 rtmpdump
 ruby
+run-parts
 sane
 sassc
 sbc
@@ -486,10 +499,12 @@ sessreg
 setuptools
 setxkbmap
 sgml-common
+sgmlspm
 shadow
 shared-mime-info
 sharutils
 shotwell
+six
 sl
 slang
 smartypants
@@ -549,6 +564,7 @@ wget
 which
 whois
 wireless-tools
+wireplumber
 woff2
 wpa-supplicant
 wpebackend-fdo

@@ -1,0 +1,44 @@
+.TH "SET-DEFAULT-TAR" "8" "May 2022" "set-default-tar" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+set-default-tar - Set the default tar program on MassOS.
+.SH SYNOPSIS
+.PP
+\f[B]set-default-tar\f[R] <\f[I]program\f[R]>
+.SH DESCRIPTION
+.PP
+\f[B]set-default-tar\f[R] is a small utility which will change the default program for tar(1) on MassOS.
+
+MassOS has multiple tar implementations. The default is bsdtar from libarchive, however there is also GNU tar.
+
+There are more subtle differences between both, but in short, bsdtar supports more archive formats (such as .zip, .7z, .deb, etc.), whereas GNU tar supports more command line options.
+
+\f[B]set-default-tar\f[R] will update the /usr/bin/tar symlink to point to the program specified.
+.SH EXIT STATUS
+.PP
+\f[B]set-default-tar\f[R] will exit with 0 for success and 1 for failure.
+.SH EXAMPLES
+.TP
+\f[B]set-default-tar bsdtar\f[R]
+Sets the default tar program to libarchive bsdtar (default).
+.TP
+\f[B]set-default-tar gtar\f[R]
+Sets the default tar program to GNU tar.
+.SH SEE ALSO
+.TP
+tar(1)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2022 MassOS Developers.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.
