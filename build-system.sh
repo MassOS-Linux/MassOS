@@ -45,13 +45,12 @@ mkdir -p /usr/{,local/}{include,src}
 mkdir -p /usr/local/{bin,lib,libexec,sbin}
 mkdir -p /usr/{,local/}share/{color,dict,doc,info,locale,man}
 mkdir -p /usr/{,local/}share/{misc,terminfo,zoneinfo}
-mkdir -p /usr/{,local/}share/man/man{1..8}
 mkdir -p /var/{cache,local,log,mail,opt,spool}
 mkdir -p /var/lib/{color,misc,locate}
 ln -sf lib /usr/local/lib64
 ln -sf /run /var/run
 ln -sf /run/lock /var/lock
-ln -sf run/media /media
+ln -sf /run/media /media
 install -dm0750 /root
 cp /etc/skel/.{bashrc,bash_profile,profile,bash_logout} /root
 install -dm1777 /tmp /var/tmp
@@ -61,27 +60,15 @@ chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
 # Install MassOS Backgrounds.
 install -t /usr/share/backgrounds/xfce -Dm644 backgrounds/*
-# Install man pages for MassOS system utilities.
-cp -r man/* /usr/share/man
 # Set the locale correctly.
 mkdir -p /usr/lib/locale
 mklocales
-# libstdc++ from GCC (Pass 2).
-tar -xf gcc-12.1.0.tar.xz
-cd gcc-12.1.0
-ln -s gthr-posix.h libgcc/gthr-default.h
-mkdir build; cd build
-CFLAGS="-O2 -D_GNU_SOURCE" CXXFLAGS="-O2 -D_GNU_SOURCE" ../libstdc++-v3/configure --prefix=/usr --disable-multilib --disable-nls --host=$(uname -m)-massos-linux-gnu --disable-libstdcxx-pch
-make
-make install
-cd ../..
-rm -rf gcc-12.1.0
 # 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
 tar -xf gettext-0.21.tar.xz
 cd gettext-0.21
 ./configure --disable-shared
 make
-cp gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+install -t /usr/bin -Dm755 gettext-tools/src/{msgfmt,msgmerge,xgettext}
 cd ..
 rm -rf gettext-0.21
 # Bison.
@@ -93,13 +80,13 @@ make install
 cd ..
 rm -rf bison-3.8.2
 # Perl.
-tar -xf perl-5.34.1.tar.xz
-cd perl-5.34.1
-./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl
+tar -xf perl-5.36.0.tar.xz
+cd perl-5.36.0
+./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.36/core_perl -Darchlib=/usr/lib/perl5/5.36/core_perl -Dsitelib=/usr/lib/perl5/5.36/site_perl -Dsitearch=/usr/lib/perl5/5.36/site_perl -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
 make
 make install
 cd ..
-rm -rf perl-5.34.1
+rm -rf perl-5.36.0
 # Python.
 tar -xf Python-3.10.4.tar.xz
 cd Python-3.10.4
@@ -126,12 +113,8 @@ make
 make install
 cd ..
 rm -rf util-linux-2.38
-# Remove documentation from the temporary system.
-rm -rf /usr/share/{info,man,doc}/*
-# Remove libtool archives (.la).
-find /usr/{lib,libexec} -name \*.la -delete
-# Remove temporary toolchain directory.
-rm -rf /tools
+# Install man pages for MassOS system utilities.
+cp -r man/* /usr/share/man
 # man-pages.
 tar -xf man-pages-5.13.tar.xz
 cd man-pages-5.13
@@ -139,9 +122,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220520.tar.gz
-cp iana-etc-20220520/{protocols,services} /etc
-rm -rf iana-etc-20220520
+tar -xf iana-etc-20220524.tar.gz
+cp iana-etc-20220524/{protocols,services} /etc
+rm -rf iana-etc-20220524
 # Neofetch.
 tar -xf neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055.tar.gz
 cd neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055
@@ -156,7 +139,7 @@ cd glibc-2.35
 patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --disable-werror --enable-kernel=3.2 --enable-stack-protector=strong --with-headers=/usr/include libc_cv_slibdir=/usr/lib
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --enable-kernel=3.2 --enable-stack-protector=strong --disable-default-pie --disable-werror --with-headers=/usr/include libc_cv_slibdir=/usr/lib
 make
 sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 make install
@@ -739,16 +722,16 @@ install -t /usr/share/licenses/lua -Dm644 COPYING
 cd ..
 rm -rf lua-5.4.4
 # Perl.
-tar -xf perl-5.34.1.tar.xz
-cd perl-5.34.1
+tar -xf perl-5.36.0.tar.xz
+cd perl-5.36.0
 export BUILD_ZLIB=False BUILD_BZIP2=0
-./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.34/core_perl -Darchlib=/usr/lib/perl5/5.34/core_perl -Dsitelib=/usr/lib/perl5/5.34/site_perl -Dsitearch=/usr/lib/perl5/5.34/site_perl -Dvendorlib=/usr/lib/perl5/5.34/vendor_perl -Dvendorarch=/usr/lib/perl5/5.34/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib -Dusethreads
+./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.36/core_perl -Darchlib=/usr/lib/perl5/5.36/core_perl -Dsitelib=/usr/lib/perl5/5.36/site_perl -Dsitearch=/usr/lib/perl5/5.36/site_perl -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib -Dusethreads
 make
 make install
 unset BUILD_ZLIB BUILD_BZIP2
-install -t /usr/share/licenses/perl -Dm644 Artistic Copying
+install -t /usr/share/licenses/perl -Dm644 Copying
 cd ..
-rm -rf perl-5.34.1
+rm -rf perl-5.36.0
 # SGMLSpm
 tar -xf SGMLSpm-1.1.tar.gz
 cd SGMLSpm-1.1
@@ -756,7 +739,7 @@ chmod +w MYMETA.yml
 perl Makefile.PL
 make
 make install
-rm -f /usr/lib/perl5/5.34/core_perl/perllocal.pod
+rm -f /usr/lib/perl5/5.36/core_perl/perllocal.pod
 ln -sf sgmlspl.pl /usr/bin/sgmlspl
 install -t /usr/share/licenses/sgmlspm -Dm644 COPYING
 cd ..
@@ -939,6 +922,13 @@ python setup.py install --optimize=1
 install -t /usr/share/licenses/packaging -Dm644 LICENSE{,.APACHE,.BSD}
 cd ..
 rm -rf packaging-21.3
+# six.
+tar -xf six-1.16.0.tar.gz
+cd six-1.16.0
+python setup.py install --optimize=1
+install -t /usr/share/licenses/six -Dm644 LICENSE
+cd ..
+rm -rf six-1.16.0
 # distro.
 tar -xf distro-1.6.0.tar.gz
 cd distro-1.6.0
@@ -1107,13 +1097,13 @@ install -t /usr/share/licenses/iptables -Dm644 COPYING
 cd ..
 rm -rf iptables-1.8.8
 # IPRoute2.
-tar -xf iproute2-5.17.0.tar.xz
-cd iproute2-5.17.0
+tar -xf iproute2-5.18.0.tar.xz
+cd iproute2-5.18.0
 make
 make SBINDIR=/usr/sbin install
 install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 cd ..
-rm -rf iproute2-5.17.0
+rm -rf iproute2-5.18.0
 # Kbd.
 tar -xf kbd-2.4.0.tar.xz
 cd kbd-2.4.0
@@ -1319,8 +1309,8 @@ install -t /usr/share/licenses/help2man -Dm644 COPYING
 cd ..
 rm -rf help2man-1.49.2
 # dialog.
-tar -xf dialog-1.3-20220414.tgz
-cd dialog-1.3-20220414
+tar -xf dialog-1.3-20220526.tgz
+cd dialog-1.3-20220526
 ./configure --prefix=/usr --enable-nls --with-libtool --with-ncursesw
 make
 make install
@@ -1328,7 +1318,7 @@ rm -f /usr/lib/libdialog.a
 chmod 755 /usr/lib/libdialog.so.15.0.0
 install -t /usr/share/licenses/dialog -Dm644 COPYING
 cd ..
-rm -rf dialog-1.3-20220414
+rm -rf dialog-1.3-20220526
 # acpi.
 tar -xf acpi-1.7.tar.gz
 cd acpi-1.7
@@ -2526,15 +2516,14 @@ install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv
 cd ..
 rm -rf nettle-3.7.3
 # GNUTLS.
-tar -xf gnutls-3.7.5.tar.xz
-cd gnutls-3.7.5
-patch -Np1 -i ../patches/gnutls-3.7.5-upstreamfix.patch
+tar -xf gnutls-3.7.6.tar.xz
+cd gnutls-3.7.6
 ./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:" --enable-openssl-compatibility --enable-ssl3-support
 make
 make install
 install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
-rm -rf gnutls-3.7.5
+rm -rf gnutls-3.7.6
 # OpenLDAP.
 tar -xf openldap-2.6.2.tgz
 cd openldap-2.6.2
@@ -2576,21 +2565,19 @@ install -t /usr/share/licenses/gnupg -Dm644 COPYING COPYING.CC0 COPYING.GPL2 COP
 cd ..
 rm -rf gnupg-2.3.6
 # krb5.
-tar -xf krb5-1.19.3.tar.gz
-cd krb5-1.19.3/src
-patch -Np2 -i ../../patches/krb5-1.19.2-OpenSSL3.patch
-autoreconf -fi
+tar -xf krb5-1.20.tar.gz
+cd krb5-1.20/src
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
 make
 make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
 cd ../..
-rm -rf krb5-1.19.3
+rm -rf krb5-1.20
 # rtmpdump.
 tar -xf rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 cd rtmpdump-2.4-20210219-gf1b83c1
 patch -Np1 -i ../patches/rtmpdump-2.4-openssl.patch
-make prefix=/usr mandir=/usr/share/man OPT=-Os
+make prefix=/usr mandir=/usr/share/man OPT="$CFLAGS"
 make prefix=/usr mandir=/usr/share/man install
 rm -f /usr/lib/librtmp.a
 install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
@@ -2605,8 +2592,8 @@ make install
 cd ..
 rm -rf curl-7.83.1
 # OpenVPN.
-tar -xf openvpn-2.5.6.tar.gz
-cd openvpn-2.5.6
+tar -xf openvpn-2.5.7.tar.gz
+cd openvpn-2.5.7
 sed -i '/^CONFIGURE_DEFINES=/s/set/env/g' configure.ac
 autoreconf -fi
 ./configure --prefix=/usr --enable-pkcs11 --enable-plugins --enable-systemd --enable-x509-alt-username
@@ -2621,7 +2608,7 @@ done <<< $(find contrib -type f)
 cp -r sample/sample-config-files /usr/share/openvpn/examples
 install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 cd ..
-rm -rf openvpn-2.5.6
+rm -rf openvpn-2.5.7
 # SWIG.
 tar -xf swig-4.0.2.tar.gz
 cd swig-4.0.2
@@ -2856,30 +2843,32 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.34
 # NSS.
-tar -xf nss-3.78.tar.gz
-cd nss-3.78
-patch -Np1 -i ../patches/nss-3.56-Standalone.patch
-cd nss
-make BUILD_OPT=1 NSPR_INCLUDE_DIR=/usr/include/nspr USE_SYSTEM_ZLIB=1 ZLIB_LIBS=-lz NSS_ENABLE_WERROR=0 USE_64=1 NSS_USE_SYSTEM_SQLITE=1
-cd ../dist
-install -m755 Linux*/lib/*.so /usr/lib
-install -m644 Linux*/lib/{*.chk,libcrmf.a} /usr/lib
+tar -xf nss-NSS_3_79_RTM.tar.gz
+cd nss-NSS_3_79_RTM
+mkdir gyp
+tar -xf ../gyp-9ecf45.tar.gz -C gyp --strip-components=1
+PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
+install -t /usr/lib -Dm755 ../dist/Release/lib/*.so
+install -t /usr/lib -Dm644 ../dist/Release/lib/*.chk
+install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver,ssltap}
+install -t /usr/share/man/man1 -Dm644 doc/nroff/{*util,signtool,signver,ssltap}.1
 install -dm755 /usr/include/nss
-cp -RL {public,private}/nss/* /usr/include/nss
-chmod 644 /usr/include/nss/*
-install -m755 Linux*/bin/{certutil,nss-config,pk12util} /usr/bin
-install -m644 Linux*/lib/pkgconfig/nss.pc /usr/lib/pkgconfig
+cp -r ../dist/{public,private}/nss/* /usr/include/nss
+sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.79.0|g" > /usr/lib/pkgconfig/nss.pc
+sed pkg/pkg-config/nss-config.in -e 's|@prefix@|/usr|g' -e "s|@MOD_MAJOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f1)|g" -e "s|@MOD_MINOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f2)|g" -e "s|@MOD_PATCH_VERSION@|$(pkg-config --modversion nss | cut -d. -f3)|g" > /usr/bin/nss-config
+chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
-install -t /usr/share/licenses/nss -Dm644 ../nss/COPYING
-cd ../..
-rm -rf nss-3.78
+install -t /usr/share/licenses/nss -Dm644 COPYING
+cd ..
+rm -rf dist
+rm -rf nss-NSS_3_79_RTM
 # Git.
 tar -xf git-2.36.1.tar.xz
 cd git-2.36.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
-make perllibdir=/usr/lib/perl5/5.34/site_perl install
+make perllibdir=/usr/lib/perl5/5.36/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
@@ -2915,8 +2904,8 @@ make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
 # GLib.
-tar -xf glib-2.72.1.tar.xz
-cd glib-2.72.1
+tar -xf glib-2.72.2.tar.xz
+cd glib-2.72.2
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=release -Dman=true ..
@@ -2924,7 +2913,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.72.1
+rm -rf glib-2.72.2
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -3045,8 +3034,8 @@ cd rust-1.58.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.58.1-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.9.1esr.source.tar.xz
-cd firefox-91.9.1
+tar -xf firefox-91.10.0esr.source.tar.xz
+cd firefox-91.10.0
 mkdir JS91-build; cd JS91-build
 chmod +x ../js/src/configure.in
 SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
@@ -3056,7 +3045,7 @@ rm -f /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.9.1
+rm -rf firefox-91.10.0
 # Sudo.
 tar -xf sudo-1.9.10.tar.gz
 cd sudo-1.9.10
@@ -3323,14 +3312,14 @@ install -t /usr/share/licenses/libatasmart -Dm644 LGPL
 cd ..
 rm -rf libatasmart-0.19
 # libbytesize.
-tar -xf libbytesize-2.6.tar.gz
-cd libbytesize-2.6
+tar -xf libbytesize-2.7.tar.gz
+cd libbytesize-2.7
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libbytesize -Dm644 LICENSE
 cd ..
-rm -rf libbytesize-2.6
+rm -rf libbytesize-2.7
 # libblockdev.
 tar -xf libblockdev-2.26.tar.gz
 cd libblockdev-2.26
@@ -3950,7 +3939,7 @@ rm -rf libglvnd-v1.4.0
 tar -xf mesa-22.1.0.tar.xz
 cd mesa-22.1.0
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers="crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink" -Dvulkan-drivers="amd,intel,swrast" -Dvulkan-layers="device-select,intel-nullhw,overlay" -Dgallium-nine=false -Dglvnd=true -Dglx=dri -Dosmesa=true -Dvalgrind=disabled ..
+meson --prefix=/usr --buildtype=release -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
@@ -4445,7 +4434,7 @@ install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
 useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
-./configure --prefix=/usr --sysconfdir=/etc/ssh --with-md5-passwords --with-pam --with-privsep-path=/var/lib/sshd --with-default-path=/usr/bin --with-superuser-path=/usr/sbin:/usr/bin --with-pid-dir=/run --with-kerberos5=/usr --with-xauth=/usr/bin/xauth
+./configure --prefix=/usr --sysconfdir=/etc/ssh --with-default-path="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin" --with-kerberos5=/usr --with-pam --with-pid-dir=/run --without-pie --with-privsep-path=/var/lib/sshd --with-ssl-engine --with-xauth=/usr/bin/xauth
 make
 make install
 install -m755 contrib/ssh-copy-id /usr/bin
@@ -4458,15 +4447,15 @@ install -t /usr/share/licenses/openssh -Dm644 LICENCE
 cd ..
 rm -rf openssh-9.0p1
 # sshfs.
-tar -xf sshfs-3.7.2.tar.xz
-cd sshfs-3.7.2
+tar -xf sshfs-3.7.3.tar.xz
+cd sshfs-3.7.3
 mkdir sshfs-build; cd sshfs-build
 meson --prefix=/usr --buildtype=release ..
 ninja
 ninja install
 install -t /usr/share/licenses/sshfs -Dm644 ../COPYING
 cd ../..
-rm -rf sshfs-3.7.2
+rm -rf sshfs-3.7.3
 # GLU.
 tar -xf glu-9.0.2.tar.xz
 cd glu-9.0.2
@@ -4488,16 +4477,15 @@ install -t /usr/share/licenses/freeglut -Dm644 ../COPYING
 cd ../..
 rm -rf freeglut-3.2.2
 # libtiff.
-tar -xf tiff-4.3.0.tar.gz
-cd tiff-4.3.0
-mkdir ltiff-build; cd ltiff-build
+tar -xf libtiff-v4.4.0.tar.bz2
+cd libtiff-v4.4.0
+mkdir libtiff-build; cd libtiff-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
-sed -i /Version/s/\$/$(cat ../VERSION)/ /usr/lib/pkgconfig/libtiff-4.pc
 install -t /usr/share/licenses/libtiff -Dm644 ../COPYRIGHT
 cd ../..
-rm -rf tiff-4.3.0
+rm -rf libtiff-v4.4.0
 # lcms2.
 tar -xf lcms2-2.13.1.tar.gz
 cd lcms2-2.13.1
@@ -4746,7 +4734,7 @@ mkdir colord-build; cd colord-build
 meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
 ninja
 ninja install
-install -t /usr/share/licenses/ppp -Dm644 ../COPYING
+install -t /usr/share/licenses/colord -Dm644 ../COPYING
 cd ../..
 rm -rf colord-1.4.6
 # CUPS.
@@ -4769,16 +4757,17 @@ install -t /usr/share/licenses/cups -Dm644 LICENSE
 cd ..
 rm -rf cups-2.4.2
 # GTK3.
-tar -xf gtk+-3.24.34.tar.xz
-cd gtk+-3.24.34
-./configure --prefix=/usr --sysconfdir=/etc --enable-broadway-backend --enable-colord --enable-cups --enable-wayland-backend --enable-x11-backend
-make
-make install
+tar -xf gtk-3.24.34.tar.bz2
+cd gtk-3.24.34
+mkdir gtk3-build; cd gtk3-build
+meson --prefix=/usr --buildtype=release -Dbroadway_backend=true -Dcolord=yes -Dexamples=false -Dman=true -Dprint_backends=cups,file,lpr -Dtests=false ..
+ninja
+ninja install
 gtk-query-immodules-3.0 --update-cache
 glib-compile-schemas /usr/share/glib-2.0/schemas
-install -t /usr/share/licenses/gtk3 -Dm644 COPYING
-cd ..
-rm -rf gtk+-3.24.34
+install -t /usr/share/licenses/gtk3 -Dm644 ../COPYING
+cd ../..
+rm -rf gtk-3.24.34
 # Gtkmm3.
 tar -xf gtkmm-3.24.6.tar.xz
 cd gtkmm-3.24.6
@@ -4789,30 +4778,6 @@ ninja install
 install -t /usr/share/licenses/gtkmm3 -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf gtkmm-3.24.6
-# Arc (GTK Theme).
-tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
-gtk-update-icon-cache /usr/share/icons/Arc
-mkdir -p /etc/gtk-2.0
-cat > /etc/gtk-2.0/gtkrc << END
-gtk-theme-name = "Arc-Dark"
-gtk-icon-theme-name = "Arc"
-gtk-cursor-theme-name = "Adwaita"
-gtk-font-name = "Noto Sans 10"
-END
-mkdir -p /etc/gtk-3.0
-cat > /etc/gtk-3.0/settings.ini << END
-[Settings]
-gtk-theme-name = Arc-Dark
-gtk-icon-theme-name = Arc
-gtk-font-name = Noto Sans 10
-gtk-cursor-theme-size = 0
-gtk-toolbar-style = GTK_TOOLBAR_ICONS
-gtk-xft-antialias = 1
-gtk-xft-hinting = 1
-gtk-xft-hintstyle = hintnone
-gtk-xft-rgba = rgb
-gtk-cursor-theme-name = Adwaita
-END
 # libhandy.
 tar -xf libhandy-1.6.2.tar.xz
 cd libhandy-1.6.2
@@ -5121,8 +5086,8 @@ install -t /usr/share/licenses/orc -Dm644 ../COPYING
 cd ../..
 rm -rf orc-0.4.32
 # PulseAudio.
-tar -xf pulseaudio-15.0.tar.xz
-cd pulseaudio-15.0
+tar -xf pulseaudio-16.0.tar.xz
+cd pulseaudio-16.0
 mkdir pulse-build; cd pulse-build
 meson --prefix=/usr --buildtype=release -Ddatabase=gdbm -Ddoxygen=false ..
 ninja
@@ -5130,7 +5095,7 @@ ninja install
 rm -f /etc/dbus-1/system.d/pulseaudio-system.conf
 install -t /usr/share/licenses/pulseaudio -Dm644 ../LICENSE ../GPL ../LGPL
 cd ../..
-rm -rf pulseaudio-15.0
+rm -rf pulseaudio-16.0
 # SDL (rebuild to support pulseaudio).
 tar -xf SDL-1.2.15.tar.gz
 cd SDL-1.2.15
@@ -5170,9 +5135,8 @@ rm -rf laptop-detect-0.16
 # rrdtool.
 tar -xf rrdtool-1.7.2.tar.gz
 cd rrdtool-1.7.2
-sed -e 's/$(RUBY) ${abs_srcdir}\/ruby\/extconf.rb/& --vendor/' -i bindings/Makefile.am
 autoreconf -fi
-./configure --prefix=/usr --localstatedir=/var --disable-rpath --enable-perl --enable-perl-site-install --with-perl-options='INSTALLDIRS=vendor' --enable-ruby --enable-ruby-site-install --enable-python --enable-tcl --disable-libwrap
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-rpath --disable-static --enable-lua --enable-perl --enable-perl-site-install --enable-python --enable-ruby --enable-ruby-site-install --enable-tcl
 make
 make install
 rm -f /usr/lib/librrd.a
@@ -5233,8 +5197,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.5018.tar.gz
-cd vim-8.2.5018
+tar -xf vim-8.2.5046.tar.gz
+cd vim-8.2.5046
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5257,7 +5221,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.5018
+rm -rf vim-8.2.5046
 # libwpe.
 tar -xf libwpe-1.13.1.tar.xz
 cd libwpe-1.13.1
@@ -5562,8 +5526,8 @@ install -t /usr/share/licenses/cffi -Dm644 LICENSE
 cd ..
 rm -rf cffi-1.15.0
 # cryptography.
-tar -xf cryptography-36.0.2.tar.gz
-cd cryptography-36.0.2
+tar -xf cryptography-37.0.1.tar.gz
+cd cryptography-37.0.1
 ## First, install the build dependencies.
 pip install ../typing_extensions-4.1.1-py3-none-any.whl ../semantic_version-2.9.0-py2.py3-none-any.whl ../setuptools_rust-1.2.0-py3-none-any.whl
 ## Now build and install the package.
@@ -5572,7 +5536,7 @@ install -t /usr/share/licenses/cryptography -Dm644 LICENSE*
 ## Now uninstall the build dependencies since they aren't needed.
 pip uninstall setuptools-rust semantic-version typing-extensions -y
 cd ..
-rm -rf cryptography-36.0.2
+rm -rf cryptography-37.0.1
 # pyopenssl.
 tar -xf pyopenssl-22.0.0.tar.gz
 cd pyopenssl-22.0.0
@@ -5945,7 +5909,6 @@ END
 groupadd -g 69 flatpak
 useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install -y runtime/org.gtk.Gtk3theme.Arc-Dark/x86_64/3.22
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
 rm -rf flatpak-1.13.2
@@ -6390,8 +6353,8 @@ install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LIC
 cd ../..
 rm -rf pipewire-0.3.51
 # WebKitGTK.
-tar -xf webkitgtk-2.36.2.tar.xz
-cd webkitgtk-2.36.2
+tar -xf webkitgtk-2.36.3.tar.xz
+cd webkitgtk-2.36.3
 mkdir webkitgtk-build; cd webkitgtk-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DENABLE_GAMEPAD=OFF -DENABLE_GLES2=ON -DENABLE_GTKDOC=ON -DENABLE_MINIBROWSER=ON -DUSE_LIBHYPHEN=OFF -DUSE_SOUP2=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -6399,7 +6362,7 @@ ninja install
 install -dm755 /usr/share/licenses/webkitgtk
 find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
 cd ../..
-rm -rf webkitgtk-2.36.2
+rm -rf webkitgtk-2.36.3
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6477,6 +6440,31 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.50.2
+# Arc Theme for Xfce.
+tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
+gtk-update-icon-cache /usr/share/icons/Arc
+mkdir -p /etc/gtk-2.0
+cat > /etc/gtk-2.0/gtkrc << "END"
+gtk-theme-name = "Arc-Dark"
+gtk-icon-theme-name = "Arc"
+gtk-cursor-theme-name = "Adwaita"
+gtk-font-name = "Noto Sans 10"
+END
+mkdir -p /etc/gtk-3.0
+cat > /etc/gtk-3.0/settings.ini << "END"
+[Settings]
+gtk-theme-name = Arc-Dark
+gtk-icon-theme-name = Arc
+gtk-font-name = Noto Sans 10
+gtk-cursor-theme-size = 0
+gtk-toolbar-style = GTK_TOOLBAR_ICONS
+gtk-xft-antialias = 1
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = hintnone
+gtk-xft-rgba = rgb
+gtk-cursor-theme-name = Adwaita
+END
+flatpak install -y runtime/org.gtk.Gtk3theme.Arc{,-Dark}/x86_64/3.22
 # libxfce4util.
 tar -xf libxfce4util-4.17.2.tar.bz2
 cd libxfce4util-4.17.2
@@ -6763,14 +6751,14 @@ install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 cd ..
 rm -rf xfce4-screenshooter-1.9.10
 # xfce4-taskmanager.
-tar -xf xfce4-taskmanager-1.5.3.tar.bz2
-cd xfce4-taskmanager-1.5.3
+tar -xf xfce4-taskmanager-1.5.4.tar.bz2
+cd xfce4-taskmanager-1.5.4
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-taskmanager -Dm644 COPYING
 cd ..
-rm -rf xfce4-taskmanager-1.5.3
+rm -rf xfce4-taskmanager-1.5.4
 # xfce4-clipman-plugin.
 tar -xf xfce4-clipman-plugin-1.6.2.tar.bz2
 cd xfce4-clipman-plugin-1.6.2
@@ -6994,7 +6982,7 @@ plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
 # Firefox.
-tar --no-same-owner -xf firefox-100.0.2.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-101.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -7064,8 +7052,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.tar.xz
-cd linux-5.18
+tar -xf linux-5.18.1.tar.xz
+cd linux-5.18.1
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7101,7 +7089,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18
+rm -rf linux-5.18.1
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz

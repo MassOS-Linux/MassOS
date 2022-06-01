@@ -1,7 +1,7 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
-# Current Development
+# MassOS 2022.06
 Changes:
 
 - MassOS has now switched to PipeWire as the primary sound server, with PulseAudio compatibility.
@@ -27,19 +27,23 @@ Upgraded software:
 - Bubblewrap: `0.6.1 --> 0.6.2`
 - CMake: `3.23.1 --> 3.23.2`
 - colord: `1.4.5 --> 1.4.6`
+- cryptography: `36.0.2 --> 37.0.1`
 - CUPS: `2.4.1 --> 2.4.2`
 - curl: `7.83.0 --> 7.83.1`
+- dialog: `1.3-20220414 --> 1.3-20220526`
 - EasyRSA: `3.0.8 --> 3.1.0`
 - Evince: `42.2 --> 42.3`
 - Fakeroot: `1.28 --> 1.29`
-- Firefox: `99.0.1 --> 100.0.2`
+- Firefox: `99.0.1 --> 101.0`
 - FreeType: `2.12.0 --> 2.12.1`
 - FUSE3: `3.10.5 --> 3.11.0`
 - Garcon: `4.16.1 --> 4.17.0`
 - GCC: `11.3.0 --> 12.1.0`
 - Git: `2.36.0 --> 2.36.1`
+- GLib: `2.72.1 --> 2.72.2`
 - GLibmm: `2.66.2 --> 2.66.4`
 - gnu-efi: `3.0.13 --> 3.0.14`
+- GNUTLS: `3.7.4 --> 3.7.6`
 - gst-libav: `1.20.1 --> 1.20.2`
 - gst-plugins-bad: `1.20.1 --> 1.20.2`
 - gst-plugins-base: `1.20.1 --> 1.20.2`
@@ -51,16 +55,20 @@ Upgraded software:
 - GVFS: `1.50.1 --> 1.50.2`
 - HarfBuzz: `4.2.1 --> 4.3.0`
 - hwdata: `0.358 --> 0.359`
-- iana-etc: `20220414 --> 20220520`
+- iana-etc: `20220414 --> 20220524`
+- IPRoute2: `5.17.0 --> 5.18.0`
 - iptables: `1.8.7 --> 1.8.8`
 - JasPer: `2.0.33 --> 3.0.3`
-- JS91: `91.8.0 --> 91.9.1`
+- JS91: `91.8.0 --> 91.10.0`
 - JSON: `4.05 --> 4.06`
+- krb5: `1.19.3 --> 1.20`
 - libass: `0.15.2 --> 0.16.0`
+- libbytesize: `2.6 --> 2.7`
 - libdvdread: `6.1.2 --> 6.1.3`
 - libnotify: `0.7.11 --> 0.7.12`
 - libostree: `2022.2 --> 2022.3`
 - librsvg: `2.54.1 --> 2.54.3`
+- libtiff: `4.3.0 --> 4.4.0`
 - libwpe: `1.12.0 --> 1.13.1`
 - libX11: `1.7.5 --> 1.8`
 - libxcb: `1.14 --> 1.15`
@@ -75,26 +83,31 @@ Upgraded software:
 - NetworkManager: `1.36.4 --> 1.38.0`
 - Ninja: `1.10.2 --> 1.11.0`
 - NSPR: `4.33 --> 4.34`
+- NSS: `3.78 --> 3.79`
 - OpenJPEG: `2.4.0 --> 2.5.0`
 - OpenLDAP: `2.6.1 --> 2.6.2`
 - OpenSSL: `3.0.2 --> 3.0.3`
+- OpenVPN: `2.5.6 --> 2.5.7`
+- Perl: `5.34.1 --> 5.36.0`
 - Poppler: `22.03.0 --> 22.05.0`
 - PSmisc: `23.4 --> 23.5`
+- PulseAudio: `15.0 --> 16.0`
 - smbclient: `4.16.0 --> 4.16.1`
 - SQLite: `3.38.3 --> 3.38.5`
+- sshfs: `3.7.2 --> 3.7.3`
 - systemd: `251-rc1 --> 251.1`
 - thunar-archive-plugin: `0.4.0 --> 0.5.0`
 - Thunderbird: `91.8.1 --> 91.9.1`
 - UPower: `0.99.17 --> 0.99.18`
-- Vim: `8.2.4826 --> 8.2.5018`
+- Vim: `8.2.4826 --> 8.2.5046`
 - Vulkan-Headers: `1.3.211 --> 1.3.213`
 - Vulkan-Loader: `1.3.211 --> 1.3.213`
-- WebKitGTK: `2.34.6 --> 2.36.2`
+- WebKitGTK: `2.34.6 --> 2.36.3`
 - xcb-proto: `1.14.1 --> 1.15`
 - xdg-dbus-proxy: `0.1.2 --> 0.1.4`
 - xdg-desktop-portal: `1.14.3 --> 1.14.4`
 - xfce4-panel: `4.16.4 --> 4.17.0`
-- xfce4-taskmanager: `1.5.2 --> 1.5.3`
+- xfce4-taskmanager: `1.5.2 --> 1.5.4`
 - xfce4-terminal: `1.0.2 --> 1.0.4`
 - xfsprogs: `5.15.0 --> 5.16.0`
 - Xwayland: `22.1.1 --> 22.1.2`
