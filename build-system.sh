@@ -3152,7 +3152,7 @@ rm -rf graphite2-1.3.14
 tar -xf harfbuzz-4.3.0.tar.xz
 cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
+meson --prefix=/usr --buildtype=release -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
@@ -3389,7 +3389,7 @@ rm -rf mtdev-1.1.6
 tar -xf wayland-1.20.0.tar.xz
 cd wayland-1.20.0
 mkdir wayland-build; cd wayland-build
-meson --prefix=/usr --buildtype=release -Ddocumentation=false ..
+meson --prefix=/usr --buildtype=release -Ddocumentation=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland -Dm644 ../COPYING
@@ -3399,7 +3399,7 @@ rm -rf wayland-1.20.0
 tar -xf wayland-protocols-1.25.tar.xz
 cd wayland-protocols-1.25
 mkdir wayland-protocols-build; cd wayland-protocols-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland-protocols -Dm644 ../COPYING
@@ -4561,7 +4561,7 @@ rm -rf cairomm-1.14.0
 tar -xf harfbuzz-4.3.0.tar.xz
 cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite2=enabled ..
+meson --prefix=/usr --buildtype=release -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
@@ -5813,7 +5813,7 @@ rm -rf glib-networking-2.72.0
 tar -xf libsoup-2.74.2.tar.xz
 cd libsoup-2.74.2
 mkdir soup-build; cd soup-build
-meson --prefix=/usr --buildtype=release -Dvapi=enabled ..
+meson --prefix=/usr --buildtype=release -Dtests=false -Dvapi=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
@@ -5823,12 +5823,12 @@ rm -rf libsoup-2.74.2
 tar -xf libsoup-3.0.6.tar.xz
 cd libsoup-3.0.6
 mkdir soup3-build; cd soup3-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dpkcs11_tests=disabled -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
-rm -rf libsoup3-3.0.6
+rm -rf libsoup-3.0.6
 # libostree.
 tar -xf libostree-2022.3.tar.xz
 cd libostree-2022.3
@@ -5873,7 +5873,7 @@ rm -rf appstream-glib-appstream_glib_0_7_18
 tar -xf bubblewrap-0.6.2.tar.xz
 cd bubblewrap-0.6.2
 mkdir bwrap-build; cd bwrap-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
@@ -5883,7 +5883,7 @@ rm -rf bubblewrap-0.6.2
 tar -xf xdg-dbus-proxy-0.1.4.tar.xz
 cd xdg-dbus-proxy-0.1.4
 mkdir xdp-build; cd xdp-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=release -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 ../COPYING
@@ -5916,7 +5916,7 @@ rm -rf flatpak-1.13.2
 tar -xf libportal-0.6.tar.xz
 cd libportal-0.6
 mkdir portal-build; cd portal-build
-meson --prefix=/usr --buildtype=release -Dbackends=gtk3 -Ddocs=false ..
+meson --prefix=/usr --buildtype=release -Dbackends=gtk3 -Ddocs=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libportal -Dm644 ../COPYING
