@@ -5933,24 +5933,6 @@ ninja install
 install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
-# xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.14.4.tar.xz
-cd xdg-desktop-portal-1.14.4
-./configure --prefix=/usr --disable-pipewire
-make
-make install
-install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
-cd ..
-rm -rf xdg-desktop-portal-1.14.4
-# xdg-desktop-portal-gtk.
-tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
-cd xdg-desktop-portal-gtk-1.14.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
-cd ..
-rm -rf xdg-desktop-portal-gtk-1.14.0
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -6352,6 +6334,24 @@ install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
 rm -rf pipewire-0.3.51
+# xdg-desktop-portal.
+tar -xf xdg-desktop-portal-1.14.4.tar.xz
+cd xdg-desktop-portal-1.14.4
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
+cd ..
+rm -rf xdg-desktop-portal-1.14.4
+# xdg-desktop-portal-gtk.
+tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
+cd xdg-desktop-portal-gtk-1.14.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
+cd ..
+rm -rf xdg-desktop-portal-gtk-1.14.0
 # WebKitGTK.
 tar -xf webkitgtk-2.36.3.tar.xz
 cd webkitgtk-2.36.3
