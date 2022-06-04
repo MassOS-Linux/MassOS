@@ -6322,9 +6322,8 @@ tar -xf pipewire-0.3.51.tar.gz
 cd pipewire-0.3.51
 tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects
 mv subprojects/wireplumber{-0.4.10,}
-sed -i '5 s/false/true/' subprojects/wireplumber/meson_options.txt
 mkdir pipewire-build; cd pipewire-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber ..
+meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
 ninja install
 systemctl --global enable pipewire.socket pipewire-pulse.socket
