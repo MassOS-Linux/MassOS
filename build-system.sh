@@ -7126,6 +7126,8 @@ rm -f /linuxrc
 rm -f /usr/bin/lsof
 # Unused package managers, potentially dangerous on MassOS.
 rm -f /usr/bin/{dpkg,dpkg-deb,rpm}
+# Unneeded.
+if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
 # Remove Debian stuff.
 rm -rf /etc/kernel
 # Move any misplaced files.
@@ -7174,6 +7176,8 @@ fi
 # Workaround no longer needed since Firefox 99+ supports FFmpeg 5.0.
 test ! -e /etc/ld.so.conf.d/firefox-libav.conf || rm -f /etc/ld.so.conf.d/firefox-libav.conf
 test ! -d /usr/lib/firefox/libav || rm -rf /usr/lib/firefox/libav
+# Unneeded.
+if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
 # Now using BGRT theme instead of spinner.
 ! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt
 # Now using PipeWire instead of PulseAudio.
