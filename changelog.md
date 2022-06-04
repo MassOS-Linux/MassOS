@@ -1,6 +1,23 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
+# Current Development
+Changes:
+
+- Development has only just begun, check back soon.
+
+Upgraded software:
+
+- Graphviz: `3.0.0 --> 4.0.0`
+- htop: `3.1.2 --> 3.2.1`
+- hwdata: `0.359 --> 0.360`
+- ISO-Codes: `4.9.0 --> 4.10.0`
+- kbd: `2.4.0 --> 2.5.0`
+- Mesa: `22.1.0 --> 22.1.1`
+- Meson: `0.62.1 --> 0.62.2`
+- Poppler: `22.05.0 --> 22.06.0`
+- systemd: `251.1 --> 251.2`
+
 # MassOS 2022.06
 Changes:
 

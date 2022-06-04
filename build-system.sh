@@ -897,8 +897,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.11.0
 # Meson.
-tar -xf meson-0.62.1.tar.gz
-cd meson-0.62.1
+tar -xf meson-0.62.2.tar.gz
+cd meson-0.62.2
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -906,7 +906,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.62.1
+rm -rf meson-0.62.2
 # PyParsing.
 tar -xf pyparsing_3.0.7.tar.gz
 cd pyparsing-pyparsing_3.0.7
@@ -1105,8 +1105,8 @@ install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 cd ..
 rm -rf iproute2-5.18.0
 # Kbd.
-tar -xf kbd-2.4.0.tar.xz
-cd kbd-2.4.0
+tar -xf kbd-2.5.0.tar.xz
+cd kbd-2.5.0
 patch -Np1 -i ../patches/kbd-2.4.0-backspace-1.patch
 sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
 sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
@@ -1115,7 +1115,7 @@ make
 make install
 install -t /usr/share/licenses/kbd -Dm644 COPYING
 cd ..
-rm -rf kbd-2.4.0
+rm -rf kbd-2.5.0
 # libpipeline.
 tar -xf libpipeline-1.5.6.tar.gz
 cd libpipeline-1.5.6
@@ -1824,18 +1824,18 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.14
 # hwdata.
-tar -xf hwdata-0.359.tar.gz
-cd hwdata-0.359
+tar -xf hwdata-0.360.tar.gz
+cd hwdata-0.360
 install -t /usr/share/hwdata -Dm644 pci.ids pnp.ids usb.ids
 install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
-rm -rf hwdata-0.359
+rm -rf hwdata-0.360
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-251.1.tar.gz
-cd systemd-stable-251.1
+tar -xf systemd-stable-251.2.tar.gz
+cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.1-massos -Dshared-lib-tag=251.1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1860,7 +1860,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
-rm -rf systemd-stable-251.1
+rm -rf systemd-stable-251.2
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -2250,7 +2250,7 @@ rm -rf RHash-1.4.2
 tar -xf cmake-3.23.2.tar.gz
 cd cmake-3.23.2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
-./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --mandir=/share/man --docdir=/share/doc/cmake --system-libs
+./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
@@ -3558,14 +3558,14 @@ install -t /usr/share/licenses/sassc -Dm644 LICENSE
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
-tar -xf iso-codes_4.9.0.orig.tar.xz
-cd iso-codes-4.9.0
+tar -xf iso-codes_4.10.0.orig.tar.xz
+cd iso-codes-4.10.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/iso-codes -Dm644 COPYING
 cd ..
-rm -rf iso-codes-4.9.0
+rm -rf iso-codes-4.10.0
 # xdg-user-dirs.
 tar -xf xdg-user-dirs-0.17.tar.gz
 cd xdg-user-dirs-0.17
@@ -3936,15 +3936,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.1.0.tar.xz
-cd mesa-22.1.0
+tar -xf mesa-22.1.1.tar.xz
+cd mesa-22.1.1
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=release -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.1.0
+rm -rf mesa-22.1.1
 # libva (rebuild to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
@@ -4021,11 +4021,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-251.1.tar.gz
-cd systemd-stable-251.1
+tar -xf systemd-stable-251.2.tar.gz
+cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.1-massos -Dshared-lib-tag=251.1-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4041,7 +4041,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-stable-251.1
+rm -rf systemd-stable-251.2
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4325,8 +4325,8 @@ ln -sf tealdeer /usr/share/licenses/tldr
 cd ..
 rm -rf tealdeer-1.5.0
 # htop.
-tar -xf htop-3.1.2.tar.xz
-cd htop-3.1.2
+tar -xf htop-3.2.1.tar.xz
+cd htop-3.2.1
 ./configure --prefix=/usr --sysconfdir=/etc --enable-delayacct --enable-openvz --enable-unicode --enable-vserver
 make
 make install
@@ -4337,7 +4337,7 @@ ln -sf htop.1 /usr/share/man/man1/top.1
 rm -f /usr/share/applications/htop.desktop
 install -t /usr/share/licenses/htop -Dm644 COPYING
 cd ..
-rm -rf htop-3.1.2
+rm -rf htop-3.2.1
 # bsd-games.
 tar -xf bsd-games-3.1.tar.gz
 cd bsd-games-3.1
@@ -4654,8 +4654,8 @@ install -t /usr/share/licenses/libglade -Dm644 COPYING
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-3.0.0.tar.gz
-cd graphviz-3.0.0
+tar -xf graphviz-4.0.0.tar.bz2
+cd graphviz-4.0.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
@@ -4663,7 +4663,7 @@ make
 make install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
-rm -rf graphviz-3.0.0
+rm -rf graphviz-4.0.0
 # Vala.
 tar -xf vala-0.56.1.tar.xz
 cd vala-0.56.1
@@ -5311,8 +5311,8 @@ install -t /usr/share/licenses/polkit-gnome -Dm644 COPYING
 cd ..
 rm -rf polkit-gnome-0.105
 # Poppler.
-tar -xf poppler-22.05.0.tar.xz
-cd poppler-22.05.0
+tar -xf poppler-22.06.0.tar.xz
+cd poppler-22.06.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -5322,7 +5322,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-22.05.0
+rm -rf poppler-22.06.0
 # Ghostscript.
 tar -xf ghostscript-9.56.1.tar.xz
 cd ghostscript-9.56.1
