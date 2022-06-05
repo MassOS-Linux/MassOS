@@ -4,7 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just begun, check back soon.
+- Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
 
 Upgraded software:
 

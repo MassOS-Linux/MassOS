@@ -3905,6 +3905,16 @@ ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf Vulkan-Loader-1.3.213
+# Vulkan-Tools.
+tar -xf Vulkan-Tools-1.3.213.tar.gz
+cd Vulkan-Tools-1.3.213
+mkdir VT-build; cd VT-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DGLSLANG_INSTALL_DIR=/usr -DCMAKE_SKIP_RPATH=TRUE -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/vulkan-tools -Dm644 ../LICENSE.txt
+cd ../..
+rm -rf Vulkan-Tools-1.3.213
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.14.0.tar.bz2
 cd libva-2.14.0
