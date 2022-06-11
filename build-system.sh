@@ -88,13 +88,13 @@ make install
 cd ..
 rm -rf perl-5.36.0
 # Python.
-tar -xf Python-3.10.4.tar.xz
-cd Python-3.10.4
+tar -xf Python-3.10.5.tar.xz
+cd Python-3.10.5
 ./configure --prefix=/usr --enable-shared --without-ensurepip
 make
 make install
 cd ..
-rm -rf Python-3.10.4
+rm -rf Python-3.10.5
 # Texinfo.
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
@@ -415,11 +415,10 @@ create-cracklib-dict /usr/share/dict/cracklib-words /usr/share/dict/cracklib-ext
 install -t /usr/share/licenses/cracklib -Dm644 COPYING.LIB
 cd ..
 rm -rf cracklib-2.9.7
-# Linux-PAM.
+# Linux-PAM (initial build, will be rebuilt later to support Audit).
 tar -xf Linux-PAM-1.5.2.tar.xz
 cd Linux-PAM-1.5.2
-tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --disable-doc --disable-pie
 make
 make install
 chmod 4755 /usr/sbin/unix_chkpwd
@@ -870,8 +869,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 cd ..
 rm -rf kmod-29
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf Python-3.10.4.tar.xz
-cd Python-3.10.4
+tar -xf Python-3.10.5.tar.xz
+cd Python-3.10.5
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
 make
 make install
@@ -882,7 +881,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 cd ..
-rm -rf Python-3.10.4
+rm -rf Python-3.10.5
 # Sphinx (required to build man pages of some packages).
 tar -xf sphinx-4.5.0-x86_64-venv.tar.xz
 mv sphinx{-4.5.0-x86_64-venv,}
@@ -947,14 +946,14 @@ install -t /usr/share/licenses/libseccomp -Dm644 LICENSE
 cd ..
 rm -rf libseccomp-2.5.4
 # File.
-tar -xf file-5.41.tar.gz
-cd file-5.41
+tar -xf file-5.42.tar.gz
+cd file-5.42
 ./configure --prefix=/usr --enable-libseccomp
 make
 make install
 install -t /usr/share/licenses/file -Dm644 COPYING
 cd ..
-rm -rf file-5.41
+rm -rf file-5.42
 # Coreutils.
 tar -xf coreutils-9.1.tar.xz
 cd coreutils-9.1
@@ -1108,6 +1107,7 @@ rm -rf iproute2-5.18.0
 tar -xf kbd-2.5.0.tar.xz
 cd kbd-2.5.0
 patch -Np1 -i ../patches/kbd-2.4.0-backspace-1.patch
+sed -i 's/euro2/euro2.map/' data/keymaps/i386/qwerty/pt-latin1.map
 sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
 sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
 ./configure --prefix=/usr
@@ -1788,13 +1788,12 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 cd ..
 rm -rf docbook-5.1
 # lxml.
-tar -xf lxml-4.8.0.tar.gz
-cd lxml-4.8.0
-python setup.py build
+tar -xf lxml-4.9.0.tar.gz
+cd lxml-4.9.0
 python setup.py install --optimize=1
 install -t /usr/share/licenses/lxml -Dm644 LICENSE.txt LICENSES.txt
 cd ..
-rm -rf lxml-4.8.0
+rm -rf lxml-4.9.0
 # itstool.
 tar -xf itstool-2.0.7.tar.bz2
 cd itstool-2.0.7
@@ -1835,7 +1834,7 @@ tar -xf systemd-stable-251.2.tar.gz
 cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=false -Duserdb=false -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=false -Dinstall-tests=false -Dldconfig=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -2051,14 +2050,14 @@ install -t /usr/share/licenses/lvm2 -Dm644 COPYING{,.BSD,.LIB}
 cd ..
 rm -rf LVM2.2.03.16
 # btrfs-progs.
-tar -xf btrfs-progs-v5.18.tar.xz
-cd btrfs-progs-v5.18
+tar -xf btrfs-progs-v5.18.1.tar.xz
+cd btrfs-progs-v5.18.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
-rm -rf btrfs-progs-v5.18
+rm -rf btrfs-progs-v5.18.1
 # inih.
 tar -xf inih-r55.tar.gz
 cd inih-r55
@@ -2079,16 +2078,16 @@ install -t /usr/share/licenses/userspace-rcu -Dm644 LICENSE gpl-2.0.txt lgpl-2.1
 cd ..
 rm -rf userspace-rcu-0.13.1
 # xfsprogs.
-tar -xf xfsprogs-5.16.0.tar.xz
-cd xfsprogs-5.16.0
+tar -xf xfsprogs-5.18.0.tar.xz
+cd xfsprogs-5.18.0
 make DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
 make install
 make install-dev
 cd ..
-rm -rf xfsprogs-5.16.0
+rm -rf xfsprogs-5.18.0
 # ntfs-3g.
-tar -xf ntfs-3g-2021.8.22.tar.gz
-cd ntfs-3g-2021.8.22
+tar -xf ntfs-3g-2022.5.17.tar.gz
+cd ntfs-3g-2022.5.17
 ./autogen.sh
 ./configure --prefix=/usr --disable-static --with-fuse=external
 make
@@ -2097,7 +2096,7 @@ ln -s ../bin/ntfs-3g /usr/sbin/mount.ntfs
 ln -s ntfs-3g.8 /usr/share/man/man8/mount.ntfs.8
 install -t /usr/share/licenses/ntfs-3g -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf ntfs-3g-2021.8.22
+rm -rf ntfs-3g-2022.5.17
 # exfatprogs.
 tar -xf exfatprogs_1.1.3.orig.tar.xz
 cd exfatprogs-1.1.3
@@ -2506,15 +2505,15 @@ install -t /usr/share/licenses/libassuan -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libassuan-2.5.5
 # Nettle.
-tar -xf nettle-3.7.3.tar.gz
-cd nettle-3.7.3
+tar -xf nettle-3.8.tar.gz
+cd nettle-3.8
 ./configure --prefix=/usr --disable-static
 make
 make install
 chmod 755 /usr/lib/lib{hogweed,nettle}.so
 install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv3
 cd ..
-rm -rf nettle-3.7.3
+rm -rf nettle-3.8
 # GNUTLS.
 tar -xf gnutls-3.7.6.tar.xz
 cd gnutls-3.7.6
@@ -2733,8 +2732,7 @@ rm -rf apparmor-3.0.4
 # Linux-PAM (rebuild to support Audit).
 tar -xf Linux-PAM-1.5.2.tar.xz
 cd Linux-PAM-1.5.2
-tar -xf ../Linux-PAM-1.5.2-docs.tar.xz --strip-components=1
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --enable-securedir=/usr/lib/security --disable-pie
 make
 make install
 chmod 4755 /usr/sbin/unix_chkpwd
@@ -3047,19 +3045,19 @@ install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-lic
 cd ../..
 rm -rf firefox-91.10.0
 # Sudo.
-tar -xf sudo-1.9.10.tar.gz
-cd sudo-1.9.10
+tar -xf sudo-1.9.11p1.tar.gz
+cd sudo-1.9.11p1
 ./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
-cat > /etc/sudoers.d/default << END
+cat > /etc/sudoers.d/default << "END"
 # Show astericks when typing the password.
 Defaults pwfeedback
 # Allow members of the 'wheel' group to execute 'sudo'.
 %wheel ALL=(ALL) ALL
 END
-cat > /etc/pam.d/sudo << END
+cat > /etc/pam.d/sudo << "END"
 auth      include     system-auth
 account   include     system-account
 session   required    pam_env.so
@@ -3067,7 +3065,7 @@ session   include     system-session
 END
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 cd ..
-rm -rf sudo-1.9.10
+rm -rf sudo-1.9.11p1
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3321,14 +3319,14 @@ install -t /usr/share/licenses/libbytesize -Dm644 LICENSE
 cd ..
 rm -rf libbytesize-2.7
 # libblockdev.
-tar -xf libblockdev-2.26.tar.gz
-cd libblockdev-2.26
-./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm --without-dm
+tar -xf libblockdev-2.27.tar.gz
+cd libblockdev-2.27
+./configure --prefix=/usr --sysconfdir=/etc --with-python3
 make
 make install
 install -t /usr/share/licenses/libblockdev -Dm644 LICENSE
 cd ..
-rm -rf libblockdev-2.26
+rm -rf libblockdev-2.27
 # libdaemon.
 tar -xf libdaemon_0.14.orig.tar.gz
 cd libdaemon-0.14
@@ -3822,9 +3820,10 @@ for i in xtrans-1.4.0 libX11-1.8 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1
   tar -xf $i.tar.*
   cd $i
   case $i in
-    libICE* ) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static ICE_LIBS=-lpthread ;;
-    libXt-[0-9]* ) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-appdefaultdir=/etc/X11/app-defaults ;;
-    * ) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+    libX11*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-thread-safety-constructor ;;
+    libICE*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static ICE_LIBS=-lpthread ;;
+    libXt-[0-9]*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-appdefaultdir=/etc/X11/app-defaults ;;
+    *) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
   esac
   make
   make install
@@ -3846,25 +3845,25 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.110.tar.xz
-cd libdrm-2.4.110
+tar -xf libdrm-2.4.111.tar.xz
+cd libdrm-2.4.111
 mkdir libdrm-build; cd libdrm-build
 meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
 cd ../..
-rm -rf libdrm-2.4.110
+rm -rf libdrm-2.4.111
 # DirectX-Headers.
-tar -xf DirectX-Headers-1.600.10.tar.gz
-cd DirectX-Headers-1.600.10
+tar -xf DirectX-Headers-1.602.0.tar.gz
+cd DirectX-Headers-1.602.0
 mkdir DXH-build; cd DXH-build
 meson --prefix=/usr --buildtype=release -Dbuild-test=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
 cd ../..
-rm -rf DirectX-Headers-1.600.10
+rm -rf DirectX-Headers-1.602.0
 # glslang.
 tar -xf glslang-11.9.0.tar.gz
 cd glslang-11.9.0
@@ -4011,15 +4010,15 @@ sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fo
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
 # XKeyboard-Config.
-tar -xf xkeyboard-config-2.35.1.tar.xz
-cd xkeyboard-config-2.35.1
+tar -xf xkeyboard-config-2.36.tar.xz
+cd xkeyboard-config-2.36
 mkdir XKeyboard-Config-BUILD; cd XKeyboard-Config-BUILD
 meson --prefix=/usr -Dcompat-rules=true -Dxkb-base=/usr/share/X11/xkb -Dxorg-rules-symlinks=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/xkeyboard-config -Dm644 ../COPYING
 cd ../..
-rm -rf xkeyboard-config-2.35.1
+rm -rf xkeyboard-config-2.36
 # libxkbcommon.
 tar -xf libxkbcommon-1.4.1.tar.xz
 cd libxkbcommon-1.4.1
@@ -4035,7 +4034,7 @@ tar -xf systemd-stable-251.2.tar.gz
 cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dfallback-hostname=massos -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dblkid=true -Ddefault-dnssec=no -Ddns-over-tls=openssl -Ddns-servers="1.1.1.1#cloudflare-dns.com 9.9.9.9#dns.quad9.net 8.8.8.8#dns.google 2606:4700:4700::1111#cloudflare-dns.com 2620:fe::9#dns.quad9.net 2001:4860:4860::8888#dns.google" -Dfirstboot=false -Dinstall-tests=false -Dldconfig=false -Dsysusers=false -Db_lto=false -Drpmmacrosdir=no -Dhomed=true -Duserdb=true -Dgnu-efi=true -Dman=true -Dpamconfdir=/etc/pam.d -Dtests=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=true -Dinstall-tests=false -Dldconfig=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4083,14 +4082,14 @@ install -t /usr/share/licenses/dbus-glib -Dm644 COPYING
 cd ..
 rm -rf dbus-glib-0.112
 # alsa-lib.
-tar -xf alsa-lib-1.2.6.1.tar.bz2
-cd alsa-lib-1.2.6.1
-./configure
+tar -xf alsa-lib-1.2.7.tar.bz2
+cd alsa-lib-1.2.7
+./configure --prefix=/usr --without-debug
 make
 make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 cd ..
-rm -rf alsa-lib-1.2.6.1
+rm -rf alsa-lib-1.2.7
 # libepoxy.
 tar -xf libepoxy-1.5.10.tar.gz
 cd libepoxy-1.5.10
@@ -4415,6 +4414,17 @@ rm -f /usr/share/pixmaps/vitetris.xpm
 install -t /usr/share/licenses/vitetris -Dm644 licence.txt
 cd ..
 rm -rf vitetris-0.59.1
+# mtools.
+tar -xf mtools-4.0.40.tar.gz
+cd mtools-4.0.40
+sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
+./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
+make
+make install
+install -m644 mtools.conf /etc/mtools.conf
+install -t /usr/share/licenses/mtools -Dm644 COPYING
+cd ..
+rm -rf mtools-4.0.40
 # Polkit.
 tar -xf polkit-0.120.tar.gz
 cd polkit-0.120
@@ -4506,15 +4516,15 @@ install -t /usr/share/licenses/lcms2 -Dm644 COPYING
 cd ..
 rm -rf lcms2-2.13.1
 # JasPer.
-tar -xf jasper-version-3.0.3.tar.gz
-cd jasper-version-3.0.3
+tar -xf jasper-version-3.0.4.tar.gz
+cd jasper-version-3.0.4
 mkdir jasper-build; cd jasper-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/jasper -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf jasper-version-3.0.3
+rm -rf jasper-version-3.0.4
 # ATK.
 tar -xf atk-2.38.0.tar.xz
 cd atk-2.38.0
@@ -4694,15 +4704,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.54.3.tar.xz
-cd librsvg-2.54.3
+tar -xf librsvg-2.54.4.tar.xz
+cd librsvg-2.54.4
 ./configure --prefix=/usr --enable-vala --disable-static
 make
 make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.54.3
+rm -rf librsvg-2.54.4
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -5452,13 +5462,13 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 cd ../..
 rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
-tar -xf Python-3.10.4.tar.xz
-cd Python-3.10.4
+tar -xf Python-3.10.5.tar.xz
+cd Python-3.10.5
 ./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
 make
 make install
 cd ..
-rm -rf Python-3.10.4
+rm -rf Python-3.10.5
 # python-distutils-extra.
 tar -xf python-distutils-extra-2.39.tar.gz
 cd python-distutils-extra-2.39
@@ -5684,8 +5694,8 @@ install -t /usr/share/licenses/newt -Dm644 COPYING
 cd ..
 rm -rf newt-0.52.21
 # UPower.
-tar -xf upower-v0.99.18.tar.bz2
-cd upower-v0.99.18
+tar -xf upower-v0.99.19.tar.bz2
+cd upower-v0.99.19
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=release ..
 ninja
@@ -5693,7 +5703,7 @@ ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
-rm -rf upower-v0.99.18
+rm -rf upower-v0.99.19
 # NetworkManager.
 tar -xf NetworkManager-1.38.0.tar.xz
 cd NetworkManager-1.38.0
@@ -5768,15 +5778,15 @@ install -t /usr/share/licenses/libwnck -Dm644 ../COPYING
 cd ../..
 rm -rf libwnck-40.1
 # network-manager-applet.
-tar -xf network-manager-applet-1.26.0.tar.xz
-cd network-manager-applet-1.26.0
+tar -xf network-manager-applet-1.28.0.tar.xz
+cd network-manager-applet-1.28.0
 mkdir nma-build; cd nma-build
 meson --prefix=/usr --buildtype=release -Dappindicator=no -Dselinux=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
 cd ../..
-rm -rf network-manager-applet-1.26.0
+rm -rf network-manager-applet-1.28.0
 # NetworkManager-openvpn.
 tar -xf NetworkManager-openvpn-1.8.18.tar.xz
 cd NetworkManager-openvpn-1.8.18
@@ -5840,15 +5850,15 @@ install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-3.0.6
 # libostree.
-tar -xf libostree-2022.3.tar.xz
-cd libostree-2022.3
+tar -xf libostree-2022.4.tar.xz
+cd libostree-2022.4
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 sed -i '/reproducible/d' /etc/dracut.conf.d/ostree.conf
 install -t /usr/share/licenses/libostree -Dm644 COPYING
 cd ..
-rm -rf libostree-2022.3
+rm -rf libostree-2022.4
 # libxmlb.
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
@@ -6106,28 +6116,26 @@ install -t /usr/share/licenses/libcanberra -Dm644 LGPL
 cd ..
 rm -rf libcanberra-0.30
 # x264.
-tar -xf x264-0.164.3094.tar.xz
-cd x264-0.164.3094
+tar -xf x264-0.164.3095.tar.xz
+cd x264-0.164.3095
 ./configure --prefix=/usr --enable-shared
 make
 make install
 ln -sf libx264.so.164 /usr/lib/libx264.so
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 cd ..
-rm -rf x264-0.164.3094
+rm -rf x264-0.164.3095
 # x265.
-tar -xf x265-3.5-35-g7a5709048.tar.xz
-cd x265-3.5-35-g7a5709048
+tar -xf x265-3.5-37-g9b59d4554.tar.xz
+cd x265-3.5-37-g9b59d4554
 mkdir x265-build; cd x265-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ../source
 ninja
 ninja install
 rm -f /usr/lib/libx265.a
-ln -sf libx265.so.203 /usr/lib/libx265.so
-ldconfig
 install -t /usr/share/licenses/x265 -Dm644 ../COPYING
 cd ../..
-rm -rf x265-3.5-35-g7a5709048
+rm -rf x265-3.5-37-g9b59d4554
 # libraw1394.
 tar -xf libraw1394-2.1.2.tar.xz
 cd libraw1394-2.1.2
@@ -6328,12 +6336,12 @@ install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.2
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.51.tar.gz
-cd pipewire-0.3.51
-tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects
-mv subprojects/wireplumber{-0.4.10,}
+tar -xf pipewire-0.3.52.tar.gz
+cd pipewire-0.3.52
+mkdir -p subprojects/wireplumber
+tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
+meson --prefix=/usr --buildtype=release -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
 ninja install
 systemctl --global enable pipewire.socket pipewire-pulse.socket
@@ -6342,7 +6350,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.51
+rm -rf pipewire-0.3.52
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.4.tar.xz
 cd xdg-desktop-portal-1.14.4
@@ -6502,14 +6510,14 @@ install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 cd ..
 rm -rf libxfce4ui-4.17.6
 # Exo.
-tar -xf exo-4.17.1.tar.bz2
-cd exo-4.17.1
+tar -xf exo-4.17.2.tar.bz2
+cd exo-4.17.2
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/exo -Dm644 COPYING
 cd ..
-rm -rf exo-4.17.1
+rm -rf exo-4.17.2
 # Garcon.
 tar -xf garcon-4.17.0.tar.bz2
 cd garcon-4.17.0
@@ -6856,17 +6864,6 @@ make install
 install -t /usr/share/licenses/gparted -Dm644 COPYING
 cd ..
 rm -rf gparted-GPARTED_1_4_0
-# mtools.
-tar -xf mtools-4.0.39.tar.gz
-cd mtools-4.0.39
-sed -e '/^SAMPLE FILE$/s:^:# :' -i mtools.conf
-./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --infodir=/usr/share/info
-make
-make install
-install -m644 mtools.conf /etc/mtools.conf
-install -t /usr/share/licenses/mtools -Dm644 COPYING
-cd ..
-rm -rf mtools-4.0.39
 # Popsicle.
 tar -xf popsicle-1.3.0-54-ga1561b3.tar.xz
 cd popsicle-1.3.0-54-ga1561b3
@@ -7022,7 +7019,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.9.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-91.10.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {
@@ -7061,8 +7058,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.1.tar.xz
-cd linux-5.18.1
+tar -xf linux-5.18.3.tar.xz
+cd linux-5.18.3
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7098,7 +7095,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.1
+rm -rf linux-5.18.3
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz
@@ -7136,6 +7133,7 @@ rm -f /usr/bin/lsof
 # Unused package managers, potentially dangerous on MassOS.
 rm -f /usr/bin/{dpkg,dpkg-deb,rpm}
 # Unneeded.
+if [ "$(readlink /usr/bin/resize)" = "/usr/bin/busybox" ]; then rm -f /usr/bin/resize; fi
 if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
 # Remove Debian stuff.
 rm -rf /etc/kernel
@@ -7158,6 +7156,7 @@ rm -rf /tmp/*
 ldconfig
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
+# Check for a new version of Glibc (breaks this utility).
 if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.35" ]; then
   echo "
 IMPORTANT: This upgrade includes a newer version of the core C library (glibc).
@@ -7170,6 +7169,12 @@ your apps or data. For information on how to do this, see the following URL:
 " >&2
   exit 1
 fi
+# Notice for massos-upgrade.
+echo "Note: Upgrading using the Live CD is preferred. For information, see" >&2
+echo "<https://github.com/MassOS-Linux/MassOS/wiki/Upgrading-MassOS>." >&2
+echo "The upgrade will begin in 10 seconds. To cancel, press Control+C and" >&2
+echo "no changes will be made to your computer." >&2
+sleep 10
 END
 cat > /tmp/postupgrade << "END"
 if ! grep -q nm-openvpn /etc/group; then
@@ -7186,6 +7191,7 @@ fi
 test ! -e /etc/ld.so.conf.d/firefox-libav.conf || rm -f /etc/ld.so.conf.d/firefox-libav.conf
 test ! -d /usr/lib/firefox/libav || rm -rf /usr/lib/firefox/libav
 # Unneeded.
+if [ "$(readlink /usr/bin/resize)" = "/usr/bin/busybox" ]; then rm -f /usr/bin/resize; fi
 if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
 # Now using BGRT theme instead of spinner.
 ! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt

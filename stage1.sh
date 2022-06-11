@@ -72,14 +72,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-12.1.0
 # Linux API Headers.
-tar -xf linux-5.18.1.tar.xz
-cd linux-5.18.1
+tar -xf linux-5.18.3.tar.xz
+cd linux-5.18.3
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.18.1
+rm -rf linux-5.18.3
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -156,8 +156,8 @@ make DESTDIR="$MASSOS" install
 cd ..
 rm -rf diffutils-3.8
 # File
-tar -xf file-5.41.tar.gz
-cd file-5.41
+tar -xf file-5.42.tar.gz
+cd file-5.42
 mkdir build; cd build
 ../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib
 make
@@ -166,7 +166,7 @@ cd ..
 make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf file-5.41
+rm -rf file-5.42
 # Findutils.
 tar -xf findutils-4.9.0.tar.xz
 cd findutils-4.9.0
