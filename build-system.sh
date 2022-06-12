@@ -2049,6 +2049,15 @@ make install_systemd_units
 install -t /usr/share/licenses/lvm2 -Dm644 COPYING{,.BSD,.LIB}
 cd ..
 rm -rf LVM2.2.03.16
+# dmraid.
+tar -xf dmraid-1.0.0.rc16-3.tar.bz2
+cd dmraid/1.0.0.rc16-3/dmraid
+./configure --prefix=/usr --enable-led --enable-intel_led
+make -j1
+make -j1 install
+install -t /usr/share/licenses/dmraid -Dm644 LICENSE{,_GPL,_LGPL}
+cd ../../..
+rm -rf dmraid
 # btrfs-progs.
 tar -xf btrfs-progs-v5.18.1.tar.xz
 cd btrfs-progs-v5.18.1
@@ -3321,7 +3330,7 @@ rm -rf libbytesize-2.7
 # libblockdev.
 tar -xf libblockdev-2.27.tar.gz
 cd libblockdev-2.27
-./configure --prefix=/usr --sysconfdir=/etc --with-python3
+./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm
 make
 make install
 install -t /usr/share/licenses/libblockdev -Dm644 LICENSE
