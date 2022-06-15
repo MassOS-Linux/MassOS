@@ -1840,7 +1840,6 @@ ninja install
 systemd-machine-id-setup
 systemctl preset-all
 systemctl disable systemd-time-wait-sync.service
-systemctl enable gpm.service
 cat >> /etc/pam.d/system-session << END
 session  required    pam_loginuid.so
 session  optional    pam_systemd.so
@@ -1860,6 +1859,7 @@ END
 install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1 ../LICENSES/*
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
+systemctl enable gpm.service
 rm -rf systemd-stable-251.2
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
