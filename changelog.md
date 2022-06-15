@@ -13,6 +13,7 @@ Upgraded software:
 - DirectX-Headers: `1.600.10 --> 1.602.0`
 - Exo: `4.17.1 --> 4.17.2`
 - File: `5.41 --> 5.42`
+- glslang: `11.9.0 --> 11.10.0`
 - Graphviz: `3.0.0 --> 4.0.0`
 - htop: `3.1.2 --> 3.2.1`
 - hwdata: `0.359 --> 0.360`
@@ -33,6 +34,7 @@ Upgraded software:
 - PipeWire: `0.3.51 --> 0.3.52`
 - Poppler: `22.05.0 --> 22.06.0`
 - Python: `3.10.4 --> 3.10.5`
+- SPIRV-Headers: `1.3.204.1 --> 1.3.216.0`
 - Sudo: `1.9.10 --> 1.9.11p1`
 - systemd: `251.1 --> 251.2`
 - Thunderbird: `91.9.1 --> 91.10.0`

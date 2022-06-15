@@ -3874,26 +3874,33 @@ ninja install
 install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
 cd ../..
 rm -rf DirectX-Headers-1.602.0
-# glslang.
-tar -xf glslang-11.9.0.tar.gz
-cd glslang-11.9.0
-tar -xf ../SPIRV-Tools-2022.2.tar.gz -C External
-mv External/{SPIRV-Tools-2022.2,spirv-tools}
-tar -xf ../SPIRV-Headers-sdk-1.3.204.1.tar.gz -C External/spirv-tools/external
-mv External/spirv-tools/external/{SPIRV-Headers-sdk-1.3.204.1,spirv-headers}
-mkdir static-release; cd static-release
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=OFF -Wno-dev -G Ninja ..
+# SPIRV-Headers.
+tar -xf SPIRV-Headers-sdk-1.3.216.0.tar.gz
+cd SPIRV-Headers-sdk-1.3.216.0
+mkdir SPIRV-Headers-build; cd SPIRV-Headers-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
-mkdir ../shared-release; cd ../shared-release
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
-ninja
-ninja install
-install -t /usr/share/licenses/glslang -Dm644 ../LICENSE.txt
-install -t /usr/share/licenses/spirv-tools -Dm644 ../External/spirv-tools/LICENSE
-install -t /usr/share/licenses/spirv-headers -Dm644 ../External/spirv-tools/external/spirv-headers/LICENSE
+install -t /usr/share/licenses/spirv-headers -Dm644 ../LICENSE
 cd ../..
-rm -rf glslang-11.9.0
+rm -rf SPIRV-Headers-sdk-1.3.216.0
+# glslang.
+tar -xf glslang-11.10.0.tar.gz
+cd glslang-11.10.0
+mkdir -p External/spirv-tools
+tar -xf ../SPIRV-Tools-2022.2.tar.gz -C External/spirv-tools --strip-components=1
+mkdir static-build; cd static-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=OFF -DSPIRV-Headers_SOURCE_DIR=/usr -Wno-dev -G Ninja ..
+ninja
+mkdir ../shared-build; cd ../shared-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DSPIRV-Headers_SOURCE_DIR=/usr -Wno-dev -G Ninja ..
+ninja
+cd ..
+ninja -C static-build install
+ninja -C shared-build install
+install -t /usr/share/licenses/glslang -Dm644 LICENSE.txt
+cd ..
+rm -rf glslang-11.10.0
 # Vulkan-Headers.
 tar -xf Vulkan-Headers-1.3.213.tar.gz
 cd Vulkan-Headers-1.3.213
