@@ -1840,6 +1840,7 @@ ninja install
 systemd-machine-id-setup
 systemctl preset-all
 systemctl disable systemd-time-wait-sync.service
+systemctl enable gpm.service
 cat >> /etc/pam.d/system-session << END
 session  required    pam_loginuid.so
 session  optional    pam_systemd.so
