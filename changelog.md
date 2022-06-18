@@ -6,6 +6,7 @@ Changes:
 
 - Fixed an issue setting the default locale in the MassOS Installer (https://github.com/MassOS-Linux/MassOS/issues/35).
 - Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
+- Replaced dhclient with dhcpcd, as dhclient is now deprecated upstream.
 
 Upgraded software:
 

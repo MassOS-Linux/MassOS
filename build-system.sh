@@ -3651,33 +3651,19 @@ install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
 rm -rf bind-9.18.4
-# dhclient.
-tar -xf dhcp-4.4.3.tar.gz
-cd dhcp-4.4.3
-CFLAGS="$CFLAGS -fno-strict-aliasing -D_PATH_DHCLIENT_SCRIPT='\"/usr/sbin/dhclient-script\"' -D_PATH_DHCPD_CONF='\"/etc/dhcp/dhcpd.conf\"' -D_PATH_DHCLIENT_CONF='\"/etc/dhcp/dhclient.conf\"'" ./configure --prefix=/usr --sysconfdir=/etc/dhcp --localstatedir=/var --with-srv-lease-file=/var/lib/dhcpd/dhcpd.leases --with-srv6-lease-file=/var/lib/dhcpd/dhcpd6.leases --with-cli-lease-file=/var/lib/dhclient/dhclient.leases --with-cli6-lease-file=/var/lib/dhclient/dhclient6.leases
+# dhcpcd.
+tar -xf dhcpcd-9.4.1.tar.xz
+cd dhcpcd-9.4.1
+groupadd -g 52 dhcpcd
+useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /bin/false -u 52 dhcpcd
+install -o dhcpcd -g dhcpcd -dm700 /var/lib/dhcpcd
+./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/dhcpcd --runstatedir=/run --dbdir=/var/lib/dhcpcd --privsepuser=dhcpcd
 make
-make -C client install
-install -m755 client/scripts/linux /usr/sbin/dhclient-script
-install -dm755 /etc/dhcp
-cat > /etc/dhcp/dhclient.conf << END
-# Basic dhclient.conf(5)
-
-#prepend domain-name-servers 127.0.0.1;
-request subnet-mask, broadcast-address, time-offset, routers,
-        domain-name, domain-name-servers, domain-search, host-name,
-        netbios-name-servers, netbios-scope, interface-mtu,
-        ntp-servers;
-require subnet-mask, domain-name-servers;
-#timeout 60;
-#retry 60;
-#reboot 10;
-#select-timeout 5;
-#initial-interval 2;
-END
-install -dm755 /var/lib/dhclient
-install -t /usr/share/licenses/dhclient -Dm644 LICENSE
+make install
+rm -f /usr/lib/dhcpcd/dhcpcd-hooks/30-hostname
+install -t /usr/share/licenses/dhcpcd -Dm644 LICENSE
 cd ..
-rm -rf dhcp-4.4.3
+rm -rf dhcpcd-9.4.1
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
@@ -5745,7 +5731,7 @@ auth-polkit=true
 END
 cat > /etc/NetworkManager/conf.d/dhcp.conf << END
 [main]
-dhcp=dhclient
+dhcp=dhcpcd
 END
 cat > /etc/NetworkManager/conf.d/dns.conf << END
 [main]
@@ -6751,20 +6737,21 @@ rm -rf pavucontrol-5.0
 tar -xf blueman-2.2.2.tar.xz
 cd blueman-2.2.2
 sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
-./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config='/etc/dhcp/dhclient.conf'
+./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config=/etc/dhcp/dhcpd.conf
 make
 make install
 mv /etc/xdg/autostart/blueman.desktop /usr/share/blueman/autostart.desktop
-cat > /sbin/blueman-autostart << "END"
+cat > /usr/sbin/blueman-autostart << "END"
 #!/bin/bash
 
 not_root() {
-  echo "Error: $(basename $0) must be run as root." >&2
+  echo "Error: $(basename "$0") must be run as root." >&2
   exit 1
 }
 
 usage() {
-  echo "Usage: $(basename $0) [enable|disable]" >&2
+  echo "$(basename "$0"): Control whether Blueman will autostart on login."
+  echo "Usage: $(basename "$0") [enable|disable]" >&2
   exit 1
 }
 
@@ -7207,7 +7194,14 @@ if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
   useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
 fi
-test ! -f /etc/dracut.conf.d/ostree.conf.new || mv /etc/dracut.conf.d/ostree.conf{.new,}
+# Now using dhcpcd instead of dhclient (dhclient is deprecated upstream).
+if ! grep -q dhcpcd /etc/group; then
+  goupadd -g 52 dhcpcd
+  useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /bin/false -u 52 dhcpcd
+fi
+if grep -q dhclient /etc/NetworkManager/conf.d/dhcp.conf; then
+  sed -i 's/dhclient/dhcpcd/' /etc/NetworkManager/conf.d/dhcp.conf
+fi
 # hwdata package is now used instead of systemd timers.
 if grep -q hwdata /usr/share/massos/builtins; then
   systemctl disable update-pciids.timer || true
