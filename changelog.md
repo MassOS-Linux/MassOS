@@ -4,11 +4,14 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Fixed an issue setting the default locale in the MassOS Installer (https://github.com/MassOS-Linux/MassOS/issues/35).
 - Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
 
 Upgraded software:
 
-- alsa-lib: `1.2.6.1 --> 1.2.7`
+- alsa-lib: `1.2.6.1 --> 1.2.7.1`
+- bc: `5.2.5 --> 5.3.3`
+- BIND Utils: `9.18.3 --> 9.18.4`
 - btrfs-progs: `5.18 --> 5.18.1`
 - DirectX-Headers: `1.600.10 --> 1.602.0`
 - Exo: `4.17.1 --> 4.17.2`
@@ -19,28 +22,38 @@ Upgraded software:
 - hwdata: `0.359 --> 0.360`
 - ISO-Codes: `4.9.0 --> 4.10.0`
 - JasPer: `3.0.3 --> 3.0.4`
-- kbd: `2.4.0 --> 2.5.0`
+- kbd: `2.4.0 --> 2.5.1`
 - libdrm: `2.4.110 --> 2.4.111`
+- libinput: `1.20.1 --> 1.21.0`
+- libnma: `1.8.38 --> 1.8.40`
 - libostree: `2022.3 --> 2022.4`
 - librsvg: `2.54.3 --> 2.54.4`
-- Linux Kernel: `5.18.1 --> 5.18.3`
+- libX11: `1.8 --> 1.8.1`
+- Linux Kernel: `5.18.1 --> 5.18.5`
+- LLVM/Clang/LLD: `14.0.4 --> 14.0.5`
 - lxml: `4.8.0 --> 4.9.0`
-- Mesa: `22.1.0 --> 22.1.1`
+- Mesa: `22.1.0 --> 22.1.2`
 - Meson: `0.62.1 --> 0.62.2`
 - mtools: `4.0.39 --> 4.0.40`
+- MuPDF: `1.19.1 --> 1.20.0`
 - Nettle: `3.7.3 --> 3.8`
 - network-manager-applet: `1.26.0 --> 1.28.0`
+- NetworkManager: `1.38.0 --> 1.38.2`
 - ntfs-3g: `2021.8.22 --> 2022.5.17`
 - PipeWire: `0.3.51 --> 0.3.52`
 - Poppler: `22.05.0 --> 22.06.0`
 - Python: `3.10.4 --> 3.10.5`
+- smbclient: `4.16.1 --> 4.16.2`
 - SPIRV-Headers: `1.3.204.1 --> 1.3.216.0`
-- Sudo: `1.9.10 --> 1.9.11p1`
+- Sudo: `1.9.10 --> 1.9.11p2`
 - systemd: `251.1 --> 251.2`
 - Thunderbird: `91.9.1 --> 91.10.0`
 - UPower: `0.99.18 --> 0.99.19`
+- Vulkan-Headers: `1.3.213 --> 1.3.217`
+- Vulkan-Loader: `1.3.213 --> 1.3.217`
 - x264: `0.164.3094 --> 0.164.3095`
 - x265: `3.5-35-g7a5709048 --> 3.5-37-g9b59d4554`
+- xcb-proto: `1.15 --> 1.15.2`
 - xfsprogs: `5.16.0 --> 5.18.0`
 - xkeyboard-config: `2.35.1 --> 2.36`
 
