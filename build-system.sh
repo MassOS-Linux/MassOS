@@ -3573,14 +3573,14 @@ install -t /usr/share/licenses/sassc -Dm644 LICENSE
 cd ..
 rm -rf sassc-3.6.2
 # ISO-Codes.
-tar -xf iso-codes_4.10.0.orig.tar.xz
-cd iso-codes-4.10.0
+tar -xf iso-codes-v4.10.0.tar.bz2
+cd iso-codes-v4.10.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/iso-codes -Dm644 COPYING
 cd ..
-rm -rf iso-codes-4.10.0
+rm -rf iso-codes-v4.10.0
 # xdg-user-dirs.
 tar -xf xdg-user-dirs-0.17.tar.gz
 cd xdg-user-dirs-0.17

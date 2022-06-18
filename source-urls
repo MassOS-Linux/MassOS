@@ -203,7 +203,7 @@ https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-
 https://archive.massos.org/sources/intltool-0.51.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.18.0.tar.xz
 https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2
-https://deb.debian.org/debian/pool/main/i/iso-codes/iso-codes_4.10.0.orig.tar.xz
+https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v4.10.0/iso-codes-v4.10.0.tar.bz2
 https://archive.massos.org/sources/itstool-2.0.7.tar.bz2
 https://github.com/jackaudio/jack2/archive/v1.9.21/jack2-1.9.21.tar.gz
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
