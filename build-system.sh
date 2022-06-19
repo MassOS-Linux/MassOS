@@ -7072,7 +7072,6 @@ rm -rf busybox-1.35.0
 # Linux Kernel.
 tar -xf linux-5.18.5.tar.xz
 cd linux-5.18.5
-patch -Np1 -i ../patches/linux-5.18.5-binderfs-as-module.patch
 cp ../kernel-config .config
 make olddefconfig
 make
