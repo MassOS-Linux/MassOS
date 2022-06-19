@@ -1282,7 +1282,7 @@ rm -rf Markdown-3.3.6
 tar -xf gi-docgen-2022.1.tar.xz
 cd gi-docgen-2022.1
 mkdir gi-docgen-build; cd gi-docgen-build
-meson --prefix=/usr --buildtype=release -Ddevelopment_tests=false ..
+meson --prefix=/usr --buildtype=minsize -Ddevelopment_tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gi-docgen -Dm644 ../LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
@@ -1448,7 +1448,7 @@ rm -rf zlib-1.2.12
 tar -xf microdns-0.2.0.tar.xz
 cd microdns-0.2.0
 mkdir mdns-build; cd mdns-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libmicrodns -Dm644 ../COPYING
@@ -1843,7 +1843,7 @@ tar -xf systemd-stable-251.2.tar.gz
 cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1927,7 +1927,7 @@ tar -xf fuse-3.11.0.tar.xz
 cd fuse-3.11.0
 sed -i '/^udev/,$ s/^/#/' util/meson.build
 mkdir fuse3-build; cd fuse3-build
-meson --prefix=/usr --buildtype=release -Dexamples=false -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=false -Dtests=false ..
 ninja
 ninja install
 chmod u+s /usr/bin/fusermount3
@@ -2081,7 +2081,7 @@ rm -rf btrfs-progs-v5.18.1
 tar -xf inih-r55.tar.gz
 cd inih-r55
 mkdir inih-build; cd inih-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/inih -Dm644 ../LICENSE.txt
@@ -2246,7 +2246,7 @@ rm -rf curl-7.83.1
 tar -xf jsoncpp-1.9.5.tar.gz
 cd jsoncpp-1.9.5
 mkdir jsoncpp-build; cd jsoncpp-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/jsoncpp -Dm644 ../LICENSE
@@ -2468,7 +2468,7 @@ cat >> trust/trust-extract-compat << END
 /usr/sbin/make-ca -f -g
 END
 mkdir p11-build; cd p11-build
-meson --prefix=/usr --buildtype=release -Dtrust_paths=/etc/pki/anchors ..
+meson --prefix=/usr --buildtype=minsize -Dtrust_paths=/etc/pki/anchors ..
 ninja
 ninja install
 ln -sf /usr/libexec/p11-kit/trust-extract-compat /usr/bin/update-ca-certificates
@@ -2924,7 +2924,7 @@ tar -xf glib-2.72.2.tar.xz
 cd glib-2.72.2
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
 mkdir glib-build; cd glib-build
-meson --prefix=/usr --buildtype=release -Dman=true ..
+meson --prefix=/usr --buildtype=minsize -Dman=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
@@ -2952,7 +2952,7 @@ rm -rf pkg-config-0.29.2
 tar -xf libsigc++-2.10.8.tar.xz
 cd libsigc++-2.10.8
 mkdir sigc++-build; cd sigc++-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsigc++ -Dm644 ../COPYING
@@ -2962,7 +2962,7 @@ rm -rf libsigc++-2.10.8
 tar -xf glibmm-2.66.4.tar.xz
 cd glibmm-2.66.4
 mkdir glibmm-build; cd glibmm-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/glibmm -Dm644 ../COPYING ../COPYING.tools
@@ -2972,7 +2972,7 @@ rm -rf glibmm-2.66.4
 tar -xf gobject-introspection-1.72.0.tar.xz
 cd gobject-introspection-1.72.0
 mkdir gobj-build; cd gobj-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gobject-introspection -Dm644 ../COPYING ../COPYING.GPL ../COPYING.LGPL
@@ -2982,7 +2982,7 @@ rm -rf gobject-introspection-1.72.0
 tar -xf shared-mime-info-2.2.tar.gz
 cd shared-mime-info-2.2
 mkdir smi-build; cd smi-build
-meson --prefix=/usr --buildtype=release -Dupdate-mimedb=true ..
+meson --prefix=/usr --buildtype=minsize -Dupdate-mimedb=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/shared-mime-info -Dm644 ../COPYING
@@ -2993,7 +2993,7 @@ tar -xf desktop-file-utils-0.26.tar.xz
 cd desktop-file-utils-0.26
 patch -Np1 -i ../patches/desktop-file-utils-0.26-specification1.5.patch
 mkdir dfu-build; cd dfu-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -dm755 /usr/share/applications
@@ -3005,7 +3005,7 @@ rm -rf desktop-file-utils-0.26
 tar -xf graphene-1.10.8.tar.gz
 cd graphene-1.10.8
 mkdir graphene-build; cd graphene-build
-meson --prefix=/usr --buildtype=release -Dtests=false -Dinstalled_tests=false ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false -Dinstalled_tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/graphene -Dm644 ../LICENSE.txt
@@ -3097,7 +3097,7 @@ rm -rf volume_key-volume_key-0.3.12
 tar -xf json-glib-1.6.6.tar.xz
 cd json-glib-1.6.6
 mkdir json-build; cd json-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/json-glib -Dm644 ../COPYING
@@ -3167,7 +3167,7 @@ rm -rf graphite2-1.3.14
 tar -xf harfbuzz-4.3.0.tar.xz
 cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite2=enabled -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
@@ -3357,7 +3357,7 @@ rm -rf libdaemon-0.14
 tar -xf libgudev-237.tar.xz
 cd libgudev-237
 mkdir libgudev-build; cd libgudev-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libgudev -Dm644 ../COPYING
@@ -3385,7 +3385,7 @@ rm -rf libqmi-1.30.6
 tar -xf libwacom-2.2.0.tar.xz
 cd libwacom-2.2.0
 mkdir wacom-build; cd wacom-build
-meson --prefix=/usr --buildtype=release -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwacom -Dm644 ../COPYING
@@ -3404,7 +3404,7 @@ rm -rf mtdev-1.1.6
 tar -xf wayland-1.20.0.tar.xz
 cd wayland-1.20.0
 mkdir wayland-build; cd wayland-build
-meson --prefix=/usr --buildtype=release -Ddocumentation=false -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Ddocumentation=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland -Dm644 ../COPYING
@@ -3414,7 +3414,7 @@ rm -rf wayland-1.20.0
 tar -xf wayland-protocols-1.25.tar.xz
 cd wayland-protocols-1.25
 mkdir wayland-protocols-build; cd wayland-protocols-build
-meson --prefix=/usr --buildtype=release -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland-protocols -Dm644 ../COPYING
@@ -3453,7 +3453,7 @@ rm -rf enchant-2.3.3
 tar -xf fontconfig-2.14.0.tar.bz2
 cd fontconfig-2.14.0
 mkdir FC-build; cd FC-build
-meson --prefix=/usr --buildtype=release -Ddoc=disabled ..
+meson --prefix=/usr --buildtype=minsize -Ddoc=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/fontconfig -Dm644 ../COPYING
@@ -3463,7 +3463,7 @@ rm -rf fontconfig-2.14.0
 tar -xf fribidi-1.0.12.tar.xz
 cd fribidi-1.0.12
 mkdir fribidi-build; cd fribidi-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/fribidi -Dm644 ../COPYING
@@ -3528,7 +3528,7 @@ rm -rf libgphoto2-2.5.29
 tar -xf pixman-0.40.0.tar.gz
 cd pixman-0.40.0
 mkdir pixman-build; cd pixman-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pixman -Dm644 ../COPYING
@@ -3850,7 +3850,7 @@ done
 tar -xf libdrm-2.4.111.tar.xz
 cd libdrm-2.4.111
 mkdir libdrm-build; cd libdrm-build
-meson --prefix=/usr --buildtype=release -Dudev=true -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=minsize -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
@@ -3860,7 +3860,7 @@ rm -rf libdrm-2.4.111
 tar -xf DirectX-Headers-1.602.0.tar.gz
 cd DirectX-Headers-1.602.0
 mkdir DXH-build; cd DXH-build
-meson --prefix=/usr --buildtype=release -Dbuild-test=false ..
+meson --prefix=/usr --buildtype=minsize -Dbuild-test=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/directx-headers -Dm644 ../LICENSE
@@ -3936,7 +3936,7 @@ rm -rf libva-2.14.0
 tar -xf libvdpau-1.5.tar.bz2
 cd libvdpau-1.5
 mkdir vdpau-build; cd vdpau-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
@@ -3947,7 +3947,7 @@ tar -xf libglvnd-v1.4.0.tar.bz2
 cd libglvnd-v1.4.0
 cat README.md | tail -n211 | head -n22 | sed 's/    //g' > COPYING
 mkdir glvnd-build; cd glvnd-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
@@ -3957,7 +3957,7 @@ rm -rf libglvnd-v1.4.0
 tar -xf mesa-22.1.2.tar.xz
 cd mesa-22.1.2
 mkdir mesa-build; cd mesa-build
-meson --prefix=/usr --buildtype=release -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
@@ -4033,7 +4033,7 @@ rm -rf xkeyboard-config-2.36
 tar -xf libxkbcommon-1.4.1.tar.xz
 cd libxkbcommon-1.4.1
 mkdir xkb-build; cd xkb-build
-meson --prefix=/usr --buildtype=release -Denable-docs=false ..
+meson --prefix=/usr --buildtype=minsize -Denable-docs=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
@@ -4044,7 +4044,7 @@ tar -xf systemd-stable-251.2.tar.gz
 cd systemd-stable-251.2
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=release -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4104,7 +4104,7 @@ rm -rf alsa-lib-1.2.7.1
 tar -xf libepoxy-1.5.10.tar.gz
 cd libepoxy-1.5.10
 mkdir epoxy-build; cd epoxy-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libepoxy -Dm644 ../COPYING
@@ -4114,7 +4114,7 @@ rm -rf libepoxy-1.5.10
 tar -xf libxcvt-0.1.1.tar.xz
 cd libxcvt-0.1.1
 mkdir xcvt-build; cd xcvt-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxcvt -Dm644 ../COPYING
@@ -4168,7 +4168,7 @@ rm -rf xf86-input-evdev-2.10.6
 tar -xf libinput-1.21.0.tar.bz2
 cd libinput-1.21.0
 mkdir libinput-build; cd libinput-build
-meson --prefix=/usr --buildtype=release -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
+meson --prefix=/usr --buildtype=minsize -Ddebug-gui=false -Dtests=false -Ddocumentation=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libinput -Dm644 ../COPYING
@@ -4263,7 +4263,7 @@ rm -rf xf86-video-vmware-13.3.0
 tar -xf intel-vaapi-driver-2.4.1.tar.bz2
 cd intel-vaapi-driver-2.4.1
 mkdir IVD-build; cd IVD-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/intel-vaapi-driver -Dm644 ../COPYING
@@ -4445,7 +4445,7 @@ sed -i '/policy,/d' actions/meson.build
 sed -i '/policy,/d' src/examples/meson.build
 patch -Np1 -i ../patches/polkit-0.120-backports.patch
 mkdir polkit-build; cd polkit-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=true -Dman=true -Dsession_tracking=libsystemd-login ..
+meson --prefix=/usr --buildtype=minsize -Dgtk_doc=true -Dman=true -Dsession_tracking=libsystemd-login ..
 ninja
 ninja install
 cat > /etc/pam.d/polkit-1 << "END"
@@ -4480,7 +4480,7 @@ rm -rf openssh-9.0p1
 tar -xf sshfs-3.7.3.tar.xz
 cd sshfs-3.7.3
 mkdir sshfs-build; cd sshfs-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/sshfs -Dm644 ../COPYING
@@ -4490,7 +4490,7 @@ rm -rf sshfs-3.7.3
 tar -xf glu-9.0.2.tar.xz
 cd glu-9.0.2
 mkdir glu-build; cd glu-build
-meson --prefix=/usr --buildtype=release -Dgl_provider=gl ..
+meson --prefix=/usr --buildtype=minsize -Dgl_provider=gl ..
 ninja
 ninja install
 rm -f /usr/lib/libGLU.a
@@ -4539,7 +4539,7 @@ rm -rf jasper-version-3.0.4
 tar -xf atk-2.38.0.tar.xz
 cd atk-2.38.0
 mkdir atk-build; cd atk-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/atk -Dm644 ../COPYING
@@ -4549,7 +4549,7 @@ rm -rf atk-2.38.0
 tar -xf atkmm-2.28.2.tar.xz
 cd atkmm-2.28.2
 mkdir atkmm-build; cd atkmm-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/atkmm -Dm644 ../COPYING ../COPYING.tools
@@ -4559,7 +4559,7 @@ rm -rf atkmm-2.28.2
 tar -xf gdk-pixbuf-2.42.8.tar.xz
 cd gdk-pixbuf-2.42.8
 mkdir pixbuf-build; cd pixbuf-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 gdk-pixbuf-query-loaders --update-cache
@@ -4571,7 +4571,7 @@ tar -xf cairo-1.17.6.tar.bz2
 cd cairo-1.17.6
 patch -Np1 -i ../patches/cairo-1.17.6-upstreamfix.patch
 mkdir cairo-build; cd cairo-build
-meson --prefix=/usr --buildtype=release -Dgl-backend=auto -Dtee=enabled -Dtests=disabled -Dxlib-xcb=enabled -Dxml=enabled ..
+meson --prefix=/usr --buildtype=minsize -Dgl-backend=auto -Dtee=enabled -Dtests=disabled -Dxlib-xcb=enabled -Dxml=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/cairo -Dm644 ../COPYING ../COPYING-LGPL-2.1
@@ -4581,7 +4581,7 @@ rm -rf cairo-1.17.6
 tar -xf cairomm-1.14.0.tar.xz
 cd cairomm-1.14.0
 mkdir cmm-build; cd cmm-build
-meson --prefix=/usr --buildtype=release -Dbuild-examples=false -Dbuild-tests=false ..
+meson --prefix=/usr --buildtype=minsize -Dbuild-examples=false -Dbuild-tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
@@ -4591,7 +4591,7 @@ rm -rf cairomm-1.14.0
 tar -xf harfbuzz-4.3.0.tar.xz
 cd harfbuzz-4.3.0
 mkdir hb-build; cd hb-build
-meson --prefix=/usr --buildtype=release -Dgraphite2=enabled -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
@@ -4600,7 +4600,7 @@ rm -rf harfbuzz-4.3.0
 tar -xf pango-1.50.7.tar.xz
 cd pango-1.50.7
 mkdir pango-build; cd pango-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
@@ -4610,7 +4610,7 @@ rm -rf pango-1.50.7
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
 mkdir pmm-build; cd pmm-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pangomm -Dm644 ../COPYING ../COPYING.tools
@@ -4707,7 +4707,7 @@ rm -rf vala-0.56.1
 tar -xf libgusb-0.3.10.tar.xz
 cd libgusb-0.3.10
 mkdir GUSB-build; cd GUSB-build
-meson --prefix=/usr --buildtype=release -Ddocs=false ..
+meson --prefix=/usr --buildtype=minsize -Ddocs=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
@@ -4736,7 +4736,7 @@ rm -rf adwaita-icon-theme-41.0
 tar -xf at-spi2-core-2.44.1.tar.xz
 cd at-spi2-core-2.44.1
 mkdir spi2-build; cd spi2-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/at-spi2-core -Dm644 ../COPYING
@@ -4746,7 +4746,7 @@ rm -rf at-spi2-core-2.44.1
 tar -xf at-spi2-atk-2.38.0.tar.xz
 cd at-spi2-atk-2.38.0
 mkdir spi2-build; cd spi2-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
@@ -4761,7 +4761,7 @@ useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false
 mv po/fur.po po/ur.po
 sed -i 's/fur/ur/' po/LINGUAS
 mkdir colord-build; cd colord-build
-meson --prefix=/usr --buildtype=release -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/colord -Dm644 ../COPYING
@@ -4790,7 +4790,7 @@ rm -rf cups-2.4.2
 tar -xf gtk-3.24.34.tar.bz2
 cd gtk-3.24.34
 mkdir gtk3-build; cd gtk3-build
-meson --prefix=/usr --buildtype=release -Dbroadway_backend=true -Dcolord=yes -Dexamples=false -Dman=true -Dprint_backends=cups,file,lpr -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dbroadway_backend=true -Dcolord=yes -Dexamples=false -Dman=true -Dprint_backends=cups,file,lpr -Dtests=false ..
 ninja
 ninja install
 gtk-query-immodules-3.0 --update-cache
@@ -4802,7 +4802,7 @@ rm -rf gtk-3.24.34
 tar -xf gtkmm-3.24.6.tar.xz
 cd gtkmm-3.24.6
 mkdir gmm-build; cd gmm-build
-meson --prefix=/usr --buildtype=release -Dbuild-demos=false -Dbuild-tests=false ..
+meson --prefix=/usr --buildtype=minsize -Dbuild-demos=false -Dbuild-tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gtkmm3 -Dm644 ../COPYING ../COPYING.tools
@@ -4812,7 +4812,7 @@ rm -rf gtkmm-3.24.6
 tar -xf libhandy-1.6.2.tar.xz
 cd libhandy-1.6.2
 mkdir handy-build; cd handy-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
@@ -4822,7 +4822,7 @@ rm -rf libhandy-1.6.2
 tar -xf libdazzle-3.44.0.tar.xz
 cd libdazzle-3.44.0
 mkdir DAZZLE-build; cd DAZZLE-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libdazzle -Dm644 ../COPYING
@@ -4832,7 +4832,7 @@ rm -rf libdazzle-3.44.0
 tar -xf sysprof-3.44.0.tar.xz
 cd sysprof-3.44.0
 mkdir SYSPROF-build; cd SYSPROF-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 sed -i 's/Development/System/' /usr/share/applications/org.gnome.Sysprof3.desktop
@@ -4843,7 +4843,7 @@ rm -rf sysprof-3.44.0
 tar -xf vte-0.68.0.tar.bz2
 cd vte-0.68.0
 mkdir vte-build; cd vte-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 rm -f /etc/profile.d/vte.*
@@ -4883,7 +4883,7 @@ rm -rf pycairo-1.21.0
 tar -xf pygobject-3.42.1.tar.xz
 cd pygobject-3.42.1
 mkdir pygo-build; cd pygo-build
-meson --prefix=/usr --buildtype=release -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/pygobject -Dm644 ../COPYING
@@ -4909,7 +4909,7 @@ rm -rf python-dbusmock-0.27.5
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
 mkdir gexiv2-build; cd gexiv2-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gexiv2 -Dm644 ../COPYING
@@ -4919,7 +4919,7 @@ rm -rf gexiv2-0.14.0
 tar -xf libpeas-1.32.0.tar.xz
 cd libpeas-1.32.0
 mkdir libpeas-build; cd libpeas-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libpeas -Dm644 ../COPYING
@@ -4929,7 +4929,7 @@ rm -rf libpeas-1.32.0
 tar -xf libgxps-0.3.2.tar.xz
 cd libgxps-0.3.2
 mkdir gxps-build; cd gxps-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libgxps -Dm644 ../COPYING
@@ -5108,7 +5108,7 @@ rm -rf avahi-0.8
 tar -xf orc-0.4.32.tar.gz
 cd orc-0.4.32
 mkdir orc-build; cd orc-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 rm -f /usr/lib/liborc-test-0.4.a
@@ -5119,7 +5119,7 @@ rm -rf orc-0.4.32
 tar -xf pulseaudio-16.0.tar.xz
 cd pulseaudio-16.0
 mkdir pulse-build; cd pulse-build
-meson --prefix=/usr --buildtype=release -Ddatabase=gdbm -Ddoxygen=false ..
+meson --prefix=/usr --buildtype=minsize -Ddatabase=gdbm -Ddoxygen=false ..
 ninja
 ninja install
 rm -f /etc/dbus-1/system.d/pulseaudio-system.conf
@@ -5256,7 +5256,7 @@ rm -rf vim-8.2.5046
 tar -xf libwpe-1.13.1.tar.xz
 cd libwpe-1.13.1
 mkdir wpe-build; cd wpe-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwpe -Dm644 ../COPYING
@@ -5278,7 +5278,7 @@ rm -rf openjpeg-2.5.0
 tar -xf libsecret-0.20.5.tar.xz
 cd libsecret-0.20.5
 mkdir secret-build; cd secret-build
-meson --prefix=/usr --buildtype=release -Dgtk_doc=false ..
+meson --prefix=/usr --buildtype=minsize -Dgtk_doc=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsecret -Dm644 ../COPYING ../COPYING.TESTS
@@ -5291,7 +5291,7 @@ sed -i 's:"/desktop:"/org:' schema/*.xml
 sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
 patch -Np1 -i ../patches/gcr-3.41.0-meson-0.61.0-fix.patch
 mkdir gcr-build; cd gcr-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gcr -Dm644 ../COPYING
@@ -5311,7 +5311,7 @@ tar -xf accountsservice-22.08.8.tar.xz
 cd accountsservice-22.08.8
 sed -i '/PrivateTmp/d' data/accounts-daemon.service.in
 mkdir as-build; cd as-build
-meson --prefix=/usr --buildtype=release -Dadmin_group=wheel ..
+meson --prefix=/usr --buildtype=minsize -Dadmin_group=wheel ..
 ninja
 ninja install
 install -t /usr/share/licenses/accountsservice -Dm644 ../COPYING
@@ -5707,7 +5707,7 @@ rm -rf newt-0.52.21
 tar -xf upower-v0.99.19.tar.bz2
 cd upower-v0.99.19
 mkdir upower-build; cd upower-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
@@ -5718,7 +5718,7 @@ rm -rf upower-v0.99.19
 tar -xf NetworkManager-1.38.2.tar.xz
 cd NetworkManager-1.38.2
 mkdir nm-build; cd nm-build
-meson --prefix=/usr --buildtype=release -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd -Dtests=no ..
+meson --prefix=/usr --buildtype=minsize -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd -Dtests=no ..
 ninja
 ninja install
 cat >> /etc/NetworkManager/NetworkManager.conf << END
@@ -5752,7 +5752,7 @@ rm -rf NetworkManager-1.38.2
 tar -xf libnma-1.8.40.tar.xz
 cd libnma-1.8.40
 mkdir nma-build; cd nma-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnma -Dm644 ../COPYING ../COPYING.LGPL
@@ -5762,7 +5762,7 @@ rm -rf libnma-1.8.40
 tar -xf libnotify-0.7.12.tar.xz
 cd libnotify-0.7.12
 mkdir notify-build; cd notify-build
-meson --prefix=/usr --buildtype=release -Dman=false -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnotify -Dm644 ../COPYING
@@ -5781,7 +5781,7 @@ rm -rf startup-notification-0.12
 tar -xf libwnck-40.1.tar.xz
 cd libwnck-40.1
 mkdir wnck-build; cd wnck-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwnck -Dm644 ../COPYING
@@ -5791,7 +5791,7 @@ rm -rf libwnck-40.1
 tar -xf network-manager-applet-1.28.0.tar.xz
 cd network-manager-applet-1.28.0
 mkdir nma-build; cd nma-build
-meson --prefix=/usr --buildtype=release -Dappindicator=no -Dselinux=false ..
+meson --prefix=/usr --buildtype=minsize -Dappindicator=no -Dselinux=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
@@ -5822,7 +5822,7 @@ tar -xf gsettings-desktop-schemas-42.0.tar.xz
 cd gsettings-desktop-schemas-42.0
 sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
 mkdir gsds-build; cd gsds-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
@@ -5833,7 +5833,7 @@ rm -rf gsettings-desktop-schemas-42.0
 tar -xf glib-networking-2.72.0.tar.xz
 cd glib-networking-2.72.0
 mkdir glibnet-build; cd glibnet-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib-networking -Dm644 ../COPYING
@@ -5843,7 +5843,7 @@ rm -rf glib-networking-2.72.0
 tar -xf libsoup-2.74.2.tar.xz
 cd libsoup-2.74.2
 mkdir soup-build; cd soup-build
-meson --prefix=/usr --buildtype=release -Dtests=false -Dvapi=enabled ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false -Dvapi=enabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
@@ -5853,7 +5853,7 @@ rm -rf libsoup-2.74.2
 tar -xf libsoup-3.0.6.tar.xz
 cd libsoup-3.0.6
 mkdir soup3-build; cd soup3-build
-meson --prefix=/usr --buildtype=release -Dpkcs11_tests=disabled -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dpkcs11_tests=disabled -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
@@ -5873,7 +5873,7 @@ rm -rf libostree-2022.4
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
 mkdir xmlb-build; cd xmlb-build
-meson --prefix=/usr --buildtype=release -Dstemmer=true ..
+meson --prefix=/usr --buildtype=minsize -Dstemmer=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
@@ -5883,7 +5883,7 @@ rm -rf libxmlb-0.3.6
 tar -xf AppStream-0.15.4.tar.xz
 cd AppStream-0.15.4
 mkdir appstream-build; cd appstream-build
-meson --prefix=/usr --buildtype=release -Dvapi=true -Dcompose=true ..
+meson --prefix=/usr --buildtype=minsize -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream -Dm644 ../COPYING
@@ -5893,7 +5893,7 @@ rm -rf AppStream-0.15.4
 tar -xf appstream_glib_0_7_18.tar.gz
 cd appstream-glib-appstream_glib_0_7_18
 mkdir appstream-glib-build; cd appstream-glib-build
-meson --prefix=/usr --buildtype=release -Drpm=false ..
+meson --prefix=/usr --buildtype=minsize -Drpm=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream-glib -Dm644 ../COPYING
@@ -5903,7 +5903,7 @@ rm -rf appstream-glib-appstream_glib_0_7_18
 tar -xf bubblewrap-0.6.2.tar.xz
 cd bubblewrap-0.6.2
 mkdir bwrap-build; cd bwrap-build
-meson --prefix=/usr --buildtype=release -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/bubblewrap -Dm644 ../COPYING
@@ -5913,7 +5913,7 @@ rm -rf bubblewrap-0.6.2
 tar -xf xdg-dbus-proxy-0.1.4.tar.xz
 cd xdg-dbus-proxy-0.1.4
 mkdir xdp-build; cd xdp-build
-meson --prefix=/usr --buildtype=release -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 ../COPYING
@@ -5946,7 +5946,7 @@ rm -rf flatpak-1.13.2
 tar -xf libportal-0.6.tar.xz
 cd libportal-0.6
 mkdir portal-build; cd portal-build
-meson --prefix=/usr --buildtype=release -Dbackends=gtk3 -Ddocs=false -Dtests=false ..
+meson --prefix=/usr --buildtype=minsize -Dbackends=gtk3 -Ddocs=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libportal -Dm644 ../COPYING
@@ -5957,7 +5957,7 @@ rm -rf libportal-0.6
 tar -xf geoclue-2.6.0.tar.bz2
 cd geoclue-2.6.0
 mkdir geoclue-build; cd geoclue-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
@@ -5994,7 +5994,7 @@ rm -rf rest-0.8.1
 tar -xf wpebackend-fdo-1.12.0.tar.xz
 cd wpebackend-fdo-1.12.0
 mkdir fdo-build; cd fdo-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/wpebackend-fdo -Dm644 ../COPYING
@@ -6013,7 +6013,7 @@ rm -rf libass-0.16.0
 tar -xf openh264-2.1.1.tar.gz
 cd openh264-2.1.1
 mkdir H264-build; cd H264-build
-meson --prefix=/usr --buildtype=release -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dtests=disabled ..
 ninja
 ninja install
 rm -f /usr/lib/libopenh264.a
@@ -6187,7 +6187,7 @@ rm -rf a52dec-0.7.4
 tar -xf dav1d-1.0.0.tar.xz
 cd dav1d-1.0.0
 mkdir dav1d-build; cd dav1d-build
-meson --prefix=/usr --buildtype=release -Denable_tests=false ..
+meson --prefix=/usr --buildtype=minsize -Denable_tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/dav1d -Dm644 ../COPYING
@@ -6246,7 +6246,7 @@ rm -rf libmysofa-1.2.1
 tar -xf vmaf-2.3.0.tar.gz
 cd vmaf-2.3.0/libvmaf
 mkdir vmaf-build; cd vmaf-build
-meson --prefix=/usr --buildtype=release -Denable_docs=false ..
+meson --prefix=/usr --buildtype=minsize -Denable_docs=false ..
 ninja
 ninja install
 rm -f /usr/lib/libvmaf.a
@@ -6279,7 +6279,7 @@ rm -rf openal-soft-1.21.1
 tar -xf gstreamer-1.20.3.tar.xz
 cd gstreamer-1.20.3
 mkdir gstreamer-build; cd gstreamer-build
-meson --prefix=/usr --buildtype=release -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -6289,7 +6289,7 @@ rm -rf gstreamer-1.20.3
 tar -xf gst-plugins-base-1.20.3.tar.xz
 cd gst-plugins-base-1.20.3
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -6299,7 +6299,7 @@ rm -rf gst-plugins-base-1.20.3
 tar -xf gst-plugins-good-1.20.3.tar.xz
 cd gst-plugins-good-1.20.3
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -6309,7 +6309,7 @@ rm -rf gst-plugins-good-1.20.3
 tar -xf gst-plugins-bad-1.20.3.tar.xz
 cd gst-plugins-bad-1.20.3
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -6319,7 +6319,7 @@ rm -rf gst-plugins-bad-1.20.3
 tar -xf gst-plugins-ugly-1.20.3.tar.xz
 cd gst-plugins-ugly-1.20.3
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=release -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -6329,7 +6329,7 @@ rm -rf gst-plugins-ugly-1.20.3
 tar -xf gst-libav-1.20.3.tar.xz
 cd gst-libav-1.20.3
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=release -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
@@ -6339,7 +6339,7 @@ rm -rf gst-libav-1.20.3
 tar -xf gstreamer-vaapi-1.20.3.tar.xz
 cd gstreamer-vaapi-1.20.3
 mkdir gstreamer-vaapi-build; cd gstreamer-vaapi-build
-meson --prefix=/usr --buildtype=release -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
@@ -6352,7 +6352,7 @@ patch -Np1 -i ../patches/pipewire-0.3.52-upstreamfix.patch
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
-meson --prefix=/usr --buildtype=release -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
+meson --prefix=/usr --buildtype=minsize -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
 ninja install
 systemctl --global enable pipewire.socket pipewire-pulse.socket
@@ -6422,7 +6422,7 @@ rm -rf clutter-gtk-1.8.4
 tar -xf libchamplain-0.12.20.tar.xz
 cd libchamplain-0.12.20
 mkdir champlain-build; cd champlain-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libchamplain -Dm644 ../COPYING
@@ -6451,7 +6451,7 @@ rm -rf gnome-online-accounts-3.44.0
 tar -xf libgdata-0.18.1.tar.xz
 cd libgdata-0.18.1
 mkdir gdata-build; cd gdata-build
-meson --prefix=/usr --buildtype=release -Dalways_build_tests=false ..
+meson --prefix=/usr --buildtype=minsize -Dalways_build_tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libgdata -Dm644 ../COPYING
@@ -6461,7 +6461,7 @@ rm -rf libgdata-0.18.1
 tar -xf gvfs-1.50.2.tar.xz
 cd gvfs-1.50.2
 mkdir gvfs-build; cd gvfs-build
-meson --prefix=/usr --buildtype=release -Dman=true ..
+meson --prefix=/usr --buildtype=minsize -Dman=true ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
@@ -6691,7 +6691,7 @@ rm -rf xfce4-terminal-1.0.4
 tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
 cd shotwell-0.31.3-133-gd55abab2
 mkdir SHOTWELL-build; cd SHOTWELL-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
@@ -6840,7 +6840,7 @@ rm -rf thunar-archive-plugin-0.5.0
 tar -xf gtksourceview-4.8.3.tar.xz
 cd gtksourceview-4.8.3
 mkdir build; cd build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
@@ -6895,7 +6895,7 @@ rm -rf mugshot-0.4.3
 tar -xf evince-42.3.tar.xz
 cd evince-42.3
 mkdir build; cd build
-meson --prefix=/usr --buildtype=release -Dnautilus=false ..
+meson --prefix=/usr --buildtype=minsize -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
@@ -6905,7 +6905,7 @@ rm -rf evince-42.3
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
 mkdir baobab-build; cd baobab-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
@@ -6917,7 +6917,7 @@ cd malcontent-0.10.4
 tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
 mv subprojects/libglib-testing{-0.1.1,}
 mkdir malcontent-build; cd malcontent-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 rm -f /usr/share/applications/org.freedesktop.MalcontentControl.desktop
@@ -6928,7 +6928,7 @@ rm -rf malcontent-0.10.4
 tar -xf gnome-software-41.5.tar.xz
 cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=release -Dfwupd=false -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=minsize -Dfwupd=false -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
@@ -6938,7 +6938,7 @@ rm -rf gnome-software-41.5
 tar -xf massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 cd massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c
 mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
-meson --prefix=/usr --buildtype=release ..
+meson --prefix=/usr --buildtype=minsize ..
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
 install -m755 target/release/gnome-tour /usr/bin/massos-welcome
 cat > /usr/bin/firstlogin << "END"
