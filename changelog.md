@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Fixed very long startup times in Firefox and Evince (https://github.com/MassOS-Linux/MassOS/issues/29).
 - Fixed an issue setting the default locale in the MassOS Installer (https://github.com/MassOS-Linux/MassOS/issues/35).
 - Added mouse/cursor support for non-graphical environments (e.g. tty terminals).
 - Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.

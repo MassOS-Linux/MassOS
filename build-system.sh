@@ -6377,6 +6377,12 @@ cd xdg-desktop-portal-gtk-1.14.0
 ./configure --prefix=/usr
 make
 make install
+cat > /etc/xdg/autostart/xdg-desktop-portal-gtk.desktop << "END"
+[Desktop Entry]
+Type=Application
+Name=Portal service (GTK/GNOME implementation)
+Exec=/bin/bash -c "dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY; systemctl start --user xdg-desktop-portal-gtk.service"
+END
 install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 cd ..
 rm -rf xdg-desktop-portal-gtk-1.14.0
