@@ -827,15 +827,16 @@ install -t /usr/share/licenses/libffi -Dm644 LICENSE
 cd ..
 rm -rf libffi-3.4.2
 # OpenSSL.
-tar -xf openssl-3.0.3.tar.gz
-cd openssl-3.0.3
+tar -xf openssl-3.0.4.tar.gz
+cd openssl-3.0.4
+sed -i '223i\    factor_size /= sizeof(BN_ULONG) * 8;' crypto/bn/rsaz_exp_x2.c
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
-rm -rf openssl-3.0.3
+rm -rf openssl-3.0.4
 # easy-rsa.
 tar -xf EasyRSA-3.1.0.tgz
 cd EasyRSA-3.1.0
@@ -1058,13 +1059,12 @@ rm -rf sharutils-4.15.2
 tar -xf db-5.3.28.tar.gz
 cd db-5.3.28
 sed -i 's/\(__atomic_compare_exchange\)/\1_db/' src/dbinc/atomic.h
-cd build_unix
-../dist/configure --prefix=/usr --enable-compat185 --enable-dbm --disable-static --enable-cxx
+./dist/configure --prefix=/usr --enable-compat185 --enable-cxx --enable-dbm --disable-static
 make
 make docdir=/usr/share/doc/db install
 chown -R root:root /usr/bin/db_* /usr/include/db{,_185,_cxx}.h /usr/lib/libdb*.{so,la}
-install -t /usr/share/licenses/db -Dm644 ../LICENSE
-cd ../..
+install -t /usr/share/licenses/db -Dm644 LICENSE
+cd ..
 rm -rf db-5.3.28
 # LMDB.
 tar -xf LMDB_0.9.29.tar.gz
@@ -2004,20 +2004,19 @@ install -t /usr/share/licenses/lzop -Dm644 COPYING
 cd ..
 rm -rf lzop-1.04
 # squashfs-tools.
-tar -xf squashfs-tools-4.5.tar.xz
-cd squashfs-tools-4.5
+tar -xf squashfs-tools-4.5.1.tar.gz
+cd squashfs-tools-4.5.1/squashfs-tools
 make GZIP_SUPPORT=1 XZ_SUPPORT=1 LZO_SUPPORT=1 LZMA_XZ_SUPPORT=1 LZ4_SUPPORT=1 ZSTD_SUPPORT=1 XATTR_SUPPORT=1
-make INSTALL_DIR=/usr/bin install
-install -t /usr/share/licenses/squashfs-tools -Dm644 COPYING
-cd ..
-rm -rf squashfs-tools-4.5
+make INSTALL_PREFIX=/usr INSTALL_MANPAGES_DIR=/usr/share/man/man1 install
+install -t /usr/share/licenses/squashfs-tools -Dm644 ../COPYING
+cd ../..
+rm -rf squashfs-tools-4.5.1
 # squashfuse.
 tar -xf squashfuse-0.1.104.tar.gz
 cd squashfuse-0.1.104
-./configure --prefix=/usr
+./configure --prefix=/usr --disable-static LIBS="-llz4 -llzma -llzo2 -lz -lzstd"
 make
 make install
-rm -f /usr/lib/libsquashfuse.a
 install -t /usr/include/squashfuse -Dm644 *.h
 install -t /usr/share/licenses/squashfuse -Dm644 LICENSE
 cd ..
@@ -2225,14 +2224,14 @@ install -t /usr/share/licenses/brotli -Dm644 LICENSE
 cd ..
 rm -rf brotli-1.0.9
 # libnghttp2.
-tar -xf nghttp2-1.47.0.tar.xz
-cd nghttp2-1.47.0
+tar -xf nghttp2-1.48.0.tar.xz
+cd nghttp2-1.48.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
-rm -rf nghttp2-1.47.0
+rm -rf nghttp2-1.48.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.83.1.tar.xz
 cd curl-7.83.1
@@ -2859,10 +2858,10 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.34
 # NSS.
-tar -xf nss-NSS_3_79_RTM.tar.gz
-cd nss-NSS_3_79_RTM
+tar -xf nss-3.80.tar.gz
+cd nss-3.80/nss
 mkdir gyp
-tar -xf ../gyp-9ecf45.tar.gz -C gyp --strip-components=1
+tar -xf ../../gyp-9ecf45.tar.gz -C gyp --strip-components=1
 PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
 install -t /usr/lib -Dm755 ../dist/Release/lib/*.so
 install -t /usr/lib -Dm644 ../dist/Release/lib/*.chk
@@ -2870,14 +2869,13 @@ install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver
 install -t /usr/share/man/man1 -Dm644 doc/nroff/{*util,signtool,signver,ssltap}.1
 install -dm755 /usr/include/nss
 cp -r ../dist/{public,private}/nss/* /usr/include/nss
-sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.79.0|g" > /usr/lib/pkgconfig/nss.pc
+sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.80.0|g" > /usr/lib/pkgconfig/nss.pc
 sed pkg/pkg-config/nss-config.in -e 's|@prefix@|/usr|g' -e "s|@MOD_MAJOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f1)|g" -e "s|@MOD_MINOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f2)|g" -e "s|@MOD_PATCH_VERSION@|$(pkg-config --modversion nss | cut -d. -f3)|g" > /usr/bin/nss-config
 chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 COPYING
-cd ..
-rm -rf dist
-rm -rf nss-NSS_3_79_RTM
+cd ../..
+rm -rf nss-3.80
 # Git.
 tar -xf git-2.36.1.tar.xz
 cd git-2.36.1
@@ -3026,13 +3024,13 @@ install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
 cd ..
 rm -rf autoconf-2.13
 # LLVM/Clang/LLD.
-tar -xf llvm-14.0.5.src.tar.xz
+tar -xf llvm-14.0.6.src.tar.xz
 mkdir -p libunwind
-tar -xf libunwind-14.0.5.src.tar.xz -C libunwind --strip-components=1
-cd llvm-14.0.5.src
+tar -xf libunwind-14.0.6.src.tar.xz -C libunwind --strip-components=1
+cd llvm-14.0.6.src
 mkdir -p tools/{clang,lld}
-tar -xf ../clang-14.0.5.src.tar.xz -C tools/clang --strip-components=1
-tar -xf ../lld-14.0.5.src.tar.xz -C tools/lld --strip-components=1
+tar -xf ../clang-14.0.6.src.tar.xz -C tools/clang --strip-components=1
+tar -xf ../lld-14.0.6.src.tar.xz -C tools/lld --strip-components=1
 mkdir LLVM-build; cd LLVM-build
 CFLAGS="$CFLAGS -flarge-source-files" CXXFLAGS="$CXXFLAGS -flarge-source-files" cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;X86" -DLLVM_BINUTILS_INCDIR=/usr/include -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -3041,7 +3039,7 @@ install -t /usr/share/licenses/llvm -Dm644 ../LICENSE.TXT
 ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
-rm -rf cmake libunwind llvm-14.0.5.src
+rm -rf cmake libunwind llvm-14.0.6.src
 # Rust (will be uninstalled later).
 tar -xf rust-1.61.0-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.61.0-x86_64-unknown-linux-gnu
@@ -3062,8 +3060,8 @@ install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-lic
 cd ../..
 rm -rf firefox-91.10.0
 # Sudo.
-tar -xf sudo-1.9.11p2.tar.gz
-cd sudo-1.9.11p2
+tar -xf sudo-1.9.11p3.tar.gz
+cd sudo-1.9.11p3
 ./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
@@ -3082,7 +3080,7 @@ session   include     system-session
 END
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 cd ..
-rm -rf sudo-1.9.11p2
+rm -rf sudo-1.9.11p3
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3117,6 +3115,7 @@ rm -rf mandoc-1.14.6
 tar -xf efivar-38.tar.bz2
 cd efivar-38
 sed '/prep :/a\\ttouch prep' -i src/Makefile
+: > src/include/gcc.specs
 make CFLAGS="$CFLAGS"
 make LIBDIR=/usr/lib install
 install -t /usr/share/licenses/efivar -Dm644 COPYING
@@ -3373,14 +3372,14 @@ install -t /usr/share/licenses/libmbim -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libmbim-1.26.4
 # libqmi.
-tar -xf libqmi-1.30.6.tar.xz
-cd libqmi-1.30.6
+tar -xf libqmi-1.30.8.tar.xz
+cd libqmi-1.30.8
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf libqmi-1.30.6
+rm -rf libqmi-1.30.8
 # libwacom.
 tar -xf libwacom-2.2.0.tar.xz
 cd libwacom-2.2.0
@@ -4250,6 +4249,16 @@ make install
 install -t /usr/share/licenses/xf86-video-nouveau -Dm644 COPYING
 cd ..
 rm -rf xf86-video-nouveau-1.0.17
+# xf86-video-vesa.
+tar -xf xf86-video-vesa-2.5.0.tar.bz2
+cd xf86-video-vesa-2.5.0
+patch -Np1 -i ../patches/xf86-video-vesa-2.5.0-upstreamfix.patch
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xf86-video-vesa -Dm644 COPYING
+cd ..
+rm -rf xf86-video-vesa-2.5.0
 # xf86-video-vmware.
 tar -xf xf86-video-vmware-13.3.0.tar.bz2
 cd xf86-video-vmware-13.3.0
@@ -4526,15 +4535,15 @@ install -t /usr/share/licenses/lcms2 -Dm644 COPYING
 cd ..
 rm -rf lcms2-2.13.1
 # JasPer.
-tar -xf jasper-version-3.0.4.tar.gz
-cd jasper-version-3.0.4
+tar -xf jasper-version-3.0.5.tar.gz
+cd jasper-version-3.0.5
 mkdir jasper-build; cd jasper-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/jasper -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf jasper-version-3.0.4
+rm -rf jasper-version-3.0.5
 # ATK.
 tar -xf atk-2.38.0.tar.xz
 cd atk-2.38.0
@@ -4772,6 +4781,7 @@ tar -xf cups-2.4.2-source.tar.gz
 cd cups-2.4.2
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
 groupadd -g 19 lpadmin
+sed -e 8198d -e 8213d -e 8228d -e 8243d -i configure
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
 make
 make install
@@ -4984,23 +4994,23 @@ install -t /usr/share/licenses/libtheora -Dm644 COPYING LICENSE
 cd ..
 rm -rf libtheora-1.1.1
 # Speex.
-tar -xf speex-1.2.0.tar.gz
-cd speex-1.2.0
-./configure --prefix=/usr --disable-static
+tar -xf speex-1.2.1.tar.gz
+cd speex-1.2.1
+./configure --prefix=/usr --disable-static --enable-binaries
 make
 make install
 install -t /usr/share/licenses/speex -Dm644 COPYING
 cd ..
-rm -rf speex-1.2.0
+rm -rf speex-1.2.1
 # SpeexDSP.
-tar -xf speexdsp-1.2.0.tar.gz
-cd speexdsp-1.2.0
+tar -xf speexdsp-1.2.1.tar.gz
+cd speexdsp-1.2.1
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/speexdsp -Dm644 COPYING
 cd ..
-rm -rf speexdsp-1.2.0
+rm -rf speexdsp-1.2.1
 # Opus.
 tar -xf opus-1.3.1.tar.gz
 cd opus-1.3.1
@@ -5047,14 +5057,14 @@ install -t /usr/share/licenses/jack2 -Dm644 COPYING
 cd ..
 rm -rf jack2-1.9.21
 # SBC.
-tar -xf sbc-1.5.tar.xz
-cd sbc-1.5
+tar -xf sbc-2.0.tar.xz
+cd sbc-2.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/sbc -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf sbc-1.5
+rm -rf sbc-2.0
 # ldac.
 tar -xf ldacBT-2.0.2.3.tar.gz
 cd ldacBT
@@ -5116,8 +5126,8 @@ install -t /usr/share/licenses/orc -Dm644 ../COPYING
 cd ../..
 rm -rf orc-0.4.32
 # PulseAudio.
-tar -xf pulseaudio-16.0.tar.xz
-cd pulseaudio-16.0
+tar -xf pulseaudio-16.1.tar.xz
+cd pulseaudio-16.1
 mkdir pulse-build; cd pulse-build
 meson --prefix=/usr --buildtype=minsize -Ddatabase=gdbm -Ddoxygen=false ..
 ninja
@@ -5125,7 +5135,7 @@ ninja install
 rm -f /etc/dbus-1/system.d/pulseaudio-system.conf
 install -t /usr/share/licenses/pulseaudio -Dm644 ../LICENSE ../GPL ../LGPL
 cd ../..
-rm -rf pulseaudio-16.0
+rm -rf pulseaudio-16.1
 # SDL (rebuild to support pulseaudio).
 tar -xf SDL-1.2.15.tar.gz
 cd SDL-1.2.15
@@ -5138,12 +5148,12 @@ rm -rf SDL-1.2.15
 # SDL2.
 tar -xf SDL2-2.0.22.tar.gz
 cd SDL2-2.0.22
-./configure --prefix=/usr
-make
-make install
-rm -f /usr/lib/libSDL2*.a
-install -t /usr/share/licenses/sdl2 -Dm644 LICENSE.txt
-cd ..
+mkdir SDL2-build; cd SDL2-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_RPATH=OFF -DSDL_STATIC=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/sdl2 -Dm644 ../LICENSE.txt
+cd ../..
 rm -rf SDL2-2.0.22
 # dmidecode.
 tar -xf dmidecode-3.3.tar.xz
@@ -5620,15 +5630,15 @@ install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
 # JSON (required by smblient 4.16+).
-tar -xf JSON-4.06.tar.gz
-cd JSON-4.06
+tar -xf JSON-4.07.tar.gz
+cd JSON-4.07
 perl Makefile.PL
 make
 make install
 install -dm755 /usr/share/licenses/json
 cat lib/JSON.pm | tail -n9 | head -n6 > /usr/share/licenses/json/COPYING
 cd ..
-rm -rf JSON-4.06
+rm -rf JSON-4.07
 # Parse-Yapp.
 tar -xf Parse-Yapp-1.21.tar.gz
 cd Parse-Yapp-1.21
@@ -6386,17 +6396,8 @@ END
 install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 cd ..
 rm -rf xdg-desktop-portal-gtk-1.14.0
-# WebKitGTK.
-tar -xf webkitgtk-2.36.3.tar.xz
-cd webkitgtk-2.36.3
-mkdir webkitgtk-build; cd webkitgtk-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DENABLE_GAMEPAD=OFF -DENABLE_GLES2=ON -DENABLE_GTKDOC=ON -DENABLE_MINIBROWSER=ON -DUSE_LIBHYPHEN=OFF -DUSE_SOUP2=ON -DUSE_WOFF2=ON -DUSE_WPE_RENDERER=ON -Wno-dev -G Ninja ..
-ninja -j$(nproc)
-ninja install
-install -dm755 /usr/share/licenses/webkitgtk
-find ../Source -name 'COPYING*' -or -name 'LICENSE*' -print0 | sort -z | while IFS= read -d $'\0' -r _f; do echo "### $_f ###"; cat "$_f"; echo; done > /usr/share/licenses/webkitgtk/LICENSE
-cd ../..
-rm -rf webkitgtk-2.36.3
+# WebKitGTK (precompiled, see https://github.com/MassOS-Linux/webkitgtk-binaries for the reasons why).
+tar --no-same-owner -xf webkitgtk-2.36.3-MassOS2022.06-icu71.1-x86_64.tar.xz -C /
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -7006,7 +7007,7 @@ plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
 # Firefox.
-tar --no-same-owner -xf firefox-101.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-101.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -7076,8 +7077,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.5.tar.xz
-cd linux-5.18.5
+tar -xf linux-5.18.7.tar.xz
+cd linux-5.18.7
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7113,7 +7114,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.5
+rm -rf linux-5.18.7
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz
@@ -7156,14 +7157,19 @@ if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/
 # Remove Debian stuff.
 rm -rf /etc/kernel
 # Move any misplaced files.
-cp -r /usr/etc /
-rm -rf /usr/etc
-cp -r /usr/man /usr/share
-rm -rf /usr/man
+if [ -d /usr/etc ]; then
+  cp -r /usr/etc /
+  rm -rf /usr/etc
+fi
+if [ -d /usr/man ]; then
+  cp -r /usr/man /usr/share
+  rm -rf /usr/man
+fi
 # Remove static documentation to free up space.
 rm -rf /usr/share/doc/*
 rm -rf /usr/doc
 rm -rf /usr/docs
+rm -rf /usr/share/gtk-doc/html/*
 # Remove temporary compiler from stage1.
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.
