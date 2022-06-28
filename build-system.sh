@@ -5724,6 +5724,16 @@ install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
 rm -rf upower-v0.99.19
+# power-profiles-daemon.
+tar -xf power-profiles-daemon-0.12.tar.bz2
+cd power-profiles-daemon-0.12
+mkdir build; cd build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/power-profiles-daemon -Dm644 ../COPYING
+cd ../..
+rm -rf power-profiles-daemon-0.12
 # NetworkManager.
 tar -xf NetworkManager-1.38.2.tar.xz
 cd NetworkManager-1.38.2

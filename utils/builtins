@@ -464,6 +464,7 @@ polkit-gnome
 poppler
 popsicle
 popt
+power-profiles-daemon
 ppp
 procps-ng
 psmisc
@@ -559,6 +560,7 @@ volume-key
 vte
 vulkan-headers
 vulkan-loader
+vulkan-tools
 wayland
 wayland-protocols
 webkitgtk
