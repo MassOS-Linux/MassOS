@@ -965,6 +965,7 @@ make install
 mv /usr/bin/chroot /usr/sbin
 mv /usr/share/man/man1/chroot.1 /usr/share/man/man8/chroot.8
 sed -i 's/"1"/"8"/' /usr/share/man/man8/chroot.8
+dircolors -p > /etc/dircolors
 install -t /usr/share/licenses/coreutils -Dm644 COPYING
 cd ..
 rm -rf coreutils-9.1
@@ -2012,15 +2013,16 @@ install -t /usr/share/licenses/squashfs-tools -Dm644 ../COPYING
 cd ../..
 rm -rf squashfs-tools-4.5.1
 # squashfuse.
-tar -xf squashfuse-0.1.104.tar.gz
-cd squashfuse-0.1.104
-./configure --prefix=/usr --disable-static LIBS="-llz4 -llzma -llzo2 -lz -lzstd"
+tar -xf squashfuse-0.1.105.tar.gz
+cd squashfuse-0.1.105
+./autogen.sh
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/include/squashfuse -Dm644 *.h
 install -t /usr/share/licenses/squashfuse -Dm644 LICENSE
 cd ..
-rm -rf squashfuse-0.1.104
+rm -rf squashfuse-0.1.105
 # libaio.
 tar -xf libaio-libaio-0.3.113.tar.gz
 cd libaio-libaio-0.3.113
@@ -2051,6 +2053,8 @@ rm -rf thin-provisioning-tools-0.9.0
 # LVM2.
 tar -xf LVM2.2.03.16.tgz
 cd LVM2.2.03.16
+sed -i 201,202d configure.ac
+autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-cmdlib --enable-dmeventd --enable-lvmpolld --enable-pkgconfig --enable-readline --enable-udev_rules --enable-udev_sync
 make
 make install
@@ -2233,14 +2237,14 @@ install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
 rm -rf nghttp2-1.48.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
-tar -xf curl-7.83.1.tar.xz
-cd curl-7.83.1
+tar -xf curl-7.84.0.tar.xz
+cd curl-7.84.0
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
-rm -rf curl-7.83.1
+rm -rf curl-7.84.0
 # jsoncpp.
 tar -xf jsoncpp-1.9.5.tar.gz
 cd jsoncpp-1.9.5
@@ -2600,13 +2604,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 cd ..
 rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
-tar -xf curl-7.83.1.tar.xz
-cd curl-7.83.1
+tar -xf curl-7.84.0.tar.xz
+cd curl-7.84.0
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.83.1
+rm -rf curl-7.84.0
 # OpenVPN.
 tar -xf openvpn-2.5.7.tar.gz
 cd openvpn-2.5.7
@@ -2655,8 +2659,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3380500.tar.gz
-cd sqlite-autoconf-3380500
+tar -xf sqlite-autoconf-3390000.tar.gz
+cd sqlite-autoconf-3390000
 CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2666,7 +2670,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3380500
+rm -rf sqlite-autoconf-3390000
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2708,7 +2712,9 @@ cd audit-userspace-3.0.8
 patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
-make
+ACFLAGS="-D_REENTRANT -D_GNU_SOURCE" ALDFLAGS="-Wl,-z,relro,-z,now"
+make auditd_CFLAGS="$ACFLAGS -fno-strict-aliasing -pthread" auditctl_CFLAGS="$ACFLAGS" audisp_remote_CFLAGS="$ACFLAGS" audisp_syslog_CFLAGS="$ACFLAGS" audispd_zos_remote_CFLAGS="$ACFLAGS" auditd_LDFLAGS="$ALDFLAGS" auditctl_LDFLAGS="$ALDFLAGS" audispd-zos-remote_LDFLAGS="$ALDFLAGS" audisp_remote_LDFLAGS="$ALDFLAGS" audisp_syslog_LDFLAGS="$ALDFLAGS"
+unset ACFLAGS ALDFLAGS
 make install
 sed -i 's|"audit.h"|<linux/audit.h>|' /usr/include/libaudit.h
 install -dm0700 /var/log/audit
@@ -2877,8 +2883,8 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
 rm -rf nss-3.80
 # Git.
-tar -xf git-2.36.1.tar.xz
-cd git-2.36.1
+tar -xf git-2.37.0.tar.xz
+cd git-2.37.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
 make
 make man
@@ -2886,7 +2892,7 @@ make perllibdir=/usr/lib/perl5/5.36/site_perl install
 make install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.36.1
+rm -rf git-2.37.0
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -3047,8 +3053,8 @@ cd rust-1.61.0-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.61.0-x86_64-unknown-linux-gnu
 # JS91.
-tar -xf firefox-91.10.0esr.source.tar.xz
-cd firefox-91.10.0
+tar -xf firefox-91.11.0esr.source.tar.xz
+cd firefox-91.11.0
 chmod +x js/src/configure.in
 mkdir JS91-build; cd JS91-build
 SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
@@ -3058,7 +3064,7 @@ rm -f /usr/lib/libjs_static.ajs
 sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
 install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
 cd ../..
-rm -rf firefox-91.10.0
+rm -rf firefox-91.11.0
 # Sudo.
 tar -xf sudo-1.9.11p3.tar.gz
 cd sudo-1.9.11p3
@@ -3163,15 +3169,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.3.0.tar.xz
-cd harfbuzz-4.3.0
+tar -xf harfbuzz-4.4.1.tar.xz
+cd harfbuzz-4.4.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.3.0
+rm -rf harfbuzz-4.4.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.12.1.tar.xz
 cd freetype-2.12.1
@@ -4597,14 +4603,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.3.0.tar.xz
-cd harfbuzz-4.3.0
+tar -xf harfbuzz-4.4.1.tar.xz
+cd harfbuzz-4.4.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.3.0
+rm -rf harfbuzz-4.4.1
 # Pango.
 tar -xf pango-1.50.7.tar.xz
 cd pango-1.50.7
@@ -5237,8 +5243,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-8.2.5046.tar.gz
-cd vim-8.2.5046
+tar -xf vim-9.0.0000.tar.gz
+cd vim-9.0.0000
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5261,7 +5267,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-8.2.5046
+rm -rf vim-9.0.0000
 # libwpe.
 tar -xf libwpe-1.13.1.tar.xz
 cd libwpe-1.13.1
@@ -5448,26 +5454,21 @@ install -t /usr/share/licenses/sane -Dm644 ../COPYING ../LICENSE ../README.djpeg
 cd ../..
 rm -rf backends-1.1.1
 # HPLIP.
-tar -xf hplip-3.22.2.tar.gz
-cd hplip-3.22.2
-patch -Np1 -i ../patches/hplip-3.21.12-fix_too_many_bugs.patch
+tar -xf hplip-3.22.6.tar.gz
+cd hplip-3.22.6
+patch -Np1 -i ../patches/hplip-3.22.6-manyfixes.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
-./configure --prefix=/usr --disable-qt4 --disable-qt5 --enable-hpcups-install --enable-cups-drv-install --disable-imageProcessor-build --enable-pp-build
+./configure --prefix=/usr --enable-cups-drv-install --enable-hpcups-install --disable-imageProcessor-build --enable-pp-build --disable-qt4
 make
-make -j1 rulesdir=/usr/lib/udev/rules.d DESTDIR=$PWD/destination-tmp install
-rm -rf destination-tmp/etc/{sane.d,xdg}
-rm -rf destination-tmp/usr/share/hal
-rm -rf destination-tmp/etc/init.d
-rm -f destination-tmp/usr/share/applications/hp-uiscan.desktop
-rm -f destination-tmp/usr/share/applications/hplip.desktop
-rm -f destination-tmp/usr/bin/hp-{uninstall,upgrade}
-install -dm755 destination-tmp/etc/sane.d/dll.d
-echo hpaio > destination-tmp/etc/sane.d/dll.d/hpaio
-cp -a destination-tmp/* /
-ldconfig
+make -j1 rulesdir=/usr/lib/udev/rules.d install
+rm -rf /usr/share/hal
+rm -f /etc/xdg/autostart/hplip-systray.desktop
+rm -f /usr/share/applications/hp{lip,-uiscan}.desktop
+rm -f /usr/bin/hp-{uninstall,upgrade}
+rm -f /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 cd ..
-rm -rf hplip-3.22.2
+rm -rf hplip-3.22.6
 # Tk.
 tar -xf tk8.6.12-src.tar.gz
 cd tk8.6.12/unix
@@ -5732,6 +5733,7 @@ meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/power-profiles-daemon -Dm644 ../COPYING
+systemctl enable power-profiles-daemon
 cd ../..
 rm -rf power-profiles-daemon-0.12
 # NetworkManager.
@@ -6052,14 +6054,14 @@ install -t /usr/share/licenses/cdparanoia -Dm644 COPYING-GPL COPYING-LGPL
 cd ..
 rm -rf cdparanoia-III-10.2
 # mpg123.
-tar -xf mpg123-1.29.3.tar.bz2
-cd mpg123-1.29.3
+tar -xf mpg123-1.30.0.tar.bz2
+cd mpg123-1.30.0
 ./configure --prefix=/usr --enable-int-quality=yes --with-audio="alsa jack oss pulse sdl"
 make
 make install
 install -t /usr/share/licenses/mpg123 -Dm644 COPYING
 cd ..
-rm -rf mpg123-1.29.3
+rm -rf mpg123-1.30.0
 # libvpx.
 tar -xf libvpx_1.11.0.orig.tar.gz
 cd libvpx-1.11.0
@@ -6285,16 +6287,14 @@ install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING
 cd ..
 rm -rf ffmpeg-5.0.1
 # OpenAL.
-tar -xf openal-soft-1.21.1.tar.gz
-cd openal-soft-1.21.1/build
-sed -i "37i#include <thread>" ../utils/makemhr/loadsofa.cpp
-sed -i "s/AVCodec \*codec/const AVCodec \*codec/" ../examples/alffplay.cpp
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja ..
+tar -xf openal-soft-1.22.2.tar.gz
+cd openal-soft-1.22.2/build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
 cd ../..
-rm -rf openal-soft-1.21.1
+rm -rf openal-soft-1.22.2
 # GStreamer.
 tar -xf gstreamer-1.20.3.tar.xz
 cd gstreamer-1.20.3
@@ -7017,7 +7017,7 @@ plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
 # Firefox.
-tar --no-same-owner -xf firefox-101.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-102.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
@@ -7087,8 +7087,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.7.tar.xz
-cd linux-5.18.7
+tar -xf linux-5.18.8.tar.xz
+cd linux-5.18.8
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7124,7 +7124,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.7
+rm -rf linux-5.18.8
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz

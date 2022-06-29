@@ -1,0 +1,865 @@
+diff -aruN old/base/sixext.py new/base/sixext.py
+--- old/base/sixext.py	2022-06-23 05:56:29.000000000 +0100
++++ new/base/sixext.py	2022-06-29 13:36:23.970243103 +0100
+@@ -110,11 +110,11 @@
+ 
+ 
+     def to_string_utf8(s):
+-        return s.decode("utf-8")
++        return s.decode("utf-8", 'ignore')
+ 
+ 
+     def to_string_latin(s):
+-        return s.decode("latin-1")
++        return s.decode("latin-1", 'ignore')
+ 
+ 
+     def to_unicode(s, enc=None):
+diff -aruN old/configure.in new/configure.in
+--- old/configure.in	2022-06-23 05:56:29.000000000 +0100
++++ new/configure.in	2022-06-29 13:37:21.316908771 +0100
+@@ -620,7 +620,7 @@
+ 
+ if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
+    AC_CHECK_LIB([cups], [cupsDoFileRequest], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libcups support], 9)])
+-   AC_CHECK_HEADERS(cups/cups.h, ,[AC_MSG_ERROR([cannot find cups-devel support], 3)])
++   AC_CHECK_HEADERS(cups/cups.h cups/ppd.h, ,[AC_MSG_ERROR([cannot find cups-devel support], 3)])
+    if test "$libusb01_build" = "yes"; then
+       AC_CHECK_LIB([usb], [usb_init], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libusb support], 2)])
+       AC_CHECK_HEADERS(usb.h, ,[AC_MSG_ERROR([cannot find libusb-devel support], 11)])
+@@ -630,17 +630,29 @@
+    fi
+ fi
+ 
+-SAVE_CPPFLAGS="$CPPFLAGS"
+-CFLAGS=`python-config --includes`
+-if [ $? -eq 0 ] 
+-then
+-   echo $FLAGS
+-else
+-CFLAGS=`python3-config --includes`
+-   if [ $? -eq 0 ]
+-   then
+-   echo $FLAGS
+-   fi
++AC_PATH_PROG(python3_config_path, python3-config, [AC_MSG_ERROR([python3-config not installed], 6)])
++
++PYTHON_INCLUDES=`$python3_config_path --includes`
++if test "X$PYTHON_INCLUDES" = "X" ; then
++  AC_MSG_ERROR([Cannot get Python includes via python3-config], 6)
++fi
++
++PYTHON_LIBS=`$python3_config_path --libs`
++if test "X$PYTHON_LIBS" = "X" ; then
++  AC_MSG_ERROR([Cannot get Python libs via python3-config], 6)
++fi
++
++SAVE_CFLAGS=$CFLAGS
++SAVE_LIBS=$LIBS
++
++CFLAGS="$CFLAGS $PYTHON_INCLUDES"
++LIBS="$LIBS $PYTHON_LIBS"
++
++AC_TRY_LINK(,[ ], AC_MSG_RESULT(yes); python_includes="ok", AC_MSG_ERROR([no: PYTHON DISABLED], 6))
++
++if test "X$python_includes" != "Xok" ; then
++  CFLAGS="$SAVE_CFLAGS"
++  LIBS="$SAVE_LIBS"
+ fi
+ 
+ #CFLAGS=`(python-config --includes)`
+@@ -666,7 +678,6 @@
+    AS_IF([test "x$FOUND_HEADER" != "xyes"],
+           [AC_MSG_ERROR([cannot find python-devel support], 6)])
+ fi
+-CFLAGS="$save_CFLAGS"
+ 
+ if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
+    AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
+diff -aruN old/cups_drv.inc new/cups_drv.inc
+--- old/cups_drv.inc	2022-06-23 06:04:57.000000000 +0100
++++ new/cups_drv.inc	2022-06-29 13:36:52.140242600 +0100
+@@ -411,6 +411,7 @@
+    ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
+    ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
+    ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
++   ppd/hpcups/hp-laserjet_cp_1025nw.ppd.gz \
+    ppd/hpcups/hp-laserjet_m1005.ppd.gz \
+    ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
+    ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
+@@ -527,6 +528,7 @@
+    ppd/hpcups/hp-laserjet_professional_p1607dn.ppd.gz \
+    ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
+    ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
++   ppd/hpcups/hp-laserjet_professional_p1102w.ppd.gz \
+    ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
+    ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
+    ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
+diff -aruN old/data/models/models.dat new/data/models/models.dat
+--- old/data/models/models.dat	2022-06-23 05:56:29.000000000 +0100
++++ new/data/models/models.dat	2022-06-29 13:36:52.146909267 +0100
+@@ -2104,7 +2104,7 @@
+ usb-vid=3f0
+ wifi-config=0
+ 
+-[hp_laserjet_100_colormfp_m175]
++[hp_laserjet_100_colormfp_m175nw]
+ align-type=0
+ clean-type=0
+ color-cal-type=0
+@@ -2119,14 +2119,6 @@
+ job-storage=0
+ linefeed-cal-type=0
+ model1=HP LaserJet 100 Color MFP M175
+-model2=HP LaserJet 100 Color MFP M175a
+-model3=HP LaserJet 100 Color MFP M175b
+-model4=HP LaserJet 100 Color MFP M175c
+-model5=HP LaserJet 100 Color MFP M175e
+-model6=HP LaserJet 100 Color MFP M175nw
+-model7=HP LaserJet 100 Color MFP M175p
+-model8=HP LaserJet 100 Color MFP M175q
+-model9=HP LaserJet 100 Color MFP M175r
+ ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
+ monitor-type=0
+ panel-check-type=0
+@@ -2218,6 +2210,378 @@
+ usb-vid=3f0
+ wifi-config=3
+ 
++[hp_laserjet_100_colormfp_m175r]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=14
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=3
++
++[hp_laserjet_100_colormfp_m175q]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=14
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=3
++
++[hp_laserjet_100_colormfp_m175p]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=14
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=3
++
++[hp_laserjet_100_colormfp_m175e]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=2
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=-1
++
++[hp_laserjet_100_colormfp_m175a]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++family-ppd=hp-postscript-laserjet-pro.ppd
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=2
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=-1
++
++[hp_laserjet_100_colormfp_m175c]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=2
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=-1
++
++[hp_laserjet_100_colormfp_m175b]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cm1312_mfp.png
++io-mfp-mode=3
++io-mode=1
++io-support=2
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet 100 Color MFP M175
++ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=64
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=3
++scan-type=5
++status-battery-check=0
++status-dynamic-counters=0
++status-type=10
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.11.7
++tech-class=Postscript
++family-class=Undefined
++tech-subclass=Normal
++tech-type=4
++usb-pid=62a
++usb-vid=3f0
++wifi-config=-1
++
+ [officejet_100_mobile_l411]
+ align-type=-1
+ clean-type=1
+@@ -17920,6 +18284,58 @@
+ usb-vid=3f0
+ wifi-config=0
+ 
++[hp_laserjet_cp_1025nw]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=1
++fax-type=0
++fw-download=False
++icon=hp_color_laserjet_cp2025.png
++io-mfp-mode=1
++io-mode=1
++io-support=14
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet Pro CP 1025nw Color Printer Series
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=1
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=CE310A
++r0-agent1-type=1
++r0-agent2-kind=4
++r0-agent2-sku=CE311A
++r0-agent2-type=4
++r0-agent3-kind=4
++r0-agent3-sku=CE313A
++r0-agent3-type=5
++r0-agent4-kind=4
++r0-agent4-sku=CE312A
++r0-agent4-type=6
++scan-src=0
++scan-type=0
++status-battery-check=0
++status-dynamic-counters=0
++status-type=8
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.12.4
++tech-class=LJZjsColor
++family-class=LJ-Class4
++tech-subclass=Advanced
++tech-type=4
++usb-pid=112a
++usb-vid=3f0
++wifi-config=3
++
+ [hp_laserjet_cp1025nw]
+ align-type=0
+ clean-type=0
+@@ -18521,6 +18937,49 @@
+ usb-vid=3f0
+ wifi-config=0
+ 
++[hp_laserjet_professional_p1102w]
++align-type=0
++clean-type=0
++color-cal-type=0
++copy-type=0
++embedded-server-type=0
++fax-type=0
++fw-download=False
++icon=HP_LaserJet_1012.png
++io-mfp-mode=6
++io-mode=1
++io-support=10
++job-storage=0
++linefeed-cal-type=0
++model1=HP LaserJet Professional P1102w Printer
++monitor-type=0
++panel-check-type=0
++pcard-type=0
++plugin=1
++plugin-reason=1
++power-settings=0
++pq-diag-type=0
++r-type=0
++r0-agent1-kind=4
++r0-agent1-sku=85A
++r0-agent1-type=1
++scan-src=0
++scan-type=0
++status-battery-check=0
++status-dynamic-counters=0
++status-type=8
++support-released=True
++support-subtype=219b2b
++support-type=2
++support-ver=3.10.4
++tech-class=LJZjsMono
++family-class=LJ-Class4
++tech-subclass=NoAutoDuplex
++tech-type=3
++usb-pid=32a
++usb-vid=3f0
++wifi-config=3
++
+ [hp_laserjet_professional_p1102]
+ align-type=0
+ clean-type=0
+diff -aruN old/Makefile.in new/Makefile.in
+--- old/Makefile.in	2022-06-23 06:05:00.000000000 +0100
++++ new/Makefile.in	2022-06-29 13:36:52.140242600 +0100
+@@ -1691,6 +1691,7 @@
+ 	ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
++	ppd/hpcups/hp-laserjet_cp_1025nw.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_m1005.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
+@@ -1808,6 +1809,7 @@
+ 	ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
++	ppd/hpcups/hp-laserjet_professional_p1102w.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
+ 	ppd/hpcups/hp-laserjet_tank_250x.ppd.gz \
+@@ -4224,6 +4226,7 @@
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
++@HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp_1025nw.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m1005.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
+@@ -4340,6 +4343,7 @@
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1607dn.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
++@HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1102w.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
+ @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
+diff -aruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
+--- old/pcard/pcardext/pcardext.c	2022-06-23 05:56:29.000000000 +0100
++++ new/pcard/pcardext/pcardext.c	2022-06-29 13:36:38.813576170 +0100
+@@ -20,7 +20,7 @@
+ Requires:
+ Python 2.2+
+ 
+-Author: Don Welch
++Author: Don Welch 
+ 
+ \*****************************************************************************/
+ 
+@@ -41,9 +41,37 @@
+ 
+ int verbose=0;
+ 
++#if PY_MAJOR_VERSION >= 3
++  #define MOD_ERROR_VAL NULL
++  #define MOD_SUCCESS_VAL(val) val
++  #define MOD_INIT(name) PyMODINIT_FUNC PyInit_##name(void)
++  #define PyInt_AS_LONG PyLong_AS_LONG
++  #define MOD_DEF(ob, name, doc, methods) \
++          static struct PyModuleDef moduledef = { \
++            PyModuleDef_HEAD_INIT, name, doc, -1, methods, }; \
++          ob = PyModule_Create(&moduledef);
++
++
++  #define PY_String_Bytes  PyBytes_FromStringAndSize
++  #define PY_AsString_Bytes  PyBytes_AsStringAndSize
++
++#else
++  #define MOD_ERROR_VAL
++  #define MOD_SUCCESS_VAL(val)
++  #define MOD_INIT(name) void init##name(void)
++  #define MOD_DEF(ob, name, doc, methods)         \
++        ob = Py_InitModule3(name, methods, doc);
++
++  #define PY_String_Bytes PyString_FromStringAndSize
++  #define PY_AsString_Bytes PyString_AsStringAndSize
++  
++#endif
++
+ PyObject * readsectorFunc = NULL;
+ PyObject * writesectorFunc = NULL;
+ 
++
++
+ int ReadSector(int sector, int nsector, void *buf, int size)
+ {
+     PyObject * result;
+@@ -59,9 +87,13 @@
+         if( result )
+         {
+             Py_ssize_t len = 0;
+-            PyString_AsStringAndSize( result, &result_str, &len );
++
++            //PyString_AsStringAndSize( result, &result_str, &len );    
++            //PyBytes_AsStringAndSize( result, &result_str, &len ); 
++            PY_AsString_Bytes( result, &result_str, &len );
+             
+-            if( len < nsector*FAT_HARDSECT )
++
++	    if( len < nsector*FAT_HARDSECT )
+             {
+                 goto abort;
+             }
+@@ -208,7 +240,9 @@
+     
+     if( FatReadFileExt( name, offset, len, buffer ) == len )
+     {
+-        return PyString_FromStringAndSize( (char *)buffer, len );
++        // return PyString_FromStringAndSize( (char *)buffer, len );
++        return PY_String_Bytes( (char *)buffer, len );
++        // return PyBytes_FromStringAndSize( (char *)buffer, len );
+     }
+     else
+     {
+@@ -236,14 +270,15 @@
+ 
+ static char pcardext_documentation[] = "Python extension for HP photocard services";
+ 
+-void initpcardext( void )
+-{
+-    PyObject * mod = Py_InitModule4( "pcardext", pcardext_methods, 
+-                                     pcardext_documentation, (PyObject*)NULL, 
+-                                     PYTHON_API_VERSION );
+-                     
+-    if (mod == NULL)
+-      return;
++MOD_INIT(pcardext)  {
++
++  PyObject* mod ;
++  MOD_DEF(mod, "pcardext", pcardext_documentation, pcardext_methods);
++  if (mod == NULL)
++    return MOD_ERROR_VAL;
++
++  return MOD_SUCCESS_VAL(mod);
++
+ }
+ 
+ 
+diff -aruN old/prnt/drv/hpcups.drv.in new/prnt/drv/hpcups.drv.in
+--- old/prnt/drv/hpcups.drv.in	2022-06-23 06:04:55.000000000 +0100
++++ new/prnt/drv/hpcups.drv.in	2022-06-29 13:36:52.153575934 +0100
+@@ -22701,6 +22701,14 @@
+       Attribute "Product" "" "(HP LaserJet Professional p1102s Printer)"
+     }
+     {
++      ModelName "HP LaserJet Professional p1102w"
++      Attribute "NickName" "" "HP LaserJet Professional p1102w, hpcups $Version, requires proprietary plugin"
++      Attribute "ShortNickName" "" "HP LaserJet Professional p1102w hpijs"
++      Attribute "1284DeviceID" "" "MFG:Hewlett-Packard;MDL:hp laserjet professional p1102w;DES:hp laserjet professional p1102w;"
++      PCFileName "hp-laserjet_professional_p1102w.ppd"
++      Attribute "Product" "" "(HP LaserJet Professional p1102w Printer)"
++    }
++    {
+       ModelName "HP LaserJet Professional p1106"
+       Attribute "NickName" "" "HP LaserJet Professional p1106, hpcups $Version"
+       Attribute "ShortNickName" "" "HP LJ Pro p1106 hpijs"
+@@ -23134,6 +23142,14 @@
+       PCFileName "hp-laserjet_cp1025nw.ppd"
+       Attribute "Product" "" "(HP LaserJet Pro cp1025nw Color Printer Series)"
+     }
++    {
++      ModelName "HP LaserJet Cp 1025nw"
++      Attribute "NickName" "" "HP LaserJet Cp 1025nw, hpcups $Version, requires proprietary plugin"
++      Attribute "ShortNickName" "" "HP LaserJet Cp 1025nw hpijs"
++      Attribute "1284DeviceID" "" "MFG:Hewlett-Packard;MDL:hp laserjet cp 1025nw;DES:hp laserjet cp 1025nw;"
++      PCFileName "hp-laserjet_cp_1025nw.ppd"
++      Attribute "Product" "" "(HP LaserJet Pro Cp 1025nw Color Printer Series)"
++    }
+   }
+ } // End LJZjsColor (for proprietary plugin)
+ 
+diff -aruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
+--- old/prnt/hpcups/HPCupsFilter.h	2022-06-23 05:56:29.000000000 +0100
++++ new/prnt/hpcups/HPCupsFilter.h	2022-06-29 13:36:01.853576839 +0100
+@@ -38,6 +38,8 @@
+ #include <cups/ppd.h>
+ #include "dbuscomm.h"
+ 
++#include <cups/ppd.h>
++
+ #define		DBITMAPFILEHEADER		14
+ #define		DBITMAPINFOHEADER		40
+ 
+diff -aruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
+--- old/prnt/hpijs/hpcupsfax.cpp	2022-06-23 05:56:29.000000000 +0100
++++ new/prnt/hpijs/hpcupsfax.cpp	2022-06-29 13:36:01.853576839 +0100
+@@ -43,6 +43,7 @@
+ #include <arpa/inet.h>
+ #include <math.h>
+ #include <cups/cups.h>
++#include <cups/ppd.h>
+ #include <cups/raster.h>
+ #include <string>
+ #ifdef FALSE
+diff -aruN old/protocol/hp_ipp.c new/protocol/hp_ipp.c
+--- old/protocol/hp_ipp.c	2022-06-23 05:56:30.000000000 +0100
++++ new/protocol/hp_ipp.c	2022-06-29 13:37:05.036909045 +0100
+@@ -110,7 +110,7 @@
+      }
+ 
+      if ( info == NULL )
+-        snprintf( info,sizeof(info), name );
++        snprintf( info, sizeof(info), "%s", name );
+ 
+      sprintf( printer_uri, "ipp://localhost/printers/%s", name );
+ 
+@@ -511,27 +511,27 @@
+ 
+              if ( strcmp(attr_name, "printer-name") == 0 &&
+                                         val_tag == IPP_TAG_NAME ) {
+-                  snprintf(t_printer->name, sizeof(t_printer->name),ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->name, sizeof(t_printer->name), "%s", ippGetString(attr, 0, NULL) );
+              }
+              else if ( strcmp(attr_name, "device-uri") == 0 &&
+                                          val_tag == IPP_TAG_URI ) {
+-                  snprintf(t_printer->device_uri,sizeof(t_printer->device_uri), ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->device_uri,sizeof(t_printer->device_uri), "%s", ippGetString(attr, 0, NULL) );
+              }
+              else if ( strcmp(attr_name, "printer-uri-supported") == 0 &&
+                                                  val_tag == IPP_TAG_URI ) {
+-                  snprintf(t_printer->printer_uri,sizeof(t_printer->printer_uri), ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->printer_uri,sizeof(t_printer->printer_uri), "%s", ippGetString(attr, 0, NULL) );
+              }
+              else if ( strcmp(attr_name, "printer-info") == 0 &&
+                                         val_tag == IPP_TAG_TEXT ) {
+-                  snprintf(t_printer->info,sizeof(t_printer->info), ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->info,sizeof(t_printer->info), "%s", ippGetString(attr, 0, NULL) );
+              }
+              else if ( strcmp(attr_name, "printer-location") == 0 &&
+                                            val_tag == IPP_TAG_TEXT ) {
+-                  snprintf(t_printer->location,sizeof(t_printer->location),ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->location,sizeof(t_printer->location),"%s", ippGetString(attr, 0, NULL) );
+              }
+              else if ( strcmp(attr_name, "printer-make-and-model") == 0 &&
+                                                   val_tag == IPP_TAG_TEXT ) {
+-                  snprintf(t_printer->make_model,sizeof(t_printer->make_model),ippGetString(attr, 0, NULL) );
++                  snprintf(t_printer->make_model,sizeof(t_printer->make_model),"%s", ippGetString(attr, 0, NULL) );
+              } 
+              else if ( strcmp(attr_name, "printer-state") == 0 &&
+                                              val_tag == IPP_TAG_ENUM ) {
+diff -aruN old/unload.py new/unload.py
+--- old/unload.py	2022-06-23 05:56:30.000000000 +0100
++++ new/unload.py	2022-06-29 13:36:38.813576170 +0100
+@@ -44,6 +44,11 @@
+ 
+ # Local
+ from base.g import *
++from base.sixext import PY3
++if PY3:
++    log.error("This functionality is not spported in python3 environment.")
++    sys.exit(1)
++
+ from base import device, utils, tui, module
+ from prnt import cups
+ 
