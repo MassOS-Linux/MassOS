@@ -3095,7 +3095,7 @@ rm -rf volume_key-volume_key-0.3.12
 tar -xf json-glib-1.6.6.tar.xz
 cd json-glib-1.6.6
 mkdir json-build; cd json-build
-meson --prefix=/usr --buildtype=minsize ..
+meson --prefix=/usr --buildtype=minsize -Dman=true -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/json-glib -Dm644 ../COPYING
@@ -4568,7 +4568,7 @@ rm -rf atkmm-2.28.2
 tar -xf gdk-pixbuf-2.42.8.tar.xz
 cd gdk-pixbuf-2.42.8
 mkdir pixbuf-build; cd pixbuf-build
-meson --prefix=/usr --buildtype=minsize ..
+meson --prefix=/usr --buildtype=minsize -Dinstalled_tests=false ..
 ninja
 ninja install
 gdk-pixbuf-query-loaders --update-cache
@@ -5893,7 +5893,7 @@ rm -rf libostree-2022.4
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
 mkdir xmlb-build; cd xmlb-build
-meson --prefix=/usr --buildtype=minsize -Dstemmer=true ..
+meson --prefix=/usr --buildtype=minsize -Dstemmer=true -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
