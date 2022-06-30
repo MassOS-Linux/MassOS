@@ -64,7 +64,7 @@ mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make install
 cd ..
@@ -261,7 +261,7 @@ tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
 make
 make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
