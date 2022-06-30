@@ -3929,14 +3929,14 @@ install -t /usr/share/licenses/vulkan-tools -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf Vulkan-Tools-1.3.217
 # libva (circular dependency; will be rebuilt later to support Mesa).
-tar -xf libva-2.14.0.tar.bz2
-cd libva-2.14.0
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+tar -xf libva-2.15.0.tar.gz
+cd libva-2.15.0
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/libva -Dm644 COPYING
 cd ..
-rm -rf libva-2.14.0
+rm -rf libva-2.15.0
 # libvdpau.
 tar -xf libvdpau-1.5.tar.bz2
 cd libvdpau-1.5
@@ -3969,13 +3969,14 @@ install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
 rm -rf mesa-22.1.2
 # libva (rebuild to support Mesa).
-tar -xf libva-2.14.0.tar.bz2
-cd libva-2.14.0
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+tar -xf libva-2.15.0.tar.gz
+cd libva-2.15.0
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
+install -t /usr/share/licenses/libva -Dm644 COPYING
 cd ..
-rm -rf libva-2.14.0
+rm -rf libva-2.15.0
 # xbitmaps.
 tar -xf xbitmaps-1.1.2.tar.bz2
 cd xbitmaps-1.1.2
@@ -4705,7 +4706,7 @@ sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
 make
-make install
+make -j1 install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
 rm -rf graphviz-4.0.0
@@ -6063,16 +6064,16 @@ install -t /usr/share/licenses/mpg123 -Dm644 COPYING
 cd ..
 rm -rf mpg123-1.30.0
 # libvpx.
-tar -xf libvpx_1.11.0.orig.tar.gz
-cd libvpx-1.11.0
+tar -xf libvpx-1.12.0.tar.gz
+cd libvpx-1.12.0
 sed -i 's/cp -p/cp/' build/make/Makefile
-mkdir WEBMPROJECT-VPX-build; cd WEBMPROJECT-VPX-build
-../configure --prefix=/usr --enable-shared --disable-static
+mkdir libvpx-build; cd libvpx-build
+../configure --prefix=/usr --enable-shared --disable-static --disable-examples --disable-unit-tests
 make
 make install
 install -t /usr/share/licenses/libvpx -Dm644 ../LICENSE
 cd ../..
-rm -rf libvpx-1.11.0
+rm -rf libvpx-1.12.0
 # LAME.
 tar -xf lame3_100.tar.gz
 cd LAME-lame3_100
@@ -6366,9 +6367,8 @@ install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.3
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.52.tar.gz
-cd pipewire-0.3.52
-patch -Np1 -i ../patches/pipewire-0.3.52-upstreamfix.patch
+tar -xf pipewire-0.3.53.tar.gz
+cd pipewire-0.3.53
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
@@ -6381,7 +6381,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.52
+rm -rf pipewire-0.3.53
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.4.tar.xz
 cd xdg-desktop-portal-1.14.4
@@ -7048,7 +7048,7 @@ cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
 END
 # Thunderbird.
-tar --no-same-owner -xf thunderbird-91.10.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf thunderbird-102.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/thunderbird/distribution
 cat > /usr/lib/thunderbird/distribution/policies.json << END
 {

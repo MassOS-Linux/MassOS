@@ -40,6 +40,8 @@ Upgraded software:
 - libostree: `2022.3 --> 2022.4`
 - libqmi: `1.30.6 --> 1.30.8`
 - librsvg: `2.54.3 --> 2.54.4`
+- libva: `2.14.0 --> 2.15.0`
+- libvpx: `1.11.0 --> 1.12.0`
 - libX11: `1.8 --> 1.8.1`
 - Linux Kernel: `5.18.1 --> 5.18.8`
 - LLVM/Clang/LLD: `14.0.4 --> 14.0.6`
@@ -56,7 +58,7 @@ Upgraded software:
 - ntfs-3g: `2021.8.22 --> 2022.5.17`
 - OpenAL: `1.21.1 --> 1.22.2`
 - OpenSSL: `3.0.3 --> 3.0.4`
-- PipeWire: `0.3.51 --> 0.3.52`
+- PipeWire: `0.3.51 --> 0.3.53`
 - Poppler: `22.05.0 --> 22.06.0`
 - PulseAudio: `16.0 --> 16.1`
 - Python: `3.10.4 --> 3.10.5`
@@ -70,7 +72,7 @@ Upgraded software:
 - squashfuse: `0.1.104 --> 0.1.105`
 - Sudo: `1.9.10 --> 1.9.11p3`
 - systemd: `251.1 --> 251.2`
-- Thunderbird: `91.9.1 --> 91.10.0`
+- Thunderbird: `91.9.1 --> 102.0`
 - UPower: `0.99.18 --> 0.99.19`
 - Vim: `8.2.5046 --> 9.0.0000`
 - Vulkan-Headers: `1.3.213 --> 1.3.217`
