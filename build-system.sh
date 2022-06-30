@@ -2713,7 +2713,7 @@ patch -Np1 -i ../patches/audit-3.0.7-WorkaroundBuildIssue.patch
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gssapi-krb5=yes --enable-systemd=yes
 ACFLAGS="-D_REENTRANT -D_GNU_SOURCE" ALDFLAGS="-Wl,-z,relro,-z,now"
-make auditd_CFLAGS="$ACFLAGS -fno-strict-aliasing -pthread" auditctl_CFLAGS="$ACFLAGS" audisp_remote_CFLAGS="$ACFLAGS" audisp_syslog_CFLAGS="$ACFLAGS" audispd_zos_remote_CFLAGS="$ACFLAGS" auditd_LDFLAGS="$ALDFLAGS" auditctl_LDFLAGS="$ALDFLAGS" audispd-zos-remote_LDFLAGS="$ALDFLAGS" audisp_remote_LDFLAGS="$ALDFLAGS" audisp_syslog_LDFLAGS="$ALDFLAGS"
+make auditd_CFLAGS="$ACFLAGS -fno-strict-aliasing -pthread" auditctl_CFLAGS="$ACFLAGS" audisp_remote_CFLAGS="$ACFLAGS" audisp_syslog_CFLAGS="$ACFLAGS" audispd_zos_remote_CFLAGS="$ACFLAGS" auditd_LDFLAGS="$ALDFLAGS" auditctl_LDFLAGS="$ALDFLAGS" audispd_zos_remote_LDFLAGS="$ALDFLAGS" audisp_remote_LDFLAGS="$ALDFLAGS" audisp_syslog_LDFLAGS="$ALDFLAGS"
 unset ACFLAGS ALDFLAGS
 make install
 sed -i 's|"audit.h"|<linux/audit.h>|' /usr/include/libaudit.h
