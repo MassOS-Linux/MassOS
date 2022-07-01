@@ -155,6 +155,7 @@ https://archive.massos.org/sources/gnu-efi-3.0.14.tar.bz2
 https://archive.massos.org/sources/gnu-gs-fonts-other-6.0.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.3.6.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/gnutls/v3.7/gnutls-3.7.6.tar.xz
+https://dl.google.com/go/go1.18.3.linux-amd64.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gobject-introspection/1.72/gobject-introspection-1.72.0.tar.xz
 https://gitlab.gnome.org/GNOME/gparted/-/archive/GPARTED_1_4_0/gparted-GPARTED_1_4_0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.1.tar.gz
@@ -685,6 +686,7 @@ https://www.x.org/archive/individual/app/xwud-1.0.5.tar.bz2
 https://github.com/Cyan4973/xxHash/archive/v0.8.1/xxHash-0.8.1.tar.gz
 https://archive.massos.org/sources/xz-5.2.5.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
+https://github.com/srevinsaju/zap/archive/v2.2.1/zap-2.2.1.tar.gz
 https://archive.massos.org/sources/zip30.tar.gz
 https://files.pythonhosted.org/packages/52/c5/df7953fe6065185af5956265e3b16f13c2826c2b1ba23d43154f3af453bc/zipp-3.7.0-py3-none-any.whl
 https://zlib.net/zlib-1.2.12.tar.xz

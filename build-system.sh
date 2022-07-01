@@ -6485,6 +6485,16 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gvfs -Dm644 ../COPYING
 cd ../..
 rm -rf gvfs-1.50.2
+# zap (AppImage package manager).
+tar -xf zap-2.2.1.tar.gz
+cd zap-2.2.1
+tar -xf ../go1.18.3.linux-amd64.tar.gz
+GOPATH="$PWD/go" ./go/bin/go build -trimpath -ldflags "-s -w -X main.BuildVersion=2.2.1-MassOS -X main.BuildTime=$(date '+%Y-%m-%dT%H:%M:%S')"
+install -t /usr/bin -Dm755 zap
+help2man -N zap > /usr/share/man/man1/zap.1
+install -t /usr/share/licenses/zap -Dm644 LICENSE
+cd ..
+rm -rf zap-2.2.1
 # Arc Theme for Xfce.
 tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
 gtk-update-icon-cache /usr/share/icons/Arc

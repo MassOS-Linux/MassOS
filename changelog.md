@@ -6,9 +6,11 @@ Changes:
 
 - Fixed very long startup times in Firefox and Evince (https://github.com/MassOS-Linux/MassOS/issues/29).
 - Fixed an issue setting the default locale in the MassOS Installer (https://github.com/MassOS-Linux/MassOS/issues/35).
+- Added zap, a lightweight package manager for AppImages.
 - Added mouse/cursor support for non-graphical environments (e.g. tty terminals).
 - Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
 - Replaced dhclient with dhcpcd, as dhclient is now deprecated upstream.
+- Reworked the shell startup files (profile, bashrc, etc.) to hopefully fix some issues.
 
 Upgraded software:
 
