@@ -10,7 +10,9 @@ Changes:
 - Added mouse/cursor support for non-graphical environments (e.g. tty terminals).
 - Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
 - Replaced dhclient with dhcpcd, as dhclient is now deprecated upstream.
-- Reworked the shell startup files (profile, bashrc, etc.) to hopefully fix some issues.
+- Reworked the shell startup files (profile, bashrc, etc.) to hopefully fix some environment-related issues.
+- Replaced Thunderbird with a more lightweight alternative (saves about 230MB).
+  - If desired, Thunderbird can still be installed from the software centre / Flatpak, and this is the preferred way to get it since it allows it to be updated independently of MassOS.
 
 Upgraded software:
 
@@ -74,7 +76,6 @@ Upgraded software:
 - squashfuse: `0.1.104 --> 0.1.105`
 - Sudo: `1.9.10 --> 1.9.11p3`
 - systemd: `251.1 --> 251.2`
-- Thunderbird: `91.9.1 --> 102.0`
 - UPower: `0.99.18 --> 0.99.19`
 - Vim: `8.2.5046 --> 9.0.0000`
 - Vulkan-Headers: `1.3.213 --> 1.3.217`

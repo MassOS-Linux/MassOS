@@ -6918,6 +6918,26 @@ glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/mugshot -Dm644 COPYING
 cd ..
 rm -rf mugshot-0.4.3
+# libetpan (for Claws Mail).
+tar -xf libetpan-1.9.4.tar.gz
+cd libetpan-1.9.4
+patch -Np1 -i ../patches/libetpan-1.9.4-securityfix.patch
+./autogen.sh --prefix=/usr --disable-debug --disable-static --with-gnutls --without-openssl
+make
+make install
+install -t /usr/share/licenses/libetpan -Dm644 COPYRIGHT
+cd ..
+rm -rf libetpan-1.9.4
+# Claws Mail.
+tar -xf claws-mail-4.1.0.tar.xz
+cd claws-mail-4.1.0
+patch -Np1 -i ../patches/claws-mail-4.1.0-perl5.36.patch
+./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-fancy-plugin --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
+make
+make install
+install -t /usr/share/licenses/claws-mail -Dm644 COPYING
+cd ..
+rm -rf claws-mail-4.1.0
 # Evince.
 tar -xf evince-42.3.tar.xz
 cd evince-42.3
@@ -7056,36 +7076,6 @@ ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/p
 install -dm755 /usr/share/licenses/firefox
 cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the Firefox URL box to view the Firefox license.
-END
-# Thunderbird.
-tar --no-same-owner -xf thunderbird-102.0.tar.bz2 -C /usr/lib
-mkdir -p /usr/lib/thunderbird/distribution
-cat > /usr/lib/thunderbird/distribution/policies.json << END
-{
-  "policies": {
-    "DisableAppUpdate": true
-  }
-}
-END
-ln -sr /usr/lib/thunderbird/thunderbird /usr/bin/thunderbird
-cat > /usr/share/applications/thunderbird.desktop << END
-[Desktop Entry]
-Name=Thunderbird Mail
-Comment=Send and receive mail with Thunderbird
-GenericName=Mail Client
-Exec=thunderbird %u
-Terminal=false
-Type=Application
-Icon=thunderbird
-Categories=Network;Email;
-MimeType=application/xhtml+xml;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
-StartupNotify=true
-END
-ln -sr /usr/lib/thunderbird/chrome/icons/default/default256.png /usr/share/pixmaps/thunderbird.png
-install -dm755 /usr/share/licenses/thunderbird
-cat > /usr/share/licenses/thunderbird/LICENSE << "END"
-To view the license for Thunderbird, please open Thunderbird, go to the menu,
-choose "About Thunderbird", and click "Licensing Information".
 END
 # Busybox.
 tar -xf busybox-1.35.0.tar.bz2

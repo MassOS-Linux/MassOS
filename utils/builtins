@@ -45,6 +45,7 @@ cffi
 chardet
 check
 clang
+claws-mail
 clutter
 clutter-gtk
 cmake
@@ -232,6 +233,7 @@ libdrm
 libdvdnav
 libdvdread
 libepoxy
+libetpan
 libevdev
 libevent
 libexif
@@ -535,7 +537,6 @@ thin-provisioning-tools
 thunar
 thunar-archive-plugin
 thunar-volman
-thunderbird
 tk
 tldr
 toml
