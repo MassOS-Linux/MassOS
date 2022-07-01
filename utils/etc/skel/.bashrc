@@ -1,13 +1,11 @@
-# Personal aliases and functions.
-
-# Personal environment variables and startup programs should go in
-# ~/.bash_profile.  System wide environment variables and startup
-# programs are in /etc/profile.  System wide aliases and functions are
-# in /etc/bashrc.
-
-if [ -f "/etc/bashrc" ] ; then
-  source /etc/bashrc
+# Just load the system bashrc, it has what we need.
+if [ -f "/etc/bashrc" ]; then
+  . /etc/bashrc
 fi
 
-# Set up user specific i18n variables
+# Add local bin directories to PATH.
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
+
+# If needed, uncomment to set a personal language and console keymap.
 #export LANG=en_US.UTF-8
+#export KEYMAP=us

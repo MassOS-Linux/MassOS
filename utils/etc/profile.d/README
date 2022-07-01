@@ -1,0 +1,5 @@
+System-wide shell startup files go here.
+
+They take higher priority than /etc/profile.
+
+Files here without a *.sh extension (like this one) will be ignored.
