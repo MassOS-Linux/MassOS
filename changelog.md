@@ -1,7 +1,7 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
-# Current Development
+# MassOS 2022.07
 Changes:
 
 - Fixed very long startup times in Firefox and Evince (https://github.com/MassOS-Linux/MassOS/issues/29).
@@ -26,6 +26,8 @@ Upgraded software:
 - File: `5.41 --> 5.42`
 - Firefox: `101.0 --> 102.0`
 - Git: `2.36.1 --> 2.37.0`
+- GLib: `2.72.2 --> 2.72.3`
+- glib-networking: `2.72.0 --> 2.72.1`
 - glslang: `11.9.0 --> 11.10.0`
 - Graphviz: `3.0.0 --> 4.0.0`
 - HarfBuzz: `4.3.0 --> 4.4.1`
@@ -37,6 +39,7 @@ Upgraded software:
 - JS91: `91.10.0 --> 91.11.0`
 - JSON: `4.06 --> 4.07`
 - kbd: `2.4.0 --> 2.5.1`
+- kmod: `29 --> 30`
 - libdrm: `2.4.110 --> 2.4.111`
 - libinput: `1.20.1 --> 1.21.0`
 - libnghttp2: `1.47.0 --> 1.48.0`
@@ -44,13 +47,14 @@ Upgraded software:
 - libostree: `2022.3 --> 2022.4`
 - libqmi: `1.30.6 --> 1.30.8`
 - librsvg: `2.54.3 --> 2.54.4`
+- libsoup3: `3.0.6 --> 3.0.7`
 - libva: `2.14.0 --> 2.15.0`
 - libvpx: `1.11.0 --> 1.12.0`
 - libX11: `1.8 --> 1.8.1`
 - Linux Kernel: `5.18.1 --> 5.18.8`
 - LLVM/Clang/LLD: `14.0.4 --> 14.0.6`
 - lxml: `4.8.0 --> 4.9.0`
-- Mesa: `22.1.0 --> 22.1.2`
+- Mesa: `22.1.0 --> 22.1.3`
 - Meson: `0.62.1 --> 0.62.2`
 - mpg123: `1.29.3 --> 1.30.0`
 - mtools: `4.0.39 --> 4.0.40`

@@ -143,8 +143,8 @@ https://archive.massos.org/sources/ghostscript-fonts-std-8.11.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://archive.massos.org/sources/giflib-5.2.1.tar.gz
 https://cdn.kernel.org/pub/software/scm/git/git-2.37.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.72/glib-networking-2.72.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.3.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.72/glib-networking-2.72.1.tar.xz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.35.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glibmm/2.66/glibmm-2.66.4.tar.xz
 https://github.com/KhronosGroup/glslang/archive/11.10.0/glslang-11.10.0.tar.gz
@@ -217,7 +217,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
 https://github.com/open-source-parsers/jsoncpp/archive/1.9.5/jsoncpp-1.9.5.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.5.1.tar.xz
 https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
-https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-29.tar.xz
+https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
 https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz
 https://github.com/despoa/LAME/archive/refs/tags/lame3_100.tar.gz
 https://deb.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_0.16.tar.xz
@@ -313,7 +313,7 @@ https://mirror.lyrahosting.com/gnu/libsigsegv/libsigsegv-2.14.tar.gz
 https://www.x.org/archive/individual/lib/libSM-1.2.3.tar.bz2
 https://github.com/libsndfile/libsndfile/releases/download/1.1.0/libsndfile-1.1.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libsoup/2.74/libsoup-2.74.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.6.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libsoup/3.0/libsoup-3.0.7.tar.xz
 https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 https://mirror.lyrahosting.com/gnu/libtasn1/libtasn1-4.18.0.tar.gz
 https://downloads.xiph.org/releases/theora/libtheora-1.1.1.tar.xz
@@ -406,7 +406,7 @@ https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.1.tar.gz
 https://github.com/MassOS-Linux/massos-welcome/archive/cc649f83e04f0daa880edf1df8e4d5165b79787c/massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-22.1.2.tar.xz
+https://archive.mesa3d.org/mesa-22.1.3.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.62.2/meson-0.62.2.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
 https://github.com/videolabs/libmicrodns/releases/download/0.2.0/microdns-0.2.0.tar.xz

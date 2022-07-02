@@ -859,8 +859,8 @@ install -t /usr/share/licenses/mpdecimal -Dm644 LICENSE.txt
 cd ..
 rm -rf mpdecimal-2.5.1
 # kmod.
-tar -xf kmod-29.tar.xz
-cd kmod-29
+tar -xf kmod-30.tar.xz
+cd kmod-30
 ./configure --prefix=/usr --sysconfdir=/etc --with-xz --with-zstd --with-zlib --with-openssl
 make
 make install
@@ -868,7 +868,7 @@ for target in depmod insmod modinfo modprobe rmmod; do ln -sf ../bin/kmod /usr/s
 ln -sf kmod /usr/bin/lsmod
 install -t /usr/share/licenses/kmod -Dm644 COPYING
 cd ..
-rm -rf kmod-29
+rm -rf kmod-30
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
 tar -xf Python-3.10.5.tar.xz
 cd Python-3.10.5
@@ -2924,16 +2924,16 @@ make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
 rm -rf dkms-3.0.3
 # GLib.
-tar -xf glib-2.72.2.tar.xz
-cd glib-2.72.2
+tar -xf glib-2.72.3.tar.xz
+cd glib-2.72.3
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
 mkdir glib-build; cd glib-build
-meson --prefix=/usr --buildtype=minsize -Dman=true ..
+meson --prefix=/usr --buildtype=minsize -Dman=true -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.72.2
+rm -rf glib-2.72.3
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -3959,15 +3959,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.1.2.tar.xz
-cd mesa-22.1.2
+tar -xf mesa-22.1.3.tar.xz
+cd mesa-22.1.3
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=minsize -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.1.2
+rm -rf mesa-22.1.3
 # libva (rebuild to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
@@ -5853,15 +5853,15 @@ install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 cd ../..
 rm -rf gsettings-desktop-schemas-42.0
 # glib-networking.
-tar -xf glib-networking-2.72.0.tar.xz
-cd glib-networking-2.72.0
+tar -xf glib-networking-2.72.1.tar.xz
+cd glib-networking-2.72.1
 mkdir glibnet-build; cd glibnet-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib-networking -Dm644 ../COPYING
 cd ../..
-rm -rf glib-networking-2.72.0
+rm -rf glib-networking-2.72.1
 # libsoup.
 tar -xf libsoup-2.74.2.tar.xz
 cd libsoup-2.74.2
@@ -5873,15 +5873,15 @@ install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-2.74.2
 # libsoup3.
-tar -xf libsoup-3.0.6.tar.xz
-cd libsoup-3.0.6
+tar -xf libsoup-3.0.7.tar.xz
+cd libsoup-3.0.7
 mkdir soup3-build; cd soup3-build
 meson --prefix=/usr --buildtype=minsize -Dpkcs11_tests=disabled -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
-rm -rf libsoup-3.0.6
+rm -rf libsoup-3.0.7
 # libostree.
 tar -xf libostree-2022.4.tar.xz
 cd libostree-2022.4
@@ -6369,6 +6369,7 @@ rm -rf gstreamer-vaapi-1.20.3
 # PipeWire + WirePlumber.
 tar -xf pipewire-0.3.53.tar.gz
 cd pipewire-0.3.53
+patch -Np1 -i ../patches/pipewire-0.3.53-upstreamfix.patch
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
