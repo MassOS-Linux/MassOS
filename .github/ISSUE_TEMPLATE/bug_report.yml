@@ -16,14 +16,14 @@ body:
   attributes:
     label: "MassOS version"
     description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure."
-    placeholder: "2022.03"
+    placeholder: "2022.06"
   validations:
     required: true
 - type: "input"
   attributes:
     label: "Kernel version"
     description: "What is the output of `uname -srvm`?"
-    placeholder: "Linux 5.16.12-massos #1 SMP PREEMPT Thu Mar 3 05:15:15 UTC 2022 x86_64"
+    placeholder: "Linux 5.18.1-massos #1 SMP PREEMPT_DYNAMIC Wed Jun 1 16:11:46 UTC 2022 x86_64"
   validations:
     required: false
 - type: "checkboxes"
@@ -54,10 +54,7 @@ body:
   attributes:
     label: "Steps to reproduce"
     description: "A clear description of how to reproduce the problem."
-    placeholder: "1. Open `...`
-                  2. Select `...`
-                  3. Click on `...`
-                  4. See error"
+    placeholder: "Open `...`, click on `...`, select `...`, see error."
   validations:
     required: false
 - type: "textarea"

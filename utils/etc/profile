@@ -1,66 +1,81 @@
-# System wide environment variables and startup programs.
+# Directly modifying this file is discouraged; put your custom startup files in
+# /etc/profile.d instead (the files there also take more priority than this).
 
-# System wide aliases and functions should go in /etc/bashrc.  Personal
-# environment variables and startup programs should go into
-# ~/.bash_profile.  Personal aliases and functions should go into
-# ~/.bashrc.
+# Set up environment variables.
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+export PKG_CONFIG_PATH=/usr/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig
+export HISTSIZE=1000
+export HISTIGNORE="&:[bf]g:exit"
+export XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/share/}
+export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS:-/etc/xdg/}
+export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp/xdg-$USER}
 
-# Functions to help us manage paths.  Second argument is the name of the
-# path variable to be modified (default: PATH)
-pathremove () {
+# Set up localization.
+. /etc/locale.conf
+export LANG
+
+# Set up INPUTRC.
+if [ -z "$INPUTRC" -a ! -f "$HOME/.inputrc" ]; then
+  export INPUTRC=/etc/inputrc
+fi
+
+# PS1 prompt for login shells.
+NORMAL="\[\e[0m\]"
+RED="\[\e[1;31m\]"
+GREEN="\[\e[1;32m\]"
+BLUE="\[\e[1;34m\]"
+if [ $EUID -eq 0 ]; then
+  PS1="$RED\u@\h$NORMAL:$BLUE\w$NORMAL# "
+else
+  PS1="$GREEN\u@\h$NORMAL:$BLUE\w$NORMAL\$ "
+fi
+unset NORMAL RED GREEN BLUE
+
+# Set the umask.
+if [ "$(id -gn)" = "$(id -un)" -a $EUID -gt 99 ]; then
+  umask 002
+else
+  umask 022
+fi
+
+# Allow ls and grep to support colored output.
+if [ -f "/etc/dircolors" ]; then
+  eval $(dircolors -b /etc/dircolors)
+fi
+if [ -f "$HOME/.dircolors" ]; then
+  eval $(dircolors -b $HOME/.dircolors)
+fi
+alias ls='ls --color=auto'
+alias grep='grep --color=auto'
+
+# Useful path management functions based on the ones from LFS.
+pathappend() {
+  pathremove $1 $2
+  local PATHVARIABLE=${2:-PATH}
+  export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
+}
+pathprepend() {
+  pathremove $1 $2
+  local PATHVARIABLE=${2:-PATH}
+  export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
+}
+pathremove() {
   local IFS=':'
   local NEWPATH
   local DIR
   local PATHVARIABLE=${2:-PATH}
   for DIR in ${!PATHVARIABLE} ; do
-    if [ "$DIR" != "$1" ] ; then
+    if [ "$DIR" != "$1" ]; then
       NEWPATH=${NEWPATH:+$NEWPATH:}$DIR
     fi
   done
   export $PATHVARIABLE="$NEWPATH"
 }
-
-pathprepend () {
-  pathremove $1 $2
-  local PATHVARIABLE=${2:-PATH}
-  export $PATHVARIABLE="$1${!PATHVARIABLE:+:${!PATHVARIABLE}}"
-}
-
-pathappend () {
-  pathremove $1 $2
-  local PATHVARIABLE=${2:-PATH}
-  export $PATHVARIABLE="${!PATHVARIABLE:+${!PATHVARIABLE}:}$1"
-}
-
 export -f pathremove pathprepend pathappend
 
-# Set the initial path
-export PATH=/usr/bin:/usr/sbin
-
-# Setup some environment variables.
-export HISTSIZE=1000
-export HISTIGNORE="&:[bf]g:exit"
-
-# Set some defaults for graphical systems
-export XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/share/}
-export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS:-/etc/xdg/}
-export XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR:-/tmp/xdg-$USER}
-
-# Setup a red prompt for root and a green one for users.
-NORMAL="\[\e[0m\]"
-RED="\[\e[1;31m\]"
-GREEN="\[\e[1;32m\]"
-BLUE="\[\e[1;34m\]"
-if [[ $EUID == 0 ]] ; then
-  PS1="$RED\u@\h$NORMAL:$BLUE\w$NORMAL# "
-else
-  PS1="$GREEN\u@\h$NORMAL:$BLUE\w$NORMAL\$ "
-fi
-
+# Load drop-in startup files from /etc/profile.d.
 for script in /etc/profile.d/*.sh ; do
-  if [ -r $script ] ; then
+  if [ -r $script ]; then
     . $script
   fi
 done
-
-unset script NORMAL RED GREEN BLUE

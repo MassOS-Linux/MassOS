@@ -1,6 +1,95 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
+# MassOS 2022.07
+Changes:
+
+- Fixed very long startup times in Firefox and Evince (https://github.com/MassOS-Linux/MassOS/issues/29).
+- Fixed an issue setting the default locale in the MassOS Installer (https://github.com/MassOS-Linux/MassOS/issues/35).
+- Added zap, a lightweight package manager for AppImages.
+- Added mouse/cursor support for non-graphical environments (e.g. tty terminals).
+- Added Vulkan-Tools, small utilities for working with and testing GPU Vulkan support.
+- Replaced dhclient with dhcpcd, as dhclient is now deprecated upstream.
+- Reworked the shell startup files (profile, bashrc, etc.) to hopefully fix some environment-related issues.
+- Replaced Thunderbird with a more lightweight alternative (saves about 230MB).
+  - If desired, Thunderbird can still be installed from the software centre / Flatpak, and this is the preferred way to get it since it allows it to be updated independently of MassOS.
+
+Upgraded software:
+
+- alsa-lib: `1.2.6.1 --> 1.2.7.1`
+- bc: `5.2.5 --> 5.3.3`
+- BIND Utils: `9.18.3 --> 9.18.4`
+- btrfs-progs: `5.18 --> 5.18.1`
+- curl: `7.83.1 --> 7.84.0`
+- DirectX-Headers: `1.600.10 --> 1.602.0`
+- Exo: `4.17.1 --> 4.17.2`
+- File: `5.41 --> 5.42`
+- Firefox: `101.0 --> 102.0`
+- Git: `2.36.1 --> 2.37.0`
+- GLib: `2.72.2 --> 2.72.3`
+- glib-networking: `2.72.0 --> 2.72.1`
+- glslang: `11.9.0 --> 11.10.0`
+- Graphviz: `3.0.0 --> 4.0.0`
+- HarfBuzz: `4.3.0 --> 4.4.1`
+- HPLIP: `3.22.2 --> 3.22.6`
+- htop: `3.1.2 --> 3.2.1`
+- hwdata: `0.359 --> 0.360`
+- ISO-Codes: `4.9.0 --> 4.10.0`
+- JasPer: `3.0.3 --> 3.0.5`
+- JS91: `91.10.0 --> 91.11.0`
+- JSON: `4.06 --> 4.07`
+- kbd: `2.4.0 --> 2.5.1`
+- kmod: `29 --> 30`
+- libdrm: `2.4.110 --> 2.4.111`
+- libinput: `1.20.1 --> 1.21.0`
+- libnghttp2: `1.47.0 --> 1.48.0`
+- libnma: `1.8.38 --> 1.8.40`
+- libostree: `2022.3 --> 2022.4`
+- libqmi: `1.30.6 --> 1.30.8`
+- librsvg: `2.54.3 --> 2.54.4`
+- libsoup3: `3.0.6 --> 3.0.7`
+- libva: `2.14.0 --> 2.15.0`
+- libvpx: `1.11.0 --> 1.12.0`
+- libX11: `1.8 --> 1.8.1`
+- Linux Kernel: `5.18.1 --> 5.18.8`
+- LLVM/Clang/LLD: `14.0.4 --> 14.0.6`
+- lxml: `4.8.0 --> 4.9.0`
+- Mesa: `22.1.0 --> 22.1.3`
+- Meson: `0.62.1 --> 0.62.2`
+- mpg123: `1.29.3 --> 1.30.0`
+- mtools: `4.0.39 --> 4.0.40`
+- MuPDF: `1.19.1 --> 1.20.0`
+- Nettle: `3.7.3 --> 3.8`
+- network-manager-applet: `1.26.0 --> 1.28.0`
+- NetworkManager: `1.38.0 --> 1.38.2`
+- NSS: `3.79 --> 3.80`
+- ntfs-3g: `2021.8.22 --> 2022.5.17`
+- OpenAL: `1.21.1 --> 1.22.2`
+- OpenSSL: `3.0.3 --> 3.0.4`
+- PipeWire: `0.3.51 --> 0.3.53`
+- Poppler: `22.05.0 --> 22.06.0`
+- PulseAudio: `16.0 --> 16.1`
+- Python: `3.10.4 --> 3.10.5`
+- SBC: `1.5 --> 2.0`
+- smbclient: `4.16.1 --> 4.16.2`
+- Speex: `1.2.0 --> 1.2.1`
+- SpeexDSP: `1.2.0 --> 1.2.1`
+- SPIRV-Headers: `1.3.204.1 --> 1.3.216.0`
+- SQLite: `3.38.5 --> 3.39.0`
+- squashfs-tools: `4.5 --> 4.5.1`
+- squashfuse: `0.1.104 --> 0.1.105`
+- Sudo: `1.9.10 --> 1.9.11p3`
+- systemd: `251.1 --> 251.2`
+- UPower: `0.99.18 --> 0.99.19`
+- Vim: `8.2.5046 --> 9.0.0000`
+- Vulkan-Headers: `1.3.213 --> 1.3.217`
+- Vulkan-Loader: `1.3.213 --> 1.3.217`
+- x264: `0.164.3094 --> 0.164.3095`
+- x265: `3.5-35-g7a5709048 --> 3.5-37-g9b59d4554`
+- xcb-proto: `1.15 --> 1.15.2`
+- xfsprogs: `5.16.0 --> 5.18.0`
+- xkeyboard-config: `2.35.1 --> 2.36`
+
 # MassOS 2022.06
 Changes:
 

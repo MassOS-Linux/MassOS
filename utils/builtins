@@ -45,6 +45,7 @@ cffi
 chardet
 check
 clang
+claws-mail
 clutter
 clutter-gtk
 cmake
@@ -66,7 +67,7 @@ dbus
 dbus-glib
 dbus-python
 desktop-file-utils
-dhclient
+dhcpcd
 dialog
 diffutils
 directx-headers
@@ -75,6 +76,7 @@ djvulibre
 dkms
 dmg2img
 dmidecode
+dmraid
 dnspython
 docbook-dsssl
 docbook-sgml
@@ -231,6 +233,7 @@ libdrm
 libdvdnav
 libdvdread
 libepoxy
+libetpan
 libevdev
 libevent
 libexif
@@ -259,6 +262,7 @@ libjpeg-turbo
 libksba
 libmbim
 libmetalink
+libmicrodns
 libmodplug
 libmpeg2
 libmtp
@@ -462,6 +466,7 @@ polkit-gnome
 poppler
 popsicle
 popt
+power-profiles-daemon
 ppp
 procps-ng
 psmisc
@@ -532,7 +537,6 @@ thin-provisioning-tools
 thunar
 thunar-archive-plugin
 thunar-volman
-thunderbird
 tk
 tldr
 toml
@@ -557,6 +561,7 @@ volume-key
 vte
 vulkan-headers
 vulkan-loader
+vulkan-tools
 wayland
 wayland-protocols
 webkitgtk
@@ -654,6 +659,7 @@ xwininfo
 xwud
 xxhash
 xz
+zap
 zip
 zipp
 zlib

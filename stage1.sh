@@ -64,7 +64,7 @@ mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
 make install
 cd ..
@@ -72,14 +72,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-12.1.0
 # Linux API Headers.
-tar -xf linux-5.18.1.tar.xz
-cd linux-5.18.1
+tar -xf linux-5.18.8.tar.xz
+cd linux-5.18.8
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.18.1
+rm -rf linux-5.18.8
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
@@ -156,8 +156,8 @@ make DESTDIR="$MASSOS" install
 cd ..
 rm -rf diffutils-3.8
 # File
-tar -xf file-5.41.tar.gz
-cd file-5.41
+tar -xf file-5.42.tar.gz
+cd file-5.42
 mkdir build; cd build
 ../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib
 make
@@ -166,7 +166,7 @@ cd ..
 make FILE_COMPILE=$(pwd)/build/src/file
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf file-5.41
+rm -rf file-5.42
 # Findutils.
 tar -xf findutils-4.9.0.tar.xz
 cd findutils-4.9.0
@@ -261,7 +261,7 @@ tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
 make
 make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
