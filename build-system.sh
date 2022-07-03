@@ -26,7 +26,7 @@ cd $SRC
 # Set the PATH correctly.
 export PATH=/usr/bin:/usr/sbin:/sources/sphinx/bin
 # Set the locale correctly.
-export LC_ALL="en_US.UTF-8"
+export LC_ALL="en_US.UTF-8" 2>/dev/null
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Allow building some packages as root.
