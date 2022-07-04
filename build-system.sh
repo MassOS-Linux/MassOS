@@ -7151,8 +7151,7 @@ for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
 # Compress manual pages.
 zman /usr/share/man
 # Remove leftover junk in /root.
-rm -rf /root/.cargo
-rm -rf /root/.cmake
+rm -rf /root/.{cache,cargo,cmake}
 # Install symlinks to busybox for any programs not otherwise provided.
 busybox --install -s
 # Redundant since we use systemd.
