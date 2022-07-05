@@ -7217,7 +7217,7 @@ if ! grep -q nm-openvpn /etc/group; then
 fi
 # Now using dhcpcd instead of dhclient (dhclient is deprecated upstream).
 if ! grep -q dhcpcd /etc/group; then
-  goupadd -g 52 dhcpcd
+  groupadd -g 52 dhcpcd
   useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /bin/false -u 52 dhcpcd
 fi
 if grep -q dhclient /etc/NetworkManager/conf.d/dhcp.conf; then
