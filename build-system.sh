@@ -31,6 +31,8 @@ export LC_ALL="en_US.UTF-8" 2>/dev/null
 export MAKEFLAGS="-j$(nproc)"
 # Allow building some packages as root.
 export FORCE_UNSAFE_CONFIGURE=1
+# SHELL may not be set in chroot by default.
+export SHELL=/bin/bash
 # Compiler flags for MassOS. We prefer to optimise for size.
 CFLAGS="-w -Os -pipe"
 CXXFLAGS="-w -Os -pipe"
@@ -52,18 +54,20 @@ ln -sf /run /var/run
 ln -sf /run/lock /var/lock
 ln -sf /run/media /media
 install -dm0750 /root
-cp /etc/skel/.{bashrc,bash_profile,profile,bash_logout} /root
+cp -r /etc/skel/. /root
 install -dm1777 /tmp /var/tmp
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp utmp /var/log/lastlog
 chmod 664 /var/log/lastlog
 chmod 600 /var/log/btmp
+# Install man pages for MassOS system utilities.
+cp -r man/* /usr/share/man
 # Install MassOS Backgrounds.
 install -t /usr/share/backgrounds/xfce -Dm644 backgrounds/*
 # Set the locale correctly.
 mkdir -p /usr/lib/locale
 mklocales
-# 'msgfmt', 'msgmerge', and 'xgettext' from Gettext.
+# Gettext utilities (for circular dependencies; full Gettext is built later).
 tar -xf gettext-0.21.tar.xz
 cd gettext-0.21
 ./configure --disable-shared
@@ -71,7 +75,7 @@ make
 install -t /usr/bin -Dm755 gettext-tools/src/{msgfmt,msgmerge,xgettext}
 cd ..
 rm -rf gettext-0.21
-# Bison.
+# Bison (circular deps; rebuilt later).
 tar -xf bison-3.8.2.tar.xz
 cd bison-3.8.2
 ./configure --prefix=/usr
@@ -79,7 +83,7 @@ make
 make install
 cd ..
 rm -rf bison-3.8.2
-# Perl.
+# Perl (circular deps; rebuilt later).
 tar -xf perl-5.36.0.tar.xz
 cd perl-5.36.0
 ./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.36/core_perl -Darchlib=/usr/lib/perl5/5.36/core_perl -Dsitelib=/usr/lib/perl5/5.36/site_perl -Dsitearch=/usr/lib/perl5/5.36/site_perl -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
@@ -87,7 +91,7 @@ make
 make install
 cd ..
 rm -rf perl-5.36.0
-# Python.
+# Python (circular deps; rebuilt later).
 tar -xf Python-3.10.5.tar.xz
 cd Python-3.10.5
 ./configure --prefix=/usr --enable-shared --without-ensurepip
@@ -95,7 +99,7 @@ make
 make install
 cd ..
 rm -rf Python-3.10.5
-# Texinfo.
+# Texinfo (circular deps; rebuilt later).
 tar -xf texinfo-6.8.tar.xz
 cd texinfo-6.8
 sed -e 's/__attribute_nonnull__/__nonnull/' -i gnulib/lib/malloc/dynarray-skeleton.c
@@ -104,7 +108,7 @@ make
 make install
 cd ..
 rm -rf texinfo-6.8
-# util-linux.
+# util-linux (circular deps; rebuilt later).
 tar -xf util-linux-2.38.tar.xz
 cd util-linux-2.38
 mkdir -p /var/lib/hwclock
@@ -113,8 +117,6 @@ make
 make install
 cd ..
 rm -rf util-linux-2.38
-# Install man pages for MassOS system utilities.
-cp -r man/* /usr/share/man
 # man-pages.
 tar -xf man-pages-5.13.tar.xz
 cd man-pages-5.13
@@ -3057,7 +3059,7 @@ tar -xf firefox-91.11.0esr.source.tar.xz
 cd firefox-91.11.0
 chmod +x js/src/configure.in
 mkdir JS91-build; cd JS91-build
-SHELL=/bin/sh ../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
+../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
 make
 make install
 rm -f /usr/lib/libjs_static.ajs
