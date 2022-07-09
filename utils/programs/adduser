@@ -1,6 +1,6 @@
 #!/bin/bash
 # User creation utility for MassOS.
-# Copyright (C) 2021 The Sonic Master.
+# Copyright (C) 2021-2022 MassOS Developers.
 
 if [ $EUID -ne 0 ]; then
   echo "Error: adduser must be run as root." >&2
@@ -37,16 +37,12 @@ elif [ ! -x "$shell" ]; then
 fi
 
 echo "Admin privileges adds the user to groups wheel, netdev and lpadmin."
-read -p "Enable admin privileges for the user? [Y/n] " adminselect1
-adminselect=$(echo "$adminselect1" | tr '[:upper:]' '[:lower:]')
-if [ -z "$adminselect" ]; then
-  admin=y
-elif [ "$adminselect" != n ]; then
-  if [ "$adminselect" != no ]; then
-    admin=y
-  fi
-else
+read -p "Enable admin privileges for the user? [Y/n] " adminsel1
+adminsel=$(echo "$adminsel1" | tr '[:upper:]' '[:lower:]')
+if [ "$adminsel" = n ] || [ "$adminsel" = no ]; then
   admin=n
+else
+  admin=y
 fi
 
 if [ $admin = y ]; then
@@ -91,9 +87,7 @@ while [ $return = 1 ]; do
   fi
 done
 
-for i in $(ls -A /etc/skel); do
-  cp -r /etc/skel/$i /home/$username
-  chown -R $username:$username /home/$username/$i
-done
+cp -R /etc/skel/. /home/$username/.
+chown -R $username:$username /home/$username/.
 
 echo "User $username created successfully."
