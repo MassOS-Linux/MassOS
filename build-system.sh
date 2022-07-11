@@ -4660,6 +4660,16 @@ make install
 install -t /usr/share/licenses/icon-naming-utils -Dm644 COPYING
 cd ..
 rm -rf icon-naming-utils-0.8.90
+# sound-theme-freedesktop.
+tar -xf sound-theme-freedesktop-0.8.tar.bz2
+cd sound-theme-freedesktop-0.8
+./configure --prefix=/usr
+make
+make install
+ln -sf freedesktop /usr/share/sounds/default
+install -t /usr/share/licenses/sound-theme-freedesktop -Dm644 CREDITS
+cd ..
+rm -rf sound-theme-freedesktop-0.8
 # GTK2.
 tar -xf gtk+-2.24.33.tar.xz
 cd gtk+-2.24.33
@@ -6148,6 +6158,19 @@ patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
 make
 make -j1 install
 install -t /usr/share/licenses/libcanberra -Dm644 LGPL
+cat > /etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module.sh << "END"
+#!/bin/bash
+
+# GNOME loads the libcanberra GTK module automatically, but others don't.
+if [ "${DESKTOP_SESSION:0:5}" != "gnome" ] && [ -z "${GNOME_DESKTOP_SESSION_ID}" ]; then
+  if [ -z "$GTK_MODULES" ]; then
+    GTK_MODULES="canberra-gtk-module"
+  else
+    GTK_MODULES="$GTK_MODULES:canberra-gtk-module"
+  fi
+  export GTK_MODULES
+fi
+END
 cd ..
 rm -rf libcanberra-0.30
 # x264.
