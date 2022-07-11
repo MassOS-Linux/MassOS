@@ -829,16 +829,15 @@ install -t /usr/share/licenses/libffi -Dm644 LICENSE
 cd ..
 rm -rf libffi-3.4.2
 # OpenSSL.
-tar -xf openssl-3.0.4.tar.gz
-cd openssl-3.0.4
-sed -i '223i\    factor_size /= sizeof(BN_ULONG) * 8;' crypto/bn/rsaz_exp_x2.c
+tar -xf openssl-3.0.5.tar.gz
+cd openssl-3.0.5
 ./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic
 make
 sed -i '/INSTALL_LIBS/s/libcrypto.a libssl.a//' Makefile
 make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 cd ..
-rm -rf openssl-3.0.4
+rm -rf openssl-3.0.5
 # easy-rsa.
 tar -xf EasyRSA-3.1.0.tgz
 cd EasyRSA-3.1.0
@@ -899,8 +898,8 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 cd ..
 rm -rf ninja-1.11.0
 # Meson.
-tar -xf meson-0.62.2.tar.gz
-cd meson-0.62.2
+tar -xf meson-0.63.0.tar.gz
+cd meson-0.63.0
 python setup.py build
 python setup.py install --root=meson-destination-directory
 cp -r meson-destination-directory/* /
@@ -908,7 +907,7 @@ install -Dm644 data/shell-completions/bash/meson /usr/share/bash-completion/comp
 install -Dm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 cd ..
-rm -rf meson-0.62.2
+rm -rf meson-0.63.0
 # PyParsing.
 tar -xf pyparsing_3.0.7.tar.gz
 cd pyparsing-pyparsing_3.0.7
@@ -1835,12 +1834,12 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.14
 # hwdata.
-tar -xf hwdata-0.360.tar.gz
-cd hwdata-0.360
+tar -xf hwdata-0.361.tar.gz
+cd hwdata-0.361
 install -t /usr/share/hwdata -Dm644 pci.ids pnp.ids usb.ids
 install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
-rm -rf hwdata-0.360
+rm -rf hwdata-0.361
 # Systemd (initial build; will be rebuilt later to support more features).
 tar -xf systemd-stable-251.2.tar.gz
 cd systemd-stable-251.2
@@ -2241,6 +2240,7 @@ rm -rf nghttp2-1.48.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.84.0.tar.xz
 cd curl-7.84.0
+patch -Np1 -i ../patches/curl-7.84.0-upstreamfix.patch
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
@@ -2345,15 +2345,15 @@ install -t /usr/share/licenses/libusb -Dm644 COPYING
 cd ..
 rm -rf libusb-1.0.26
 # libmtp.
-tar -xf libmtp-1.1.19.tar.gz
-cd libmtp-1.1.19
+tar -xf libmtp-1.1.20.tar.gz
+cd libmtp-1.1.20
 ./configure --prefix=/usr --with-udev=/usr/lib/udev
 make
 make install
 rm -f /usr/lib/libmtp.a
 install -t /usr/share/licenses/libmtp -Dm644 COPYING
 cd ..
-rm -rf libmtp-1.1.19
+rm -rf libmtp-1.1.20
 # libnfs.
 tar -xf libnfs-4.0.0.tar.gz
 cd libnfs-libnfs-4.0.0
@@ -2577,15 +2577,15 @@ install -t /usr/share/licenses/libksba -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv
 cd ..
 rm -rf libksba-1.6.0
 # GNUPG.
-tar -xf gnupg-2.3.6.tar.bz2
-cd gnupg-2.3.6
+tar -xf gnupg-2.3.7.tar.bz2
+cd gnupg-2.3.7
 sed -i '/noinst_SCRIPTS = gpg-zip/c sbin_SCRIPTS += gpg-zip' tools/Makefile.in
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-g13
 make
 make install
 install -t /usr/share/licenses/gnupg -Dm644 COPYING COPYING.CC0 COPYING.GPL2 COPYING.LGPL21 COPYING.LGPL3 COPYING.other
 cd ..
-rm -rf gnupg-2.3.6
+rm -rf gnupg-2.3.7
 # krb5.
 tar -xf krb5-1.20.tar.gz
 cd krb5-1.20/src
@@ -2608,6 +2608,7 @@ rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
 tar -xf curl-7.84.0.tar.xz
 cd curl-7.84.0
+patch -Np1 -i ../patches/curl-7.84.0-upstreamfix.patch
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
@@ -2921,10 +2922,10 @@ install -t /usr/share/licenses/pahole -Dm644 ../COPYING
 cd ../..
 rm -rf pahole-1.23
 # DKMS.
-tar -xf dkms-3.0.3.tar.gz
-make -C dkms-3.0.3 BASHDIR=/usr/share/bash-completion/completions install
+tar -xf dkms-3.0.5.tar.gz
+make -C dkms-3.0.5 BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
-rm -rf dkms-3.0.3
+rm -rf dkms-3.0.5
 # GLib.
 tar -xf glib-2.72.3.tar.xz
 cd glib-2.72.3
@@ -3130,14 +3131,13 @@ install -t /usr/share/licenses/efivar -Dm644 COPYING
 cd ..
 rm -rf efivar-38
 # efibootmgr.
-tar -xf efibootmgr-17.tar.bz2
-cd efibootmgr-17
-sed -e '/extern int efi_set_verbose/d' -i src/efibootmgr.c
+tar -xf efibootmgr-18.tar.bz2
+cd efibootmgr-18
 make EFIDIR=massos EFI_LOADER=grubx64.efi
-make EFIDIR=massos install
+make EFIDIR=massos EFI_LOADER=grubx64.efi install
 install -t /usr/share/licenses/efibootmgr -Dm644 COPYING
 cd ..
-rm -rf efibootmgr-17
+rm -rf efibootmgr-18
 # libpng.
 tar -xf libpng-1.6.37.tar.xz
 cd libpng-1.6.37
@@ -3408,15 +3408,15 @@ install -t /usr/share/licenses/mtdev -Dm644 COPYING
 cd ..
 rm -rf mtdev-1.1.6
 # Wayland.
-tar -xf wayland-1.20.0.tar.xz
-cd wayland-1.20.0
+tar -xf wayland-1.21.0.tar.xz
+cd wayland-1.21.0
 mkdir wayland-build; cd wayland-build
 meson --prefix=/usr --buildtype=minsize -Ddocumentation=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/wayland -Dm644 ../COPYING
 cd ../..
-rm -rf wayland-1.20.0
+rm -rf wayland-1.21.0
 # Wayland-Protocols.
 tar -xf wayland-protocols-1.25.tar.xz
 cd wayland-protocols-1.25
@@ -3523,14 +3523,14 @@ install -t /usr/share/licenses/libjpeg-turbo -Dm644 ../LICENSE.md ../README.ijg
 cd ../..
 rm -rf libjpeg-turbo-2.1.3
 # libgphoto2
-tar -xf libgphoto2-2.5.29.tar.xz
-cd libgphoto2-2.5.29
+tar -xf libgphoto2-2.5.30.tar.xz
+cd libgphoto2-2.5.30
 ./configure --prefix=/usr --disable-rpath
 make
 make install
 install -t /usr/share/licenses/libgphoto2 -Dm644 COPYING
 cd ..
-rm -rf libgphoto2-2.5.29
+rm -rf libgphoto2-2.5.30
 # Pixman.
 tar -xf pixman-0.40.0.tar.gz
 cd pixman-0.40.0
@@ -3681,14 +3681,14 @@ install -t /usr/share/licenses/xdg-utils -Dm644 LICENSE
 cd ..
 rm -rf xdg-utils-1.1.3
 # libnl.
-tar -xf libnl-3.6.0.tar.gz
-cd libnl-3.6.0
+tar -xf libnl-3.7.0.tar.gz
+cd libnl-3.7.0
 ./configure --prefix=/usr --sysconfdir=/etc --disable-static
 make
 make install
 install -t /usr/share/licenses/libnl -Dm644 COPYING
 cd ..
-rm -rf libnl-3.6.0
+rm -rf libnl-3.7.0
 # wpa_supplicant.
 tar -xf wpa_supplicant-2.10.tar.gz
 cd wpa_supplicant-2.10/wpa_supplicant
@@ -3746,15 +3746,15 @@ install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
 cd ..
 rm -rf wireless_tools.30
 # libzip.
-tar -xf libzip-1.8.0.tar.xz
-cd libzip-1.8.0
+tar -xf libzip-1.9.2tar.xz
+cd libzip-1.9.2
 mkdir libzip-build; cd libzip-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/libzip -Dm644 ../LICENSE
 cd ../..
-rm -rf libzip-1.8.0
+rm -rf libzip-1.9.2
 # gz2xz.
 tar -xf gz2xz-1.0.2.tar.gz
 cd gz2xz-1.0.2
@@ -3830,7 +3830,6 @@ for i in xtrans-1.4.0 libX11-1.8.1 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM
   tar -xf $i.tar.*
   cd $i
   case $i in
-    libX11-*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-thread-safety-constructor ;;
     libXt-*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-appdefaultdir=/etc/X11/app-defaults ;;
     *) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
   esac
@@ -3854,15 +3853,15 @@ for i in xcb-util-0.4.0 xcb-util-image-0.4.0 xcb-util-keysyms-0.4.0 xcb-util-ren
   ldconfig
 done
 # libdrm.
-tar -xf libdrm-2.4.111.tar.xz
-cd libdrm-2.4.111
+tar -xf libdrm-2.4.112.tar.xz
+cd libdrm-2.4.112
 mkdir libdrm-build; cd libdrm-build
 meson --prefix=/usr --buildtype=minsize -Dudev=true -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libdrm -Dm644 ../../extra-package-licenses/libdrm-license.txt
 cd ../..
-rm -rf libdrm-2.4.111
+rm -rf libdrm-2.4.112
 # DirectX-Headers.
 tar -xf DirectX-Headers-1.602.0.tar.gz
 cd DirectX-Headers-1.602.0
@@ -3988,7 +3987,7 @@ install -t /usr/share/licenses/xbitmaps -Dm644 COPYING
 cd ..
 rm -rf xbitmaps-1.1.2
 # Xorg Applications.
-for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.3 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.2 xbacklight-1.2.3 xcmsdb-1.0.5 xcursorgen-1.0.7 xdpyinfo-1.3.3 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.10 xpr-1.0.5 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.5; do
+for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.3 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.2 xbacklight-1.2.3 xcmsdb-1.0.6 xcursorgen-1.0.7 xdpyinfo-1.3.3 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.11 xpr-1.1.0 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.6; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4100,14 +4099,14 @@ install -t /usr/share/licenses/dbus-glib -Dm644 COPYING
 cd ..
 rm -rf dbus-glib-0.112
 # alsa-lib.
-tar -xf alsa-lib-1.2.7.1.tar.bz2
-cd alsa-lib-1.2.7.1
+tar -xf alsa-lib-1.2.7.2.tar.bz2
+cd alsa-lib-1.2.7.2
 ./configure --prefix=/usr --without-debug
 make
 make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 cd ..
-rm -rf alsa-lib-1.2.7.1
+rm -rf alsa-lib-1.2.7.2
 # libepoxy.
 tar -xf libepoxy-1.5.10.tar.gz
 cd libepoxy-1.5.10
@@ -4192,14 +4191,14 @@ install -t /usr/share/licenses/xf86-input-libinput -Dm644 COPYING
 cd ..
 rm -rf xf86-input-libinput-1.2.1
 # xf86-input-synaptics.
-tar -xf xf86-input-synaptics-1.9.1.tar.bz2
-cd xf86-input-synaptics-1.9.1
+tar -xf xf86-input-synaptics-1.9.2.tar.xz
+cd xf86-input-synaptics-1.9.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/xf86-input-synaptics -Dm644 COPYING
 cd ..
-rm -rf xf86-input-synaptics-1.9.1
+rm -rf xf86-input-synaptics-1.9.2
 # xf86-input-wacom.
 tar -xf xf86-input-wacom-1.0.0.tar.bz2
 cd xf86-input-wacom-1.0.0
@@ -4615,15 +4614,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-4.4.1
 # Pango.
-tar -xf pango-1.50.7.tar.xz
-cd pango-1.50.7
+tar -xf pango-1.50.8.tar.xz
+cd pango-1.50.8
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.7
+rm -rf pango-1.50.8
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -4666,7 +4665,6 @@ cd sound-theme-freedesktop-0.8
 ./configure --prefix=/usr
 make
 make install
-ln -sf freedesktop /usr/share/sounds/default
 install -t /usr/share/licenses/sound-theme-freedesktop -Dm644 CREDITS
 cd ..
 rm -rf sound-theme-freedesktop-0.8
@@ -4838,15 +4836,15 @@ install -t /usr/share/licenses/gtkmm3 -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf gtkmm-3.24.6
 # libhandy.
-tar -xf libhandy-1.6.2.tar.xz
-cd libhandy-1.6.2
+tar -xf libhandy-1.6.3.tar.xz
+cd libhandy-1.6.3
 mkdir handy-build; cd handy-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
 cd ../..
-rm -rf libhandy-1.6.2
+rm -rf libhandy-1.6.3
 # libdazzle.
 tar -xf libdazzle-3.44.0.tar.xz
 cd libdazzle-3.44.0
@@ -4928,12 +4926,12 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # python-dbusmock.
-tar -xf python-dbusmock-0.27.5.tar.gz
-cd python-dbusmock-0.27.5
+tar -xf python-dbusmock-0.28.1.tar.gz
+cd python-dbusmock-0.28.1
 python setup.py install --optimize=1
 install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
 cd ..
-rm -rf python-dbusmock-0.27.5
+rm -rf python-dbusmock-0.28.1
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5175,13 +5173,13 @@ install -t /usr/share/licenses/sdl2 -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf SDL2-2.0.22
 # dmidecode.
-tar -xf dmidecode-3.3.tar.xz
-cd dmidecode-3.3
+tar -xf dmidecode-3.4.tar.xz
+cd dmidecode-3.4
 make prefix=/usr CFLAGS="$CFLAGS"
 make prefix=/usr install
 install -t /usr/share/licenses/dmidecode -Dm644 LICENSE
 cd ..
-rm -rf dmidecode-3.3
+rm -rf dmidecode-3.4
 # laptop-detect.
 tar -xf laptop-detect_0.16.tar.xz
 cd laptop-detect-0.16
@@ -5370,8 +5368,8 @@ install -t /usr/share/licenses/polkit-gnome -Dm644 COPYING
 cd ..
 rm -rf polkit-gnome-0.105
 # Poppler.
-tar -xf poppler-22.06.0.tar.xz
-cd poppler-22.06.0
+tar -xf poppler-22.07.0.tar.xz
+cd poppler-22.07.0
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
 ninja
@@ -5381,7 +5379,7 @@ tar -xf ../../poppler-data-0.4.11.tar.gz
 cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
-rm -rf poppler-22.06.0
+rm -rf poppler-22.07.0
 # Ghostscript.
 tar -xf ghostscript-9.56.1.tar.xz
 cd ghostscript-9.56.1
@@ -6392,11 +6390,10 @@ install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.3
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.53.tar.gz
-cd pipewire-0.3.53
-patch -Np1 -i ../patches/pipewire-0.3.53-upstreamfix.patch
+tar -xf pipewire-0.3.54.tar.gz
+cd pipewire-0.3.54
 mkdir -p subprojects/wireplumber
-tar -xf ../wireplumber-0.4.10.tar.gz -C subprojects/wireplumber --strip-components=1
+tar -xf ../wireplumber-0.4.11.tar.gz -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
 meson --prefix=/usr --buildtype=minsize -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
@@ -6407,7 +6404,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.53
+rm -rf pipewire-0.3.54
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.4.tar.xz
 cd xdg-desktop-portal-1.14.4
@@ -6664,14 +6661,14 @@ install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
 cd ..
 rm -rf libxklavier-5.4
 # xfce4-settings.
-tar -xf xfce4-settings-4.16.2.tar.bz2
-cd xfce4-settings-4.16.2
+tar -xf xfce4-settings-4.16.3.tar.bz2
+cd xfce4-settings-4.16.3
 ./configure --prefix=/usr --sysconfdir=/etc --enable-sound-settings
 make
 make install
 install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 cd ..
-rm -rf xfce4-settings-4.16.2
+rm -rf xfce4-settings-4.16.3
 # xfdesktop.
 tar -xf xfdesktop-4.16.0.tar.bz2
 cd xfdesktop-4.16.0
@@ -6900,14 +6897,14 @@ install -t /usr/share/licenses/gtksourceview4 -Dm644 ../COPYING
 cd ../..
 rm -rf gtksourceview-4.8.3
 # Mousepad.
-tar -xf mousepad-0.5.9.tar.bz2
-cd mousepad-0.5.9
+tar -xf mousepad-0.5.10.tar.bz2
+cd mousepad-0.5.10
 ./configure --prefix=/usr --enable-gtksourceview4 --enable-keyfile-settings
 make
 make install
 install -t /usr/share/licenses/mousepad -Dm644 COPYING
 cd ..
-rm -rf mousepad-0.5.9
+rm -rf mousepad-0.5.10
 # galculator.
 tar -xf galculator-2.1.4.tar.gz
 cd galculator-2.1.4
@@ -7073,7 +7070,7 @@ plymouth-set-default-theme bgrt
 cd ..
 rm -rf plymouth-0.9.5
 # Firefox.
-tar --no-same-owner -xf firefox-102.0.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-102.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

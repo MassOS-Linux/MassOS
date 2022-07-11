@@ -1,6 +1,41 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
+# Current Development
+Changes:
+
+- Development has only just begun! Check back soon.
+
+Upgraded software:
+
+- alsa-lib: `1.2.7.1 --> 1.2.7.2`
+- dmidecode: `3.3 --> 3.4`
+- efibootmgr: `17 --> 18`
+- Firefox: `102.0 --> 102.0.1`
+- GNUPG: `2.3.6 --> 2.3.7`
+- hwdata: `0.360 --> 0.361`
+- libdrm: `2.4.111 --> 2.4.112`
+- libgphoto2: `2.5.29 --> 2.5.30`
+- libhandy: `1.6.2 --> 1.6.3`
+- libmtp: `1.1.19 --> 1.1.20`
+- libnl: `3.6.0 --> 3.7.0`
+- libzip: `1.8.0 --> 1.9.2`
+- Meson: `0.62.2 --> 0.63.0`
+- Mousepad: `0.5.9 --> 0.5.10`
+- OpenSSL: `3.0.4 --> 3.0.5`
+- Pango: `1.50.7 --> 1.50.8`
+- PipeWire: `0.3.52 --> 0.3.54`
+- Poppler: `22.06.0 --> 22.07.0`
+- python-dbusmock: `0.27.5 --> 0.28.1`
+- Wayland: `1.20.0 --> 1.21.0`
+- WirePlumber: `0.4.10 --> 0.4.11`
+- xcmsdb: `1.0.5 --> 1.0.6`
+- xf86-input-synaptics: `1.9.1 --> 1.9.2`
+- xfce4-settings: `4.16.2 --> 4.16.3`
+- xmodmap: `1.0.10 --> 1.0.11`
+- xpr: `1.0.5 --> 1.1.0`
+- xwud: `1.0.5 --> 1.0.6`
+
 # MassOS 2022.07
 Changes:
 
