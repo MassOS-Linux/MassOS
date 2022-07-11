@@ -3746,7 +3746,7 @@ install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
 cd ..
 rm -rf wireless_tools.30
 # libzip.
-tar -xf libzip-1.9.2tar.xz
+tar -xf libzip-1.9.2.tar.xz
 cd libzip-1.9.2
 mkdir libzip-build; cd libzip-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
