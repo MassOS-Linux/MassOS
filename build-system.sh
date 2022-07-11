@@ -7173,18 +7173,6 @@ for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
 zman /usr/share/man
 # Remove leftover junk in /root.
 rm -rf /root/.{cache,cargo,cmake}
-# Install symlinks to busybox for any programs not otherwise provided.
-busybox --install -s
-# Redundant since we use systemd.
-rm -f /usr/bin/sv
-rm -f /linuxrc
-# Conflicts with /usr/sbin/lsof.
-rm -f /usr/bin/lsof
-# Unused package managers, potentially dangerous on MassOS.
-rm -f /usr/bin/{dpkg,dpkg-deb,rpm}
-# Unneeded.
-if [ "$(readlink /usr/bin/resize)" = "/usr/bin/busybox" ]; then rm -f /usr/bin/resize; fi
-if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
 # Remove Debian stuff.
 rm -rf /etc/kernel
 # Move any misplaced files.
