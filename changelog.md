@@ -25,6 +25,7 @@ Upgraded software:
 - OpenSSL: `3.0.4 --> 3.0.5`
 - Pango: `1.50.7 --> 1.50.8`
 - PipeWire: `0.3.52 --> 0.3.54`
+- Plymouth: `0.9.5 --> 22.02.122`
 - Poppler: `22.06.0 --> 22.07.0`
 - python-dbusmock: `0.27.5 --> 0.28.1`
 - Wayland: `1.20.0 --> 1.21.0`
