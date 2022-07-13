@@ -7090,8 +7090,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.8.tar.xz
-cd linux-5.18.8
+tar -xf linux-5.18.11.tar.xz
+cd linux-5.18.11
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7127,7 +7127,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.8
+rm -rf linux-5.18.11
 unset builddir
 # NVIDIA Open kernel modules.
 tar -xf open-gpu-kernel-modules-515.43.04.tar.gz

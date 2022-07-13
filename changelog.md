@@ -23,6 +23,7 @@ Upgraded software:
 - libmtp: `1.1.19 --> 1.1.20`
 - libnl: `3.6.0 --> 3.7.0`
 - libzip: `1.8.0 --> 1.9.2`
+- Linux Kernel `5.18.8 --> 5.18.11`
 - Meson: `0.62.2 --> 0.63.0`
 - Mousepad: `0.5.9 --> 0.5.10`
 - OpenSSL: `3.0.4 --> 3.0.5`
