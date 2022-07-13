@@ -87,6 +87,7 @@ docutils
 dos2unix
 dosfstools
 dracut
+duktape
 dvd+rw-tools
 e2fsprogs
 easy-rsa
@@ -197,7 +198,6 @@ jack2
 jansson
 jasper
 jinja2
-js91
 json
 json-c
 json-glib

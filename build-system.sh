@@ -1380,6 +1380,14 @@ make install
 rm -f /usr/lib/liburing.a
 cd ..
 rm -rf liburing-2.1
+# duktape.
+tar -xf duktape-2.7.0.tar.xz
+cd duktape-2.7.0
+CFLAGS="$CFLAGS -DDUK_USE_FASTINT" make -f Makefile.sharedlibrary INSTALL_PREFIX=/usr
+make -f Makefile.sharedlibrary INSTALL_PREFIX=/usr install
+install -t /usr/share/licenses/duktape -Dm644 LICENSE.txt
+cd ..
+rm -rf duktape-2.7.0
 # ICU.
 tar -xf icu4c-71_1-src.tgz
 cd icu/source
@@ -3053,19 +3061,6 @@ cd rust-1.61.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.61.0-x86_64-unknown-linux-gnu
-# JS91.
-tar -xf firefox-91.11.0esr.source.tar.xz
-cd firefox-91.11.0
-chmod +x js/src/configure.in
-mkdir JS91-build; cd JS91-build
-../js/src/configure.in --prefix=/usr --enable-linker=lld --with-intl-api --with-system-zlib --with-system-icu --disable-jemalloc --disable-debug-symbols --enable-readline
-make
-make install
-rm -f /usr/lib/libjs_static.ajs
-sed -i '/@NSPR_CFLAGS@/d' /usr/bin/js91-config
-install -t /usr/share/licenses/js91 -Dm644 ../../extra-package-licenses/js91-license.txt
-cd ../..
-rm -rf firefox-91.11.0
 # Sudo.
 tar -xf sudo-1.9.11p3.tar.gz
 cd sudo-1.9.11p3
