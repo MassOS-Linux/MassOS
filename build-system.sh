@@ -1841,11 +1841,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING LICENSE
 cd ..
 rm -rf hwdata-0.361
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-251.2.tar.gz
-cd systemd-stable-251.2
+tar -xf systemd-stable-251.3.tar.gz
+cd systemd-stable-251.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1871,7 +1871,7 @@ install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
 systemctl enable gpm.service
-rm -rf systemd-stable-251.2
+rm -rf systemd-stable-251.3
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -2409,14 +2409,14 @@ install -t /usr/share/licenses/libunistring -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf libunistring-1.0
 # libidn2.
-tar -xf libidn2-2.3.2.tar.gz
-cd libidn2-2.3.2
+tar -xf libidn2-2.3.3.tar.gz
+cd libidn2-2.3.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libidn2 -Dm644 COPYING COPYINGv2 COPYING.LESSERv3 COPYING.unicode
 cd ..
-rm -rf libidn2-2.3.2
+rm -rf libidn2-2.3.3
 # whois.
 tar -xf whois-5.5.13.tar.gz
 cd whois-5.5.13
@@ -2886,16 +2886,14 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
 rm -rf nss-3.80
 # Git.
-tar -xf git-2.37.0.tar.xz
-cd git-2.37.0
-./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-python=python3 --with-libpcre2
-make
-make man
-make perllibdir=/usr/lib/perl5/5.36/site_perl install
-make install-man
+tar -xf git-2.37.1.tar.xz
+cd git-2.37.1
+./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
+make all man
+make perllibdir=/usr/lib/perl5/5.36/site_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.37.0
+rm -rf git-2.37.1
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -3987,7 +3985,7 @@ install -t /usr/share/licenses/xbitmaps -Dm644 COPYING
 cd ..
 rm -rf xbitmaps-1.1.2
 # Xorg Applications.
-for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.3 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.2 xbacklight-1.2.3 xcmsdb-1.0.6 xcursorgen-1.0.7 xdpyinfo-1.3.3 xdriinfo-1.0.6 xev-1.2.4 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.4 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.5 xmodmap-1.0.11 xpr-1.1.0 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.6 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.6; do
+for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.3 smproxy-1.0.6 x11perf-1.6.1 xauth-1.1.2 xbacklight-1.2.3 xcmsdb-1.0.6 xcursorgen-1.0.7 xdpyinfo-1.3.3 xdriinfo-1.0.6 xev-1.2.5 xgamma-1.0.6 xhost-1.0.8 xinput-1.6.3 xkbcomp-1.4.5 xkbevd-1.1.4 xkbutils-1.0.5 xkill-1.0.5 xlsatoms-1.1.3 xlsclients-1.1.4 xmessage-1.0.6 xmodmap-1.0.11 xpr-1.1.0 xprop-1.2.5 xrandr-1.5.1 xrdb-1.2.1 xrefresh-1.0.7 xset-1.2.4 xsetroot-1.1.2 xvinfo-1.1.4 xwd-1.0.8 xwininfo-1.1.5 xwud-1.0.6; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4010,15 +4008,15 @@ make install
 install -t /usr/share/licenses/xcursor-themes -Dm644 COPYING
 cd ..
 rm -rf xcursor-themes-1.0.6
-# Font Util.
-tar -xf font-util-1.3.2.tar.bz2
-cd font-util-1.3.2
+# font-util.
+tar -xf font-util-1.3.3.tar.xz
+cd font-util-1.3.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
 make install
 install -t /usr/share/licenses/font-util -Dm644 COPYING
 cd ..
-rm -rf font-util-1.3.2
+rm -rf font-util-1.3.3
 # Noto Fonts.
 tar --no-same-owner -xf noto-fonts3.tar.xz -C / --strip-components=1
 rm -f /LICENSE
@@ -4047,11 +4045,11 @@ install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.1
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-251.2.tar.gz
-cd systemd-stable-251.2
+tar -xf systemd-stable-251.3.tar.gz
+cd systemd-stable-251.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.2-massos -Dshared-lib-tag=251.2-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4067,7 +4065,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-stable-251.2
+rm -rf systemd-stable-251.3
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.0.tar.xz
 cd dbus-1.14.0
@@ -4128,8 +4126,8 @@ install -t /usr/share/licenses/libxcvt -Dm644 ../COPYING
 cd ../..
 rm -rf libxcvt-0.1.1
 # Xorg-Server.
-tar -xf xorg-server-21.1.3.tar.xz
-cd xorg-server-21.1.3
+tar -xf xorg-server-21.1.4.tar.xz
+cd xorg-server-21.1.4
 patch -Np1 -i ../patches/xorg-server-21.1.2-addxvfbrun.patch
 mkdir XSRV-BUILD; cd XSRV-BUILD
 meson --prefix=/usr -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
@@ -4140,17 +4138,17 @@ install -m644 ../xvfb-run.1 /usr/share/man/man1/xvfb-run.1
 mkdir -p /etc/X11/xorg.conf.d
 install -t /usr/share/licenses/xorg-server -Dm644 ../COPYING
 cd ../..
-rm -rf xorg-server-21.1.3
+rm -rf xorg-server-21.1.4
 # Xwayland.
-tar -xf xwayland-22.1.2.tar.xz
-cd xwayland-22.1.2
+tar -xf xwayland-22.1.3.tar.xz
+cd xwayland-22.1.3
 mkdir XWLD-BUILD; cd XWLD-BUILD
 meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -t /usr/share/licenses/xwayland -Dm644 ../COPYING
 cd ../..
-rm -rf xwayland-22.1.2
+rm -rf xwayland-22.1.3
 # libevdev.
 tar -xf libevdev-1.12.1.tar.xz
 cd libevdev-1.12.1
@@ -4453,16 +4451,12 @@ install -t /usr/share/licenses/mtools -Dm644 COPYING
 cd ..
 rm -rf mtools-4.0.40
 # Polkit.
-tar -xf polkit-0.120.tar.gz
-cd polkit-0.120
+tar -xf polkit-121.tar.gz
+cd polkit-v.121
 groupadd -fg 27 polkitd
 useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
-sed -i '/0,/s/^/#/' meson_post_install.py
-sed -i '/policy,/d' actions/meson.build
-sed -i '/policy,/d' src/examples/meson.build
-patch -Np1 -i ../patches/polkit-0.120-backports.patch
 mkdir polkit-build; cd polkit-build
-meson --prefix=/usr --buildtype=minsize -Dgtk_doc=true -Dman=true -Dsession_tracking=libsystemd-login ..
+meson --prefix=/usr --buildtype=minsize -Dman=true -Dsession_tracking=libsystemd-login ..
 ninja
 ninja install
 cat > /etc/pam.d/polkit-1 << "END"
@@ -4473,7 +4467,7 @@ session  include        system-session
 END
 install -t /usr/share/licenses/polkit -Dm644 ../COPYING
 cd ../..
-rm -rf polkit-0.120
+rm -rf polkit-v.121
 # OpenSSH.
 tar -xf openssh-9.0p1.tar.gz
 cd openssh-9.0p1
@@ -6380,10 +6374,12 @@ install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.3
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.54.tar.gz
-cd pipewire-0.3.54
+tar -xf pipewire-0.3.55.tar.bz2
+cd pipewire-0.3.55
+patch -Np1 -i ../patches/pipewire-0.3.55-upstreamfix.patch
 mkdir -p subprojects/wireplumber
-tar -xf ../wireplumber-0.4.11.tar.gz -C subprojects/wireplumber --strip-components=1
+tar -xf ../wireplumber-0.4.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
+patch -d subprojects/wireplumber -Np1 -i ../../../patches/wireplumber-0.4.11-upstreamfix.patch
 mkdir pipewire-build; cd pipewire-build
 meson --prefix=/usr --buildtype=minsize -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
@@ -6394,7 +6390,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.54
+rm -rf pipewire-0.3.55
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.4.tar.xz
 cd xdg-desktop-portal-1.14.4
