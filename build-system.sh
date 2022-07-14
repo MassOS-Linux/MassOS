@@ -2930,7 +2930,7 @@ rm -rf pahole-1.23
 # DKMS.
 tar -xf dkms-3.0.5.tar.gz
 make -C dkms-3.0.5 BASHDIR=/usr/share/bash-completion/completions install
-install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.3/COPYING
+install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.5/COPYING
 rm -rf dkms-3.0.5
 # GLib.
 tar -xf glib-2.72.3.tar.xz
@@ -6530,7 +6530,6 @@ cd plymouth-22.02.122
 LDFLAGS="$LDFLAGS -ludev" ./autogen.sh --prefix=/usr --exec-prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --enable-systemd-integration --enable-drm --enable-pango --with-release-file=/etc/os-release --with-logo=/usr/share/massos/massos-logo-sidetext.png --with-background-color=0x000000 --with-background-start-color-stop=0x000000 --with-background-end-color-stop=0x4D4D4D --without-rhgb-compat-link --without-system-root-install --with-runtimedir=/run
 make
 make install
-cp /usr/share/massos/massos-logo-sidetext.png /usr/share/plymouth/themes/spinner/watermark.png
 sed -i 's/WatermarkVerticalAlignment=.96/WatermarkVerticalAlignment=.5/' /usr/share/plymouth/themes/spinner/spinner.plymouth
 plymouth-set-default-theme bgrt
 install -t /usr/share/licenses/plymouth -Dm644 COPYING
@@ -7148,6 +7147,7 @@ install -m755 massos-release /usr/bin/massos-release
 # Additional MassOS files.
 install -t /usr/share/massos -Dm644 LICENSE builtins massos-logo.png massos-logo-small.png massos-logo-extrasmall.png massos-logo-notext.png massos-logo-sidetext.png
 for i in /usr/share/massos/*.png; do ln -sfr $i /usr/share/pixmaps; done
+cp /usr/share/massos/massos-logo-sidetext.png /usr/share/plymouth/themes/spinner/watermark.png
 # Uninstall Rust.
 /usr/lib/rustlib/uninstall.sh
 # Compress manual pages.
