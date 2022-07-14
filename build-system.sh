@@ -1388,6 +1388,25 @@ make -f Makefile.sharedlibrary INSTALL_PREFIX=/usr install
 install -t /usr/share/licenses/duktape -Dm644 LICENSE.txt
 cd ..
 rm -rf duktape-2.7.0
+# oniguruma.
+tar -xf onig-6.9.8.tar.gz
+cd onig-6.9.8
+./configure --prefix=/usr --disable-static --enable-posix-api
+make
+make install
+install -t /usr/share/licenses/oniguruma -Dm644 COPYING
+cd ..
+rm -rf onig-6.9.8
+# jq.
+tar -xf jq-1.6.tar.gz
+cd jq-1.6
+autoreconf -fi
+./configure --prefix=/usr --disable-docs --disable-static
+make
+make install
+install -t /usr/share/licenses/jq -Dm644 COPYING
+cd ..
+rm -rf jq-1.6
 # ICU.
 tar -xf icu4c-71_1-src.tgz
 cd icu/source
@@ -2508,6 +2527,13 @@ make install
 install -t /usr/share/licenses/pkcs11-helper -Dm644 COPYING COPYING.BSD COPYING.GPL
 cd ..
 rm -rf pkcs11-helper-1.29.0
+# certifi (Python module).
+tar -xf python-certifi-2022.06.15.tar.gz
+cd python-certifi-2022.06.15
+python setup.py install --optimize=1
+install -t /usr/share/licenses/certifi -Dm644 LICENSE
+cd ..
+rm -rf python-certifi-2022.06.15
 # libssh2.
 tar -xf libssh2-1.10.0.tar.gz
 cd libssh2-1.10.0

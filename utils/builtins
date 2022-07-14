@@ -41,6 +41,7 @@ cairo
 cairomm
 cdparanoia
 cdrkit
+certifi
 cffi
 chardet
 check
@@ -198,6 +199,7 @@ jack2
 jansson
 jasper
 jinja2
+jq
 json
 json-c
 json-glib
@@ -423,6 +425,7 @@ nspr
 nss
 ntfs-3g
 nvidia-open-kernel-modules
+oniguruma
 openal
 openjade
 openjpeg
