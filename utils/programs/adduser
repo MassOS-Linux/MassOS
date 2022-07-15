@@ -87,7 +87,6 @@ while [ $return = 1 ]; do
   fi
 done
 
-cp -R /etc/skel/. /home/$username/.
-chown -R $username:$username /home/$username/.
+chmod 700 /home/$username
 
 echo "User $username created successfully."
