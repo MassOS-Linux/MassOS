@@ -6537,6 +6537,17 @@ help2man -N zap > /usr/share/man/man1/zap.1
 install -t /usr/share/licenses/zap -Dm644 LICENSE
 cd ..
 rm -rf zap-2.2.1
+# Plymouth.
+tar -xf plymouth-22.02.122.tar.bz2
+cd plymouth-22.02.122
+LDFLAGS="$LDFLAGS -ludev" ./autogen.sh --prefix=/usr --exec-prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --enable-systemd-integration --enable-drm --enable-pango --with-release-file=/etc/os-release --with-logo=/usr/share/massos/massos-logo-sidetext.png --with-background-color=0x000000 --with-background-start-color-stop=0x000000 --with-background-end-color-stop=0x4D4D4D --without-rhgb-compat-link --without-system-root-install --with-runtimedir=/run
+make
+make install
+sed -i 's/WatermarkVerticalAlignment=.96/WatermarkVerticalAlignment=.5/' /usr/share/plymouth/themes/spinner/spinner.plymouth
+plymouth-set-default-theme bgrt
+install -t /usr/share/licenses/plymouth -Dm644 COPYING
+cd ..
+rm -rf plymouth-22.02.122
 # Arc Theme for Xfce.
 tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
 gtk-update-icon-cache /usr/share/icons/Arc
@@ -6562,17 +6573,6 @@ gtk-xft-rgba = rgb
 gtk-cursor-theme-name = Adwaita
 END
 flatpak install -y runtime/org.gtk.Gtk3theme.Arc{,-Dark}/x86_64/3.22
-# Plymouth.
-tar -xf plymouth-22.02.122.tar.bz2
-cd plymouth-22.02.122
-LDFLAGS="$LDFLAGS -ludev" ./autogen.sh --prefix=/usr --exec-prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --enable-systemd-integration --enable-drm --enable-pango --with-release-file=/etc/os-release --with-logo=/usr/share/massos/massos-logo-sidetext.png --with-background-color=0x000000 --with-background-start-color-stop=0x000000 --with-background-end-color-stop=0x4D4D4D --without-rhgb-compat-link --without-system-root-install --with-runtimedir=/run
-make
-make install
-sed -i 's/WatermarkVerticalAlignment=.96/WatermarkVerticalAlignment=.5/' /usr/share/plymouth/themes/spinner/spinner.plymouth
-plymouth-set-default-theme bgrt
-install -t /usr/share/licenses/plymouth -Dm644 COPYING
-cd ..
-rm -rf plymouth-22.02.122
 # libxfce4util.
 tar -xf libxfce4util-4.17.2.tar.bz2
 cd libxfce4util-4.17.2
