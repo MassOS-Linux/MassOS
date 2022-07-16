@@ -23,9 +23,12 @@ Upgraded software:
 - libmtp: `1.1.19 --> 1.1.20`
 - libnl: `3.6.0 --> 3.7.0`
 - libzip: `1.8.0 --> 1.9.2`
-- Linux Kernel `5.18.8 --> 5.18.11`
+- Linux Kernel `5.18.8 --> 5.18.12`
+- lxml: `4.9.0 --> 4.9.1`
 - Meson: `0.62.2 --> 0.63.0`
 - Mousepad: `0.5.9 --> 0.5.10`
+- NVIDIA Open Kernel Modules: `515.43.04 --> 515.57`
+- OpenLDAP: `2.6.2 --> 2.6.3`
 - OpenSSL: `3.0.4 --> 3.0.5`
 - Pango: `1.50.7 --> 1.50.8`
 - PipeWire: `0.3.52 --> 0.3.55`
@@ -34,11 +37,16 @@ Upgraded software:
 - Poppler: `22.06.0 --> 22.07.0`
 - python-dbusmock: `0.27.5 --> 0.28.1`
 - systemd: `251.2 --> 251.3`
+- Vim: `9.0.0000 --> 9.0.0050`
+- Vulkan-Headers: `1.3.217 --> 1.3.221`
+- Vulkan-Loader: `1.3.217 --> 1.3.221`
+- Vulkan-Tools: `1.3.217 --> 1.3.221`
 - Wayland: `1.20.0 --> 1.21.0`
 - WirePlumber: `0.4.10 --> 0.4.11`
 - xcmsdb: `1.0.5 --> 1.0.6`
 - xev: `1.2.4 --> 1.2.5`
 - xf86-input-synaptics: `1.9.1 --> 1.9.2`
+- xf86-input-wacom: `1.0.0 --> 1.1.0`
 - xfce4-settings: `4.16.2 --> 4.16.3`
 - xkbutils: `1.0.4 --> 1.0.5`
 - xmessage: `1.0.5 --> 1.0.6`

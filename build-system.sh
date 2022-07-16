@@ -1826,12 +1826,12 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 cd ..
 rm -rf docbook-5.1
 # lxml.
-tar -xf lxml-4.9.0.tar.gz
-cd lxml-4.9.0
+tar -xf lxml-4.9.1.tar.gz
+cd lxml-4.9.1
 python setup.py install --optimize=1
 install -t /usr/share/licenses/lxml -Dm644 LICENSE.txt LICENSES.txt
 cd ..
-rm -rf lxml-4.9.0
+rm -rf lxml-4.9.1
 # itstool.
 tar -xf itstool-2.0.7.tar.bz2
 cd itstool-2.0.7
@@ -2581,17 +2581,28 @@ install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
 rm -rf gnutls-3.7.6
 # OpenLDAP.
-tar -xf openldap-2.6.2.tgz
-cd openldap-2.6.2
-patch -Np1 -i ../patches/openldap-2.6.2-fixes.patch
+tar -xf openldap-2.6.3.tgz
+cd openldap-2.6.3
+groupadd -g 83 ldap
+useradd -c "OpenLDAP Server Daemon" -d /var/lib/openldap -u 83 -g ldap -s /bin/false ldap
+sed -i 's/-m 644 $(LIBRARY)/-m 755 $(LIBRARY)/' libraries/{liblber,libldap}/Makefile.in
+sed -i 's/#define LDAPI_SOCK LDAP_RUNDIR LDAP_DIRSEP "run" LDAP_DIRSEP "ldapi"/#define LDAPI_SOCK LDAP_DIRSEP "run" LDAP_DIRSEP "openldap" LDAP_DIRSEP "ldapi"/' include/ldap_defaults.h
+sed -i 's|%LOCALSTATEDIR%/run|/run/openldap|' servers/slapd/slapd.{conf,ldif}
+sed -i 's|-$(MKDIR) $(DESTDIR)$(localstatedir)/run|-$(MKDIR) $(DESTDIR)/run/openldap|' servers/slapd/Makefile.in
 autoconf
-./configure --prefix=/usr --sysconfdir=/etc --disable-static --enable-dynamic --enable-versioning=yes --disable-debug --disable-slapd
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib/openldap --with-cyrus-sasl --with-threads --enable-backends --enable-balancer --enable-crypt --enable-dynamic --enable-ipv6 --enable-modules --enable-overlays=mod --enable-rlookups --enable-slapd --enable-spasswd --enable-syslog --enable-versioning --disable-debug --disable-sql --disable-static --disable-wt
 make depend
 make
 make install
+ln -sf ../libexec/slapd /usr/sbin/slapd
+chmod 700 /var/lib/openldap
+chown -R ldap:ldap /var/lib/openldap
+chmod 640 /etc/openldap/slapd.{conf,ldif}
+chown root:ldap /etc/openldap/slapd.{conf,ldif}
+sed -e "s/\.la/.so/" -i /etc/openldap/slapd.{conf,ldif}{,.default}
 install -t /usr/share/licenses/openldap -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf openldap-2.6.2
+rm -rf openldap-2.6.3
 # npth.
 tar -xf npth-1.6.tar.bz2
 cd npth-1.6
@@ -3919,35 +3930,35 @@ install -t /usr/share/licenses/glslang -Dm644 LICENSE.txt
 cd ..
 rm -rf glslang-11.10.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.217.tar.gz
-cd Vulkan-Headers-1.3.217
+tar -xf Vulkan-Headers-1.3.221.tar.gz
+cd Vulkan-Headers-1.3.221
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.217
+rm -rf Vulkan-Headers-1.3.221
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.217.tar.gz
-cd Vulkan-Loader-1.3.217
+tar -xf Vulkan-Loader-1.3.221.tar.gz
+cd Vulkan-Loader-1.3.221
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.217
+rm -rf Vulkan-Loader-1.3.221
 # Vulkan-Tools.
-tar -xf Vulkan-Tools-1.3.217.tar.gz
-cd Vulkan-Tools-1.3.217
+tar -xf Vulkan-Tools-1.3.221.tar.gz
+cd Vulkan-Tools-1.3.221
 mkdir VT-build; cd VT-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DGLSLANG_INSTALL_DIR=/usr -DCMAKE_SKIP_RPATH=TRUE -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-tools -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Tools-1.3.217
+rm -rf Vulkan-Tools-1.3.221
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
@@ -4219,14 +4230,14 @@ install -t /usr/share/licenses/xf86-input-synaptics -Dm644 COPYING
 cd ..
 rm -rf xf86-input-synaptics-1.9.2
 # xf86-input-wacom.
-tar -xf xf86-input-wacom-1.0.0.tar.bz2
-cd xf86-input-wacom-1.0.0
+tar -xf xf86-input-wacom-1.1.0.tar.bz2
+cd xf86-input-wacom-1.1.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/xf86-input-wacom -Dm644 GPL
 cd ..
-rm -rf xf86-input-wacom-1.0.0
+rm -rf xf86-input-wacom-1.1.0
 # xf86-video-amdgpu.
 tar -xf xf86-video-amdgpu-22.0.0.tar.xz
 cd xf86-video-amdgpu-22.0.0
@@ -5270,8 +5281,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-9.0.0000.tar.gz
-cd vim-9.0.0000
+tar -xf vim-9.0.0050.tar.gz
+cd vim-9.0.0050
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5294,7 +5305,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-9.0.0000
+rm -rf vim-9.0.0050
 # libwpe.
 tar -xf libwpe-1.13.1.tar.xz
 cd libwpe-1.13.1
@@ -7116,8 +7127,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.11.tar.xz
-cd linux-5.18.11
+tar -xf linux-5.18.12.tar.xz
+cd linux-5.18.12
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -7153,11 +7164,11 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.11
+rm -rf linux-5.18.12
 unset builddir
-# NVIDIA Open kernel modules.
-tar -xf open-gpu-kernel-modules-515.43.04.tar.gz
-cd open-gpu-kernel-modules-515.43.04
+# NVIDIA Open Kernel Modules.
+tar -xf open-gpu-kernel-modules-515.57.tar.gz
+cd open-gpu-kernel-modules-515.57
 make SYSSRC=/usr/src/linux
 install -t /usr/lib/modules/$KREL/extramodules -Dm644 kernel-open/*.ko
 strip --strip-debug /usr/lib/modules/$KREL/extramodules/*.ko
@@ -7166,7 +7177,7 @@ echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/
 depmod $KREL
 install -t /usr/share/licenses/nvidia-open-kernel-modules -Dm644 COPYING
 cd ..
-rm -rf cd open-gpu-kernel-modules-515.43.04
+rm -rf cd open-gpu-kernel-modules-515.57
 unset KREL
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s
