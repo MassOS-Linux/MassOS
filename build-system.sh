@@ -34,8 +34,8 @@ export FORCE_UNSAFE_CONFIGURE=1
 # SHELL may not be set in chroot by default.
 export SHELL=/bin/bash
 # Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
+CFLAGS="-Os -pipe"
+CXXFLAGS="-Os -pipe"
 export CFLAGS CXXFLAGS
 # === IT IS SAFE TO REMOVE LINES BELOW THIS FOR A FAILED BUILD ===
 # Setup the full filesystem structure.

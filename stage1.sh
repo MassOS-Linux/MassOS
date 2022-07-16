@@ -21,8 +21,8 @@ export MASSOS MASSOS_TARGET PATH SRC CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-w -Os -pipe"
-CXXFLAGS="-w -Os -pipe"
+CFLAGS="-Os -pipe"
+CXXFLAGS="-Os -pipe"
 export CFLAGS CXXFLAGS
 # Setup the basic filesystem structure.
 mkdir -p "$MASSOS"/{etc,var}
