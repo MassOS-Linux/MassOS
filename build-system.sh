@@ -2580,6 +2580,16 @@ make install
 install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
 rm -rf gnutls-3.7.6
+# libevent.
+tar -xf libevent-2.1.12-stable.tar.gz
+cd libevent-2.1.12-stable
+mkdir EVENT-build; cd EVENT-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DEVENT__LIBRARY_TYPE=SHARED -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libevent -Dm644 ../LICENSE
+cd ../..
+rm -rf libevent-2.1.12-stable
 # OpenLDAP.
 tar -xf openldap-2.6.3.tgz
 cd openldap-2.6.3
@@ -2686,16 +2696,6 @@ make install
 install -t /usr/share/licenses/swig -Dm644 COPYRIGHT LICENSE LICENSE-GPL LICENSE-UNIVERSITIES
 cd ..
 rm -rf swig-4.0.2
-# libevent.
-tar -xf libevent-2.1.12-stable.tar.gz
-cd libevent-2.1.12-stable
-mkdir EVENT-build; cd EVENT-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DEVENT__LIBRARY_TYPE=SHARED -Wno-dev -G Ninja ..
-ninja
-ninja install
-install -t /usr/share/licenses/libevent -Dm644 ../LICENSE
-cd ../..
-rm -rf libevent-2.1.12-stable
 # GPGME.
 tar -xf gpgme-1.17.1.tar.bz2
 cd gpgme-1.17.1
