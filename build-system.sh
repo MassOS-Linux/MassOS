@@ -803,7 +803,7 @@ rm -rf psmisc-v23.5
 # elfutils.
 tar -xf elfutils-0.187.tar.bz2
 cd elfutils-0.187
-./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
+CFLAGS="$CFLAGS -Wno-error=use-after-free" ./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
 make
 make install
 rm -f /usr/lib/lib{asm,dw,elf}.a
