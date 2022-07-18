@@ -4,7 +4,8 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just begun! Check back soon.
+- Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
+- Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
 
 Upgraded software:
 

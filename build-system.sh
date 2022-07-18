@@ -7214,8 +7214,11 @@ find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 find /usr/lib /usr/libexec -name \*.la -delete
 # Remove any temporary files.
 rm -rf /tmp/*
-# As a finishing touch, run ldconfig.
+# As a finishing touch, run ldconfig and other misc commands.
 ldconfig
+glib-compile-schemas /usr/share/glib-2.0/schemas
+gtk-update-icon-cache -t -f --include-image-data /usr/share/icons/hicolor
+update-desktop-database
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
 # Check for a new version of Glibc (breaks this utility).
@@ -7239,6 +7242,12 @@ echo "no changes will be made to your computer." >&2
 sleep 10
 END
 cat > /tmp/postupgrade << "END"
+# Standard tasks to perform after an upgrade.
+ldconfig
+glib-compile-schemas /usr/share/glib-2.0/schemas
+gtk-update-icon-cache -t -f --include-image-data /usr/share/icons/hicolor
+update-desktop-database
+# Add group for NetworkManager openvpn plugin if not already existant.
 if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
   useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
