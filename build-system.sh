@@ -4300,7 +4300,7 @@ rm -rf xf86-video-vesa-2.5.0
 # xf86-video-vmware.
 tar -xf xf86-video-vmware-13.3.0.tar.bz2
 cd xf86-video-vmware-13.3.0
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-selective-werror
 make
 make install
 install -t /usr/share/licenses/xf86-input-vmware -Dm644 COPYING
