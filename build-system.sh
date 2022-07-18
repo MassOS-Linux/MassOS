@@ -7217,7 +7217,7 @@ rm -rf /tmp/*
 # As a finishing touch, run ldconfig and other misc commands.
 ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas
-gtk-update-icon-cache -t -f --include-image-data /usr/share/icons/hicolor
+gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 update-desktop-database
 # For massos-upgrade.
 cat > /tmp/preupgrade << "END"
@@ -7245,7 +7245,7 @@ cat > /tmp/postupgrade << "END"
 # Standard tasks to perform after an upgrade.
 ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas
-gtk-update-icon-cache -t -f --include-image-data /usr/share/icons/hicolor
+gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 update-desktop-database
 # Add group for NetworkManager openvpn plugin if not already existant.
 if ! grep -q nm-openvpn /etc/group; then
