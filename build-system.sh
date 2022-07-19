@@ -124,9 +124,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220524.tar.gz
-cp iana-etc-20220524/{protocols,services} /etc
-rm -rf iana-etc-20220524
+tar -xf iana-etc-20220715.tar.gz
+cp iana-etc-20220715/{protocols,services} /etc
+rm -rf iana-etc-20220715
 # Neofetch.
 tar -xf neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055.tar.gz
 cd neofetch-bc2a8e60dbbd3674f4fa4dd167f904116eb07055
@@ -391,15 +391,15 @@ install -t /usr/share/licenses/acl -Dm644 doc/COPYING doc/COPYING.LGPL
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.64.tar.xz
-cd libcap-2.64
+tar -xf libcap-2.65.tar.xz
+cd libcap-2.65
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.64
+chmod 755 /usr/lib/lib{cap,psx}.so.2.65
 install -t /usr/share/licenses/libcap -Dm644 License
 cd ..
-rm -rf libcap-2.64
+rm -rf libcap-2.65
 # CrackLib.
 tar -xf cracklib-2.9.7.tar.bz2
 cd cracklib-2.9.7
@@ -464,9 +464,9 @@ END
 install -t /usr/share/licenses/libpwquality -Dm644 COPYING
 cd ..
 rm -rf libpwquality-1.4.4
-# Libcap (with Linux-PAM).
-tar -xf libcap-2.64.tar.xz
-cd libcap-2.64
+# PAM module for libcap.
+tar -xf libcap-2.65.tar.xz
+cd libcap-2.65
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -475,7 +475,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.64
+rm -rf libcap-2.65
 # Shadow (initial build; will be rebuilt later to support AUDIT).
 tar -xf shadow-4.11.1.tar.xz
 cd shadow-4.11.1
@@ -1136,15 +1136,15 @@ install -t /usr/share/licenses/libunwind -Dm644 COPYING
 cd ..
 rm -rf libunwind-1.6.2
 # libuv.
-tar -xf libuv-v1.44.1.tar.gz
-cd libuv-v1.44.1
+tar -xf libuv-v1.44.2.tar.gz
+cd libuv-v1.44.2
 ./autogen.sh
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libuv -Dm644 LICENSE
 cd ..
-rm -rf libuv-v1.44.1
+rm -rf libuv-v1.44.2
 # Make.
 tar -xf make-4.3.tar.gz
 cd make-4.3
@@ -2109,15 +2109,15 @@ install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 cd ..
 rm -rf btrfs-progs-v5.18.1
 # inih.
-tar -xf inih-r55.tar.gz
-cd inih-r55
+tar -xf inih-r56.tar.gz
+cd inih-r56
 mkdir inih-build; cd inih-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/inih -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf inih-r55
+rm -rf inih-r56
 # Userspace-RCU (dependency of xfsprogs since 5.14.0).
 tar -xf userspace-rcu-0.13.1.tar.bz2
 cd userspace-rcu-0.13.1
@@ -2707,9 +2707,9 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3390000.tar.gz
-cd sqlite-autoconf-3390000
-CPPFLAGS="-DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
+tar -xf sqlite-autoconf-3390100.tar.gz
+cd sqlite-autoconf-3390100
+CPPFLAGS+=" -DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
 install -dm755 /usr/share/licenses/sqlite
@@ -2718,7 +2718,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3390000
+rm -rf sqlite-autoconf-3390100
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -3092,12 +3092,12 @@ ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
 rm -rf cmake libunwind llvm-14.0.6.src
-# Rust (will be uninstalled later).
-tar -xf rust-1.61.0-x86_64-unknown-linux-gnu.tar.gz
-cd rust-1.61.0-x86_64-unknown-linux-gnu
+# Rust (build dependency of some packages; will be uninstalled later).
+tar -xf rust-1.62.1-x86_64-unknown-linux-gnu.tar.gz
+cd rust-1.62.1-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
-rm -rf rust-1.61.0-x86_64-unknown-linux-gnu
+rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
 # Sudo.
 tar -xf sudo-1.9.11p3.tar.gz
 cd sudo-1.9.11p3
@@ -3232,7 +3232,7 @@ ninja install
 cd ../..
 rm -rf graphite2-1.3.14
 # Woff2.
-tar -xf woff2_1.0.2.orig.tar.gz
+tar -xf woff2-1.0.2.tar.gz
 cd woff2-1.0.2
 mkdir WF2-build; cd WF2-build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja ..
@@ -3991,15 +3991,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.1.3.tar.xz
-cd mesa-22.1.3
+tar -xf mesa-22.1.4.tar.xz
+cd mesa-22.1.4
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=minsize -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.1.3
+rm -rf mesa-22.1.4
 # libva (rebuild to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
@@ -4570,15 +4570,15 @@ install -t /usr/share/licenses/lcms2 -Dm644 COPYING
 cd ..
 rm -rf lcms2-2.13.1
 # JasPer.
-tar -xf jasper-version-3.0.5.tar.gz
-cd jasper-version-3.0.5
+tar -xf jasper-version-3.0.6.tar.gz
+cd jasper-version-3.0.6
 mkdir jasper-build; cd jasper-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=YES -DJAS_ENABLE_DOC=NO -DJAS_ENABLE_LIBJPEG=ON -DJAS_ENABLE_OPENGL=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/jasper -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf jasper-version-3.0.5
+rm -rf jasper-version-3.0.6
 # ATK.
 tar -xf atk-2.38.0.tar.xz
 cd atk-2.38.0
@@ -4717,15 +4717,15 @@ install -t /usr/share/licenses/sdl -Dm644 COPYING
 cd ..
 rm -rf SDL-1.2.15
 # libwebp.
-tar -xf libwebp-1.2.2.tar.gz
-cd libwebp-1.2.2
-./autogen.sh
-./configure --prefix=/usr --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder --enable-libwebpextras --enable-swap-16bit-csp --disable-static
-make
-make install
-install -t /usr/share/licenses/libwebp -Dm644 COPYING
-cd ..
-rm -rf libwebp-1.2.2
+tar -xf libwebp-1.2.3.tar.gz
+cd libwebp-1.2.3
+mkdir webp-build; cd webp-build
+LDFLAGS+=" -lglut" cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libwebp -Dm644 ../COPYING
+cd ../..
+rm -rf libwebp-1.2.3
 # libglade.
 tar -xf libglade-2.6.4.tar.bz2
 cd libglade-2.6.4
@@ -4737,8 +4737,8 @@ install -t /usr/share/licenses/libglade -Dm644 COPYING
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-4.0.0.tar.bz2
-cd graphviz-4.0.0
+tar -xf graphviz-5.0.0.tar.bz2
+cd graphviz-5.0.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
@@ -4746,16 +4746,16 @@ make
 make -j1 install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
-rm -rf graphviz-4.0.0
+rm -rf graphviz-5.0.0
 # Vala.
-tar -xf vala-0.56.1.tar.xz
-cd vala-0.56.1
+tar -xf vala-0.56.2.tar.xz
+cd vala-0.56.2
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/vala -Dm644 COPYING
 cd ..
-rm -rf vala-0.56.1
+rm -rf vala-0.56.2
 # libgusb.
 tar -xf libgusb-0.3.10.tar.xz
 cd libgusb-0.3.10
@@ -4934,15 +4934,15 @@ install -t /usr/share/licenses/pycairo -Dm644 COPYING COPYING-LGPL-2.1
 cd ..
 rm -rf pycairo-1.21.0
 # PyGObject.
-tar -xf pygobject-3.42.1.tar.xz
-cd pygobject-3.42.1
+tar -xf pygobject-3.42.2.tar.xz
+cd pygobject-3.42.2
 mkdir pygo-build; cd pygo-build
 meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/pygobject -Dm644 ../COPYING
 cd ../..
-rm -rf pygobject-3.42.1
+rm -rf pygobject-3.42.2
 # D-Bus Python.
 tar -xf dbus-python-1.2.18.tar.gz
 cd dbus-python-1.2.18
@@ -4953,12 +4953,12 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # python-dbusmock.
-tar -xf python-dbusmock-0.28.1.tar.gz
-cd python-dbusmock-0.28.1
+tar -xf python-dbusmock-0.28.2.tar.gz
+cd python-dbusmock-0.28.2
 python setup.py install --optimize=1
 install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
 cd ..
-rm -rf python-dbusmock-0.28.1
+rm -rf python-dbusmock-0.28.2
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5340,18 +5340,15 @@ install -t /usr/share/licenses/libsecret -Dm644 ../COPYING ../COPYING.TESTS
 cd ../..
 rm -rf libsecret-0.20.5
 # Gcr.
-tar -xf gcr-3.41.0.tar.xz
-cd gcr-3.41.0
-sed -i 's:"/desktop:"/org:' schema/*.xml
-sed -e '208 s/@BASENAME@/gcr-viewer.desktop/' -e '231 s/@BASENAME@/gcr-prompter.desktop/' -i ui/meson.build
-patch -Np1 -i ../patches/gcr-3.41.0-meson-0.61.0-fix.patch
+tar -xf gcr-3.41.1.tar.xz
+cd gcr-3.41.1
 mkdir gcr-build; cd gcr-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gcr -Dm644 ../COPYING
 cd ../..
-rm -rf gcr-3.41.0
+rm -rf gcr-3.41.1
 # pinentry.
 tar -xf pinentry-1.2.0.tar.bz2
 cd pinentry-1.2.0
@@ -5690,8 +5687,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.16.2.tar.gz
-cd samba-4.16.2
+tar -xf samba-4.16.3.tar.gz
+cd samba-4.16.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --without-pie --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 mkdir -p /run/lock
@@ -5714,7 +5711,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.16.2
+rm -rf samba-4.16.3
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20220511.tar.bz2
 cd mobile-broadband-provider-info-20220511
@@ -5820,15 +5817,15 @@ install -t /usr/share/licenses/libnma -Dm644 ../COPYING ../COPYING.LGPL
 cd ../..
 rm -rf libnma-1.8.40
 # libnotify.
-tar -xf libnotify-0.7.12.tar.xz
-cd libnotify-0.7.12
+tar -xf libnotify-0.8.1.tar.xz
+cd libnotify-0.8.1
 mkdir notify-build; cd notify-build
 meson --prefix=/usr --buildtype=minsize -Dman=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libnotify -Dm644 ../COPYING
 cd ../..
-rm -rf libnotify-0.7.12
+rm -rf libnotify-0.8.1
 # startup-notification.
 tar -xf startup-notification-0.12.tar.gz
 cd startup-notification-0.12
@@ -6093,14 +6090,14 @@ install -t /usr/share/licenses/cdparanoia -Dm644 COPYING-GPL COPYING-LGPL
 cd ..
 rm -rf cdparanoia-III-10.2
 # mpg123.
-tar -xf mpg123-1.30.0.tar.bz2
-cd mpg123-1.30.0
+tar -xf mpg123-1.30.1.tar.bz2
+cd mpg123-1.30.1
 ./configure --prefix=/usr --enable-int-quality=yes --with-audio="alsa jack oss pulse sdl"
 make
 make install
 install -t /usr/share/licenses/mpg123 -Dm644 COPYING
 cd ..
-rm -rf mpg123-1.30.0
+rm -rf mpg123-1.30.1
 # libvpx.
 tar -xf libvpx-1.12.0.tar.gz
 cd libvpx-1.12.0
@@ -6408,9 +6405,8 @@ install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.3
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.55.tar.bz2
-cd pipewire-0.3.55
-patch -Np1 -i ../patches/pipewire-0.3.55-upstreamfix.patch
+tar -xf pipewire-0.3.56.tar.bz2
+cd pipewire-0.3.56
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
 patch -d subprojects/wireplumber -Np1 -i ../../../patches/wireplumber-0.4.11-upstreamfix.patch
@@ -6424,16 +6420,16 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.55
+rm -rf pipewire-0.3.56
 # xdg-desktop-portal.
-tar -xf xdg-desktop-portal-1.14.4.tar.xz
-cd xdg-desktop-portal-1.14.4
+tar -xf xdg-desktop-portal-1.14.5.tar.xz
+cd xdg-desktop-portal-1.14.5
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 cd ..
-rm -rf xdg-desktop-portal-1.14.4
+rm -rf xdg-desktop-portal-1.14.5
 # xdg-desktop-portal-gtk.
 tar -xf xdg-desktop-portal-gtk-1.14.0.tar.xz
 cd xdg-desktop-portal-gtk-1.14.0
@@ -7058,12 +7054,12 @@ END
 install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
 cd ../..
 rm -rf massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c
-# lightdm.
-tar -xf lightdm-1.30.0.tar.xz
-cd lightdm-1.30.0
+# LightDM.
+tar -xf lightdm-1.32.0.tar.xz
+cd lightdm-1.32.0
 groupadd -g 65 lightdm
 useradd -c "Lightdm Daemon" -d /var/lib/lightdm -u 65 -g lightdm -s /sbin/nologin lightdm
-./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --localstatedir=/var --sbindir=/usr/bin --sysconfdir=/etc --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
 make
 make install
 cp tests/src/lightdm-session /usr/bin
@@ -7075,11 +7071,11 @@ install -dm755 -o lightdm -g lightdm /var/cache/lightdm
 install -dm770 -o lightdm -g lightdm /var/log/lightdm
 install -t /usr/share/licenses/lightdm -Dm644 COPYING.GPL3 COPYING.LGPL2 COPYING.LGPL3
 cd ..
-rm -rf lightdm-1.30.0
+rm -rf lightdm-1.32.0
 # lightdm-gtk-greeter.
 tar -xf lightdm-gtk-greeter-2.0.8.tar.gz
 cd lightdm-gtk-greeter-2.0.8
-./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --sysconfdir=/etc --with-libxklavier --enable-kill-on-sigterm --disable-libido --disable-libindicator --disable-static --disable-maintainer-mode
+./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-libido --disable-libindicator --disable-maintainer-mode --disable-static --enable-kill-on-sigterm --with-libxklavier
 make
 make install
 sed -i 's/#background=/background = \/usr\/share\/backgrounds\/xfce\/MassOS-Futuristic-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf

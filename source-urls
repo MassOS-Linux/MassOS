@@ -132,7 +132,7 @@ https://github.com/galculator/galculator/archive/v2.1.4/galculator-2.1.4.tar.gz
 https://mirror.netcologne.de/xfce/src/xfce/garcon/4.17/garcon-4.17.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/gawk/gawk-5.1.0.tar.xz
 https://mirror.lyrahosting.com/gnu/gcc/gcc-12.1.0/gcc-12.1.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.1.tar.xz
 https://mirror.lyrahosting.com/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.8.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.6.0/geoclue-2.6.0.tar.bz2
@@ -165,7 +165,7 @@ https://archive.massos.org/precompiled/gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled
 https://archive.massos.org/sources/gptfdisk-1.0.9.tar.gz
 https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
 https://github.com/silnrsi/graphite/releases/download/1.3.14/graphite2-1.3.14.tgz
-https://gitlab.com/graphviz/graphviz/-/archive/4.0.0/graphviz-4.0.0.tar.bz2
+https://gitlab.com/graphviz/graphviz/-/archive/5.0.0/graphviz-5.0.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/grep/grep-3.7.tar.xz
 https://mirror.lyrahosting.com/gnu/groff/groff-1.22.4.tar.gz
 https://mirror.lyrahosting.com/gnu/grub/grub-2.06.tar.xz
@@ -194,7 +194,7 @@ https://freefr.dl.sourceforge.net/project/hplip/hplip/3.22.6/hplip-3.22.6.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.2.1/htop-3.2.1.tar.xz
 https://mirror.lyrahosting.com/gnu/help2man/help2man-1.49.2.tar.xz
 https://github.com/vcrhonek/hwdata/archive/v0.361/hwdata-0.361.tar.gz
-https://github.com/Mic92/iana-etc/releases/download/20220524/iana-etc-20220524.tar.gz
+https://github.com/Mic92/iana-etc/releases/download/20220715/iana-etc-20220715.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.9.tar.xz
 https://mirror.lyrahosting.com/ubuntuarchive/ubuntu/pool/main/i/icon-naming-utils/icon-naming-utils_0.8.90.orig.tar.gz
 https://github.com/unicode-org/icu/releases/download/release-71-1/icu4c-71_1-src.tgz
@@ -209,7 +209,7 @@ https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v4.10.0/iso-codes-v4
 https://archive.massos.org/sources/itstool-2.0.7.tar.bz2
 https://github.com/jackaudio/jack2/archive/v1.9.21/jack2-1.9.21.tar.gz
 https://digip.org/jansson/releases/jansson-2.13.1.tar.gz
-https://github.com/jasper-software/jasper/archive/version-3.0.5/jasper-version-3.0.5.tar.gz
+https://github.com/jasper-software/jasper/archive/version-3.0.6/jasper-version-3.0.6.tar.gz
 https://files.pythonhosted.org/packages/source/J/Jinja2/Jinja2-3.1.1.tar.gz
 https://github.com/stedolan/jq/releases/download/jq-1.6/jq-1.6.tar.gz
 https://www.cpan.org/authors/id/I/IS/ISHIGAKI/JSON-4.07.tar.gz
@@ -236,7 +236,7 @@ https://videolan.mirrors.nublue.co.uk/libbluray/1.3.0/libbluray-1.3.0.tar.bz2
 https://files.libburnia-project.org/releases/libburn-1.5.4.tar.gz
 https://github.com/storaged-project/libbytesize/releases/download/2.7/libbytesize-2.7.tar.gz
 https://deb.debian.org/debian/pool/main/libc/libcanberra/libcanberra_0.30.orig.tar.xz
-https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.64.tar.xz
+https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.65.tar.xz
 https://mirror.lyrahosting.com/gnu/libcdio/libcdio-2.1.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/libcdio/libcdio-paranoia-10.2+2.0.1.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/libchamplain/0.12/libchamplain-0.12.20.tar.xz
@@ -271,7 +271,7 @@ https://www.x.org/archive/individual/lib/libICE-1.0.10.tar.bz2
 https://mirror.lyrahosting.com/gnu/libidn/libidn2-2.3.3.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libiec61883-1.2.0.tar.xz
 https://github.com/libimobiledevice/libimobiledevice/releases/download/1.3.0/libimobiledevice-1.3.0.tar.bz2
-https://github.com/benhoyt/inih/archive/r55/inih-r55.tar.gz
+https://github.com/benhoyt/inih/archive/r56/inih-r56.tar.gz
 https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.21.0/libinput-1.21.0.tar.bz2
 https://files.libburnia-project.org/releases/libisoburn-1.5.4.tar.gz
 https://files.libburnia-project.org/releases/libisofs-1.5.4.tar.gz
@@ -287,7 +287,7 @@ https://mirror.lyrahosting.com/ubuntuarchive/ubuntu/pool/main/libn/libndp/libndp
 https://github.com/sahlberg/libnfs/archive/libnfs-4.0.0.tar.gz
 https://github.com/thom311/libnl/releases/download/libnl3_7_0/libnl-3.7.0.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libnma/1.8/libnma-1.8.40.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/libnotify/0.7/libnotify-0.7.12.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libnotify/0.8/libnotify-0.8.1.tar.xz
 https://github.com/thkukuk/libnsl/releases/download/v2.0.0/libnsl-2.0.0.tar.xz
 https://downloads.xiph.org/releases/ogg/libogg-1.3.5.tar.xz
 https://github.com/ostreedev/ostree/releases/download/v2022.4/libostree-2022.4.tar.xz
@@ -328,13 +328,13 @@ https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/libunwind-
 https://git.kernel.dk/cgit/liburing/snapshot/liburing-2.1.tar.bz2
 https://github.com/libusb/libusb/releases/download/v1.0.26/libusb-1.0.26.tar.bz2
 https://github.com/libimobiledevice/libusbmuxd/releases/download/2.0.2/libusbmuxd-2.0.2.tar.bz2
-https://dist.libuv.org/dist/v1.44.1/libuv-v1.44.1.tar.gz
+https://dist.libuv.org/dist/v1.44.2/libuv-v1.44.2.tar.gz
 https://github.com/intel/libva/archive/2.15.0/libva-2.15.0.tar.gz
 https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/1.5/libvdpau-1.5.tar.bz2
 https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz
 https://github.com/webmproject/libvpx/archive/v1.12.0/libvpx-1.12.0.tar.gz
 https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.2.0/libwacom-2.2.0.tar.xz
-https://github.com/webmproject/libwebp/archive/v1.2.2/libwebp-1.2.2.tar.gz
+https://github.com/webmproject/libwebp/archive/v1.2.3/libwebp-1.2.3.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libwnck/40/libwnck-40.1.tar.xz
 https://wpewebkit.org/releases/libwpe-1.13.1.tar.xz
 https://www.x.org/archive/individual/lib/libX11-1.8.1.tar.xz
@@ -374,7 +374,7 @@ https://www.x.org/archive/individual/lib/libXvMC-1.0.13.tar.xz
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://github.com/nih-at/libzip/releases/download/v1.9.2/libzip-1.9.2.tar.xz
-https://github.com/CanonicalLtd/lightdm/releases/download/1.30.0/lightdm-1.30.0.tar.xz
+https://github.com/CanonicalLtd/lightdm/releases/download/1.32.0/lightdm-1.32.0.tar.xz
 https://github.com/Xubuntu/lightdm-gtk-greeter/releases/download/lightdm-gtk-greeter-2.0.8/lightdm-gtk-greeter-2.0.8.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.18.12.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
@@ -407,7 +407,7 @@ https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.3.6.tar.gz
 https://files.pythonhosted.org/packages/source/M/MarkupSafe/MarkupSafe-2.1.1.tar.gz
 https://github.com/MassOS-Linux/massos-welcome/archive/cc649f83e04f0daa880edf1df8e4d5165b79787c/massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 https://cdn.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.2.tar.xz
-https://archive.mesa3d.org/mesa-22.1.3.tar.xz
+https://archive.mesa3d.org/mesa-22.1.4.tar.xz
 https://github.com/mesonbuild/meson/releases/download/0.63.0/meson-0.63.0.tar.gz
 https://www.x.org/archive/individual/app/mkfontscale-1.2.2.tar.xz
 https://github.com/videolabs/libmicrodns/releases/download/0.2.0/microdns-0.2.0.tar.xz
@@ -418,7 +418,7 @@ https://mirror.netcologne.de/xfce/src/apps/mousepad/0.5/mousepad-0.5.10.tar.bz2
 https://mirror.lyrahosting.com/gnu/mpc/mpc-1.2.1.tar.gz
 https://www.bytereef.org/software/mpdecimal/releases/mpdecimal-2.5.1.tar.gz
 https://mirror.lyrahosting.com/gnu/mpfr/mpfr-4.1.0.tar.xz
-https://mpg123.org/download/mpg123-1.30.0.tar.bz2
+https://mpg123.org/download/mpg123-1.30.1.tar.bz2
 https://bitmath.org/code/mtdev/mtdev-1.1.6.tar.bz2
 https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.40.tar.gz
 https://github.com/bluesabre/mugshot/releases/download/mugshot-0.4.3/mugshot-0.4.3.tar.gz
@@ -477,7 +477,7 @@ https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.29.0/p
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://deb.debian.org/debian/pool/main/p/pigz/pigz_2.6.orig.tar.xz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.55/pipewire-0.3.55.tar.bz2
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.56/pipewire-0.3.56.tar.bz2
 https://www.cairographics.org/releases/pixman-0.40.0.tar.gz
 https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
 https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/22.02.122/plymouth-22.02.122.tar.bz2
@@ -498,12 +498,12 @@ https://mirror.lyrahosting.com/gentoo/distfiles/pv-1.6.20.tar.bz2
 https://github.com/pygobject/pycairo/releases/download/v1.21.0/pycairo-1.21.0.tar.gz
 https://github.com/eliben/pycparser/archive/release_v2.21/pycparser-release_v2.21.tar.gz
 https://files.pythonhosted.org/packages/source/P/Pygments/Pygments-2.12.0.tar.gz
-https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/pygobject/3.42/pygobject-3.42.2.tar.xz
 https://github.com/pyca/pyopenssl/archive/22.0.0/pyopenssl-22.0.0.tar.gz
 https://github.com/pyparsing/pyparsing/archive/pyparsing_3.0.7.tar.gz
 https://www.python.org/ftp/python/3.10.5/Python-3.10.5.tar.xz
 https://github.com/certifi/python-certifi/archive/2022.06.15/python-certifi-2022.06.15.tar.gz
-https://github.com/martinpitt/python-dbusmock/releases/download/0.28.1/python-dbusmock-0.28.1.tar.gz
+https://github.com/martinpitt/python-dbusmock/releases/download/0.28.2/python-dbusmock-0.28.2.tar.gz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
 https://github.com/qpdf/qpdf/releases/download/release-qpdf-10.6.3/qpdf-10.6.3.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
@@ -516,8 +516,8 @@ https://github.com/oetiker/rrdtool-1.x/releases/download/v1.7.2/rrdtool-1.7.2.ta
 https://www.samba.org/ftp/rsync/src/rsync-3.2.4.tar.gz
 https://archive.massos.org/sources/rtmpdump-2.4-20210219-gf1b83c1.tar.xz
 https://cache.ruby-lang.org/pub/ruby/3.1/ruby-3.1.2.tar.xz
-https://static.rust-lang.org/dist/rust-1.61.0-x86_64-unknown-linux-gnu.tar.gz
-https://download.samba.org/pub/samba/stable/samba-4.16.2.tar.gz
+https://static.rust-lang.org/dist/rust-1.62.1-x86_64-unknown-linux-gnu.tar.gz
+https://download.samba.org/pub/samba/stable/samba-4.16.3.tar.gz
 https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
 https://cdn.kernel.org/pub/linux/bluetooth/sbc-2.0.tar.xz
 https://www.libsdl.org/release/SDL-1.2.15.tar.gz
@@ -546,7 +546,7 @@ https://downloads.xiph.org/releases/speex/speexdsp-1.2.1.tar.gz
 https://archive.massos.org/workdev/sphinx-4.5.0-x86_64-venv.tar.xz
 https://github.com/KhronosGroup/SPIRV-Headers/archive/sdk-1.3.216.0/SPIRV-Headers-sdk-1.3.216.0.tar.gz
 https://github.com/KhronosGroup/SPIRV-Tools/archive/v2022.2/SPIRV-Tools-2022.2.tar.gz
-https://sqlite.org/2022/sqlite-autoconf-3390000.tar.gz
+https://sqlite.org/2022/sqlite-autoconf-3390100.tar.gz
 https://github.com/plougher/squashfs-tools/archive/4.5.1/squashfs-tools-4.5.1.tar.gz
 https://github.com/vasi/squashfuse/archive/0.1.105/squashfuse-0.1.105.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.3/sshfs-3.7.3.tar.xz
@@ -582,7 +582,7 @@ https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-014.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.13.1.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.1.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.2.tar.xz
 https://github.com/vim/vim/archive/v9.0.0050/vim-9.0.0050.tar.gz
 https://deb.debian.org/debian/pool/main/v/vitetris/vitetris_0.59.1.orig.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
@@ -598,7 +598,7 @@ https://mirror.lyrahosting.com/gnu/which/which-2.21.tar.gz
 https://github.com/rfc1036/whois/archive/v5.5.13/whois-5.5.13.tar.gz
 https://hewlettpackard.github.io/wireless-tools/wireless_tools.30.pre9.tar.gz
 https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.11/wireplumber-0.4.11.tar.bz2
-https://deb.debian.org/debian/pool/main/w/woff2/woff2_1.0.2.orig.tar.gz
+https://github.com/google/woff2/archive/v1.0.2/woff2-1.0.2.tar.gz
 https://w1.fi/releases/wpa_supplicant-2.10.tar.gz
 https://wpewebkit.org/releases/wpebackend-fdo-1.12.0.tar.xz
 https://www.x.org/archive/individual/app/x11perf-1.6.1.tar.bz2
@@ -619,7 +619,7 @@ https://www.x.org/archive/individual/app/xcmsdb-1.0.6.tar.xz
 https://www.x.org/archive/individual/data/xcursor-themes-1.0.6.tar.bz2
 https://www.x.org/archive/individual/app/xcursorgen-1.0.7.tar.bz2
 https://github.com/flatpak/xdg-dbus-proxy/releases/download/0.1.4/xdg-dbus-proxy-0.1.4.tar.xz
-https://github.com/flatpak/xdg-desktop-portal/releases/download/1.14.4/xdg-desktop-portal-1.14.4.tar.xz
+https://github.com/flatpak/xdg-desktop-portal/releases/download/1.14.5/xdg-desktop-portal-1.14.5.tar.xz
 https://github.com/flatpak/xdg-desktop-portal-gtk/releases/download/1.14.0/xdg-desktop-portal-gtk-1.14.0.tar.xz
 https://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.17.tar.gz
 https://portland.freedesktop.org/download/xdg-utils-1.1.3.tar.gz

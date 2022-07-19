@@ -4,7 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- The snapd package manager is now supported on MassOS, but not included by default. See the [MassOS-Snapd](https://github.com/MassOS-Linux/MassOS-Snapd) project for more information.
+- The snapd package manager is now supported on MassOS, but not installed by default. See the [MassOS-Snapd](https://github.com/MassOS-Linux/MassOS-Snapd) project for more information and how to set it up.
 - Fixed PATH-related issues with `sudo`.
 - Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
 - Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
@@ -18,28 +18,43 @@ Upgraded software:
 - font-util: `1.3.2 --> 1.3.3`
 - Git: `2.37.0 --> 2.37.1`
 - GNUPG: `2.3.6 --> 2.3.7`
+- Graphviz: `4.0.0 --> 5.0.0`
 - hwdata: `0.360 --> 0.361`
+- iana-etc: `20220524 --> 20220715`
+- inih: `55 --> 56`
+- JasPer: `3.0.5 --> 3.0.6`
+- libcap: `2.64 --> 2.65`
 - libdrm: `2.4.111 --> 2.4.112`
 - libgphoto2: `2.5.29 --> 2.5.30`
 - libhandy: `1.6.2 --> 1.6.3`
 - libidn2: `2.3.2 --> 2.3.3`
 - libmtp: `1.1.19 --> 1.1.20`
 - libnl: `3.6.0 --> 3.7.0`
+- libnotify: `0.7.12 --> 0.8.1`
+- libuv: `1.44.1 --> 1.44.2`
+- libwebp: `1.2.2 --> 1.2.3`
 - libzip: `1.8.0 --> 1.9.2`
+- LightDM: `1.30.0 --> 1.32.0`
 - Linux Kernel `5.18.8 --> 5.18.12`
 - lxml: `4.9.0 --> 4.9.1`
+- Mesa: `22.1.3 --> 22.1.4`
 - Meson: `0.62.2 --> 0.63.0`
 - Mousepad: `0.5.9 --> 0.5.10`
+- mpg123: `1.30.0 --> 1.30.1`
 - NVIDIA Open Kernel Modules: `515.43.04 --> 515.57`
 - OpenLDAP: `2.6.2 --> 2.6.3`
 - OpenSSL: `3.0.4 --> 3.0.5`
 - Pango: `1.50.7 --> 1.50.8`
-- PipeWire: `0.3.52 --> 0.3.55`
+- PipeWire: `0.3.52 --> 0.3.56`
 - Plymouth: `0.9.5 --> 22.02.122`
 - Polkit: `0.120 --> 121`
 - Poppler: `22.06.0 --> 22.07.0`
-- python-dbusmock: `0.27.5 --> 0.28.1`
+- PyGObject: `3.42.1 --> 3.42.2`
+- python-dbusmock: `0.27.5 --> 0.28.2`
+- smbclient: `4.16.2 --> 4.16.3`
+- SQLite: `3.39.0 --> 3.39.1`
 - systemd: `251.2 --> 251.3`
+- Vala: `0.56.1 --> 0.56.2`
 - Vim: `9.0.0000 --> 9.0.0050`
 - Vulkan-Headers: `1.3.217 --> 1.3.221`
 - Vulkan-Loader: `1.3.217 --> 1.3.221`
@@ -47,6 +62,7 @@ Upgraded software:
 - Wayland: `1.20.0 --> 1.21.0`
 - WirePlumber: `0.4.10 --> 0.4.11`
 - xcmsdb: `1.0.5 --> 1.0.6`
+- xdg-desktop-portal: `1.14.4 --> 1.14.5`
 - xev: `1.2.4 --> 1.2.5`
 - xf86-input-synaptics: `1.9.1 --> 1.9.2`
 - xf86-input-wacom: `1.0.0 --> 1.1.0`
