@@ -2594,7 +2594,7 @@ rm -rf libevent-2.1.12-stable
 tar -xf openldap-2.6.3.tgz
 cd openldap-2.6.3
 groupadd -g 83 ldap
-useradd -c "OpenLDAP Server Daemon" -d /var/lib/openldap -u 83 -g ldap -s /bin/false ldap
+useradd -c "OpenLDAP Server Daemon" -d /var/lib/openldap -u 83 -g ldap -s /sbin/nologin ldap
 sed -i 's/-m 644 $(LIBRARY)/-m 755 $(LIBRARY)/' libraries/{liblber,libldap}/Makefile.in
 sed -i 's/#define LDAPI_SOCK LDAP_RUNDIR LDAP_DIRSEP "run" LDAP_DIRSEP "ldapi"/#define LDAPI_SOCK LDAP_DIRSEP "run" LDAP_DIRSEP "openldap" LDAP_DIRSEP "ldapi"/' include/ldap_defaults.h
 sed -i 's|%LOCALSTATEDIR%/run|/run/openldap|' servers/slapd/slapd.{conf,ldif}
@@ -2862,7 +2862,7 @@ rm -rf shadow-4.11.1
 tar -xf fcron-ver3_3_1.tar.gz
 cd fcron-ver3_3_1
 groupadd -g 22 fcron
-useradd -d /dev/null -c "Fcron User" -g fcron -s /bin/false -u 22 fcron
+useradd -d /dev/null -c "Fcron User" -g fcron -s /sbin/nologin -u 22 fcron
 autoupdate
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-sendmail --with-piddir=/run --with-boot-install=no --with-editor=/usr/bin/nano --with-dsssl-dir=/usr/share/sgml/docbook/dsssl-stylesheets-1.79
@@ -3692,7 +3692,7 @@ rm -rf bind-9.18.4
 tar -xf dhcpcd-9.4.1.tar.xz
 cd dhcpcd-9.4.1
 groupadd -g 52 dhcpcd
-useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /bin/false -u 52 dhcpcd
+useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /sbin/nologin -u 52 dhcpcd
 install -o dhcpcd -g dhcpcd -dm700 /var/lib/dhcpcd
 ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/dhcpcd --runstatedir=/run --dbdir=/var/lib/dhcpcd --privsepuser=dhcpcd
 make
@@ -4486,7 +4486,7 @@ rm -rf mtools-4.0.40
 tar -xf polkit-121.tar.gz
 cd polkit-v.121
 groupadd -fg 27 polkitd
-useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /bin/false polkitd
+useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 -g polkitd -s /sbin/nologin polkitd
 mkdir polkit-build; cd polkit-build
 meson --prefix=/usr --buildtype=minsize -Dman=true -Dsession_tracking=libsystemd-login ..
 ninja
@@ -4506,7 +4506,7 @@ cd openssh-9.0p1
 install -dm700 /var/lib/sshd
 chown root:sys /var/lib/sshd
 groupadd -g 50 sshd
-useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /bin/false -u 50 sshd
+useradd -c 'sshd PrivSep' -d /var/lib/sshd -g sshd -s /sbin/nologin -u 50 sshd
 ./configure --prefix=/usr --sysconfdir=/etc/ssh --with-default-path="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin" --with-kerberos5=/usr --with-pam --with-pid-dir=/run --without-pie --with-privsep-path=/var/lib/sshd --with-ssl-engine --with-xauth=/usr/bin/xauth
 make
 make install
@@ -4809,7 +4809,7 @@ rm -rf at-spi2-atk-2.38.0
 tar -xf colord-1.4.6.tar.xz
 cd colord-1.4.6
 groupadd -g 71 colord
-useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /bin/false colord
+useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 -g colord -s /sbin/nologin colord
 mv po/fur.po po/ur.po
 sed -i 's/fur/ur/' po/LINGUAS
 mkdir colord-build; cd colord-build
@@ -4822,7 +4822,7 @@ rm -rf colord-1.4.6
 # CUPS.
 tar -xf cups-2.4.2-source.tar.gz
 cd cups-2.4.2
-useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
+useradd -c "Print Service User" -d /var/spool/cups -g lp -s /sbin/nologin -u 9 lp
 groupadd -g 19 lpadmin
 sed -e 8198d -e 8213d -e 8228d -e 8243d -i configure
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
@@ -5147,7 +5147,7 @@ rm -rf bluez-5.64
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
 groupadd -fg 84 avahi
-useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /bin/false avahi
+useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /sbin/nologin avahi
 groupadd -fg 86 netdev
 patch -Np1 -i ../patches/avahi-0.8-upstreamfixes.patch
 patch -Np1 -i ../patches/avahi-0.8-add-missing-script.patch
@@ -5864,7 +5864,7 @@ cd NetworkManager-openvpn-1.8.18
 make
 make install
 groupadd -g 85 nm-openvpn
-useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
+useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /sbin/nologin nm-openvpn
 install -t /usr/share/licenses/networkmanager-openvpn -Dm644 COPYING
 cd ..
 rm -rf NetworkManager-openvpn-1.8.18
@@ -5997,7 +5997,7 @@ if [ -d /var/lib/flatpak/exports/bin ]; then
 fi
 END
 groupadd -g 69 flatpak
-useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /bin/false flatpak
+useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /sbin/nologin flatpak
 flatpak remote-add flathub https://flathub.org/repo/flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
@@ -7061,7 +7061,7 @@ rm -rf massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c
 tar -xf lightdm-1.30.0.tar.xz
 cd lightdm-1.30.0
 groupadd -g 65 lightdm
-useradd -c "Lightdm Daemon" -d /var/lib/lightdm -u 65 -g lightdm -s /bin/false lightdm
+useradd -c "Lightdm Daemon" -d /var/lib/lightdm -u 65 -g lightdm -s /sbin/nologin lightdm
 ./configure --prefix=/usr --libexecdir=/usr/lib/lightdm --localstatedir=/var --sbindir=/usr/bin --sysconfdir=/etc --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
 make
 make install
@@ -7250,12 +7250,12 @@ update-desktop-database
 # Add group for NetworkManager openvpn plugin if not already existant.
 if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
-  useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /bin/false nm-openvpn
+  useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /sbin/nologin nm-openvpn
 fi
 # Now using dhcpcd instead of dhclient (dhclient is deprecated upstream).
 if ! grep -q dhcpcd /etc/group; then
   groupadd -g 52 dhcpcd
-  useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /bin/false -u 52 dhcpcd
+  useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /sbin/nologin -u 52 dhcpcd
 fi
 if grep -q dhclient /etc/NetworkManager/conf.d/dhcp.conf; then
   sed -i 's/dhclient/dhcpcd/' /etc/NetworkManager/conf.d/dhcp.conf
