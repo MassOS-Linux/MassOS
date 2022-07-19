@@ -4,6 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- The snapd package manager is now supported on MassOS, but not included by default. See the [MassOS-Snapd](https://github.com/MassOS-Linux/MassOS-Snapd) project for more information.
 - Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
 - Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
 
