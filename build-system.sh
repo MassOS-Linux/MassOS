@@ -3099,8 +3099,8 @@ cd rust-1.62.1-x86_64-unknown-linux-gnu
 cd ..
 rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
 # Sudo.
-tar -xf sudo-1.9.11p3.tar.gz
-cd sudo-1.9.11p3
+tar -xf sudo-SUDO_1_9_11p3.tar.gz
+cd sudo-SUDO_1_9_11p3
 ./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
@@ -3120,7 +3120,7 @@ session   include     system-session
 END
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 cd ..
-rm -rf sudo-1.9.11p3
+rm -rf sudo-SUDO_1_9_11p3
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
