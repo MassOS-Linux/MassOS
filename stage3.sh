@@ -78,6 +78,10 @@ if [ -d stage3/"$1"/systemd-units ]; then
   cp -r stage3/"$1"/systemd-units/* "$MASSOS"/usr/lib/systemd/system
   chown -R root:root "$MASSOS"/usr/lib/systemd/system
 fi
+## extra-package-licenses, if present.
+if [ -d stage3/"$1"/extra-package-licenses ]; then
+  cp -r stage3/"$1"/extra-package-licenses "$MASSOS"/sources
+fi
 # Re-enter the chroot and continue the build.
 utils/programs/mass-chroot "$MASSOS" /sources/build-stage3.sh
 # Put in finalize.sh and finish the build.
