@@ -148,15 +148,6 @@ make install
 install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
 cd ..
 rm -rf xfce4-power-manager-4.16.0
-# libxklavier.
-tar -xf libxklavier-5.4.tar.bz2
-cd libxklavier-5.4
-./configure --prefix=/usr --disable-static
-make
-make install
-install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
-cd ..
-rm -rf libxklavier-5.4
 # xfce4-settings.
 tar -xf xfce4-settings-4.16.3.tar.bz2
 cd xfce4-settings-4.16.3
@@ -253,15 +244,6 @@ make install
 install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 cd ..
 rm -rf xfce4-notifyd-0.6.3
-# keybinder.
-tar -xf keybinder-3.0-0.3.2.tar.gz
-cd keybinder-3.0-0.3.2
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/keybinder -Dm644 COPYING
-cd ..
-rm -rf keybinder-3.0-0.3.2
 # xfce4-pulseaudio-plugin.
 tar -xf xfce4-pulseaudio-plugin-0.4.3.tar.bz2
 cd xfce4-pulseaudio-plugin-0.4.3

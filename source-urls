@@ -206,6 +206,7 @@ https://s3.amazonaws.com/json-c_releases/releases/json-c-0.16.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/json-glib/1.6/json-glib-1.6.6.tar.xz
 https://github.com/open-source-parsers/jsoncpp/archive/1.9.5/jsoncpp-1.9.5.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.5.1.tar.xz
+https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-30.tar.xz
 https://kerberos.org/dist/krb5/1.20/krb5-1.20.tar.gz
 https://github.com/despoa/LAME/archive/refs/tags/lame3_100.tar.gz
@@ -338,6 +339,7 @@ https://www.x.org/archive/individual/lib/libXfont2-2.0.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXft-2.3.4.tar.bz2
 https://xkbcommon.org/download/libxkbcommon-1.4.1.tar.xz
 https://www.x.org/archive/individual/lib/libxkbfile-1.1.0.tar.bz2
+https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
 https://www.x.org/archive/individual/lib/libXi-1.8.tar.bz2
 https://www.x.org/archive/individual/lib/libXinerama-1.1.4.tar.bz2
 https://mirror.lyrahosting.com/gentoo/distfiles/libxml2-2.9.14.tar.xz

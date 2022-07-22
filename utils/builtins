@@ -193,6 +193,7 @@ json-c
 json-glib
 jsoncpp
 kbd
+keybinder
 kmod
 krb5
 lame

@@ -4067,6 +4067,15 @@ ninja install
 install -t /usr/share/licenses/xkeyboard-config -Dm644 ../COPYING
 cd ../..
 rm -rf xkeyboard-config-2.36
+# libxklavier.
+tar -xf libxklavier-5.4.tar.bz2
+cd libxklavier-5.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
+cd ..
+rm -rf libxklavier-5.4
 # libxkbcommon.
 tar -xf libxkbcommon-1.4.1.tar.xz
 cd libxkbcommon-1.4.1
@@ -4904,6 +4913,15 @@ rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
 rm -rf vte-0.68.0
+# keybinder.
+tar -xf keybinder-3.0-0.3.2.tar.gz
+cd keybinder-3.0-0.3.2
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/keybinder -Dm644 COPYING
+cd ..
+rm -rf keybinder-3.0-0.3.2
 # libgee.
 tar -xf libgee-0.20.5.tar.xz
 cd libgee-0.20.5
