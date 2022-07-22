@@ -7,7 +7,6 @@ alsa-lib
 apparmor
 appstream
 appstream-glib
-arc-theme
 asciidoc
 aspell
 at-spi2-atk
@@ -20,14 +19,12 @@ autoconf
 autoconf213
 automake
 avahi
-baobab
 bash
 bash-completion
 bc
 bind-utils
 binutils
 bison
-blueman
 bluez
 boost
 brotli
@@ -46,7 +43,6 @@ cffi
 chardet
 check
 clang
-claws-mail
 clutter
 clutter-gtk
 cmake
@@ -99,7 +95,6 @@ elfutils
 enchant
 exfatprogs
 exiv2
-exo
 expat
 faad2
 fakeroot
@@ -108,7 +103,6 @@ ffmpeg
 figlet
 file
 findutils
-firefox
 flac
 flatpak
 flex
@@ -118,14 +112,11 @@ freetype
 fribidi
 fuse2
 fuse3
-galculator
-garcon
 gawk
 gcc
 gcr
 gdbm
 gdk-pixbuf
-gedit
 geoclue
 gettext
 gexiv2
@@ -141,12 +132,10 @@ glslang
 glu
 gmp
 gnome-online-accounts
-gnome-software
 gnu-efi
 gnupg
 gnutls
 gobject-introspection
-gparted
 gperf
 gpgme
 gptfdisk
@@ -170,7 +159,6 @@ gtk-doc
 gtk2
 gtk3
 gtkmm3
-gtksourceview4
 gutenprint
 gvfs
 gz2xz
@@ -205,7 +193,6 @@ json-c
 json-glib
 jsoncpp
 kbd
-keybinder
 kmod
 krb5
 lame
@@ -235,7 +222,6 @@ libdrm
 libdvdnav
 libdvdread
 libepoxy
-libetpan
 libevdev
 libevent
 libexif
@@ -333,8 +319,6 @@ libxcvt
 libxdamage
 libxdmcp
 libxext
-libxfce4ui
-libxfce4util
 libxfixes
 libxfont2
 libxft
@@ -361,8 +345,6 @@ libxxf86dga
 libxxf86vm
 libyaml
 libzip
-lightdm
-lightdm-gtk-greeter
 linux
 linux-pam
 lld
@@ -384,7 +366,6 @@ m4
 make
 make-ca
 mako
-malcontent
 man-db
 man-pages
 mandoc
@@ -405,7 +386,6 @@ mpfr
 mpg123
 mtdev
 mtools
-mugshot
 mupdf
 nano
 nasm
@@ -435,7 +415,6 @@ openssh
 openssl
 openvpn
 opus
-orage
 orc
 os-prober
 p11-kit
@@ -444,12 +423,10 @@ packaging
 pahole
 pango
 pangomm
-parole
 parse-yapp
 parted
 patch
 patchelf
-pavucontrol
 pciutils
 pcre
 pcre2
@@ -467,7 +444,6 @@ plymouth
 polkit
 polkit-gnome
 poppler
-popsicle
 popt
 power-profiles-daemon
 ppp
@@ -511,7 +487,6 @@ sgmlspm
 shadow
 shared-mime-info
 sharutils
-shotwell
 six
 sl
 slang
@@ -538,13 +513,9 @@ tcl
 tealdeer
 texinfo
 thin-provisioning-tools
-thunar
-thunar-archive-plugin
-thunar-volman
 tk
 tldr
 toml
-tumbler
 twolame
 typogrify
 tzdata
@@ -579,7 +550,6 @@ wpebackend-fdo
 x11perf
 x264
 x265
-xarchiver
 xauth
 xbacklight
 xbitmaps
@@ -610,23 +580,7 @@ xf86-video-fbdev
 xf86-video-intel
 xf86-video-nouveau
 xf86-video-vmware
-xfburn
-xfce4-appfinder
-xfce4-notifyd
-xfce4-panel
-xfce4-power-manager
-xfce4-pulseaudio-plugin
-xfce4-screensaver
-xfce4-screenshooter
-xfce4-session
-xfce4-settings
-xfce4-taskmanager
-xfce4-terminal
-xfconf
-xfdashboard
-xfdesktop
 xfsprogs
-xfwm4
 xgamma
 xhost
 xinit
