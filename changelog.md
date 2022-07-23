@@ -10,18 +10,19 @@ Changes:
 - Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
 - Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
 
-Upgraded software:
+Upgraded software (core):
 
 - alsa-lib: `1.2.7.1 --> 1.2.7.2`
+- Atkmm: `2.28.2 --> 2.28.3`
 - dmidecode: `3.3 --> 3.4`
 - efibootmgr: `17 --> 18`
-- Firefox: `102.0 --> 102.0.1`
 - font-util: `1.3.2 --> 1.3.3`
 - Git: `2.37.0 --> 2.37.1`
 - GNUPG: `2.3.6 --> 2.3.7`
 - Graphviz: `4.0.0 --> 5.0.0`
 - hwdata: `0.360 --> 0.361`
 - iana-etc: `20220524 --> 20220715`
+- Inetutils: `2.2 --> 2.3`
 - inih: `55 --> 56`
 - JasPer: `3.0.5 --> 3.0.6`
 - libcap: `2.64 --> 2.65`
@@ -34,17 +35,20 @@ Upgraded software:
 - libnotify: `0.7.12 --> 0.8.1`
 - libuv: `1.44.1 --> 1.44.2`
 - libwebp: `1.2.2 --> 1.2.3`
+- libxcvt: `0.1.1 --> 0.1.2`
 - libzip: `1.8.0 --> 1.9.2`
-- LightDM: `1.30.0 --> 1.32.0`
-- Linux Kernel `5.18.8 --> 5.18.12`
+- Linux Kernel `5.18.8 --> 5.18.13`
+- LSB-Tools: `0.9 --> 0.10`
 - lxml: `4.9.0 --> 4.9.1`
 - Mesa: `22.1.3 --> 22.1.4`
 - Meson: `0.62.2 --> 0.63.0`
 - Mousepad: `0.5.9 --> 0.5.10`
 - mpg123: `1.30.0 --> 1.30.1`
+- NSS: `3.80 --> 3.81`
 - NVIDIA Open Kernel Modules: `515.43.04 --> 515.57`
 - OpenLDAP: `2.6.2 --> 2.6.3`
 - OpenSSL: `3.0.4 --> 3.0.5`
+- ostree: `2022.4 --> 2022.5`
 - Pango: `1.50.7 --> 1.50.8`
 - PipeWire: `0.3.52 --> 0.3.56`
 - Plymouth: `0.9.5 --> 22.02.122`
@@ -53,8 +57,9 @@ Upgraded software:
 - PyGObject: `3.42.1 --> 3.42.2`
 - python-dbusmock: `0.27.5 --> 0.28.2`
 - smbclient: `4.16.2 --> 4.16.3`
-- SQLite: `3.39.0 --> 3.39.1`
+- SQLite: `3.39.0 --> 3.39.2`
 - systemd: `251.2 --> 251.3`
+- UPower: `0.99.19 --> 1.90.0`
 - Vala: `0.56.1 --> 0.56.2`
 - Vim: `9.0.0000 --> 9.0.0050`
 - Vulkan-Headers: `1.3.217 --> 1.3.221`
@@ -67,7 +72,6 @@ Upgraded software:
 - xev: `1.2.4 --> 1.2.5`
 - xf86-input-synaptics: `1.9.1 --> 1.9.2`
 - xf86-input-wacom: `1.0.0 --> 1.1.0`
-- xfce4-settings: `4.16.2 --> 4.16.3`
 - xkbutils: `1.0.4 --> 1.0.5`
 - xmessage: `1.0.5 --> 1.0.6`
 - xmodmap: `1.0.10 --> 1.0.11`
@@ -76,6 +80,12 @@ Upgraded software:
 - xrefresh: `1.0.6 --> 1.0.7`
 - Xwayland: `22.1.2 --> 22.1.3`
 - xwud: `1.0.5 --> 1.0.6`
+
+Upgraded software (Xfce):
+
+- Firefox: `102.0 --> 102.0.1`
+- LightDM: `1.30.0 --> 1.32.0`
+- xfce4-settings: `4.16.2 --> 4.16.3`
 
 # MassOS 2022.07
 Changes:

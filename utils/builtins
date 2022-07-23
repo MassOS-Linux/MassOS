@@ -27,6 +27,7 @@ binutils
 bison
 bluez
 boost
+bpftool
 brotli
 bsd-games
 btrfs-progs
@@ -209,10 +210,12 @@ libatasmart
 libavc1394
 libblockdev
 libbluray
+libbpf
 libburn
 libbytesize
 libcanberra
 libcap
+libcbor
 libcdio
 libcdio-paranoia
 libchamplain
@@ -227,6 +230,7 @@ libevdev
 libevent
 libexif
 libffi
+libfido2
 libfontenc
 libfs
 libgcrypt

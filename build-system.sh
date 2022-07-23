@@ -684,15 +684,15 @@ install -t /usr/share/licenses/libmetalink -Dm644 COPYING
 cd ..
 rm -rf libmetalink-0.1.3
 # Inetutils.
-tar -xf inetutils-2.2.tar.xz
-cd inetutils-2.2
+tar -xf inetutils-2.3.tar.xz
+cd inetutils-2.3
 ./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-logger --disable-whois --disable-rcp --disable-rexec --disable-rlogin --disable-rsh
 make
 make install
-mv /usr/{,s}bin/ifconfig
+mv /usr/bin/ifconfig /usr/sbin/ifconfig
 install -t /usr/share/licenses/inetutils -Dm644 COPYING
 cd ..
-rm -rf inetutils-2.2
+rm -rf inetutils-2.3
 # Netcat.
 tar -xf netcat-0.7.1.tar.xz
 cd netcat-0.7.1
@@ -810,6 +810,15 @@ rm -f /usr/lib/lib{asm,dw,elf}.a
 install -t /usr/share/licenses/elfutils -Dm644 COPYING COPYING-GPLV2 COPYING-LGPLV3
 cd ..
 rm -rf elfutils-0.187
+# libbpf.
+tar -xf libbpf-0.8.1.tar.gz
+cd libbpf-0.8.1/src
+make
+make LIBSUBDIR=lib install
+rm -f /usr/lib/libbpf.a
+install -t /usr/share/licenses/libbpf -Dm644 ../LICENSE{,.BSD-2-Clause,.LGPL-2.1}
+cd ../..
+rm -rf libbpf-0.8.1
 # patchelf.
 tar -xf patchelf-0.14.5.tar.bz2
 cd patchelf-0.14.5
@@ -1872,7 +1881,7 @@ tar -xf systemd-stable-251.3.tar.gz
 cd systemd-stable-251.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dbpf-framework=false -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -2707,8 +2716,8 @@ install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
 rm -rf gpgme-1.17.1
 # SQLite.
-tar -xf sqlite-autoconf-3390100.tar.gz
-cd sqlite-autoconf-3390100
+tar -xf sqlite-autoconf-3390200.tar.gz
+cd sqlite-autoconf-3390200
 CPPFLAGS+=" -DSQLITE_ENABLE_FTS3=1 -DSQLITE_ENABLE_FTS4=1 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_FTS3_TOKENIZER=1" ./configure --prefix=/usr --disable-static --enable-fts5
 make
 make install
@@ -2718,7 +2727,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See https://www.sqlite.org/copyright.html for more information.
 END
 cd ..
-rm -rf sqlite-autoconf-3390100
+rm -rf sqlite-autoconf-3390200
 # Cyrus SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf cyrus-sasl-2.1.28.tar.gz
 cd cyrus-sasl-2.1.28
@@ -2935,8 +2944,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.34
 # NSS.
-tar -xf nss-3.80.tar.gz
-cd nss-3.80/nss
+tar -xf nss-3.81.tar.gz
+cd nss-3.81/nss
 mkdir gyp
 tar -xf ../../gyp-9ecf45.tar.gz -C gyp --strip-components=1
 PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
@@ -2952,7 +2961,7 @@ chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
-rm -rf nss-3.80
+rm -rf nss-3.81
 # Git.
 tar -xf git-2.37.1.tar.xz
 cd git-2.37.1
@@ -3121,6 +3130,15 @@ cd rust-1.62.1-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
+# bpftool.
+tar -xf bpftool-6.8.0.tar.gz
+tar -xf libbpf-0.8.1.tar.gz -C bpftool-6.8.0/libbpf --strip-components=1
+cd bpftool-6.8.0/src
+make all doc
+make install doc-install prefix=/usr mandir=/usr/share/man
+install -t /usr/share/licenses/bpftool -Dm644 ../LICENSE{,.BSD-2-Clause,.GPL-2.0}
+cd ../..
+rm -rf bpftool-0.8.1
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3629,13 +3647,13 @@ install -t /usr/share/licenses/xdg-user-dirs -Dm644 COPYING
 cd ..
 rm -rf xdg-user-dirs-0.17
 # LSB-Tools.
-tar -xf LSB-Tools-0.9.tar.gz
-cd LSB-Tools-0.9
-python setup.py build
+tar -xf LSB-Tools-0.10.tar.gz
+cd LSB-Tools-0.10
 python setup.py install --optimize=1
+rm -rf /usr/lib/lsb
 install -t /usr/share/licenses/lsb-tools -Dm644 LICENSE
 cd ..
-rm -rf LSB-Tools-0.9
+rm -rf LSB-Tools-0.10
 # p7zip.
 tar -xf p7zip-17.04-6-geb1bbb0.tar.xz
 cd p7zip-17.04-6-geb1bbb0
@@ -3803,6 +3821,27 @@ install -m755 dmg2img vfdecrypt /usr/bin
 install -t /usr/share/licenses/dmg2img -Dm644 COPYING
 cd ..
 rm -rf dmg2img-1.6.7
+# libcbor.
+tar -xf libcbor-0.9.0.tar.gz
+cd libcbor-0.9.0
+mkdir cbor-build; cd cbor-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DWITH_EXAMPLES=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libcbor -Dm644 ../LICENSE.md
+cd ../..
+rm -rf libcbor-0.9.0
+# libfido2.
+tar -xf libfido2-1.11.0.tar.gz
+cd libfido2-1.11.0
+sed -i 24d CMakeLists.txt
+mkdir fido2-build; cd fido2-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_EXAMPLES=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libfido2 -Dm644 ../LICENSE
+cd ../..
+rm -rf libfido2-1.11.0
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
@@ -4091,7 +4130,7 @@ tar -xf systemd-stable-251.3.tar.gz
 cd systemd-stable-251.3
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dcryptolib=openssl -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.3-massos -Dshared-lib-tag=251.3-massos -Dbpf-framework=true -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4158,15 +4197,15 @@ install -t /usr/share/licenses/libepoxy -Dm644 ../COPYING
 cd ../..
 rm -rf libepoxy-1.5.10
 # libxcvt (dependency of Xorg-Server since 21.1.1).
-tar -xf libxcvt-0.1.1.tar.xz
-cd libxcvt-0.1.1
+tar -xf libxcvt-0.1.2.tar.xz
+cd libxcvt-0.1.2
 mkdir xcvt-build; cd xcvt-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libxcvt -Dm644 ../COPYING
 cd ../..
-rm -rf libxcvt-0.1.1
+rm -rf libxcvt-0.1.2
 # Xorg-Server.
 tar -xf xorg-server-21.1.4.tar.xz
 cd xorg-server-21.1.4
@@ -4599,15 +4638,15 @@ install -t /usr/share/licenses/atk -Dm644 ../COPYING
 cd ../..
 rm -rf atk-2.38.0
 # Atkmm.
-tar -xf atkmm-2.28.2.tar.xz
-cd atkmm-2.28.2
+tar -xf atkmm-2.28.3.tar.xz
+cd atkmm-2.28.3
 mkdir atkmm-build; cd atkmm-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/atkmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
-rm -rf atkmm-2.28.2
+rm -rf atkmm-2.28.3
 # GDK-Pixbuf.
 tar -xf gdk-pixbuf-2.42.8.tar.xz
 cd gdk-pixbuf-2.42.8
@@ -5769,8 +5808,8 @@ install -t /usr/share/licenses/newt -Dm644 COPYING
 cd ..
 rm -rf newt-0.52.21
 # UPower.
-tar -xf upower-v0.99.19.tar.bz2
-cd upower-v0.99.19
+tar -xf upower-v1.90.0.tar.bz2
+cd upower-v1.90.0
 mkdir upower-build; cd upower-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
@@ -5778,7 +5817,7 @@ ninja install
 install -t /usr/share/licenses/upower -Dm644 ../COPYING
 systemctl enable upower
 cd ../..
-rm -rf upower-v0.99.19
+rm -rf upower-v1.90.0
 # power-profiles-daemon.
 tar -xf power-profiles-daemon-0.12.tar.bz2
 cd power-profiles-daemon-0.12
@@ -5936,15 +5975,15 @@ install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-3.0.7
 # libostree.
-tar -xf libostree-2022.4.tar.xz
-cd libostree-2022.4
+tar -xf libostree-2022.5.tar.xz
+cd libostree-2022.5
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
 make
 make install
 sed -i '/reproducible/d' /etc/dracut.conf.d/ostree.conf
 install -t /usr/share/licenses/libostree -Dm644 COPYING
 cd ..
-rm -rf libostree-2022.4
+rm -rf libostree-2022.5
 # libxmlb.
 tar -xf libxmlb-0.3.6.tar.gz
 cd libxmlb-0.3.6
@@ -6573,8 +6612,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.12.tar.xz
-cd linux-5.18.12
+tar -xf linux-5.18.13.tar.xz
+cd linux-5.18.13
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6610,7 +6649,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.12
+rm -rf linux-5.18.13
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.57.tar.gz
