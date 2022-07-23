@@ -2727,29 +2727,6 @@ make -j1
 make -j1 install
 cd ..
 rm -rf cyrus-sasl-2.1.28
-# Sudo.
-tar -xf sudo-SUDO_1_9_11p3.tar.gz
-cd sudo-SUDO_1_9_11p3
-./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
-make
-make install
-ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
-sed -i 's|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|' /etc/sudoers
-sed -i 's|# Defaults secure_path|Defaults secure_path|' /etc/sudoers
-sed -i 's|/sbin:/bin|/var/lib/flatpak/exports/bin:/snap/bin|' /etc/sudoers
-cat > /etc/sudoers.d/default << "END"
-# Show astericks when typing the password.
-Defaults pwfeedback
-END
-cat > /etc/pam.d/sudo << "END"
-auth      include     system-auth
-account   include     system-account
-session   required    pam_env.so
-session   include     system-session
-END
-install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
-cd ..
-rm -rf sudo-SUDO_1_9_11p3
 # libtirpc.
 tar -xf libtirpc-1.3.2.tar.bz2
 cd libtirpc-1.3.2
@@ -2881,6 +2858,29 @@ done
 rm -f /etc/login.access /etc/limits
 cd ..
 rm -rf shadow-4.11.1
+# Sudo.
+tar -xf sudo-SUDO_1_9_11p3.tar.gz
+cd sudo-SUDO_1_9_11p3
+./configure --prefix=/usr --libexecdir=/usr/lib --disable-pie --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
+make
+make install
+ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
+sed -i 's|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|' /etc/sudoers
+sed -i 's|# Defaults secure_path|Defaults secure_path|' /etc/sudoers
+sed -i 's|/sbin:/bin|/var/lib/flatpak/exports/bin:/snap/bin|' /etc/sudoers
+cat > /etc/sudoers.d/default << "END"
+# Show astericks when typing the password.
+Defaults pwfeedback
+END
+cat > /etc/pam.d/sudo << "END"
+auth      include     system-auth
+account   include     system-account
+session   required    pam_env.so
+session   include     system-session
+END
+install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
+cd ..
+rm -rf sudo-SUDO_1_9_11p3
 # fcron.
 tar -xf fcron-ver3_3_1.tar.gz
 cd fcron-ver3_3_1
