@@ -4920,6 +4920,15 @@ ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
 cd ../..
 rm -rf libhandy-1.6.3
+# gnome-themes-extra (for accessibility - provides high contrast theme).
+tar -xf gnome-themes-extra-3.28.tar.xz
+cd gnome-themes-extra-3.28
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/gnome-themes-extra -Dm644 LICENSE
+cd ..
+rm -rf gnome-themes-extra-3.28
 # libdazzle.
 tar -xf libdazzle-3.44.0.tar.xz
 cd libdazzle-3.44.0
