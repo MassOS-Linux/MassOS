@@ -4071,15 +4071,6 @@ for i in iceauth-1.0.9 luit-1.1.1 mkfontscale-1.2.2 sessreg-1.1.2 setxkbmap-1.3.
   rm -rf $i
 done
 rm -f /usr/bin/xkeystone
-# xcursor-themes.
-tar -xf xcursor-themes-1.0.6.tar.bz2
-cd xcursor-themes-1.0.6
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
-make
-make install
-install -t /usr/share/licenses/xcursor-themes -Dm644 COPYING
-cd ..
-rm -rf xcursor-themes-1.0.6
 # font-util.
 tar -xf font-util-1.3.3.tar.xz
 cd font-util-1.3.3

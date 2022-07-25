@@ -567,7 +567,6 @@ xcb-util-keysyms
 xcb-util-renderutil
 xcb-util-wm
 xcmsdb
-xcursor-themes
 xcursorgen
 xdg-dbus-proxy
 xdg-desktop-portal
