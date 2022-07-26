@@ -94,7 +94,7 @@ rm -rf perl-5.36.0
 # Python (circular deps; rebuilt later).
 tar -xf Python-3.10.5.tar.xz
 cd Python-3.10.5
-./configure --prefix=/usr --enable-shared --without-ensurepip
+./configure --prefix=/usr --enable-shared --without-ensurepip --disable-test-modules
 make
 make install
 cd ..
@@ -882,7 +882,7 @@ rm -rf kmod-30
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
 tar -xf Python-3.10.5.tar.xz
 cd Python-3.10.5
-./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
+./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations --disable-test-modules
 make
 make install
 ln -sf python3 /usr/bin/python
@@ -988,15 +988,6 @@ make install
 install -t /usr/share/licenses/moreutils -Dm644 COPYING
 cd ..
 rm -rf moreutils-0.67
-# Check.
-tar -xf check-0.15.2.tar.gz
-cd check-0.15.2
-./configure --prefix=/usr --disable-static
-make
-make install
-install -t /usr/share/licenses/check -Dm644 COPYING.LESSER
-cd ..
-rm -rf check-0.15.2
 # Diffutils.
 tar -xf diffutils-3.8.tar.xz
 cd diffutils-3.8
@@ -1120,7 +1111,7 @@ cd kbd-2.5.1
 patch -Np1 -i ../patches/kbd-2.4.0-backspace-1.patch
 sed -i '/RESIZECONS_PROGS=/s/yes/no/' configure
 sed -i 's/resizecons.8 //' docs/man/man8/Makefile.in
-./configure --prefix=/usr
+./configure --prefix=/usr --disable-tests
 make
 make install
 install -t /usr/share/licenses/kbd -Dm644 COPYING
@@ -3220,15 +3211,15 @@ install -t /usr/share/licenses/graphite2 -Dm644 ../COPYING ../LICENSE
 cd ../..
 rm -rf graphite2-1.3.14
 # HarfBuzz.
-tar -xf harfbuzz-4.4.1.tar.xz
-cd harfbuzz-4.4.1
+tar -xf harfbuzz-5.0.1.tar.xz
+cd harfbuzz-5.0.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/harfbuzz -Dm644 ../COPYING
 cd ../..
-rm -rf harfbuzz-4.4.1
+rm -rf harfbuzz-5.0.1
 # FreeType (rebuild to support HarfBuzz).
 tar -xf freetype-2.12.1.tar.xz
 cd freetype-2.12.1
@@ -3685,8 +3676,8 @@ install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
 rm -rf slang-pre2.3.3-66
 # BIND Utils.
-tar -xf bind-9.18.4.tar.xz
-cd bind-9.18.4
+tar -xf bind-9.18.5.tar.xz
+cd bind-9.18.5
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
 make -C lib/dns
@@ -3706,7 +3697,7 @@ make -C bin/dig install
 install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf bind-9.18.4
+rm -rf bind-9.18.5
 # dhcpcd.
 tar -xf dhcpcd-9.4.1.tar.xz
 cd dhcpcd-9.4.1
@@ -4224,9 +4215,8 @@ rm -rf xwayland-22.1.3
 # libevdev.
 tar -xf libevdev-1.12.1.tar.xz
 cd libevdev-1.12.1
-
 mkdir EVDEV-build; cd EVDEV-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var -Ddocumentation=disabled ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var -Ddocumentation=disabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/libevdev -Dm644 ../COPYING
@@ -4671,14 +4661,14 @@ install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
 rm -rf cairomm-1.14.0
 # HarfBuzz (rebuild to support Cairo).
-tar -xf harfbuzz-4.4.1.tar.xz
-cd harfbuzz-4.4.1
+tar -xf harfbuzz-5.0.1.tar.xz
+cd harfbuzz-5.0.1
 mkdir hb-build; cd hb-build
 meson --prefix=/usr --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled ..
 ninja
 ninja install
 cd ../..
-rm -rf harfbuzz-4.4.1
+rm -rf harfbuzz-5.0.1
 # Pango.
 tar -xf pango-1.50.8.tar.xz
 cd pango-1.50.8
@@ -5187,8 +5177,8 @@ install -t /usr/share/licenses/libical -Dm644 ../COPYING ../LICENSE ../LICENSE.L
 cd ../..
 rm -rf libical-3.0.14
 # BlueZ.
-tar -xf bluez-5.64.tar.xz
-cd bluez-5.64
+tar -xf bluez-5.65.tar.xz
+cd bluez-5.65
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-library
 make
 make install
@@ -5200,7 +5190,7 @@ systemctl enable bluetooth
 systemctl enable --global obex
 install -t /usr/share/licenses/bluez -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf bluez-5.64
+rm -rf bluez-5.65
 # Avahi.
 tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
@@ -5231,7 +5221,7 @@ rm -rf orc-0.4.32
 tar -xf pulseaudio-16.1.tar.xz
 cd pulseaudio-16.1
 mkdir pulse-build; cd pulse-build
-meson --prefix=/usr --buildtype=minsize -Ddatabase=gdbm -Ddoxygen=false ..
+meson --prefix=/usr --buildtype=minsize -Ddatabase=gdbm -Ddoxygen=false -Dtests=false ..
 ninja
 ninja install
 rm -f /etc/dbus-1/system.d/pulseaudio-system.conf
@@ -5305,32 +5295,30 @@ install -t /usr/share/licenses/libpcap -Dm644 LICENSE
 cd ..
 rm -rf libpcap-1.10.1
 # Net-SNMP.
-tar -xf net-snmp-5.9.1.tar.xz
-cd net-snmp-5.9.1
+tar -xf net-snmp-5.9.3.tar.gz
+cd net-snmp-5.9.3
 ./configure --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --enable-ucd-snmp-compatibility --enable-ipv6 --with-python-modules --with-default-snmp-version="3" --with-sys-contact="root@massos" --with-sys-location="Unknown" --with-logfile="/var/log/snmpd.log" --with-mib-modules="host misc/ipfwacc ucd-snmp/diskio tunnel ucd-snmp/dlmod ucd-snmp/lmsensorsMib" --with-persistent-directory="/var/net-snmp"
 make NETSNMP_DONT_CHECK_VERSION=1
-make -j1 INSTALLDIRS=vendor install
-install -m644 systemd-units/snmpd.service /usr/lib/systemd/system/snmpd.service
-install -m644 systemd-units/snmptrapd.service /usr/lib/systemd/system/snmptrapd.service
-for i in libnetsnmp libnetsnmpmibs libsnmp libnetsnmphelpers libnetsnmptrapd libnetsnmpagent; do
-  rm -f /usr/lib/$i.a
-done
+make -j1 install
+rm -f /usr/lib/lib{netsnmp{,agent,helpers,mibs,trapd},snmp}.a
 install -t /usr/share/licenses/net-snmp -Dm644 COPYING
 cd ..
-rm -rf net-snmp-5.9.1
+rm -rf net-snmp-5.9.3
 # ppp.
 tar -xf ppp-2.4.9.tar.gz
 cd ppp-2.4.9
-sed -i "s:^#FILTER=y:FILTER=y:" pppd/Makefile.linux
-sed -i "s:^#HAVE_INET6=y:HAVE_INET6=y:" pppd/Makefile.linux
-sed -i "s:^#CBCP=y:CBCP=y:" pppd/Makefile.linux
-CFLAGS="$CFLAGS -D_GNU_SOURCE" ./configure --prefix=/usr
+patch -Np1 -i ../patches/ppp-2.4.9-extrafiles.patch
+sed -i "s|-O2 -g -pipe|$CFLAGS|" configure
+sed -e "s:^#FILTER=y:FILTER=y:" -e "s:^#HAVE_INET6=y:HAVE_INET6=y:" -e "s:^#CBCP=y:CBCP=y:" -i pppd/Makefile.linux
+./configure --prefix=/usr
 make
 make install
-install -dm755 /etc/ppp
-tar --no-same-owner -xf ../ppp-2.4.9-extra-files.tar.xz -C /etc/ppp --strip-components=1
+install -t /etc/ppp -Dm755 etc/ip{,v6}-{down,up}
+install -t /etc/ppp -Dm644 etc/options
 install -m755 scripts/{pon,poff,plog} /usr/bin
 install -m644 scripts/pon.1 /usr/share/man/man1/pon.1
+ln -sf pon.1 /usr/share/man/man1/poff.1
+ln -sf pon.1 /usr/share/man/man1/plog.1
 install -m600 etc.ppp/pap-secrets /etc/ppp/pap-secrets
 install -m600 etc.ppp/chap-secrets /etc/ppp/chap-secrets
 install -dm755 /etc/ppp/peers
@@ -5453,7 +5441,7 @@ rm -rf polkit-gnome-0.105
 tar -xf poppler-22.07.0.tar.xz
 cd poppler-22.07.0
 mkdir poppler-build; cd poppler-build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DTESTDATADIR=$PWD/testfiles -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/poppler -Dm644 ../COPYING ../COPYING3
@@ -5578,7 +5566,7 @@ rm -rf tk8.6.12
 # Python (rebuild to support SQLite and Tk).
 tar -xf Python-3.10.5.tar.xz
 cd Python-3.10.5
-./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations
+./configure --prefix=/usr --enable-shared --with-system-expat --with-system-ffi --with-system-libmpdec --with-ensurepip=yes --enable-optimizations --disable-test-modules
 make
 make install
 cd ..
@@ -6005,15 +5993,15 @@ install -t /usr/share/licenses/appstream -Dm644 ../COPYING
 cd ../..
 rm -rf AppStream-0.15.4
 # appstream-glib.
-tar -xf appstream_glib_0_7_18.tar.gz
-cd appstream-glib-appstream_glib_0_7_18
+tar -xf appstream_glib_0_8_0.tar.gz
+cd appstream-glib-appstream_glib_0_8_0
 mkdir appstream-glib-build; cd appstream-glib-build
 meson --prefix=/usr --buildtype=minsize -Drpm=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream-glib -Dm644 ../COPYING
 cd ../..
-rm -rf appstream-glib-appstream_glib_0_7_18
+rm -rf appstream-glib-appstream_glib_0_8_0
 # Bubblewrap.
 tar -xf bubblewrap-0.6.2.tar.xz
 cd bubblewrap-0.6.2
@@ -6360,21 +6348,11 @@ make install
 install -t /usr/share/licenses/faad2 -Dm644 COPYING
 cd ..
 rm -rf faad2-2_10_0
-# libmysofa.
-tar -xf libmysofa-1.2.1.tar.gz
-cd libmysofa-1.2.1
-mkdir mysofa-build; cd mysofa-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DBUILD_TESTS=OFF -Wno-dev -G Ninja ..
-ninja
-ninja install
-install -t /usr/share/licenses/libmysofa -Dm644 ../LICENSE
-cd ../..
-rm -rf libmysofa-1.2.1
 # FFmpeg.
 tar -xf ffmpeg-5.0.1.tar.xz
 cd ffmpeg-5.0.1
 patch -Np1 -i ../patches/ffmpeg-5.0.1-add-missing-api.patch
-./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
+./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -6385,7 +6363,7 @@ rm -rf ffmpeg-5.0.1
 # OpenAL.
 tar -xf openal-soft-1.22.2.tar.gz
 cd openal-soft-1.22.2/build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DALSOFT_EXAMPLES=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/openal -Dm644 ../COPYING ../BSD-3Clause
@@ -6503,7 +6481,7 @@ install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 cd ..
 rm -rf xdg-desktop-portal-gtk-1.14.0
 # WebKitGTK (precompiled, see https://github.com/MassOS-Linux/webkitgtk-binaries for the reasons why).
-tar --no-same-owner -xf webkitgtk-2.36.3-MassOS2022.06-icu71.1-x86_64.tar.xz -C /
+tar --no-same-owner --same-permissions -xf webkitgtk-2.36.4-MassOS2022.07-icu71.1-x86_64.tar.xz -C /
 # Cogl.
 tar -xf cogl-1.22.8.tar.xz
 cd cogl-1.22.8
@@ -6612,8 +6590,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.18.13.tar.xz
-cd linux-5.18.13
+tar -xf linux-5.18.14.tar.xz
+cd linux-5.18.14
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6649,7 +6627,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.18.13
+rm -rf linux-5.18.14
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.57.tar.gz

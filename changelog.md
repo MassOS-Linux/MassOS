@@ -14,13 +14,17 @@ Changes:
 Upgraded software (core):
 
 - alsa-lib: `1.2.7.1 --> 1.2.7.2`
+- appstream-glib: `0.7.18 --> 0.8.0`
 - Atkmm: `2.28.2 --> 2.28.3`
+- BIND Utils: `9.18.4 --> 9.18.5`
+- BlueZ: `5.64 --> 5.65`
 - dmidecode: `3.3 --> 3.4`
 - efibootmgr: `17 --> 18`
 - font-util: `1.3.2 --> 1.3.3`
 - Git: `2.37.0 --> 2.37.1`
 - GNUPG: `2.3.6 --> 2.3.7`
 - Graphviz: `4.0.0 --> 5.0.0`
+- HarfBuzz: `4.4.1 --> 5.0.1`
 - hwdata: `0.360 --> 0.361`
 - iana-etc: `20220524 --> 20220715`
 - Inetutils: `2.2 --> 2.3`
@@ -38,13 +42,14 @@ Upgraded software (core):
 - libwebp: `1.2.2 --> 1.2.3`
 - libxcvt: `0.1.1 --> 0.1.2`
 - libzip: `1.8.0 --> 1.9.2`
-- Linux Kernel `5.18.8 --> 5.18.13`
+- Linux Kernel `5.18.8 --> 5.18.14`
 - LSB-Tools: `0.9 --> 0.10`
 - lxml: `4.9.0 --> 4.9.1`
 - Mesa: `22.1.3 --> 22.1.4`
 - Meson: `0.62.2 --> 0.63.0`
 - Mousepad: `0.5.9 --> 0.5.10`
 - mpg123: `1.30.0 --> 1.30.1`
+- Net-SNMP: `5.9.1 --> 5.9.3`
 - NSS: `3.80 --> 3.81`
 - NVIDIA Open Kernel Modules: `515.43.04 --> 515.57`
 - OpenLDAP: `2.6.2 --> 2.6.3`
@@ -67,6 +72,7 @@ Upgraded software (core):
 - Vulkan-Loader: `1.3.217 --> 1.3.221`
 - Vulkan-Tools: `1.3.217 --> 1.3.221`
 - Wayland: `1.20.0 --> 1.21.0`
+- WebKitGTK: `2.36.3 --> 2.36.4`
 - WirePlumber: `0.4.10 --> 0.4.11`
 - xcmsdb: `1.0.5 --> 1.0.6`
 - xdg-desktop-portal: `1.14.4 --> 1.14.5`

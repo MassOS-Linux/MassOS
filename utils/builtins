@@ -42,7 +42,6 @@ cdrkit
 certifi
 cffi
 chardet
-check
 clang
 clutter
 clutter-gtk
