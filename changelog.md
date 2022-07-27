@@ -7,6 +7,7 @@ Changes:
 - The snapd package manager is now supported on MassOS, but not installed by default. See the [MassOS-Snapd](https://github.com/MassOS-Linux/MassOS-Snapd) project for more information and how to set it up.
 - Reworked some of the MassOS build system to improve support for other desktop environments.
 - Improved accessibility by providing an optional high contrast theme.
+- Fixed broken video playback in Parole and other GStreamer-based applications.
 - Fixed PATH-related issues with `sudo`.
 - Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
 - Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
