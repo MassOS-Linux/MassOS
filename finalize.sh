@@ -5,9 +5,8 @@
 set -e
 # Ensure we're running in the MassOS chroot.
 if [ $EUID -ne 0 ] || [ ! -d /sources ]; then
-  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM." >&2
-  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE." >&2
-  echo "YOU HAVE BEEN WARNED!!!" >&2
+  echo "This script should not be run manually." >&2
+  echo "stage3.sh will automatically run it in a chroot environment." >&2
   exit 1
 fi
 # Uninstall Rust.
