@@ -317,6 +317,15 @@ make install
 install -t /usr/share/licenses/xfce4-clipman-plugin -Dm644 COPYING
 cd ..
 rm -rf xfce4-clipman-plugin-1.6.2
+# xfce4-mount-plugin.
+tar -xf xfce4-mount-plugin-1.1.5.tar.bz2
+cd xfce4-mount-plugin-1.1.5
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
+make
+make install
+install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 ../COPYING
+cd ..
+rm -rf xfce4-mount-plugin-1.1.5
 # xfce4-whiskermenu-plugin.
 tar -xf xfce4-whiskermenu-plugin-2.6.1.tar.bz2
 cd xfce4-whiskermenu-plugin-2.6.1

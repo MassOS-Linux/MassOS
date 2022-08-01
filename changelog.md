@@ -11,6 +11,7 @@ Changes:
 - Fixed PATH-related issues with `sudo`.
 - Fixed an issue where custom system-installed (NOT Flatpak) GUI apps could break after an update.
 - Miscellaneous bug fixes and quality-of-life improvements (see commits for detailed/technical information).
+- [Xfce] Added mounted drives panel plugin.
 
 Upgraded software (core):
 
