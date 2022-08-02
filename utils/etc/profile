@@ -38,7 +38,7 @@ else
   umask 022
 fi
 
-# Allow ls and grep to support colored output.
+# Allow ls, grep and diff to provide colored output.
 if [ -f "/etc/dircolors" ]; then
   eval $(dircolors -b /etc/dircolors)
 fi
@@ -47,6 +47,7 @@ if [ -f "$HOME/.dircolors" ]; then
 fi
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias diff='diff --color=auto'
 
 # Useful path management functions based on the ones from LFS.
 pathappend() {

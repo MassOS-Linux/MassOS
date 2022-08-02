@@ -12,4 +12,3 @@ BusName=org.freedesktop.DisplayManager
 
 [Install]
 Alias=display-manager.service
-

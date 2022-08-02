@@ -1,0 +1,39 @@
+# Standard tasks to perform after an upgrade.
+ldconfig
+glib-compile-schemas /usr/share/glib-2.0/schemas
+gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
+update-desktop-database
+# Add group for NetworkManager openvpn plugin if not already existant.
+if ! grep -q nm-openvpn /etc/group; then
+  groupadd -g 85 nm-openvpn
+  useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /sbin/nologin nm-openvpn
+fi
+# Now using dhcpcd instead of dhclient (dhclient is deprecated upstream).
+if ! grep -q dhcpcd /etc/group; then
+  groupadd -g 52 dhcpcd
+  useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /sbin/nologin -u 52 dhcpcd
+fi
+if grep -q dhclient /etc/NetworkManager/conf.d/dhcp.conf; then
+  sed -i 's/dhclient/dhcpcd/' /etc/NetworkManager/conf.d/dhcp.conf
+fi
+# hwdata package is now used instead of systemd timers.
+if grep -q hwdata /usr/share/massos/builtins; then
+  systemctl disable update-pciids.timer || true
+  systemctl disable update-usbids.timer || true
+fi
+# Workaround no longer needed since Firefox 99+ supports FFmpeg 5.0.
+test ! -e /etc/ld.so.conf.d/firefox-libav.conf || rm -f /etc/ld.so.conf.d/firefox-libav.conf
+test ! -d /usr/lib/firefox/libav || rm -rf /usr/lib/firefox/libav
+# Unneeded.
+if [ "$(readlink /usr/bin/resize)" = "/usr/bin/busybox" ]; then rm -f /usr/bin/resize; fi
+if [ "$(readlink /usr/sbin/httpd)" = "/usr/bin/busybox" ]; then rm -f /usr/sbin/httpd; fi
+# Now using BGRT theme instead of spinner.
+! grep -q "Theme=spinner" /etc/plymouth/plymouthd.conf || plymouth-set-default-theme bgrt
+# Now using PipeWire instead of PulseAudio.
+grep -q "autospawn = no" /etc/pulse/client.conf || echo "autospawn = no" >> /etc/pulse/client.conf
+# New default wallpaper for MassOS 2022.06+.
+if [ "$(readlink /usr/share/backgrounds/xfce/xfce-verticals.png)" = "MassOS-Contemporary.png" ]; then
+  ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
+  ! grep -q "MassOS-Contemporary.png" /etc/lightdm/lightdm-gtk-greeter.conf || sed -i 's/Contemporary/Futuristic-Dark/' /etc/lightdm/lightdm-gtk-greeter.conf
+  ! grep -q "MassOS-Contemporary.png" /etc/default/grub || sed -i 's/Contemporary/Futuristic-Dark/' /etc/default/grub
+fi

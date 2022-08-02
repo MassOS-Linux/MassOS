@@ -1,0 +1,61 @@
+Stage 3 is a new feature of the MassOS build system, aimed at improving support
+for other desktop environments.
+
+When MassOS development originally began, Xfce was planned to be the only
+officially supported default desktop environment. As a result of that, we made
+the build system heavily focused on Xfce. However, recently some community
+members have begun developing ports for other desktop environments, the main
+one being GNOME, originally by AaronTechnic and now by RetronEletron.
+
+The original build system had two stages - Stage 1 which used the host system
+to bootstrap a temporary toolchain for building MassOS, and Stage 2 which used
+the temporary toolchain to build the full MassOS system.
+
+Now, Stage 1 is still the same, but Stage 2 only builds the main MassOS system,
+including graphical libraries, but without the desktop environment or graphical
+programs. Stage 3 builds the desktop environment on top of the base system that
+Stage 2 built.
+
+The advantage of this is that multiple different desktop environments can now
+be built on top of the base system, rather than having to recompile the entire
+system for different desktop environments.
+
+There is a "stage3.sh" script in the top level of the MassOS source tree. This
+should be run immediately after Stage 2, with the desired desktop environment
+passed as an argument, e.g. "./stage3.sh xfce" or "./stage3.sh gnome".
+
+Each supported desktop environment which can be passed as an argument to the
+script will be a subdirectory of "stage3", e.g. "xfce" or "gnome". If you want
+a build without a desktop environment, use "nodesktop", DO NOT simply leave it
+at Stage 2, as Stage 2 no longer properly finalizes the build; Stage 3 does.
+
+Inside the desktop environment subdirectory will be a Stage 3 build script
+named "stage3-<desktop>.sh", e.g. "stage3-xfce.sh". Like build-system.sh, this
+is not intended to be run directly, however is run in chroot automatically in
+the same way that stage2.sh runs build-system.sh in chroot.
+
+The subdirectory should also contain the following files/folders:
+
+- "stage3-<desktop>.sh" - Explained above... The Xfce one can be considered a
+  formatting reference point if you're porting a different desktop environment.
+- "source-urls" - Like source-urls in the top level MassOS source tree, however
+  this one contains the source URLs for the packages needed for the desktop
+  environment.
+- "builtins" - Like builtins in "utils" in the top level source tree, however
+  this one contains a list of the packages needed for the desktop environment.
+  It will be automatically installed as /usr/share/massos/builtins.d/<desktop>.
+  masspkg 1.2.0 and later should be able to read the files in builtins.d.
+- "patches/" - Like patches in the top level source tree, but only for... you
+  know the rest by now.
+- "systemd-units/" - systemd units that will be automatically installed (but
+  you will need to manually add a line to enable any needed ones in the stage3
+  build script).
+- "skel/" - Only use this if needed. Stores (normally hidden (prefixed with .))
+  configuration files that are automatically copied to the home directory when
+  a new user is created. MassOS Xfce copiously needs to use this, but avoid it
+  where possible, if you can set needed default settings system-wide instead.
+- "extra-package-licenses/" - For packages which don't include a license
+  document in their source tree, retrieve it from elsewhere and put it here.
+  You'll still need to manually install the license file in the build script.
+- Probably something else that has been forgotten here... Just check the Xfce
+  Stage 3 layout to be sure.

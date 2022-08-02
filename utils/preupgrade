@@ -1,0 +1,19 @@
+# Check for a new version of Glibc (breaks this utility).
+if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.35" ]; then
+  echo "
+IMPORTANT: This upgrade includes a newer version of the core C library (glibc).
+Upgrading on a running system using this utility will break your system, and is
+therefore not possible. To upgrade, please boot a MassOS live environment, run
+the installation program, and choose 'Repair' --> 'Refresh'. This won't erase
+your apps or data. For information on how to do this, see the following URL:
+
+  https://github.com/MassOS-Linux/MassOS/blob/main/installation-guide.md
+" >&2
+  exit 1
+fi
+# Notice for massos-upgrade.
+echo "Note: Upgrading using the Live CD is preferred. For information, see" >&2
+echo "<https://github.com/MassOS-Linux/MassOS/wiki/Upgrading-MassOS>." >&2
+echo "The upgrade will begin in 10 seconds. To cancel, press Control+C and" >&2
+echo "no changes will be made to your computer." >&2
+sleep 10
