@@ -565,6 +565,7 @@ xcb-util-image
 xcb-util-keysyms
 xcb-util-renderutil
 xcb-util-wm
+xcb-util-xrm
 xcmsdb
 xcursorgen
 xdg-dbus-proxy

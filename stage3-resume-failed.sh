@@ -52,12 +52,9 @@ utils/programs/mass-chroot "$MASSOS" /sources/finalize.sh
 # Install preupgrade and postupgrade.
 cp utils/{pre,post}upgrade "$MASSOS"/tmp
 # Strip executables and libraries to free up space.
-printf "Stripping binaries... "
-find "$MASSOS"/usr/{bin,libexec,sbin} -type f -exec strip --strip-all {} ';' &> /dev/null || true
-echo "Done!"
-printf "Stripping libraries... "
-find "$MASSOS"/usr/lib -type f -name \*.a -or -name \*.o -exec strip --strip-debug {} ';' &> /dev/null || true
-find "$MASSOS"/usr/lib -type f -name \*.so\* -exec strip --strip-unneeded {} ';' &> /dev/null || true
+printf "Stripping binaries and libraries... "
+find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f -not -name \*.a -and -not -name \*.o -and -not -name \*.mod -and -not -name \*.module -exec strip --strip-unneeded {} ';' &> /dev/null || true
+find "$MASSOS"/usr/lib -type f -name \*.a -or -name \*.o -or -name \*.mod -or -name \*.module -exec strip --strip-debug {} ';' &>/dev/null || true
 echo "Done!"
 # Finish the MassOS system.
 outfile="massos-$(cat utils/massos-release)-rootfs-x86_64-$1.tar"

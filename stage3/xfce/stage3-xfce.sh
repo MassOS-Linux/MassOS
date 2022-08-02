@@ -86,14 +86,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
 rm -rf garcon-4.17.0
 # Thunar.
-tar -xf thunar-4.17.8.tar.bz2
-cd thunar-4.17.8
+tar -xf thunar-4.17.9.tar.bz2
+cd thunar-4.17.9
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 cd ..
-rm -rf thunar-4.17.8
+rm -rf thunar-4.17.9
 # thunar-volman.
 tar -xf thunar-volman-4.16.0.tar.bz2
 cd thunar-volman-4.16.0
@@ -323,7 +323,7 @@ cd xfce4-mount-plugin-1.1.5
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
-install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 ../COPYING
+install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 COPYING
 cd ..
 rm -rf xfce4-mount-plugin-1.1.5
 # xfce4-whiskermenu-plugin.
@@ -536,7 +536,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-102.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-103.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

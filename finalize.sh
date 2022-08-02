@@ -33,8 +33,6 @@ rm -rf /usr/share/doc/*
 rm -rf /usr/doc
 rm -rf /usr/docs
 rm -rf /usr/share/gtk-doc/html/*
-# Remove temporary compiler from stage1.
-find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 # Remove libtool archives.
 find /usr/lib /usr/libexec -name \*.la -delete
 # Remove any temporary files.

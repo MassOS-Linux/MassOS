@@ -72,14 +72,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-12.1.0
 # Linux API Headers.
-tar -xf linux-5.18.14.tar.xz
-cd linux-5.18.14
+tar -xf linux-5.19.tar.xz
+cd linux-5.19
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.18.14
+rm -rf linux-5.19
 # Glibc
 tar -xf glibc-2.35.tar.xz
 cd glibc-2.35
