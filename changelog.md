@@ -4,6 +4,15 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Development has only just begun! Check back soon.
+
+Upgraded software (core):
+
+- Development has only just begun! Check back soon.
+
+# MassOS 2022.08
+Changes:
+
 - GNOME is now an officially supported desktop environment alongside Xfce.
 - The snapd package manager is now supported on MassOS, but not installed by default. See the [MassOS-Snapd](https://github.com/MassOS-Linux/MassOS-Snapd) project for more information and how to set it up.
 - Reworked some of the MassOS build system to improve support for other desktop environments.
