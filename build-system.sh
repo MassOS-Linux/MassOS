@@ -773,6 +773,20 @@ make install
 install -t /usr/share/licenses/autoconf -Dm644 COPYING COPYINGv3 COPYING.EXCEPTION
 cd ..
 rm -rf autoconf-2.71
+# Autoconf (legacy version 2.13).
+tar -xf autoconf-2.13.tar.gz
+cd autoconf-2.13
+patch -Np1 -i ../patches/autoconf-2.13-consolidated_fixes-1.patch
+mv autoconf.texi autoconf213.texi
+rm autoconf.info
+./configure --prefix=/usr --program-suffix=2.13
+make
+make install
+install -m644 autoconf213.info /usr/share/info
+install-info --info-dir=/usr/share/info autoconf213.info
+install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
+cd ..
+rm -rf autoconf-2.13
 # Automake.
 tar -xf automake-1.16.5.tar.xz
 cd automake-1.16.5
@@ -3085,20 +3099,6 @@ ninja install
 install -t /usr/share/licenses/graphene -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf graphene-1.10.8
-# Autoconf (2.13).
-tar -xf autoconf-2.13.tar.gz
-cd autoconf-2.13
-patch -Np1 -i ../patches/autoconf-2.13-consolidated_fixes-1.patch
-mv autoconf.texi autoconf213.texi
-rm autoconf.info
-./configure --prefix=/usr --program-suffix=2.13
-make
-make install
-install -m644 autoconf213.info /usr/share/info
-install-info --info-dir=/usr/share/info autoconf213.info
-install -t /usr/share/licenses/autoconf213 -Dm644 COPYING
-cd ..
-rm -rf autoconf-2.13
 # LLVM/Clang/LLD.
 tar -xf llvm-14.0.6.src.tar.xz
 mkdir -p libunwind
