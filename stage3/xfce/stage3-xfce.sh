@@ -469,7 +469,6 @@ mkdir malcontent-build; cd malcontent-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
-rm -f /usr/share/applications/org.freedesktop.MalcontentControl.desktop
 install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
 cd ../..
 rm -rf malcontent-0.10.4
