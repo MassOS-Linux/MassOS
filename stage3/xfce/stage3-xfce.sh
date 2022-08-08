@@ -77,14 +77,14 @@ install -t /usr/share/licenses/exo -Dm644 COPYING
 cd ..
 rm -rf exo-4.17.2
 # Garcon.
-tar -xf garcon-4.17.0.tar.bz2
-cd garcon-4.17.0
+tar -xf garcon-4.17.1.tar.bz2
+cd garcon-4.17.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
-rm -rf garcon-4.17.0
+rm -rf garcon-4.17.1
 # Thunar.
 tar -xf thunar-4.17.9.tar.bz2
 cd thunar-4.17.9
@@ -104,14 +104,14 @@ install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
 cd ..
 rm -rf thunar-volman-4.16.0
 # Tumbler.
-tar -xf tumbler-4.17.0.tar.bz2
-cd tumbler-4.17.0
+tar -xf tumbler-4.17.2.tar.bz2
+cd tumbler-4.17.2
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/tumbler -Dm644 COPYING
 cd ..
-rm -rf tumbler-4.17.0
+rm -rf tumbler-4.17.2
 # xfce4-appfinder.
 tar -xf xfce4-appfinder-4.17.0.tar.bz2
 cd xfce4-appfinder-4.17.0
@@ -122,14 +122,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 cd ..
 rm -rf xfce4-appfinder-4.17.0
 # xfce4-panel.
-tar -xf xfce4-panel-4.17.0.tar.bz2
-cd xfce4-panel-4.17.0
+tar -xf xfce4-panel-4.17.2.tar.bz2
+cd xfce4-panel-4.17.2
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 cd ..
-rm -rf xfce4-panel-4.17.0
+rm -rf xfce4-panel-4.17.2
 # xfce4-power-manager.
 tar -xf xfce4-power-manager-4.16.0.tar.bz2
 cd xfce4-power-manager-4.16.0

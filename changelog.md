@@ -4,11 +4,37 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just begun! Check back soon.
+- The core C library (Glibc) has been upgraded to version 2.36.
 
 Upgraded software (core):
 
-- Development has only just begun! Check back soon.
+- AppArmor: `3.0.4 --> 3.0.6`
+- Binutils: `2.38 --> 2.39`
+- cairomm: `1.14.0 --> 1.14.3`
+- CMake: `3.23.3 --> 3.24.0`
+- glib-networking: `2.72.1 --> 2.72.2`
+- Glibc: `2.35 --> 2.36`
+- IPRoute2: `5.18.0 --> 5.19.0`
+- JSON: `4.07 --> 4.09`
+- libevdev: `1.12.1 --> 1.13.0`
+- libwpe: `1.13.1 --> 1.13.2`
+- Mesa: `22.1.4 --> 22.1.5`
+- Nano: `6.3 --> 6.4`
+- NSPR: `4.34 --> 4.34.1`
+- NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
+- Poppler: `22.07.0 --> 22.08.0`
+- Python: `3.10.5 --> 3.10.6`
+- slang: `2.3.2 --> 2.3.3`
+- util-linux: `2.38 --> 2.38.1`
+- Wayland-Protocols: `1.25 --> 1.26`
+- xdg-desktop-portal: `1.14.5 --> 1.14.6`
+- xdg-user-dirs: `0.17 --> 0.18`
+
+Upgraded software (Xfce):
+
+- Garcon: `4.17.0 --> 4.17.1`
+- Tumbler: `4.17.0 --> 4.17.2`
+- xfce4-panel: `4.17.0 --> 4.17.2`
 
 # MassOS 2022.08
 Changes:

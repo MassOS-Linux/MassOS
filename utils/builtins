@@ -267,7 +267,6 @@ libnma
 libnotify
 libnsl
 libogg
-libostree
 libpaper
 libpcap
 libpciaccess
@@ -422,6 +421,7 @@ openvpn
 opus
 orc
 os-prober
+ostree
 p11-kit
 p7zip
 packaging

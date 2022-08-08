@@ -1,0 +1,182 @@
+From 21c03ad5e9d8d0350e30dae92a5e15da318a1539 Mon Sep 17 00:00:00 2001
+From: Rudi Heitbaum <rudi@heitbaum.com>
+Date: Sat, 23 Jul 2022 10:38:49 +0000
+Subject: [PATCH] glibc: Remove #include <linux/fs.h> to resolve
+ fsconfig_command/mount_attr conflict with glibc 2.36
+
+---
+ meson.build             | 13 ++++++++++++-
+ src/basic/fd-util.c     |  2 ++
+ src/core/namespace.c    |  2 ++
+ src/shared/mount-util.c |  2 ++
+ 4 files changed, 18 insertions(+), 1 deletion(-)
+
+diff --git a/meson.build b/meson.build
+index 5d7c8699fe0d..88fe3f5d497e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -506,7 +506,6 @@ decl_headers = '''
+ #include <uchar.h>
+ #include <sys/mount.h>
+ #include <sys/stat.h>
+-#include <linux/fs.h>
+ '''
+
+ foreach decl : ['char16_t',
+@@ -518,6 +517,17 @@ foreach decl : ['char16_t',
+         # We get -1 if the size cannot be determined
+         have = cc.sizeof(decl, prefix : decl_headers, args : '-D_GNU_SOURCE') > 0
+
++        if decl == 'struct mount_attr'
++                if have
++                        want_linux_fs_h = false
++                else
++                        have = cc.sizeof(decl,
++                                         prefix : decl_headers + '#include <linux/fs.h>',
++                                         args : '-D_GNU_SOURCE') > 0
++                        want_linux_fs_h = have
++                endif
++        endif
++
+         if decl == 'struct statx'
+                 if have
+                         want_linux_stat_h = false
+@@ -533,6 +543,7 @@ foreach decl : ['char16_t',
+ endforeach
+
+ conf.set10('WANT_LINUX_STAT_H', want_linux_stat_h)
++conf.set10('WANT_LINUX_FS_H', want_linux_fs_h)
+
+ foreach ident : ['secure_getenv', '__secure_getenv']
+         conf.set10('HAVE_' + ident.to_upper(), cc.has_function(ident))
+diff --git a/src/basic/fd-util.c b/src/basic/fd-util.c
+index 6c1de92a26ca..00591d6c2d31 100644
+--- a/src/basic/fd-util.c
++++ b/src/basic/fd-util.c
+@@ -3,7 +3,9 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ #include <linux/btrfs.h>
++#if WANT_LINUX_FS_H
+ #include <linux/fs.h>
++#endif
+ #include <linux/magic.h>
+ #include <sys/ioctl.h>
+ #include <sys/resource.h>
+diff --git a/src/core/namespace.c b/src/core/namespace.c
+index 41457ea81647..016afe4d9e90 100644
+--- a/src/core/namespace.c
++++ b/src/core/namespace.c
+@@ -7,7 +7,9 @@
+ #include <sys/file.h>
+ #include <sys/mount.h>
+ #include <unistd.h>
++#if WANT_LINUX_FS_H
+ #include <linux/fs.h>
++#endif
+
+ #include "alloc-util.h"
+ #include "base-filesystem.h"
+diff --git a/src/shared/mount-util.c b/src/shared/mount-util.c
+index 8cf16affcb8f..a119a7c3c1b2 100644
+--- a/src/shared/mount-util.c
++++ b/src/shared/mount-util.c
+@@ -7,7 +7,9 @@
+ #include <sys/statvfs.h>
+ #include <unistd.h>
+ #include <linux/loop.h>
++#if WANT_LINUX_FS_H
+ #include <linux/fs.h>
++#endif
+
+ #include "alloc-util.h"
+ #include "chase-symlinks.h"
+
+From 0a58cd00454cc7b57b04f3a4a334584d743d7f7a Mon Sep 17 00:00:00 2001
+From: Yu Watanabe <watanabe.yu+github@gmail.com>
+Date: Tue, 26 Jul 2022 20:03:12 +0900
+Subject: [PATCH] home: drop conflicted headers
+
+Fixes #24117.
+---
+ src/basic/missing_fs.h    | 5 +++++
+ src/home/homework-cifs.c  | 5 +++++
+ src/home/homework-luks.c  | 1 -
+ src/home/homework-mount.c | 2 ++
+ src/home/homework.h       | 3 ++-
+ 5 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/src/basic/missing_fs.h b/src/basic/missing_fs.h
+index 0cacd49bcff7..6638d7696221 100644
+--- a/src/basic/missing_fs.h
++++ b/src/basic/missing_fs.h
+@@ -64,3 +64,8 @@
+ #ifndef FS_PROJINHERIT_FL
+ #define FS_PROJINHERIT_FL 0x20000000
+ #endif
++
++/* linux/fscrypt.h */
++#ifndef FS_KEY_DESCRIPTOR_SIZE
++#define FS_KEY_DESCRIPTOR_SIZE 8
++#endif
+diff --git a/src/home/homework-cifs.c b/src/home/homework-cifs.c
+index 728a92260cfd..e79def3daec7 100644
+--- a/src/home/homework-cifs.c
++++ b/src/home/homework-cifs.c
+@@ -1,5 +1,10 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+
++#include <sys/mount.h>
++#if WANT_LINUX_FS_H
++#include <linux/fs.h>
++#endif
++
+ #include "dirent-util.h"
+ #include "fd-util.h"
+ #include "fileio.h"
+diff --git a/src/home/homework-luks.c b/src/home/homework-luks.c
+index 0108ab54075f..5f3e79a67aad 100644
+--- a/src/home/homework-luks.c
++++ b/src/home/homework-luks.c
+@@ -4,7 +4,6 @@
+ #include <poll.h>
+ #include <sys/file.h>
+ #include <sys/ioctl.h>
+-#include <sys/mount.h>
+ #include <sys/xattr.h>
+
+ #if HAVE_VALGRIND_MEMCHECK_H
+diff --git a/src/home/homework-mount.c b/src/home/homework-mount.c
+index e71e8cd85381..a9c793c42943 100644
+--- a/src/home/homework-mount.c
++++ b/src/home/homework-mount.c
+@@ -2,7 +2,9 @@
+
+ #include <sched.h>
+ #include <sys/mount.h>
++#if WANT_LINUX_FS_H
+ #include <linux/fs.h>
++#endif
+
+ #include "alloc-util.h"
+ #include "fd-util.h"
+diff --git a/src/home/homework.h b/src/home/homework.h
+index 882a3f500b3b..b27c31d56bab 100644
+--- a/src/home/homework.h
++++ b/src/home/homework.h
+@@ -1,13 +1,14 @@
+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
+ #pragma once
+
+-#include <linux/fs.h>
+ #include <sys/vfs.h>
+
+ #include "sd-id128.h"
+
++#include "cryptsetup-util.h"
+ #include "homework-password-cache.h"
+ #include "loop-util.h"
++#include "missing_fs.h" /* for FS_KEY_DESCRIPTOR_SIZE, do not include linux/fs.h */
+ #include "missing_keyctl.h"
+ #include "missing_syscall.h"
+ #include "user-record.h"

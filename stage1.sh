@@ -63,6 +63,7 @@ tar -xf ../mpfr-4.1.0.tar.xz
 mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
+patch -Np1 -i ../patches/gcc-12.1.0-glibc236.patch
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
 make
@@ -81,8 +82,8 @@ cp -r usr/include "$MASSOS"/usr
 cd ..
 rm -rf linux-5.19
 # Glibc
-tar -xf glibc-2.35.tar.xz
-cd glibc-2.35
+tar -xf glibc-2.36.tar.xz
+cd glibc-2.36
 patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
@@ -93,7 +94,7 @@ ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
 "$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
 cd ../..
-rm -rf glibc-2.35
+rm -rf glibc-2.36
 # libstdc++ from GCC (Could not be built with bootstrap GCC).
 tar -xf gcc-12.1.0.tar.xz
 cd gcc-12.1.0
@@ -259,6 +260,7 @@ tar -xf ../mpfr-4.1.0.tar.xz
 mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
+patch -Np1 -i ../patches/gcc-12.1.0-glibc236.patch
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
