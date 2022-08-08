@@ -330,7 +330,7 @@ https://wpewebkit.org/releases/libwpe-1.13.2.tar.xz
 https://www.x.org/archive/individual/lib/libX11-1.8.1.tar.xz
 https://www.x.org/archive/individual/lib/libXau-1.0.9.tar.bz2
 https://www.x.org/archive/individual/lib/libXaw-1.0.14.tar.bz2
-https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.15.tar.xz
+https://www.x.org/archive/individual/lib/libxcb-1.15.tar.xz
 https://www.x.org/archive/individual/lib/libXcomposite-0.4.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXcursor-1.2.1.tar.xz
 https://www.x.org/archive/individual/lib/libxcvt-0.1.2.tar.xz
@@ -626,7 +626,7 @@ https://www.cpan.org/authors/id/G/GR/GRANTM/XML-Simple-2.25.tar.gz
 https://releases.pagure.org/xmlto/xmlto-0.0.28.tar.bz2
 https://www.x.org/archive/individual/app/xmodmap-1.0.11.tar.xz
 https://www.x.org/archive/individual/xserver/xorg-server-21.1.4.tar.xz
-https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2022.1.tar.bz2
+https://www.x.org/archive/individual/proto/xorgproto-2022.1.tar.bz2
 https://www.x.org/archive/individual/app/xpr-1.1.0.tar.xz
 https://www.x.org/archive/individual/app/xprop-1.2.5.tar.bz2
 https://www.x.org/archive/individual/app/xrandr-1.5.1.tar.xz
