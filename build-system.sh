@@ -5887,10 +5887,6 @@ cat > /etc/NetworkManager/conf.d/polkit.conf << END
 [main]
 auth-polkit=true
 END
-cat > /etc/NetworkManager/conf.d/dhcp.conf << END
-[main]
-dhcp=dhcpcd
-END
 cat > /etc/NetworkManager/conf.d/dns.conf << END
 [main]
 dns=systemd-resolved
