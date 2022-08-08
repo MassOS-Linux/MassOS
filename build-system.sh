@@ -2881,7 +2881,7 @@ make install
 ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
 sed -i 's|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|' /etc/sudoers
 sed -i 's|# Defaults secure_path|Defaults secure_path|' /etc/sudoers
-sed -i 's|/sbin:/bin|/var/lib/flatpak/exports/bin:/snap/bin|' /etc/sudoers
+sed -i 's|/sbin:/bin|/home/linuxbrew/.linuxbrew/bin:/var/lib/flatpak/exports/bin:/snap/bin|' /etc/sudoers
 cat > /etc/sudoers.d/default << "END"
 # Show astericks when typing the password.
 Defaults pwfeedback
