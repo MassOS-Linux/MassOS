@@ -4351,16 +4351,16 @@ install -t /usr/share/licenses/xf86-video-fbdev -Dm644 COPYING
 cd ..
 rm -rf xf86-video-fbdev-0.5.0
 # xf86-video-intel.
-tar -xf xf86-video-intel-20211007.tar.xz
-cd xf86-video-intel-20211007
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-kms-only --enable-uxa --mandir=/usr/share/man
+tar -xf xf86-video-intel-2.99.917-916-g31486f40.tar.xz
+cd xf86-video-intel-2.99.917-916-g31486f40
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --enable-uxa
 make
 make install
 mv /usr/share/man/man4/intel-virtual-output.4 /usr/share/man/man1/intel-virtual-output.1
 sed -i '/\.TH/s/4/1/' /usr/share/man/man1/intel-virtual-output.1
 install -t /usr/share/licenses/xf86-video-intel -Dm644 COPYING
 cd ..
-rm -rf xf86-video-intel-20211007
+rm -rf xf86-video-intel-2.99.917-916-g31486f40
 # xf86-video-nouveau.
 tar -xf xf86-video-nouveau-1.0.17.tar.bz2
 cd xf86-video-nouveau-1.0.17
