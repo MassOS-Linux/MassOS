@@ -3,6 +3,7 @@ ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas
 gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 update-desktop-database
+fc-cache
 # Add group for NetworkManager openvpn plugin if not already existant.
 if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
