@@ -5491,6 +5491,15 @@ END
 install -t /usr/share/licenses/polkit-gnome -Dm644 COPYING
 cd ..
 rm -rf polkit-gnome-0.105
+# gnome-keyring.
+tar -xf gnome-keyring-42.1.tar.xz
+cd gnome-keyring-42.1
+./configure --prefix=/usr --sysconfdir=/etc --disable-debug
+make
+make install
+install -t /usr/share/licenses/gnome-keyring -Dm644 COPYING COPYING.LIB
+cd ..
+rm -rf gnome-keyring-42.1
 # Poppler.
 tar -xf poppler-22.08.0.tar.xz
 cd poppler-22.08.0
