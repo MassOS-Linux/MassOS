@@ -4,37 +4,61 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
 - The core C library (Glibc) has been upgraded to version 2.36.
+- Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
+- Added strace utility.
 
 Upgraded software (core):
 
-- AppArmor: `3.0.4 --> 3.0.6`
-- Binutils: `2.38 --> 2.39`
+- AppArmor: `3.0.4 --> 3.0.7`
+- bc: `5.3.3 --> 6.0.1`
+- bsd-games: `3.1 --> 3.2`
 - cairomm: `1.14.0 --> 1.14.3`
 - CMake: `3.23.3 --> 3.24.0`
+- DirectX-Headers: `1.602.0 --> 1.606.3`
+- GDK-Pixbuf: `2.42.8 --> 2.42.9`
+- Git: `2.37.1 --> 2.37.2`
 - glib-networking: `2.72.1 --> 2.72.2`
 - Glibc: `2.35 --> 2.36`
+- glslang: `11.10.0 --> 11.11.0`
+- GNU-EFI: `3.0.14 --> 3.0.15`
+- Gutenprint: `5.3.3 --> 5.3.4`
 - IPRoute2: `5.18.0 --> 5.19.0`
 - JSON: `4.07 --> 4.09`
+- libbluray: `1.3.0 --> 1.3.2`
 - libevdev: `1.12.1 --> 1.13.0`
+- libtirpc: `1.3.2 --> 1.3.3`
+- libwebp: `1.2.3 --> 1.2.4`
 - libwpe: `1.13.1 --> 1.13.2`
-- Mesa: `22.1.4 --> 22.1.5`
+- Linux Kernel: `5.19.0 --> 5.19.1`
+- Mesa: `22.1.4 --> 22.1.6`
 - Nano: `6.3 --> 6.4`
+- NetworkManager: `1.38.2 --> 1.38.4`
 - NSPR: `4.34 --> 4.34.1`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
 - Poppler: `22.07.0 --> 22.08.0`
 - Python: `3.10.5 --> 3.10.6`
 - slang: `2.3.2 --> 2.3.3`
+- systemd: `251.3 --> 251.4`
+- tzdata: `2022a --> 2022b`
+- urllib3: `1.26.9 --> 1.26.11`
 - util-linux: `2.38 --> 2.38.1`
 - Wayland-Protocols: `1.25 --> 1.26`
+- WebKitGTK: `2.36.5 --> 2.36.6`
+- wpebackend-fdo: `1.12.0 --> 1.12.1`
 - xdg-desktop-portal: `1.14.5 --> 1.14.6`
 - xdg-user-dirs: `0.17 --> 0.18`
+- xorgproto: `2022.1 --> 2022.2`
+- XZ: `5.2.5 --> 5.2.6`
 
 Upgraded software (Xfce):
 
+- Firefox: `103.0.1 --> 103.0.2`
 - Garcon: `4.17.0 --> 4.17.1`
 - Tumbler: `4.17.0 --> 4.17.2`
 - xfce4-panel: `4.17.0 --> 4.17.2`
+- xfce4-screenshots: `1.9.10 --> 1.9.11`
 
 # MassOS 2022.08
 Changes:

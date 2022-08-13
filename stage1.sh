@@ -73,14 +73,14 @@ cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -pri
 cd ..
 rm -rf gcc-12.1.0
 # Linux API Headers.
-tar -xf linux-5.19.tar.xz
-cd linux-5.19
+tar -xf linux-5.19.1.tar.xz
+cd linux-5.19.1
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19
+rm -rf linux-5.19.1
 # Glibc
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36
@@ -234,13 +234,13 @@ ln -sf gtar "$MASSOS"/usr/bin/tar
 cd ..
 rm -rf tar-1.34
 # XZ.
-tar -xf xz-5.2.5.tar.xz
-cd xz-5.2.5
+tar -xf xz-5.2.6.tar.xz
+cd xz-5.2.6
 ./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --disable-static
 make
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf xz-5.2.5
+rm -rf xz-5.2.6
 # Binutils (For stage 2, built using our new bootstrap toolchain).
 tar -xf binutils-2.38.tar.xz
 cd binutils-2.38

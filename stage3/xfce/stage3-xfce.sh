@@ -290,15 +290,14 @@ install -t /usr/share/licenses/blueman -Dm644 COPYING
 cd ..
 rm -rf blueman-2.2.2
 # xfce4-screenshooter.
-tar -xf xfce4-screenshooter-1.9.10.tar.bz2
-cd xfce4-screenshooter-1.9.10
-patch -Np1 -i ../patches/xfce4-screenshooter-1.9.10-upstreamfix.patch
+tar -xf xfce4-screenshooter-1.9.11.tar.bz2
+cd xfce4-screenshooter-1.9.11
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 cd ..
-rm -rf xfce4-screenshooter-1.9.10
+rm -rf xfce4-screenshooter-1.9.11
 # xfce4-taskmanager.
 tar -xf xfce4-taskmanager-1.5.4.tar.bz2
 cd xfce4-taskmanager-1.5.4
@@ -535,7 +534,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-103.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-103.0.2.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

@@ -124,6 +124,7 @@ ghostscript
 gi-docgen
 giflib
 git
+glew
 glib
 glib-networking
 glibc
@@ -391,7 +392,6 @@ mpfr
 mpg123
 mtdev
 mtools
-mupdf
 nano
 nasm
 ncurses
@@ -510,6 +510,7 @@ squashfs-tools
 squashfuse
 sshfs
 startup-notification
+strace
 sudo
 swig
 sysprof

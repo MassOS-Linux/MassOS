@@ -29,6 +29,7 @@ mount -t tmpfs devshm "$chrootdir"/dev/shm
 mount -t proc proc "$chrootdir"/proc
 mount -t sysfs sysfs "$chrootdir"/sys
 mount -t tmpfs tmpfs "$chrootdir"/run
+mkdir -p "$chrootdir"/run/lock
 
 set +e
 
