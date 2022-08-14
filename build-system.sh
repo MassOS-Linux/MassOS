@@ -6231,6 +6231,15 @@ make install
 install -t /usr/share/licenses/soundtouch -Dm644 COPYING.TXT
 cd ..
 rm -rf soundtouch-2.3.1
+# libdv.
+tar -xf libdv-1.0.0.tar.gz
+cd libdv-1.0.0
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libdv -Dm644 COPYING COPYRIGHT
+cd ..
+rm -rf libdv-1.0.0
 # libdvdread.
 tar -xf libdvdread-6.1.3.tar.bz2
 cd libdvdread-6.1.3
