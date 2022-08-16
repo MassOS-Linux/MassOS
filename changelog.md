@@ -4,25 +4,29 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Added support for updating system firmware (fwupd).
 - Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
 - The core C library (Glibc) has been upgraded to version 2.36.
 - Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
-- Added strace utility.
 
 Upgraded software (core):
 
 - AppArmor: `3.0.4 --> 3.0.7`
 - bc: `5.3.3 --> 6.0.1`
+- Binutils: `2.38 --> 2.39`
+- Boost: `1.79.0 --> 1.80.0`
 - bsd-games: `3.1 --> 3.2`
 - cairomm: `1.14.0 --> 1.14.3`
 - CMake: `3.23.3 --> 3.24.0`
 - DirectX-Headers: `1.602.0 --> 1.606.3`
+- FFmpeg: `5.0.1 --> 5.1`
 - GDK-Pixbuf: `2.42.8 --> 2.42.9`
 - Git: `2.37.1 --> 2.37.2`
 - glib-networking: `2.72.1 --> 2.72.2`
 - Glibc: `2.35 --> 2.36`
 - glslang: `11.10.0 --> 11.11.0`
 - GNU-EFI: `3.0.14 --> 3.0.15`
+- GPGME: `1.17.1 --> 1.18.0`
 - Gutenprint: `5.3.3 --> 5.3.4`
 - IPRoute2: `5.18.0 --> 5.19.0`
 - JSON: `4.07 --> 4.09`
@@ -37,8 +41,11 @@ Upgraded software (core):
 - NetworkManager: `1.38.2 --> 1.38.4`
 - NSPR: `4.34 --> 4.34.1`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
+- Pango: `1.50.8 --> 1.50.9`
 - Poppler: `22.07.0 --> 22.08.0`
 - Python: `3.10.5 --> 3.10.6`
+- python-dbusmock: `0.28.2 --> 0.28.4`
+- rsync: `3.2.4 --> 3.2.5`
 - slang: `2.3.2 --> 2.3.3`
 - systemd: `251.3 --> 251.4`
 - tzdata: `2022a --> 2022b`
@@ -49,6 +56,7 @@ Upgraded software (core):
 - wpebackend-fdo: `1.12.0 --> 1.12.1`
 - xdg-desktop-portal: `1.14.5 --> 1.14.6`
 - xdg-user-dirs: `0.17 --> 0.18`
+- xfsprogs: `5.18.0 --> 5.19.0`
 - xorgproto: `2022.1 --> 2022.2`
 - XZ: `5.2.5 --> 5.2.6`
 
@@ -56,6 +64,7 @@ Upgraded software (Xfce):
 
 - Firefox: `103.0.1 --> 103.0.2`
 - Garcon: `4.17.0 --> 4.17.1`
+- Shotwell: `0.31.3 --> 0.31.4`
 - Tumbler: `4.17.0 --> 4.17.2`
 - xfce4-panel: `4.17.0 --> 4.17.2`
 - xfce4-screenshots: `1.9.10 --> 1.9.11`

@@ -104,6 +104,7 @@ figlet
 file
 findutils
 flac
+flashrom
 flatpak
 flex
 fontconfig
@@ -112,7 +113,10 @@ freetype
 fribidi
 fuse2
 fuse3
+fwupd
+fwupd-efi
 gawk
+gcab
 gcc
 gcr
 gdbm
@@ -254,6 +258,7 @@ libimobiledevice
 libinput
 libisoburn
 libisofs
+libjcat
 libjpeg-turbo
 libksba
 libmbim

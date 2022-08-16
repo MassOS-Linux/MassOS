@@ -325,17 +325,16 @@ install -t /usr/share/licenses/tcl -Dm644 ../license.terms
 cd ../..
 rm -rf tcl8.6.12
 # Binutils.
-tar -xf binutils-2.38.tar.xz
-cd binutils-2.38
-patch -Np1 -i ../patches/binutils-2.38-LTO.patch
+tar -xf binutils-2.39.tar.xz
+cd binutils-2.39
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --with-pkgversion="MassOS Binutils" --with-system-zlib --enable-gold --enable-ld=default --enable-plugins --enable-shared --enable-64-bit-bfd --disable-werror
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --sysconfdir=/etc --with-pkgversion="MassOS Binutils 2.39" --with-system-zlib --enable-gold --enable-install-libiberty --enable-ld=default --enable-plugins --enable-relro --enable-shared --disable-werror
 make tooldir=/usr
 make -j1 tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 cd ../..
-rm -rf binutils-2.38
+rm -rf binutils-2.39
 # GMP.
 tar -xf gmp-6.2.1.tar.xz
 cd gmp-6.2.1
@@ -528,7 +527,7 @@ cd gcc-12.1.0
 patch -Np1 -i ../patches/gcc-12.1.0-glibc236.patch
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-system-zlib --enable-default-ssp --enable-install-libiberty --enable-linker-build-id --disable-bootstrap --disable-multilib
+CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.1.0" --with-system-zlib --enable-default-ssp --enable-linker-build-id --disable-bootstrap --disable-multilib
 make
 make install
 rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/include-fixed/bits/
@@ -1435,14 +1434,14 @@ install -t /usr/share/licenses/icu -Dm644 ../LICENSE
 cd ../..
 rm -rf icu
 # Boost.
-tar -xf boost_1_79_0.tar.bz2
-cd boost_1_79_0
+tar -xf boost_1_80_0.tar.bz2
+cd boost_1_80_0
 ./bootstrap.sh --prefix=/usr --with-icu
 ./b2 stage -j$(nproc) threading=multi link=shared
 ./b2 install threading=multi link=shared
 install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 cd ..
-rm -rf boost_1_79_0
+rm -rf boost_1_80_0
 # libgpg-error.
 tar -xf libgpg-error-1.45.tar.bz2
 cd libgpg-error-1.45
@@ -2148,13 +2147,13 @@ install -t /usr/share/licenses/userspace-rcu -Dm644 LICENSE gpl-2.0.txt lgpl-2.1
 cd ..
 rm -rf userspace-rcu-0.13.1
 # xfsprogs.
-tar -xf xfsprogs-5.18.0.tar.xz
-cd xfsprogs-5.18.0
+tar -xf xfsprogs-5.19.0.tar.xz
+cd xfsprogs-5.19.0
 make DEBUG=-DNDEBUG INSTALL_USER=root INSTALL_GROUP=root
 make install
 make install-dev
 cd ..
-rm -rf xfsprogs-5.18.0
+rm -rf xfsprogs-5.19.0
 # ntfs-3g.
 tar -xf ntfs-3g-2022.5.17.tar.gz
 cd ntfs-3g-2022.5.17
@@ -2254,15 +2253,14 @@ install -t /usr/share/licenses/xxhash -Dm644 LICENSE
 cd ..
 rm -rf xxHash-0.8.1
 # rsync.
-tar -xf rsync-3.2.4.tar.gz
-cd rsync-3.2.4
-patch -Np1 -i ../patches/rsync-3.2.4-upstreamfix.patch
+tar -xf rsync-3.2.5.tar.gz
+cd rsync-3.2.5
 ./configure --prefix=/usr --without-included-popt --without-included-zlib
 make
 make install
 install -t /usr/share/licenses/rsync -Dm644 COPYING
 cd ..
-rm -rf rsync-3.2.4
+rm -rf rsync-3.2.5
 # Brotli.
 tar -xf brotli-1.0.9.tar.gz
 cd brotli-1.0.9
@@ -2719,15 +2717,16 @@ install -t /usr/share/licenses/swig -Dm644 COPYRIGHT LICENSE LICENSE-GPL LICENSE
 cd ..
 rm -rf swig-4.0.2
 # GPGME.
-tar -xf gpgme-1.17.1.tar.bz2
-cd gpgme-1.17.1
-sed -e 's/3\.9/3.10/' -e 's/:3/:4/' -e '23653 s/distutils"/setuptools"/' -i configure
+tar -xf gpgme-1.18.0.tar.bz2
+cd gpgme-1.18.0
+patch -Np1 -i ../patches/gpgme-1.18.0-python3.10.patch
+autoreconf -fi
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/gpgme -Dm644 COPYING COPYING.LESSER LICENSES
 cd ..
-rm -rf gpgme-1.17.1
+rm -rf gpgme-1.18.0
 # SQLite.
 tar -xf sqlite-autoconf-3390200.tar.gz
 cd sqlite-autoconf-3390200
@@ -3009,6 +3008,17 @@ rm -rf /usr/share/dwarves/runtime/python
 install -t /usr/share/licenses/pahole -Dm644 ../COPYING
 cd ../..
 rm -rf pahole-1.23
+# libsmbios.
+tar -xf libsmbios-2.4.3.tar.gz
+cd libsmbios-2.4.3
+./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static
+make
+make install
+patchelf --remove-rpath /usr/sbin/smbios-sys-info-lite
+cp -r out/public-include/* /usr/include
+install -t /usr/share/licenses/libsmbios -Dm644 COPYING COPYING-GPL
+cd ..
+rm -rf libsmbios-2.4.3
 # DKMS.
 tar -xf dkms-3.0.6.tar.gz
 make -C dkms-3.0.6 BASHDIR=/usr/share/bash-completion/completions install
@@ -3133,6 +3143,7 @@ rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
 tar -xf bpftool-6.8.0.tar.gz
 tar -xf libbpf-0.8.1.tar.gz -C bpftool-6.8.0/libbpf --strip-components=1
 cd bpftool-6.8.0/src
+patch -Np2 -i ../../patches/bpftool-6.8.0-binutils2.39.patch
 make all doc
 make install doc-install prefix=/usr mandir=/usr/share/man
 install -t /usr/share/licenses/bpftool -Dm644 ../LICENSE{,.BSD-2-Clause,.GPL-2.0}
@@ -3581,7 +3592,7 @@ install -t /usr/share/licenses/libgphoto2 -Dm644 COPYING
 cd ..
 rm -rf libgphoto2-2.5.30
 # Pixman.
-tar -xf pixman-0.40.0.tar.gz
+tar -xf pixman-0.40.0.tar.xz
 cd pixman-0.40.0
 mkdir pixman-build; cd pixman-build
 meson --prefix=/usr --buildtype=minsize ..
@@ -4742,15 +4753,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-5.1.0
 # Pango.
-tar -xf pango-1.50.8.tar.xz
-cd pango-1.50.8
+tar -xf pango-1.50.9.tar.xz
+cd pango-1.50.9
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.8
+rm -rf pango-1.50.9
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -5004,6 +5015,17 @@ rm -f /etc/profile.d/vte.*
 install -t /usr/share/licenses/vte -Dm644 ../COPYING.CC-BY-4-0 ../COPYING.GPL3 ../COPYING.LGPL3 ../COPYING.XTERM
 cd ../..
 rm -rf vte-0.68.0
+# gcab.
+tar -xf gcab-1.5.tar.xz
+cd gcab-1.5
+sed -i 's/check: true/check: false/' meson.build
+mkdir gcab-build; cd gcab-build
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/gcab -Dm644 ../COPYING
+cd ../..
+rm -rf gcab-1.5
 # keybinder.
 tar -xf keybinder-3.0-0.3.2.tar.gz
 cd keybinder-3.0-0.3.2
@@ -5062,12 +5084,12 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.2.18
 # python-dbusmock.
-tar -xf python-dbusmock-0.28.2.tar.gz
-cd python-dbusmock-0.28.2
+tar -xf python-dbusmock-0.28.4.tar.gz
+cd python-dbusmock-0.28.4
 python setup.py install --optimize=1
 install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
 cd ..
-rm -rf python-dbusmock-0.28.2
+rm -rf python-dbusmock-0.28.4
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5088,6 +5110,16 @@ ninja install
 install -t /usr/share/licenses/libpeas -Dm644 ../COPYING
 cd ../..
 rm -rf libpeas-1.32.0
+# libjcat.
+tar -xf libjcat-0.1.11.tar.gz
+cd libjcat-0.1.11
+mkdir jcat-build; cd jcat-build
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/libjcat -Dm644 ../LICENSE
+cd ../..
+rm -rf libjcat-0.1.11
 # libgxps.
 tar -xf libgxps-0.3.2.tar.xz
 cd libgxps-0.3.2
@@ -5326,6 +5358,18 @@ install -Dm644 laptop-detect.1 /usr/share/man/man1/laptop-detect.1
 install -t /usr/share/licenses/laptop-detect -Dm644 debian/copyright
 cd ..
 rm -rf laptop-detect-0.16
+# flashrom.
+tar -xf flashrom-v1.2.tar.bz2
+cd flashrom-v1.2
+mkdir flashrom-build; cd flashrom-build
+meson --prefix=/usr --buildtype=minsize -Dconfig_ft2232_spi=false -Dconfig_usbblaster_spi=false ..
+ninja
+make -C .. flashrom.8
+ninja install
+install -m644 ../flashrom.8 /usr/share/man/man8/flashrom.8
+install -t /usr/share/licenses/flashrom -Dm644 ../COPYING
+cd ../..
+rm -rf flashrom-v1.2
 # rrdtool.
 tar -xf rrdtool-1.8.0.tar.gz
 cd rrdtool-1.8.0
@@ -6097,6 +6141,27 @@ ninja install
 install -t /usr/share/licenses/geoclue -Dm644 ../COPYING ../COPYING.LIB
 cd ../..
 rm -rf geoclue-2.6.0
+# fwupd-efi.
+tar -xf fwupd-efi-1.3.tar.xz
+cd fwupd-efi-1.3
+mkdir fwupd-efi-build; cd fwupd-efi-build
+meson --prefix=/usr --buildtype=minsize -Defi_sbat_distro_id="massos" -Defi_sbat_distro_summary="MassOS" -Defi_sbat_distro_pkgname="fwupd-efi" -Defi_sbat_distro_version="1.3" -Defi_sbat_distro_url="https://massos.org" ..
+ninja
+ninja install
+install -t /usr/share/licenses/fwupd-efi -Dm644 ../COPYING
+cd ../..
+rm -rf fwupd-efi-1.3
+# fwupd.
+tar -xf fwupd-1.7.6.tar.xz
+cd fwupd-1.7.6
+mkdir fwupd-build; cd fwupd-build
+meson --prefix=/usr --buildtype=minsize -Db_lto=false -Dplugin_intel_spi=true -Dplugin_logitech_bulkcontroller=false -Dlzma=true -Dplugin_flashrom=true -Dsupported_build=true -Dtests=false ..
+ninja
+ninja install
+systemctl enable fwupd
+install -t /usr/share/licenses/fwupd -Dm644 ../COPYING
+cd ../..
+rm -rf fwupd-1.7.6
 # libcdio.
 tar -xf libcdio-2.1.0.tar.bz2
 cd libcdio-2.1.0
@@ -6279,6 +6344,7 @@ if [ "${DESKTOP_SESSION:0:5}" != "gnome" ] && [ -z "${GNOME_DESKTOP_SESSION_ID}"
   export GTK_MODULES
 fi
 END
+chmod 755 /etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module.sh
 cd ..
 rm -rf libcanberra-0.30
 # x264.
@@ -6389,9 +6455,8 @@ install -t /usr/share/licenses/faad2 -Dm644 COPYING
 cd ..
 rm -rf faad2-2_10_0
 # FFmpeg.
-tar -xf ffmpeg-5.0.1.tar.xz
-cd ffmpeg-5.0.1
-patch -Np1 -i ../patches/ffmpeg-5.0.1-add-missing-api.patch
+tar -xf ffmpeg-5.1.tar.xz
+cd ffmpeg-5.1
 ./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
@@ -6399,7 +6464,7 @@ make install
 install -m755 tools/qt-faststart /usr/bin
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 cd ..
-rm -rf ffmpeg-5.0.1
+rm -rf ffmpeg-5.1
 # OpenAL.
 tar -xf openal-soft-1.22.2.tar.gz
 cd openal-soft-1.22.2/build

@@ -217,15 +217,15 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
 rm -rf xfce4-terminal-1.0.4
 # Shotwell.
-tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
-cd shotwell-0.31.3-133-gd55abab2
+tar -xf shotwell-shotwell-0.31.4.tar.bz2
+cd shotwell-shotwell-0.31.4
 mkdir SHOTWELL-build; cd SHOTWELL-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
-rm -rf shotwell-0.31.3-133-gd55abab2
+rm -rf shotwell-shotwell-0.31.4
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.3.tar.bz2
 cd xfce4-notifyd-0.6.3
@@ -475,7 +475,7 @@ rm -rf malcontent-0.10.4
 tar -xf gnome-software-41.5.tar.xz
 cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=minsize -Dfwupd=false -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=minsize -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
