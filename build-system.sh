@@ -4143,8 +4143,7 @@ install -t /usr/share/licenses/font-util -Dm644 COPYING
 cd ..
 rm -rf font-util-1.3.3
 # Noto Fonts.
-tar --no-same-owner -xf noto-fonts3.tar.xz -C / --strip-components=1
-rm -f /LICENSE
+tar --no-same-owner --same-permissions -xf noto-fonts-20220607.tar.xz -C / --strip-components=1
 sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fonts.conf
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache

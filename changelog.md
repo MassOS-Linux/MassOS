@@ -7,6 +7,7 @@ Changes:
 - Added support for updating system firmware (fwupd).
 - Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
 - The core C library (Glibc) has been upgraded to version 2.36.
+- Improved Noto fonts installation (and saved about ~100MB of space (~300MB uncompressed)).
 - Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
 - [Xfce] Added gnome-firmware to complement fwupd.
 
