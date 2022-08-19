@@ -8,6 +8,7 @@ Changes:
 - Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
 - The core C library (Glibc) has been upgraded to version 2.36.
 - Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
+- [Xfce] Added gnome-firmware to complement fwupd.
 
 Upgraded software (core):
 

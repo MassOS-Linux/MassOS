@@ -459,6 +459,16 @@ ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
 rm -rf baobab-41.0
+# gnome-firmware.
+tar -xf gnome-firmware-41.0.tar.bz2
+cd gnome-firmware-41.0
+mkdir gnome-firmware-build; cd gnome-firmware-build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/gnome-firmware -Dm644 ../COPYING
+cd ../..
+rm -rf gnome-firmware-41.0
 # Malcontent (dependency of GNOME Software).
 tar -xf malcontent-0.10.4.tar.xz
 cd malcontent-0.10.4
