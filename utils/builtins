@@ -107,6 +107,7 @@ flac
 flashrom
 flatpak
 flex
+fmt
 fontconfig
 freeglut
 freetype
@@ -549,6 +550,7 @@ vte
 vulkan-headers
 vulkan-loader
 vulkan-tools
+wavpack
 wayland
 wayland-protocols
 webkitgtk

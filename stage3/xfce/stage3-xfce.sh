@@ -122,14 +122,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 cd ..
 rm -rf xfce4-appfinder-4.17.0
 # xfce4-panel.
-tar -xf xfce4-panel-4.17.2.tar.bz2
-cd xfce4-panel-4.17.2
+tar -xf xfce4-panel-4.17.3.tar.bz2
+cd xfce4-panel-4.17.3
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 cd ..
-rm -rf xfce4-panel-4.17.2
+rm -rf xfce4-panel-4.17.3
 # xfce4-power-manager.
 tar -xf xfce4-power-manager-4.16.0.tar.bz2
 cd xfce4-power-manager-4.16.0
@@ -149,8 +149,8 @@ install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 cd ..
 rm -rf xfce4-settings-4.16.3
 # xfdesktop.
-tar -xf xfdesktop-4.16.0.tar.bz2
-cd xfdesktop-4.16.0
+tar -xf xfdesktop-4.17.0.tar.bz2
+cd xfdesktop-4.17.0
 ./configure --prefix=/usr
 make
 make install
@@ -158,7 +158,7 @@ mv /usr/share/backgrounds/xfce/xfce-verticals{,1}.png
 ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
 cd ..
-rm -rf xfdesktop-4.16.0
+rm -rf xfdesktop-4.17.0
 # xfwm4.
 tar -xf xfwm4-4.16.1.tar.bz2
 cd xfwm4-4.16.1

@@ -24,7 +24,7 @@ fi
 export SRC=/sources
 cd $SRC
 # Set the PATH correctly.
-export PATH=/usr/bin:/usr/sbin:/sources/sphinx/bin
+export PATH=/usr/bin:/usr/sbin:/sources/sphinx/bin:/sources/cargoc
 # Set the locale correctly.
 export LC_ALL="en_US.UTF-8" 2>/dev/null
 # Build in parallel using all available CPU cores.
@@ -138,7 +138,7 @@ rm -rf hyfetch-1.4.0
 # Glibc.
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36
-patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
+patch -Np1 -i ../patches/glibc-2.36-multiplefixes.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --enable-kernel=3.2 --enable-stack-protector=strong --disable-default-pie --disable-werror --with-headers=/usr/include libc_cv_slibdir=/usr/lib
@@ -163,7 +163,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2022b.tar.gz
+tar -xf ../../tzdata2022c.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -223,15 +223,15 @@ install -t /usr/share/licenses/xz -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv3 COP
 cd ..
 rm -rf xz-5.2.6
 # LZ4.
-tar -xf lz4-1.9.3.tar.gz
-cd lz4-1.9.3
+tar -xf lz4-1.9.4.tar.gz
+cd lz4-1.9.4
 make PREFIX=/usr CFLAGS="$CFLAGS" -C lib
 make PREFIX=/usr CFLAGS="$CFLAGS" -C programs lz4 lz4c
 make PREFIX=/usr install
 rm -f /usr/lib/liblz4.a
 install -t /usr/share/licenses/lz4 -Dm644 LICENSE
 cd ..
-rm -rf lz4-1.9.3
+rm -rf lz4-1.9.4
 # ZSTD.
 tar -xf zstd-1.5.2.tar.gz
 cd zstd-1.5.2
@@ -469,11 +469,11 @@ END
 cd ..
 rm -rf libcap-2.65
 # Shadow (initial build; will be rebuilt later to support AUDIT).
-tar -xf shadow-4.11.1.tar.xz
-cd shadow-4.11.1
-patch -Np1 -i ../patches/shadow-4.11.1-MassOSFixes.patch
+tar -xf shadow-4.12.2.tar.xz
+cd shadow-4.12.2
+patch -Np1 -i ../patches/shadow-4.12.2-MassOS.patch
 touch /usr/bin/passwd
-./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack
+./configure --sysconfdir=/etc --disable-static --with-group-name-max-length=32 --with-libcrack
 make
 make exec_prefix=/usr install
 make -C man install-man
@@ -520,14 +520,13 @@ done
 rm -f /etc/login.access /etc/limits
 install -t /usr/share/licenses/shadow -Dm644 COPYING
 cd ..
-rm -rf shadow-4.11.1
+rm -rf shadow-4.12.2
 # GCC.
-tar -xf gcc-12.1.0.tar.xz
-cd gcc-12.1.0
-patch -Np1 -i ../patches/gcc-12.1.0-glibc236.patch
+tar -xf gcc-12.2.0.tar.xz
+cd gcc-12.2.0
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.1.0" --with-system-zlib --enable-default-ssp --enable-linker-build-id --disable-bootstrap --disable-multilib
+CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.2.0" --with-system-zlib --enable-default-ssp --enable-linker-build-id --disable-bootstrap --disable-multilib
 make
 make install
 rm -rf /usr/lib/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/include-fixed/bits/
@@ -538,7 +537,7 @@ mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
 find /usr -depth -name $(uname -m)-massos-linux-gnu\* | xargs rm -rf
 install -t /usr/share/licenses/gcc -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB ../COPYING.RUNTIME
 cd ../..
-rm -rf gcc-12.1.0
+rm -rf gcc-12.2.0
 # pkg-config.
 tar -xf pkg-config-0.29.2.tar.gz
 cd pkg-config-0.29.2
@@ -1249,12 +1248,12 @@ install -t /usr/share/licenses/mako -Dm644 LICENSE
 cd ..
 rm -rf Mako-1.2.0
 # Pygments.
-tar -xf Pygments-2.12.0.tar.gz
-cd Pygments-2.12.0
+tar -xf Pygments-2.13.0.tar.gz
+cd Pygments-2.13.0
 python setup.py install --optimize=1
 install -t /usr/share/licenses/pygments -Dm644 LICENSE
 cd ..
-rm -rf Pygments-2.12.0
+rm -rf Pygments-2.13.0
 # toml.
 tar -xf toml-0.10.2.tar.gz
 cd toml-0.10.2
@@ -1500,6 +1499,15 @@ ninja install
 install -t /usr/share/licenses/libmicrodns -Dm644 ../COPYING
 cd ../..
 rm -rf microdns-0.2.0
+# libsodium.
+tar -xf libsodium-1.0.18.tar.gz
+cd libsodium-1.0.18
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libsodium -Dm644 LICENSE
+cd ..
+rm -rf libsodium-1.0.18
 # sgml-common.
 tar -xf sgml-common-0.6.3.tgz
 cd sgml-common-0.6.3
@@ -1587,9 +1595,7 @@ install -dm755 /usr/share/xml/docbook/xml-dtd-4.5
 install -dm755 /etc/xml
 chown -R root:root .
 cp -af docbook.cat *.dtd ent/ *.mod /usr/share/xml/docbook/xml-dtd-4.5
-if [ ! -e /etc/xml/docbook ]; then
-  xmlcatalog --noout --create /etc/xml/docbook
-fi
+test -e /etc/xml/docbook || xmlcatalog --noout --create /etc/xml/docbook
 xmlcatalog --noout --add "public" "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" /etc/xml/docbook
 xmlcatalog --noout --add "public" "-//OASIS//DTD DocBook XML CALS Table Model V4.5//EN" "file:///usr/share/xml/docbook/xml-dtd-4.5/calstblx.dtd" /etc/xml/docbook
 xmlcatalog --noout --add "public" "-//OASIS//DTD XML Exchange Table Model 19990315//EN" "file:///usr/share/xml/docbook/xml-dtd-4.5/soextblx.dtd" /etc/xml/docbook
@@ -1601,9 +1607,7 @@ xmlcatalog --noout --add "public" "-//OASIS//ENTITIES DocBook XML Character Enti
 xmlcatalog --noout --add "public" "-//OASIS//ENTITIES DocBook XML Additional General Entities V4.5//EN" "file:///usr/share/xml/docbook/xml-dtd-4.5/dbgenent.mod" /etc/xml/docbook
 xmlcatalog --noout --add "rewriteSystem" "http://www.oasis-open.org/docbook/xml/4.5" "file:///usr/share/xml/docbook/xml-dtd-4.5" /etc/xml/docbook
 xmlcatalog --noout --add "rewriteURI" "http://www.oasis-open.org/docbook/xml/4.5" "file:///usr/share/xml/docbook/xml-dtd-4.5" /etc/xml/docbook
-if [ ! -e /etc/xml/catalog ]; then
-  xmlcatalog --noout --create /etc/xml/catalog
-fi
+test -e /etc/xml/catalog || xmlcatalog --noout --create /etc/xml/catalog
 xmlcatalog --noout --add "delegatePublic" "-//OASIS//ENTITIES DocBook XML" "file:///etc/xml/docbook" /etc/xml/catalog
 xmlcatalog --noout --add "delegatePublic" "-//OASIS//DTD DocBook XML" "file:///etc/xml/docbook" /etc/xml/catalog
 xmlcatalog --noout --add "delegateSystem" "http://www.oasis-open.org/docbook/" "file:///etc/xml/docbook" /etc/xml/catalog
@@ -1640,15 +1644,16 @@ install -t /usr/share/licenses/docbook-xsl -Dm644 COPYING
 cd ..
 rm -rf docbook-xsl-nons-1.79.2
 # libxslt.
-tar -xf libxslt_1.1.34.orig.tar.gz
-cd libxslt-1.1.34
-sed -i s/3000/5000/ libxslt/transform.c doc/xsltproc.{1,xml}
-./configure --prefix=/usr --disable-static --without-python
+tar -xf libxslt-1.1.36.tar.xz
+cd libxslt-1.1.36
+sed -i 's/3000/5000/' libxslt/transform.c doc/xsltproc.{1,xml}
+autoreconf -fi
+./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libxslt -Dm644 COPYING Copyright
+install -t /usr/share/licenses/libxslt -Dm644 Copyright
 cd ..
-rm -rf libxslt-1.1.34
+rm -rf libxslt-1.1.36
 # Lynx.
 tar -xf lynx2.8.9rel.1.tar.bz2
 cd lynx2.8.9rel.1
@@ -1675,7 +1680,7 @@ tar -xf OpenSP-1.5.2.tar.gz
 cd OpenSP-1.5.2
 sed -i 's/32,/253,/' lib/Syntax.cxx
 sed -i 's/LITLEN          240 /LITLEN          8092/' unicode/{gensyntax.pl,unicode.syn}
-./configure --prefix=/usr --disable-static --enable-default-catalog=/etc/sgml/catalog --enable-http --enable-default-search-path=/usr/share/sgml
+./configure --prefix=/usr --disable-static --enable-default-catalog=/etc/sgml/catalog --enable-default-search-path=/usr/share/sgml --enable-http
 make pkgdatadir=/usr/share/sgml/OpenSP-1.5.2
 make pkgdatadir=/usr/share/sgml/OpenSP-1.5.2 docdir=/usr/share/doc/OpenSP-1.5.2 install
 ln -sf onsgmls /usr/bin/nsgmls
@@ -2138,14 +2143,14 @@ install -t /usr/share/licenses/inih -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf inih-r56
 # Userspace-RCU (dependency of xfsprogs since 5.14.0).
-tar -xf userspace-rcu-0.13.1.tar.bz2
-cd userspace-rcu-0.13.1
+tar -xf userspace-rcu-0.13.2.tar.bz2
+cd userspace-rcu-0.13.2
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/userspace-rcu -Dm644 LICENSE gpl-2.0.txt lgpl-2.1.txt lgpl-relicensing.txt
 cd ..
-rm -rf userspace-rcu-0.13.1
+rm -rf userspace-rcu-0.13.2
 # xfsprogs.
 tar -xf xfsprogs-5.19.0.tar.xz
 cd xfsprogs-5.19.0
@@ -2315,15 +2320,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 cd ..
 rm -rf RHash-1.4.2
 # CMake.
-tar -xf cmake-3.24.0.tar.gz
-cd cmake-3.24.0
+tar -xf cmake-3.24.1.tar.gz
+cd cmake-3.24.1
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.24.0
+rm -rf cmake-3.24.1
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2831,14 +2836,13 @@ chmod 4755 /usr/sbin/unix_chkpwd
 cd ..
 rm -rf Linux-PAM-1.5.2
 # Shadow (rebuild to support Audit).
-tar -xf shadow-4.11.1.tar.xz
-cd shadow-4.11.1
-patch -Np1 -i ../patches/shadow-4.11.1-MassOSFixes.patch
-./configure --sysconfdir=/etc --with-group-name-max-length=32 --with-libcrack --with-audit
+tar -xf shadow-4.12.2.tar.xz
+cd shadow-4.12.2
+patch -Np1 -i ../patches/shadow-4.12.2-MassOS.patch
+./configure --sysconfdir=/etc --disable-static --with-audit --with-group-name-max-length=32 --with-libcrack
 make
 make exec_prefix=/usr install
 make -C man install-man
-mkdir -p /etc/default
 useradd -D --gid 999
 sed -i 's/yes/no/' /etc/default/useradd
 for FUNCTION in FAIL_DELAY FAILLOG_ENAB LASTLOG_ENAB MAIL_CHECK_ENAB OBSCURE_CHECKS_ENAB PORTTIME_CHECKS_ENAB QUOTAS_ENAB CONSOLE MOTD_FILE FTMP_FILE NOLOGINS_FILE ENV_HZ PASS_MIN_LEN SU_WHEEL_ONLY CRACKLIB_DICTPATH PASS_CHANGE_TRIES PASS_ALWAYS_WARN CHFN_AUTH ENCRYPT_METHOD ENVIRON_FILE; do sed -i "s/^${FUNCTION}/# &/" /etc/login.defs; done
@@ -2878,7 +2882,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.11.1
+rm -rf shadow-4.12.2
 # Sudo.
 tar -xf sudo-SUDO_1_9_11p3.tar.gz
 cd sudo-SUDO_1_9_11p3
@@ -2889,7 +2893,7 @@ ln -sf libsudo_util.so.0.0.0 /usr/lib/sudo/libsudo_util.so.0
 sed -i 's|# %wheel ALL=(ALL:ALL) ALL|%wheel ALL=(ALL:ALL) ALL|' /etc/sudoers
 sed -i 's|# Defaults secure_path|Defaults secure_path|' /etc/sudoers
 sed -i 's|/sbin:/bin|/home/linuxbrew/.linuxbrew/bin:/var/lib/flatpak/exports/bin:/snap/bin|' /etc/sudoers
-cat > /etc/sudoers.d/default << "END"
+cat > /etc/sudoers.d/pwfeedback << "END"
 # Show astericks when typing the password.
 Defaults pwfeedback
 END
@@ -2955,9 +2959,9 @@ make install
 install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.34.1
-# NSS.
-tar -xf nss-3.81.tar.gz
-cd nss-3.81/nss
+# NSS (NOTE: UPDATE BELOW SED WHEN VERSION CHANGES).
+tar -xf nss-3.82.tar.gz
+cd nss-3.82/nss
 mkdir gyp
 tar -xf ../../gyp-9ecf45.tar.gz -C gyp --strip-components=1
 PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
@@ -2967,13 +2971,13 @@ install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver
 install -t /usr/share/man/man1 -Dm644 doc/nroff/{*util,signtool,signver,ssltap}.1
 install -dm755 /usr/include/nss
 cp -r ../dist/{public,private}/nss/* /usr/include/nss
-sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.80.0|g" > /usr/lib/pkgconfig/nss.pc
+sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.82.0|g" > /usr/lib/pkgconfig/nss.pc
 sed pkg/pkg-config/nss-config.in -e 's|@prefix@|/usr|g' -e "s|@MOD_MAJOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f1)|g" -e "s|@MOD_MINOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f2)|g" -e "s|@MOD_PATCH_VERSION@|$(pkg-config --modversion nss | cut -d. -f3)|g" > /usr/bin/nss-config
 chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
-rm -rf nss-3.81
+rm -rf nss-3.82
 # Git.
 tar -xf git-2.37.2.tar.xz
 cd git-2.37.2
@@ -2997,10 +3001,10 @@ install -t /usr/share/licenses/libstemmer -Dm644 COPYING
 cd ..
 rm -rf snowball-2.2.0
 # Pahole.
-tar -xf pahole-1.23.tar.xz
+tar -xf pahole-1.23.tar.gz
 cd pahole-1.23
 mkdir pahole-build; cd pahole-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -DLIBBPF_EMBEDDED=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 mv /usr/share/dwarves/runtime/python/ostra.py /usr/lib/python3.10/ostra.py
@@ -3021,8 +3025,10 @@ cd ..
 rm -rf libsmbios-2.4.3
 # DKMS.
 tar -xf dkms-3.0.6.tar.gz
-make -C dkms-3.0.6 BASHDIR=/usr/share/bash-completion/completions install
-install -t /usr/share/licenses/dkms -Dm644 dkms-3.0.6/COPYING
+cd dkms-3.0.6
+make BASHDIR=/usr/share/bash-completion/completions install
+install -t /usr/share/licenses/dkms -Dm644 COPYING
+cd ..
 rm -rf dkms-3.0.6
 # GLib.
 tar -xf glib-2.72.3.tar.xz
@@ -3139,6 +3145,9 @@ cd rust-1.62.1-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
 cd ..
 rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
+# cargo-c (also a build dependency...)
+mkdir -p cargoc
+tar -xf cargo-c-linux.tar.gz -C cargoc
 # bpftool.
 tar -xf bpftool-6.8.0.tar.gz
 tar -xf libbpf-0.8.1.tar.gz -C bpftool-6.8.0/libbpf --strip-components=1
@@ -3695,8 +3704,8 @@ install -t /usr/share/licenses/slang -Dm644 COPYING
 cd ..
 rm -rf slang-2.3.3
 # BIND Utils.
-tar -xf bind-9.18.5.tar.xz
-cd bind-9.18.5
+tar -xf bind-9.18.6.tar.xz
+cd bind-9.18.6
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
 make -C lib/dns
@@ -3716,7 +3725,7 @@ make -C bin/dig install
 install -Dm644 doc/man/{dig.1,host.1,nslookup.1} /usr/share/man/man1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 cd ..
-rm -rf bind-9.18.5
+rm -rf bind-9.18.6
 # dhcpcd.
 tar -xf dhcpcd-9.4.1.tar.xz
 cd dhcpcd-9.4.1
@@ -3804,6 +3813,16 @@ make INSTALL_DIR=/usr/bin INSTALL_LIB=/usr/lib INSTALL_INC=/usr/include INSTALL_
 install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
 cd ..
 rm -rf wireless_tools.30
+# fmt.
+tar -xf fmt-9.0.0.tar.gz
+cd fmt-9.0.0
+mkdir fmt-build; cd fmt-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DFMT_TEST=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/fmt -Dm644 ../LICENSE.rst
+cd ../..
+rm -rf fmt-9.0.0
 # libzip.
 tar -xf libzip-1.9.2.tar.xz
 cd libzip-1.9.2
@@ -3815,13 +3834,12 @@ install -t /usr/share/licenses/libzip -Dm644 ../LICENSE
 cd ../..
 rm -rf libzip-1.9.2
 # gz2xz.
-tar -xf gz2xz-1.0.2.tar.gz
-cd gz2xz-1.0.2
-make INSTALL_DIR=/usr/bin install
+tar -xf gz2xz-1.1.0.tar.gz
+cd gz2xz-1.1.0
+make INSTALL_DIR=/usr/bin MAN_DIR=/usr/share/man install-vendored
 install -t /usr/share/licenses/gz2xz -Dm644 LICENSE
-gz2xz --install-symlinks
 cd ..
-rm -rf gz2xz-1.0.2
+rm -rf gz2xz-1.1.0
 # dmg2img.
 tar -xf dmg2img_1.6.7.orig.tar.gz
 cd dmg2img-1.6.7
@@ -4092,15 +4110,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.4.0
 # Mesa.
-tar -xf mesa-22.1.6.tar.xz
-cd mesa-22.1.6
+tar -xf mesa-22.1.7.tar.xz
+cd mesa-22.1.7
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=minsize -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.1.6
+rm -rf mesa-22.1.7
 # libva (rebuild to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
@@ -4871,8 +4889,8 @@ rm -rf libgusb-0.3.10
 tar -xf librsvg-2.54.4.tar.xz
 cd librsvg-2.54.4
 ./configure --prefix=/usr --enable-vala --disable-static
-make
-make install
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" make
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
@@ -4883,9 +4901,16 @@ cd adwaita-icon-theme-41.0
 ./configure --prefix=/usr
 make
 make install
-install -t /usr/share/licenses/adwaita-icon-theme -Dm644 COPYING COPYING_CCBYSA3 COPYING_LGPL
 cd ..
 rm -rf adwaita-icon-theme-41.0
+tar -xf adwaita-icon-theme-42.0.tar.xz
+cd adwaita-icon-theme-42.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/adwaita-icon-theme -Dm644 COPYING COPYING_CCBYSA3 COPYING_LGPL
+cd ..
+rm -rf adwaita-icon-theme-42.0
 # at-spi2-core.
 tar -xf at-spi2-core-2.44.1.tar.xz
 cd at-spi2-core-2.44.1
@@ -5331,15 +5356,15 @@ make install
 cd ..
 rm -rf SDL-1.2.15
 # SDL2.
-tar -xf SDL2-2.0.22.tar.gz
-cd SDL2-2.0.22
+tar -xf SDL2-2.24.0.tar.gz
+cd SDL2-2.24.0
 mkdir SDL2-build; cd SDL2-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_RPATH=OFF -DSDL_STATIC=OFF -Wno-dev -G Ninja ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_RPATH=OFF -DSDL_STATIC=OFF -DSDL_TEST=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/sdl2 -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf SDL2-2.0.22
+rm -rf SDL2-2.24.0
 # dmidecode.
 tar -xf dmidecode-3.4.tar.xz
 cd dmidecode-3.4
@@ -5431,8 +5456,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-9.0.0050.tar.gz
-cd vim-9.0.0050
+tar -xf vim-9.0.0200.tar.gz
+cd vim-9.0.0200
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5455,7 +5480,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-9.0.0050
+rm -rf vim-9.0.0200
 # libwpe.
 tar -xf libwpe-1.13.2.tar.xz
 cd libwpe-1.13.2
@@ -6039,7 +6064,7 @@ rm -rf libsoup-3.0.7
 tar -xf libostree-2022.5.tar.xz
 cd libostree-2022.5
 patch -Np1 -i ../patches/ostree-2022.5-glibc236.patch
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-dracut --with-openssl --enable-experimental-api --disable-static
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-curl --with-dracut --with-ed25519-libsodium --with-openssl
 make
 make install
 sed -i '/reproducible/d' /etc/dracut.conf.d/ostree.conf
@@ -6097,8 +6122,8 @@ install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 ../COPYING
 cd ../..
 rm -rf xdg-dbus-proxy-0.1.4
 # Flatpak.
-tar -xf flatpak-1.13.2.tar.xz
-cd flatpak-1.13.2
+tar -xf flatpak-1.13.3.tar.xz
+cd flatpak-1.13.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -6118,7 +6143,7 @@ useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /sbin
 flatpak remote-add flathub ../flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.13.2
+rm -rf flatpak-1.13.3
 # libportal / libportal-gtk3.
 tar -xf libportal-0.6.tar.xz
 cd libportal-0.6
@@ -6357,8 +6382,8 @@ install -t /usr/share/licenses/x264 -Dm644 COPYING
 cd ..
 rm -rf x264-0.164.3095
 # x265.
-tar -xf x265-3.5-37-g9b59d4554.tar.xz
-cd x265-3.5-37-g9b59d4554
+tar -xf x265-3.5-39-g20255e6f0.tar.xz
+cd x265-3.5-39-g20255e6f0
 mkdir x265-build; cd x265-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ../source
 ninja
@@ -6366,7 +6391,7 @@ ninja install
 rm -f /usr/lib/libx265.a
 install -t /usr/share/licenses/x265 -Dm644 ../COPYING
 cd ../..
-rm -rf x265-3.5-37-g9b59d4554
+rm -rf x265-3.5-39-g20255e6f0
 # libraw1394.
 tar -xf libraw1394-2.1.2.tar.xz
 cd libraw1394-2.1.2
@@ -6414,6 +6439,31 @@ ninja install
 install -t /usr/share/licenses/dav1d -Dm644 ../COPYING
 cd ../..
 rm -rf dav1d-1.0.0
+# rav1e.
+tar -xf rav1e-0.5.1.tar.gz
+cd rav1e-0.5.1
+RUSTFLAGS="-C relocation-model=dynamic-no-pic" cargo build --release
+cargo cbuild --release
+sed -i 's|/usr/local|/usr|' target/x86_64-unknown-linux-gnu/release/rav1e.pc
+install -t /usr/bin -Dm755 target/release/rav1e
+install -t /usr/include/rav1e -Dm644 target/x86_64-unknown-linux-gnu/release/include/rav1e/rav1e.h
+install -t /usr/lib/pkgconfig -Dm644 target/x86_64-unknown-linux-gnu/release/rav1e.pc
+install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.5.1
+ln -sf librav1e.so.0.5.1 /usr/lib/librav1e.so.0
+ln -sf librav1e.so.0.5.1 /usr/lib/librav1e.so
+ldconfig
+install -t /usr/share/licenses/rav1e -Dm644 LICENSE
+cd ..
+rm -rf rav1e-0.5.1
+# wavpack.
+tar -xf wavpack-5.5.0.tar.xz
+cd wavpack-5.5.0
+./configure --prefix=/usr --disable-rpath --enable-legacy
+make
+make install
+install -t /usr/share/licenses/wavpack -Dm644 COPYING
+cd ..
+rm -rf wavpack-5.5.0
 # libbluray.
 tar -xf libbluray-1.3.2.tar.bz2
 cd libbluray-1.3.2
@@ -6456,7 +6506,7 @@ rm -rf faad2-2_10_0
 # FFmpeg.
 tar -xf ffmpeg-5.1.tar.xz
 cd ffmpeg-5.1
-./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
+./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librav1e --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
 make install
@@ -6477,7 +6527,7 @@ rm -rf openal-soft-1.22.2
 tar -xf gstreamer-1.20.3.tar.xz
 cd gstreamer-1.20.3
 mkdir gstreamer-build; cd gstreamer-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O3" CXXFLAGS="-O3" meson --prefix=/usr --buildtype=release -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -6487,7 +6537,7 @@ rm -rf gstreamer-1.20.3
 tar -xf gst-plugins-base-1.20.3.tar.xz
 cd gst-plugins-base-1.20.3
 mkdir base-build; cd base-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -6497,7 +6547,7 @@ rm -rf gst-plugins-base-1.20.3
 tar -xf gst-plugins-good-1.20.3.tar.xz
 cd gst-plugins-good-1.20.3
 mkdir good-build; cd good-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -6507,7 +6557,7 @@ rm -rf gst-plugins-good-1.20.3
 tar -xf gst-plugins-bad-1.20.3.tar.xz
 cd gst-plugins-bad-1.20.3
 mkdir bad-build; cd bad-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -6517,7 +6567,7 @@ rm -rf gst-plugins-bad-1.20.3
 tar -xf gst-plugins-ugly-1.20.3.tar.xz
 cd gst-plugins-ugly-1.20.3
 mkdir ugly-build; cd ugly-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -6527,7 +6577,7 @@ rm -rf gst-plugins-ugly-1.20.3
 tar -xf gst-libav-1.20.3.tar.xz
 cd gst-libav-1.20.3
 mkdir gst-libav-build; cd gst-libav-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
@@ -6537,7 +6587,7 @@ rm -rf gst-libav-1.20.3
 tar -xf gstreamer-vaapi-1.20.3.tar.xz
 cd gstreamer-vaapi-1.20.3
 mkdir gstreamer-vaapi-build; cd gstreamer-vaapi-build
-CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
@@ -6695,8 +6745,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.1.tar.xz
-cd linux-5.19.1
+tar -xf linux-5.19.2.tar.xz
+cd linux-5.19.2
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6732,7 +6782,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.1
+rm -rf linux-5.19.2
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.65.01.tar.gz

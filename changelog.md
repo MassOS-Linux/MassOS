@@ -13,15 +13,19 @@ Changes:
 
 Upgraded software (core):
 
+- adwaita-icon-theme: `41.0 --> 42.0`
 - AppArmor: `3.0.4 --> 3.0.7`
 - bc: `5.3.3 --> 6.0.1`
+- BIND Utils: `9.18.5 --> 9.18.6`
 - Binutils: `2.38 --> 2.39`
 - Boost: `1.79.0 --> 1.80.0`
 - bsd-games: `3.1 --> 3.2`
 - cairomm: `1.14.0 --> 1.14.3`
-- CMake: `3.23.3 --> 3.24.0`
+- CMake: `3.23.3 --> 3.24.1`
 - DirectX-Headers: `1.602.0 --> 1.606.3`
 - FFmpeg: `5.0.1 --> 5.1`
+- Flatpak: `1.13.2 --> 1.13.3`
+- GCC: `12.1.0 --> 12.2.0`
 - GDK-Pixbuf: `2.42.8 --> 2.42.9`
 - Git: `2.37.1 --> 2.37.2`
 - glib-networking: `2.72.1 --> 2.72.2`
@@ -30,6 +34,7 @@ Upgraded software (core):
 - GNU-EFI: `3.0.14 --> 3.0.15`
 - GPGME: `1.17.1 --> 1.18.0`
 - Gutenprint: `5.3.3 --> 5.3.4`
+- gz2xz: `1.0.2 --> 1.1.0`
 - IPRoute2: `5.18.0 --> 5.19.0`
 - JSON: `4.07 --> 4.09`
 - libbluray: `1.3.0 --> 1.3.2`
@@ -37,22 +42,30 @@ Upgraded software (core):
 - libtirpc: `1.3.2 --> 1.3.3`
 - libwebp: `1.2.3 --> 1.2.4`
 - libwpe: `1.13.1 --> 1.13.2`
-- Linux Kernel: `5.19.0 --> 5.19.1`
-- Mesa: `22.1.4 --> 22.1.6`
+- libxslt: `1.1.34 --> 1.1.36`
+- Linux Kernel: `5.19.0 --> 5.19.2`
+- LZ4: `1.9.3 --> 1.9.4`
+- Mesa: `22.1.4 --> 22.1.7`
 - Nano: `6.3 --> 6.4`
 - NetworkManager: `1.38.2 --> 1.38.4`
 - NSPR: `4.34 --> 4.34.1`
+- NSS: `3.81 --> 3.82`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
 - Pango: `1.50.8 --> 1.50.9`
 - Poppler: `22.07.0 --> 22.08.0`
+- Pygments: `2.12.0 --> 2.13.0`
 - Python: `3.10.5 --> 3.10.6`
 - python-dbusmock: `0.28.2 --> 0.28.4`
 - rsync: `3.2.4 --> 3.2.5`
+- SDL2: `2.0.22 --> 2.24.0`
+- Shadow: `4.11.1 --> 4.12.2`
 - slang: `2.3.2 --> 2.3.3`
 - systemd: `251.3 --> 251.4`
-- tzdata: `2022a --> 2022b`
+- tzdata: `2022a --> 2022c`
 - urllib3: `1.26.9 --> 1.26.11`
+- Userspace-RCU: `0.13.1 --> 0.13.2`
 - util-linux: `2.38 --> 2.38.1`
+- Vim: `9.0.0050 --> 9.0.0200`
 - Wayland-Protocols: `1.25 --> 1.26`
 - WebKitGTK: `2.36.5 --> 2.36.6`
 - wpebackend-fdo: `1.12.0 --> 1.12.1`
@@ -61,6 +74,7 @@ Upgraded software (core):
 - xfsprogs: `5.18.0 --> 5.19.0`
 - xorgproto: `2022.1 --> 2022.2`
 - XZ: `5.2.5 --> 5.2.6`
+- x265: `3.5-37-g9b59d4554 --> 3.5-39-g20255e6f0`
 
 Upgraded software (Xfce):
 
@@ -68,8 +82,9 @@ Upgraded software (Xfce):
 - Garcon: `4.17.0 --> 4.17.1`
 - Shotwell: `0.31.3 --> 0.31.4`
 - Tumbler: `4.17.0 --> 4.17.2`
-- xfce4-panel: `4.17.0 --> 4.17.2`
+- xfce4-panel: `4.17.0 --> 4.17.3`
 - xfce4-screenshots: `1.9.10 --> 1.9.11`
+- xfdesktop: `4.16.0 --> 4.17.0`
 
 # MassOS 2022.08
 Changes:
