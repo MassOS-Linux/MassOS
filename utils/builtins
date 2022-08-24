@@ -156,6 +156,8 @@ grub
 gsettings-desktop-schemas
 gspell
 gst-libav
+gst-plugin-dav1d
+gst-plugin-rav1e
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
@@ -379,6 +381,7 @@ m4
 make
 make-ca
 mako
+malcontent
 man-db
 man-pages
 mandoc

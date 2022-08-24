@@ -810,7 +810,7 @@ rm -rf psmisc-v23.5
 # elfutils.
 tar -xf elfutils-0.187.tar.bz2
 cd elfutils-0.187
-CFLAGS="$CFLAGS -Wno-error=use-after-free" ./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
+CFLAGS="-O2" CXXFLAGS="-O2" ./configure --prefix=/usr --program-prefix="eu-" --disable-debuginfod --enable-libdebuginfod=dummy
 make
 make install
 rm -f /usr/lib/lib{asm,dw,elf}.a
@@ -818,14 +818,14 @@ install -t /usr/share/licenses/elfutils -Dm644 COPYING COPYING-GPLV2 COPYING-LGP
 cd ..
 rm -rf elfutils-0.187
 # libbpf.
-tar -xf libbpf-0.8.1.tar.gz
-cd libbpf-0.8.1/src
+tar -xf libbpf-1.0.0.tar.gz
+cd libbpf-1.0.0/src
 make
 make LIBSUBDIR=lib install
 rm -f /usr/lib/libbpf.a
 install -t /usr/share/licenses/libbpf -Dm644 ../LICENSE{,.BSD-2-Clause,.LGPL-2.1}
 cd ../..
-rm -rf libbpf-0.8.1
+rm -rf libbpf-1.0.0
 # patchelf.
 tar -xf patchelf-0.14.5.tar.bz2
 cd patchelf-0.14.5
@@ -1657,12 +1657,12 @@ rm -rf libxslt-1.1.36
 # Lynx.
 tar -xf lynx2.8.9rel.1.tar.bz2
 cd lynx2.8.9rel.1
-./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx --with-zlib --with-bzlib --with-ssl --with-screen=ncursesw --enable-gzip-help --enable-locale-charset
+./configure --prefix=/usr --sysconfdir=/etc/lynx --datadir=/usr/share/doc/lynx --with-bzlib --with-screen=ncursesw --with-ssl --with-zlib --enable-gzip-help --enable-ipv6 --enable-locale-charset
 make
 make install-full
-sed -e '/#LOCALE/     a LOCALE_CHARSET:TRUE' -i /etc/lynx/lynx.cfg
-sed -e '/#DEFAULT_ED/ a DEFAULT_EDITOR:vi' -i /etc/lynx/lynx.cfg
-sed -e '/#PERSIST/    a PERSISTENT_COOKIES:TRUE' -i /etc/lynx/lynx.cfg
+sed -i 's/#LOCALE_CHARSET:FALSE/LOCALE_CHARSET:TRUE/' /etc/lynx/lynx.cfg
+sed -i 's/#DEFAULT_EDITOR:/DEFAULT_EDITOR:nano/' /etc/lynx/lynx.cfg
+sed -i 's/#PERSISTENT_COOKIES:FALSE/PERSISTENT_COOKIES:TRUE/' /etc/lynx/lynx.cfg
 install -t /usr/share/licenses/lynx -Dm644 COPYHEADER COPYING
 cd ..
 rm -rf lynx2.8.9rel.1
@@ -1942,16 +1942,14 @@ install -t /usr/share/licenses/man-db -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf man-db-2.10.2
 # Procps-NG.
-tar -xf procps-v4.0.0.tar.bz2
-cd procps-v4.0.0
-sed -i 's/UNKNOWN/4.0.0/g' misc/git-version-gen
-./autogen.sh
+tar -xf procps-ng-4.0.0.tar.xz
+cd procps-ng-4.0.0
 ./configure --prefix=/usr --disable-static --disable-kill --with-systemd
 make
 make install
 install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 cd ..
-rm -rf procps-v4.0.0
+rm -rf procps-ng-4.0.0
 # util-linux.
 tar -xf util-linux-2.38.1.tar.xz
 cd util-linux-2.38.1
@@ -2322,6 +2320,7 @@ rm -rf RHash-1.4.2
 # CMake.
 tar -xf cmake-3.24.1.tar.gz
 cd cmake-3.24.1
+patch -Np1 -i ../patches/cmake-3.24.1-boost1.80.patch
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --sphinx-man
 ninja
@@ -2398,10 +2397,9 @@ rm -rf libusb-1.0.26
 # libmtp.
 tar -xf libmtp-1.1.20.tar.gz
 cd libmtp-1.1.20
-./configure --prefix=/usr --with-udev=/usr/lib/udev
+./configure --prefix=/usr --disable-rpath --disable-static --with-udev=/usr/lib/udev
 make
 make install
-rm -f /usr/lib/libmtp.a
 install -t /usr/share/licenses/libmtp -Dm644 COPYING
 cd ..
 rm -rf libmtp-1.1.20
@@ -2409,10 +2407,9 @@ rm -rf libmtp-1.1.20
 tar -xf libnfs-4.0.0.tar.gz
 cd libnfs-libnfs-4.0.0
 ./bootstrap
-./configure --prefix=/usr
+./configure --prefix=/usr --disable-static
 make
 make install
-rm -f /usr/lib/libnfs.a
 install -t /usr/share/licenses/libnfs -Dm644 COPYING LICENCE-BSD.txt LICENCE-GPL-3.txt LICENCE-LGPL-2.1.txt
 cd ..
 rm -rf libnfs-libnfs-4.0.0
@@ -2481,7 +2478,6 @@ rm -rf whois-5.5.13
 # libpsl.
 tar -xf libpsl-0.21.1.tar.gz
 cd libpsl-0.21.1
-sed -i 's/env python/&3/' src/psl-make-dafsa
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -2507,14 +2503,14 @@ install -t /usr/share/licenses/pciutils -Dm644 COPYING
 cd ..
 rm -rf pciutils-3.8.0
 # libtasn1.
-tar -xf libtasn1-4.18.0.tar.gz
-cd libtasn1-4.18.0
+tar -xf libtasn1-4.19.0.tar.gz
+cd libtasn1-4.19.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libtasn1 -Dm644 COPYING
 cd ..
-rm -rf libtasn1-4.18.0
+rm -rf libtasn1-4.19.0
 # p11-kit.
 tar -xf p11-kit-0.24.1.tar.xz
 cd p11-kit-0.24.1
@@ -2668,7 +2664,7 @@ rm -rf gnupg-2.3.7
 # krb5.
 tar -xf krb5-1.20.tar.gz
 cd krb5-1.20/src
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --with-system-et --with-system-ss --with-system-verto=no --enable-dns-for-realm
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --disable-rpath --enable-dns-for-realm --with-system-et --with-system-ss --without-system-verto
 make
 make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
@@ -3001,17 +2997,18 @@ install -t /usr/share/licenses/libstemmer -Dm644 COPYING
 cd ..
 rm -rf snowball-2.2.0
 # Pahole.
-tar -xf pahole-1.23.tar.gz
-cd pahole-1.23
+tar -xf pahole-1.24.tar.gz
+cd pahole-1.24
+tar -xf ../libbpf-1.0.0.tar.gz -C lib/bpf --strip-components=1
 mkdir pahole-build; cd pahole-build
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -DLIBBPF_EMBEDDED=OFF -Wno-dev -G Ninja ..
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -D__LIB=lib -Wno-dev -G Ninja ..
 ninja
 ninja install
 mv /usr/share/dwarves/runtime/python/ostra.py /usr/lib/python3.10/ostra.py
 rm -rf /usr/share/dwarves/runtime/python
 install -t /usr/share/licenses/pahole -Dm644 ../COPYING
 cd ../..
-rm -rf pahole-1.23
+rm -rf pahole-1.24
 # libsmbios.
 tar -xf libsmbios-2.4.3.tar.gz
 cd libsmbios-2.4.3
@@ -3149,15 +3146,14 @@ rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
 mkdir -p cargoc
 tar -xf cargo-c-linux.tar.gz -C cargoc
 # bpftool.
-tar -xf bpftool-6.8.0.tar.gz
-tar -xf libbpf-0.8.1.tar.gz -C bpftool-6.8.0/libbpf --strip-components=1
-cd bpftool-6.8.0/src
-patch -Np2 -i ../../patches/bpftool-6.8.0-binutils2.39.patch
+tar -xf bpftool-7.0.0.tar.gz
+tar -xf libbpf-1.0.0.tar.gz -C bpftool-7.0.0/libbpf --strip-components=1
+cd bpftool-7.0.0/src
 make all doc
 make install doc-install prefix=/usr mandir=/usr/share/man
 install -t /usr/share/licenses/bpftool -Dm644 ../LICENSE{,.BSD-2-Clause,.GPL-2.0}
 cd ../..
-rm -rf bpftool-0.8.1
+rm -rf bpftool-7.0.0
 # volume-key.
 tar -xf volume_key-0.3.12.tar.gz
 cd volume_key-volume_key-0.3.12
@@ -3529,7 +3525,7 @@ rm -rf enchant-2.3.3
 tar -xf fontconfig-2.14.0.tar.bz2
 cd fontconfig-2.14.0
 mkdir FC-build; cd FC-build
-meson --prefix=/usr --buildtype=minsize -Ddoc=disabled ..
+meson --prefix=/usr --buildtype=minsize -Ddoc-pdf=disabled -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/fontconfig -Dm644 ../COPYING
@@ -3539,7 +3535,7 @@ rm -rf fontconfig-2.14.0
 tar -xf fribidi-1.0.12.tar.xz
 cd fribidi-1.0.12
 mkdir fribidi-build; cd fribidi-build
-meson --prefix=/usr --buildtype=minsize ..
+meson --prefix=/usr --buildtype=minsize -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/fribidi -Dm644 ../COPYING
@@ -4574,7 +4570,7 @@ install -t /usr/share/licenses/cmatrix -Dm644 COPYING
 cd ..
 rm -rf cmatrix
 # vitetris.
-tar -xf vitetris_0.59.1.orig.tar.gz
+tar -xf vitetris-0.59.1.tar.gz
 cd vitetris-0.59.1
 sed -i 's|#define CONFIG_FILENAME ".vitetris"|#define CONFIG_FILENAME ".config/vitetris"|' src/config2.h
 ./configure --prefix=/usr --with-ncurses --without-x
@@ -4856,8 +4852,8 @@ install -t /usr/share/licenses/libglade -Dm644 COPYING
 cd ..
 rm -rf libglade-2.6.4
 # Graphviz.
-tar -xf graphviz-5.0.0.tar.bz2
-cd graphviz-5.0.0
+tar -xf graphviz-5.0.1.tar.bz2
+cd graphviz-5.0.1
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
@@ -4865,7 +4861,7 @@ make
 make -j1 install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 cd ..
-rm -rf graphviz-5.0.0
+rm -rf graphviz-5.0.1
 # Vala.
 tar -xf vala-0.56.2.tar.xz
 cd vala-0.56.2
@@ -5317,7 +5313,7 @@ useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /sbin
 groupadd -fg 86 netdev
 patch -Np1 -i ../patches/avahi-0.8-upstreamfixes.patch
 patch -Np1 -i ../patches/avahi-0.8-add-missing-script.patch
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-mono --disable-monodoc --disable-qt3 --disable-qt4 --disable-qt5 --enable-compat-libdns_sd --with-distro=none
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-mono --disable-monodoc --disable-qt3 --disable-qt4 --disable-qt5 --disable-rpath --disable-static --enable-compat-libdns_sd --with-distro=none
 make
 make install
 systemctl enable avahi-daemon
@@ -5456,8 +5452,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-9.0.0200.tar.gz
-cd vim-9.0.0200
+tar -xf vim-9.0.0250.tar.gz
+cd vim-9.0.0250
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5480,7 +5476,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-9.0.0200
+rm -rf vim-9.0.0250
 # libwpe.
 tar -xf libwpe-1.13.2.tar.xz
 cd libwpe-1.13.2
@@ -6121,9 +6117,21 @@ ninja install
 install -t /usr/share/licenses/xdg-dbus-proxy -Dm644 ../COPYING
 cd ../..
 rm -rf xdg-dbus-proxy-0.1.4
+# Malcontent (circular dependency; initial build without malcontent-ui).
+tar -xf malcontent-0.10.5.tar.xz
+cd malcontent-0.10.5
+tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
+mv subprojects/libglib-testing{-0.1.1,}
+mkdir malcontent-build; cd malcontent-build
+meson --prefix=/usr --buildtype=minsize -Dui=disabled ..
+ninja
+ninja install
+install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
+cd ../..
+rm -rf malcontent-0.10.5
 # Flatpak.
-tar -xf flatpak-1.13.3.tar.xz
-cd flatpak-1.13.3
+tar -xf flatpak-1.14.0.tar.xz
+cd flatpak-1.14.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-system-bubblewrap --with-system-dbus-proxy --with-dbus-config-dir=/usr/share/dbus-1/system.d
 make
 make install
@@ -6143,7 +6151,19 @@ useradd -c "Flatpak system helper" -d /var/lib/flatpak -u 69 -g flatpak -s /sbin
 flatpak remote-add flathub ../flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 cd ..
-rm -rf flatpak-1.13.3
+rm -rf flatpak-1.14.0
+# Malcontent (rebuild with malcontent-ui after resolving circular dependency).
+tar -xf malcontent-0.10.5.tar.xz
+cd malcontent-0.10.5
+tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
+mv subprojects/libglib-testing{-0.1.1,}
+mkdir malcontent-build; cd malcontent-build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
+cd ../..
+rm -rf malcontent-0.10.5
 # libportal / libportal-gtk3.
 tar -xf libportal-0.6.tar.xz
 cd libportal-0.6
@@ -6527,7 +6547,7 @@ rm -rf openal-soft-1.22.2
 tar -xf gstreamer-1.20.3.tar.xz
 cd gstreamer-1.20.3
 mkdir gstreamer-build; cd gstreamer-build
-CFLAGS="-O3" CXXFLAGS="-O3" meson --prefix=/usr --buildtype=release -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dbenchmarks=disabled -Dexamples=disabled -Dgst_debug=false -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer -Dm644 ../COPYING
@@ -6593,6 +6613,19 @@ ninja install
 install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
 cd ../..
 rm -rf gstreamer-vaapi-1.20.3
+# gst-plugin-dav1d and gst-plugin-rav1e (from gst-plugins-rs).
+tar -xf gst-plugins-rs-0.8.4.tar.bz2
+cd gst-plugins-rs-0.8.4
+sed -i 's/dav1d = "0.7"/dav1d = "0.8"/' video/dav1d/Cargo.toml
+mkdir gst-rs-build; cd gst-rs-build
+meson --prefix=/usr --buildtype=minsize -Dsodium=system -Dcsound=disabled -Dgtk4=disabled ..
+ninja
+install -t /usr/lib/gstreamer-1.0 -Dm755 libgst{rav1e,rsdav1d}.so
+install -t /usr/lib/pkgconfig -Dm644 gst{rav1e,rsdav1d}.pc
+install -t /usr/share/licenses/gst-plugin-dav1d -Dm644 ../LICENSE-MIT
+install -t /usr/share/licenses/gst-plugin-rav1e -Dm644 ../LICENSE-MIT
+cd ../..
+rm -rf gst-plugins-rs-0.8.4
 # PipeWire + WirePlumber.
 tar -xf pipewire-0.3.56.tar.bz2
 cd pipewire-0.3.56
@@ -6745,8 +6778,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.2.tar.xz
-cd linux-5.19.2
+tar -xf linux-5.19.3.tar.xz
+cd linux-5.19.3
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6782,7 +6815,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.2
+rm -rf linux-5.19.3
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.65.01.tar.gz

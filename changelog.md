@@ -19,12 +19,13 @@ Upgraded software (core):
 - BIND Utils: `9.18.5 --> 9.18.6`
 - Binutils: `2.38 --> 2.39`
 - Boost: `1.79.0 --> 1.80.0`
+- bpftool: `6.8.0 --> 7.0.0`
 - bsd-games: `3.1 --> 3.2`
 - cairomm: `1.14.0 --> 1.14.3`
 - CMake: `3.23.3 --> 3.24.1`
 - DirectX-Headers: `1.602.0 --> 1.606.3`
 - FFmpeg: `5.0.1 --> 5.1`
-- Flatpak: `1.13.2 --> 1.13.3`
+- Flatpak: `1.13.2 --> 1.14.0`
 - GCC: `12.1.0 --> 12.2.0`
 - GDK-Pixbuf: `2.42.8 --> 2.42.9`
 - Git: `2.37.1 --> 2.37.2`
@@ -33,24 +34,29 @@ Upgraded software (core):
 - glslang: `11.10.0 --> 11.11.0`
 - GNU-EFI: `3.0.14 --> 3.0.15`
 - GPGME: `1.17.1 --> 1.18.0`
+- GraphViz: `5.0.0 --> 5.0.1`
 - Gutenprint: `5.3.3 --> 5.3.4`
 - gz2xz: `1.0.2 --> 1.1.0`
 - IPRoute2: `5.18.0 --> 5.19.0`
 - JSON: `4.07 --> 4.09`
 - libbluray: `1.3.0 --> 1.3.2`
+- libbpf: `0.8.1 --> 1.0.0`
 - libevdev: `1.12.1 --> 1.13.0`
+- libtasn1: `4.18.0 --> 4.19.0`
 - libtirpc: `1.3.2 --> 1.3.3`
 - libwebp: `1.2.3 --> 1.2.4`
 - libwpe: `1.13.1 --> 1.13.2`
 - libxslt: `1.1.34 --> 1.1.36`
-- Linux Kernel: `5.19.0 --> 5.19.2`
+- Linux Kernel: `5.19.0 --> 5.19.3`
 - LZ4: `1.9.3 --> 1.9.4`
+- Malcontent: `0.10.4 --> 0.10.5`
 - Mesa: `22.1.4 --> 22.1.7`
 - Nano: `6.3 --> 6.4`
 - NetworkManager: `1.38.2 --> 1.38.4`
 - NSPR: `4.34 --> 4.34.1`
 - NSS: `3.81 --> 3.82`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
+- Pahole: `1.23 --> 1.24`
 - Pango: `1.50.8 --> 1.50.9`
 - Poppler: `22.07.0 --> 22.08.0`
 - Pygments: `2.12.0 --> 2.13.0`
@@ -65,7 +71,7 @@ Upgraded software (core):
 - urllib3: `1.26.9 --> 1.26.11`
 - Userspace-RCU: `0.13.1 --> 0.13.2`
 - util-linux: `2.38 --> 2.38.1`
-- Vim: `9.0.0050 --> 9.0.0200`
+- Vim: `9.0.0050 --> 9.0.0250`
 - Wayland-Protocols: `1.25 --> 1.26`
 - WebKitGTK: `2.36.5 --> 2.36.6`
 - wpebackend-fdo: `1.12.0 --> 1.12.1`

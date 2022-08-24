@@ -469,18 +469,6 @@ ninja install
 install -t /usr/share/licenses/gnome-firmware -Dm644 ../COPYING
 cd ../..
 rm -rf gnome-firmware-41.0
-# Malcontent (dependency of GNOME Software).
-tar -xf malcontent-0.10.4.tar.xz
-cd malcontent-0.10.4
-tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
-mv subprojects/libglib-testing{-0.1.1,}
-mkdir malcontent-build; cd malcontent-build
-meson --prefix=/usr --buildtype=minsize ..
-ninja
-ninja install
-install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
-cd ../..
-rm -rf malcontent-0.10.4
 # GNOME Software.
 tar -xf gnome-software-41.5.tar.xz
 cd gnome-software-41.5
@@ -498,18 +486,18 @@ mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=minsize ..
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
 install -m755 target/release/gnome-tour /usr/bin/massos-welcome
-cat > /usr/bin/firstlogin << "END"
+cat > /usr/libexec/firstlogin << "END"
 #!/bin/sh
 /usr/bin/massos-welcome
 rm -f ~/.config/autostart/firstlogin.desktop
 END
-chmod 755 /usr/bin/firstlogin
+chmod 755 /usr/libexec/firstlogin
 install -dm755 /etc/skel/.config/autostart
 cat > /etc/skel/.config/autostart/firstlogin.desktop << "END"
 [Desktop Entry]
 Type=Application
 Name=First Login Welcome Program
-Exec=/usr/bin/firstlogin
+Exec=/usr/libexec/firstlogin
 END
 install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
 cd ../..
