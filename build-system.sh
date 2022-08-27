@@ -6263,6 +6263,16 @@ rm -f /usr/lib/libopenh264.a
 install -t /usr/share/licenses/openh264 -Dm644 ../LICENSE
 cd ../..
 rm -rf openh264-2.1.1
+# libde265.
+tar -xf libde265-1.0.8.tar.gz
+cd libde265-1.0.8
+./configure --prefix=/usr --disable-static --disable-sherlock265
+make
+make install
+rm -f /usr/bin/tests
+install -t /usr/share/licenses/libde265 -Dm644 COPYING
+cd ..
+rm -rf libde265-1.0.8
 # CDParanoia-III.
 tar -xf cdparanoia-III-10.2.src.tgz
 cd cdparanoia-III-10.2
@@ -6513,6 +6523,25 @@ make install
 install -t /usr/share/licenses/libmpeg2 -Dm644 COPYING
 cd ..
 rm -rf libmpeg2-0.5.1
+# libheif.
+tar -xf libheif-1.12.0.tar.gz
+cd libheif-1.12.0
+./configure --prefix=/usr --disable-static --disable-aom
+make
+make install
+install -t /usr/share/licenses/libheif -Dm644 COPYING
+cd ..
+rm -rf libheif-1.12.0
+# libavif.
+tar -xf libavif-0.10.1.tar.gz
+cd libavif-0.10.1
+mkdir libavif-build; cd libavif-build
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DAVIF_BUILD_APPS=ON -DAVIF_BUILD_GDK_PIXBUF=ON -DAVIF_CODEC_DAV1D=ON -DAVIF_CODEC_RAV1E=ON -DAVIF_ENABLE_WERROR=OFF -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/libavif -Dm644 ../LICENSE
+cd ../..
+rm -rf libavif-0.10.1
 # FAAD2.
 tar -xf faad2-2_10_0.tar.gz
 cd faad2-2_10_0

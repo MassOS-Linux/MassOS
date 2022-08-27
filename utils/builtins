@@ -217,6 +217,7 @@ libass
 libassuan
 libatasmart
 libavc1394
+libavif
 libblockdev
 libbluray
 libbpf
@@ -230,6 +231,7 @@ libcdio-paranoia
 libchamplain
 libdaemon
 libdazzle
+libde265
 libdmx
 libdrm
 libdv
@@ -253,6 +255,7 @@ libgudev
 libgusb
 libgxps
 libhandy
+libheif
 libical
 libice
 libidn2
