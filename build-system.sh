@@ -6586,7 +6586,7 @@ rm -rf gstreamer-1.20.3
 tar -xf gst-plugins-base-1.20.3.tar.xz
 cd gst-plugins-base-1.20.3
 mkdir base-build; cd base-build
-meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-base -Dm644 ../COPYING
@@ -6596,7 +6596,7 @@ rm -rf gst-plugins-base-1.20.3
 tar -xf gst-plugins-good-1.20.3.tar.xz
 cd gst-plugins-good-1.20.3
 mkdir good-build; cd good-build
-meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-good -Dm644 ../COPYING
@@ -6606,7 +6606,7 @@ rm -rf gst-plugins-good-1.20.3
 tar -xf gst-plugins-bad-1.20.3.tar.xz
 cd gst-plugins-bad-1.20.3
 mkdir bad-build; cd bad-build
-meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-bad -Dm644 ../COPYING
@@ -6616,7 +6616,7 @@ rm -rf gst-plugins-bad-1.20.3
 tar -xf gst-plugins-ugly-1.20.3.tar.xz
 cd gst-plugins-ugly-1.20.3
 mkdir ugly-build; cd ugly-build
-meson --prefix=/usr --buildtype=minsize -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dgpl=enabled -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-plugins-ugly -Dm644 ../COPYING
@@ -6626,7 +6626,7 @@ rm -rf gst-plugins-ugly-1.20.3
 tar -xf gst-libav-1.20.3.tar.xz
 cd gst-libav-1.20.3
 mkdir gst-libav-build; cd gst-libav-build
-meson --prefix=/usr --buildtype=minsize -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dpackage-name="MassOS GStreamer 1.20.3" -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gst-libav -Dm644 ../COPYING
@@ -6636,7 +6636,7 @@ rm -rf gst-libav-1.20.3
 tar -xf gstreamer-vaapi-1.20.3.tar.xz
 cd gstreamer-vaapi-1.20.3
 mkdir gstreamer-vaapi-build; cd gstreamer-vaapi-build
-meson --prefix=/usr --buildtype=minsize -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dexamples=disabled -Dpackage-origin="https://massos.org" -Dtests=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/gstreamer-vaapi -Dm644 ../COPYING.LIB
@@ -6647,7 +6647,7 @@ tar -xf gst-plugins-rs-0.8.4.tar.bz2
 cd gst-plugins-rs-0.8.4
 sed -i 's/dav1d = "0.7"/dav1d = "0.8"/' video/dav1d/Cargo.toml
 mkdir gst-rs-build; cd gst-rs-build
-meson --prefix=/usr --buildtype=minsize -Dsodium=system -Dcsound=disabled -Dgtk4=disabled ..
+CFLAGS="-O2" CXXFLAGS="-O2" meson --prefix=/usr --buildtype=plain -Dsodium=system -Dcsound=disabled -Dgtk4=disabled ..
 ninja
 install -t /usr/lib/gstreamer-1.0 -Dm755 libgst{rav1e,rsdav1d}.so
 install -t /usr/lib/pkgconfig -Dm644 gst{rav1e,rsdav1d}.pc
