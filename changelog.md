@@ -84,7 +84,7 @@ Upgraded software (core):
 
 Upgraded software (Xfce):
 
-- Firefox: `103.0.1 --> 103.0.2`
+- Firefox: `103.0.1 --> 104.0`
 - Garcon: `4.17.0 --> 4.17.1`
 - Shotwell: `0.31.3 --> 0.31.4`
 - Tumbler: `4.17.0 --> 4.17.2`
