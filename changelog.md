@@ -6,6 +6,7 @@ Changes:
 
 - Added support for updating system firmware (fwupd).
 - Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
+- Added HEIF/AVIF image format support and improved multimedia codec support.
 - The core C library (Glibc) has been upgraded to version 2.36.
 - Improved Noto fonts installation (and saved about ~100MB of space (~300MB uncompressed)).
 - Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
@@ -14,7 +15,8 @@ Changes:
 Upgraded software (core):
 
 - adwaita-icon-theme: `41.0 --> 42.0`
-- AppArmor: `3.0.4 --> 3.0.7`
+- AppArmor: `3.0.4 --> 3.1.1`
+- AppStream: `0.15.4 --> 0.15.5`
 - bc: `5.3.3 --> 6.0.1`
 - BIND Utils: `9.18.5 --> 9.18.6`
 - Binutils: `2.38 --> 2.39`
@@ -23,6 +25,7 @@ Upgraded software (core):
 - bsd-games: `3.1 --> 3.2`
 - cairomm: `1.14.0 --> 1.14.3`
 - CMake: `3.23.3 --> 3.24.1`
+- cups-filters: `1.28.15 --> 1.28.16`
 - DirectX-Headers: `1.602.0 --> 1.606.3`
 - FFmpeg: `5.0.1 --> 5.1`
 - Flatpak: `1.13.2 --> 1.14.0`
@@ -42,31 +45,39 @@ Upgraded software (core):
 - libbluray: `1.3.0 --> 1.3.2`
 - libbpf: `0.8.1 --> 1.0.0`
 - libevdev: `1.12.1 --> 1.13.0`
+- libfontenc: `1.1.4 --> 1.1.5`
+- libFS: `1.0.8 --> 1.0.9`
+- libnghttp2: `1.48.0 --> 1.49.0`
+- librsvg: `2.54.4 --> 2.54.5`
 - libtasn1: `4.18.0 --> 4.19.0`
 - libtirpc: `1.3.2 --> 1.3.3`
 - libwebp: `1.2.3 --> 1.2.4`
-- libwpe: `1.13.1 --> 1.13.2`
+- libwpe: `1.13.1 --> 1.13.3`
+- libXau: `1.0.9 --> 1.0.10`
+- libXfont2: `2.0.5 --> 2.0.6`
 - libxslt: `1.1.34 --> 1.1.36`
-- Linux Kernel: `5.19.0 --> 5.19.3`
+- Linux Kernel: `5.19.0 --> 5.19.4`
 - LZ4: `1.9.3 --> 1.9.4`
 - Malcontent: `0.10.4 --> 0.10.5`
 - Mesa: `22.1.4 --> 22.1.7`
 - Nano: `6.3 --> 6.4`
-- NetworkManager: `1.38.2 --> 1.38.4`
+- NetworkManager: `1.38.2 --> 1.40.0`
 - NSPR: `4.34 --> 4.34.1`
 - NSS: `3.81 --> 3.82`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
 - Pahole: `1.23 --> 1.24`
 - Pango: `1.50.8 --> 1.50.9`
+- pinentry: `1.2.0 --> 1.2.1`
 - Poppler: `22.07.0 --> 22.08.0`
 - Pygments: `2.12.0 --> 2.13.0`
 - Python: `3.10.5 --> 3.10.6`
 - python-dbusmock: `0.28.2 --> 0.28.4`
 - rsync: `3.2.4 --> 3.2.5`
 - SDL2: `2.0.22 --> 2.24.0`
-- Shadow: `4.11.1 --> 4.12.2`
+- Shadow: `4.11.1 --> 4.12.3`
 - slang: `2.3.2 --> 2.3.3`
 - systemd: `251.3 --> 251.4`
+- tree: `2.0.2 --> 2.0.3`
 - tzdata: `2022a --> 2022c`
 - urllib3: `1.26.9 --> 1.26.11`
 - Userspace-RCU: `0.13.1 --> 0.13.2`
@@ -88,6 +99,7 @@ Upgraded software (Xfce):
 - Garcon: `4.17.0 --> 4.17.1`
 - Shotwell: `0.31.3 --> 0.31.4`
 - Tumbler: `4.17.0 --> 4.17.2`
+- xarchiver: `0.5.4.17 --> 0.5.4.19`
 - xfce4-panel: `4.17.0 --> 4.17.3`
 - xfce4-screenshots: `1.9.10 --> 1.9.11`
 - xfdesktop: `4.16.0 --> 4.17.0`

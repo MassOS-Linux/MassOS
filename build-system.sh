@@ -15,9 +15,8 @@ set -e
 set +h
 # Ensure we're running in the MassOS chroot.
 if [ $EUID -ne 0 ] || [ ! -d /sources ]; then
-  echo "DO NOT RUN THIS SCRIPT ON YOUR HOST SYSTEM." >&2
-  echo "IT WILL RENDER YOUR SYSTEM UNUSABLE." >&2
-  echo "YOU HAVE BEEN WARNED!!!" >&2
+  echo "This script should not be run manually." >&2
+  echo "stage2.sh will automatically run it in a chroot environment." >&2
   exit 1
 fi
 # Set the source directory correctly.
@@ -37,7 +36,9 @@ export SHELL=/bin/bash
 CFLAGS="-Os -pipe"
 CXXFLAGS="-Os -pipe"
 export CFLAGS CXXFLAGS
-# === IT IS SAFE TO REMOVE LINES BELOW THIS FOR A FAILED BUILD ===
+# === REMOVE LINES BELOW THIS FOR RESUMING A FAILED BUILD ===
+# Mark the build as started, for Stage 2 resume.
+touch .BUILD_HAS_STARTED
 # Setup the full filesystem structure.
 mkdir -p /{boot,home,mnt,opt,srv}
 mkdir -p /boot/efi
@@ -469,8 +470,8 @@ END
 cd ..
 rm -rf libcap-2.65
 # Shadow (initial build; will be rebuilt later to support AUDIT).
-tar -xf shadow-4.12.2.tar.xz
-cd shadow-4.12.2
+tar -xf shadow-4.12.3.tar.xz
+cd shadow-4.12.3
 patch -Np1 -i ../patches/shadow-4.12.2-MassOS.patch
 touch /usr/bin/passwd
 ./configure --sysconfdir=/etc --disable-static --with-group-name-max-length=32 --with-libcrack
@@ -520,7 +521,7 @@ done
 rm -f /etc/login.access /etc/limits
 install -t /usr/share/licenses/shadow -Dm644 COPYING
 cd ..
-rm -rf shadow-4.12.2
+rm -rf shadow-4.12.3
 # GCC.
 tar -xf gcc-12.2.0.tar.xz
 cd gcc-12.2.0
@@ -1364,14 +1365,14 @@ install -t /usr/share/licenses/which -Dm644 COPYING
 cd ..
 rm -rf which-2.21
 # tree.
-tar -xf unix-tree-2.0.2.tar.bz2
-cd unix-tree-2.0.2
+tar -xf unix-tree-2.0.3.tar.bz2
+cd unix-tree-2.0.3
 make CFLAGS="$CFLAGS"
 make PREFIX=/usr MANDIR=/usr/share/man install
 chmod 644 /usr/share/man/man1/tree.1
 install -t /usr/share/licenses/tree -Dm644 LICENSE
 cd ..
-rm -rf unix-tree-2.0.2
+rm -rf unix-tree-2.0.3
 # GPM.
 tar --no-same-owner -xf gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS.tar.xz
 cp -r gpm-1.20.7-38-ge82d1a6-x86_64-Precompiled-MassOS/BINARY/* /
@@ -2278,14 +2279,14 @@ install -t /usr/share/licenses/brotli -Dm644 LICENSE
 cd ..
 rm -rf brotli-1.0.9
 # libnghttp2.
-tar -xf nghttp2-1.48.0.tar.xz
-cd nghttp2-1.48.0
+tar -xf nghttp2-1.49.0.tar.xz
+cd nghttp2-1.49.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
-rm -rf nghttp2-1.48.0
+rm -rf nghttp2-1.49.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.84.0.tar.xz
 cd curl-7.84.0
@@ -2801,8 +2802,8 @@ install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 cd ..
 rm -rf audit-userspace-3.0.8
 # AppArmor.
-tar -xf apparmor-3.0.7.tar.gz
-cd apparmor-3.0.7/libraries/libapparmor
+tar -xf apparmor-3.1.1.tar.gz
+cd apparmor-3.1.1/libraries/libapparmor
 ./configure --prefix=/usr --with-perl --with-python
 make
 cd ../..
@@ -2821,7 +2822,7 @@ chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
 cd ..
-rm -rf apparmor-3.0.7
+rm -rf apparmor-3.1.1
 # Linux-PAM (rebuild to support Audit).
 tar -xf Linux-PAM-1.5.2.tar.xz
 cd Linux-PAM-1.5.2
@@ -2832,8 +2833,8 @@ chmod 4755 /usr/sbin/unix_chkpwd
 cd ..
 rm -rf Linux-PAM-1.5.2
 # Shadow (rebuild to support Audit).
-tar -xf shadow-4.12.2.tar.xz
-cd shadow-4.12.2
+tar -xf shadow-4.12.3.tar.xz
+cd shadow-4.12.3
 patch -Np1 -i ../patches/shadow-4.12.2-MassOS.patch
 ./configure --sysconfdir=/etc --disable-static --with-audit --with-group-name-max-length=32 --with-libcrack
 make
@@ -2878,7 +2879,7 @@ for PROGRAM in chfn chgpasswd chpasswd chsh groupadd groupdel groupmems groupmod
 done
 rm -f /etc/login.access /etc/limits
 cd ..
-rm -rf shadow-4.12.2
+rm -rf shadow-4.12.3
 # Sudo.
 tar -xf sudo-SUDO_1_9_11p3.tar.gz
 cd sudo-SUDO_1_9_11p3
@@ -3885,14 +3886,14 @@ install -t /usr/share/licenses/xorgproto -Dm644 ../COPYING*
 cd ../..
 rm -rf xorgproto-2022.2
 # libXau.
-tar -xf libXau-1.0.9.tar.bz2
-cd libXau-1.0.9
+tar -xf libXau-1.0.10.tar.xz
+cd libXau-1.0.10
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/libxau -Dm644 COPYING
 cd ..
-rm -rf libXau-1.0.9
+rm -rf libXau-1.0.10
 # libXdmcp.
 tar -xf libXdmcp-1.1.3.tar.bz2
 cd libXdmcp-1.1.3
@@ -3920,7 +3921,7 @@ install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
 rm -rf libxcb-1.15
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.8.1 libXext-1.3.4 libFS-1.0.8 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.4 libXfont2-2.0.5 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.8.1 libXext-1.3.4 libFS-1.0.9 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.5 libXfont2-2.0.6 libXft-2.3.4 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4882,15 +4883,15 @@ install -t /usr/share/licenses/libgusb -Dm644 ../COPYING
 cd ../..
 rm -rf libgusb-0.3.10
 # librsvg.
-tar -xf librsvg-2.54.4.tar.xz
-cd librsvg-2.54.4
+tar -xf librsvg-2.54.5.tar.xz
+cd librsvg-2.54.5
 ./configure --prefix=/usr --enable-vala --disable-static
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" make
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" make install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 cd ..
-rm -rf librsvg-2.54.4
+rm -rf librsvg-2.54.5
 # adwaita-icon-theme.
 tar -xf adwaita-icon-theme-41.0.tar.xz
 cd adwaita-icon-theme-41.0
@@ -5478,15 +5479,15 @@ install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
 rm -rf vim-9.0.0250
 # libwpe.
-tar -xf libwpe-1.13.2.tar.xz
-cd libwpe-1.13.2
+tar -xf libwpe-1.13.3.tar.xz
+cd libwpe-1.13.3
 mkdir wpe-build; cd wpe-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwpe -Dm644 ../COPYING
 cd ../..
-rm -rf libwpe-1.13.2
+rm -rf libwpe-1.13.3
 # OpenJPEG.
 tar -xf openjpeg-2.5.0.tar.gz
 cd openjpeg-2.5.0
@@ -5520,14 +5521,14 @@ install -t /usr/share/licenses/gcr -Dm644 ../COPYING
 cd ../..
 rm -rf gcr-3.41.1
 # pinentry.
-tar -xf pinentry-1.2.0.tar.bz2
-cd pinentry-1.2.0
+tar -xf pinentry-1.2.1.tar.bz2
+cd pinentry-1.2.1
 ./configure --prefix=/usr --enable-pinentry-tty
 make
 make install
 install -t /usr/share/licenses/pinentry -Dm644 COPYING
 cd ..
-rm -rf pinentry-1.2.0
+rm -rf pinentry-1.2.1
 # AccountsService.
 tar -xf accountsservice-22.08.8.tar.xz
 cd accountsservice-22.08.8
@@ -5598,8 +5599,8 @@ install -t /usr/share/licenses/ghostscript -Dm644 LICENSE
 cd ..
 rm -rf ghostscript-9.56.1
 # cups-filters.
-tar -xf cups-filters-1.28.15.tar.xz
-cd cups-filters-1.28.15
+tar -xf cups-filters-1.28.16.tar.xz
+cd cups-filters-1.28.16
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-mutool --without-rcdir --with-test-font-path=/usr/share/fonts/noto/NotoSans-Regular.ttf
 make
 make install
@@ -5607,7 +5608,7 @@ install -m644 utils/cups-browsed.service /usr/lib/systemd/system/cups-browsed.se
 systemctl enable cups-browsed
 install -t /usr/share/licenses/cups-filters -Dm644 COPYING
 cd ..
-rm -rf cups-filters-1.28.15
+rm -rf cups-filters-1.28.16
 # Gutenprint.
 tar -xf gutenprint-5.3.4.tar.xz
 cd gutenprint-5.3.4
@@ -5916,9 +5917,9 @@ systemctl enable power-profiles-daemon
 cd ../..
 rm -rf power-profiles-daemon-0.12
 # NetworkManager.
-tar -xf NetworkManager-1.38.4.tar.xz
-cd NetworkManager-1.38.4
-mkdir nm-build; cd nm-build
+tar -xf NetworkManager-1.40.0.tar.xz
+cd NetworkManager-1.40.0
+mkdir NM-build; cd NM-build
 meson --prefix=/usr --buildtype=minsize -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd -Dtests=no ..
 ninja
 ninja install
@@ -5944,7 +5945,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 ../COPYING ../COPYING.GFDL ../COPYING.LGPL
 systemctl enable NetworkManager
 cd ../..
-rm -rf NetworkManager-1.38.4
+rm -rf NetworkManager-1.40.0
 # libnma.
 tar -xf libnma-1.8.40.tar.xz
 cd libnma-1.8.40
@@ -6078,15 +6079,15 @@ install -t /usr/share/licenses/libxmlb -Dm644 ../LICENSE
 cd ../..
 rm -rf libxmlb-0.3.6
 # AppStream.
-tar -xf AppStream-0.15.4.tar.xz
-cd AppStream-0.15.4
+tar -xf AppStream-0.15.5.tar.xz
+cd AppStream-0.15.5
 mkdir appstream-build; cd appstream-build
 meson --prefix=/usr --buildtype=minsize -Dvapi=true -Dcompose=true ..
 ninja
 ninja install
 install -t /usr/share/licenses/appstream -Dm644 ../COPYING
 cd ../..
-rm -rf AppStream-0.15.4
+rm -rf AppStream-0.15.5
 # appstream-glib.
 tar -xf appstream_glib_0_8_0.tar.gz
 cd appstream-glib-appstream_glib_0_8_0
@@ -6807,8 +6808,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.3.tar.xz
-cd linux-5.19.3
+tar -xf linux-5.19.4.tar.xz
+cd linux-5.19.4
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6844,7 +6845,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.3
+rm -rf linux-5.19.4
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.65.01.tar.gz

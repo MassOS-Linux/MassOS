@@ -5,8 +5,8 @@ https://freefr.dl.sourceforge.net/project/acpiclient/acpiclient/1.7/acpi-1.7.tar
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/41/adwaita-icon-theme-41.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/adwaita-icon-theme/42/adwaita-icon-theme-42.0.tar.xz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.7.2.tar.bz2
-https://launchpad.net/apparmor/3.0/3.0.7/+download/apparmor-3.0.7.tar.gz
-https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.4.tar.xz
+https://launchpad.net/apparmor/3.1/3.1.1/+download/apparmor-3.1.1.tar.gz
+https://www.freedesktop.org/software/appstream/releases/AppStream-0.15.5.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_8_0.tar.gz
 https://files.pythonhosted.org/packages/source/a/asciidoc/asciidoc-10.2.0.tar.gz
 https://ftpmirror.gnu.org/gnu/aspell/aspell-0.60.8.tar.gz
@@ -60,7 +60,7 @@ https://github.com/cracklib/cracklib/releases/download/v2.9.7/cracklib-words-2.9
 https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-37.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.5/cryptsetup-2.5.0.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.2/cups-2.4.2-source.tar.gz
-https://www.openprinting.org/download/cups-filters/cups-filters-1.28.15.tar.xz
+https://www.openprinting.org/download/cups-filters/cups-filters-1.28.16.tar.xz
 https://curl.se/download/curl-7.84.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
 https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
@@ -257,8 +257,8 @@ https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/lib
 https://github.com/libexif/libexif/releases/download/v0.6.23/libexif-0.6.23.tar.xz
 https://github.com/libffi/libffi/releases/download/v3.4.2/libffi-3.4.2.tar.gz
 https://developers.yubico.com/libfido2/Releases/libfido2-1.11.0.tar.gz
-https://www.x.org/archive/individual/lib/libfontenc-1.1.4.tar.bz2
-https://www.x.org/archive/individual/lib/libFS-1.0.8.tar.bz2
+https://www.x.org/archive/individual/lib/libfontenc-1.1.5.tar.xz
+https://www.x.org/archive/individual/lib/libFS-1.0.9.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.10.1.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/libgdata/0.18/libgdata-0.18.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgee/0.20/libgee-0.20.5.tar.xz
@@ -309,7 +309,7 @@ https://github.com/libpwquality/libpwquality/releases/download/libpwquality-1.4.
 https://www.freedesktop.org/software/libqmi/libqmi-1.30.8.tar.xz
 https://www.libraw.org/data/LibRaw-0.20.2.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libraw1394-2.1.2.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.54/librsvg-2.54.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/librsvg/2.54/librsvg-2.54.5.tar.xz
 https://github.com/libsndfile/libsamplerate/releases/download/0.2.2/libsamplerate-0.2.2.tar.xz
 https://github.com/sass/libsass/archive/3.6.5/libsass-3.6.5.tar.gz
 https://github.com/seccomp/libseccomp/releases/download/v2.5.4/libseccomp-2.5.4.tar.gz
@@ -343,9 +343,9 @@ https://github.com/webmproject/libvpx/archive/v1.12.0/libvpx-1.12.0.tar.gz
 https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.4.0/libwacom-2.4.0.tar.xz
 https://github.com/webmproject/libwebp/archive/v1.2.4/libwebp-1.2.4.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/libwnck/40/libwnck-40.1.tar.xz
-https://wpewebkit.org/releases/libwpe-1.13.2.tar.xz
+https://wpewebkit.org/releases/libwpe-1.13.3.tar.xz
 https://www.x.org/archive/individual/lib/libX11-1.8.1.tar.xz
-https://www.x.org/archive/individual/lib/libXau-1.0.9.tar.bz2
+https://www.x.org/archive/individual/lib/libXau-1.0.10.tar.xz
 https://www.x.org/archive/individual/lib/libXaw-1.0.14.tar.bz2
 https://www.x.org/archive/individual/lib/libxcb-1.15.tar.xz
 https://www.x.org/archive/individual/lib/libXcomposite-0.4.5.tar.bz2
@@ -355,7 +355,7 @@ https://www.x.org/archive/individual/lib/libXdamage-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXdmcp-1.1.3.tar.bz2
 https://www.x.org/archive/individual/lib/libXext-1.3.4.tar.bz2
 https://www.x.org/archive/individual/lib/libXfixes-6.0.0.tar.bz2
-https://www.x.org/archive/individual/lib/libXfont2-2.0.5.tar.bz2
+https://www.x.org/archive/individual/lib/libXfont2-2.0.6.tar.xz
 https://www.x.org/archive/individual/lib/libXft-2.3.4.tar.bz2
 https://xkbcommon.org/download/libxkbcommon-1.4.1.tar.xz
 https://www.x.org/archive/individual/lib/libxkbfile-1.1.0.tar.bz2
@@ -379,7 +379,7 @@ https://www.x.org/archive/individual/lib/libXvMC-1.0.13.tar.xz
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://github.com/nih-at/libzip/releases/download/v1.9.2/libzip-1.9.2.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.3.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.4.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/lld-14.0.6.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/llvm-14.0.6.src.tar.xz
@@ -429,10 +429,10 @@ https://github.com/net-snmp/net-snmp/archive/v5.9.3/net-snmp-5.9.3.tar.gz
 https://freefr.dl.sourceforge.net/project/netcat/netcat/0.7.1/netcat-0.7.1.tar.bz2
 https://ftpmirror.gnu.org/gnu/nettle/nettle-3.8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.28/network-manager-applet-1.28.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.38/NetworkManager-1.38.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.40/NetworkManager-1.40.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager-openvpn/1.8/NetworkManager-openvpn-1.8.18.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
-https://github.com/nghttp2/nghttp2/releases/download/v1.48.0/nghttp2-1.48.0.tar.xz
+https://github.com/nghttp2/nghttp2/releases/download/v1.49.0/nghttp2-1.49.0.tar.xz
 https://github.com/ninja-build/ninja/archive/v1.11.0/ninja-1.11.0.tar.gz
 https://github.com/MassOS-Linux/noto-fonts-tarball/releases/download/20220607/noto-fonts-20220607.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.6.tar.bz2
@@ -471,7 +471,7 @@ https://github.com/pexpect/pexpect/archive/4.8.0/pexpect-4.8.0.tar.gz
 https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.29.0/pkcs11-helper-1.29.0.tar.bz2
 https://pkg-config.freedesktop.org/releases/pkg-config-0.29.2.tar.gz
 https://deb.debian.org/debian/pool/main/p/pigz/pigz_2.6.orig.tar.xz
-https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.0.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.2.1.tar.bz2
 https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/0.3.56/pipewire-0.3.56.tar.bz2
 https://www.x.org/archive/individual/lib/pixman-0.40.0.tar.xz
 https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
@@ -523,7 +523,7 @@ https://files.pythonhosted.org/packages/3e/92/7d8e368c14284ff7dc7df5bf55883f0841
 https://www.x.org/archive/individual/app/setxkbmap-1.3.3.tar.xz
 https://sourceware.org/ftp/docbook-tools/new-trials/SOURCES/sgml-common-0.6.3.tgz
 https://cpan.metacpan.org/authors/id/R/RA/RAAB/SGMLSpm-1.1.tar.gz
-https://github.com/shadow-maint/shadow/releases/download/4.12.2/shadow-4.12.2.tar.xz
+https://github.com/shadow-maint/shadow/releases/download/4.12.3/shadow-4.12.3.tar.xz
 https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.2/shared-mime-info-2.2.tar.gz
 https://ftpmirror.gnu.org/gnu/sharutils/sharutils-4.15.2.tar.xz
 https://files.pythonhosted.org/packages/source/s/six/six-1.16.0.tar.gz
@@ -564,7 +564,7 @@ https://files.pythonhosted.org/packages/source/t/typogrify/typogrify-2.0.7.tar.g
 https://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.9.4/udisks-2.9.4.tar.bz2
 https://unifoundry.com/pub/unifont/unifont-14.0.03/font-builds/unifont-14.0.03.pcf.gz
-https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.0.2/unix-tree-2.0.2.tar.bz2
+https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.0.3/unix-tree-2.0.3.tar.bz2
 https://freefr.dl.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.0/upower-v1.90.0.tar.bz2
 https://github.com/urllib3/urllib3/releases/download/1.26.11/urllib3-1.26.11.tar.gz

@@ -345,8 +345,8 @@ install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
 cd ..
 rm -rf xfce4-screensaver-4.16.0
 # xarchiver.
-tar -xf xarchiver-0.5.4.17.tar.gz
-cd xarchiver-0.5.4.17
+tar -xf xarchiver-0.5.4.19.tar.gz
+cd xarchiver-0.5.4.19
 ./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
 make
 make install
@@ -354,7 +354,7 @@ install -t /usr/share/licenses/xarchiver -Dm644 COPYING
 gtk-update-icon-cache -qtf /usr/share/icons/hicolor
 update-desktop-database -q
 cd ..
-rm -rf xarchiver-0.5.4.17
+rm -rf xarchiver-0.5.4.19
 # thunar-archive-plugin.
 tar -xf thunar-archive-plugin-0.5.0.tar.bz2
 cd thunar-archive-plugin-0.5.0
