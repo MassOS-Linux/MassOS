@@ -2179,6 +2179,15 @@ make install
 install -t /usr/share/licenses/exfatprogs -Dm644 COPYING
 cd ..
 rm -rf exfatprogs-1.1.3
+# udftools.
+tar -xf udftools-2.3.tar.gz
+cd udftools-2.3
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/udftools -Dm644 COPYING
+cd ..
+rm -rf udftools-2.3
 # Fakeroot.
 tar -xf fakeroot_1.29.orig.tar.gz
 cd fakeroot-1.29

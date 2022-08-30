@@ -7,6 +7,7 @@ Changes:
 - Added support for updating system firmware (fwupd).
 - Added keyring support via gnome-keyring, fixing issues with some Flatpak/Snap applications.
 - Added HEIF/AVIF image format support and improved multimedia codec support.
+- Added UDF filesystem support via udftools.
 - The core C library (Glibc) has been upgraded to version 2.36.
 - Improved Noto fonts installation (and saved about ~100MB of space (~300MB uncompressed)).
 - Replaced Neofetch with an updated fork ("hyfetch"). The command and package are both still named `neofetch`.
