@@ -2321,8 +2321,8 @@ tar -xf RHash-1.4.2.tar.gz
 cd RHash-1.4.2
 ./configure --prefix=/usr --sysconfdir=/etc --extra-cflags="$CFLAGS"
 make
-make install
-make -C librhash install-lib-headers install-lib-shared install-so-link
+make -j1 install
+make -j1 -C librhash install-lib-headers install-lib-shared install-so-link
 chmod 755 /usr/lib/librhash.so.0
 install -t /usr/share/licenses/rhash -Dm644 COPYING
 cd ..
