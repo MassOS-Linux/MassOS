@@ -1,0 +1,3 @@
+[submodule "stage3/gnome"]
+  path = stage3/gnome
+  url = https://github.com/MassOS-Linux/MassOS-GNOME
