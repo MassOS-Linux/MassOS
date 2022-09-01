@@ -1,5 +1,5 @@
 # Check for a new version of Glibc (breaks this utility).
-if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.35" ]; then
+if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.36" ]; then
   echo "
 IMPORTANT: This upgrade includes a newer version of the core C library (glibc).
 Upgrading on a running system using this utility will break your system, and is

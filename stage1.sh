@@ -46,44 +46,44 @@ cp -r utils/systemd-units "$SRC"
 # Change to the sources directory.
 cd "$SRC"
 # Binutils (Initial build for bootstrapping).
-tar -xf binutils-2.38.tar.xz
-cd binutils-2.38
+tar -xf binutils-2.39.tar.xz
+cd binutils-2.39
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/tools --with-sysroot="$MASSOS" --target=$MASSOS_TARGET --with-pkgversion="MassOS Binutils" --disable-nls --disable-werror
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/tools --with-sysroot="$MASSOS" --target=$MASSOS_TARGET --with-pkgversion="MassOS Binutils 2.39" --enable-relro --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 install
 cd ../..
-rm -rf binutils-2.38
+rm -rf binutils-2.39
 # GCC (Initial build for bootstrapping).
-tar -xf gcc-12.1.0.tar.xz
-cd gcc-12.1.0
+tar -xf gcc-12.2.0.tar.xz
+cd gcc-12.2.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
 mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
+sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-glibc-version=2.11 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-shared --disable-multilib --disable-decimal-float --disable-threads --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv --disable-libstdcxx
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --target=$MASSOS_TARGET --prefix="$MASSOS"/tools --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.2.0" --with-glibc-version=2.36 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-linker-build-id --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
 make install
-cd ..
-cat gcc/limitx.h gcc/glimits.h gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
-cd ..
-rm -rf gcc-12.1.0
+cat ../gcc/limitx.h ../gcc/glimits.h ../gcc/limity.h > `dirname $($MASSOS_TARGET-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
+cd ../..
+rm -rf gcc-12.2.0
 # Linux API Headers.
-tar -xf linux-5.19.tar.xz
-cd linux-5.19
+tar -xf linux-5.19.5.tar.xz
+cd linux-5.19.5
 make headers
 find usr/include -name '.*' -delete
 rm usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19
+rm -rf linux-5.19.5
 # Glibc
-tar -xf glibc-2.35.tar.xz
-cd glibc-2.35
-patch -Np1 -i ../patches/glibc-2.35-FHSCompliance.patch
+tar -xf glibc-2.36.tar.xz
+cd glibc-2.36
+patch -Np1 -i ../patches/glibc-2.36-multiplefixes.patch
 mkdir build; cd build
 echo "rootsbindir=/usr/sbin" > configparms
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../scripts/config.guess) --enable-kernel=3.2 --disable-default-pie --with-headers="$MASSOS"/usr/include libc_cv_slibdir=/usr/lib
@@ -91,18 +91,18 @@ make
 make DESTDIR="$MASSOS" install
 ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed '/RTLDLIST=/s@/usr@@g' -i "$MASSOS"/usr/bin/ldd
-"$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/*/install-tools/mkheaders
+"$MASSOS"/tools/libexec/gcc/$MASSOS_TARGET/$($MASSOS_TARGET-gcc -dumpversion)/install-tools/mkheaders
 cd ../..
-rm -rf glibc-2.35
+rm -rf glibc-2.36
 # libstdc++ from GCC (Could not be built with bootstrap GCC).
-tar -xf gcc-12.1.0.tar.xz
-cd gcc-12.1.0
+tar -xf gcc-12.2.0.tar.xz
+cd gcc-12.2.0
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --prefix=/usr --host=$MASSOS_TARGET --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/tools/$MASSOS_TARGET/include/c++/$($MASSOS_TARGET-gcc -dumpversion)
 make
 make DESTDIR="$MASSOS" install
 cd ../..
-rm -rf gcc-12.1.0
+rm -rf gcc-12.2.0
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -120,7 +120,7 @@ mkdir build; cd build
 make -C include
 make -C progs tic
 cd ..
-./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(./config.guess) --mandir=/usr/share/man --with-manpage-format=normal --with-shared --without-debug --without-ada --without-normal --enable-widec
+./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(./config.guess) --mandir=/usr/share/man --with-cxx-shared --with-manpage-format=normal --with-shared --without-ada --without-debug --without-normal --enable-widec --disable-stripping
 make
 make DESTDIR="$MASSOS" TIC_PATH=$(pwd)/build/progs/tic install
 echo "INPUT(-lncursesw)" > "$MASSOS"/usr/lib/libncurses.so
@@ -233,40 +233,41 @@ ln -sf gtar "$MASSOS"/usr/bin/tar
 cd ..
 rm -rf tar-1.34
 # XZ.
-tar -xf xz-5.2.5.tar.xz
-cd xz-5.2.5
+tar -xf xz-5.2.6.tar.xz
+cd xz-5.2.6
 ./configure --prefix=/usr --host=$MASSOS_TARGET --build=$(build-aux/config.guess) --disable-static
 make
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf xz-5.2.5
+rm -rf xz-5.2.6
 # Binutils (For stage 2, built using our new bootstrap toolchain).
-tar -xf binutils-2.38.tar.xz
-cd binutils-2.38
+tar -xf binutils-2.39.tar.xz
+cd binutils-2.39
 sed -i '6009s/$add_dir//' ltmain.sh
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --with-pkgversion="MassOS Binutils" --disable-nls --enable-shared --disable-werror --enable-64-bit-bfd
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --with-pkgversion="MassOS Binutils 2.39" --enable-relro --enable-shared --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 DESTDIR="$MASSOS" install
 cd ../..
-rm -rf binutils-2.38
+rm -rf binutils-2.39
 # GCC (For stage 2, built using our new bootstrap toolchain).
-tar -xf gcc-12.1.0.tar.xz
-cd gcc-12.1.0
+tar -xf gcc-12.2.0.tar.xz
+cd gcc-12.2.0
 tar -xf ../gmp-6.2.1.tar.xz
 mv gmp-6.2.1 gmp
 tar -xf ../mpfr-4.1.0.tar.xz
 mv mpfr-4.1.0 mpfr
 tar -xf ../mpc-1.2.1.tar.gz
 mv mpc-1.2.1 mpc
+sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET CC_FOR_TARGET=$MASSOS_TARGET-gcc LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --enable-languages=c,c++ --with-pkgversion="MassOS GCC" --with-build-sysroot="$MASSOS" --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --build=$(../config.guess) --host=$MASSOS_TARGET --target=$MASSOS_TARGET LDFLAGS_FOR_TARGET=-L"$PWD/$MASSOS_TARGET/libgcc" --with-build-sysroot="$MASSOS" --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.2.0" --enable-default-ssp --enable-initfini-array --enable-linker-build-id --disable-nls --disable-multilib --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libvtv
 make
 make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 cd ../..
-rm -rf gcc-12.1.0
+rm -rf gcc-12.2.0
 cd ../..
 # Remove bootstrap toolchain directory.
 rm -rf "$MASSOS"/tools

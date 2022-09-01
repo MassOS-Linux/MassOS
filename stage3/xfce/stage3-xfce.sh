@@ -77,14 +77,14 @@ install -t /usr/share/licenses/exo -Dm644 COPYING
 cd ..
 rm -rf exo-4.17.2
 # Garcon.
-tar -xf garcon-4.17.0.tar.bz2
-cd garcon-4.17.0
+tar -xf garcon-4.17.1.tar.bz2
+cd garcon-4.17.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/garcon -Dm644 COPYING
 cd ..
-rm -rf garcon-4.17.0
+rm -rf garcon-4.17.1
 # Thunar.
 tar -xf thunar-4.17.9.tar.bz2
 cd thunar-4.17.9
@@ -104,14 +104,14 @@ install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
 cd ..
 rm -rf thunar-volman-4.16.0
 # Tumbler.
-tar -xf tumbler-4.17.0.tar.bz2
-cd tumbler-4.17.0
+tar -xf tumbler-4.17.2.tar.bz2
+cd tumbler-4.17.2
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/tumbler -Dm644 COPYING
 cd ..
-rm -rf tumbler-4.17.0
+rm -rf tumbler-4.17.2
 # xfce4-appfinder.
 tar -xf xfce4-appfinder-4.17.0.tar.bz2
 cd xfce4-appfinder-4.17.0
@@ -122,14 +122,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 cd ..
 rm -rf xfce4-appfinder-4.17.0
 # xfce4-panel.
-tar -xf xfce4-panel-4.17.0.tar.bz2
-cd xfce4-panel-4.17.0
+tar -xf xfce4-panel-4.17.3.tar.bz2
+cd xfce4-panel-4.17.3
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 cd ..
-rm -rf xfce4-panel-4.17.0
+rm -rf xfce4-panel-4.17.3
 # xfce4-power-manager.
 tar -xf xfce4-power-manager-4.16.0.tar.bz2
 cd xfce4-power-manager-4.16.0
@@ -149,8 +149,8 @@ install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 cd ..
 rm -rf xfce4-settings-4.16.3
 # xfdesktop.
-tar -xf xfdesktop-4.16.0.tar.bz2
-cd xfdesktop-4.16.0
+tar -xf xfdesktop-4.17.0.tar.bz2
+cd xfdesktop-4.17.0
 ./configure --prefix=/usr
 make
 make install
@@ -158,7 +158,7 @@ mv /usr/share/backgrounds/xfce/xfce-verticals{,1}.png
 ln -sf MassOS-Futuristic-Dark.png /usr/share/backgrounds/xfce/xfce-verticals.png
 install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
 cd ..
-rm -rf xfdesktop-4.16.0
+rm -rf xfdesktop-4.17.0
 # xfwm4.
 tar -xf xfwm4-4.16.1.tar.bz2
 cd xfwm4-4.16.1
@@ -217,15 +217,15 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
 rm -rf xfce4-terminal-1.0.4
 # Shotwell.
-tar -xf shotwell-0.31.3-133-gd55abab2.tar.xz
-cd shotwell-0.31.3-133-gd55abab2
+tar -xf shotwell-shotwell-0.31.4.tar.bz2
+cd shotwell-shotwell-0.31.4
 mkdir SHOTWELL-build; cd SHOTWELL-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
-rm -rf shotwell-0.31.3-133-gd55abab2
+rm -rf shotwell-shotwell-0.31.4
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.3.tar.bz2
 cd xfce4-notifyd-0.6.3
@@ -290,15 +290,14 @@ install -t /usr/share/licenses/blueman -Dm644 COPYING
 cd ..
 rm -rf blueman-2.2.2
 # xfce4-screenshooter.
-tar -xf xfce4-screenshooter-1.9.10.tar.bz2
-cd xfce4-screenshooter-1.9.10
-patch -Np1 -i ../patches/xfce4-screenshooter-1.9.10-upstreamfix.patch
+tar -xf xfce4-screenshooter-1.9.11.tar.bz2
+cd xfce4-screenshooter-1.9.11
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 cd ..
-rm -rf xfce4-screenshooter-1.9.10
+rm -rf xfce4-screenshooter-1.9.11
 # xfce4-taskmanager.
 tar -xf xfce4-taskmanager-1.5.4.tar.bz2
 cd xfce4-taskmanager-1.5.4
@@ -346,8 +345,8 @@ install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
 cd ..
 rm -rf xfce4-screensaver-4.16.0
 # xarchiver.
-tar -xf xarchiver-0.5.4.17.tar.gz
-cd xarchiver-0.5.4.17
+tar -xf xarchiver-0.5.4.19.tar.gz
+cd xarchiver-0.5.4.19
 ./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
 make
 make install
@@ -355,7 +354,7 @@ install -t /usr/share/licenses/xarchiver -Dm644 COPYING
 gtk-update-icon-cache -qtf /usr/share/icons/hicolor
 update-desktop-database -q
 cd ..
-rm -rf xarchiver-0.5.4.17
+rm -rf xarchiver-0.5.4.19
 # thunar-archive-plugin.
 tar -xf thunar-archive-plugin-0.5.0.tar.bz2
 cd thunar-archive-plugin-0.5.0
@@ -460,24 +459,21 @@ ninja install
 install -t /usr/share/licenses/baobab -Dm644 ../COPYING ../COPYING.docs
 cd ../..
 rm -rf baobab-41.0
-# Malcontent (dependency of GNOME Software).
-tar -xf malcontent-0.10.4.tar.xz
-cd malcontent-0.10.4
-tar -xf ../libglib-testing-0.1.1.tar.bz2 -C subprojects
-mv subprojects/libglib-testing{-0.1.1,}
-mkdir malcontent-build; cd malcontent-build
+# gnome-firmware.
+tar -xf gnome-firmware-41.0.tar.bz2
+cd gnome-firmware-41.0
+mkdir gnome-firmware-build; cd gnome-firmware-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
-rm -f /usr/share/applications/org.freedesktop.MalcontentControl.desktop
-install -t /usr/share/licenses/malcontent -Dm644 ../COPYING ../COPYING-DOCS
+install -t /usr/share/licenses/gnome-firmware -Dm644 ../COPYING
 cd ../..
-rm -rf malcontent-0.10.4
+rm -rf gnome-firmware-41.0
 # GNOME Software.
 tar -xf gnome-software-41.5.tar.xz
 cd gnome-software-41.5
 mkdir gnome-software-build; cd gnome-software-build
-meson --prefix=/usr --buildtype=minsize -Dfwupd=false -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
+meson --prefix=/usr --buildtype=minsize -Dpackagekit=false -Dtests=false -Dvalgrind=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
@@ -490,18 +486,18 @@ mkdir MassOS-Welcome-build; cd MassOS-Welcome-build
 meson --prefix=/usr --buildtype=minsize ..
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" ninja
 install -m755 target/release/gnome-tour /usr/bin/massos-welcome
-cat > /usr/bin/firstlogin << "END"
+cat > /usr/libexec/firstlogin << "END"
 #!/bin/sh
 /usr/bin/massos-welcome
 rm -f ~/.config/autostart/firstlogin.desktop
 END
-chmod 755 /usr/bin/firstlogin
+chmod 755 /usr/libexec/firstlogin
 install -dm755 /etc/skel/.config/autostart
 cat > /etc/skel/.config/autostart/firstlogin.desktop << "END"
 [Desktop Entry]
 Type=Application
 Name=First Login Welcome Program
-Exec=/usr/bin/firstlogin
+Exec=/usr/libexec/firstlogin
 END
 install -t /usr/share/licenses/massos-welcome -Dm644 ../LICENSE.md
 cd ../..
@@ -536,7 +532,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-103.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-104.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

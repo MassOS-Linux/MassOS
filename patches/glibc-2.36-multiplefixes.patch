@@ -1,0 +1,186 @@
+This patch includes multiple fixes. One which changes some runtime directories
+to ones which are FHS-Compliant, and another which fixes a hash-style issue
+introduced with 2.36 (https://sourceware.org/bugzilla/show_bug.cgi?id=29456).
+
+diff '--color=auto' -aruN old/config.make.in new/config.make.in
+--- old/config.make.in	2022-07-29 23:03:09.000000000 +0100
++++ new/config.make.in	2022-08-19 19:55:27.381916414 +0100
+@@ -69,6 +69,7 @@
+ have-libcap = @have_libcap@
+ have-cc-with-libunwind = @libc_cv_cc_with_libunwind@
+ bind-now = @bindnow@
++have-hash-style = @libc_cv_hashstyle@
+ use-default-link = @use_default_link@
+ have-cxx-thread_local = @libc_cv_cxx_thread_local@
+ have-loop-to-function = @libc_cv_cc_loop_to_function@
+diff '--color=auto' -aruN old/configure new/configure
+--- old/configure	2022-07-29 23:03:09.000000000 +0100
++++ new/configure	2022-08-19 19:55:27.381916414 +0100
+@@ -621,6 +621,7 @@
+ libc_cv_cc_nofma
+ libc_cv_mtls_dialect_gnu2
+ libc_cv_has_glob_dat
++libc_cv_hashstyle
+ libc_cv_fpie
+ libc_cv_z_execstack
+ ASFLAGS_config
+@@ -6192,6 +6193,33 @@
+
+
+
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for --hash-style option" >&5
++$as_echo_n "checking for --hash-style option... " >&6; }
++if ${libc_cv_hashstyle+:} false; then :
++  $as_echo_n "(cached) " >&6
++else
++  cat > conftest.c <<EOF
++int _start (void) { return 42; }
++EOF
++if { ac_try='${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS $no_ssp
++			    -fPIC -shared -o conftest.so conftest.c
++			    -Wl,--hash-style=both -nostdlib 1>&5'
++  { { eval echo "\"\$as_me\":${as_lineno-$LINENO}: \"$ac_try\""; } >&5
++  (eval $ac_try) 2>&5
++  ac_status=$?
++  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
++  test $ac_status = 0; }; }
++then
++  libc_cv_hashstyle=yes
++else
++  libc_cv_hashstyle=no
++fi
++rm -f conftest*
++fi
++{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $libc_cv_hashstyle" >&5
++$as_echo "$libc_cv_hashstyle" >&6; }
++
++
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking for GLOB_DAT reloc" >&5
+ $as_echo_n "checking for GLOB_DAT reloc... " >&6; }
+ if ${libc_cv_has_glob_dat+:} false; then :
+diff '--color=auto' -aruN old/configure.ac new/configure.ac
+--- old/configure.ac	2022-07-29 23:03:09.000000000 +0100
++++ new/configure.ac	2022-08-19 19:55:27.381916414 +0100
+@@ -1360,6 +1360,22 @@
+
+ AC_SUBST(libc_cv_fpie)
+
++AC_CACHE_CHECK(for --hash-style option,
++	       libc_cv_hashstyle, [dnl
++cat > conftest.c <<EOF
++int _start (void) { return 42; }
++EOF
++if AC_TRY_COMMAND([${CC-cc} $CFLAGS $CPPFLAGS $LDFLAGS $no_ssp
++			    -fPIC -shared -o conftest.so conftest.c
++			    -Wl,--hash-style=both -nostdlib 1>&AS_MESSAGE_LOG_FD])
++then
++  libc_cv_hashstyle=yes
++else
++  libc_cv_hashstyle=no
++fi
++rm -f conftest*])
++AC_SUBST(libc_cv_hashstyle)
++
+ AC_CACHE_CHECK(for GLOB_DAT reloc,
+ 	       libc_cv_has_glob_dat, [dnl
+ cat > conftest.c <<EOF
+diff '--color=auto' -aruN old/Makeconfig new/Makeconfig
+--- old/Makeconfig	2022-07-29 23:03:09.000000000 +0100
++++ new/Makeconfig	2022-08-19 19:55:27.381916414 +0100
+@@ -246,7 +246,7 @@
+
+ # Directory for the database files and Makefile for nss_db.
+ ifndef vardbdir
+-vardbdir = $(localstatedir)/db
++vardbdir = $(localstatedir)/lib/nss_db
+ endif
+ inst_vardbdir = $(install_root)$(vardbdir)
+
+@@ -371,6 +371,15 @@
+ no-dt-relr-ldflag =
+ endif
+
++ifeq (yes,$(have-hash-style))
++# For the time being we unconditionally use 'both'.  At some time we
++# should declare statically linked code as 'out of luck' and compile
++# with --hash-style=gnu only.
++hashstyle-LDFLAGS = -Wl,--hash-style=both
++LDFLAGS.so += $(hashstyle-LDFLAGS)
++LDFLAGS-rtld += $(hashstyle-LDFLAGS)
++endif
++
+ ifeq (no,$(build-pie-default))
+ pie-default = $(no-pie-ccflag)
+ else # build-pie-default
+diff '--color=auto' -aruN old/Makerules new/Makerules
+--- old/Makerules	2022-07-29 23:03:09.000000000 +0100
++++ new/Makerules	2022-08-19 19:55:27.381916414 +0100
+@@ -558,6 +558,13 @@
+ 		  -Wl,--verbose 2>/dev/null | \
+ 	  sed > $@T \
+ 	      -e '/^=========/,/^=========/!d;/^=========/d' \
++	      $(if $(filter yes,$(have-hash-style)), \
++		   -e 's/^.*\.gnu\.hash[ 	]*:.*$$/  .note.ABI-tag : { *(.note.ABI-tag) } &/' \
++		   -e '/^[ 	]*\.hash[ 	]*:.*$$/{h;d;}' \
++		   -e '/DATA_SEGMENT_ALIGN/{H;g}' \
++		, \
++		   -e 's/^.*\.hash[ 	]*:.*$$/  .note.ABI-tag : { *(.note.ABI-tag) } &/' \
++	       ) \
+ 	      -e 's/^.*\*(\.dynbss).*$$/& \
+ 		 PROVIDE(__start___libc_freeres_ptrs = .); \
+ 		 *(__libc_freeres_ptrs) \
+diff '--color=auto' -aruN old/nscd/nscd.h new/nscd/nscd.h
+--- old/nscd/nscd.h	2022-07-29 23:03:09.000000000 +0100
++++ new/nscd/nscd.h	2022-08-19 19:54:37.384620827 +0100
+@@ -160,11 +160,11 @@
+
+
+ /* Paths of the file for the persistent storage.  */
+-#define _PATH_NSCD_PASSWD_DB	"/var/db/nscd/passwd"
+-#define _PATH_NSCD_GROUP_DB	"/var/db/nscd/group"
+-#define _PATH_NSCD_HOSTS_DB	"/var/db/nscd/hosts"
+-#define _PATH_NSCD_SERVICES_DB	"/var/db/nscd/services"
+-#define _PATH_NSCD_NETGROUP_DB	"/var/db/nscd/netgroup"
++#define _PATH_NSCD_PASSWD_DB	"/var/cache/nscd/passwd"
++#define _PATH_NSCD_GROUP_DB	"/var/cache/nscd/group"
++#define _PATH_NSCD_HOSTS_DB	"/var/cache/nscd/hosts"
++#define _PATH_NSCD_SERVICES_DB	"/var/cache/nscd/services"
++#define _PATH_NSCD_NETGROUP_DB	"/var/cache/nscd/netgroup"
+
+ /* Path used when not using persistent storage.  */
+ #define _PATH_NSCD_XYZ_DB_TMP	"/var/run/nscd/dbXXXXXX"
+diff '--color=auto' -aruN old/nss/db-Makefile new/nss/db-Makefile
+--- old/nss/db-Makefile	2022-07-29 23:03:09.000000000 +0100
++++ new/nss/db-Makefile	2022-08-19 19:54:37.384620827 +0100
+@@ -21,7 +21,7 @@
+ 		       /etc/rpc /etc/services /etc/shadow /etc/gshadow \
+ 		       /etc/netgroup)
+
+-VAR_DB = /var/db
++VAR_DB = /var/lib/nss_db
+
+ AWK = awk
+ MAKEDB = makedb --quiet
+diff '--color=auto' -aruN old/sysdeps/generic/paths.h new/sysdeps/generic/paths.h
+--- old/sysdeps/generic/paths.h	2022-07-29 23:03:09.000000000 +0100
++++ new/sysdeps/generic/paths.h	2022-08-19 19:54:37.384620827 +0100
+@@ -68,7 +68,7 @@
+ /* Provide trailing slash, since mostly used for building pathnames. */
+ #define	_PATH_DEV	"/dev/"
+ #define	_PATH_TMP	"/tmp/"
+-#define	_PATH_VARDB	"/var/db/"
++#define	_PATH_VARDB	"/var/lib/nss_db/"
+ #define	_PATH_VARRUN	"/var/run/"
+ #define	_PATH_VARTMP	"/var/tmp/"
+
+diff '--color=auto' -aruN old/sysdeps/unix/sysv/linux/paths.h new/sysdeps/unix/sysv/linux/paths.h
+--- old/sysdeps/unix/sysv/linux/paths.h	2022-07-29 23:03:09.000000000 +0100
++++ new/sysdeps/unix/sysv/linux/paths.h	2022-08-19 19:54:37.384620827 +0100
+@@ -68,7 +68,7 @@
+ /* Provide trailing slash, since mostly used for building pathnames. */
+ #define	_PATH_DEV	"/dev/"
+ #define	_PATH_TMP	"/tmp/"
+-#define	_PATH_VARDB	"/var/db/"
++#define	_PATH_VARDB	"/var/lib/nss_db/"
+ #define	_PATH_VARRUN	"/var/run/"
+ #define	_PATH_VARTMP	"/var/tmp/"

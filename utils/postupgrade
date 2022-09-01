@@ -3,6 +3,7 @@ ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas
 gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 update-desktop-database
+fc-cache
 # Add group for NetworkManager openvpn plugin if not already existant.
 if ! grep -q nm-openvpn /etc/group; then
   groupadd -g 85 nm-openvpn
@@ -13,9 +14,8 @@ if ! grep -q dhcpcd /etc/group; then
   groupadd -g 52 dhcpcd
   useradd -c "dhcpcd PrivSep" -d /var/lib/dhcpcd -g dhcpcd -s /sbin/nologin -u 52 dhcpcd
 fi
-if grep -q dhclient /etc/NetworkManager/conf.d/dhcp.conf; then
-  sed -i 's/dhclient/dhcpcd/' /etc/NetworkManager/conf.d/dhcp.conf
-fi
+# dhcpcd is causing us problems.
+rm -f /etc/NetworkManager/conf.d/dhcp.conf || true
 # hwdata package is now used instead of systemd timers.
 if grep -q hwdata /usr/share/massos/builtins; then
   systemctl disable update-pciids.timer || true

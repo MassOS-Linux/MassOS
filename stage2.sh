@@ -10,8 +10,14 @@ fi
 # Setup the environment.
 export MASSOS="$PWD"/massos-rootfs
 # Ensure stage1 has been run first.
-if [ ! -d "$MASSOS" ]; then
+if [ ! -e "$MASSOS"/sources/build-system.sh ]; then
   echo "Error: You must run stage1.sh first!" >&2
+  exit 1
+fi
+# Ensure this is not resuming a failed build.
+if [ -e "$MASSOS"/sources/.BUILD_HAS_STARTED ]; then
+  echo "Error: The previous stage 2 build failed or was interrupted." >&2
+  echo "Please use stage2-resume-failed.sh to attempt resuming it." >&2
   exit 1
 fi
 # Ensure the MassOS environment is owned by root.

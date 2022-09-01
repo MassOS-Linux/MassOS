@@ -104,15 +104,20 @@ figlet
 file
 findutils
 flac
+flashrom
 flatpak
 flex
+fmt
 fontconfig
 freeglut
 freetype
 fribidi
 fuse2
 fuse3
+fwupd
+fwupd-efi
 gawk
+gcab
 gcc
 gcr
 gdbm
@@ -124,6 +129,7 @@ ghostscript
 gi-docgen
 giflib
 git
+glew
 glib
 glib-networking
 glibc
@@ -131,6 +137,7 @@ glibmm
 glslang
 glu
 gmp
+gnome-keyring
 gnome-online-accounts
 gnome-themes-extra
 gnu-efi
@@ -149,6 +156,8 @@ grub
 gsettings-desktop-schemas
 gspell
 gst-libav
+gst-plugin-dav1d
+gst-plugin-rav1e
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
@@ -208,6 +217,7 @@ libass
 libassuan
 libatasmart
 libavc1394
+libavif
 libblockdev
 libbluray
 libbpf
@@ -221,8 +231,10 @@ libcdio-paranoia
 libchamplain
 libdaemon
 libdazzle
+libde265
 libdmx
 libdrm
+libdv
 libdvdnav
 libdvdread
 libepoxy
@@ -243,6 +255,7 @@ libgudev
 libgusb
 libgxps
 libhandy
+libheif
 libical
 libice
 libidn2
@@ -251,6 +264,7 @@ libimobiledevice
 libinput
 libisoburn
 libisofs
+libjcat
 libjpeg-turbo
 libksba
 libmbim
@@ -267,7 +281,6 @@ libnma
 libnotify
 libnsl
 libogg
-libostree
 libpaper
 libpcap
 libpciaccess
@@ -371,6 +384,7 @@ m4
 make
 make-ca
 mako
+malcontent
 man-db
 man-pages
 mandoc
@@ -391,7 +405,6 @@ mpfr
 mpg123
 mtdev
 mtools
-mupdf
 nano
 nasm
 ncurses
@@ -422,6 +435,7 @@ openvpn
 opus
 orc
 os-prober
+ostree
 p11-kit
 p7zip
 packaging
@@ -509,6 +523,7 @@ squashfs-tools
 squashfuse
 sshfs
 startup-notification
+strace
 sudo
 swig
 sysprof
@@ -524,6 +539,7 @@ toml
 twolame
 typogrify
 tzdata
+udftools
 udisks
 unifont
 unzip
@@ -541,6 +557,7 @@ vte
 vulkan-headers
 vulkan-loader
 vulkan-tools
+wavpack
 wayland
 wayland-protocols
 webkitgtk
