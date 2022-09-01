@@ -27,12 +27,13 @@ Upgraded software (core):
 - cairomm: `1.14.0 --> 1.14.3`
 - CMake: `3.23.3 --> 3.24.1`
 - cups-filters: `1.28.15 --> 1.28.16`
+- curl: `7.84.0 --> 7.85.0`
 - DirectX-Headers: `1.602.0 --> 1.606.3`
 - FFmpeg: `5.0.1 --> 5.1`
 - Flatpak: `1.13.2 --> 1.14.0`
 - GCC: `12.1.0 --> 12.2.0`
 - GDK-Pixbuf: `2.42.8 --> 2.42.9`
-- Git: `2.37.1 --> 2.37.2`
+- Git: `2.37.1 --> 2.37.3`
 - glib-networking: `2.72.1 --> 2.72.2`
 - Glibc: `2.35 --> 2.36`
 - glslang: `11.10.0 --> 11.11.0`
@@ -48,6 +49,7 @@ Upgraded software (core):
 - libevdev: `1.12.1 --> 1.13.0`
 - libfontenc: `1.1.4 --> 1.1.5`
 - libFS: `1.0.8 --> 1.0.9`
+- libglvnd: `1.4.0 --> 1.5.0`
 - libnghttp2: `1.48.0 --> 1.49.0`
 - librsvg: `2.54.4 --> 2.54.5`
 - libtasn1: `4.18.0 --> 4.19.0`
@@ -56,13 +58,15 @@ Upgraded software (core):
 - libwpe: `1.13.1 --> 1.13.3`
 - libXau: `1.0.9 --> 1.0.10`
 - libXfont2: `2.0.5 --> 2.0.6`
-- libxslt: `1.1.34 --> 1.1.36`
-- Linux Kernel: `5.19.0 --> 5.19.4`
+- libxslt: `1.1.34 --> 1.1.37`
+- Linux Kernel: `5.19.0 --> 5.19.5`
 - LZ4: `1.9.3 --> 1.9.4`
+- Mako: `1.2.0 --> 1.2.2`
 - Malcontent: `0.10.4 --> 0.10.5`
 - Mesa: `22.1.4 --> 22.1.7`
 - Nano: `6.3 --> 6.4`
 - NetworkManager: `1.38.2 --> 1.40.0`
+- NetworkManager-openvpn: `1.8.18 --> 1.10.0`
 - NSPR: `4.34 --> 4.34.1`
 - NSS: `3.81 --> 3.82`
 - NVIDIA Open Kernel Modules: `515.57--> 515.65.01`
@@ -83,7 +87,7 @@ Upgraded software (core):
 - urllib3: `1.26.9 --> 1.26.11`
 - Userspace-RCU: `0.13.1 --> 0.13.2`
 - util-linux: `2.38 --> 2.38.1`
-- Vim: `9.0.0050 --> 9.0.0250`
+- Vim: `9.0.0050 --> 9.0.0300`
 - Wayland-Protocols: `1.25 --> 1.26`
 - WebKitGTK: `2.36.5 --> 2.36.6`
 - wpebackend-fdo: `1.12.0 --> 1.12.1`
@@ -96,7 +100,7 @@ Upgraded software (core):
 
 Upgraded software (Xfce):
 
-- Firefox: `103.0.1 --> 104.0`
+- Firefox: `103.0.1 --> 104.0.1`
 - Garcon: `4.17.0 --> 4.17.1`
 - Shotwell: `0.31.3 --> 0.31.4`
 - Tumbler: `4.17.0 --> 4.17.2`

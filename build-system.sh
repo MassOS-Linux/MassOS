@@ -1242,12 +1242,12 @@ install -t /usr/share/licenses/jinja2 -Dm644 LICENSE.rst
 cd ..
 rm -rf Jinja2-3.1.1
 # Mako.
-tar -xf Mako-1.2.0.tar.gz
-cd Mako-1.2.0
+tar -xf Mako-1.2.2.tar.gz
+cd Mako-1.2.2
 python setup.py install --optimize=1
 install -t /usr/share/licenses/mako -Dm644 LICENSE
 cd ..
-rm -rf Mako-1.2.0
+rm -rf Mako-1.2.2
 # Pygments.
 tar -xf Pygments-2.13.0.tar.gz
 cd Pygments-2.13.0
@@ -1645,16 +1645,14 @@ install -t /usr/share/licenses/docbook-xsl -Dm644 COPYING
 cd ..
 rm -rf docbook-xsl-nons-1.79.2
 # libxslt.
-tar -xf libxslt-1.1.36.tar.xz
-cd libxslt-1.1.36
-sed -i 's/3000/5000/' libxslt/transform.c doc/xsltproc.{1,xml}
-autoreconf -fi
+tar -xf libxslt-1.1.37.tar.xz
+cd libxslt-1.1.37
 ./configure --prefix=/usr --disable-static
 make
 make install
-install -t /usr/share/licenses/libxslt -Dm644 Copyright
+install -t /usr/share/licenses/libxslt -Dm644 COPYING
 cd ..
-rm -rf libxslt-1.1.36
+rm -rf libxslt-1.1.37
 # Lynx.
 tar -xf lynx2.8.9rel.1.tar.bz2
 cd lynx2.8.9rel.1
@@ -2297,15 +2295,14 @@ install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
 rm -rf nghttp2-1.49.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
-tar -xf curl-7.84.0.tar.xz
-cd curl-7.84.0
-patch -Np1 -i ../patches/curl-7.84.0-upstreamfix.patch
+tar -xf curl-7.85.0.tar.xz
+cd curl-7.85.0
 ./configure --prefix=/usr --disable-static --with-openssl --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 cd ..
-rm -rf curl-7.84.0
+rm -rf curl-7.85.0
 # jsoncpp.
 tar -xf jsoncpp-1.9.5.tar.gz
 cd jsoncpp-1.9.5
@@ -2691,14 +2688,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 cd ..
 rm -rf rtmpdump-2.4-20210219-gf1b83c1
 # curl (rebuild to support more features).
-tar -xf curl-7.84.0.tar.xz
-cd curl-7.84.0
-patch -Np1 -i ../patches/curl-7.84.0-upstreamfix.patch
+tar -xf curl-7.85.0.tar.xz
+cd curl-7.85.0
 ./configure --prefix=/usr --disable-static --with-openssl --with-libssh2 --with-gssapi --enable-ares --enable-threaded-resolver --with-ca-path=/etc/ssl/certs
 make
 make install
 cd ..
-rm -rf curl-7.84.0
+rm -rf curl-7.85.0
 # OpenVPN.
 tar -xf openvpn-2.5.7.tar.gz
 cd openvpn-2.5.7
@@ -2985,14 +2981,14 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
 rm -rf nss-3.82
 # Git.
-tar -xf git-2.37.2.tar.xz
-cd git-2.37.2
+tar -xf git-2.37.3.tar.xz
+cd git-2.37.3
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
 make all man
 make perllibdir=/usr/lib/perl5/5.36/site_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.37.2
+rm -rf git-2.37.3
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -4105,8 +4101,8 @@ install -t /usr/share/licenses/libvdpau -Dm644 ../COPYING
 cd ../..
 rm -rf libvdpau-1.5
 # libglvnd.
-tar -xf libglvnd-v1.4.0.tar.bz2
-cd libglvnd-v1.4.0
+tar -xf libglvnd-v1.5.0.tar.bz2
+cd libglvnd-v1.5.0
 cat README.md | tail -n211 | head -n22 | sed 's/    //g' > COPYING
 mkdir glvnd-build; cd glvnd-build
 meson --prefix=/usr --buildtype=minsize ..
@@ -4114,7 +4110,7 @@ ninja
 ninja install
 install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
-rm -rf libglvnd-v1.4.0
+rm -rf libglvnd-v1.5.0
 # Mesa.
 tar -xf mesa-22.1.7.tar.xz
 cd mesa-22.1.7
@@ -5462,8 +5458,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-9.0.0250.tar.gz
-cd vim-9.0.0250
+tar -xf vim-9.0.0300.tar.gz
+cd vim-9.0.0300
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5486,7 +5482,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-9.0.0250
+rm -rf vim-9.0.0300
 # libwpe.
 tar -xf libwpe-1.13.3.tar.xz
 cd libwpe-1.13.3
@@ -5584,6 +5580,7 @@ rm -rf gnome-keyring-42.1
 # Poppler.
 tar -xf poppler-22.08.0.tar.xz
 cd poppler-22.08.0
+patch -Np1 -i ../patches/poppler-22.08.0-securityfix.patch
 mkdir poppler-build; cd poppler-build
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja ..
 ninja
@@ -6005,8 +6002,8 @@ install -t /usr/share/licenses/network-manager-applet -Dm644 ../COPYING
 cd ../..
 rm -rf network-manager-applet-1.28.0
 # NetworkManager-openvpn.
-tar -xf NetworkManager-openvpn-1.8.18.tar.xz
-cd NetworkManager-openvpn-1.8.18
+tar -xf NetworkManager-openvpn-1.10.0.tar.xz
+cd NetworkManager-openvpn-1.10.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
@@ -6014,7 +6011,7 @@ groupadd -g 85 nm-openvpn
 useradd -c "NetworkManager OpenVPN" -d /dev/null -u 85 -g nm-openvpn -s /sbin/nologin nm-openvpn
 install -t /usr/share/licenses/networkmanager-openvpn -Dm644 COPYING
 cd ..
-rm -rf NetworkManager-openvpn-1.8.18
+rm -rf NetworkManager-openvpn-1.10.0
 # UDisks.
 tar -xf udisks-2.9.4.tar.bz2
 cd udisks-2.9.4
@@ -6817,8 +6814,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.4.tar.xz
-cd linux-5.19.4
+tar -xf linux-5.19.5.tar.xz
+cd linux-5.19.5
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6854,7 +6851,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.4
+rm -rf linux-5.19.5
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.65.01.tar.gz

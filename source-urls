@@ -61,7 +61,7 @@ https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-37.0.
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.5/cryptsetup-2.5.0.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.2/cups-2.4.2-source.tar.gz
 https://www.openprinting.org/download/cups-filters/cups-filters-1.28.16.tar.xz
-https://curl.se/download/curl-7.84.0.tar.xz
+https://curl.se/download/curl-7.85.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
 https://github.com/cython/cython/releases/download/0.29.25-1/Cython-0.29.25.tar.gz
 http://videolan.mirrors.nublue.co.uk/dav1d/1.0.0/dav1d-1.0.0.tar.xz
@@ -140,7 +140,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9561/ghostscript-9.56.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://freefr.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz
-https://cdn.kernel.org/pub/software/scm/git/git-2.37.2.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.37.3.tar.xz
 https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.tgz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.72/glib-2.72.3.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.72/glib-networking-2.72.2.tar.xz
@@ -264,7 +264,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/libgdata/0.18/libgdata-0.18.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgee/0.20/libgee-0.20.5.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libglade/2.6/libglade-2.6.4.tar.bz2
 https://gitlab.gnome.org/pwithnall/libglib-testing/-/archive/0.1.1/libglib-testing-0.1.1.tar.bz2
-https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v1.4.0/libglvnd-v1.4.0.tar.bz2
+https://gitlab.freedesktop.org/glvnd/libglvnd/-/archive/v1.5.0/libglvnd-v1.5.0.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.45.tar.bz2
 https://github.com/gphoto/libgphoto2/releases/download/v2.5.30/libgphoto2-2.5.30.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/libgudev/237/libgudev-237.tar.xz
@@ -371,7 +371,7 @@ https://www.x.org/archive/individual/lib/libXrender-0.9.10.tar.bz2
 https://www.x.org/archive/individual/lib/libXres-1.2.1.tar.bz2
 https://www.x.org/archive/individual/lib/libXScrnSaver-1.2.3.tar.bz2
 https://www.x.org/archive/individual/lib/libxshmfence-1.3.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/libxslt/1.1/libxslt-1.1.36.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/libxslt/1.1/libxslt-1.1.37.tar.xz
 https://www.x.org/archive/individual/lib/libXt-1.2.1.tar.bz2
 https://www.x.org/archive/individual/lib/libXtst-1.2.3.tar.bz2
 https://www.x.org/archive/individual/lib/libXv-1.0.11.tar.bz2
@@ -379,7 +379,7 @@ https://www.x.org/archive/individual/lib/libXvMC-1.0.13.tar.xz
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.4.tar.bz2
 https://github.com/nih-at/libzip/releases/download/v1.9.2/libzip-1.9.2.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.5.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/lld-14.0.6.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/llvm-14.0.6.src.tar.xz
@@ -401,7 +401,7 @@ https://www.lzop.org/download/lzop-1.04.tar.gz
 https://archive.massos.org/sources/make-ca-1.9.tar.xz
 https://ftpmirror.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 https://ftpmirror.gnu.org/gnu/make/make-4.3.tar.gz
-https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.0.tar.gz
+https://files.pythonhosted.org/packages/source/M/Mako/Mako-1.2.2.tar.gz
 https://tecnocode.co.uk/downloads/malcontent-0.10.5.tar.xz
 https://de.freedif.org/savannah/man-db/man-db-2.10.2.tar.xz
 https://cdn.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
@@ -430,7 +430,7 @@ https://freefr.dl.sourceforge.net/project/netcat/netcat/0.7.1/netcat-0.7.1.tar.b
 https://ftpmirror.gnu.org/gnu/nettle/nettle-3.8.1.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/network-manager-applet/1.28/network-manager-applet-1.28.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager/1.40/NetworkManager-1.40.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager-openvpn/1.8/NetworkManager-openvpn-1.8.18.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/NetworkManager-openvpn/1.10/NetworkManager-openvpn-1.10.0.tar.xz
 https://releases.pagure.org/newt/newt-0.52.21.tar.gz
 https://github.com/nghttp2/nghttp2/releases/download/v1.49.0/nghttp2-1.49.0.tar.xz
 https://github.com/ninja-build/ninja/archive/v1.11.0/ninja-1.11.0.tar.gz
@@ -574,7 +574,7 @@ https://lttng.org/files/urcu/userspace-rcu-0.13.2.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
 https://www.x.org/archive/individual/util/util-macros-1.19.3.tar.bz2
 https://ftp.acc.umu.se/pub/gnome/sources/vala/0.56/vala-0.56.2.tar.xz
-https://github.com/vim/vim/archive/v9.0.0250/vim-9.0.0250.tar.gz
+https://github.com/vim/vim/archive/v9.0.0300/vim-9.0.0300.tar.gz
 https://github.com/vicgeralds/vitetris/archive/v0.59.1/vitetris-0.59.1.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
 https://gitlab.gnome.org/GNOME/vte/-/archive/0.68.0/vte-0.68.0.tar.bz2
