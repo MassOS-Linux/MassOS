@@ -4,7 +4,7 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
-- Development has only just begun, check back soon!
+- Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
 
 Upgraded software (core):
 

@@ -4680,6 +4680,16 @@ rm -f /usr/lib/libGLEW.a
 install -t /usr/share/licenses/glew -Dm644 LICENSE.txt
 cd ..
 rm -rf glew-2.2.0
+# mesa-utils.
+tar -xf mesa-demos-8.5.0.tar.bz2
+cd mesa-demos-8.5.0
+mkdir build; cd build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+install -t /usr/bin -Dm755 src/{egl/opengl/eglinfo,xdemos/glx{info,gears}}
+ln -sf mesa /usr/share/licenses/mesa-utils
+cd ../..
+rm -rf mesa-demos-8.5.0
 # libtiff.
 tar -xf libtiff-v4.4.0.tar.bz2
 cd libtiff-v4.4.0
