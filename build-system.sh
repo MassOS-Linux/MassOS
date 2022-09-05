@@ -6742,6 +6742,15 @@ make install
 install -t /usr/share/licenses/clutter-gtk -Dm644 COPYING
 cd ..
 rm -rf clutter-gtk-1.8.4
+# Clutter-GST.
+tar -xf clutter-gst-3.0.27.tar.xz
+cd clutter-gst-3.0.27
+./configure --prefix=/usr --sysconfdir=/etc --disable-debug
+make
+make install
+install -t /usr/share/licenses/clutter-gst -Dm644 COPYING
+cd ..
+rm -rf clutter-gst-3.0.27
 # libchamplain.
 tar -xf libchamplain-0.12.20.tar.xz
 cd libchamplain-0.12.20

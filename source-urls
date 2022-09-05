@@ -48,6 +48,7 @@ https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.15.0.tar.gz
 https://files.pythonhosted.org/packages/source/c/chardet/chardet-5.0.0.tar.gz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/clang-14.0.6.src.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter/1.26/clutter-1.26.4.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/clutter-gst/3.0/clutter-gst-3.0.27.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
 https://github.com/Kitware/CMake/releases/download/v3.24.1/cmake-3.24.1.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar

@@ -44,6 +44,7 @@ cffi
 chardet
 clang
 clutter
+clutter-gst
 clutter-gtk
 cmake
 cmatrix
