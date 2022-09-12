@@ -1168,6 +1168,8 @@ cd make-4.3
 ./configure --prefix=/usr
 make
 make install
+ln -sf make /usr/bin/gmake
+ln -sf make.1 /usr/share/man/gmake.1
 install -t /usr/share/licenses/make -Dm644 COPYING
 cd ..
 rm -rf make-4.3
