@@ -222,10 +222,12 @@ libavif
 libblockdev
 libbluray
 libbpf
+libbs2b
 libburn
 libbytesize
 libcanberra
 libcap
+libcap-ng
 libcbor
 libcdio
 libcdio-paranoia
@@ -238,6 +240,7 @@ libdrm
 libdv
 libdvdnav
 libdvdread
+libedit
 libepoxy
 libevdev
 libevent
@@ -277,6 +280,7 @@ libmtp
 libndp
 libnfs
 libnghttp2
+libnice
 libnl
 libnma
 libnotify

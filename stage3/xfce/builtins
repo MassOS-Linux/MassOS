@@ -5,6 +5,7 @@ claws-mail
 evince
 exo
 firefox
+freerdp
 galculator
 garcon
 gnome-firmware
@@ -28,6 +29,7 @@ thunar
 thunar-archive-plugin
 thunar-volman
 tumbler
+weston
 xarchiver
 xfburn
 xfce4-appfinder

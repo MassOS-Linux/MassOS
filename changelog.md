@@ -5,10 +5,49 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
+- [Xfce] Added Weston, to provide basic support for running Wayland apps, Xfce does not yet support Wayland natively.
 
 Upgraded software (core):
 
-- Development has only just begun, check back soon!
+- Audit: `3.0.8 --> 3.0.9`
+- bc: `6.0.1 --> 6.0.2`
+- btrfs-progs: `5.18.1 --> 5.19.1`
+- Clang: `14.0.6 --> 15.0.0`
+- Cracklib: `2.9.7 --> 2.9.8`
+- dbus-python: `1.2.18 --> 1.3.2`
+- FFmpeg: `5.1 --> 5.1.1`
+- FLAC: `1.3.4 --> 1.4.0`
+- fmt: `9.0.0 --> 9.1.0`
+- FUSE3: `3.11.0 --> 3.12.0`
+- Grep: `3.7 --> 3.8`
+- hwdata: `0.361 --> 0.362`
+- Less: `600 --> 608`
+- libdrm: `2.4.112 --> 2.4.113`
+- libfontenc: `1.1.5 --> 1.1.6`
+- libheif: `1.12.0 --> 1.13.0`
+- libnma: `1.8.40 --> 1.10.2`
+- libsoup3: `3.0.7 --> 3.0.8`
+- libXft: `2.3.4 --> 2.3.6`
+- Linux Kernel: `5.19.5 --> 5.19.8`
+- LLD: `14.0.6 --> 15.0.0`
+- LLVM: `14.0.6 --> 15.0.0`
+- make-ca: `1.9 --> 1.10`
+- Mesa: `22.1.7 --> 22.2.0-rc3`
+- Meson: `0.63.0 --> 0.63.2`
+- Ninja: `1.11.0 --> 1.11.1`
+- PipeWire: `0.3.56 --> 0.3.57`
+- Poppler: `22.08.0 --> 22.09.0`
+- Python: `3.10.6 --> 3.10.7`
+- Qpdf: `10.6.3 --> 11.0.0`
+- rsync: `3.2.5 --> 3.2.6`
+- SQLite: `3.39.2 --> 3.39.3`
+- tree: `2.0.3 --> 2.0.4`
+- Vala: `0.56.2 --> 0.56.3`
+
+Upgraded software (Xfce):
+
+- xfce4-notifyd: `0.6.3 --> 0.6.4`
+- xfce4-pulseaudio-plugin: `0.4.3 --> 0.4.4`
 
 # MassOS 2022.09
 Changes:

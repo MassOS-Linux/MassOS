@@ -227,23 +227,23 @@ install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
 rm -rf shotwell-shotwell-0.31.4
 # xfce4-notifyd.
-tar -xf xfce4-notifyd-0.6.3.tar.bz2
-cd xfce4-notifyd-0.6.3
+tar -xf xfce4-notifyd-0.6.4.tar.bz2
+cd xfce4-notifyd-0.6.4
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 cd ..
-rm -rf xfce4-notifyd-0.6.3
+rm -rf xfce4-notifyd-0.6.4
 # xfce4-pulseaudio-plugin.
-tar -xf xfce4-pulseaudio-plugin-0.4.3.tar.bz2
-cd xfce4-pulseaudio-plugin-0.4.3
+tar -xf xfce4-pulseaudio-plugin-0.4.4.tar.bz2
+cd xfce4-pulseaudio-plugin-0.4.4
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
 cd ..
-rm -rf xfce4-pulseaudio-plugin-0.4.3
+rm -rf xfce4-pulseaudio-plugin-0.4.4
 # pavucontrol.
 tar -xf pavucontrol-5.0.tar.xz
 cd pavucontrol-5.0
@@ -479,6 +479,26 @@ ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
 rm -rf gnome-software-41.5
+# FreeRDP.
+tar -xf freerdp-2.8.0.tar.gz
+cd freerdp-2.8.0
+mkdir FreeRDP-build; cd FreeRDP-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_SKIP_RPATH=ON -DPROXY_PLUGINDIR=/usr/lib/freerdp2/server/proxy/plugins -DCHANNEL_URBDRC_CLIENT=ON -DWITH_CHANNELS=ON -DWITH_CLIENT_CHANNELS=ON -DWITH_CUPS=ON -DWITH_DSP_FFMPEG=ON -DWITH_FAAD2=ON -DWITH_FFMPEG=ON -DWITH_GSSAPI=ON -DWITH_ICU=ON -DWITH_JPEG=ON -DWITH_LAME=ON -DWITH_OPENH264=ON -DWITH_PKCS11=ON -DWITH_PULSE=ON -DWITH_SERVER=ON -DWITH_SERVER_CHANNELS=ON -DWITH_SWSCALE=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/freerdp -Dm644 ../LICENSE
+cd ../..
+rm -rf freerdp-2.8.0
+# Weston.
+tar -xf weston-10.0.2.tar.bz2
+cd weston-10.0.2
+mkdir weston-build; cd weston-build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/weston -Dm644 ../COPYING
+cd ../..
+rm -rf weston-10.0.2
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 cd massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c
