@@ -3148,14 +3148,13 @@ install -t /usr/share/licenses/graphene -Dm644 ../LICENSE.txt
 cd ../..
 rm -rf graphene-1.10.8
 # LLVM/Clang/LLD.
-tar -xf llvm-15.0.0.src.tar.xz
-mkdir -p cmake libunwind
-tar -xf cmake-15.0.0.src.tar.xz -C cmake --strip-components=1
-tar -xf libunwind-15.0.0.src.tar.xz -C libunwind --strip-components=1
-cd llvm-15.0.0.src
+tar -xf llvm-14.0.6.src.tar.xz
+mkdir -p libunwind
+tar -xf libunwind-14.0.6.src.tar.xz -C libunwind --strip-components=1
+cd llvm-14.0.6.src
 mkdir -p tools/{clang,lld}
-tar -xf ../clang-15.0.0.src.tar.xz -C tools/clang --strip-components=1
-tar -xf ../lld-15.0.0.src.tar.xz -C tools/lld --strip-components=1
+tar -xf ../clang-14.0.6.src.tar.xz -C tools/clang --strip-components=1
+tar -xf ../lld-14.0.6.src.tar.xz -C tools/lld --strip-components=1
 mkdir LLVM-build; cd LLVM-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_USE_PERF=ON -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;X86" -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja ..
 ninja -j$(nproc)
@@ -3164,7 +3163,7 @@ install -t /usr/share/licenses/llvm -Dm644 ../LICENSE.TXT
 ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
-rm -rf cmake libunwind llvm-15.0.0.src
+rm -rf libunwind llvm-14.0.6.src
 # Rust (build dependency of some packages; will be uninstalled later).
 tar -xf rust-1.62.1-x86_64-unknown-linux-gnu.tar.gz
 cd rust-1.62.1-x86_64-unknown-linux-gnu
@@ -4138,15 +4137,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 ../COPYING
 cd ../..
 rm -rf libglvnd-v1.5.0
 # Mesa.
-tar -xf mesa-22.2.0-rc3.tar.xz
-cd mesa-22.2.0-rc3
+tar -xf mesa-22.1.7.tar.xz
+cd mesa-22.1.7
 mkdir mesa-build; cd mesa-build
 meson --prefix=/usr --buildtype=minsize -Dgallium-drivers=crocus,d3d12,i915,iris,nouveau,r300,r600,radeonsi,svga,swrast,virgl,zink -Dvulkan-drivers=amd,intel,swrast -Dvulkan-layers=device-select,intel-nullhw,overlay -Dglx=dri -Dglvnd=true -Dosmesa=true -Dvalgrind=disabled ..
 ninja
 ninja install
 install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
-rm -rf mesa-22.2.0-rc3
+rm -rf mesa-22.1.7
 # libva (rebuild to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
