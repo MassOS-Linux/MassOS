@@ -1005,15 +1005,6 @@ dircolors -p > /etc/dircolors
 install -t /usr/share/licenses/coreutils -Dm644 COPYING
 cd ..
 rm -rf coreutils-9.1
-# Moreutils.
-tar -xf moreutils_0.67.orig.tar.gz
-cd moreutils-0.67
-patch -Np1 -i ../patches/moreutils-0.66-pregenerated-manpages.patch
-make CFLAGS="$CFLAGS"
-make install
-install -t /usr/share/licenses/moreutils -Dm644 COPYING
-cd ..
-rm -rf moreutils-0.67
 # Diffutils.
 tar -xf diffutils-3.8.tar.xz
 cd diffutils-3.8
@@ -1880,6 +1871,14 @@ cd asciidoc-10.2.0
 python setup.py install --optimize=1
 cd ..
 rm -rf asciidoc-10.2.0
+# Moreutils.
+tar -xf moreutils_0.67.orig.tar.gz
+cd moreutils-0.67
+make CFLAGS="$CFLAGS" DOCBOOKXSL=/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2
+make install
+install -t /usr/share/licenses/moreutils -Dm644 COPYING
+cd ..
+rm -rf moreutils-0.67
 # GNU-EFI.
 tar -xf gnu-efi-3.0.15.tar.bz2
 cd gnu-efi-3.0.15
