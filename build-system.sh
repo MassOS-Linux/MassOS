@@ -781,7 +781,7 @@ cd autoconf-2.13
 patch -Np1 -i ../patches/autoconf-2.13-consolidated_fixes-1.patch
 mv autoconf.texi autoconf213.texi
 rm autoconf.info
-./configure --prefix=/usr --program-suffix=2.13
+./configure --prefix=/usr --infodir=/usr/share/info --program-suffix=2.13
 make
 make install
 install -m644 autoconf213.info /usr/share/info
@@ -983,14 +983,14 @@ install -t /usr/share/licenses/libseccomp -Dm644 LICENSE
 cd ..
 rm -rf libseccomp-2.5.4
 # File.
-tar -xf file-5.42.tar.gz
-cd file-5.42
+tar -xf file-5.43.tar.gz
+cd file-5.43
 ./configure --prefix=/usr --enable-libseccomp
 make
 make install
 install -t /usr/share/licenses/file -Dm644 COPYING
 cd ..
-rm -rf file-5.42
+rm -rf file-5.43
 # Coreutils.
 tar -xf coreutils-9.1.tar.xz
 cd coreutils-9.1
@@ -2338,16 +2338,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 cd ..
 rm -rf RHash-1.4.2
 # CMake.
-tar -xf cmake-3.24.1.tar.gz
-cd cmake-3.24.1
-patch -Np1 -i ../patches/cmake-3.24.1-boost1.80.patch
+tar -xf cmake-3.24.2.tar.gz
+cd cmake-3.24.2
 sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 Copyright.txt
 cd ..
-rm -rf cmake-3.24.1
+rm -rf cmake-3.24.2
 # c-ares.
 tar -xf c-ares-1.18.1.tar.gz
 cd c-ares-1.18.1
@@ -2433,6 +2432,17 @@ make install
 install -t /usr/share/licenses/libnfs -Dm644 COPYING LICENCE-BSD.txt LICENCE-GPL-3.txt LICENCE-LGPL-2.1.txt
 cd ..
 rm -rf libnfs-libnfs-4.0.0
+# libieee1284.
+tar -xf libieee1284-0_2_11-12-g0663326.tar.xz
+cd libieee1284-0_2_11-12-g0663326
+patch -Np1 -i ../patches/libieee1284-0.2.11-python3.patch
+./bootstrap
+./configure --prefix=/usr --mandir=/usr/share/man --disable-static --with-python
+make -j1
+make -j1 install
+install -t /usr/share/licenses/libieee1284 -Dm644 COPYING
+cd ..
+rm -rf libieee1284-0_2_11-12-g0663326
 # PCRE.
 tar -xf pcre-8.45.tar.bz2
 cd pcre-8.45
@@ -2983,8 +2993,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 cd ../..
 rm -rf nspr-4.34.1
 # NSS (NOTE: UPDATE BELOW SED WHEN VERSION CHANGES).
-tar -xf nss-3.82.tar.gz
-cd nss-3.82/nss
+tar -xf nss-3.83.tar.gz
+cd nss-3.83/nss
 mkdir gyp
 tar -xf ../../gyp-9ecf45.tar.gz -C gyp --strip-components=1
 PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
@@ -2994,13 +3004,13 @@ install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver
 install -t /usr/share/man/man1 -Dm644 doc/nroff/{*util,signtool,signver,ssltap}.1
 install -dm755 /usr/include/nss
 cp -r ../dist/{public,private}/nss/* /usr/include/nss
-sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.82.0|g" > /usr/lib/pkgconfig/nss.pc
+sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.83.0|g" > /usr/lib/pkgconfig/nss.pc
 sed pkg/pkg-config/nss-config.in -e 's|@prefix@|/usr|g' -e "s|@MOD_MAJOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f1)|g" -e "s|@MOD_MINOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f2)|g" -e "s|@MOD_PATCH_VERSION@|$(pkg-config --modversion nss | cut -d. -f3)|g" > /usr/bin/nss-config
 chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
-rm -rf nss-3.82
+rm -rf nss-3.83
 # Git.
 tar -xf git-2.37.3.tar.xz
 cd git-2.37.3
@@ -3050,6 +3060,7 @@ rm -rf libsmbios-2.4.3
 # DKMS.
 tar -xf dkms-3.0.6.tar.gz
 cd dkms-3.0.6
+patch -Np1 -i ../patches/dkms-3.0.6-egrep.patch
 make BASHDIR=/usr/share/bash-completion/completions install
 install -t /usr/share/licenses/dkms -Dm644 COPYING
 cd ..
@@ -3231,15 +3242,15 @@ install -t /usr/share/licenses/efibootmgr -Dm644 COPYING
 cd ..
 rm -rf efibootmgr-18
 # libpng.
-tar -xf libpng-1.6.37.tar.xz
-cd libpng-1.6.37
+tar -xf libpng-1.6.38.tar.xz
+cd libpng-1.6.38
 patch -Np1 -i ../patches/libpng-1.6.37-apng.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libpng -Dm644 LICENSE
 cd ..
-rm -rf libpng-1.6.37
+rm -rf libpng-1.6.38
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf freetype-2.12.1.tar.xz
 cd freetype-2.12.1
@@ -3304,7 +3315,7 @@ cd ../..
 rm -rf woff2-1.0.2
 # Unifont.
 mkdir -p /usr/share/fonts/unifont
-pigz -cd unifont-14.0.03.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+pigz -cd unifont-15.0.01.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
 install -t /usr/share/licenses/unifont -Dm644 extra-package-licenses/LICENSE-unifont.txt
 # GRUB.
 tar -xf grub-2.06.tar.xz
@@ -3435,14 +3446,14 @@ install -t /usr/share/licenses/libbytesize -Dm644 LICENSE
 cd ..
 rm -rf libbytesize-2.7
 # libblockdev.
-tar -xf libblockdev-2.27.tar.gz
-cd libblockdev-2.27
+tar -xf libblockdev-2.28.tar.gz
+cd libblockdev-2.28
 ./configure --prefix=/usr --sysconfdir=/etc --with-python3 --without-nvdimm
 make
 make install
 install -t /usr/share/licenses/libblockdev -Dm644 LICENSE
 cd ..
-rm -rf libblockdev-2.27
+rm -rf libblockdev-2.28
 # libdaemon.
 tar -xf libdaemon_0.14.orig.tar.gz
 cd libdaemon-0.14
@@ -3634,8 +3645,8 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-11.0.0.tar.gz
-cd qpdf-11.0.0
+tar -xf qpdf-11.1.0.tar.gz
+cd qpdf-11.1.0
 mkdir qpdf-build; cd qpdf-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DINSTALL_EXAMPLES=OFF -Wno-dev -G Ninja ..
 ninja
@@ -3644,7 +3655,7 @@ install -t /usr/share/bash-completion/completions -Dm644 ../completions/bash/qpd
 install -t /usr/share/zsh/site-functions -Dm644 ../completions/zsh/_qpdf
 install -t /usr/share/licenses/qpdf -Dm644 ../{Artistic-2.0,LICENSE.txt,NOTICE.md}
 cd ../..
-rm -rf qpdf-11.0.0
+rm -rf qpdf-11.1.0
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -3768,6 +3779,7 @@ rm -rf dhcpcd-9.4.1
 # xdg-utils.
 tar -xf xdg-utils-1.1.3.tar.gz
 cd xdg-utils-1.1.3
+sed -i 's/egrep/grep -E/' scripts/xdg-open.in
 ./configure --prefix=/usr --mandir=/usr/share/man
 make
 make install
@@ -4806,15 +4818,15 @@ ninja install
 cd ../..
 rm -rf harfbuzz-5.1.0
 # Pango.
-tar -xf pango-1.50.9.tar.xz
-cd pango-1.50.9
+tar -xf pango-1.50.10.tar.bz2
+cd pango-1.50.10
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.9
+rm -rf pango-1.50.10
 # Pangomm.
 tar -xf pangomm-2.46.2.tar.xz
 cd pangomm-2.46.2
@@ -4986,7 +4998,6 @@ rm -rf colord-1.4.6
 tar -xf cups-2.4.2-source.tar.gz
 cd cups-2.4.2
 useradd -c "Print Service User" -d /var/spool/cups -g lp -s /sbin/nologin -u 9 lp
-groupadd -g 19 lpadmin
 sed -e 8198d -e 8213d -e 8228d -e 8243d -i configure
 ./configure --libdir=/usr/lib --with-system-groups=lpadmin --with-docdir=/usr/share/cups/doc
 make
@@ -5015,25 +5026,25 @@ install -t /usr/share/licenses/gtk3 -Dm644 ../COPYING
 cd ../..
 rm -rf gtk-3.24.34
 # Gtkmm3.
-tar -xf gtkmm-3.24.6.tar.xz
-cd gtkmm-3.24.6
+tar -xf gtkmm-3.24.7.tar.xz
+cd gtkmm-3.24.7
 mkdir gmm-build; cd gmm-build
 meson --prefix=/usr --buildtype=minsize -Dbuild-demos=false -Dbuild-tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/gtkmm3 -Dm644 ../COPYING ../COPYING.tools
 cd ../..
-rm -rf gtkmm-3.24.6
+rm -rf gtkmm-3.24.7
 # libhandy.
-tar -xf libhandy-1.6.3.tar.xz
-cd libhandy-1.6.3
+tar -xf libhandy-1.8.0.tar.xz
+cd libhandy-1.8.0
 mkdir handy-build; cd handy-build
-meson --prefix=/usr --buildtype=minsize ..
+meson --prefix=/usr --buildtype=minsize -Dexamples=false -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libhandy -Dm644 ../COPYING
 cd ../..
-rm -rf libhandy-1.6.3
+rm -rf libhandy-1.8.0
 # gnome-themes-extra (for accessibility - provides high contrast theme).
 tar -xf gnome-themes-extra-3.28.tar.xz
 cd gnome-themes-extra-3.28
@@ -5350,7 +5361,6 @@ tar -xf avahi-0.8.tar.gz
 cd avahi-0.8
 groupadd -fg 84 avahi
 useradd -c "Avahi Daemon Owner" -d /var/run/avahi-daemon -u 84 -g avahi -s /sbin/nologin avahi
-groupadd -fg 86 netdev
 patch -Np1 -i ../patches/avahi-0.8-upstreamfixes.patch
 patch -Np1 -i ../patches/avahi-0.8-add-missing-script.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-mono --disable-monodoc --disable-qt3 --disable-qt4 --disable-qt5 --disable-rpath --disable-static --enable-compat-libdns_sd --with-distro=none
@@ -5395,7 +5405,7 @@ rm -rf SDL-1.2.15
 tar -xf SDL2-2.24.0.tar.gz
 cd SDL2-2.24.0
 mkdir SDL2-build; cd SDL2-build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_RPATH=OFF -DSDL_STATIC=OFF -DSDL_TEST=OFF -Wno-dev -G Ninja ..
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_HIDAPI_LIBUSB=ON -DSDL_RPATH=OFF -DSDL_STATIC=OFF -DSDL_TEST=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/sdl2 -Dm644 ../LICENSE.txt
@@ -5582,7 +5592,7 @@ rm -rf accountsservice-22.08.8
 # polkit-gnome.
 tar -xf polkit-gnome-0.105.tar.xz
 cd polkit-gnome-0.105
-patch -Np1 -i ../patches/polkit-gnome-0.105-consolidated_fixes-1.patch
+patch -Np1 -i ../patches/polkit-gnome-0.105-upstreamfixes.patch
 ./configure --prefix=/usr
 make
 make install
@@ -5665,7 +5675,7 @@ echo "1.1.1" > .tarball-version
 echo "1.1.1" > .version
 autoreconf -fi
 mkdir build; cd build
-../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-group=scanner
+../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-rpath --with-group=scanner --with-lockdir=/run/lock
 make
 make install
 install -m644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
@@ -5683,8 +5693,7 @@ make -j1 rulesdir=/usr/lib/udev/rules.d install
 rm -rf /usr/share/hal
 rm -f /etc/xdg/autostart/hplip-systray.desktop
 rm -f /usr/share/applications/hp{lip,-uiscan}.desktop
-rm -f /usr/bin/hp-{uninstall,upgrade}
-rm -f /usr/share/hplip/{uninstall,upgrade}.py
+rm -f /usr/bin/hp-{uninstall,upgrade} /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 cd ..
 rm -rf hplip-3.22.6
@@ -5755,13 +5764,12 @@ install -t /usr/share/licenses/chardet -Dm644 LICENSE
 cd ..
 rm -rf chardet-5.0.0
 # idna.
-tar -xf idna-3.3.tar.gz
-cd idna-3.3
-python setup.py build
-python setup.py install --optimize=1 --skip-build
+tar -xf idna-3.4.tar.gz
+cd idna-3.4
+python setup.py install --optimize=1
 install -t /usr/share/licenses/idna -Dm644 LICENSE.md
 cd ..
-rm -rf idna-3.3
+rm -rf idna-3.4
 # ply.
 tar -xf ply-3.11.tar.gz
 cd ply-3.11
@@ -6087,15 +6095,15 @@ install -t /usr/share/licenses/libsoup -Dm644 ../COPYING
 cd ../..
 rm -rf libsoup-2.74.2
 # libsoup3.
-tar -xf libsoup-3.0.8.tar.xz
-cd libsoup-3.0.8
+tar -xf libsoup-3.2.0.tar.xz
+cd libsoup-3.2.0
 mkdir soup3-build; cd soup3-build
 meson --prefix=/usr --buildtype=minsize -Dpkcs11_tests=disabled -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/libsoup3 -Dm644 ../COPYING
 cd ../..
-rm -rf libsoup-3.0.8
+rm -rf libsoup-3.2.0
 # ostree.
 tar -xf libostree-2022.5.tar.xz
 cd libostree-2022.5
@@ -6313,10 +6321,10 @@ rm -f /usr/bin/tests
 install -t /usr/share/licenses/libde265 -Dm644 COPYING
 cd ..
 rm -rf libde265-1.0.8
-# CDParanoia-III.
+# cdparanoia.
 tar -xf cdparanoia-III-10.2.src.tgz
 cd cdparanoia-III-10.2
-patch -Np1 -i ../patches/cdparanoia-III-10.2-gcc_fixes-1.patch
+patch -Np1 -i ../patches/cdparanoia-III-10.2-buildfix.patch
 ./configure --prefix=/usr --mandir=/usr/share/man
 make -j1
 make -j1 install
@@ -6420,7 +6428,7 @@ rm -rf libdvdnav-6.1.1
 # libcanberra.
 tar -xf libcanberra_0.30.orig.tar.xz
 cd libcanberra-0.30
-patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
+patch -Np1 -i ../patches/libcanberra-0.30-wayland.patch
 ./configure --prefix=/usr --disable-oss
 make
 make -j1 install
@@ -6715,8 +6723,8 @@ install -t /usr/share/licenses/gst-plugin-rav1e -Dm644 ../LICENSE-MIT
 cd ../..
 rm -rf gst-plugins-rs-0.8.4
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.57.tar.bz2
-cd pipewire-0.3.57
+tar -xf pipewire-0.3.58.tar.bz2
+cd pipewire-0.3.58
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
 patch -d subprojects/wireplumber -Np1 -i ../../../patches/wireplumber-0.4.11-upstreamfix.patch
@@ -6730,7 +6738,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.57
+rm -rf pipewire-0.3.58
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.6.tar.xz
 cd xdg-desktop-portal-1.14.6
@@ -6875,8 +6883,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.8.tar.xz
-cd linux-5.19.8
+tar -xf linux-5.19.9.tar.xz
+cd linux-5.19.9
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6912,7 +6920,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.8
+rm -rf linux-5.19.9
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.65.01.tar.gz

@@ -1,10 +1,3 @@
-Submitted by: Xi Ruoyao <xry111 at mengyan1223 dot wang>
-Date: 2020-09-21
-Initial Package Version: 0.30
-Upstream Status: Commited
-Origin: Upstream Git Repository
-Description: Fix a bug crashing some applications in Wayland desktops.
-
 From c0620e432650e81062c1967cc669829dbd29b310 Mon Sep 17 00:00:00 2001
 From: Michael Meeks <michael.meeks@suse.com>
 Date: Fri, 9 Nov 2012 16:16:40 +0000
@@ -73,5 +66,5 @@ index 34446f5..08cb668 100644
                                 gdk_x11_get_xatom_by_name_for_display(d, "_NET_WM_DESKTOP"),
                                 0, G_MAXLONG, False, XA_CARDINAL, &type_return,
 -- 
-cgit v1.2.1
+cgit 
 

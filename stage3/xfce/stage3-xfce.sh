@@ -236,14 +236,14 @@ install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 cd ..
 rm -rf xfce4-notifyd-0.6.4
 # xfce4-pulseaudio-plugin.
-tar -xf xfce4-pulseaudio-plugin-0.4.4.tar.bz2
-cd xfce4-pulseaudio-plugin-0.4.4
+tar -xf xfce4-pulseaudio-plugin-0.4.5.tar.bz2
+cd xfce4-pulseaudio-plugin-0.4.5
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
 cd ..
-rm -rf xfce4-pulseaudio-plugin-0.4.4
+rm -rf xfce4-pulseaudio-plugin-0.4.5
 # pavucontrol.
 tar -xf pavucontrol-5.0.tar.xz
 cd pavucontrol-5.0

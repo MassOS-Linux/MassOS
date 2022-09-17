@@ -16,6 +16,7 @@ usb:x:14:
 cdrom:x:15:
 adm:x:16:
 messagebus:x:18:
+lpadmin:x:19:
 systemd-journal:x:23:
 input:x:24:
 mail:x:34:
@@ -30,6 +31,7 @@ systemd-timesync:x:78:
 systemd-coredump:x:79:
 uuidd:x:80:
 systemd-oom:x:81:81:
+netdev:x:86:
 wheel:x:97:
 nogroup:x:99:
 users:x:999:

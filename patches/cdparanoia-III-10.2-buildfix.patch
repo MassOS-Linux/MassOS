@@ -1,16 +1,5 @@
-Submitted By: Ken Moffat <ken at linuxfromscratch dot org>
-Date: 2008-12-03
-Initial Package Version: III-10.2
-Upstream Status: unknown
-Origin: gentoo, who describe it as a gcc-4.3 patch
-Description: Renames a variable from 'private' to 'private_data'.  This is
-apparently intended to allow the package to be compiled with gcc-4.3 and later.
-The header file cdda_interface.h is used by c++ code in kdemultimedia-4.1.2
-which barfs on the use of private _even_in_g++-4.2.2_.
-
-diff -urp cdparanoia-III-10.2.orig/interface/cdda_interface.h cdparanoia-III-10.2/interface/cdda_interface.h
---- cdparanoia-III-10.2.orig/interface/cdda_interface.h	2008-09-11 11:43:52.000000000 +0100
-+++ cdparanoia-III-10.2/interface/cdda_interface.h	2008-09-25 00:18:02.000000000 +0100
+--- a/interface/cdda_interface.h
++++ b/interface/cdda_interface.h
 @@ -84,7 +84,7 @@ typedef struct cdrom_drive{
    int is_atapi;
    int is_mmc;
@@ -20,9 +9,8 @@ diff -urp cdparanoia-III-10.2.orig/interface/cdda_interface.h cdparanoia-III-10.
    void         *reserved;
    unsigned char inqbytes[4];
  
-diff -urp cdparanoia-III-10.2.orig/interface/cooked_interface.c cdparanoia-III-10.2/interface/cooked_interface.c
---- cdparanoia-III-10.2.orig/interface/cooked_interface.c	2008-08-26 10:55:22.000000000 +0100
-+++ cdparanoia-III-10.2/interface/cooked_interface.c	2008-09-25 00:19:21.000000000 +0100
+--- a/interface/cooked_interface.c
++++ b/interface/cooked_interface.c
 @@ -13,13 +13,13 @@
  static int timed_ioctl(cdrom_drive *d, int fd, int command, void *arg){
    struct timespec tv1;
@@ -41,9 +29,8 @@ diff -urp cdparanoia-III-10.2.orig/interface/cooked_interface.c cdparanoia-III-1
    }
    return ret2;
  }
-diff -urp cdparanoia-III-10.2.orig/interface/interface.c cdparanoia-III-10.2/interface/interface.c
---- cdparanoia-III-10.2.orig/interface/interface.c	2008-09-11 11:43:52.000000000 +0100
-+++ cdparanoia-III-10.2/interface/interface.c	2008-09-25 00:19:47.000000000 +0100
+--- a/interface/interface.c
++++ a/interface/interface.c
 @@ -39,9 +39,9 @@ int cdda_close(cdrom_drive *d){
      if(d->drive_model)free(d->drive_model);
      if(d->cdda_fd!=-1)close(d->cdda_fd);
@@ -66,9 +53,8 @@ diff -urp cdparanoia-III-10.2.orig/interface/interface.c cdparanoia-III-10.2/int
      return(sectors);
    }
    
-diff -urp cdparanoia-III-10.2.orig/interface/scan_devices.c cdparanoia-III-10.2/interface/scan_devices.c
---- cdparanoia-III-10.2.orig/interface/scan_devices.c	2008-08-26 10:55:22.000000000 +0100
-+++ cdparanoia-III-10.2/interface/scan_devices.c	2008-09-25 00:20:35.000000000 +0100
+--- a/interface/scan_devices.c
++++ b/interface/scan_devices.c
 @@ -264,11 +264,11 @@ cdrom_drive *cdda_identify_cooked(const 
    d->interface=COOKED_IOCTL;
    d->bigendianp=-1; /* We don't know yet... */
@@ -135,9 +121,8 @@ diff -urp cdparanoia-III-10.2.orig/interface/scan_devices.c cdparanoia-III-10.2/
    d->drive_model=copystring("File based test interface");
    idmessage(messagedest,messages,"\t\tCDROM sensed: %s\n",d->drive_model);
    
-diff -urp cdparanoia-III-10.2.orig/interface/scsi_interface.c cdparanoia-III-10.2/interface/scsi_interface.c
---- cdparanoia-III-10.2.orig/interface/scsi_interface.c	2008-09-11 21:33:30.000000000 +0100
-+++ cdparanoia-III-10.2/interface/scsi_interface.c	2008-09-25 00:22:40.000000000 +0100
+--- a/interface/scsi_interface.c
++++ b/interface/scsi_interface.c
 @@ -15,13 +15,13 @@
  static int timed_ioctl(cdrom_drive *d, int fd, int command, void *arg){
    struct timespec tv1;
@@ -569,9 +554,8 @@ diff -urp cdparanoia-III-10.2.orig/interface/scsi_interface.c cdparanoia-III-10.
    d->report_all=1;
    return(0);
  }
-diff -urp cdparanoia-III-10.2.orig/interface/test_interface.c cdparanoia-III-10.2/interface/test_interface.c
---- cdparanoia-III-10.2.orig/interface/test_interface.c	2008-09-11 21:33:30.000000000 +0100
-+++ cdparanoia-III-10.2/interface/test_interface.c	2008-09-25 00:22:46.000000000 +0100
+--- a/interface/test_interface.c
++++ b/interface/test_interface.c
 @@ -66,9 +66,9 @@ static long test_read(cdrom_drive *d, vo
    if(!fd)fd=fdopen(d->cdda_fd,"r");
  
