@@ -1114,6 +1114,13 @@ make install
 install -t /usr/share/licenses/iptables -Dm644 COPYING
 cd ..
 rm -rf iptables-1.8.8
+# UFW.
+tar -xf ufw-0.36.1.tar.gz
+cd ufw-0.36.1
+python setup.py install
+install -t /usr/share/licenses/ufw -Dm644 COPYING
+cd ..
+rm -rf ufw-0.36.1
 # IPRoute2.
 tar -xf iproute2-5.19.0.tar.xz
 cd iproute2-5.19.0

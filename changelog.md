@@ -5,6 +5,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
+- Added UFW ("Uncomplicated Firewall"); user-friendly frontend to iptables.
 - [Xfce] Added Weston, to provide basic support for running Wayland apps, as Xfce does not yet support Wayland natively.
 
 Upgraded software (core):

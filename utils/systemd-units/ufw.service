@@ -1,0 +1,14 @@
+[Unit]
+Description=Uncomplicated Firewall
+Documentation=man:ufw(8)
+DefaultDependencies=no
+Before=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/ufw/ufw-init start quiet
+ExecStop=/usr/lib/ufw/ufw-init stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
