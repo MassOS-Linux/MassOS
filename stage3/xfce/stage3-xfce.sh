@@ -532,6 +532,7 @@ make
 make install
 cp tests/src/lightdm-session /usr/bin
 sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session
+sed -i 's/#user-session=default/user-session=xfce/' /etc/lightdm/lightdm.conf
 rm -rf /etc/init
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm-data
