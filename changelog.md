@@ -4,55 +4,84 @@ This document contains the full changelog for every previous versions of MassOS,
 # Current Development
 Changes:
 
+- Btrfs is now is the default filesystem (recommended by the MassOS Installer). ext4 and the others will remain fully supported.
 - Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
 - Added UFW ("Uncomplicated Firewall"); user-friendly frontend to iptables.
+- Moved Sysprof to GNOME as it now depends on GTK4/libadwaita, and only libsysprof-capture is needed outside of GNOME.
 - [Xfce] Added Weston, to provide basic support for running Wayland apps, as Xfce does not yet support Wayland natively.
 
 Upgraded software (core):
 
+- adwaita-icon-theme: `42.0 --> 43`
+- at-spi2-core: `2.44.1 --> 2.46.0`
 - Audit: `3.0.8 --> 3.0.9`
 - bc: `6.0.1 --> 6.0.2`
 - btrfs-progs: `5.18.1 --> 5.19.1`
+- Clang: `14.0.6 --> 15.0.1`
 - CMake: `3.24.1 --> 3.24.2`
 - Cracklib: `2.9.7 --> 2.9.8`
 - dbus-python: `1.2.18 --> 1.3.2`
+- Expat: `2.4.8 --> 2.4.9`
 - FFmpeg: `5.1 --> 5.1.1`
 - FLAC: `1.3.4 --> 1.4.0`
 - File: `5.42 --> 5.43`
 - fmt: `9.0.0 --> 9.1.0`
 - FUSE3: `3.11.0 --> 3.12.0`
+- GLib: `2.72.3 --> 2.74.0`
+- glib-networking: `2.72.2 --> 2.74.0`
+- GLibmm: `2.66.4 --> 2.66.5`
+- gnome-online-accounts: `3.44.0 --> 3.46.0`
+- GraphViz: `5.0.1 --> 6.0.1`
 - Grep: `3.7 --> 3.8`
 - Gtkmm3: `3.24.6 --> 3.24.7`
+- HarfBuzz: `5.1.0 --> 5.2.0`
 - hwdata: `0.361 --> 0.362`
 - idna: `3.3 --> 3.4`
 - Less: `600 --> 608`
 - libblockdev: `2.27 --> 2.28`
 - libdrm: `2.4.112 --> 2.4.113`
+- libffi: `3.4.2 --> 3.4.3`
 - libfontenc: `1.1.5 --> 1.1.6`
+- libgee: `0.20.5 --> 0.20.6`
+- libgusb: `0.3.10 --> 0.4.0`
 - libhandy: `1.6.3 --> 1.8.0`
 - libheif: `1.12.0 --> 1.13.0`
+- libksba: `1.6.0 --> 1.6.1`
 - libnma: `1.8.40 --> 1.10.2`
+- libpeas: `1.32.0 --> 1.34.0`
 - libpng: `1.6.37 --> 1.6.38`
 - libsoup3: `3.0.7 --> 3.2.0`
+- libsysprof-catpure: `3.44.0 --> 3.46.0`
+- libwnck: `40.1 --> 43.0`
 - libXft: `2.3.4 --> 2.3.6`
-- Linux Kernel: `5.19.5 --> 5.19.9`
+- Linux Kernel: `5.19.5 --> 5.19.10`
+- LLD: `14.0.6 --> 15.0.1`
+- LLVM: `14.0.6 --> 15.0.1`
 - make-ca: `1.9 --> 1.10`
 - Meson: `0.63.0 --> 0.63.2`
 - Ninja: `1.11.0 --> 1.11.1`
+- NSPR: `4.34.1 --> 4.35`
 - NSS: `3.82 --> 3.83`
 - Pango: `1.50.9 --> 1.50.10`
 - PipeWire: `0.3.56 --> 0.3.58`
 - Poppler: `22.08.0 --> 22.09.0`
+- Popt: `1.18 --> 1.19`
 - Python: `3.10.6 --> 3.10.7`
 - Qpdf: `10.6.3 --> 11.1.0`
+- rest: `0.8.1 --> 0.9.1`
 - rsync: `3.2.5 --> 3.2.6`
+- smbclient: `4.16.4 --> 4.17.0`
 - SQLite: `3.39.2 --> 3.39.3`
 - tree: `2.0.3 --> 2.0.4`
 - Unifont: `14.0.03 --> 15.0.01`
 - Vala: `0.56.2 --> 0.56.3`
+- VTE: `0.68.0 --> 0.70.0`
 
 Upgraded software (Xfce):
 
+- Evince: `42.3 --> 43.0`
+- Firefox: `104.0.1 --> 105.0`
+- Shotwell: `0.31.4 --> 0.31.5`
 - xfce4-notifyd: `0.6.3 --> 0.6.4`
 - xfce4-pulseaudio-plugin: `0.4.3 --> 0.4.5`
 

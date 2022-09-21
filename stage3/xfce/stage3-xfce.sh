@@ -217,15 +217,15 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
 rm -rf xfce4-terminal-1.0.4
 # Shotwell.
-tar -xf shotwell-shotwell-0.31.4.tar.bz2
-cd shotwell-shotwell-0.31.4
+tar -xf shotwell-shotwell-0.31.5.tar.bz2
+cd shotwell-shotwell-0.31.5
 mkdir SHOTWELL-build; cd SHOTWELL-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
-rm -rf shotwell-shotwell-0.31.4
+rm -rf shotwell-shotwell-0.31.5
 # xfce4-notifyd.
 tar -xf xfce4-notifyd-0.6.4.tar.bz2
 cd xfce4-notifyd-0.6.4
@@ -433,22 +433,22 @@ rm -rf libetpan-1.9.4
 tar -xf claws-mail-4.1.0.tar.xz
 cd claws-mail-4.1.0
 patch -Np1 -i ../patches/claws-mail-4.1.0-perl5.36.patch
-./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-fancy-plugin --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
+./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
 make
 make install
 install -t /usr/share/licenses/claws-mail -Dm644 COPYING
 cd ..
 rm -rf claws-mail-4.1.0
 # Evince.
-tar -xf evince-42.3.tar.xz
-cd evince-42.3
+tar -xf evince-43.0.tar.xz
+cd evince-43.0
 mkdir build; cd build
 meson --prefix=/usr --buildtype=minsize -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-42.3
+rm -rf evince-43.0
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -552,7 +552,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-104.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-105.0.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

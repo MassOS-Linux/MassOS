@@ -71,14 +71,14 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/tools/lib/gcc/x86_64-stage1-lin
 cd ../..
 rm -rf gcc-12.2.0
 # Linux API Headers.
-tar -xf linux-5.19.9.tar.xz
-cd linux-5.19.9
+tar -xf linux-5.19.10.tar.xz
+cd linux-5.19.10
 make headers
 find usr/include -name '.*' -delete
 rm -f usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19.9
+rm -rf linux-5.19.10
 # Glibc
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36

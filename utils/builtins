@@ -233,7 +233,6 @@ libcdio
 libcdio-paranoia
 libchamplain
 libdaemon
-libdazzle
 libde265
 libdmx
 libdrm
@@ -314,6 +313,7 @@ libsoup
 libsoup3
 libssh2
 libstemmer
+libsysprof-capture
 libtasn1
 libtheora
 libtiff
@@ -533,7 +533,6 @@ startup-notification
 strace
 sudo
 swig
-sysprof
 systemd
 taglib
 tcl
