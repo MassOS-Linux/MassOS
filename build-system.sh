@@ -3252,7 +3252,7 @@ rm -rf efibootmgr-18
 # libpng.
 tar -xf libpng-1.6.38.tar.xz
 cd libpng-1.6.38
-patch -Np1 -i ../patches/libpng-1.6.37-apng.patch
+patch -Np1 -i ../patches/libpng-1.6.38-apng.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
