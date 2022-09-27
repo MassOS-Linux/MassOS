@@ -2982,7 +2982,7 @@ cd lsof-4.96.3
 sed -i "s/-O/$CFLAGS/" Makefile
 make
 install -m755 lsof /usr/sbin/lsof
-install -m644 lsof.8 /usr/share/man/man8/lsof.8
+install -m644 Lsof.8 /usr/share/man/man8/lsof.8
 install -dm755 /usr/share/licenses/lsof
 cat main.c | head -n31 | tail -n23 > /usr/share/licenses/lsof/LICENSE
 cd ..
