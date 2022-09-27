@@ -71,14 +71,14 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/tools/lib/gcc/x86_64-stage1-lin
 cd ../..
 rm -rf gcc-12.2.0
 # Linux API Headers.
-tar -xf linux-5.19.10.tar.xz
-cd linux-5.19.10
+tar -xf linux-5.19.11.tar.xz
+cd linux-5.19.11
 make headers
 find usr/include -name '.*' -delete
 rm -f usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19.10
+rm -rf linux-5.19.11
 # Glibc
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36
@@ -126,14 +126,14 @@ echo "INPUT(-lncursesw)" > "$MASSOS"/usr/lib/libncurses.so
 cd ..
 rm -rf ncurses-6.3
 # Bash.
-tar -xf bash-5.1.16.tar.gz
-cd bash-5.1.16
+tar -xf bash-5.2.tar.gz
+cd bash-5.2
 ./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(support/config.guess) --without-bash-malloc
 make
 make DESTDIR="$MASSOS" install
 ln -sf bash "$MASSOS"/bin/sh
 cd ..
-rm -rf bash-5.1.16
+rm -rf bash-5.2
 # Coreutils.
 tar -xf coreutils-9.1.tar.xz
 cd coreutils-9.1

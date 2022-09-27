@@ -183,7 +183,6 @@ htop
 hwdata
 iana-etc
 iceauth
-icon-naming-utils
 icu
 idna
 importlib-metadata
@@ -624,7 +623,6 @@ xslatoms
 xslclients
 xmessage
 xml-parser
-xml-simple
 xmlto
 xmodmap
 xorg-font-util

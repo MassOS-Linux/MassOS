@@ -125,9 +125,9 @@ make prefix=/usr install
 cd ..
 rm -rf man-pages-5.13
 # iana-etc.
-tar -xf iana-etc-20220715.tar.gz
-cp iana-etc-20220715/{protocols,services} /etc
-rm -rf iana-etc-20220715
+tar -xf iana-etc-20220922.tar.gz
+install -t /etc -Dm644 iana-etc-20220922/{protocols,services}
+rm -rf iana-etc-20220922
 # Neofetch (an enhanced fork since upstream seems to be unmaintained).
 tar -xf hyfetch-1.4.0.tar.gz
 cd hyfetch-1.4.0
@@ -164,7 +164,7 @@ services: files
 ethers: files
 rpc: files
 END
-tar -xf ../../tzdata2022c.tar.gz
+tar -xf ../../tzdata2022d.tar.gz
 ZONEINFO=/usr/share/zoneinfo
 mkdir -p $ZONEINFO/{posix,right}
 for tz in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do
@@ -266,16 +266,14 @@ install -t /usr/share/licenses/lzip -Dm644 COPYING
 cd ..
 rm -rf lzip-1.22
 # Readline.
-tar -xf readline-8.1.2.tar.gz
-cd readline-8.1.2
-sed -i '/MV.*old/d' Makefile.in
-sed -i '/{OLDSUFF}/c:' support/shlib-install
+tar -xf readline-8.2.tar.gz
+cd readline-8.2
 ./configure --prefix=/usr --disable-static --with-curses
 make SHLIB_LIBS="-lncursesw"
 make SHLIB_LIBS="-lncursesw" install
 install -t /usr/share/licenses/readline -Dm644 COPYING
 cd ..
-rm -rf readline-8.1.2
+rm -rf readline-8.2
 # m4.
 tar -xf m4-1.4.19.tar.xz
 cd m4-1.4.19
@@ -384,15 +382,15 @@ install -t /usr/share/licenses/acl -Dm644 doc/COPYING doc/COPYING.LGPL
 cd ..
 rm -rf acl-2.3.1
 # Libcap.
-tar -xf libcap-2.65.tar.xz
-cd libcap-2.65
+tar -xf libcap-2.66.tar.xz
+cd libcap-2.66
 sed -i '/install -m.*STA/d' libcap/Makefile
 make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
 make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.65
+chmod 755 /usr/lib/lib{cap,psx}.so.2.66
 install -t /usr/share/licenses/libcap -Dm644 License
 cd ..
-rm -rf libcap-2.65
+rm -rf libcap-2.66
 # Cracklib.
 tar -xf cracklib-2.9.8.tar.bz2
 cd cracklib-2.9.8
@@ -456,8 +454,8 @@ install -t /usr/share/licenses/libpwquality -Dm644 COPYING
 cd ..
 rm -rf libpwquality-1.4.4
 # PAM module for libcap.
-tar -xf libcap-2.65.tar.xz
-cd libcap-2.65
+tar -xf libcap-2.66.tar.xz
+cd libcap-2.66
 make CFLAGS="$CFLAGS -fPIC" -C pam_cap
 install -m755 pam_cap/pam_cap.so /usr/lib/security
 install -m644 pam_cap/capability.conf /etc/security
@@ -466,7 +464,7 @@ auth      optional    pam_cap.so
 auth      required    pam_unix.so
 END
 cd ..
-rm -rf libcap-2.65
+rm -rf libcap-2.66
 # Shadow (initial build; will be rebuilt later to support AUDIT).
 tar -xf shadow-4.12.3.tar.xz
 cd shadow-4.12.3
@@ -622,15 +620,15 @@ install -t /usr/share/licenses/grep -Dm644 COPYING
 cd ..
 rm -rf grep-3.8
 # Bash.
-tar -xf bash-5.1.16.tar.gz
-cd bash-5.1.16
+tar -xf bash-5.2.tar.gz
+cd bash-5.2
 ./configure --prefix=/usr --without-bash-malloc --with-installed-readline
 make
 make install
 ln -sf bash.1 /usr/share/man/man1/sh.1
 install -t /usr/share/licenses/bash -Dm644 COPYING
 cd ..
-rm -rf bash-5.1.16
+rm -rf bash-5.2
 # bash-completion.
 tar -xf bash-completion-2.11.tar.xz
 cd bash-completion-2.11
@@ -1251,12 +1249,12 @@ install -t /usr/share/licenses/jinja2 -Dm644 LICENSE.rst
 cd ..
 rm -rf Jinja2-3.1.1
 # Mako.
-tar -xf Mako-1.2.2.tar.gz
-cd Mako-1.2.2
+tar -xf Mako-1.2.3.tar.gz
+cd Mako-1.2.3
 python setup.py install --optimize=1
 install -t /usr/share/licenses/mako -Dm644 LICENSE
 cd ..
-rm -rf Mako-1.2.2
+rm -rf Mako-1.2.3
 # Pygments.
 tar -xf Pygments-2.13.0.tar.gz
 cd Pygments-2.13.0
@@ -2307,14 +2305,14 @@ install -t /usr/share/licenses/brotli -Dm644 LICENSE
 cd ..
 rm -rf brotli-1.0.9
 # libnghttp2.
-tar -xf nghttp2-1.49.0.tar.xz
-cd nghttp2-1.49.0
+tar -xf nghttp2-1.50.0.tar.xz
+cd nghttp2-1.50.0
 ./configure --prefix=/usr --disable-static --enable-lib-only
 make
 make install
 install -t /usr/share/licenses/libnghttp2 -Dm644 COPYING
 cd ..
-rm -rf nghttp2-1.49.0
+rm -rf nghttp2-1.50.0
 # curl (INITIAL BUILD; will be rebuilt later to support FAR MORE FEATURES).
 tar -xf curl-7.85.0.tar.xz
 cd curl-7.85.0
@@ -2978,8 +2976,8 @@ install -t /usr/share/licenses/fcron -Dm644 doc/en/txt/gpl.txt
 cd ..
 rm -rf fcron-ver3_3_1
 # lsof.
-tar -xf lsof_4.95.0.linux.tar.bz2
-cd lsof_4.95.0.linux
+tar -xf lsof-4.96.3.tar.gz
+cd lsof-4.96.3
 ./Configure linux -n
 sed -i "s/-O/$CFLAGS/" Makefile
 make
@@ -2988,7 +2986,7 @@ install -m644 lsof.8 /usr/share/man/man8/lsof.8
 install -dm755 /usr/share/licenses/lsof
 cat main.c | head -n31 | tail -n23 > /usr/share/licenses/lsof/LICENSE
 cd ..
-rm -rf lsof_4.95.0.linux
+rm -rf lsof-4.96.3
 # NSPR.
 tar -xf nspr-4.35.tar.gz
 cd nspr-4.35/nspr
@@ -3077,6 +3075,7 @@ rm -rf dkms-3.0.6
 tar -xf glib-2.74.0.tar.xz
 cd glib-2.74.0
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
+patch -Np1 -i ../patches/glib-2.74.0-upstreamfix.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=minsize -Dman=true -Dtests=false ..
 ninja
@@ -3123,15 +3122,15 @@ install -t /usr/share/licenses/glibmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf glibmm-2.66.5
 # gobject-introspection.
-tar -xf gobject-introspection-1.72.0.tar.xz
-cd gobject-introspection-1.72.0
+tar -xf gobject-introspection-1.74.0.tar.xz
+cd gobject-introspection-1.74.0
 mkdir gobj-build; cd gobj-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/gobject-introspection -Dm644 ../COPYING ../COPYING.GPL ../COPYING.LGPL
 cd ../..
-rm -rf gobject-introspection-1.72.0
+rm -rf gobject-introspection-1.74.0
 # shared-mime-info.
 tar -xf shared-mime-info-2.2.tar.gz
 cd shared-mime-info-2.2
@@ -3906,16 +3905,16 @@ install -t /usr/share/licenses/libcbor -Dm644 ../LICENSE.md
 cd ../..
 rm -rf libcbor-0.9.0
 # libfido2.
-tar -xf libfido2-1.11.0.tar.gz
-cd libfido2-1.11.0
-sed -i 24d CMakeLists.txt
+tar -xf libfido2-1.12.0.tar.gz
+cd libfido2-1.12.0
+sed -i '28s/ ON/ OFF/' CMakeLists.txt
 mkdir fido2-build; cd fido2-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_EXAMPLES=OFF -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/libfido2 -Dm644 ../LICENSE
 cd ../..
-rm -rf libfido2-1.11.0
+rm -rf libfido2-1.12.0
 # util-macros.
 tar -xf util-macros-1.19.3.tar.bz2
 cd util-macros-1.19.3
@@ -4128,11 +4127,13 @@ rm -rf Vulkan-Tools-1.3.223
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
-make
-make install
-install -t /usr/share/licenses/libva -Dm644 COPYING
-cd ..
+patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
+mkdir build; cd build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/libva -Dm644 ../COPYING
+cd ../..
 rm -rf libva-2.15.0
 # libvdpau.
 tar -xf libvdpau-1.5.tar.bz2
@@ -4168,11 +4169,13 @@ rm -rf mesa-22.1.7
 # libva (rebuild to support Mesa).
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
-make
-make install
-install -t /usr/share/licenses/libva -Dm644 COPYING
-cd ..
+patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
+mkdir build; cd build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/libva -Dm644 ../COPYING
+cd ../..
 rm -rf libva-2.15.0
 # xbitmaps.
 tar -xf xbitmaps-1.1.2.tar.bz2
@@ -4207,7 +4210,7 @@ install -t /usr/share/licenses/font-util -Dm644 COPYING
 cd ..
 rm -rf font-util-1.3.3
 # Noto Fonts.
-tar --no-same-owner --same-permissions -xf noto-fonts-20220607.tar.xz -C / --strip-components=1
+tar --no-same-owner --same-permissions -xf noto-fonts-20220920.tar.xz -C / --strip-components=1
 sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fonts.conf
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
@@ -4863,24 +4866,6 @@ make install
 install -t /usr/share/licenses/hicolor-icon-theme -Dm644 COPYING
 cd ..
 rm -rf hicolor-icon-theme-0.17
-# XML::Simple.
-tar -xf XML-Simple-2.25.tar.gz
-cd XML-Simple-2.25
-perl Makefile.PL
-make
-make install
-install -t /usr/share/licenses/xml-simple -Dm644 LICENSE
-cd ..
-rm -rf XML-Simple-2.25
-# icon-naming-utils.
-tar -xf icon-naming-utils_0.8.90.orig.tar.gz
-cd icon-naming-utils-0.8.90
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/icon-naming-utils -Dm644 COPYING
-cd ..
-rm -rf icon-naming-utils-0.8.90
 # sound-theme-freedesktop.
 tar -xf sound-theme-freedesktop-0.8.tar.bz2
 cd sound-theme-freedesktop-0.8
@@ -5274,14 +5259,14 @@ install -t /usr/share/licenses/opus -Dm644 COPYING
 cd ..
 rm -rf opus-1.3.1
 # FLAC.
-tar -xf flac-1.4.0.tar.xz
-cd flac-1.4.0
+tar -xf flac-1.4.1.tar.xz
+cd flac-1.4.1
 ./configure --prefix=/usr --disable-thorough-tests
 make
 make install
 install -t /usr/share/licenses/flac -Dm644 COPYING.FDL COPYING.GPL COPYING.LGPL COPYING.Xiph
 cd ..
-rm -rf flac-1.4.0
+rm -rf flac-1.4.1
 # libsndfile (will be rebuilt later with LAME/mpg123 for MPEG support).
 tar -xf libsndfile-1.1.0.tar.xz
 cd libsndfile-1.1.0
@@ -5631,9 +5616,9 @@ cd poppler-data-0.4.11
 make prefix=/usr install
 cd ../../..
 rm -rf poppler-22.09.0
-# Ghostscript.
-tar -xf ghostscript-9.56.1.tar.xz
-cd ghostscript-9.56.1
+# GhostScript.
+tar -xf ghostscript-10.0.0.tar.xz
+cd ghostscript-10.0.0
 rm -rf cups/libs freetype lcms2mt jpeg leptonica libpng openjpeg tesseract zlib
 ./configure --prefix=/usr --disable-compile-inits --enable-dynamic --enable-fontconfig --enable-freetype --enable-openjpeg --with-drivers=ALL --with-system-libtiff --with-x
 make so
@@ -5643,7 +5628,7 @@ install -m644 base/*.h /usr/include/ghostscript
 ln -sfn ghostscript /usr/include/ps
 install -t /usr/share/licenses/ghostscript -Dm644 LICENSE
 cd ..
-rm -rf ghostscript-9.56.1
+rm -rf ghostscript-10.0.0
 # cups-filters.
 tar -xf cups-filters-1.28.16.tar.xz
 cd cups-filters-1.28.16
@@ -6021,6 +6006,7 @@ rm -rf startup-notification-0.12
 # libwnck.
 tar -xf libwnck-43.0.tar.xz
 cd libwnck-43.0
+patch -Np1 -i ../patches/libwnck-43.0-upstreamfix.patch
 mkdir wnck-build; cd wnck-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
@@ -6447,18 +6433,17 @@ chmod 755 /etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module.sh
 cd ..
 rm -rf libcanberra-0.30
 # x264.
-tar -xf x264-0.164.3095.tar.xz
-cd x264-0.164.3095
+tar -xf x264-0.164.3099.tar.xz
+cd x264-0.164.3099
 ./configure --prefix=/usr --enable-shared
 make
 make install
-ln -sf libx264.so.164 /usr/lib/libx264.so
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 cd ..
-rm -rf x264-0.164.3095
+rm -rf x264-0.164.3099
 # x265.
-tar -xf x265-3.5-39-g20255e6f0.tar.xz
-cd x265-3.5-39-g20255e6f0
+tar -xf x265-3.5-40-g931178347.tar.xz
+cd x265-3.5-40-g931178347
 mkdir x265-build; cd x265-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ../source
 ninja
@@ -6466,7 +6451,7 @@ ninja install
 rm -f /usr/lib/libx265.a
 install -t /usr/share/licenses/x265 -Dm644 ../COPYING
 cd ../..
-rm -rf x265-3.5-39-g20255e6f0
+rm -rf x265-3.5-40-g931178347
 # libraw1394.
 tar -xf libraw1394-2.1.2.tar.xz
 cd libraw1394-2.1.2
@@ -6559,15 +6544,14 @@ install -t /usr/share/licenses/wavpack -Dm644 COPYING
 cd ..
 rm -rf wavpack-5.5.0
 # libbluray.
-tar -xf libbluray-1.3.2.tar.bz2
-cd libbluray-1.3.2
-./configure --prefix=/usr --disable-bdjava-jar --disable-examples
+tar -xf libbluray-1.3.3.tar.bz2
+cd libbluray-1.3.3
+./configure --prefix=/usr --disable-bdjava-jar --disable-examples --disable-static
 make
 make install
-rm -f /usr/lib/libbluray.a
 install -t /usr/share/licenses/libbluray -Dm644 COPYING
 cd ..
-rm -rf libbluray-1.3.2
+rm -rf libbluray-1.3.3
 # libmodplug.
 tar -xf libmodplug-0.8.9.0.tar.gz
 cd libmodplug-0.8.9.0
@@ -6617,8 +6601,8 @@ install -t /usr/share/licenses/faad2 -Dm644 COPYING
 cd ..
 rm -rf faad2-2_10_0
 # FFmpeg.
-tar -xf ffmpeg-5.1.1.tar.xz
-cd ffmpeg-5.1.1
+tar -xf ffmpeg-5.1.2.tar.xz
+cd ffmpeg-5.1.2
 ./configure --prefix=/usr --disable-debug --disable-nonfree --disable-static --enable-alsa --enable-bzlib --enable-gmp --enable-gpl --enable-iconv --enable-libass --enable-libbluray --enable-libbs2b --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libglslang --enable-libiec61883 --enable-libjack --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libpulse --enable-librav1e --enable-librsvg --enable-librtmp --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-opengl --enable-openssl --enable-sdl2 --enable-shared --enable-small --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart
@@ -6626,7 +6610,7 @@ make install
 install -m755 tools/qt-faststart /usr/bin
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 cd ..
-rm -rf ffmpeg-5.1.1
+rm -rf ffmpeg-5.1.2
 # OpenAL.
 tar -xf openal-soft-1.22.2.tar.gz
 cd openal-soft-1.22.2/build
@@ -6880,8 +6864,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.10.tar.xz
-cd linux-5.19.10
+tar -xf linux-5.19.11.tar.xz
+cd linux-5.19.11
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6917,11 +6901,11 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.10
+rm -rf linux-5.19.11
 unset builddir
 # NVIDIA Open Kernel Modules.
-tar -xf open-gpu-kernel-modules-515.65.01.tar.gz
-cd open-gpu-kernel-modules-515.65.01
+tar -xf open-gpu-kernel-modules-515.76.tar.gz
+cd open-gpu-kernel-modules-515.76
 make SYSSRC=/usr/src/linux
 install -t /usr/lib/modules/$KREL/extramodules -Dm644 kernel-open/*.ko
 strip --strip-debug /usr/lib/modules/$KREL/extramodules/*.ko
@@ -6930,7 +6914,7 @@ echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/
 depmod $KREL
 install -t /usr/share/licenses/nvidia-open-kernel-modules -Dm644 COPYING
 cd ..
-rm -rf cd open-gpu-kernel-modules-515.65.01
+rm -rf cd open-gpu-kernel-modules-515.76
 unset KREL
 # MassOS release detection utility.
 gcc $CFLAGS massos-release.c -o massos-release -s

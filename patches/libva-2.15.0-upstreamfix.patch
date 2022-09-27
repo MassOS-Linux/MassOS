@@ -1,0 +1,32 @@
+From c04372b332afe5b43bcc8f60f89a0c7033a5711a Mon Sep 17 00:00:00 2001
+From: Emil Velikov <emil.velikov@collabora.com>
+Date: Thu, 7 Jul 2022 18:39:19 +0100
+Subject: [PATCH] meson: set HAVE_VA_X11 when applicable
+
+Without the define, we'll end without the Xorg auth whenever the DRM
+display is used.
+
+v2: move to va/meson.build, consistently use WITH_X11
+v3: use the correct define
+
+Signed-off-by: Emil Velikov <emil.velikov@collabora.com>
+---
+ va/meson.build | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/va/meson.build b/va/meson.build
+index 94aaf696..fa8bc3a8 100644
+--- a/va/meson.build
++++ b/va/meson.build
+@@ -101,9 +101,10 @@ if WITH_DRM
+   deps = [ libdrm_dep ]
+ 
+   libva_drm_args = []
+-  if get_option('with_x11') != 'no' and x11_dep.found()
++  if WITH_X11
+     libva_drm_sources += [ 'drm/va_drm_auth_x11.c' ]
+     libva_drm_args += [
++      '-DHAVE_VA_X11',
+       '-DLIBVA_MAJOR_VERSION=@0@'.format(libva_major_version)
+     ]
+     deps += [ x11_dep ]
