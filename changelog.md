@@ -35,6 +35,7 @@ Upgraded software (core):
 - gobject-introspection: `1.72.0 --> 1.74.0`
 - GraphViz: `5.0.1 --> 6.0.1`
 - Grep: `3.7 --> 3.8`
+- gsettings-desktop-schemas: `42.0 --> 43.0`
 - Gtkmm3: `3.24.6 --> 3.24.7`
 - HarfBuzz: `5.1.0 --> 5.2.0`
 - hwdata: `0.361 --> 0.362`

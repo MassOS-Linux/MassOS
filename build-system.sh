@@ -6045,17 +6045,16 @@ install -t /usr/share/licenses/udisks -Dm644 COPYING
 cd ..
 rm -rf udisks-2.9.4
 # gsettings-desktop-schemas.
-tar -xf gsettings-desktop-schemas-42.0.tar.xz
-cd gsettings-desktop-schemas-42.0
-sed -i -r 's:"(/system):"/org/gnome\1:g' schemas/*.in
-mkdir gsds-build; cd gsds-build
+tar -xf gsettings-desktop-schemas-43.0.tar.xz
+cd gsettings-desktop-schemas-43.0
+mkdir gds-build; cd gds-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 glib-compile-schemas /usr/share/glib-2.0/schemas
 install -t /usr/share/licenses/gsettings-desktop-schemas -Dm644 ../COPYING
 cd ../..
-rm -rf gsettings-desktop-schemas-42.0
+rm -rf gsettings-desktop-schemas-43.0
 # glib-networking.
 tar -xf glib-networking-2.74.0.tar.xz
 cd glib-networking-2.74.0
