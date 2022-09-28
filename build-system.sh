@@ -4128,7 +4128,7 @@ rm -rf Vulkan-Tools-1.3.223
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
 patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
-mkdir build; cd build
+mkdir libva-build; cd libva-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
@@ -4170,7 +4170,7 @@ rm -rf mesa-22.1.7
 tar -xf libva-2.15.0.tar.gz
 cd libva-2.15.0
 patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
-mkdir build; cd build
+mkdir libva-build; cd libva-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
