@@ -71,14 +71,14 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/tools/lib/gcc/x86_64-stage1-lin
 cd ../..
 rm -rf gcc-12.2.0
 # Linux API Headers.
-tar -xf linux-5.19.11.tar.xz
-cd linux-5.19.11
+tar -xf linux-5.19.12.tar.xz
+cd linux-5.19.12
 make headers
 find usr/include -name '.*' -delete
 rm -f usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19.11
+rm -rf linux-5.19.12
 # Glibc
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36
@@ -232,13 +232,13 @@ ln -sf gtar "$MASSOS"/usr/bin/tar
 cd ..
 rm -rf tar-1.34
 # XZ.
-tar -xf xz-5.2.6.tar.xz
-cd xz-5.2.6
+tar -xf xz-5.2.7.tar.xz
+cd xz-5.2.7
 ./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess) --disable-static
 make
 make DESTDIR="$MASSOS" install
 cd ..
-rm -rf xz-5.2.6
+rm -rf xz-5.2.7
 # Binutils (For stage 2, built using our new bootstrap toolchain).
 tar -xf binutils-2.39.tar.xz
 cd binutils-2.39

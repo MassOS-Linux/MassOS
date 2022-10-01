@@ -16,10 +16,11 @@ Upgraded software (core):
 - at-spi2-core: `2.44.1 --> 2.46.0`
 - Audit: `3.0.8 --> 3.0.9`
 - Bash: `5.1.16 --> 5.2`
-- bc: `6.0.1 --> 6.0.2`
+- bc: `6.0.1 --> 6.0.3`
 - btrfs-progs: `5.18.1 --> 5.19.1`
 - CMake: `3.24.1 --> 3.24.2`
 - Cracklib: `2.9.7 --> 2.9.8`
+- D-Bus: `1.14.0 --> 1.14.2`
 - dbus-python: `1.2.18 --> 1.3.2`
 - Expat: `2.4.8 --> 2.4.9`
 - FFmpeg: `5.1 --> 5.1.2`
@@ -32,6 +33,7 @@ Upgraded software (core):
 - glib-networking: `2.72.2 --> 2.74.0`
 - GLibmm: `2.66.4 --> 2.66.5`
 - gnome-online-accounts: `3.44.0 --> 3.46.0`
+- GNUTLS: `3.7.7 --> 3.7.8`
 - gobject-introspection: `1.72.0 --> 1.74.0`
 - GraphViz: `5.0.1 --> 6.0.1`
 - Grep: `3.7 --> 3.8`
@@ -60,9 +62,13 @@ Upgraded software (core):
 - libpng: `1.6.37 --> 1.6.38`
 - libsoup3: `3.0.7 --> 3.2.0`
 - libsysprof-catpure: `3.44.0 --> 3.46.0`
+- libva: `2.15.0 --> 2.16.0`
 - libwnck: `40.1 --> 43.0`
+- libwpe: `1.13.3 --> 1.14.0`
 - libXft: `2.3.4 --> 2.3.6`
-- Linux Kernel: `5.19.5 --> 5.19.11`
+- libXtst: `1.2.3 --> 1.2.4`
+- libXxf86vm: `1.1.4 --> 1.1.5`
+- Linux Kernel: `5.19.5 --> 5.19.12`
 - lsof: `4.95.0 --> 4.96.3`
 - make-ca: `1.9 --> 1.10`
 - Mako: `1.2.2 --> 1.2.3`
@@ -72,10 +78,12 @@ Upgraded software (core):
 - NSPR: `4.34.1 --> 4.35`
 - NSS: `3.82 --> 3.83`
 - NVIDIA Open Kernel Modules: `515.65.01 --> 515.76`
+- OpenH264: `2.1.1 --> 2.3.1`
 - Pango: `1.50.9 --> 1.50.10`
-- PipeWire: `0.3.56 --> 0.3.58`
+- PipeWire: `0.3.56 --> 0.3.59`
 - Poppler: `22.08.0 --> 22.09.0`
 - Popt: `1.18 --> 1.19`
+- pyopenssl: `22.0.0 --> 22.1.0`
 - Python: `3.10.6 --> 3.10.7`
 - Qpdf: `10.6.3 --> 11.1.0`
 - Readline: `8.1.2 --> 8.2`
@@ -87,9 +95,15 @@ Upgraded software (core):
 - tzdata: `2022c --> 2022d`
 - Unifont: `14.0.03 --> 15.0.01`
 - Vala: `0.56.2 --> 0.56.3`
+- Vim: `9.0.0300 --> 9.0.0600`
+- Vulkan-Headers: `1.3.223 --> 1.3.230`
+- Vulkan-Loader: `1.3.223 --> 1.3.230`
+- Vulkan-Tools: `1.3.223 --> 1.3.230`
 - VTE: `0.68.0 --> 0.70.0`
+- wpebackend-fdo: `1.12.1 --> 1.14.0`
 - x264: `0.164.3095 --> 0.164.3099`
 - x265: `3.5-39-g20255e6f0 --> 3.5-40-g931178347`
+- XZ: `5.2.6 --> 5.2.7`
 
 Upgraded software (Xfce):
 

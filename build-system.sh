@@ -215,14 +215,14 @@ install -t /usr/share/licenses/bzip2 -Dm644 LICENSE
 cd ..
 rm -rf bzip2-1.0.8
 # XZ.
-tar -xf xz-5.2.6.tar.xz
-cd xz-5.2.6
+tar -xf xz-5.2.7.tar.xz
+cd xz-5.2.7
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/xz -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1
 cd ..
-rm -rf xz-5.2.6
+rm -rf xz-5.2.7
 # LZ4.
 tar -xf lz4-1.9.4.tar.gz
 cd lz4-1.9.4
@@ -284,14 +284,14 @@ install -t /usr/share/licenses/m4 -Dm644 COPYING
 cd ..
 rm -rf m4-1.4.19
 # bc.
-tar -xf bc-6.0.2.tar.xz
-cd bc-6.0.2
+tar -xf bc-6.0.3.tar.xz
+cd bc-6.0.3
 CC=gcc ./configure.sh --prefix=/usr --disable-generated-tests
 make
 make install
 install -t /usr/share/licenses/bc -Dm644 LICENSE.md
 cd ..
-rm -rf bc-6.0.2
+rm -rf bc-6.0.3
 # Flex.
 tar -xf flex-2.6.4.tar.gz
 cd flex-2.6.4
@@ -1940,15 +1940,15 @@ cp systemd-units/* /usr/lib/systemd/system
 systemctl enable gpm.service
 rm -rf systemd-stable-251.4
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
-tar -xf dbus-1.14.0.tar.xz
-cd dbus-1.14.0
+tar -xf dbus-1.14.2.tar.xz
+cd dbus-1.14.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
 ln -sf /etc/machine-id /var/lib/dbus
 install -t /usr/share/licenses/dbus -Dm644 COPYING
 cd ..
-rm -rf dbus-1.14.0
+rm -rf dbus-1.14.2
 # Man-DB.
 tar -xf man-db-2.10.2.tar.xz
 cd man-db-2.10.2
@@ -2628,14 +2628,14 @@ install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv
 cd ..
 rm -rf nettle-3.8.1
 # GNUTLS.
-tar -xf gnutls-3.7.7.tar.xz
-cd gnutls-3.7.7
+tar -xf gnutls-3.7.8.tar.xz
+cd gnutls-3.7.8
 ./configure --prefix=/usr --disable-guile --disable-rpath --with-default-trust-store-pkcs11="pkcs11:" --enable-openssl-compatibility --enable-ssl3-support
 make
 make install
 install -t /usr/share/licenses/gnutls -Dm644 LICENSE
 cd ..
-rm -rf gnutls-3.7.7
+rm -rf gnutls-3.7.8
 # libevent.
 tar -xf libevent-2.1.12-stable.tar.gz
 cd libevent-2.1.12-stable
@@ -3969,7 +3969,7 @@ install -t /usr/share/licenses/libxcb -Dm644 COPYING
 cd ..
 rm -rf libxcb-1.15
 # Xorg Libraries.
-for i in xtrans-1.4.0 libX11-1.8.1 libXext-1.3.4 libFS-1.0.9 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.6 libXfont2-2.0.6 libXft-2.3.6 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.3 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.4 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
+for i in xtrans-1.4.0 libX11-1.8.1 libXext-1.3.4 libFS-1.0.9 libICE-1.0.10 libSM-1.2.3 libXScrnSaver-1.2.3 libXt-1.2.1 libXmu-1.1.3 libXpm-3.5.13 libXaw-1.0.14 libXfixes-6.0.0 libXcomposite-0.4.5 libXrender-0.9.10 libXcursor-1.2.1 libXdamage-1.1.5 libfontenc-1.1.6 libXfont2-2.0.6 libXft-2.3.6 libXi-1.8 libXinerama-1.1.4 libXrandr-1.5.2 libXres-1.2.1 libXtst-1.2.4 libXv-1.0.11 libXvMC-1.0.13 libXxf86dga-1.1.5 libXxf86vm-1.1.5 libdmx-1.1.4 libpciaccess-0.16 libxkbfile-1.1.0 libxshmfence-1.3; do
   tar -xf $i.tar.*
   cd $i
   case $i in
@@ -4095,46 +4095,45 @@ install -t /usr/share/licenses/spirv-tools -Dm644 External/spirv-tools/LICENSE
 cd ..
 rm -rf glslang-11.11.0
 # Vulkan-Headers.
-tar -xf Vulkan-Headers-1.3.223.tar.gz
-cd Vulkan-Headers-1.3.223
+tar -xf Vulkan-Headers-1.3.230.tar.gz
+cd Vulkan-Headers-1.3.230
 mkdir VH-build; cd VH-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-headers -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Headers-1.3.223
+rm -rf Vulkan-Headers-1.3.230
 # Vulkan-Loader.
-tar -xf Vulkan-Loader-1.3.223.tar.gz
-cd Vulkan-Loader-1.3.223
+tar -xf Vulkan-Loader-1.3.230.tar.gz
+cd Vulkan-Loader-1.3.230
 mkdir VL-build; cd VL-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-loader -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Loader-1.3.223
+rm -rf Vulkan-Loader-1.3.230
 # Vulkan-Tools.
-tar -xf Vulkan-Tools-1.3.223.tar.gz
-cd Vulkan-Tools-1.3.223
+tar -xf Vulkan-Tools-1.3.230.tar.gz
+cd Vulkan-Tools-1.3.230
 mkdir VT-build; cd VT-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DGLSLANG_INSTALL_DIR=/usr -DCMAKE_SKIP_RPATH=TRUE -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -Wno-dev -G Ninja ..
 ninja
 ninja install
 install -t /usr/share/licenses/vulkan-tools -Dm644 ../LICENSE.txt
 cd ../..
-rm -rf Vulkan-Tools-1.3.223
+rm -rf Vulkan-Tools-1.3.230
 # libva (circular dependency; will be rebuilt later to support Mesa).
-tar -xf libva-2.15.0.tar.gz
-cd libva-2.15.0
-patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
+tar -xf libva-2.16.0.tar.gz
+cd libva-2.16.0
 mkdir libva-build; cd libva-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libva -Dm644 ../COPYING
 cd ../..
-rm -rf libva-2.15.0
+rm -rf libva-2.16.0
 # libvdpau.
 tar -xf libvdpau-1.5.tar.bz2
 cd libvdpau-1.5
@@ -4167,16 +4166,15 @@ install -t /usr/share/licenses/mesa -Dm644 ../docs/license.rst
 cd ../..
 rm -rf mesa-22.1.7
 # libva (rebuild to support Mesa).
-tar -xf libva-2.15.0.tar.gz
-cd libva-2.15.0
-patch -Np1 -i ../patches/libva-2.15.0-upstreamfix.patch
+tar -xf libva-2.16.0.tar.gz
+cd libva-2.16.0
 mkdir libva-build; cd libva-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libva -Dm644 ../COPYING
 cd ../..
-rm -rf libva-2.15.0
+rm -rf libva-2.16.0
 # xbitmaps.
 tar -xf xbitmaps-1.1.2.tar.bz2
 cd xbitmaps-1.1.2
@@ -4285,8 +4283,8 @@ END
 cd ../..
 rm -rf systemd-stable-251.4
 # D-Bus (rebuild for X and libaudit support).
-tar -xf dbus-1.14.0.tar.xz
-cd dbus-1.14.0
+tar -xf dbus-1.14.2.tar.xz
+cd dbus-1.14.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --disable-static --enable-libaudit --enable-user-session --disable-doxygen-docs --with-console-auth-dir=/run/console --with-system-pid-file=/run/dbus/pid --with-system-socket=/run/dbus/system_bus_socket
 make
 make install
@@ -4304,7 +4302,7 @@ cat > /etc/dbus-1/session-local.conf << END
 </busconfig>
 END
 cd ..
-rm -rf dbus-1.14.0
+rm -rf dbus-1.14.2
 # D-Bus GLib.
 tar -xf dbus-glib-0.112.tar.gz
 cd dbus-glib-0.112
@@ -4348,7 +4346,7 @@ tar -xf xorg-server-21.1.4.tar.xz
 cd xorg-server-21.1.4
 patch -Np1 -i ../patches/xorg-server-21.1.2-addxvfbrun.patch
 mkdir XSRV-BUILD; cd XSRV-BUILD
-meson --prefix=/usr -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
+meson --prefix=/usr --buildtype=minsize -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -m755 ../xvfb-run /usr/bin/xvfb-run
@@ -4361,7 +4359,7 @@ rm -rf xorg-server-21.1.4
 tar -xf xwayland-22.1.3.tar.xz
 cd xwayland-22.1.3
 mkdir XWLD-BUILD; cd XWLD-BUILD
-meson --prefix=/usr -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
+meson --prefix=/usr --buildtype=minsize -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb ..
 ninja
 ninja install
 install -t /usr/share/licenses/xwayland -Dm644 ../COPYING
@@ -5502,8 +5500,8 @@ install -t /usr/share/licenses/ppp -Dm644 ../extra-package-licenses/ppp-license.
 cd ..
 rm -rf ppp-2.4.9
 # Vim.
-tar -xf vim-9.0.0300.tar.gz
-cd vim-9.0.0300
+tar -xf vim-9.0.0600.tar.gz
+cd vim-9.0.0600
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -5526,17 +5524,17 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 cd ..
-rm -rf vim-9.0.0300
+rm -rf vim-9.0.0600
 # libwpe.
-tar -xf libwpe-1.13.3.tar.xz
-cd libwpe-1.13.3
+tar -xf libwpe-1.14.0.tar.xz
+cd libwpe-1.14.0
 mkdir wpe-build; cd wpe-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/libwpe -Dm644 ../COPYING
 cd ../..
-rm -rf libwpe-1.13.3
+rm -rf libwpe-1.14.0
 # OpenJPEG.
 tar -xf openjpeg-2.5.0.tar.gz
 cd openjpeg-2.5.0
@@ -5806,13 +5804,13 @@ pip uninstall setuptools-rust semantic-version typing-extensions -y
 cd ..
 rm -rf cryptography-37.0.1
 # pyopenssl.
-tar -xf pyopenssl-22.0.0.tar.gz
-cd pyopenssl-22.0.0
+tar -xf pyopenssl-22.1.0.tar.gz
+cd pyopenssl-22.1.0
 python setup.py build
 python setup.py install --optimize=1 --skip-build
 install -t /usr/share/licenses/pyopenssl -Dm644 LICENSE
 cd ..
-rm -rf pyopenssl-22.0.0
+rm -rf pyopenssl-22.1.0
 # urllib3.
 tar -xf urllib3-1.26.11.tar.gz
 cd urllib3-1.26.11
@@ -6282,15 +6280,15 @@ install -t /usr/share/licenses/rest -Dm644 ../COPYING
 cd ../..
 rm -rf rest-0.9.1
 # wpebackend-fdo.
-tar -xf wpebackend-fdo-1.12.1.tar.xz
-cd wpebackend-fdo-1.12.1
+tar -xf wpebackend-fdo-1.14.0.tar.xz
+cd wpebackend-fdo-1.14.0
 mkdir fdo-build; cd fdo-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/wpebackend-fdo -Dm644 ../COPYING
 cd ../..
-rm -rf wpebackend-fdo-1.12.1
+rm -rf wpebackend-fdo-1.14.0
 # libass.
 tar -xf libass-0.16.0.tar.xz
 cd libass-0.16.0
@@ -6301,16 +6299,15 @@ install -t /usr/share/licenses/libass -Dm644 COPYING
 cd ..
 rm -rf libass-0.16.0
 # OpenH264.
-tar -xf openh264-2.1.1.tar.gz
-cd openh264-2.1.1
+tar -xf openh264-2.3.1.tar.gz
+cd openh264-2.3.1
 mkdir H264-build; cd H264-build
 meson --prefix=/usr --buildtype=minsize -Dtests=disabled ..
 ninja
 ninja install
-rm -f /usr/lib/libopenh264.a
 install -t /usr/share/licenses/openh264 -Dm644 ../LICENSE
 cd ../..
-rm -rf openh264-2.1.1
+rm -rf openh264-2.3.1
 # libde265.
 tar -xf libde265-1.0.8.tar.gz
 cd libde265-1.0.8
@@ -6721,8 +6718,8 @@ install -t /usr/share/licenses/gst-plugin-rav1e -Dm644 ../LICENSE-MIT
 cd ../..
 rm -rf gst-plugins-rs-0.8.4
 # PipeWire + WirePlumber.
-tar -xf pipewire-0.3.58.tar.bz2
-cd pipewire-0.3.58
+tar -xf pipewire-0.3.59.tar.bz2
+cd pipewire-0.3.59
 mkdir -p subprojects/wireplumber
 tar -xf ../wireplumber-0.4.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
 patch -d subprojects/wireplumber -Np1 -i ../../../patches/wireplumber-0.4.11-upstreamfix.patch
@@ -6736,7 +6733,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 ../COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 ../subprojects/wireplumber/LICENSE
 cd ../..
-rm -rf pipewire-0.3.58
+rm -rf pipewire-0.3.59
 # xdg-desktop-portal.
 tar -xf xdg-desktop-portal-1.14.6.tar.xz
 cd xdg-desktop-portal-1.14.6
@@ -6881,8 +6878,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.11.tar.xz
-cd linux-5.19.11
+tar -xf linux-5.19.12.tar.xz
+cd linux-5.19.12
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6918,7 +6915,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.11
+rm -rf linux-5.19.12
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.76.tar.gz
