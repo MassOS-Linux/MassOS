@@ -102,6 +102,8 @@ https://github.com/OpenVPN/easy-rsa/releases/download/v3.1.0/EasyRSA-3.1.0.tgz
 http://mirror.koddos.net/gnu/ed/ed-1.18.tar.lz
 https://github.com/rhboot/efibootmgr/releases/download/18/efibootmgr-18.tar.bz2
 https://github.com/rhboot/efivar/releases/download/38/efivar-38.tar.bz2
+https://github.com/NVIDIA/egl-wayland/archive/1.1.11/egl-wayland-1.1.11.tar.gz
+https://github.com/NVIDIA/eglexternalplatform/archive/1.1/eglexternalplatform-1.1.tar.gz
 https://sourceware.org/ftp/elfutils/0.187/elfutils-0.187.tar.bz2
 https://github.com/AbiWord/enchant/releases/download/v2.3.3/enchant-2.3.3.tar.gz
 https://github.com/exfatprogs/exfatprogs/releases/download/1.1.3/exfatprogs-1.1.3.tar.xz

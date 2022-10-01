@@ -4244,6 +4244,24 @@ ninja install
 install -t /usr/share/licenses/libxkbcommon -Dm644 ../LICENSE
 cd ../..
 rm -rf libxkbcommon-1.4.1
+# eglexternalplatform.
+tar -xf eglexternalplatform-1.1.tar.gz
+cd eglexternalplatform-1.1
+install -t /usr/include/EGL -Dm644 interface/eglexternalplatform{,version}.h
+install -t /usr/share/pkgconfig -Dm644 eglexternalplatform.pc
+install -t /usr/share/licenses/eglexternalplatform -Dm644 COPYING
+cd ..
+rm -rf eglexternalplatform-1.1
+# egl-wayland.
+tar -xf egl-wayland-1.1.11.tar.gz
+cd egl-wayland-1.1.11
+mkdir build; cd build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/egl-wayland -Dm644 ../COPYING
+cd ../..
+rm -rf egl-wayland-1.1.11
 # Systemd (rebuild to support more features).
 tar -xf systemd-stable-251.4.tar.gz
 cd systemd-stable-251.4
