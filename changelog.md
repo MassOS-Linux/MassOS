@@ -5,6 +5,7 @@ This document contains the full changelog for every previous versions of MassOS,
 Changes:
 
 - Btrfs is now is the default filesystem (recommended by the MassOS Installer). ext4 and the others will remain fully supported.
+- Added WebP support for GTK applications which use gdk-pixbuf.
 - Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
 - Added UFW ("Uncomplicated Firewall"); user-friendly frontend to iptables.
 - Moved Sysprof to GNOME as it now depends on GTK4/libadwaita, and only libsysprof-capture is needed outside of GNOME.

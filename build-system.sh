@@ -5073,6 +5073,17 @@ make install
 install -t /usr/share/licenses/gnome-themes-extra -Dm644 LICENSE
 cd ..
 rm -rf gnome-themes-extra-3.28
+# webp-pixbuf-loader.
+tar -xf webp-pixbuf-loader-0.0.6.tar.gz
+cd webp-pixbuf-loader-0.0.6
+mkdir wpl-build; cd wpl-build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+gdk-pixbuf-query-loaders --update-cache
+install -t /usr/share/licenses/webp-pixbuf-loader -Dm644 ../LICENSE.LGPL-2
+cd ../..
+rm -rf webp-pixbuf-loader-0.0.6
 # VTE.
 tar -xf vte-0.70.0.tar.bz2
 cd vte-0.70.0
