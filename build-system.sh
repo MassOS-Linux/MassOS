@@ -6231,6 +6231,20 @@ install -t /usr/share/licenses/libportal -Dm644 ../COPYING
 install -t /usr/share/licenses/libportal-gtk3 -Dm644 ../COPYING
 cd ../..
 rm -rf libportal-0.6
+# geocode-glib.
+tar -xf geocode-glib-3.26.4.tar.xz
+cd geocode-glib-3.26.4
+mkdir build-1.0; cd build-1.0
+meson --prefix=/usr --buildtype=minsize -Denable-installed-tests=false ..
+ninja
+ninja install
+mkdir ../build-2.0; cd ../build-2.0
+meson --prefix=/usr --buildtype=minsize -Denable-installed-tests=false -Dsoup2=false ..
+ninja
+ninja install
+install -t /usr/share/licenses/geocode-glib -Dm644 ../COPYING.LIB
+cd ../..
+rm -rf geocode-glib-3.26.4
 # GeoClue.
 tar -xf geoclue-2.6.0.tar.bz2
 cd geoclue-2.6.0
@@ -6280,7 +6294,15 @@ make install
 install -t /usr/share/licenses/libcdio-paranoia -Dm644 COPYING
 cd ..
 rm -rf libcdio-paranoia-10.2+2.0.1
-# rest.
+# rest (built twice for both ABIs: rest-0.7 and rest-1.0).
+tar -xf rest-0.8.1.tar.xz
+cd rest-0.8.1
+mkdir rest-build; cd rest-build
+meson --prefix=/usr --buildtype=minsize -Dexamples=false -Dtests=false ..
+ninja
+ninja install
+cd ../..
+rm -rf rest-0.8.1
 tar -xf rest-0.9.1.tar.xz
 cd rest-0.9.1
 mkdir rest-build; cd rest-build

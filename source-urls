@@ -138,6 +138,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gcr/3.41/gcr-3.41.1.tar.xz
 https://mirror.koddos.net/gnu/gdbm/gdbm-1.23.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.9.tar.xz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.6.0/geoclue-2.6.0.tar.bz2
+https://mirror.accum.se/pub/gnome/sources/geocode-glib/3.26/geocode-glib-3.26.4.tar.xz
 https://mirror.koddos.net/gnu/gettext/gettext-0.21.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs1000/ghostscript-10.0.0.tar.xz
@@ -510,6 +511,7 @@ https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://github.com/xiph/rav1e/archive/v0.5.1/rav1e-0.5.1.tar.gz
 https://mirror.koddos.net/gnu/readline/readline-8.2.tar.gz
 https://github.com/psf/requests/releases/download/v2.28.1/requests-2.28.1.tar.gz
+https://ftp.acc.umu.se/pub/gnome/sources/rest/0.8/rest-0.8.1.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/rest/0.9/rest-0.9.1.tar.xz
 https://github.com/rhash/RHash/archive/v1.4.2/RHash-1.4.2.tar.gz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.3/rpcsvc-proto-1.4.3.tar.xz

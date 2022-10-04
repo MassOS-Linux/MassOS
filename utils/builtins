@@ -126,6 +126,7 @@ gcr
 gdbm
 gdk-pixbuf
 geoclue
+geocode-glib
 gettext
 gexiv2
 ghostscript
