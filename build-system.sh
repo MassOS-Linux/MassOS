@@ -6297,11 +6297,10 @@ rm -rf libcdio-paranoia-10.2+2.0.1
 # rest (built twice for both ABIs: rest-0.7 and rest-1.0).
 tar -xf rest-0.8.1.tar.xz
 cd rest-0.8.1
-mkdir rest-build; cd rest-build
-meson --prefix=/usr --buildtype=minsize -Dexamples=false -Dtests=false ..
-ninja
-ninja install
-cd ../..
+./configure --prefix=/usr --with-ca-certificates=/etc/pki/tls/certs/ca-bundle.crt
+make
+make install
+cd ..
 rm -rf rest-0.8.1
 tar -xf rest-0.9.1.tar.xz
 cd rest-0.9.1
