@@ -56,12 +56,11 @@ rm -rf binutils-2.39
 # GCC (Initial build for bootstrapping).
 tar -xf gcc-12.2.0.tar.xz
 cd gcc-12.2.0
-tar -xf ../gmp-6.2.1.tar.xz
-mv gmp-6.2.1 gmp
-tar -xf ../mpfr-4.1.0.tar.xz
-mv mpfr-4.1.0 mpfr
-tar -xf ../mpc-1.2.1.tar.gz
-mv mpc-1.2.1 mpc
+mkdir -p gmp mpfr mpc isl
+tar -xf ../gmp-6.2.1.tar.xz -C gmp --strip-components=1
+tar -xf ../mpfr-4.1.0.tar.xz -C mpfr --strip-components=1
+tar -xf ../mpc-1.2.1.tar.gz -C mpc --strip-components=1
+tar -xf ../isl-0.25.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/tools --target=x86_64-stage1-linux-gnu --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.2.0" --with-glibc-version=2.36 --with-sysroot="$MASSOS" --with-newlib --without-headers --enable-default-ssp --enable-linker-build-id --disable-decimal-float --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
@@ -71,14 +70,14 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/tools/lib/gcc/x86_64-stage1-lin
 cd ../..
 rm -rf gcc-12.2.0
 # Linux API Headers.
-tar -xf linux-5.19.12.tar.xz
-cd linux-5.19.12
+tar -xf linux-6.0.tar.xz
+cd linux-6.0
 make headers
 find usr/include -name '.*' -delete
 rm -f usr/include/Makefile
 cp -r usr/include "$MASSOS"/usr
 cd ..
-rm -rf linux-5.19.12
+rm -rf linux-6.0
 # Glibc
 tar -xf glibc-2.36.tar.xz
 cd glibc-2.36
@@ -252,12 +251,11 @@ rm -rf binutils-2.39
 # GCC (For stage 2, built using our new bootstrap toolchain).
 tar -xf gcc-12.2.0.tar.xz
 cd gcc-12.2.0
-tar -xf ../gmp-6.2.1.tar.xz
-mv gmp-6.2.1 gmp
-tar -xf ../mpfr-4.1.0.tar.xz
-mv mpfr-4.1.0 mpfr
-tar -xf ../mpc-1.2.1.tar.gz
-mv mpc-1.2.1 mpc
+mkdir -p gmp mpfr mpc isl
+tar -xf ../gmp-6.2.1.tar.xz -C gmp --strip-components=1
+tar -xf ../mpfr-4.1.0.tar.xz -C mpfr --strip-components=1
+tar -xf ../mpc-1.2.1.tar.gz -C mpc --strip-components=1
+tar -xf ../isl-0.25.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir build; cd build

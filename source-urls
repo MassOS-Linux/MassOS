@@ -40,7 +40,7 @@ https://www.busybox.net/downloads/busybox-1.35.0.tar.bz2
 https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
 https://c-ares.org/download/c-ares-1.18.1.tar.gz
 https://gitlab.freedesktop.org/cairo/cairo/-/archive/1.17.6/cairo-1.17.6.tar.bz2
-https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.3/cairomm-1.14.3.tar.bz2
+https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.4/cairomm-1.14.4.tar.bz2
 https://github.com/lu-zero/cargo-c/releases/download/v0.9.12/cargo-c-linux.tar.gz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://deb.debian.org/debian/pool/main/c/cdrkit/cdrkit_1.1.11.orig.tar.gz
@@ -144,7 +144,7 @@ https://ftp.acc.umu.se/pub/gnome/sources/gexiv2/0.14/gexiv2-0.14.0.tar.xz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs1000/ghostscript-10.0.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gi-docgen/2022/gi-docgen-2022.1.tar.xz
 https://freefr.dl.sourceforge.net/project/giflib/giflib-5.2.1.tar.gz
-https://cdn.kernel.org/pub/software/scm/git/git-2.37.3.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.38.0.tar.xz
 https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.tgz
 https://ftp.acc.umu.se/pub/gnome/sources/glib/2.74/glib-2.74.0.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/glib-networking/2.74/glib-networking-2.74.0.tar.xz
@@ -172,7 +172,7 @@ https://mirror.koddos.net/gnu/grep/grep-3.8.tar.xz
 https://mirror.koddos.net/gnu/groff/groff-1.22.4.tar.gz
 https://mirror.koddos.net/gnu/grub/grub-2.06.tar.xz
 https://ftp.acc.umu.se/pub/gnome/sources/gsettings-desktop-schemas/43/gsettings-desktop-schemas-43.0.tar.xz
-https://ftp.acc.umu.se/pub/gnome/sources/gspell/1.10/gspell-1.10.0.tar.xz
+https://ftp.acc.umu.se/pub/gnome/sources/gspell/1.12/gspell-1.12.0.tar.xz
 https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.20.3.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.20.3.tar.xz
 https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.20.3.tar.xz
@@ -195,7 +195,7 @@ https://mirror.koddos.net/gnu/help2man/help2man-1.49.2.tar.xz
 https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.17.tar.xz
 https://freefr.dl.sourceforge.net/project/hplip/hplip/3.22.6/hplip-3.22.6.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.2.1/htop-3.2.1.tar.xz
-https://github.com/vcrhonek/hwdata/archive/v0.362/hwdata-0.362.tar.gz
+https://github.com/vcrhonek/hwdata/archive/v0.363/hwdata-0.363.tar.gz
 https://github.com/hykilpikonna/hyfetch/archive/1.4.0/hyfetch-1.4.0.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20220922/iana-etc-20220922.tar.gz
 https://www.x.org/archive/individual/app/iceauth-1.0.9.tar.xz
@@ -208,6 +208,7 @@ https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-
 https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-5.19.0.tar.xz
 https://www.netfilter.org/projects/iptables/files/iptables-1.8.8.tar.bz2
+https://libisl.sourceforge.io/isl-0.25.tar.xz
 https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v4.11.0/iso-codes-v4.11.0.tar.bz2
 https://files.itstool.org/itstool/itstool-2.0.7.tar.bz2
 https://github.com/jackaudio/jack2/archive/v1.9.21/jack2-1.9.21.tar.gz
@@ -386,7 +387,7 @@ https://www.x.org/archive/individual/lib/libXvMC-1.0.13.tar.xz
 https://www.x.org/archive/individual/lib/libXxf86dga-1.1.5.tar.bz2
 https://www.x.org/archive/individual/lib/libXxf86vm-1.1.5.tar.xz
 https://github.com/nih-at/libzip/releases/download/v1.9.2/libzip-1.9.2.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.19.12.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.0.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.5.2/Linux-PAM-1.5.2.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/lld-14.0.6.src.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-14.0.6/llvm-14.0.6.src.tar.xz
@@ -465,8 +466,8 @@ https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.
 https://github.com/jinfeihan57/p7zip/archive/v17.04/p7zip-17.04.tar.gz
 https://github.com/pypa/packaging/releases/download/21.3/packaging-21.3.tar.gz
 https://git.kernel.org/pub/scm/devel/pahole/pahole.git/snapshot/pahole-1.24.tar.gz
-https://gitlab.gnome.org/GNOME/pango/-/archive/1.50.10/pango-1.50.10.tar.bz2
-https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.2.tar.xz
+https://gitlab.gnome.org/GNOME/pango/-/archive/1.50.11/pango-1.50.11.tar.bz2
+https://ftp.acc.umu.se/pub/gnome/sources/pangomm/2.46/pangomm-2.46.3.tar.xz
 https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
 https://mirror.koddos.net/gnu/parted/parted-3.5.tar.xz
 https://mirror.koddos.net/gnu/patch/patch-2.7.6.tar.xz
@@ -506,7 +507,7 @@ https://www.python.org/ftp/python/3.10.7/Python-3.10.7.tar.xz
 https://github.com/certifi/python-certifi/archive/2022.06.15/python-certifi-2022.06.15.tar.gz
 https://github.com/martinpitt/python-dbusmock/releases/download/0.28.4/python-dbusmock-0.28.4.tar.gz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
-https://github.com/qpdf/qpdf/releases/download/v11.1.0/qpdf-11.1.0.tar.gz
+https://github.com/qpdf/qpdf/releases/download/v11.1.1/qpdf-11.1.1.tar.gz
 https://fukuchi.org/works/qrencode/qrencode-4.1.1.tar.bz2
 https://github.com/xiph/rav1e/archive/v0.5.1/rav1e-0.5.1.tar.gz
 https://mirror.koddos.net/gnu/readline/readline-8.2.tar.gz
@@ -557,7 +558,7 @@ https://github.com/strace/strace/releases/download/v5.19/strace-5.19.tar.xz
 https://github.com/sudo-project/sudo/archive/SUDO_1_9_11p3/sudo-SUDO_1_9_11p3.tar.gz
 https://github.com/swig/swig/archive/v4.0.2/swig-4.0.2.tar.gz
 https://ftp.acc.umu.se/pub/gnome/sources/sysprof/3.46/sysprof-3.46.0.tar.xz
-https://github.com/systemd/systemd-stable/archive/v251.4/systemd-stable-251.4.tar.gz
+https://github.com/systemd/systemd-stable/archive/v251.5/systemd-stable-251.5.tar.gz
 https://taglib.github.io/releases/taglib-1.12.tar.gz
 https://mirror.koddos.net/gnu/tar/tar-1.34.tar.xz
 https://freefr.dl.sourceforge.net/project/tcl/Tcl/8.6.12/tcl8.6.12-src.tar.gz
@@ -600,7 +601,7 @@ https://mirror.koddos.net/gnu/wget/wget-1.21.3.tar.gz
 https://mirror.koddos.net/gnu/which/which-2.21.tar.gz
 https://github.com/rfc1036/whois/archive/v5.5.13/whois-5.5.13.tar.gz
 https://hewlettpackard.github.io/wireless-tools/wireless_tools.30.pre9.tar.gz
-https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.11/wireplumber-0.4.11.tar.bz2
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.4.12/wireplumber-0.4.12.tar.bz2
 https://github.com/google/woff2/archive/v1.0.2/woff2-1.0.2.tar.gz
 https://w1.fi/releases/wpa_supplicant-2.10.tar.gz
 https://wpewebkit.org/releases/wpebackend-fdo-1.14.0.tar.xz

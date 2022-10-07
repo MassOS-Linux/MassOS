@@ -521,6 +521,8 @@ rm -rf shadow-4.12.3
 # GCC.
 tar -xf gcc-12.2.0.tar.xz
 cd gcc-12.2.0
+mkdir -p isl
+tar -xf ../isl-0.25.tar.xz -C isl --strip-components=1
 sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
 mkdir build; cd build
 CFLAGS="-O2" CXXFLAGS="-O2" LD=ld ../configure --prefix=/usr --enable-languages=c,c++ --with-pkgversion="MassOS GCC 12.2.0" --with-system-zlib --enable-default-ssp --enable-linker-build-id --disable-bootstrap --disable-multilib
@@ -1898,21 +1900,21 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 cd ..
 rm -rf gnu-efi-3.0.15
 # hwdata.
-tar -xf hwdata-0.362.tar.gz
-cd hwdata-0.362
+tar -xf hwdata-0.363.tar.gz
+cd hwdata-0.363
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/modprobe.d/dist-blacklist.conf
 install -t /usr/share/licenses/hwdata -Dm644 COPYING
 cd ..
-rm -rf hwdata-0.362
+rm -rf hwdata-0.363
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-251.4.tar.gz
-cd systemd-stable-251.4
+tar -xf systemd-stable-251.5.tar.gz
+cd systemd-stable-251.5
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.4-massos -Dshared-lib-tag=251.4-massos -Dbpf-framework=false -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.5-massos -Dshared-lib-tag=251.5-massos -Dbpf-framework=false -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1938,7 +1940,7 @@ install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
 systemctl enable gpm.service
-rm -rf systemd-stable-251.4
+rm -rf systemd-stable-251.5
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.2.tar.xz
 cd dbus-1.14.2
@@ -3018,14 +3020,14 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 cd ../..
 rm -rf nss-3.83
 # Git.
-tar -xf git-2.37.3.tar.xz
-cd git-2.37.3
+tar -xf git-2.38.0.tar.xz
+cd git-2.38.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
 make all man
 make perllibdir=/usr/lib/perl5/5.36/site_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 cd ..
-rm -rf git-2.37.3
+rm -rf git-2.38.0
 # libstemmer.
 tar -xf snowball-2.2.0.tar.gz
 cd snowball-2.2.0
@@ -3652,8 +3654,8 @@ install -t /usr/share/licenses/pixman -Dm644 ../COPYING
 cd ../..
 rm -rf pixman-0.40.0
 # Qpdf.
-tar -xf qpdf-11.1.0.tar.gz
-cd qpdf-11.1.0
+tar -xf qpdf-11.1.1.tar.gz
+cd qpdf-11.1.1
 mkdir qpdf-build; cd qpdf-build
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DINSTALL_EXAMPLES=OFF -Wno-dev -G Ninja ..
 ninja
@@ -3662,7 +3664,7 @@ install -t /usr/share/bash-completion/completions -Dm644 ../completions/bash/qpd
 install -t /usr/share/zsh/site-functions -Dm644 ../completions/zsh/_qpdf
 install -t /usr/share/licenses/qpdf -Dm644 ../{Artistic-2.0,LICENSE.txt,NOTICE.md}
 cd ../..
-rm -rf qpdf-11.1.0
+rm -rf qpdf-11.1.1
 # qrencode.
 tar -xf qrencode-4.1.1.tar.bz2
 cd qrencode-4.1.1
@@ -4261,11 +4263,11 @@ install -t /usr/share/licenses/egl-wayland -Dm644 ../COPYING
 cd ../..
 rm -rf egl-wayland-1.1.11
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-251.4.tar.gz
-cd systemd-stable-251.4
+tar -xf systemd-stable-251.5.tar.gz
+cd systemd-stable-251.5
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.4-massos -Dshared-lib-tag=251.4-massos -Dbpf-framework=true -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.5-massos -Dshared-lib-tag=251.5-massos -Dbpf-framework=true -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4281,7 +4283,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-stable-251.4
+rm -rf systemd-stable-251.5
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.2.tar.xz
 cd dbus-1.14.2
@@ -4835,16 +4837,16 @@ ninja install
 install -t /usr/share/licenses/cairo -Dm644 ../COPYING ../COPYING-LGPL-2.1
 cd ../..
 rm -rf cairo-1.17.6
-# cairomm.
-tar -xf cairomm-1.14.3.tar.bz2
-cd cairomm-1.14.3
+# Cairomm.
+tar -xf cairomm-1.14.4.tar.bz2
+cd cairomm-1.14.4
 mkdir cmm-build; cd cmm-build
 meson --prefix=/usr --buildtype=minsize -Dbuild-examples=false -Dbuild-tests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/cairomm -Dm644 ../COPYING
 cd ../..
-rm -rf cairomm-1.14.3
+rm -rf cairomm-1.14.4
 # HarfBuzz (rebuild to support Cairo).
 tar -xf harfbuzz-5.2.0.tar.xz
 cd harfbuzz-5.2.0
@@ -4855,25 +4857,25 @@ ninja install
 cd ../..
 rm -rf harfbuzz-5.2.0
 # Pango.
-tar -xf pango-1.50.10.tar.bz2
-cd pango-1.50.10
+tar -xf pango-1.50.11.tar.bz2
+cd pango-1.50.11
 mkdir pango-build; cd pango-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pango -Dm644 ../COPYING
 cd ../..
-rm -rf pango-1.50.10
+rm -rf pango-1.50.11
 # Pangomm.
-tar -xf pangomm-2.46.2.tar.xz
-cd pangomm-2.46.2
+tar -xf pangomm-2.46.3.tar.xz
+cd pangomm-2.46.3
 mkdir pmm-build; cd pmm-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/pangomm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
-rm -rf pangomm-2.46.2
+rm -rf pangomm-2.46.3
 # hicolor-icon-theme.
 tar -xf hicolor-icon-theme-0.17.tar.xz
 cd hicolor-icon-theme-0.17
@@ -6753,8 +6755,7 @@ rm -rf gst-plugins-rs-0.8.4
 tar -xf pipewire-0.3.59.tar.bz2
 cd pipewire-0.3.59
 mkdir -p subprojects/wireplumber
-tar -xf ../wireplumber-0.4.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
-patch -d subprojects/wireplumber -Np1 -i ../../../patches/wireplumber-0.4.11-upstreamfix.patch
+tar -xf ../wireplumber-0.4.12.tar.bz2 -C subprojects/wireplumber --strip-components=1
 mkdir pipewire-build; cd pipewire-build
 meson --prefix=/usr --buildtype=minsize -Db_pie=false -Dexamples=disabled -Dffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false ..
 ninja
@@ -6839,14 +6840,14 @@ install -t /usr/share/licenses/libchamplain -Dm644 ../COPYING
 cd ../..
 rm -rf libchamplain-0.12.20
 # gspell.
-tar -xf gspell-1.10.0.tar.xz
-cd gspell-1.10.0
+tar -xf gspell-1.12.0.tar.xz
+cd gspell-1.12.0
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/gspell -Dm644 COPYING
 cd ..
-rm -rf gspell-1.10.0
+rm -rf gspell-1.12.0
 # gnome-online-accounts.
 tar -xf gnome-online-accounts-3.46.0.tar.xz
 cd gnome-online-accounts-3.46.0
@@ -6910,8 +6911,8 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 cd ..
 rm -rf busybox-1.35.0
 # Linux Kernel.
-tar -xf linux-5.19.12.tar.xz
-cd linux-5.19.12
+tar -xf linux-6.0.tar.xz
+cd linux-6.0
 cp ../kernel-config .config
 make olddefconfig
 make
@@ -6947,7 +6948,7 @@ find "$builddir" -type f -name '*.o' -delete
 ln -sr "$builddir" "/usr/src/linux"
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 cd ..
-rm -rf linux-5.19.12
+rm -rf linux-6.0
 unset builddir
 # NVIDIA Open Kernel Modules.
 tar -xf open-gpu-kernel-modules-515.76.tar.gz

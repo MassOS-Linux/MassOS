@@ -1,10 +1,11 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
-# Current Development
+# MassOS 2022.10
 Changes:
 
 - Btrfs is now is the default filesystem (recommended by the MassOS Installer). ext4 and the others will remain fully supported.
+- Upgraded Linux Kernel to new major version 6.0.
 - Added WebP support for GTK applications which use gdk-pixbuf.
 - Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
 - Added UFW ("Uncomplicated Firewall"); user-friendly frontend to iptables.
@@ -19,6 +20,7 @@ Upgraded software (core):
 - Bash: `5.1.16 --> 5.2`
 - bc: `6.0.1 --> 6.0.3`
 - btrfs-progs: `5.18.1 --> 5.19.1`
+- Cairomm: `1.14.3 --> 1.14.4`
 - CMake: `3.24.1 --> 3.24.2`
 - Cracklib: `2.9.7 --> 2.9.8`
 - D-Bus: `1.14.0 --> 1.14.2`
@@ -30,6 +32,7 @@ Upgraded software (core):
 - fmt: `9.0.0 --> 9.1.0`
 - FUSE3: `3.11.0 --> 3.12.0`
 - GhostScript: `9.56.1 --> 10.0.0`
+- Git: `2.37.3 --> 2.38.0`
 - GLib: `2.72.3 --> 2.74.0`
 - glib-networking: `2.72.2 --> 2.74.0`
 - GLibmm: `2.66.4 --> 2.66.5`
@@ -39,9 +42,10 @@ Upgraded software (core):
 - GraphViz: `5.0.1 --> 6.0.1`
 - Grep: `3.7 --> 3.8`
 - gsettings-desktop-schemas: `42.0 --> 43.0`
+- gspell: `1.10.0 --> 1.12.0`
 - Gtkmm3: `3.24.6 --> 3.24.7`
 - HarfBuzz: `5.1.0 --> 5.2.0`
-- hwdata: `0.361 --> 0.362`
+- hwdata: `0.361 --> 0.363`
 - iana-etc: `20220715 --> 20220922`
 - idna: `3.3 --> 3.4`
 - Less: `600 --> 608`
@@ -69,7 +73,7 @@ Upgraded software (core):
 - libXft: `2.3.4 --> 2.3.6`
 - libXtst: `1.2.3 --> 1.2.4`
 - libXxf86vm: `1.1.4 --> 1.1.5`
-- Linux Kernel: `5.19.5 --> 5.19.12`
+- Linux Kernel: `5.19.5 --> 6.0.0`
 - lsof: `4.95.0 --> 4.96.3`
 - make-ca: `1.9 --> 1.10`
 - Mako: `1.2.2 --> 1.2.3`
@@ -80,18 +84,20 @@ Upgraded software (core):
 - NSS: `3.82 --> 3.83`
 - NVIDIA Open Kernel Modules: `515.65.01 --> 515.76`
 - OpenH264: `2.1.1 --> 2.3.1`
-- Pango: `1.50.9 --> 1.50.10`
+- Pango: `1.50.9 --> 1.50.11`
+- Pangomm: `2.46.2 --> 2.46.3`
 - PipeWire: `0.3.56 --> 0.3.59`
 - Poppler: `22.08.0 --> 22.09.0`
 - Popt: `1.18 --> 1.19`
 - pyopenssl: `22.0.0 --> 22.1.0`
 - Python: `3.10.6 --> 3.10.7`
-- Qpdf: `10.6.3 --> 11.1.0`
+- Qpdf: `10.6.3 --> 11.1.1`
 - Readline: `8.1.2 --> 8.2`
 - rest: `0.8.1 --> 0.9.1`
 - rsync: `3.2.5 --> 3.2.6`
 - smbclient: `4.16.4 --> 4.17.0`
 - SQLite: `3.39.2 --> 3.39.3`
+- systemd: `251.4 --> 251.5`
 - tree: `2.0.3 --> 2.0.4`
 - tzdata: `2022c --> 2022d`
 - Unifont: `14.0.03 --> 15.0.01`
@@ -101,6 +107,7 @@ Upgraded software (core):
 - Vulkan-Loader: `1.3.223 --> 1.3.230`
 - Vulkan-Tools: `1.3.223 --> 1.3.230`
 - VTE: `0.68.0 --> 0.70.0`
+- WirePlumber: `0.4.11 --> 0.4.12`
 - wpebackend-fdo: `1.12.1 --> 1.14.0`
 - x264: `0.164.3095 --> 0.164.3099`
 - x265: `3.5-39-g20255e6f0 --> 3.5-40-g931178347`
@@ -110,6 +117,7 @@ Upgraded software (Xfce):
 
 - Evince: `42.3 --> 43.0`
 - Firefox: `104.0.1 --> 105.0`
+- Popsicle: `1.3.0-54-ga1561b3 --> 1.3.0-65-g389d13d`
 - Shotwell: `0.31.4 --> 0.31.5`
 - xfce4-notifyd: `0.6.3 --> 0.6.4`
 - xfce4-pulseaudio-plugin: `0.4.3 --> 0.4.5`

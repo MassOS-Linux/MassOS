@@ -405,12 +405,12 @@ install -t /usr/share/licenses/gparted -Dm644 COPYING
 cd ..
 rm -rf gparted-GPARTED_1_4_0
 # Popsicle.
-tar -xf popsicle-1.3.0-54-ga1561b3.tar.xz
-cd popsicle-1.3.0-54-ga1561b3
+tar -xf popsicle-1.3.0-65-g389d13d.tar.xz
+cd popsicle-1.3.0-65-g389d13d
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" make prefix=/usr install
 install -t /usr/share/licenses/popsicle -Dm644 LICENSE
 cd ..
-rm -rf popsicle-1.3.0-54-ga1561b3
+rm -rf popsicle-1.3.0-65-g389d13d
 # Mugshot.
 tar -xf mugshot-0.4.3.tar.gz
 cd mugshot-0.4.3
