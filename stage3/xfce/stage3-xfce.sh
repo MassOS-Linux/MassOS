@@ -217,33 +217,33 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 cd ..
 rm -rf xfce4-terminal-1.0.4
 # Shotwell.
-tar -xf shotwell-shotwell-0.31.4.tar.bz2
-cd shotwell-shotwell-0.31.4
+tar -xf shotwell-shotwell-0.31.5.tar.bz2
+cd shotwell-shotwell-0.31.5
 mkdir SHOTWELL-build; cd SHOTWELL-build
 meson --prefix=/usr --buildtype=minsize ..
 ninja
 ninja install
 install -t /usr/share/licenses/shotwell -Dm644 ../COPYING
 cd ../..
-rm -rf shotwell-shotwell-0.31.4
+rm -rf shotwell-shotwell-0.31.5
 # xfce4-notifyd.
-tar -xf xfce4-notifyd-0.6.3.tar.bz2
-cd xfce4-notifyd-0.6.3
+tar -xf xfce4-notifyd-0.6.4.tar.bz2
+cd xfce4-notifyd-0.6.4
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 cd ..
-rm -rf xfce4-notifyd-0.6.3
+rm -rf xfce4-notifyd-0.6.4
 # xfce4-pulseaudio-plugin.
-tar -xf xfce4-pulseaudio-plugin-0.4.3.tar.bz2
-cd xfce4-pulseaudio-plugin-0.4.3
+tar -xf xfce4-pulseaudio-plugin-0.4.5.tar.bz2
+cd xfce4-pulseaudio-plugin-0.4.5
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
 cd ..
-rm -rf xfce4-pulseaudio-plugin-0.4.3
+rm -rf xfce4-pulseaudio-plugin-0.4.5
 # pavucontrol.
 tar -xf pavucontrol-5.0.tar.xz
 cd pavucontrol-5.0
@@ -405,12 +405,12 @@ install -t /usr/share/licenses/gparted -Dm644 COPYING
 cd ..
 rm -rf gparted-GPARTED_1_4_0
 # Popsicle.
-tar -xf popsicle-1.3.0-54-ga1561b3.tar.xz
-cd popsicle-1.3.0-54-ga1561b3
+tar -xf popsicle-1.3.0-65-g389d13d.tar.xz
+cd popsicle-1.3.0-65-g389d13d
 RUSTFLAGS="-C relocation-model=dynamic-no-pic" make prefix=/usr install
 install -t /usr/share/licenses/popsicle -Dm644 LICENSE
 cd ..
-rm -rf popsicle-1.3.0-54-ga1561b3
+rm -rf popsicle-1.3.0-65-g389d13d
 # Mugshot.
 tar -xf mugshot-0.4.3.tar.gz
 cd mugshot-0.4.3
@@ -433,22 +433,22 @@ rm -rf libetpan-1.9.4
 tar -xf claws-mail-4.1.0.tar.xz
 cd claws-mail-4.1.0
 patch -Np1 -i ../patches/claws-mail-4.1.0-perl5.36.patch
-./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-fancy-plugin --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
+./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
 make
 make install
 install -t /usr/share/licenses/claws-mail -Dm644 COPYING
 cd ..
 rm -rf claws-mail-4.1.0
 # Evince.
-tar -xf evince-42.3.tar.xz
-cd evince-42.3
+tar -xf evince-43.0.tar.xz
+cd evince-43.0
 mkdir build; cd build
 meson --prefix=/usr --buildtype=minsize -Dnautilus=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/evince -Dm644 ../COPYING
 cd ../..
-rm -rf evince-42.3
+rm -rf evince-43.0
 # Baobab.
 tar -xf baobab-41.0.tar.xz
 cd baobab-41.0
@@ -479,6 +479,26 @@ ninja install
 install -t /usr/share/licenses/gnome-software -Dm644 ../COPYING
 cd ../..
 rm -rf gnome-software-41.5
+# FreeRDP.
+tar -xf freerdp-2.8.0.tar.gz
+cd freerdp-2.8.0
+mkdir FreeRDP-build; cd FreeRDP-build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_SKIP_RPATH=ON -DPROXY_PLUGINDIR=/usr/lib/freerdp2/server/proxy/plugins -DCHANNEL_URBDRC_CLIENT=ON -DWITH_CHANNELS=ON -DWITH_CLIENT_CHANNELS=ON -DWITH_CUPS=ON -DWITH_DSP_FFMPEG=ON -DWITH_FAAD2=ON -DWITH_FFMPEG=ON -DWITH_GSSAPI=ON -DWITH_ICU=ON -DWITH_JPEG=ON -DWITH_LAME=ON -DWITH_OPENH264=ON -DWITH_PKCS11=ON -DWITH_PULSE=ON -DWITH_SERVER=ON -DWITH_SERVER_CHANNELS=ON -DWITH_SWSCALE=ON -Wno-dev -G Ninja ..
+ninja
+ninja install
+install -t /usr/share/licenses/freerdp -Dm644 ../LICENSE
+cd ../..
+rm -rf freerdp-2.8.0
+# Weston.
+tar -xf weston-10.0.2.tar.bz2
+cd weston-10.0.2
+mkdir weston-build; cd weston-build
+meson --prefix=/usr --buildtype=minsize ..
+ninja
+ninja install
+install -t /usr/share/licenses/weston -Dm644 ../COPYING
+cd ../..
+rm -rf weston-10.0.2
 # MassOS Welcome (modified version of Gnome Tour).
 tar -xf massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c.tar.gz
 cd massos-welcome-cc649f83e04f0daa880edf1df8e4d5165b79787c
@@ -512,6 +532,7 @@ make
 make install
 cp tests/src/lightdm-session /usr/bin
 sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session
+sed -i 's/#user-session=default/user-session=xfce/' /etc/lightdm/lightdm.conf
 rm -rf /etc/init
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm-data
@@ -532,7 +553,7 @@ systemctl enable lightdm
 cd ..
 rm -rf lightdm-gtk-greeter-2.0.8
 # Firefox.
-tar --no-same-owner -xf firefox-104.0.1.tar.bz2 -C /usr/lib
+tar --no-same-owner -xf firefox-105.0.1.tar.bz2 -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {

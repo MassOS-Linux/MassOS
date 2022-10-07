@@ -1,6 +1,127 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
+# MassOS 2022.10
+Changes:
+
+- Btrfs is now is the default filesystem (recommended by the MassOS Installer). ext4 and the others will remain fully supported.
+- Upgraded Linux Kernel to new major version 6.0.
+- Added WebP support for GTK applications which use gdk-pixbuf.
+- Added mesa-utils, to provide `eglinfo`, `glxgears` and `glxinfo` utilities.
+- Added UFW ("Uncomplicated Firewall"); user-friendly frontend to iptables.
+- Moved Sysprof to GNOME as it now depends on GTK4/libadwaita, and only libsysprof-capture is needed outside of GNOME.
+- [Xfce] Added Weston, to provide basic support for running Wayland apps, as Xfce does not yet support Wayland natively.
+
+Upgraded software (core):
+
+- adwaita-icon-theme: `42.0 --> 43`
+- at-spi2-core: `2.44.1 --> 2.46.0`
+- Audit: `3.0.8 --> 3.0.9`
+- Bash: `5.1.16 --> 5.2`
+- bc: `6.0.1 --> 6.0.3`
+- btrfs-progs: `5.18.1 --> 5.19.1`
+- Cairomm: `1.14.3 --> 1.14.4`
+- CMake: `3.24.1 --> 3.24.2`
+- Cracklib: `2.9.7 --> 2.9.8`
+- D-Bus: `1.14.0 --> 1.14.2`
+- dbus-python: `1.2.18 --> 1.3.2`
+- Expat: `2.4.8 --> 2.4.9`
+- FFmpeg: `5.1 --> 5.1.2`
+- FLAC: `1.3.4 --> 1.4.1`
+- File: `5.42 --> 5.43`
+- fmt: `9.0.0 --> 9.1.0`
+- FUSE3: `3.11.0 --> 3.12.0`
+- GhostScript: `9.56.1 --> 10.0.0`
+- Git: `2.37.3 --> 2.38.0`
+- GLib: `2.72.3 --> 2.74.0`
+- glib-networking: `2.72.2 --> 2.74.0`
+- GLibmm: `2.66.4 --> 2.66.5`
+- gnome-online-accounts: `3.44.0 --> 3.46.0`
+- GNUTLS: `3.7.7 --> 3.7.8`
+- gobject-introspection: `1.72.0 --> 1.74.0`
+- GraphViz: `5.0.1 --> 6.0.1`
+- Grep: `3.7 --> 3.8`
+- gsettings-desktop-schemas: `42.0 --> 43.0`
+- gspell: `1.10.0 --> 1.12.0`
+- Gtkmm3: `3.24.6 --> 3.24.7`
+- HarfBuzz: `5.1.0 --> 5.2.0`
+- hwdata: `0.361 --> 0.363`
+- iana-etc: `20220715 --> 20220922`
+- idna: `3.3 --> 3.4`
+- Less: `600 --> 608`
+- libblockdev: `2.27 --> 2.28`
+- libbluray: `1.3.2 --> 1.3.3`
+- libcap: `2.65 --> 2.66`
+- libdrm: `2.4.112 --> 2.4.113`
+- libffi: `3.4.2 --> 3.4.3`
+- libfido2: `1.11.0 --> 1.12.0`
+- libfontenc: `1.1.5 --> 1.1.6`
+- libgee: `0.20.5 --> 0.20.6`
+- libgusb: `0.3.10 --> 0.4.0`
+- libhandy: `1.6.3 --> 1.8.0`
+- libheif: `1.12.0 --> 1.13.0`
+- libksba: `1.6.0 --> 1.6.1`
+- libnghttp2: `1.49.0 --> 1.50.0`
+- libnma: `1.8.40 --> 1.10.2`
+- libpeas: `1.32.0 --> 1.34.0`
+- libpng: `1.6.37 --> 1.6.38`
+- libsoup3: `3.0.7 --> 3.2.0`
+- libsysprof-catpure: `3.44.0 --> 3.46.0`
+- libva: `2.15.0 --> 2.16.0`
+- libwnck: `40.1 --> 43.0`
+- libwpe: `1.13.3 --> 1.14.0`
+- libXft: `2.3.4 --> 2.3.6`
+- libXtst: `1.2.3 --> 1.2.4`
+- libXxf86vm: `1.1.4 --> 1.1.5`
+- Linux Kernel: `5.19.5 --> 6.0.0`
+- lsof: `4.95.0 --> 4.96.3`
+- make-ca: `1.9 --> 1.10`
+- Mako: `1.2.2 --> 1.2.3`
+- Meson: `0.63.0 --> 0.63.2`
+- Ninja: `1.11.0 --> 1.11.1`
+- Noto Fonts: `20220607 --> 20220920`
+- NSPR: `4.34.1 --> 4.35`
+- NSS: `3.82 --> 3.83`
+- NVIDIA Open Kernel Modules: `515.65.01 --> 515.76`
+- OpenH264: `2.1.1 --> 2.3.1`
+- Pango: `1.50.9 --> 1.50.11`
+- Pangomm: `2.46.2 --> 2.46.3`
+- PipeWire: `0.3.56 --> 0.3.59`
+- Poppler: `22.08.0 --> 22.09.0`
+- Popt: `1.18 --> 1.19`
+- pyopenssl: `22.0.0 --> 22.1.0`
+- Python: `3.10.6 --> 3.10.7`
+- Qpdf: `10.6.3 --> 11.1.1`
+- Readline: `8.1.2 --> 8.2`
+- rest: `0.8.1 --> 0.9.1`
+- rsync: `3.2.5 --> 3.2.6`
+- smbclient: `4.16.4 --> 4.17.0`
+- SQLite: `3.39.2 --> 3.39.3`
+- systemd: `251.4 --> 251.5`
+- tree: `2.0.3 --> 2.0.4`
+- tzdata: `2022c --> 2022d`
+- Unifont: `14.0.03 --> 15.0.01`
+- Vala: `0.56.2 --> 0.56.3`
+- Vim: `9.0.0300 --> 9.0.0600`
+- Vulkan-Headers: `1.3.223 --> 1.3.230`
+- Vulkan-Loader: `1.3.223 --> 1.3.230`
+- Vulkan-Tools: `1.3.223 --> 1.3.230`
+- VTE: `0.68.0 --> 0.70.0`
+- WirePlumber: `0.4.11 --> 0.4.12`
+- wpebackend-fdo: `1.12.1 --> 1.14.0`
+- x264: `0.164.3095 --> 0.164.3099`
+- x265: `3.5-39-g20255e6f0 --> 3.5-40-g931178347`
+- XZ: `5.2.6 --> 5.2.7`
+
+Upgraded software (Xfce):
+
+- Evince: `42.3 --> 43.0`
+- Firefox: `104.0.1 --> 105.0`
+- Popsicle: `1.3.0-54-ga1561b3 --> 1.3.0-65-g389d13d`
+- Shotwell: `0.31.4 --> 0.31.5`
+- xfce4-notifyd: `0.6.3 --> 0.6.4`
+- xfce4-pulseaudio-plugin: `0.4.3 --> 0.4.5`
+
 # MassOS 2022.09
 Changes:
 

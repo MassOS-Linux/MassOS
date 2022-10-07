@@ -44,6 +44,7 @@ cffi
 chardet
 clang
 clutter
+clutter-gst
 clutter-gtk
 cmake
 cmatrix
@@ -91,6 +92,8 @@ easy-rsa
 ed
 efibootmgr
 efivar
+egl-wayland
+eglexternalplatform
 elfutils
 enchant
 exfatprogs
@@ -123,6 +126,7 @@ gcr
 gdbm
 gdk-pixbuf
 geoclue
+geocode-glib
 gettext
 gexiv2
 ghostscript
@@ -182,7 +186,6 @@ htop
 hwdata
 iana-etc
 iceauth
-icon-naming-utils
 icu
 idna
 importlib-metadata
@@ -221,22 +224,24 @@ libavif
 libblockdev
 libbluray
 libbpf
+libbs2b
 libburn
 libbytesize
 libcanberra
 libcap
+libcap-ng
 libcbor
 libcdio
 libcdio-paranoia
 libchamplain
 libdaemon
-libdazzle
 libde265
 libdmx
 libdrm
 libdv
 libdvdnav
 libdvdread
+libedit
 libepoxy
 libevdev
 libevent
@@ -260,6 +265,7 @@ libical
 libice
 libidn2
 libiec61883
+libiee1284
 libimobiledevice
 libinput
 libisoburn
@@ -276,6 +282,7 @@ libmtp
 libndp
 libnfs
 libnghttp2
+libnice
 libnl
 libnma
 libnotify
@@ -308,6 +315,7 @@ libsoup
 libsoup3
 libssh2
 libstemmer
+libsysprof-capture
 libtasn1
 libtheora
 libtiff
@@ -393,6 +401,7 @@ markupsafe
 mct
 mdadm
 mesa
+mesa-utils
 meson
 mkfontscale
 minizip
@@ -526,7 +535,6 @@ startup-notification
 strace
 sudo
 swig
-sysprof
 systemd
 taglib
 tcl
@@ -541,6 +549,7 @@ typogrify
 tzdata
 udftools
 udisks
+ufw
 unifont
 unzip
 upower
@@ -561,6 +570,7 @@ wavpack
 wayland
 wayland-protocols
 webkitgtk
+webp-pixbuf-loader
 wget
 which
 whois
@@ -617,7 +627,6 @@ xslatoms
 xslclients
 xmessage
 xml-parser
-xml-simple
 xmlto
 xmodmap
 xorg-font-util
