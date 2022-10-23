@@ -12,18 +12,20 @@ body:
         required: true
       - label: "If this is an issue with a specific program, I have checked the upstream project's issue tracker and determined that it is an issue with MassOS itself."
         required: true
+      - label: "If this is a hardware-related issue, I have made sure it exists on the standard ISO and is not exclusive to the ISO which doesn't include firmware."
+        required: true
 - type: "input"
   attributes:
     label: "MassOS version"
     description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure."
-    placeholder: "2022.06"
+    placeholder: "2022.10"
   validations:
     required: true
 - type: "input"
   attributes:
     label: "Kernel version"
     description: "What is the output of `uname -srvm`?"
-    placeholder: "Linux 5.18.1-massos #1 SMP PREEMPT_DYNAMIC Wed Jun 1 16:11:46 UTC 2022 x86_64"
+    placeholder: "Linux 6.0.0-massos #1 SMP PREEMPT_DYNAMIC Tue Oct 4 23:50:51 UTC 2022 x86_64"
   validations:
     required: false
 - type: "checkboxes"
@@ -31,11 +33,12 @@ body:
     label: "Subject"
     description: "Which of the following best describes your issue (multiple responses are OK)?"
     options:
-      - label: "Issue at runtime of MassOS."
-      - label: "Issue with the MassOS Live CD."
-      - label: "Issue with installing MassOS."
+      - label: "Issue with the MassOS Live CD and/or installing MassOS."
+      - label: "Issue with a particular piece of software in MassOS."
+      - label: "Issue with booting or startup of MassOS."
+      - label: "Issue with hardware or peripherals on MassOS."
       - label: "Issue with the MassOS documentation."
-      - label: "Issue compiling MassOS from source."
+      - label: "Issue with compiling MassOS from source."
   validations:
     required: true
 - type: "textarea"

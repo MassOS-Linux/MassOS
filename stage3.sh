@@ -71,7 +71,9 @@ fi
 ## /etc/skel, if present.
 if [ -d stage3/"$1"/skel ]; then
   cp -r stage3/"$1"/skel/. "$MASSOS"/etc/skel/.
+  cp -r stage3/"$1"/skel/. "$MASSOS"/root/.
   chown -R root:root "$MASSOS"/etc/skel
+  chown -R root:root "$MASSOS"/root
 fi
 ## systemd units.
 if [ -d stage3/"$1"/systemd-units ]; then
@@ -82,6 +84,8 @@ fi
 if [ -d stage3/"$1"/extra-package-licenses ]; then
   cp -r stage3/"$1"/extra-package-licenses "$MASSOS"/sources
 fi
+## build environment file.
+cp build.env "${MASSOS}"/sources
 # Re-enter the chroot and continue the build.
 utils/programs/mass-chroot "$MASSOS" /sources/build-stage3.sh
 # Put in finalize.sh and finish the build.

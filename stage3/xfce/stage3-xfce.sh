@@ -8,13 +8,14 @@ set -e
 # Change to the sources directory.
 cd /sources
 # Set up basic environment variables, same as Stage 2.
-export PATH=/usr/bin:/usr/sbin
-export LC_ALL="en_US.UTF-8"
-export MAKEFLAGS="-j$(nproc)"
-export FORCE_UNSAFE_CONFIGURE=1
-export SHELL=/bin/bash
-export CFLAGS="-Os -pipe" CXXFLAGS="-Os -pipe"
+. build.env
 # === IF RESUMING A FAILED BUILD, ONLY REMOVE LINES BELOW THIS ONE.
+# Install Rust to a temporary directory to support building some packages.
+tar -xf rust-1.64.0-x86_64-unknown-linux-gnu.tar.gz
+cd rust-1.64.0-x86_64-unknown-linux-gnu
+./install.sh --prefix=/sources/rust --without=rust-docs
+cd ..
+rm -rf rust-1.64.0-x86_64-unknown-linux-gnu
 # Arc Theme for Xfce.
 tar --no-same-owner -xf arc-theme-20220102.tar.xz -C /usr/share --strip-components=1
 gtk-update-icon-cache /usr/share/icons/Arc

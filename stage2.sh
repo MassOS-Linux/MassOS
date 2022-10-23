@@ -27,7 +27,7 @@ mkdir -p "$MASSOS"/{dev,proc,sys,run}
 # Initialise /dev/console and /dev/null.
 mknod -m 600 "$MASSOS"/dev/console c 5 1
 mknod -m 666 "$MASSOS"/dev/null c 1 3
-# Chroot into the MassOS environment and continue the build.
+# Chroot into the MassOS environment and start the stage 2 build.
 utils/programs/mass-chroot "$MASSOS" /sources/build-system.sh
 # Finishing message.
 echo

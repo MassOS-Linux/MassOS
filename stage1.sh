@@ -15,14 +15,15 @@ echo "Starting Stage 1 Build..."
 MASSOS="$PWD"/massos-rootfs
 PATH="$MASSOS"/tools/bin:$PATH
 SRC="$MASSOS"/sources
-CONFIG_SITE="$MASSOS"/usr/share/config.site
-export MASSOS MASSOS_TARGET PATH SRC CONFIG_SITE
+export MASSOS MASSOS_TARGET PATH SRC
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # Compiler flags for MassOS. We prefer to optimise for size.
 CFLAGS="-Os -pipe"
 CXXFLAGS="-Os -pipe"
-export CFLAGS CXXFLAGS
+CPPFLAGS=""
+LDFLAGS=""
+export CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 # Setup the basic filesystem structure.
 mkdir -p "$MASSOS"/{etc,var}
 mkdir -p "$MASSOS"/usr/{bin,lib,sbin}
@@ -101,14 +102,6 @@ make
 make DESTDIR="$MASSOS" install
 cd ../..
 rm -rf gcc-12.2.0
-# m4.
-tar -xf m4-1.4.19.tar.xz
-cd m4-1.4.19
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess)
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf m4-1.4.19
 # Ncurses.
 tar -xf ncurses-6.3.tar.gz
 cd ncurses-6.3
@@ -127,117 +120,13 @@ rm -rf ncurses-6.3
 # Bash.
 tar -xf bash-5.2.tar.gz
 cd bash-5.2
+patch -Np0 -i ../patches/bash-5.2-upstreamfix.patch
 ./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(support/config.guess) --without-bash-malloc
 make
 make DESTDIR="$MASSOS" install
 ln -sf bash "$MASSOS"/bin/sh
 cd ..
 rm -rf bash-5.2
-# Coreutils.
-tar -xf coreutils-9.1.tar.xz
-cd coreutils-9.1
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess) --enable-install-program=hostname --enable-no-install-program=kill,uptime --with-packager="MassOS"
-make
-make DESTDIR="$MASSOS" install
-mv "$MASSOS"/usr/bin/chroot "$MASSOS"/usr/sbin
-mkdir -p "$MASSOS"/usr/share/man/man8
-mv "$MASSOS"/usr/share/man/man1/chroot.1 "$MASSOS"/usr/share/man/man8/chroot.8
-sed -i 's/"1"/"8"/' "$MASSOS"/usr/share/man/man8/chroot.8
-cd ..
-rm -rf coreutils-9.1
-# Diffutils.
-tar -xf diffutils-3.8.tar.xz
-cd diffutils-3.8
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf diffutils-3.8
-# File
-tar -xf file-5.43.tar.gz
-cd file-5.43
-mkdir build; cd build
-../configure --disable-bzlib --disable-libseccomp --disable-xzlib --disable-zlib
-make
-cd ..
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(./config.guess)
-make FILE_COMPILE=$(pwd)/build/src/file
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf file-5.43
-# Findutils.
-tar -xf findutils-4.9.0.tar.xz
-cd findutils-4.9.0
-./configure --prefix=/usr --localstatedir=/var/lib/locate --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess)
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf findutils-4.9.0
-# Gawk.
-tar -xf gawk-5.1.0.tar.xz
-cd gawk-5.1.0
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(./config.guess)
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf gawk-5.1.0
-# Grep.
-tar -xf grep-3.8.tar.xz
-cd grep-3.8
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf grep-3.8
-# Gzip.
-tar -xf gzip-1.12.tar.xz
-cd gzip-1.12
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf gzip-1.12
-# Make.
-tar -xf make-4.3.tar.gz
-cd make-4.3
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess) --without-guile
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf make-4.3
-# Patch.
-tar -xf patch-2.7.6.tar.xz
-cd patch-2.7.6
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess)
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf patch-2.7.6
-# Sed.
-tar -xf sed-4.8.tar.xz
-cd sed-4.8
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf sed-4.8
-# Tar.
-tar -xf tar-1.34.tar.xz
-cd tar-1.34
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess) --program-prefix=g
-make
-make DESTDIR="$MASSOS" install
-ln -sf gtar "$MASSOS"/usr/bin/tar
-cd ..
-rm -rf tar-1.34
-# XZ.
-tar -xf xz-5.2.7.tar.xz
-cd xz-5.2.7
-./configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(build-aux/config.guess) --disable-static
-make
-make DESTDIR="$MASSOS" install
-cd ..
-rm -rf xz-5.2.7
 # Binutils (For stage 2, built using our new bootstrap toolchain).
 tar -xf binutils-2.39.tar.xz
 cd binutils-2.39
@@ -265,6 +154,11 @@ make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 cd ../..
 rm -rf gcc-12.2.0
+# Install upgrade-toolset to provide basic utilities for the start of stage 2.
+mv "${MASSOS}"/usr/bin/bash{,.save}
+tar -xf upgrade-toolset-20221015-x86_64.tar.xz -C "$MASSOS"/usr/bin --strip-components=1
+mv "${MASSOS}"/usr/bin/bash{.save,}
+rm -f "$MASSOS"/usr/bin/LICENSE*
 cd ../..
 # Remove bootstrap toolchain directory.
 rm -rf "$MASSOS"/tools
@@ -283,6 +177,6 @@ cp -r utils/extra-package-licenses "$SRC"
 cp -r backgrounds "$SRC"
 cp -r utils/man "$SRC"
 cp LICENSE "$SRC"
-cp build-system.sh "$SRC"
+cp build-system.sh build.env "$SRC"
 echo -e "\nThe Stage 1 bootstrap system was built successfully."
 echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."

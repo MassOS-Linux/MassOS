@@ -19,23 +19,9 @@ if [ $EUID -ne 0 ] || [ ! -d /sources ]; then
   echo "stage2.sh will automatically run it in a chroot environment." >&2
   exit 1
 fi
-# Set the source directory correctly.
-export SRC=/sources
-cd $SRC
-# Set the PATH correctly.
-export PATH=/usr/bin:/usr/sbin:/sources/sphinx/bin:/sources/cargoc
-# Set the locale correctly.
-export LC_ALL="en_US.UTF-8" 2>/dev/null
-# Build in parallel using all available CPU cores.
-export MAKEFLAGS="-j$(nproc)"
-# Allow building some packages as root.
-export FORCE_UNSAFE_CONFIGURE=1
-# SHELL may not be set in chroot by default.
-export SHELL=/bin/bash
-# Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-Os -pipe"
-CXXFLAGS="-Os -pipe"
-export CFLAGS CXXFLAGS
+# Change to the source tarballs directory and set up the environment.
+cd /sources
+. build.env
 # === REMOVE LINES BELOW THIS FOR RESUMING A FAILED BUILD ===
 # Mark the build as started, for Stage 2 resume.
 touch .BUILD_HAS_STARTED
@@ -68,14 +54,13 @@ install -t /usr/share/backgrounds/xfce -Dm644 backgrounds/*
 # Set the locale correctly.
 mkdir -p /usr/lib/locale
 mklocales 2>/dev/null
-# Gettext utilities (for circular dependencies; full Gettext is built later).
-tar -xf gettext-0.21.tar.xz
-cd gettext-0.21
-./configure --disable-shared
-make
-install -t /usr/bin -Dm755 gettext-tools/src/{msgfmt,msgmerge,xgettext}
+# Install Rust to a temporary directory to support building some packages.
+tar -xf rust-1.64.0-x86_64-unknown-linux-gnu.tar.gz
+cd rust-1.64.0-x86_64-unknown-linux-gnu
+./install.sh --prefix=/sources/rust --without=rust-docs
+tar -xf ../cargo-c-linux.tar.gz -C /sources/rust/bin
 cd ..
-rm -rf gettext-0.21
+rm -rf rust-1.64.0-x86_64-unknown-linux-gnu
 # Bison (circular deps; rebuilt later).
 tar -xf bison-3.8.2.tar.xz
 cd bison-3.8.2
@@ -624,6 +609,7 @@ rm -rf grep-3.8
 # Bash.
 tar -xf bash-5.2.tar.gz
 cd bash-5.2
+patch -Np0 -i ../patches/bash-5.2-upstreamfix.patch
 ./configure --prefix=/usr --without-bash-malloc --with-installed-readline
 make
 make install
@@ -3183,15 +3169,6 @@ ln -sf llvm /usr/share/licenses/clang
 ln -sf llvm /usr/share/licenses/lld
 cd ../..
 rm -rf libunwind llvm-14.0.6.src
-# Rust (build dependency of some packages; will be uninstalled later).
-tar -xf rust-1.62.1-x86_64-unknown-linux-gnu.tar.gz
-cd rust-1.62.1-x86_64-unknown-linux-gnu
-./install.sh --prefix=/usr --sysconfdir=/etc --without=rust-docs
-cd ..
-rm -rf rust-1.62.1-x86_64-unknown-linux-gnu
-# cargo-c (also a build dependency...)
-mkdir -p cargoc
-tar -xf cargo-c-linux.tar.gz -C cargoc
 # bpftool.
 tar -xf bpftool-7.0.0.tar.gz
 tar -xf libbpf-1.0.0.tar.gz -C bpftool-7.0.0/libbpf --strip-components=1
