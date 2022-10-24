@@ -5845,6 +5845,16 @@ make install
 install -t /usr/share/licenses/mupdf -Dm644 COPYING COPYING.LESSER
 cd ..
 rm -rf libimobiledevice-1.3.0
+# ytnef.
+tar -xf ytnef-2.0.tar.gz
+cd ytnef-2.0
+./autogen.sh
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/ytnef -Dm644 COPYING
+cd ..
+rm -rf ytnef-2.0
 # JSON (required by smblient 4.16+).
 tar -xf JSON-4.09.tar.gz
 cd JSON-4.09
