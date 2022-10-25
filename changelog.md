@@ -8,7 +8,84 @@ Changes:
 
 Upgraded software (core):
 
-- Development has only just begun! Check back soon...
+- BIND Utils: `9.18.6 --> 9.18.8`
+- btrfs-progs: `5.19.1 --> 6.0`
+- Clang: `14.0.6 --> 15.0.3`
+- D-Bus: `1.14.2 --> 1.14.4`
+- DKMS: `3.0.6 --> 3.0.7`
+- easy-rsa: `3.1.0 --> 3.1.1`
+- FAAD2: `2.10.0 --> 2.10.1`
+- Fontconfig: `2.14.0 --> 2.14.1`
+- FreeGLUT: `3.2.2 --> 3.4.0`
+- Gettext: `0.21 --> 0.21.1`
+- Git: `2.38.0 --> 2.38.1`
+- GNUPG: `2.3.7 --> 2.3.8`
+- Graphviz: `6.0.1 --> 6.0.2`
+- gst-libav: `1.20.3 --> 1.20.4`
+- gst-plugins-bad: `1.20.3 --> 1.20.4`
+- gst-plugins-base: `1.20.3 --> 1.20.4`
+- gst-plugins-good: `1.20.3 --> 1.20.4`
+- gst-plugins-ugly: `1.20.3 --> 1.20.4`
+- GStreamer: `1.20.3 --> 1.20.4`
+- gstreamer-vaapi: `1.20.3 --> 1.20.4`
+- HarfBuzz: `5.2.0 --> 5.3.1`
+- ICU: `71.1 --> 72.1`
+- IPRoute2: `5.19.0 --> 6.0.0`
+- JSON: `4.09 --> 4.10`
+- libffi: `3.4.3 --> 3.4.4`
+- libgpg-error: `1.45 --> 1.46`
+- libgusb: `0.4.0 --> 0.4.2`
+- libical: `3.0.14 --> 3.0.16`
+- libidn2: `2.3.3 --> 2.3.4`
+- libksba: `1.6.1 --> 1.6.2`
+- libpciaccess: `0.16 --> 0.17`
+- librsvg: `2.54.5 --> 2.55.1`
+- libsoup: `2.74.2 --> 2.74.3`
+- libsoup3: `3.2.0 --> 3.2.1`
+- libunistring: `1.0 --> 1.1`
+- libwacom: `2.4.0 --> 2.5.0`
+- libxkbfile: `1.1.0 --> 1.1.1`
+- libXmu: `1.1.3 --> 1.1.4`
+- libXrender: `0.9.10 --> 0.9.11`
+- libxshmfence: `1.3 --> 1.3.1`
+- Linux Kernel: `6.0.0 --> 6.0.3`
+- LLD: `14.0.6 --> 15.0.3`
+- LLVM: `14.0.6 --> 15.0.3`
+- lsof: `4.96.3 --> 4.96.4`
+- Man-DB: `2.10.2 --> 2.11.0`
+- man-pages: `5.13 --> 6.01`
+- Meson: `0.63.2 --> 0.63.3`
+- mtools: `4.0.40 --> 4.0.42`
+- NetworkManager: `1.40.0 --> 1.40.2`
+- NSS: `3.83 --> 3.84`
+- NVIDIA Open Kernel Modules: `515.76 --> 520.56.06`
+- OpenSSH: `9.0p1 --> 9.1p1`
+- ostree: `2022.5 --> 2022.6`
+- Pixman: `0.40.0 --> 0.42.0`
+- Poppler: `22.09.0 --> 22.10.0`
+- Python: `3.10.7 --> 3.10.8`
+- rsync: `3.2.6 --> 3.2.7`
+- SDL2: `2.24.0 --> 2.24.1`
+- smbclient: `4.17.0 --> 4.17.1`
+- smproxy: `1.0.6 --> 1.0.7`
+- SQLite: `3.39.3 --> 3.39.4`
+- Sudo: `1.9.11p3 --> 1.9.12`
+- systemd: `251.5 --> 251.6`
+- tzdata: `2022d --> 2022e`
+- Vim: `9.0.0600 --> 9.0.0800`
+- VTE: `0.70.0 --> 0.70.1`
+- wayland-protocols: `1.26 --> 1.27`
+- WebKitGTK: `2.38.0 --> 2.38.1`
+- x264: `0.164.3099 --> 0.164.3101`
+- x265: `3.5-40-g931178347 --> 3.5-56-g8584bc7bd`
+- xcb-util-cursor: `0.1.3 --> 0.1.4`
+- xcb-util-image: `0.4.0 --> 0.4.1`
+- xcb-util-keysyms: `0.4.0 --> 0.4.1`
+- xcb-util-renderutil: `0.3.9 --> 0.3.10`
+- xcb-util-wm: `0.4.1 --> 0.4.2`
+- xkeyboard-config: `2.36 --> 2.37`
+- Xwayland: `22.1.3 --> 22.1.4`
+- zlib: `1.2.12 --> 1.2.13`
 
 Upgraded software (Xfce):
 

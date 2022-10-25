@@ -1,0 +1,21 @@
+From 3d55a9dc6c14317b4766db96bb52e2fd95e920a9 Mon Sep 17 00:00:00 2001
+From: Martijn van Beurden <mvanb1@gmail.com>
+Date: Sun, 9 Oct 2022 08:18:56 +0200
+Subject: [PATCH] Reset last_frame_is_set on flush
+
+---
+ src/libFLAC/stream_decoder.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/src/libFLAC/stream_decoder.c b/src/libFLAC/stream_decoder.c
+index 73cb0ae256..83409ed7f1 100644
+--- a/src/libFLAC/stream_decoder.c
++++ b/src/libFLAC/stream_decoder.c
+@@ -894,6 +894,7 @@ FLAC_API FLAC__bool FLAC__stream_decoder_flush(FLAC__StreamDecoder *decoder)
+ 	decoder->private_->samples_decoded = 0;
+ 	decoder->private_->do_md5_checking = false;
+ 	decoder->private_->last_seen_framesync = 0;
++	decoder->private_->last_frame_is_set = false;
+ 
+ #if FLAC__HAS_OGG
+ 	if(decoder->private_->is_ogg)

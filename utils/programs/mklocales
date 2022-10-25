@@ -10,46 +10,35 @@ if [ $EUID != 0 ]; then
   exit 1
 fi
 
-LOCALEGEN=/etc/locales
-LOCALES=/usr/share/i18n/locales
-if [ -n "$POSIXLY_CORRECT" ]; then
-  unset POSIXLY_CORRECT
+if [ ! -e /etc/locales ]; then
+  echo "Error: The file /etc/locales does not exist." >&2
+  exit 1
 fi
 
-
-[ -f $LOCALEGEN -a -s $LOCALEGEN ] || exit 0;
-
-# Remove all old locale dir and locale-archive before generating new
-# locale data.
-rm -rf /usr/lib/locale/* || true
-
-umask 022
-
-is_entry_ok() {
-  if [ -n "$locale" -a -n "$charset" ] ; then
-    true
-  else
-    echo "Error: Bad entry '$locale $charset'"
-    false
-  fi
+# Locale generation function.
+gen_locale() {
+  printf "Generating locale $1.$2... "
+  localedef -i $1 -c -f $2 -A /usr/share/locale/locale.alias $3
+  echo "Done!"
 }
 
+# Remove old locale data before generating.
+rm -rf /usr/lib/locale/locale-archive
+
+# Generate C.UTF-8 first.
+gen_locale C UTF-8 C.UTF-8
+
+# Now generate locales listed in /etc/locales.
 while read locale charset; do
-	case $locale in
-    \#*) continue ;;
-    "") continue ;;
+  case $locale in
+    \#*|"") continue ;;
   esac
-	is_entry_ok || continue
-	echo -n "Generating locale `echo $locale | sed 's/\([^.\@]*\).*/\1/'`"
-	echo -n ".$charset"
-	echo -n `echo $locale | sed 's/\([^\@]*\)\(\@.*\)*/\2/'`
-	echo -n '...'
-  if [ -f $LOCALES/$locale ]; then
-    input=$locale
-  else
-    input=`echo $locale | sed 's/\([^.]*\)[^@]*\(.*\)/\1\2/'`
+  real_locale="$(echo $locale | cut -d. -f1)"
+  if [ -z "$locale" ] || [ -z "$charset" ]; then
+    continue
   fi
-	localedef -i $input -c -f $charset -A /usr/share/locale/locale.alias $locale
-	echo ' done'
-done < $LOCALEGEN
+  gen_locale $real_locale $charset $locale
+done < /etc/locales
+
+# Finishing message.
 echo "Locales successfully generated."

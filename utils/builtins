@@ -49,6 +49,7 @@ clutter-gtk
 cmake
 cmatrix
 colord
+compiler-rt
 coreutils
 cowsay
 cracklib
@@ -641,6 +642,7 @@ xrefresh
 xset
 xsetroot
 xtrans
+xvidcore
 xvinfo
 xwd
 xwininfo
