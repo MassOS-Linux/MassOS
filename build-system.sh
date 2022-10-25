@@ -6092,7 +6092,7 @@ rm -rf libsoup-3.2.1
 # ostree.
 tar -xf libostree-2022.6.tar.xz
 cd libostree-2022.6
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-curl --with-dracut --with-ed25519-libsodium --with-openssl
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-curl --with-dracut --with-ed25519-libsodium --with-openssl --without-soup
 make
 make install
 sed -i '/reproducible/d' /etc/dracut.conf.d/ostree.conf
