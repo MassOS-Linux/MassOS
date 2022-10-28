@@ -643,14 +643,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 cd ..
 rm -rf gperf-3.1
 # Expat.
-tar -xf expat-2.4.9.tar.xz
-cd expat-2.4.9
+tar -xf expat-2.5.0.tar.xz
+cd expat-2.5.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 cd ..
-rm -rf expat-2.4.9
+rm -rf expat-2.5.0
 # libmetalink.
 tar -xf libmetalink-0.1.3.tar.bz2
 cd libmetalink-0.1.3
@@ -1884,11 +1884,11 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 cd ..
 rm -rf hwdata-0.363
 # Systemd (initial build; will be rebuilt later to support more features).
-tar -xf systemd-stable-251.6.tar.gz
-cd systemd-stable-251.6
+tar -xf systemd-stable-251.7.tar.gz
+cd systemd-stable-251.7
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.6-massos -Dshared-lib-tag=251.6-massos -Dbpf-framework=false -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.7-massos -Dshared-lib-tag=251.7-massos -Dbpf-framework=false -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=false -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=false ..
 ninja
 ninja install
 systemd-machine-id-setup
@@ -1914,7 +1914,7 @@ install -t /usr/share/licenses/systemd -Dm644 ../LICENSE.GPL2 ../LICENSE.LGPL2.1
 cd ../..
 cp systemd-units/* /usr/lib/systemd/system
 systemctl enable gpm.service
-rm -rf systemd-stable-251.6
+rm -rf systemd-stable-251.7
 # D-Bus (initial build; will be rebuilt later for X and libaudit support).
 tar -xf dbus-1.14.4.tar.xz
 cd dbus-1.14.4
@@ -3045,17 +3045,16 @@ install -t /usr/share/licenses/dkms -Dm644 COPYING
 cd ..
 rm -rf dkms-3.0.7
 # GLib.
-tar -xf glib-2.74.0.tar.xz
-cd glib-2.74.0
+tar -xf glib-2.74.1.tar.xz
+cd glib-2.74.1
 patch -Np1 -i ../patches/glib-2.72.0-lessnoisy.patch
-patch -Np1 -i ../patches/glib-2.74.0-upstreamfix.patch
 mkdir glib-build; cd glib-build
 meson --prefix=/usr --buildtype=minsize -Dman=true -Dtests=false ..
 ninja
 ninja install
 install -t /usr/share/licenses/glib -Dm644 ../COPYING
 cd ../..
-rm -rf glib-2.74.0
+rm -rf glib-2.74.1
 # GTK-Doc.
 tar -xf gtk-doc-1.33.2.tar.xz
 cd gtk-doc-1.33.2
@@ -4228,11 +4227,11 @@ install -t /usr/share/licenses/egl-wayland -Dm644 ../COPYING
 cd ../..
 rm -rf egl-wayland-1.1.11
 # Systemd (rebuild to support more features).
-tar -xf systemd-stable-251.6.tar.gz
-cd systemd-stable-251.6
+tar -xf systemd-stable-251.7.tar.gz
+cd systemd-stable-251.7
 sed -i -e 's/GROUP="render"/GROUP="video"/' -e 's/GROUP="sgx", //' rules.d/50-udev-default.rules.in
 mkdir systemd-build; cd systemd-build
-meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.6-massos -Dshared-lib-tag=251.6-massos -Dbpf-framework=true -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
+meson --prefix=/usr --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=251.7-massos -Dshared-lib-tag=251.7-massos -Dbpf-framework=true -Dcryptolib=openssl -Ddefault-compression=xz -Ddefault-dnssec=no -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=true -Dinstall-tests=false -Dman=true -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysusers=false -Dtests=false -Duserdb=true ..
 ninja
 ninja install
 cat > /etc/pam.d/systemd-user << END
@@ -4248,7 +4247,7 @@ auth     required    pam_deny.so
 password required    pam_deny.so
 END
 cd ../..
-rm -rf systemd-stable-251.6
+rm -rf systemd-stable-251.7
 # D-Bus (rebuild for X and libaudit support).
 tar -xf dbus-1.14.4.tar.xz
 cd dbus-1.14.4
@@ -4280,14 +4279,14 @@ install -t /usr/share/licenses/dbus-glib -Dm644 COPYING
 cd ..
 rm -rf dbus-glib-0.112
 # alsa-lib.
-tar -xf alsa-lib-1.2.7.2.tar.bz2
-cd alsa-lib-1.2.7.2
+tar -xf alsa-lib-1.2.8.tar.bz2
+cd alsa-lib-1.2.8
 ./configure --prefix=/usr --without-debug
 make
 make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 cd ..
-rm -rf alsa-lib-1.2.7.2
+rm -rf alsa-lib-1.2.8
 # libepoxy.
 tar -xf libepoxy-1.5.10.tar.gz
 cd libepoxy-1.5.10
@@ -4780,8 +4779,8 @@ install -t /usr/share/licenses/atkmm -Dm644 ../COPYING ../COPYING.tools
 cd ../..
 rm -rf atkmm-2.28.3
 # GDK-Pixbuf.
-tar -xf gdk-pixbuf-2.42.9.tar.xz
-cd gdk-pixbuf-2.42.9
+tar -xf gdk-pixbuf-2.42.10.tar.xz
+cd gdk-pixbuf-2.42.10
 mkdir pixbuf-build; cd pixbuf-build
 meson --prefix=/usr --buildtype=minsize -Dinstalled_tests=false ..
 ninja
@@ -4789,7 +4788,7 @@ ninja install
 gdk-pixbuf-query-loaders --update-cache
 install -t /usr/share/licenses/gdk-pixbuf -Dm644 ../COPYING
 cd ../..
-rm -rf gdk-pixbuf-2.42.9
+rm -rf gdk-pixbuf-2.42.10
 # Cairo.
 tar -xf cairo-1.17.6.tar.bz2
 cd cairo-1.17.6
@@ -5130,12 +5129,12 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 cd ..
 rm -rf dbus-python-1.3.2
 # python-dbusmock.
-tar -xf python-dbusmock-0.28.4.tar.gz
-cd python-dbusmock-0.28.4
+tar -xf python-dbusmock-0.28.6.tar.gz
+cd python-dbusmock-0.28.6
 python setup.py install --optimize=1
 install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
 cd ..
-rm -rf python-dbusmock-0.28.4
+rm -rf python-dbusmock-0.28.6
 # gexiv2.
 tar -xf gexiv2-0.14.0.tar.xz
 cd gexiv2-0.14.0
@@ -5864,8 +5863,8 @@ cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/C
 cd ..
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf samba-4.17.1.tar.gz
-cd samba-4.17.1
+tar -xf samba-4.17.2.tar.gz
+cd samba-4.17.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --without-pie --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 make install
@@ -5887,7 +5886,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 cd ..
-rm -rf samba-4.17.1
+rm -rf samba-4.17.2
 # mobile-broadband-provider-info.
 tar -xf mobile-broadband-provider-info-20220725.tar.bz2
 cd mobile-broadband-provider-info-20220725
@@ -6248,7 +6247,6 @@ mkdir fwupd-build; cd fwupd-build
 meson --prefix=/usr --buildtype=minsize -Db_lto=false -Dplugin_intel_spi=true -Dplugin_logitech_bulkcontroller=false -Dlzma=true -Dplugin_flashrom=true -Dsupported_build=true -Dtests=false ..
 ninja
 ninja install
-systemctl enable fwupd
 install -t /usr/share/licenses/fwupd -Dm644 ../COPYING
 cd ../..
 rm -rf fwupd-1.7.6
