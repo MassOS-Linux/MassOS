@@ -2290,6 +2290,7 @@ make install
 cat > /usr/lib/sysusers.d/uuidd.conf << "END"
 u uuidd 80 "UUID Generation Daemon" -
 END
+systemd-sysusers
 systemctl enable uuidd.socket
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 popd
@@ -2341,7 +2342,7 @@ rm -rf e2fsprogs-1.47.2
 # dosfstools.
 tar -xf ../sources/dosfstools-4.2.tar.gz
 pushd dosfstools-4.2
-./configure --prefix=/usr --sbindir=/usr/bin --enable-compat-symlinks --mandir=/usr/share/man --docdir=/usr/share/doc/dosfstools
+./configure --prefix=/usr --sbindir=/usr/bin --enable-compat-symlinks
 make
 make install
 install -t /usr/share/licenses/dosfstools -Dm644 COPYING
