@@ -37,6 +37,7 @@ brotli
 bsd-games
 btrfs-progs
 bubblewrap
+build
 busybox
 bzip2
 c-ares
@@ -193,6 +194,7 @@ gsettings-desktop-schemas
 gspell
 gst-editing-services
 gst-libav
+gst-plugin-gtk4
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good
@@ -216,6 +218,7 @@ hatch-vcs
 hatchling
 help2man
 hicolor-icon-theme
+hidapi
 highway
 hplip
 htop
@@ -228,6 +231,7 @@ idna
 importlib-metadata
 inetutils
 inih
+installer
 intel-gmmlib
 intel-media-driver
 intel-vaapi-driver
@@ -253,6 +257,7 @@ keybinder
 keyutils
 kmod
 krb5
+kvazaar
 lame
 laptop-detect
 lark
@@ -335,6 +340,7 @@ libksba
 liblc3
 libldap
 libliftoff
+libmanette
 libmbim
 libmetalink
 libmicrodns
@@ -344,8 +350,8 @@ libmpeg2
 libmspack
 libmtp
 libndp
-libnfs
 libnfnetlink
+libnfs
 libnftnl
 libnghttp2
 libnghttp3
@@ -458,6 +464,7 @@ llvm
 lm-sensors
 lmdb
 locale-gettext
+lolcat
 lsb-tools
 lsof
 lua
@@ -480,7 +487,6 @@ mandoc
 markdown
 markupsafe
 maturin
-mct
 mdadm
 memstrack
 mesa
@@ -556,7 +562,7 @@ passim
 patch
 patchelf
 pathspec
-pcaudilib
+pcaudiolib
 pciutils
 pcre
 pcre2
@@ -710,6 +716,7 @@ vte
 vte4
 vulkan-headers
 vulkan-loader
+vulkan-tools
 wavpack
 wayland
 wayland-protocols
@@ -747,6 +754,7 @@ xdg-dbus-proxy
 xdg-desktop-portal
 xdg-desktop-portal-gtk
 xdg-user-dirs
+xdg-utils
 xdpyinfo
 xdriinfo
 xev
@@ -761,7 +769,6 @@ xkbevd
 xkbutils
 xkeyboard-config
 xkill
-xinit
 xlsatoms
 xlsclients
 xmessage
@@ -782,6 +789,7 @@ xsetroot
 xtrans
 xvidcore
 xvinfo
+xwayland
 xwd
 xwininfo
 xwud

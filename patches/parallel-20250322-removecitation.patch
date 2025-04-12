@@ -1,0 +1,227 @@
+This patch removes all the citation messages and warnings from the 'parallel'
+program. This is done because it can cause confusion to users when 'parallel'
+is run by scripts. The main example is the 'copy-firmware.sh' script in the
+'linux-firmware' package - it runs 'parallel' several times, which will flood
+the output with citation messages. It is not feasible to just assume the user
+will have 'parallel --citation', because scripts like these are designed to run
+in niche environments, where it may be impossible to run 'parallel --citation'
+beforehand.
+
+We, the MassOS developers, fully accept that we will put in a "public
+hall-of-shame" by removing these messages. Despite how much the package wants
+to guilt-trip you, there is no GPL or license violation for removing these
+messages. In fact, any restrictions on such, would themselves violate the GPL.
+
+--- a/src/parallel
++++ b/src/parallel
+@@ -2129,11 +2129,6 @@ sub options_completion_hash() {
+ 	 "gnu[Behave like GNU parallel]" => \$opt::gnu,
+ 	 "link|xapply[Link input sources]" => \$opt::link,
+ 	 "linkinputsource|xapplyinputsource=i" => \@opt::linkinputsource,
+-	 # Before changing these lines,  please read
+-	 # https://www.gnu.org/software/parallel/parallel_design.html#citation-notice
+-	 # https://git.savannah.gnu.org/cgit/parallel.git/tree/doc/citation-notice-faq.txt
+-	 # You accept to be put in a public hall-of-shame by removing
+-	 # these lines
+ 	 ("bibtex|citation".
+ 	  "[Print the citation notice and BibTeX entry for GNU parallel, ".
+ 	  "silence citation notice for all future runs, and exit. ".
+@@ -2377,14 +2372,6 @@ sub parse_options(@) {
+     init_globals();
+     my @argv_before = @ARGV;
+     @ARGV = read_options();
+-    # Before changing these line, please read
+-    # https://www.gnu.org/software/parallel/parallel_design.html#citation-notice
+-    # https://git.savannah.gnu.org/cgit/parallel.git/tree/doc/citation-notice-faq.txt
+-    # You accept to be added to a public hall-of-shame by removing the lines
+-    if(defined $opt::citation) {
+-	citation(\@argv_before,\@ARGV);
+-	wait_and_exit(0);
+-    }
+     # no-* overrides *
+     if($opt::nokeeporder) { $opt::keeporder = undef; }
+ 
+@@ -2714,87 +2701,6 @@ sub parse_options(@) {
+ 	}
+     }
+ 
+-    # If you want GNU Parallel to be maintained in the future you
+-    # should keep this.
+-    # _YOU_ will be harming free software by removing the notice.
+-    #
+-    # Funding a free software project is hard. GNU Parallel is no
+-    # exception. On top of that it seems the less visible a project
+-    # is, the harder it is to get funding. And the nature of GNU
+-    # Parallel is that it will never be seen by "the guy with the
+-    # checkbook", but only by the people doing the actual work.
+-    #
+-    # This problem has been covered by others - though no solution has
+-    # been found:
+-    # https://www.slideshare.net/NadiaEghbal/consider-the-maintainer
+-    # https://www.numfocus.org/blog/why-is-numpy-only-now-getting-funded/
+-    #
+-    # The FAQ tells you why the citation notice exists:
+-    # https://git.savannah.gnu.org/cgit/parallel.git/tree/doc/citation-notice-faq.txt
+-    #
+-    # If you want GNU Parallel to be maintained in the future, and not
+-    # just wither away like so many other free software tools, you
+-    # need to help finance the development.
+-    #
+-    # The citation notice is a simple way of doing so, as citations
+-    # makes it possible to me to get a job where I can maintain GNU
+-    # Parallel as part of the job.
+-    #
+-    # This means you can help financing development
+-    #
+-    #	WITHOUT PAYING A SINGLE CENT!
+-    #
+-    # Before implementing the citation notice it was discussed with
+-    # the users:
+-    # https://lists.gnu.org/archive/html/parallel/2013-11/msg00006.html
+-    #
+-    # Having to spend 10 seconds on running 'parallel --citation' once
+-    # is no doubt not an ideal solution, but no one has so far come up
+-    # with an ideal solution - neither for funding GNU Parallel nor
+-    # other free software.
+-    #
+-    # If you believe you have the perfect solution, you should try it
+-    # out, and if it works, you should post it on the email
+-    # list. Ideas that will cost work and which have not been tested
+-    # are, however, unlikely to be prioritized.
+-    #
+-    # _YOU_ will be harming free software by removing the notice.  You
+-    # accept to be added to a public hall of shame by removing the
+-    # line.  That includes you, George and Andreas.
+-    #
+-    # Please note that GPL version 3 gives you the right to fork GNU
+-    # Parallel under a new name, but it does not give you the right to
+-    # distribute modified copies with the citation notice disabled in
+-    # a way where the software can be confused with GNU Parallel. To
+-    # do that you need to be the owner of the GNU Parallel
+-    # trademark. The xt:Commerce case shows this.
+-    #
+-    # Description of the xt:Commerce case in OLG Duesseldorf
+-    # https://web.archive.org/web/20180715073746/http://www.inta.org/INTABulletin/Pages/GERMANYGeneralPublicLicenseDoesNotPermitUseofThird-PartyTrademarksforAdvertisingModifiedVersionsofOpen-SourceSoftware.aspx
+-    #
+-    # The verdict in German
+-    # https://www.admody.com/urteilsdatenbank/cafe6fdaeed3/OLG-Duesseldorf_Urteil_vom_28-September-2010_Az_I-20-U-41-09
+-    # https://web.archive.org/web/20180715073717/https://www.admody.com/urteilsdatenbank/cafe6fdaeed3/OLG-Duesseldorf_Urteil_vom_28-September-2010_Az_I-20-U-41-09
+-    #
+-    # Other free software limiting derivates by the same name:
+-    # https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux_derivatives#Legal_aspects
+-    # https://tm.joomla.org/trademark-faq.html
+-    # https://www.mozilla.org/en-US/foundation/trademarks/faq/
+-    #
+-    # Running 'parallel --citation' one single time takes less than 10
+-    # seconds, and will silence the citation notice for future
+-    # runs. If that is too much trouble for you, why not use one of
+-    # the alternatives instead?
+-    # See a list in: 'man parallel_alternatives'
+-    #
+-    # If you want GNU Parallel to be maintained in the future, you
+-    # should keep this line:
+-    citation_notice();
+-    # This is because _YOU_ actively make it harder to justify
+-    # spending time developing GNU Parallel by removing it.
+-
+-    # If you disagree,  please read (especially 77-):
+-    # https://www.fordfoundation.org/media/2976/roads-and-bridges-the-unseen-labor-behind-our-digital-infrastructure.pdf
+     parse_halt();
+ 
+     if($ENV{'PARALLEL_ENV'}) {
+@@ -6046,85 +5952,9 @@ sub usage() {
+ 	 "--recstart str  Record start separator for --pipe.",
+ 	 "",
+ 	 "GNU Parallel can do much more. See 'man $Global::progname' for details",
+-	 "",
+-	 "Academic tradition requires you to cite works you base your article on.",
+-	 "If you use programs that use GNU Parallel to process data for an article in a",
+-	 "scientific publication, please cite:",
+-	 "",
+-	 "  Tange, O. (2025, March 22). GNU Parallel 20250322 ('Have you said thank you').",
+-	 "  Zenodo. https://doi.org/10.5281/zenodo.15071920",
+-	 "",
+-	 # Before changing these lines,  please read
+-	 # https://www.gnu.org/software/parallel/parallel_design.html#citation-notice
+-	 # https://git.savannah.gnu.org/cgit/parallel.git/tree/doc/citation-notice-faq.txt
+-	 # You accept to be put in a  public hall of shame  by removing
+-	 # these lines
+-	 "This helps funding further development; AND IT WON'T COST YOU A CENT.",
+-	 "If you pay 10000 EUR you should feel free to use GNU Parallel without citing.",
+-	 "",
+ 	 "",);
+ }
+ 
+-sub citation_notice() {
+-    # if --will-cite or --plain: do nothing
+-    # if stderr redirected: do nothing
+-    # if $PARALLEL_HOME/will-cite: do nothing
+-    # else: print citation notice to stderr
+-    if($opt::willcite
+-       or
+-       $opt::plain
+-       or
+-       not -t $Global::original_stderr
+-       or
+-       grep { -e "$_/will-cite" } @Global::config_dirs) {
+-	# skip
+-    } else {
+-	::status
+-	    ("Academic tradition requires you to cite works you base your article on.",
+-	     "If you use programs that use GNU Parallel to process data for an article in a",
+-	     "scientific publication, please cite:",
+-	     "",
+-	     "  Tange, O. (2025, March 22). GNU Parallel 20250322 ('Have you said thank you').",
+-	     "  Zenodo. https://doi.org/10.5281/zenodo.15071920",
+-	     "",
+-	     # Before changing these line,   please read
+-	     # https://www.gnu.org/software/parallel/parallel_design.html#citation-notice and
+-	     # https://git.savannah.gnu.org/cgit/parallel.git/tree/doc/citation-notice-faq.txt
+-	     # You accept to be put in a public hall of shame by removing these lines
+-	     "This helps funding further development; AND IT WON'T COST YOU A CENT.",
+-	     "If you pay 10000 EUR you should feel free to use GNU Parallel without citing.",
+-	     "",
+-	     "More about funding GNU Parallel and the citation notice:",
+-	     "https://www.gnu.org/software/parallel/parallel_design.html#citation-notice",
+-	     "",
+-	     "To silence this citation notice: run 'parallel --citation' once.",
+-	     ""
+-	    );
+-	mkdir $Global::config_dir;
+-	# Number of times the user has run GNU Parallel without showing
+-	# willingness to cite
+-	my $runs = 0;
+-	if(open (my $fh, "<", $Global::config_dir.
+-		 "/runs-without-willing-to-cite")) {
+-	    $runs = <$fh>;
+-	    close $fh;
+-	}
+-	$runs++;
+-	if(open (my $fh, ">", $Global::config_dir.
+-		 "/runs-without-willing-to-cite")) {
+-	    print $fh $runs;
+-	    close $fh;
+-	    if($runs >= 10) {
+-		::status("Come on: You have run parallel $runs times. ".
+-			 "Isn't it about time ",
+-			 "you run 'parallel --citation' once to silence ".
+-			 "the citation notice?",
+-			 "");
+-	    }
+-	}
+-    }
+-}
+-
+ sub status(@) {
+     my @w = @_;
+     my $fh = $Global::status_fd || *STDERR;
+@@ -6189,9 +6019,6 @@ sub version() {
+ 	 "This is free software: you are free to change and redistribute it.",
+ 	 "GNU $Global::progname comes with no warranty.",
+ 	 "",
+-	 "Web site: https://www.gnu.org/software/${Global::progname}\n",
+-	 "When using programs that use GNU Parallel to process data for publication",
+-	 "please cite as described in 'parallel --citation'.\n",
+ 	);
+ }
+ 

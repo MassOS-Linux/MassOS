@@ -1,0 +1,59 @@
+--- a/BUILD.cmake.md
++++ b/BUILD.cmake.md
+@@ -159,7 +159,7 @@
+ HIDAPI can be easily used as a subdirectory of a larger CMake project:
+ ```cmake
+ # root CMakeLists.txt
+-cmake_minimum_required(VERSION 3.4.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.4.3...3.25 FATAL_ERROR)
+ 
+ add_subdirectory(hidapi)
+ add_subdirectory(my_application)
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.1.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.1.3...3.25 FATAL_ERROR)
+ 
+ if(NOT CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+     add_subdirectory(src)
+--- a/hidtest/CMakeLists.txt
++++ b/hidtest/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.1.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.1.3...3.25 FATAL_ERROR)
+ project(hidtest C)
+ 
+ if(CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+--- a/libusb/CMakeLists.txt
++++ b/libusb/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.6.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.6.3...3.25 FATAL_ERROR)
+ 
+ list(APPEND HIDAPI_PUBLIC_HEADERS "hidapi_libusb.h")
+ 
+--- a/linux/CMakeLists.txt
++++ b/linux/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.6.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.6.3...3.25 FATAL_ERROR)
+ 
+ add_library(hidapi_hidraw
+     ${HIDAPI_PUBLIC_HEADERS}
+--- a/mac/CMakeLists.txt
++++ b/mac/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.4.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.4.3...3.25 FATAL_ERROR)
+ 
+ list(APPEND HIDAPI_PUBLIC_HEADERS "hidapi_darwin.h")
+ 
+--- a/subprojects/hidapi_build_cmake/CMakeLists.txt
++++ b/subprojects/hidapi_build_cmake/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.1.3 FATAL_ERROR)
++cmake_minimum_required(VERSION 3.1.3...3.25 FATAL_ERROR)
+ project(hidapi LANGUAGES C)
+ 
+ file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/root")

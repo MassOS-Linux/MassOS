@@ -61,7 +61,7 @@ tar -xf ../sources/gcc-14.2.0.tar.xz
 pushd gcc-14.2.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
-tar -xf ../../sources/mpfr-4.2.1.tar.xz -C mpfr --strip-components=1
+tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
 tar -xf ../../sources/mpc-1.3.1.tar.gz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
@@ -73,15 +73,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-14.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.13.3.tar.xz
-pushd linux-6.13.3
+tar -xf ../sources/linux-6.14.2.tar.xz
+pushd linux-6.14.2
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.13.3
+rm -rf linux-6.14.2
 # Glibc.
 tar -xf ../sources/glibc-2.41.tar.xz
 pushd glibc-2.41
@@ -121,7 +121,7 @@ tar -xf ../sources/gcc-14.2.0.tar.xz
 pushd gcc-14.2.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
-tar -xf ../../sources/mpfr-4.2.1.tar.xz -C mpfr --strip-components=1
+tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
 tar -xf ../../sources/mpc-1.3.1.tar.gz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64

@@ -17,7 +17,7 @@ STATUS=$?
 if [ $STATUS -ne 0 ]; then
   echo -e "\nOne or file(s) failed to verify successfully." >&2
   echo "Check the above output to determine which one. Then, modify its" >&2
-  echo "URL in 'source-urls', AND/OR its checksum in 'source-urls.sha256'." >&2
+  echo "URL in 'source-urls', AND/OR its checksum in 'source-urls.b2'." >&2
   exit $STATUS
 else
   echo -e "\nGood, it looks like everything verified successfully!"

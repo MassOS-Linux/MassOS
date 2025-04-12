@@ -11,11 +11,11 @@ pushd /root/mbs/work
 . ../build.env
 # === IF RESUMING A FAILED BUILD, ONLY REMOVE LINES BELOW THIS ONE.
 # Install Rust to a temporary directory to support building some packages.
-tar -xf ../sources/rust-1.84.1-x86_64-unknown-linux-gnu.tar.gz
-pushd rust-1.84.1-x86_64-unknown-linux-gnu
+tar -xf ../sources/rust-1.86.0-x86_64-unknown-linux-gnu.tar.gz
+pushd rust-1.86.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
 popd
-rm -rf rust-1.84.1-x86_64-unknown-linux-gnu
+rm -rf rust-1.86.0-x86_64-unknown-linux-gnu
 # elementary-icon-theme.
 tar -xf ../sources/elementary-icon-theme-8.1.0.tar.gz
 pushd icons-8.1.0
@@ -76,14 +76,14 @@ install -t /usr/share/licenses/xfce4-dev-tools -Dm644 COPYING
 popd
 rm -rf xfce4-dev-tools-4.20.0
 # libxfce4util.
-tar -xf ../sources/libxfce4util-4.20.0.tar.bz2
-pushd libxfce4util-4.20.0
+tar -xf ../sources/libxfce4util-4.20.1.tar.bz2
+pushd libxfce4util-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
 make install
 install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 popd
-rm -rf libxfce4util-4.20.0
+rm -rf libxfce4util-4.20.1
 # libxfce4windowing.
 tar -xf ../sources/libxfce4windowing-4.20.2.tar.bz2
 pushd libxfce4windowing-4.20.2
@@ -103,22 +103,23 @@ install -t /usr/share/licenses/xfconf -Dm644 COPYING
 popd
 rm -rf xfconf-4.20.0
 # libxfce4ui.
-tar -xf ../sources/libxfce4ui-4.20.0.tar.bz2
-pushd libxfce4ui-4.20.0
+tar -xf ../sources/libxfce4ui-4.20.1.tar.bz2
+pushd libxfce4ui-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-wayland --enable-x11 --with-vendor-info=MassOS
 make
 make install
 install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 popd
-rm -rf libxfce4ui-4.20.0
+rm -rf libxfce4ui-4.20.1
 # catfish.
-tar -xf ../sources/catfish-4.18.0.tar.bz2
-pushd catfish-4.18.0
-python -m build -nw -o dist
-python -m installer --compile-bytecode 1 dist/*.whl
+tar -xf ../sources/catfish-4.20.0.tar.bz2
+pushd catfish-4.20.0
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/catfish -Dm644 COPYING
 popd
-rm -rf catfish-4.18.0
+rm -rf catfish-4.20.0
 # Exo.
 tar -xf ../sources/exo-4.20.0.tar.bz2
 pushd exo-4.20.0
@@ -174,14 +175,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 popd
 rm -rf xfce4-appfinder-4.20.0
 # xfce4-panel.
-tar -xf ../sources/xfce4-panel-4.20.3.tar.bz2
-pushd xfce4-panel-4.20.3
+tar -xf ../sources/xfce4-panel-4.20.4.tar.bz2
+pushd xfce4-panel-4.20.4
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gio-unix --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
-rm -rf xfce4-panel-4.20.3
+rm -rf xfce4-panel-4.20.4
 # xfce4-power-manager.
 tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
 pushd xfce4-power-manager-4.20.0
@@ -201,14 +202,14 @@ install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
 rm -rf xfce4-settings-4.20.1
 # xfdesktop.
-tar -xf ../sources/xfdesktop-4.20.0.tar.bz2
-pushd xfdesktop-4.20.0
+tar -xf ../sources/xfdesktop-4.20.1.tar.bz2
+pushd xfdesktop-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc --enable-notifications --enable-thunarx --enable-wayland --enable-x11 --with-default-backdrop-filename=/usr/share/backgrounds/MassOS-Futuristic-Dark.png
 make
 make install
 install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
 popd
-rm -rf xfdesktop-4.20.0
+rm -rf xfdesktop-4.20.1
 # xfwm4.
 tar -xf ../sources/xfwm4-4.20.0.tar.bz2
 pushd xfwm4-4.20.0
@@ -220,25 +221,23 @@ install -t /usr/share/licenses/xfwm4 -Dm644 COPYING
 popd
 rm -rf xfwm4-4.20.0
 # LabWC.
-tar -xf ../sources/labwc-0.8.2.tar.gz
-pushd labwc-0.8.2
+tar -xf ../sources/labwc-0.8.3.tar.gz
+pushd labwc-0.8.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
-rm -rf labwc-0.8.2
+rm -rf labwc-0.8.3
 # xfce4-session.
-tar -xf ../sources/xfce4-session-4.20.0.tar.bz2
-pushd xfce4-session-4.20.0
+tar -xf ../sources/xfce4-session-4.20.2.tar.bz2
+pushd xfce4-session-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc --enable-wayland --enable-x11
 make
 make install
-update-desktop-database
-update-mime-database /usr/share/mime
 install -t /usr/share/licenses/xfce4-session -Dm644 COPYING
 popd
-rm -rf xfce4-session-4.20.0
+rm -rf xfce4-session-4.20.2
 # Parole.
 tar -xf ../sources/parole-4.18.2.tar.bz2
 pushd parole-4.18.2
@@ -249,14 +248,14 @@ install -t /usr/share/licenses/parole -Dm644 COPYING
 popd
 rm -rf parole-4.18.2
 # Orage.
-tar -xf ../sources/orage-4.18.0.tar.bz2
-pushd orage-4.18.0
+tar -xf ../sources/orage-4.20.1.tar.bz2
+pushd orage-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
 make
 make install
 install -t /usr/share/licenses/orage -Dm644 COPYING
 popd
-rm -rf orage-4.18.0
+rm -rf orage-4.20.1
 # Xfburn.
 tar -xf ../sources/xfburn-0.7.2.tar.bz2
 pushd xfburn-0.7.2
@@ -267,14 +266,14 @@ install -t /usr/share/licenses/xfburn -Dm644 COPYING
 popd
 rm -rf xfburn-0.7.2
 # xfce4-terminal.
-tar -xf ../sources/xfce4-terminal-1.1.3.tar.bz2
-pushd xfce4-terminal-1.1.3
-./configure --prefix=/usr
-make
-make install
+tar -xf ../sources/xfce4-terminal-1.1.5.tar.xz
+pushd xfce4-terminal-1.1.5
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 popd
-rm -rf xfce4-terminal-1.1.3
+rm -rf xfce4-terminal-1.1.5
 # Shotwell.
 tar -xf ../sources/shotwell-shotwell-0.32.10.tar.bz2
 pushd shotwell-shotwell-0.32.10
@@ -285,14 +284,14 @@ install -t /usr/share/licenses/shotwell -Dm644 COPYING
 popd
 rm -rf shotwell-shotwell-0.32.10
 # xfce4-notifyd.
-tar -xf ../sources/xfce4-notifyd-0.9.6.tar.bz2
-pushd xfce4-notifyd-0.9.6
+tar -xf ../sources/xfce4-notifyd-0.9.7.tar.bz2
+pushd xfce4-notifyd-0.9.7
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 popd
-rm -rf xfce4-notifyd-0.9.6
+rm -rf xfce4-notifyd-0.9.7
 # xfce4-pulseaudio-plugin.
 tar -xf ../sources/xfce4-pulseaudio-plugin-0.4.9.tar.bz2
 pushd xfce4-pulseaudio-plugin-0.4.9
@@ -312,8 +311,8 @@ install -t /usr/share/licenses/pavucontrol -Dm644 LICENSE
 popd
 rm -rf pavucontrol-5.0
 # Blueman.
-tar -xf ../sources/blueman-2.4.3.tar.xz
-pushd blueman-2.4.3
+tar -xf ../sources/blueman-2.4.4.tar.xz
+pushd blueman-2.4.4
 sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
 ./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config=/etc/dhcp/dhcpd.conf
 make
@@ -346,7 +345,7 @@ END
 chmod 755 /bin/blueman-autostart
 install -t /usr/share/licenses/blueman -Dm644 COPYING
 popd
-rm -rf blueman-2.4.3
+rm -rf blueman-2.4.4
 # xfce4-screenshooter.
 tar -xf ../sources/xfce4-screenshooter-1.11.1.tar.bz2
 pushd xfce4-screenshooter-1.11.1
@@ -358,41 +357,41 @@ install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 popd
 rm -rf xfce4-screenshooter-1.11.1
 # xfce4-taskmanager.
-tar -xf ../sources/xfce4-taskmanager-1.5.7.tar.bz2
-pushd xfce4-taskmanager-1.5.7
+tar -xf ../sources/xfce4-taskmanager-1.5.8.tar.bz2
+pushd xfce4-taskmanager-1.5.8
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-taskmanager -Dm644 COPYING
 popd
-rm -rf xfce4-taskmanager-1.5.7
+rm -rf xfce4-taskmanager-1.5.8
 # xfce4-clipman-plugin.
-tar -xf ../sources/xfce4-clipman-plugin-1.6.6.tar.bz2
-pushd xfce4-clipman-plugin-1.6.6
+tar -xf ../sources/xfce4-clipman-plugin-1.6.7.tar.bz2
+pushd xfce4-clipman-plugin-1.6.7
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-clipman-plugin -Dm644 COPYING
 popd
-rm -rf xfce4-clipman-plugin-1.6.6
+rm -rf xfce4-clipman-plugin-1.6.7
 # xfce4-mount-plugin.
-tar -xf ../sources/xfce4-mount-plugin-1.1.6.tar.bz2
-pushd xfce4-mount-plugin-1.1.6
+tar -xf ../sources/xfce4-mount-plugin-1.1.7.tar.bz2
+pushd xfce4-mount-plugin-1.1.7
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
 make
 make install
 install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 COPYING
 popd
-rm -rf xfce4-mount-plugin-1.1.6
+rm -rf xfce4-mount-plugin-1.1.7
 # xfce4-whiskermenu-plugin.
-tar -xf ../sources/xfce4-whiskermenu-plugin-2.8.3.tar.bz2
-pushd xfce4-whiskermenu-plugin-2.8.3
+tar -xf ../sources/xfce4-whiskermenu-plugin-2.9.2.tar.bz2
+pushd xfce4-whiskermenu-plugin-2.9.2
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja -B build -S .
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 COPYING
 popd
-rm -rf xfce4-whiskermenu-plugin-2.8.3
+rm -rf xfce4-whiskermenu-plugin-2.9.2
 # xfce4-screensaver.
 tar -xf ../sources/xfce4-screensaver-4.18.4.tar.bz2
 pushd xfce4-screensaver-4.18.4
@@ -403,42 +402,41 @@ install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
 popd
 rm -rf xfce4-screensaver-4.18.4
 # xarchiver.
-tar -xf ../sources/xarchiver-0.5.4.23.tar.gz
-pushd xarchiver-0.5.4.23
+tar -xf ../sources/xarchiver-0.5.4.25.tar.gz
+pushd xarchiver-0.5.4.25
 ./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
 make
 make install
 install -t /usr/share/licenses/xarchiver -Dm644 COPYING
-update-desktop-database -q
 popd
-rm -rf xarchiver-0.5.4.23
+rm -rf xarchiver-0.5.4.25
 # thunar-archive-plugin.
-tar -xf ../sources/thunar-archive-plugin-0.5.2.tar.bz2
-pushd thunar-archive-plugin-0.5.2
+tar -xf ../sources/thunar-archive-plugin-0.5.3.tar.bz2
+pushd thunar-archive-plugin-0.5.3
 ./configure --prefix=/usr --sysconfdir=/etc  --libexecdir=/usr/lib/xfce4 --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
 popd
-rm -rf thunar-archive-plugin-0.5.2
+rm -rf thunar-archive-plugin-0.5.3
 # Mousepad.
-tar -xf ../sources/mousepad-0.6.3.tar.bz2
-pushd mousepad-0.6.3
-./configure --prefix=/usr --enable-gtksourceview4 --enable-keyfile-settings
-make
-make install
+tar -xf ../sources/mousepad-0.6.5.tar.xz
+pushd mousepad-0.6.5
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dkeyfile-settings=true
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
-rm -rf mousepad-0.6.3
+rm -rf mousepad-0.6.5
 # GNOME-Calculator.
-tar -xf ../sources/gnome-calculator-47.1.tar.bz2
-pushd gnome-calculator-47.1
+tar -xf ../sources/gnome-calculator-48.0.tar.bz2
+pushd gnome-calculator-48.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
-rm -rf gnome-calculator-47.1
+rm -rf gnome-calculator-48.0
 # GParted.
 tar -xf ../sources/gparted-GPARTED_1_7_0.tar.bz2
 pushd gparted-GPARTED_1_7_0
@@ -474,32 +472,32 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
 # Claws-Mail.
-tar -xf ../sources/claws-mail-4.3.0.tar.xz
-pushd claws-mail-4.3.0
+tar -xf ../sources/claws-mail-4.3.1.tar.xz
+pushd claws-mail-4.3.1
 ./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-fancy-plugin --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
 make
 make install
 install -t /usr/share/licenses/claws-mail -Dm644 COPYING
 popd
-rm -rf claws-mail-4.3.0
+rm -rf claws-mail-4.3.1
 # Evince.
-tar -xf ../sources/evince-46.3.1.tar.xz
-pushd evince-46.3.1
+tar -xf ../sources/evince-48.0.tar.gz
+pushd evince-48.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dnautilus=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
-rm -rf evince-46.3.1
+rm -rf evince-48.0
 # Baobab.
-tar -xf ../sources/baobab-47.0.tar.bz2
-pushd baobab-47.0
+tar -xf ../sources/baobab-48.0.tar.bz2
+pushd baobab-48.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/baobab -Dm644 COPYING
 popd
-rm -rf baobab-47.0
+rm -rf baobab-48.0
 # GNOME-Firmware.
 tar -xf ../sources/gnome-firmware-47.0.tar.bz2
 pushd gnome-firmware-47.0
@@ -510,15 +508,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-47.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-47.4.tar.bz2
-pushd gnome-software-47.4
-tar -xf ../../sources/gnome-pwa-list-3bb1260.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
+tar -xf ../sources/gnome-software-48.0.tar.bz2
+pushd gnome-software-48.0
+tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-47.4
+rm -rf gnome-software-48.0
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-002.tar.gz
 pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
@@ -572,7 +570,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-135.0.1.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-137.0.1.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << END
 {
