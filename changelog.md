@@ -692,6 +692,7 @@ Upgraded software (core):
 - xdriinfo: `1.0.6 --> 1.0.7`
 - xev: `1.2.5 --> 1.2.6`
 - xf86-input-libinput: `1.2.1 --> 1.5.0`
+- xf86-input-vmmouse: `(new package) --> 13.2.0`
 - xfsprogs: `5.19.0 --> 6.13.0`
 - xgamma: `1.0.6 --> 1.0.7`
 - xhost: `1.0.8 --> 1.0.10`

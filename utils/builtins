@@ -759,6 +759,7 @@ xdpyinfo
 xdriinfo
 xev
 xf86-input-libinput
+xf86-input-vmmouse
 xfsprogs
 xgamma
 xhost

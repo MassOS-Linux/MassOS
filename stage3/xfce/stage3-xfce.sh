@@ -467,7 +467,8 @@ rm -rf popsicle-1.3.3
 # Mugshot.
 tar -xf ../sources/mugshot-0.4.3.tar.gz
 pushd mugshot-0.4.3
-python setup.py install --optimize=1
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
