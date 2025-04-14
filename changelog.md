@@ -73,7 +73,7 @@ Upgraded software (core):
 - Binutils: `2.39 --> 2.44`
 - biosdevname: `(new package) --> 0.7.3`
 - BlueZ: `5.65 --> 5.82`
-- Boost: `1.80.0 --> 1.87.0`
+- Boost: `1.80.0 --> 1.88.0`
 - bpftool: `7.0.0 --> 7.5.0`
 - brotli: `1.0.9 --> 1.1.0`
 - bsd-games: `3.2 --> 3.3`
@@ -172,8 +172,6 @@ Upgraded software (core):
 - GDBM: `1.23 --> 1.25`
 - GDK-Pixbuf: `2.42.9 --> 2.42.12`
 - GeoClue: `2.6.0 --> 2.7.2`
-- geographiclib: `(new package) --> 2.0`
-- geopy: `(new package) --> 2.4.1`
 - Gettext: `0.21 --> 0.24`
 - gexiv2: `0.14.0 --> 0.14.3`
 - GhostScript: `10.0.0 --> 10.05.0`
@@ -363,7 +361,7 @@ Upgraded software (core):
 - libproxy: `(new package) --> 0.5.9`
 - libpsl: `0.21.1 --> 0.21.5`
 - libpwquality: `1.4.4 --> 1.4.5`
-- libqmi: `1.30.8 --> 1.34.0`
+- libqmi: `1.30.8 --> 1.36.0`
 - libqrtr-glib: `(new package) --> 1.2.2`
 - libraw: `0.20.2 --> 0.21.3`
 - librsvg: `2.54.5 --> 2.60.0`
@@ -393,7 +391,7 @@ Upgraded software (core):
 - libusbmuxd: `2.0.2 --> 2.1.0`
 - libuv: `1.44.2 --> 1.50.0`
 - libva: `2.16.0 --> 2.22.0`
-- libvpx: `1.12.0 --> 1.15.0`
+- libvpx: `1.12.0 --> 1.15.1`
 - libwacom: `2.4.0 --> 2.15.0`
 - libwebp: `1.2.5 --> 1.5.0`
 - libwnck: `43.0 --> 43.2`
@@ -451,7 +449,7 @@ Upgraded software (core):
 - lzip: `1.22 --> 1.25`
 - make-ca: `1.10 --> 1.16`
 - Make: `4.3 --> 4.4.1`
-- Mako: `1.2.1 --> 1.3.9`
+- Mako: `1.2.1 --> 1.3.10`
 - Man-DB: `2.10.2 --> 2.13.0`
 - man-pages: `5.13 --> 6.13`
 - Markdown: `3.3.6 --> 3.7`
@@ -642,7 +640,7 @@ Upgraded software (core):
 - UFW: `0.36.1 --> 0.36.2`
 - unifdef: `(new package) --> 2.12`
 - Unifont: `15.0.01 --> 16.0.02`
-- UPower: `1.90.0 --> 1.90.8`
+- UPower: `1.90.0 --> 1.90.9`
 - urllib3: `1.26.11 --> 2.3.0`
 - usbutils: `014 --> 018`
 - Userspace-RCU: `0.13.2 --> 0.15.1`
