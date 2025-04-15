@@ -117,6 +117,8 @@ make -C iso-workdir/osinstallgui DESTDIR="$PWD"/iso-workdir/massos-rootfs instal
 sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|<name-of-live-user>|massos|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -dm755 /home/massos/Desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -m755 /usr/share/applications/osinstallgui.desktop /home/massos/Desktop/osinstallgui.desktop
+# Change yad's open-command setting, so osinstallgui can open URLs properly.
+chroot iso-workdir/massos-rootfs /usr/bin/gsettings set yad.settings open-command '/usr/libexec/webkit2gtk-4.1/MiniBrowser "%s"'
 # Set up desktop-specific autologin configuration.
 . livecd-data/autologin/autologin.sh
 # Install firmware.

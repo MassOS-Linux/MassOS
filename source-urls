@@ -3,7 +3,8 @@ https://www.freedesktop.org/software/accountsservice/accountsservice-23.13.9.tar
 https://mirror.netcologne.de/savannah/acl/acl-2.3.2.tar.xz
 https://freefr.dl.sourceforge.net/project/acpiclient/acpiclient/1.7/acpi-1.7.tar.gz
 https://github.com/GNOME/adwaita-icon-theme/archive/48.0/adwaita-icon-theme-48.0.tar.gz
-https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.13.tar.bz2
+https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2
+https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.14.tar.bz2
 https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.4.36.0/AMF-headers-v1.4.36.0.tar.gz
 https://launchpad.net/apparmor/4.0/4.0.3/+download/apparmor-4.0.3.tar.gz
 https://www.freedesktop.org/software/appstream/releases/AppStream-1.0.4.tar.xz
@@ -751,6 +752,7 @@ https://www.x.org/archive/individual/app/xdriinfo-1.0.7.tar.xz
 https://www.x.org/archive/individual/app/xev-1.2.6.tar.xz
 https://www.x.org/archive/individual/driver/xf86-input-libinput-1.5.0.tar.xz
 https://www.x.org/archive/individual/driver/xf86-input-vmmouse-13.2.0.tar.xz
+https://gitlab.freedesktop.org/xorg/driver/xf86-video-vmware/-/archive/xf86-video-vmware-13.4.0.tar.bz2
 https://cdn.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.13.0.tar.xz
 https://www.x.org/archive/individual/app/xgamma-1.0.7.tar.xz
 https://www.x.org/archive/individual/app/xhost-1.0.10.tar.xz

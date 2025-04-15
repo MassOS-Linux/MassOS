@@ -4,6 +4,7 @@ acl
 acpi
 adwaita-icon-theme
 alsa-lib
+alsa-utils
 amf-headers
 apparmor
 appstream
@@ -758,6 +759,7 @@ xdriinfo
 xev
 xf86-input-libinput
 xf86-input-vmmouse
+xf86-video-vmware
 xfsprogs
 xgamma
 xhost

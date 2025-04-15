@@ -50,7 +50,8 @@ Upgraded software (core):
 - AccountsService: `22.08.8 --> 23.13.9`
 - Acl: `2.3.1 --> 2.3.2`
 - adwaita-icon-theme: `43 --> 48.0`
-- alsa-lib: `1.2.7.2 --> 1.2.13`
+- alsa-lib: `1.2.7.2 --> 1.2.14`
+- alsa-utils: `(new package) --> 1.2.14`
 - AMF-Headers: `(new package) --> 1.4.36.0`
 - AppArmor: `3.1.1 --> 4.0.3`
 - AppStream: `0.15.5 --> 1.0.4`
@@ -691,6 +692,7 @@ Upgraded software (core):
 - xev: `1.2.5 --> 1.2.6`
 - xf86-input-libinput: `1.2.1 --> 1.5.0`
 - xf86-input-vmmouse: `(new package) --> 13.2.0`
+- xf86-video-vmware: `(new package) --> 13.4.0`
 - xfsprogs: `5.19.0 --> 6.13.0`
 - xgamma: `1.0.6 --> 1.0.7`
 - xhost: `1.0.8 --> 1.0.10`
