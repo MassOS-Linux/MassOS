@@ -235,6 +235,8 @@ intel-gmmlib
 intel-media-driver
 intel-vaapi-driver
 intltool
+io-tty
+ipc-run
 iproute2
 iptables
 isl
@@ -262,6 +264,7 @@ laptop-detect
 lark
 lcms2
 ldac
+legacy-cgi
 less
 libadwaita
 libaio
@@ -563,7 +566,6 @@ patchelf
 pathspec
 pcaudiolib
 pciutils
-pcre
 pcre2
 pefile
 perl
@@ -709,6 +711,7 @@ util-linux
 util-macros
 vala
 vim
+virtiofsd
 vitetris
 volume-key
 vte

@@ -28,7 +28,7 @@ touch ../.BUILD_HAS_STARTED
 # Setup the full filesystem structure.
 mkdir -p /{boot{,/efi},etc/{opt,sysconfig},home,mnt,opt,srv}
 mkdir -p /usr/{,local/}{bin,include,lib,libexec,share/{color,dict,doc,info,locale,man,misc,terminfo,zoneinfo},src}
-mkdir -p /var/{cache,lib/{color,misc,locate},local,log,mail,opt,spool}
+mkdir -p /var/{cache,lib/{color,hwclock,misc,locate},local,log,mail,opt,spool}
 mkdir -p /usr/lib/firmware
 ln -sf bin /usr/local/sbin
 ln -sf lib /usr/local/lib64
@@ -44,7 +44,7 @@ chmod 0750 /root
 # Set the locale correctly (note that it is normal for a warning to be given).
 mkdir -p /usr/lib/locale
 mklocales
-# Install Rust and Go to temporary directories for building some packages.
+# Install Rust, Go and GYP to temporary directories for building some packages.
 tar -xf ../sources/rust-1.86.0-x86_64-unknown-linux-gnu.tar.gz
 pushd rust-1.86.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
@@ -54,6 +54,8 @@ install -t /root/mbs/extras/rust/bin -Dm755 ../../sources/cbindgen
 popd
 rm -rf rust-1.86.0-x86_64-unknown-linux-gnu
 tar -xf ../sources/go1.24.2.linux-amd64.tar.gz -C /root/mbs/extras
+install -dm755 /root/mbs/extras/gyp
+tar -xf ../sources/gyp-1615ec.tar.gz -C /root/mbs/extras/gyp --strip-components=1
 # Bison (circular deps; rebuilt later).
 tar -xf ../sources/bison-3.8.2.tar.xz
 pushd bison-3.8.2
@@ -104,7 +106,6 @@ rm -rf texinfo-7.2
 # util-linux (circular deps; rebuilt later).
 tar -xf ../sources/util-linux-2.41.tar.xz
 pushd util-linux-2.41
-mkdir -p /var/lib/hwclock
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --disable-static --disable-chfn-chsh --disable-liblastlog2 --disable-login --disable-nologin --disable-pylibmount --disable-runuser --disable-setpriv --disable-su --disable-use-tty-group --without-python
 make
 make install
@@ -534,15 +535,6 @@ make install
 install -t /usr/share/licenses/bison -Dm644 COPYING
 popd
 rm -rf bison-3.8.2
-# PCRE.
-tar -xf ../sources/pcre-8.45.tar.bz2
-pushd pcre-8.45
-./configure --prefix=/usr --enable-unicode-properties --enable-jit --enable-pcre16 --enable-pcre32 --enable-pcregrep-libz --enable-pcregrep-libbz2 --enable-pcretest-libreadline --disable-static
-make
-make install
-install -t /usr/share/licenses/pcre -Dm644 LICENCE
-popd
-rm -rf pcre-8.45
 # PCRE2.
 tar -xf ../sources/pcre2-10.45.tar.bz2
 pushd pcre2-10.45
@@ -686,7 +678,7 @@ rm -rf perl-5.40.2
 tar -xf ../sources/SGMLSpm-1.1.tar.gz
 pushd SGMLSpm-1.1
 chmod +w MYMETA.yml
-perl Makefile.PL
+perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 rm -f /usr/lib/perl5/5.40/core_perl/perllocal.pod
@@ -697,11 +689,30 @@ rm -rf SGMLSpm-1.1
 # XML-Parser.
 tar -xf ../sources/XML-Parser-2.47.tar.gz
 pushd XML-Parser-2.47
-perl Makefile.PL
+perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
+install -t /usr/share/licenses/xml-parser -Dm644 LICENSE
 popd
 rm -rf XML-Parser-2.47
+# IO-Tty.
+tar -xf ../sources/IO-Tty-1.20.tar.gz
+pushd IO-Tty-1.20
+perl Makefile.PL INSTALLDIRS=vendor
+make
+make install
+tail -n43 README | install -Dm644 /dev/stdin /usr/share/licenses/io-tty/LICENSE
+popd
+rm -rf IO-Tty-1.20
+# IPC-Run.
+tar -xf ../sources/IPC-Run-20231003.0.tar.gz
+pushd IPC-Run-20231003.0
+perl Makefile.PL INSTALLDIRS=vendor
+make
+make install
+install -t /usr/share/licenses/ipc-run -Dm644 LICENSE
+popd
+rm -rf IPC-Run-20231003.0
 # Intltool.
 tar -xf ../sources/intltool-0.51.0.tar.gz
 pushd intltool-0.51.0
@@ -1083,6 +1094,14 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/hatch-vcs -Dm644 LICENSE.txt
 popd
 rm -rf hatch-vcs-0.4.0
+# legacy-cgi.
+tar -xf ../sources/legacy-cgi-2.6.3.tar.gz
+pushd legacy-cgi-2.6.3
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/legacy-cgi -Dm644 LICENSE
+popd
+rm -rf legacy-cgi-2.6.3
 # six.
 tar -xf ../sources/six-1.17.0.tar.gz
 pushd six-1.17.0
@@ -1351,6 +1370,15 @@ install -t /usr/share/man/man1 -Dm644 docs/build/man/libuv.1
 install -t /usr/share/licenses/libuv -Dm644 LICENSE
 popd
 rm -rf libuv-v1.50.0
+# libyaml.
+tar -xf ../sources/yaml-0.2.5.tar.gz
+pushd yaml-0.2.5
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libyaml -Dm644 License
+popd
+rm -rf yaml-0.2.5
 # Make.
 tar -xf ../sources/make-4.4.1.tar.gz
 pushd make-4.4.1
@@ -1593,6 +1621,14 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/cython -Dm644 {COPYING,LICENSE}.txt
 popd
 rm -rf cython-3.0.12
+# PyYAML.
+tar -xf ../sources/pyyaml-6.0.2.tar.gz
+pushd pyyaml-6.0.2
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/pyyaml -Dm644 LICENSE
+popd
+rm -rf pyyaml-6.0.2
 # gi-docgen.
 tar -xf ../sources/gi-docgen-2025.3.tar.gz
 pushd gi-docgen-2025.3
@@ -1605,7 +1641,7 @@ rm -rf gi-docgen-2025.3
 # Locale-gettext.
 tar -xf ../sources/Locale-gettext-1.07.tar.gz
 pushd Locale-gettext-1.07
-perl Makefile.PL
+perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 install -dm755 /usr/share/licenses/locale-gettext
@@ -1750,14 +1786,14 @@ install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 popd
 rm -rf boost-1.88.0
 # libgpg-error.
-tar -xf ../sources/libgpg-error-1.54.tar.bz2
-pushd libgpg-error-1.54
+tar -xf ../sources/libgpg-error-1.55.tar.bz2
+pushd libgpg-error-1.55
 ./configure --prefix=/usr --enable-install-gpg-error-config
 make
 make install
 install -t /usr/share/licenses/libgpg-error -Dm644 COPYING COPYING.LIB
 popd
-rm -rf libgpg-error-1.54
+rm -rf libgpg-error-1.55
 # libgcrypt.
 tar -xf ../sources/libgcrypt-1.11.0.tar.bz2
 pushd libgcrypt-1.11.0
@@ -2138,13 +2174,13 @@ xmlcatalog --noout --add "delegateURI" "http://docbook.org/xml/5.1/xsd/" "file:/
 popd
 rm -rf docbook-5.1
 # lxml.
-tar -xf ../sources/lxml-5.3.2.tar.gz
-pushd lxml-5.3.2
+tar -xf ../sources/lxml-5.4.0.tar.gz
+pushd lxml-5.4.0
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/lxml -Dm644 LICENSE.txt LICENSES.txt
 popd
-rm -rf lxml-5.3.2
+rm -rf lxml-5.4.0
 # itstool.
 tar -xf ../sources/itstool-2.0.7.tar.bz2
 pushd itstool-2.0.7
@@ -2305,8 +2341,8 @@ install -t /usr/share/licenses/fuse2 -Dm644 COPYING COPYING.LIB
 popd
 rm -rf fuse-2.9.9
 # FUSE3.
-tar -xf ../sources/fuse-3.17.1.tar.gz
-pushd fuse-3.17.1
+tar -xf ../sources/fuse-3.17.2.tar.gz
+pushd fuse-3.17.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false -Dtests=false
 ninja -C build
 ninja -C build install
@@ -2321,7 +2357,7 @@ cat > /etc/fuse.conf << "END"
 END
 install -t /usr/share/licenses/fuse3 -Dm644 LICENSE GPL2.txt LGPL2.txt
 popd
-rm -rf fuse-3.17.1
+rm -rf fuse-3.17.2
 # e2fsprogs.
 tar -xf ../sources/e2fsprogs-1.47.2.tar.xz
 pushd e2fsprogs-1.47.2
@@ -3279,6 +3315,16 @@ make install
 install -t /usr/share/licenses/aria2 -Dm644 COPYING
 popd
 rm -rf aria2-1.37.0
+# Ruby.
+tar -xf ../sources/ruby-3.4.3.tar.xz
+pushd ruby-3.4.3
+./configure --prefix=/usr --enable-shared --without-baseruby --without-valgrind ac_cv_func_qsort_r=no
+make
+make capi
+make install
+install -t /usr/share/licenses/ruby -Dm644 COPYING
+popd
+rm -rf ruby-3.4.3
 # Audit.
 tar -xf ../sources/audit-userspace-4.0.3.tar.gz
 pushd audit-userspace-4.0.3
@@ -3293,10 +3339,10 @@ install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 popd
 rm -rf audit-userspace-4.0.3
 # AppArmor.
-tar -xf ../sources/apparmor-4.0.3.tar.gz
-pushd apparmor-4.0.3
+tar -xf ../sources/apparmor-4.1.0.tar.gz
+pushd apparmor-4.1.0
 pushd libraries/libapparmor
-./configure --prefix=/usr --sbindir=/usr/bin --with-perl --with-python
+./configure --prefix=/usr --sbindir=/usr/bin --with-perl --with-python --with-ruby
 make
 popd
 make -C changehat/pam_apparmor
@@ -3313,6 +3359,7 @@ make -C profiles install
 make -C utils install
 rm -f /usr/lib/libapparmor.a
 chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
+mv /usr/lib/ruby/{site,vendor}_ruby/3.4.0/x86_64-linux/LibAppArmor.so
 sed -i 's|ADDITIONAL_PROFILE_DIR=|ADDITIONAL_PROFILE_DIR=/var/lib/snapd/apparmor/profiles|' /usr/lib/apparmor/rc.apparmor.functions
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
@@ -3407,10 +3454,8 @@ rm -rf nspr-4.36
 # NSS.
 tar -xf ../sources/nss-3.110.tar.gz
 pushd nss-3.110/nss
-mkdir -p gyp
-tar -xf ../../../sources/gyp-1615ec.tar.gz -C gyp --strip-components=1
 sed -i "s|'disable_werror%': 0|'disable_werror%': 1|" coreconf/config.gypi
-PATH="$PATH:$PWD/gyp" ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
+./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
 install -t /usr/lib -Dm755 ../dist/Release/lib/*.so
 install -t /usr/lib -Dm644 ../dist/Release/lib/*.chk
 install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver,ssltap}
@@ -3429,7 +3474,7 @@ tar -xf ../sources/git-2.49.0.tar.xz
 pushd git-2.49.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
 make all man
-make perllibdir=/usr/lib/perl5/5.40/site_perl install install-man
+make perllibdir=/usr/lib/perl5/5.40/vendor_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 popd
 rm -rf git-2.49.0
@@ -3766,23 +3811,6 @@ install -t /usr/share/licenses/os-prober -Dm644 debian/copyright
 install -t /usr/share/licenses/os-prober /usr/share/licenses/systemd/LICENSE.GPL2
 popd
 rm -rf work
-# libyaml.
-tar -xf ../sources/yaml-0.2.5.tar.gz
-pushd yaml-0.2.5
-./configure --prefix=/usr --disable-static
-make
-make install
-install -t /usr/share/licenses/libyaml -Dm644 License
-popd
-rm -rf yaml-0.2.5
-# PyYAML.
-tar -xf ../sources/pyyaml-6.0.2.tar.gz
-pushd pyyaml-6.0.2
-python -m build -nw -o dist
-python -m installer --compile-bytecode 1 dist/*.whl
-install -t /usr/share/licenses/pyyaml -Dm644 LICENSE
-popd
-rm -rf pyyaml-6.0.2
 # libatasmart.
 tar -xf ../sources/libatasmart_0.19.orig.tar.xz
 pushd libatasmart-0.19
@@ -4098,16 +4126,6 @@ make DEST_HOME=/usr DEST_MAN=/usr/share/man DEST_SHARE_DOC=/usr/share/doc/p7zip 
 install -t /usr/share/licenses/p7zip -Dm644 DOC/License.txt
 popd
 rm -rf p7zip-17.06
-# Ruby.
-tar -xf ../sources/ruby-3.4.3.tar.xz
-pushd ruby-3.4.3
-./configure --prefix=/usr --enable-shared --without-baseruby --without-valgrind ac_cv_func_qsort_r=no
-make
-make capi
-make install
-install -t /usr/share/licenses/ruby -Dm644 COPYING
-popd
-rm -rf ruby-3.4.3
 # slang.
 tar -xf ../sources/slang-2.3.3.tar.bz2
 pushd slang-2.3.3
@@ -4327,8 +4345,44 @@ make install
 install -t /usr/share/licenses/xtrans -Dm644 COPYING
 popd
 rm -rf xtrans-1.6.0
+# font-util.
+tar -xf ../sources/font-util-1.4.1.tar.bz2
+pushd util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
+./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+make
+make install
+install -t /usr/share/licenses/font-util -Dm644 COPYING
+popd
+rm -rf util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
+# libX11.
+tar -xf ../sources/libX11-1.8.12.tar.bz2
+pushd libx11-libX11-1.8.12-59917d28a3c41ad22d6fc52e323cafe2cdd596d5
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libx11 -Dm644 COPYING
+popd
+rm -rf libx11-libX11-1.8.12-59917d28a3c41ad22d6fc52e323cafe2cdd596d5
+# libXext.
+tar -xf ../sources/libXext-1.3.6.tar.bz2
+pushd libxext-libXext-1.3.6-3826a58d190c2d8093d3586cb33867668cbb4553
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxext -Dm644 COPYING
+popd
+rm -rf libxext-libXext-1.3.6-3826a58d190c2d8093d3586cb33867668cbb4553
+# libFS.
+tar -xf ../sources/libFS-1.0.10.tar.bz2
+pushd libfs-libFS-1.0.10-a21531705199c69f25dd67234449c8c6404f9af6
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libfs -Dm644 COPYING
+popd
+rm -rf libfs-libFS-1.0.10-a21531705199c69f25dd67234449c8c6404f9af6
 # Many needed libraries and dependencies from the Xorg project.
-for i in libX11-1.8.12 libXext-1.3.6 libFS-1.0.10 libICE-1.1.2 libSM-1.2.6 libXScrnSaver-1.2.4 libXt-1.3.1 libXmu-1.2.1 libXpm-3.5.17 libXaw-1.0.16 libXfixes-6.0.1 libXcomposite-0.4.6 libXrender-0.9.12 libXcursor-1.2.3 libXdamage-1.1.6 libfontenc-1.1.8 libXfont2-2.0.7 libXft-2.3.8 libXi-1.8.2 libXinerama-1.1.5 libXrandr-1.5.4 libXres-1.2.2 libXtst-1.2.5 libXv-1.0.13 libXvMC-1.0.14 libXxf86dga-1.1.6 libXxf86vm-1.1.6 libxkbfile-1.1.3 libxshmfence-1.3.3; do
+for i in libICE-1.1.2 libSM-1.2.6 libXScrnSaver-1.2.4 libXt-1.3.1 libXmu-1.2.1 libXpm-3.5.17 libXaw-1.0.16 libXfixes-6.0.1 libXcomposite-0.4.6 libXrender-0.9.12 libXcursor-1.2.3 libXdamage-1.1.6 libXi-1.8.2 libXinerama-1.1.5 libXrandr-1.5.4 libXres-1.2.2 libXtst-1.2.5 libXv-1.0.13 libXvMC-1.0.14 libXxf86dga-1.1.6 libXxf86vm-1.1.6 libxkbfile-1.1.3 libxshmfence-1.3.3; do
   tar -xf ../sources/$i.tar.*
   pushd $i
   case $i in
@@ -4343,6 +4397,33 @@ for i in libX11-1.8.12 libXext-1.3.6 libFS-1.0.10 libICE-1.1.2 libSM-1.2.6 libXS
   rm -rf $i
   ldconfig
 done
+# libfontenc.
+tar -xf ../sources/libfontenc-1.1.8.tar.bz2
+pushd libfontenc-libfontenc-1.1.8-92a85fda2acb4e14ec0b2f6d8fe3eaf2b687218c
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libfontenc -Dm644 COPYING
+popd
+rm -rf libfontenc-libfontenc-1.1.8-92a85fda2acb4e14ec0b2f6d8fe3eaf2b687218c
+# libXfont2.
+tar -xf ../sources/libXfont2-2.0.7.tar.bz2
+pushd libxfont-libXfont2-2.0.7-2c2e44c94ef17ecd5003a173237b57b315e28d93
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxfont2 -Dm644 COPYING
+popd
+rm -rf libxfont-libXfont2-2.0.7-2c2e44c94ef17ecd5003a173237b57b315e28d93
+# libXft.
+tar -xf ../sources/libXft-2.3.9.tar.bz2
+pushd libxft-libXft-2.3.9-f4805c8645914cbdcfd42e71051ba3f8fc664ef5
+./autogen.sh --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxft -Dm644 COPYING
+popd
+rm -rf libxft-libXft-2.3.9-f4805c8645914cbdcfd42e71051ba3f8fc664ef5
 # libdmx.
 tar -xf ../sources/libdmx-libdmx-1.1.5.tar.bz2
 pushd libdmx-libdmx-1.1.5
@@ -4677,15 +4758,6 @@ for i in x11perf-1.7.0 xauth-1.1.4 xbacklight-1.2.4 xcmsdb-1.0.7 xcursorgen-1.0.
   rm -rf $i
 done
 rm -f /usr/bin/xkeystone
-# font-util.
-tar -xf ../sources/font-util-1.4.1.tar.bz2
-pushd util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var
-make
-make install
-install -t /usr/share/licenses/font-util -Dm644 COPYING
-popd
-rm -rf util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
 # noto-fonts / noto-fonts-cjk / noto-fonts-emoji.
 tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-2025.04.01.tar.xz -C / --strip-components=1
 tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-cjk-20240730.tar.xz -C / --strip-components=1
@@ -4893,15 +4965,15 @@ install -t /usr/share/licenses/intel-vaapi-driver -Dm644 COPYING
 popd
 rm -rf intel-vaapi-driver-2.4.1
 # intel-media-driver.
-tar -xf ../sources/intel-media-25.2.0.tar.gz
-pushd media-driver-intel-media-25.2.0
+tar -xf ../sources/intel-media-25.2.1.tar.gz
+pushd media-driver-intel-media-25.2.1
 patch -Np1 -i ../../patches/intel-media-driver-25.2.0-cmake400.patch
 CFLAGS="" CXXFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
 CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build
 CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build install
 install -t /usr/share/licenses/intel-media-driver -Dm644 LICENSE.md
 popd
-rm -rf media-driver-intel-media-25.2.0
+rm -rf media-driver-intel-media-25.2.1
 # xinit.
 tar -xf ../sources/xinit-1.4.4.tar.xz
 pushd xinit-1.4.4
@@ -5037,14 +5109,14 @@ install -t /usr/share/licenses/hyfetch -Dm644 LICENSE.md
 popd
 rm -rf hyfetch-1.99.0
 # fastfetch.
-tar -xf ../sources/fastfetch-2.40.4.tar.gz
-pushd fastfetch-2.40.4
+tar -xf ../sources/fastfetch-2.41.0.tar.gz
+pushd fastfetch-2.41.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.40.4
+rm -rf fastfetch-2.41.0
 # htop.
 tar -xf ../sources/htop-3.4.0.tar.xz
 pushd htop-3.4.0
@@ -6025,8 +6097,9 @@ rm -rf flashrom-v1.5.1
 # rrdtool.
 tar -xf ../sources/rrdtool-1.9.0.tar.gz
 pushd rrdtool-1.9.0
+sed -i 's|/ruby/extconf.rb|/ruby/extconf.rb --vendor|' bindings/Makefile.am
 autoreconf -fi
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-rpath --disable-static --enable-lua --enable-perl --enable-perl-site-install --enable-python --enable-ruby --enable-ruby-site-install --enable-tcl
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-rpath --disable-static --enable-lua --enable-lua-site-install --enable-perl --enable-perl-site-install --with-perl-options="INSTALLDIRS=vendor" --enable-python --enable-ruby --enable-ruby-site-install --enable-tcl
 make
 make install
 install -t /usr/share/licenses/rrdtool -Dm644 COPYRIGHT LICENSE
@@ -6059,7 +6132,7 @@ patch -Np1 -i ../../patches/net-snmp-5.9.4-upstreamfixes.patch
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --mandir=/usr/share/man --disable-static --enable-blumenthal-aes --enable-ipv6 --enable-ucd-snmp-compatibility --with-default-snmp-version=3 --with-logfile=/var/log/snmpd.log --with-mib-modules="host misc/ipfwacc ucd-snmp/diskio tunnel ucd-snmp/dlmod ucd-snmp/lmsensorsMib" --with-persistent-directory=/var/net-snmp --with-python-modules --with-sys-contact=root@localhost --with-sys-location=Unknown --without-pcre
 make NETSNMP_DONT_CHECK_VERSION=1
-make -j1 install
+make -j1 INSTALLDIRS=vendor install
 install -t /usr/share/licenses/net-snmp -Dm644 COPYING
 popd
 rm -rf net-snmp-5.9.4
@@ -6499,7 +6572,7 @@ rm -rf ytnef-2.1.2
 # JSON (required by smblient 4.16+).
 tar -xf ../sources/JSON-4.10.tar.gz
 pushd JSON-4.10
-perl Makefile.PL
+perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 cat lib/JSON.pm | tail -n9 | head -n6 | install -Dm644 /dev/stdin /usr/share/licenses/json/COPYING
@@ -6508,7 +6581,7 @@ rm -rf JSON-4.10
 # Parse-Yapp.
 tar -xf ../sources/Parse-Yapp-1.21.tar.gz
 pushd Parse-Yapp-1.21
-perl Makefile.PL
+perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 install -dm755 /usr/share/licenses/parse-yapp
@@ -6727,15 +6800,15 @@ install -t /usr/share/licenses/libsoup3 -Dm644 COPYING
 popd
 rm -rf libsoup-3.6.5
 # tinysparql.
-tar -xf ../sources/tinysparql-3.9.1.tar.gz
-pushd tinysparql-3.9.1
+tar -xf ../sources/tinysparql-3.9.2.tar.gz
+pushd tinysparql-3.9.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/tinysparql -Dm644 COPYING{,.{,L}GPL}
 ln -sf tinysparql /usr/share/licenses/tracker
 popd
-rm -rf tinysparql-3.9.1
+rm -rf tinysparql-3.9.2
 # osm-gps-map.
 tar -xf ../sources/osm-gps-map-1.2.0.tar.gz
 pushd osm-gps-map-1.2.0
@@ -7724,9 +7797,18 @@ install -t /usr/bin -Dm755 busybox
 install -t /usr/share/licenses/busybox -Dm644 LICENSE
 popd
 rm -rf busybox-1.37.0
+# virtiofsd.
+tar -xf ../sources/virtiofsd-v1.13.1.tar.bz2
+pushd virtiofsd-v1.13.1
+cargo build --release
+install -t /usr/libexec -Dm755 target/release/virtiofsd
+install -t /usr/share/qemu/vhost-user -Dm644 50-virtiofsd.json
+install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
+popd
+rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-9.2.3.tar.xz
-pushd qemu-9.2.3
+tar -xf ../sources/qemu-10.0.0.tar.xz
+pushd qemu-10.0.0
 patch -Np1 -i ../../patches/qemu-9.2.3-libnfs6fix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list=x86_64-linux-user,x86_64-softmmu
 make
@@ -7746,7 +7828,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-9.2.3
+rm -rf qemu-10.0.0
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -7772,8 +7854,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.14.3.tar.xz
-pushd linux-6.14.3
+tar -xf ../sources/linux-6.14.4.tar.xz
+pushd linux-6.14.4
 make mrproper
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -7811,7 +7893,7 @@ echo "options kvm enable_virt_at_load=0" > /usr/lib/modprobe.d/kvm.conf
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.14.3
+rm -rf linux-6.14.4
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-575.51.02.tar.gz
 pushd open-gpu-kernel-modules-575.51.02
@@ -7830,7 +7912,7 @@ rm -rf open-gpu-kernel-modules-575.51.02
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Determine the version of osinstallgui that should be used by the Live CD.
-echo "0.7.0" > /usr/share/massos/.osinstallguiver
+echo "0.7.2" > /usr/share/massos/.osinstallguiver
 # Determine firmware versions that should be installed.
 cat > /usr/share/massos/firmwareversions << "END"
 # DO NOT EDIT THIS FILE!

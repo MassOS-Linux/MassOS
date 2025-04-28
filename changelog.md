@@ -53,7 +53,7 @@ Upgraded software (core):
 - alsa-lib: `1.2.7.2 --> 1.2.14`
 - alsa-utils: `(new package) --> 1.2.14`
 - AMF-Headers: `(new package) --> 1.4.36.0`
-- AppArmor: `3.1.1 --> 4.0.3`
+- AppArmor: `3.1.1 --> 4.1.0`
 - AppStream: `0.15.5 --> 1.0.4`
 - appstream-glib: `0.8.0 --> 0.8.3`
 - aria2: `(new package) --> 1.37.0`
@@ -144,7 +144,7 @@ Upgraded software (core):
 - FAAC: `(new package) --> 1.31.1`
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
-- fastfetch: `(new package) --> 2.40.4`
+- fastfetch: `(new package) --> 2.41.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 7.1.1`
 - File: `5.43 --> 5.46`
@@ -161,7 +161,7 @@ Upgraded software (core):
 - FreeGLUT: `3.2.2 --> 3.6.0`
 - FreeType: `2.12.1 --> 2.13.3`
 - Fribidi: `1.0.12 --> 1.0.16`
-- FUSE3: `3.12.0 --> 3.17.1`
+- FUSE3: `3.12.0 --> 3.17.2`
 - fuseiso: `(new package) --> 20070708`
 - fwupd: `1.7.6 --> 2.0.7`
 - fwupd-efi: `1.3 --> 1.7`
@@ -247,7 +247,9 @@ Upgraded software (core):
 - inih: `56 --> 60`
 - installer: `(new package) --> 0.7.0`
 - intel-gmmlib: `(new package) --> 22.7.1`
-- intel-media-driver: `(new package) --> 25.2.0`
+- intel-media-driver: `(new package) --> 25.2.1`
+- IO-Tty: `(new package) --> 1.20`
+- IPC-Run: `(new package) --> 20231003.0`
 - IPRoute2: `5.19.0 --> 6.14.0`
 - iptables: `1.8.8 --> 1.8.11`
 - ISL: `(new package) --> 0.27`
@@ -269,6 +271,7 @@ Upgraded software (core):
 - krb5: `1.20 --> 1.21.3`
 - lark: `(new package) --> 1.2.2`
 - lcms2: `2.13.1 --> 2.17`
+- legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 668`
 - libadwaita: `(new package) --> 1.7.2`
 - libao: `(new package) --> 1.2.2`
@@ -311,7 +314,7 @@ Upgraded software (core):
 - libgee: `0.20.6 --> 0.20.8`
 - libglade: `2.6.4 --> (removed)`
 - libglvnd: `1.5.0 --> 1.7.0`
-- libgpg-error: `1.45 --> 1.54`
+- libgpg-error: `1.45 --> 1.55`
 - libgphoto2: `2.5.30 --> 2.5.31`
 - libgudev: `237 --> 238`
 - libgusb: `0.4.0 --> 0.4.9`
@@ -432,9 +435,9 @@ Upgraded software (core):
 - libXxf86dga: `1.1.5 --> 1.1.6`
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.14.3`
-- Linux-API-Headers: `6.0.0 --> 6.14.3`
-- Linux-Headers: `6.0.0 --> 6.14.3`
+- Linux: `6.0.0 --> 6.14.4`
+- Linux-API-Headers: `6.0.0 --> 6.14.4`
+- Linux-Headers: `6.0.0 --> 6.14.4`
 - Linux-PAM: `1.5.2 --> 1.7.0`
 - LLD: `14.0.6 --> 20.1.3`
 - LLVM: `14.0.6 --> 20.1.3`
@@ -444,7 +447,7 @@ Upgraded software (core):
 - lsof: `4.96.3 --> 4.99.4`
 - Lua: `5.4.4 --> 5.4.7`
 - LVM2: `2.03.16 --> 2.03.31`
-- lxml: `4.9.1 --> 5.3.2`
+- lxml: `4.9.1 --> 5.4.0`
 - Lynx: `2.8.9 --> 2.9.2`
 - LZ4: `1.9.4 --> 1.10.0`
 - lzip: `1.22 --> 1.25`
@@ -528,6 +531,7 @@ Upgraded software (core):
 - pathspec: `(new package) --> 0.12.1`
 - pcaudiolib: `(new package) --> 1.3`
 - pciutils: `3.8.0 --> 3.13.0`
+- PCRE: `8.45 --> (removed)`
 - PCRE2: `10.40 --> 10.45`
 - pefile: `(new package) --> 2024.8.26`
 - Perl: `5.36.0 --> 5.40.2`
@@ -569,7 +573,7 @@ Upgraded software (core):
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.2`
-- qemu-guest-agent: `(new package) --> 9.2.3`
+- qemu-guest-agent: `(new package) --> 10.0.0`
 - Qpdf: `11.1.1 --> 12.1.0`
 - rav1e: `0.5.1 --> 0.7.1`
 - rdfind: `(new package) --> 1.7.0`
@@ -624,7 +628,7 @@ Upgraded software (core):
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
 - Tcl: `8.6.12 --> 8.6.16`
-- tinysparql: `(new package) --> 3.9.1`
+- tinysparql: `(new package) --> 3.9.2`
 - tldr: `1.5.0 --> 1.7.2`
 - Texinfo: `6.8 --> 7.2`
 - thin-provisioning-tools: `0.9.0 --> (removed)`
@@ -650,6 +654,7 @@ Upgraded software (core):
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
 - Vim: `9.0.0600 --> 9.1.1320`
+- virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.1`
 - VTE4: `(new package) --> 0.80.1`
 - Vulkan-Headers: `1.3.230 --> 1.4.309.0`
@@ -748,7 +753,7 @@ Upgraded software (Xfce):
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
-- GNOME-Calculator: `(new package) --> 48.0`
+- GNOME-Calculator: `(new package) --> 48.1`
 - gnome-disk-utility: `(new package) --> 46.1`
 - GNOME-Firmware: `41.0 --> 47.0`
 - GNOME-Software: `41.5 --> 48.0`
