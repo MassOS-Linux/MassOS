@@ -7444,7 +7444,7 @@ install -t /usr/share/licenses/kvazaar -Dm644 LICENSE
 popd
 rm -rf kvazaar-2.3.1
 # AMF-Headers.
-tar --no-same-owner -xf ../sources/AMF-headers-v1.4.36.0.tar.gz -C /usr/include --strip-components=1
+tar --no-same-owner -xf ../sources/AMF-headers-v1.4.36.tar.gz -C /usr/include --strip-components=1
 head -n31 /usr/include/AMF/core/Platform.h | install -Dm644 /dev/stdin /usr/share/licenses/amf-headers/LICENSE.txt
 # nv-codec-headers.
 tar -xf ../sources/nv-codec-headers-13.0.19.0.tar.gz
