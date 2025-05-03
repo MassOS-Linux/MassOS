@@ -1,6 +1,17 @@
+diff '--color=auto' -aruN a/kernel-open/Kbuild b/kernel-open/Kbuild
+--- a/kernel-open/Kbuild	2025-04-17 18:35:59.000000000 +0100
++++ b/kernel-open/Kbuild	2025-05-03 15:49:31.930792454 +0100
+@@ -87,6 +87,7 @@
+ EXTRA_CFLAGS += -Wall $(DEFINES) $(INCLUDES) -Wno-cast-qual -Wno-format-extra-args
+ EXTRA_CFLAGS += -D__KERNEL__ -DMODULE -DNVRM
+ EXTRA_CFLAGS += -DNV_VERSION_STRING=\"575.51.02\"
++EXTRA_CFLAGS += -std=gnu17
+ 
+ ifneq ($(SYSSRCHOST1X),)
+  EXTRA_CFLAGS += -I$(SYSSRCHOST1X)
 diff '--color=auto' -aruN a/kernel-open/nvidia-drm/nvidia-drm-linux.c b/kernel-open/nvidia-drm/nvidia-drm-linux.c
---- a/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-01-30 16:37:03.000000000 +0000
-+++ b/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-02-01 19:20:29.911485252 +0000
+--- a/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-04-17 18:35:59.000000000 +0100
++++ b/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-05-03 15:49:22.237796231 +0100
 @@ -31,7 +31,7 @@
  
  MODULE_PARM_DESC(
@@ -11,8 +22,8 @@ diff '--color=auto' -aruN a/kernel-open/nvidia-drm/nvidia-drm-linux.c b/kernel-o
  
  #if defined(NV_DRM_FBDEV_AVAILABLE)
 diff '--color=auto' -aruN a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c b/kernel-open/nvidia-drm/nvidia-drm-os-interface.c
---- a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c	2025-01-30 16:37:03.000000000 +0000
-+++ b/kernel-open/nvidia-drm/nvidia-drm-os-interface.c	2025-02-01 19:20:29.911666521 +0000
+--- a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c	2025-04-17 18:35:59.000000000 +0100
++++ b/kernel-open/nvidia-drm/nvidia-drm-os-interface.c	2025-05-03 15:49:22.237980602 +0100
 @@ -41,7 +41,7 @@
  #include <drm/drmP.h>
  #endif
@@ -23,8 +34,8 @@ diff '--color=auto' -aruN a/kernel-open/nvidia-drm/nvidia-drm-os-interface.c b/k
  
  void *nv_drm_calloc(size_t nmemb, size_t size)
 diff '--color=auto' -aruN a/src/nvidia-modeset/Makefile b/src/nvidia-modeset/Makefile
---- a/src/nvidia-modeset/Makefile	2025-01-30 16:37:03.000000000 +0000
-+++ b/src/nvidia-modeset/Makefile	2025-02-01 19:22:17.654850127 +0000
+--- a/src/nvidia-modeset/Makefile	2025-04-17 18:35:59.000000000 +0100
++++ b/src/nvidia-modeset/Makefile	2025-05-03 15:49:22.238156212 +0100
 @@ -154,6 +154,7 @@
    CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -fno-jump-tables)
    CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -mindirect-branch=thunk-extern)

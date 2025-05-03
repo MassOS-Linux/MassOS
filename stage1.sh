@@ -57,8 +57,8 @@ make install
 popd; popd
 rm -rf binutils-2.44
 # GCC (build 1).
-tar -xf ../sources/gcc-14.2.0.tar.xz
-pushd gcc-14.2.0
+tar -xf ../sources/gcc-15.1.0.tar.xz
+pushd gcc-15.1.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
 tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
@@ -66,22 +66,22 @@ tar -xf ../../sources/mpc-1.3.1.tar.gz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 14.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.41 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.41 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
 make install
-cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-stage1-linux-gnu/14.2.0/install-tools/include/limits.h
+cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-stage1-linux-gnu/15.1.0/install-tools/include/limits.h
 popd; popd
-rm -rf gcc-14.2.0
+rm -rf gcc-15.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.14.4.tar.xz
-pushd linux-6.14.4
+tar -xf ../sources/linux-6.14.5.tar.xz
+pushd linux-6.14.5
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.14.4
+rm -rf linux-6.14.5
 # Glibc.
 tar -xf ../sources/glibc-2.41.tar.xz
 pushd glibc-2.41
@@ -96,15 +96,15 @@ sed -i '/RTLDLIST=/s@/usr@@g' "$MASSOS"/usr/bin/ldd
 popd; popd
 rm -rf glibc-2.41
 # libstdc++ (from GCC - build 1).
-tar -xf ../sources/gcc-14.2.0.tar.xz
-pushd gcc-14.2.0
+tar -xf ../sources/gcc-15.1.0.tar.xz
+pushd gcc-15.1.0
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/14.2.0
+CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/15.1.0
 make
 make DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
-rm -rf gcc-14.2.0
+rm -rf gcc-15.1.0
 # Binutils (build 2).
 tar -xf ../sources/binutils-2.44.tar.xz
 pushd binutils-2.44
@@ -117,8 +117,8 @@ rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
 rm -rf binutils-2.44
 # GCC (build 2).
-tar -xf ../sources/gcc-14.2.0.tar.xz
-pushd gcc-14.2.0
+tar -xf ../sources/gcc-15.1.0.tar.xz
+pushd gcc-15.1.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
 tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
@@ -127,12 +127,12 @@ tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 14.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
+CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
 make
 make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 popd; popd
-rm -rf gcc-14.2.0
+rm -rf gcc-15.1.0
 tar -xf ../sources/upgrade-toolset-20221015-x86_64.tar.xz -C "$MASSOS"/usr/bin --strip-components=1
 rm -f "$MASSOS"/usr/bin/LICENSE*
 # Change back to the start directory (should be MassOS source tree top-level).

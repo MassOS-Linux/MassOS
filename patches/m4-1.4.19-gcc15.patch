@@ -1,0 +1,11 @@
+--- a/lib/config.hin
++++ b/lib/config.hin
+@@ -2586,7 +2586,7 @@
+ #endif
+ 
+ #if 201710L < __STDC_VERSION__
+-# define _GL_ATTRIBUTE_NODISCARD [[__nodiscard__]]
++# define _GL_ATTRIBUTE_NODISCARD 
+ #elif _GL_HAS_ATTRIBUTE (warn_unused_result)
+ # define _GL_ATTRIBUTE_NODISCARD __attribute__ ((__warn_unused_result__))
+ #else

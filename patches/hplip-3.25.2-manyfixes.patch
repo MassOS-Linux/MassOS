@@ -1,6 +1,6 @@
-diff -aruN old/base/sixext.py new/base/sixext.py
---- old/base/sixext.py	2023-11-27 15:06:40.000000000 +0000
-+++ new/base/sixext.py	2023-12-05 21:38:55.653355313 +0000
+diff '--color=auto' -aruN a/base/sixext.py b/base/sixext.py
+--- a/base/sixext.py	2025-02-27 12:12:29.000000000 +0000
++++ b/base/sixext.py	2025-05-03 13:32:36.923177425 +0100
 @@ -110,11 +110,11 @@
  
  
@@ -15,9 +15,9 @@ diff -aruN old/base/sixext.py new/base/sixext.py
  
  
      def to_unicode(s, enc=None):
-diff -aruN old/configure.in new/configure.in
---- old/configure.in	2023-11-27 15:06:40.000000000 +0000
-+++ new/configure.in	2023-12-05 21:39:27.803354998 +0000
+diff '--color=auto' -aruN a/configure.in b/configure.in
+--- a/configure.in	2025-02-27 12:12:29.000000000 +0000
++++ b/configure.in	2025-05-03 13:32:36.923385266 +0100
 @@ -618,7 +618,7 @@
  
  if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
@@ -68,7 +68,7 @@ diff -aruN old/configure.in new/configure.in
  fi
  
  #CFLAGS=`(python-config --includes)`
-@@ -664,7 +676,6 @@
+@@ -681,7 +693,6 @@
     AS_IF([test "x$FOUND_HEADER" != "xyes"],
            [AC_MSG_ERROR([cannot find python-devel support], 6)])
  fi
@@ -76,9 +76,9 @@ diff -aruN old/configure.in new/configure.in
  
  if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
     AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
-diff -aruN old/createPPD.sh new/createPPD.sh
---- old/createPPD.sh	2023-11-27 15:06:40.000000000 +0000
-+++ new/createPPD.sh	2023-12-05 21:39:43.020021523 +0000
+diff '--color=auto' -aruN a/createPPD.sh b/createPPD.sh
+--- a/createPPD.sh	2025-02-27 12:12:29.000000000 +0000
++++ b/createPPD.sh	2025-05-03 13:32:36.923617457 +0100
 @@ -55,16 +55,16 @@
  	else
  		cp prnt/ps/hp-postscript*.ppd ppd/classppd/ps
@@ -116,9 +116,9 @@ diff -aruN old/createPPD.sh new/createPPD.sh
  done
  echo "building foomatic_drv.inc..."
  ./hpijs-drv > foomatic_drv.inc $shadow
-diff -aruN old/cups_drv.inc new/cups_drv.inc
---- old/cups_drv.inc	2023-11-27 15:15:28.000000000 +0000
-+++ new/cups_drv.inc	2023-12-05 21:39:19.356688417 +0000
+diff '--color=auto' -aruN a/cups_drv.inc b/cups_drv.inc
+--- a/cups_drv.inc	2025-02-27 12:21:24.000000000 +0000
++++ b/cups_drv.inc	2025-05-03 13:32:36.923815268 +0100
 @@ -414,6 +414,7 @@
     ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
     ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
@@ -135,9 +135,9 @@ diff -aruN old/cups_drv.inc new/cups_drv.inc
     ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
     ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
     ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
-diff -aruN old/data/models/models.dat new/data/models/models.dat
---- old/data/models/models.dat	2023-11-27 15:06:40.000000000 +0000
-+++ new/data/models/models.dat	2023-12-05 21:39:19.360021751 +0000
+diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
+--- a/data/models/models.dat	2025-02-27 12:12:29.000000000 +0000
++++ b/data/models/models.dat	2025-05-03 13:32:36.925764196 +0100
 @@ -2104,7 +2104,7 @@
  usb-vid=3f0
  wifi-config=0
@@ -650,10 +650,10 @@ diff -aruN old/data/models/models.dat new/data/models/models.dat
  [hp_laserjet_professional_p1102]
  align-type=0
  clean-type=0
-diff -aruN old/Makefile.in new/Makefile.in
---- old/Makefile.in	2023-11-27 15:15:31.000000000 +0000
-+++ new/Makefile.in	2023-12-05 21:39:19.356688417 +0000
-@@ -1725,6 +1725,7 @@
+diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
+--- a/Makefile.in	2025-02-27 12:21:27.000000000 +0000
++++ b/Makefile.in	2025-05-03 13:32:36.930092996 +0100
+@@ -1728,6 +1728,7 @@
  	ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
  	ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
  	ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
@@ -661,7 +661,7 @@ diff -aruN old/Makefile.in new/Makefile.in
  	ppd/hpcups/hp-laserjet_m1005.ppd.gz \
  	ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
  	ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
-@@ -1843,6 +1844,7 @@
+@@ -1846,6 +1847,7 @@
  	ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
  	ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
  	ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
@@ -669,7 +669,7 @@ diff -aruN old/Makefile.in new/Makefile.in
  	ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
  	ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
  	ppd/hpcups/hp-laserjet_tank_250x.ppd.gz \
-@@ -4294,6 +4296,7 @@
+@@ -4313,6 +4315,7 @@
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
@@ -677,7 +677,7 @@ diff -aruN old/Makefile.in new/Makefile.in
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m1005.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
-@@ -4411,6 +4414,7 @@
+@@ -4430,6 +4433,7 @@
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1607dn.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
@@ -685,9 +685,9 @@ diff -aruN old/Makefile.in new/Makefile.in
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
-diff -aruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
---- old/pcard/pcardext/pcardext.c	2023-11-27 15:06:40.000000000 +0000
-+++ new/pcard/pcardext/pcardext.c	2023-12-05 21:39:05.250021882 +0000
+diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.c
+--- a/pcard/pcardext/pcardext.c	2025-02-27 12:12:29.000000000 +0000
++++ b/pcard/pcardext/pcardext.c	2025-05-03 13:32:36.930980140 +0100
 @@ -20,7 +20,7 @@
  Requires:
  Python 2.2+
@@ -786,10 +786,10 @@ diff -aruN old/pcard/pcardext/pcardext.c new/pcard/pcardext/pcardext.c
  }
  
  
-diff -aruN old/prnt/drv/hpcups.drv.in new/prnt/drv/hpcups.drv.in
---- old/prnt/drv/hpcups.drv.in	2023-11-27 15:15:26.000000000 +0000
-+++ new/prnt/drv/hpcups.drv.in	2023-12-05 21:39:19.363355084 +0000
-@@ -23108,6 +23108,14 @@
+diff '--color=auto' -aruN a/prnt/drv/hpcups.drv.in b/prnt/drv/hpcups.drv.in
+--- a/prnt/drv/hpcups.drv.in	2025-02-27 12:21:22.000000000 +0000
++++ b/prnt/drv/hpcups.drv.in	2025-05-03 13:32:36.932288766 +0100
+@@ -23221,6 +23221,14 @@
        Attribute "Product" "" "(HP LaserJet Professional p1102s Printer)"
      }
      {
@@ -804,7 +804,7 @@ diff -aruN old/prnt/drv/hpcups.drv.in new/prnt/drv/hpcups.drv.in
        ModelName "HP LaserJet Professional p1106"
        Attribute "NickName" "" "HP LaserJet Professional p1106, hpcups $Version"
        Attribute "ShortNickName" "" "HP LJ Pro p1106 hpijs"
-@@ -23541,6 +23549,14 @@
+@@ -23654,6 +23662,14 @@
        PCFileName "hp-laserjet_cp1025nw.ppd"
        Attribute "Product" "" "(HP LaserJet Pro cp1025nw Color Printer Series)"
      }
@@ -819,9 +819,9 @@ diff -aruN old/prnt/drv/hpcups.drv.in new/prnt/drv/hpcups.drv.in
    }
  } // End LJZjsColor (for proprietary plugin)
  
-diff -aruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
---- old/prnt/hpcups/HPCupsFilter.h	2023-11-27 15:06:40.000000000 +0000
-+++ new/prnt/hpcups/HPCupsFilter.h	2023-12-05 21:38:46.503355407 +0000
+diff '--color=auto' -aruN a/prnt/hpcups/HPCupsFilter.h b/prnt/hpcups/HPCupsFilter.h
+--- a/prnt/hpcups/HPCupsFilter.h	2025-02-27 12:12:29.000000000 +0000
++++ b/prnt/hpcups/HPCupsFilter.h	2025-05-03 13:32:36.934237794 +0100
 @@ -38,6 +38,8 @@
  #include <cups/ppd.h>
  #include "dbuscomm.h"
@@ -831,9 +831,9 @@ diff -aruN old/prnt/hpcups/HPCupsFilter.h new/prnt/hpcups/HPCupsFilter.h
  #define		DBITMAPFILEHEADER		14
  #define		DBITMAPINFOHEADER		40
  
-diff -aruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
---- old/prnt/hpijs/hpcupsfax.cpp	2023-11-27 15:06:40.000000000 +0000
-+++ new/prnt/hpijs/hpcupsfax.cpp	2023-12-05 21:38:46.503355407 +0000
+diff '--color=auto' -aruN a/prnt/hpijs/hpcupsfax.cpp b/prnt/hpijs/hpcupsfax.cpp
+--- a/prnt/hpijs/hpcupsfax.cpp	2025-02-27 12:12:29.000000000 +0000
++++ b/prnt/hpijs/hpcupsfax.cpp	2025-05-03 13:32:36.934413015 +0100
 @@ -43,6 +43,7 @@
  #include <arpa/inet.h>
  #include <math.h>
@@ -842,9 +842,9 @@ diff -aruN old/prnt/hpijs/hpcupsfax.cpp new/prnt/hpijs/hpcupsfax.cpp
  #include <cups/raster.h>
  #include <string>
  #ifdef FALSE
-diff -aruN old/scan/sane/bb_ledm.c new/scan/sane/bb_ledm.c
---- old/scan/sane/bb_ledm.c	2023-11-27 15:06:40.000000000 +0000
-+++ new/scan/sane/bb_ledm.c	2023-12-05 21:39:37.580021567 +0000
+diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
+--- a/scan/sane/bb_ledm.c	2025-02-27 12:12:29.000000000 +0000
++++ b/scan/sane/bb_ledm.c	2025-05-03 13:32:36.934676356 +0100
 @@ -189,7 +189,7 @@
  <YStart>%d</YStart>\
  <Height>%d</Height>\
@@ -941,9 +941,9 @@ diff -aruN old/scan/sane/bb_ledm.c new/scan/sane/bb_ledm.c
       usleep(500000);//0.5 sec delay
    }//end while()
  
-diff -aruN old/scan/sane/ledm.c new/scan/sane/ledm.c
---- old/scan/sane/ledm.c	2023-11-27 15:06:41.000000000 +0000
-+++ new/scan/sane/ledm.c	2023-12-05 21:39:37.580021567 +0000
+diff '--color=auto' -aruN a/scan/sane/ledm.c b/scan/sane/ledm.c
+--- a/scan/sane/ledm.c	2025-02-27 12:12:29.000000000 +0000
++++ b/scan/sane/ledm.c	2025-05-03 13:32:36.934944407 +0100
 @@ -170,11 +170,11 @@
        case CE_GRAY8:
        case CE_COLOR8:
@@ -979,9 +979,21 @@ diff -aruN old/scan/sane/ledm.c new/scan/sane/ledm.c
  
    stat = SANE_STATUS_GOOD;
  
-diff -aruN old/unload.py new/unload.py
---- old/unload.py	2023-11-27 15:06:41.000000000 +0000
-+++ new/unload.py	2023-12-05 21:39:05.253355216 +0000
+diff '--color=auto' -aruN a/scan/sane/ledmi.h b/scan/sane/ledmi.h
+--- a/scan/sane/ledmi.h	2025-02-27 12:12:29.000000000 +0000
++++ b/scan/sane/ledmi.h	2025-05-03 13:32:52.605080610 +0100
+@@ -162,7 +162,7 @@
+ int bb_open(struct ledm_session*);
+ int bb_close(struct ledm_session*);
+ int bb_get_parameters(struct ledm_session*, SANE_Parameters*, int);
+-int bb_is_paper_in_adf();         /* 0 = no paper in adf, 1 = paper in adf, -1 = error */
++int bb_is_paper_in_adf(struct ledm_session*);         /* 0 = no paper in adf, 1 = paper in adf, -1 = error */
+ SANE_Status bb_start_scan(struct ledm_session*);
+ int bb_get_image_data(struct ledm_session*, int); 
+ int bb_end_page(struct ledm_session*, int);
+diff '--color=auto' -aruN a/unload.py b/unload.py
+--- a/unload.py	2025-02-27 12:12:29.000000000 +0000
++++ b/unload.py	2025-05-03 13:32:36.935183638 +0100
 @@ -44,6 +44,11 @@
  
  # Local

@@ -1,0 +1,105 @@
+From 05361692ee7d6260ce5c04c9fa0e5a1aa7565323 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jaroslav=20=C5=A0karvada?= <jskarvad@redhat.com>
+Date: Thu, 27 Feb 2025 23:00:16 +0100
+Subject: [PATCH] pppdump: Fixed building with GCC 15 (#548)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+GCC 15 defaults to C23 which does not allow K&R declarations.
+
+Credit Yaakov Selkowitz in:
+https://src.fedoraproject.org/rpms/ppp/pull-request/12
+
+Signed-off-by: Jaroslav Škarvada <jskarvad@redhat.com>
+---
+ pppdump/pppdump.c | 20 +++++++-------------
+ 1 file changed, 7 insertions(+), 13 deletions(-)
+
+diff --git a/pppdump/pppdump.c b/pppdump/pppdump.c
+index c24208af..1534036c 100644
+--- a/pppdump/pppdump.c
++++ b/pppdump/pppdump.c
+@@ -42,14 +42,12 @@ int tot_sent, tot_rcvd;
+ extern int optind;
+ extern char *optarg;
+ 
+-void dumplog();
+-void dumpppp();
+-void show_time();
++void dumplog(FILE *);
++void dumpppp(FILE *);
++void show_time(FILE *, int);
+ 
+ int
+-main(ac, av)
+-    int ac;
+-    char **av;
++main(int ac, char **av)
+ {
+     int i;
+     char *p;
+@@ -97,8 +95,7 @@ main(ac, av)
+ }
+ 
+ void
+-dumplog(f)
+-    FILE *f;
++dumplog(FILE *f)
+ {
+     int c, n, k, col;
+     int nb, c2;
+@@ -241,8 +238,7 @@ struct pkt {
+ unsigned char dbuf[8192];
+ 
+ void
+-dumpppp(f)
+-    FILE *f;
++dumpppp(FILE *f)
+ {
+     int c, n, k;
+     int nb, nl, dn, proto, rv;
+@@ -375,9 +371,7 @@ dumpppp(f)
+ }
+ 
+ void
+-show_time(f, c)
+-    FILE *f;
+-    int c;
++show_time(FILE *f, int c)
+ {
+     time_t t;
+     int n;
+
+From fb769c380eeacf23b64cb3bf7860ba49a0e0eed5 Mon Sep 17 00:00:00 2001
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 8 Apr 2025 00:15:57 -0700
+Subject: [PATCH] pppd: Fix building session.c with GCC 15 (#553)
+
+Fixed building with GCC 15 which defaults to C23
+and find conflicting declration of getspnam() here
+with the one provided by shadow.h (extern struct spwd *getspnam (const char *__name);)
+
+Fixes
+../../ppp-2.5.2/pppd/session.c: In function 'session_start':
+../../ppp-2.5.2/pppd/session.c:185:18: error: conflicting types for 'getspnam'; have 'struct spwd *(void)'
+  185 |     struct spwd *getspnam();
+      |                  ^~~~~~~~
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ pppd/session.c | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/pppd/session.c b/pppd/session.c
+index f08d8e19..9cc75389 100644
+--- a/pppd/session.c
++++ b/pppd/session.c
+@@ -182,7 +182,6 @@ session_start(const int flags, const char *user, const char *passwd, const char
+     char *cbuf;
+ #ifdef HAVE_SHADOW_H
+     struct spwd *spwd;
+-    struct spwd *getspnam();
+     long now = 0;
+ #endif /* #ifdef HAVE_SHADOW_H */
+ #endif /* #ifdef PPP_WITH_PAM */

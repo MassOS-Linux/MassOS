@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Trust osinstallgui desktop launcher on Xfce
+Exec=/usr/bin/bash -c "cd ~/Desktop; gio set -t string osinstallgui.desktop metadata::xfce-exe-checksum $(sha256sum osinstallgui.desktop | cut -d' ' -f1)"
+OnlyShowIn=XFCE;

@@ -64,7 +64,7 @@ mkdir -p iso-workdir/iso-root/LiveOS
 mkdir -p iso-workdir/squashfs-tmp/LiveOS
 mkdir -p iso-workdir/efitmp
 # Get information from the rootfs (before extracting the whole thing).
-echo "Gathering information from the rootfs..."
+echo "Getting information from the rootfs..."
 # Get firmware versions.
 tar -xf "$1" -C iso-workdir --strip-components=3 usr/share/massos/firmwareversions
 FW_VER="$(grep -m1 "^linux-firmware:" iso-workdir/firmwareversions | cut -d' ' -f2-)"
@@ -117,8 +117,9 @@ make -C iso-workdir/osinstallgui DESTDIR="$PWD"/iso-workdir/massos-rootfs instal
 sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|<name-of-live-user>|massos|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -dm755 /home/massos/Desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -m755 /usr/share/applications/osinstallgui.desktop /home/massos/Desktop/osinstallgui.desktop
-# Change yad's open-command setting, so osinstallgui can open URLs properly.
-chroot iso-workdir/massos-rootfs /usr/bin/gsettings set yad.settings open-command '/usr/libexec/webkit2gtk-4.1/MiniBrowser "%s"'
+# Ensure the installer desktop icon is not untrusted on Xfce.
+install -Dm644 livecd-data/trust-osinstallgui.desktop iso-workdir/massos-rootfs/home/massos/.config/autostart/trust-osinstallgui.desktop
+chroot iso-workdir/massos-rootfs /usr/bin/chown -R massos:massos /home/massos/.config/autostart
 # Set up desktop-specific autologin configuration.
 . livecd-data/autologin/autologin.sh
 # Install firmware.

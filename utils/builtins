@@ -280,6 +280,7 @@ libblockdev
 libbluray
 libbpf
 libbs2b
+libbsd
 libburn
 libbytesize
 libcanberra
@@ -344,6 +345,7 @@ libldap
 libliftoff
 libmanette
 libmbim
+libmd
 libmetalink
 libmicrodns
 libmnl

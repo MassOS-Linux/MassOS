@@ -1,0 +1,2297 @@
+This is a consolidation of Debian's patches for Netcat.
+
+https://salsa.debian.org/debian/netcat-openbsd/-/tree/debian/1.229-1/debian/patches
+
+It also adds the Debian copyright file, which contains the software licenses.
+
+https://salsa.debian.org/debian/netcat-openbsd/-/blob/debian/1.229-1/debian/copyright
+
+diff '--color=auto' -aruN a/copyright b/copyright
+--- a/copyright	1970-01-01 01:00:00.000000000 +0100
++++ b/copyright	2025-05-01 19:13:35.553152669 +0100
+@@ -0,0 +1,83 @@
++Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
++Source: http://www.openbsd.org/cgi-bin/cvsweb/src/usr.bin/nc/
++Upstream-Name: netcat
++
++Files: netcat.c
++Copyright: 2001 Eric Jackson <ericj@monkey.org>
++License: BSD-3-Clause
++
++Files: nc.1
++Copyright: 1996 David Sacerdote
++License: BSD-3-Clause
++
++Files: atomicio.*
++Copyright: 2006 Damien Miller
++           2005 Anil Madhavapeddy
++           1995,1999 Theo de Raadt
++License: BSD-2-Clause
++
++Files: socks.c
++Copyright: 1999 Niklas Hallqvist
++           2004, 2005 Damien Miller
++License: BSD-2-Clause
++
++Files: Makefile
++Copyright: The OpenBSD project
++License: BSD-3-Clause
++
++Files: debian/*
++Copyright: 2008, 2009, 2010 Decklin Foster <decklin@red-bean.com>
++           2008, 2009, 2010 Soren Hansen <soren@ubuntu.com>
++           2012 Aron Xu <aron@debian.org>
++           2016-2022 Guilhem Moulin <guilhem@debian.org>
++License: BSD-3-Clause
++
++Files: debian/checks/* debian/tests/*
++Copyright: 2021-2022 Guilhem Moulin <guilhem@debian.org>
++License: BSD-3-Clause
++
++License: BSD-2-Clause
++ Redistribution and use in source and binary forms, with or without
++ modification, are permitted provided that the following conditions
++ are met:
++ .
++ 1. Redistributions of source code must retain the above copyright
++    notice, this list of conditions and the following disclaimer.
++ 2. Redistributions in binary form must reproduce the above copyright
++    notice, this list of conditions and the following disclaimer in the
++    documentation and/or other materials provided with the distribution.
++ .
++ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
++
++License: BSD-3-Clause
++ Redistribution and use in source and binary forms, with or without
++ modification, are permitted provided that the following conditions
++ are met:
++ .
++ 1. Redistributions of source code must retain the above copyright
++    notice, this list of conditions and the following disclaimer.
++ 2. Redistributions in binary form must reproduce the above copyright
++    notice, this list of conditions and the following disclaimer in the
++    documentation and/or other materials provided with the distribution.
++ 3. The name of the author may not be used to endorse or promote products
++    derived from this software without specific prior written permission.
++ .
++ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
++ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
++ OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
++ IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT,
++ INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
++ NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
++ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
++ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
++ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
++ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+diff '--color=auto' -aruN a/Makefile b/Makefile
+--- a/Makefile	2025-04-27 21:13:07.000000000 +0100
++++ b/Makefile	2025-05-01 19:13:10.377500624 +0100
+@@ -2,7 +2,19 @@
+ 
+ PROG=	nc
+ SRCS=	netcat.c atomicio.c socks.c
+-LDADD+= -ltls -lssl -lcrypto
+-DPADD+=  ${LIBTLS} ${LIBSSL} ${LIBCRYPTO}
+ 
+-.include <bsd.prog.mk>
++PKG_CONFIG ?= pkg-config
++LIBS=  `$(PKG_CONFIG) --libs libbsd` -lresolv
++OBJS=  $(SRCS:.c=.o)
++CFLAGS=  -g -O2
++LDFLAGS=  -Wl,--no-add-needed
++
++all: nc
++nc: $(OBJS)
++	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LIBS) -o $@
++
++$(OBJS): %.o: %.c
++	$(CC) $(CFLAGS) -c $< -o $@
++
++clean:
++	rm -f $(OBJS) nc
+diff '--color=auto' -aruN a/nc.1 b/nc.1
+--- a/nc.1	2025-04-27 21:13:07.000000000 +0100
++++ b/nc.1	2025-05-01 19:13:10.377676344 +0100
+@@ -33,20 +33,15 @@
+ .Nd arbitrary TCP and UDP connections and listens
+ .Sh SYNOPSIS
+ .Nm nc
+-.Op Fl 46cDdFhklNnrStUuvz
+-.Op Fl C Ar certfile
+-.Op Fl e Ar name
+-.Op Fl H Ar hash
++.Op Fl 46bCDdFhklNnrStUuvZz
+ .Op Fl I Ar length
+ .Op Fl i Ar interval
+-.Op Fl K Ar keyfile
+ .Op Fl M Ar ttl
+ .Op Fl m Ar minttl
+ .Op Fl O Ar length
+-.Op Fl o Ar staplefile
+ .Op Fl P Ar proxy_username
+ .Op Fl p Ar source_port
+-.Op Fl R Ar CAfile
++.Op Fl q Ar seconds
+ .Op Fl s Ar sourceaddr
+ .Op Fl T Ar keyword
+ .Op Fl V Ar rtable
+@@ -54,7 +49,6 @@
+ .Op Fl w Ar timeout
+ .Op Fl X Ar proxy_protocol
+ .Op Fl x Ar proxy_address Ns Op : Ns Ar port
+-.Op Fl Z Ar peercertfile
+ .Op Ar destination
+ .Op Ar port
+ .Sh DESCRIPTION
+@@ -99,28 +93,17 @@
+ Use IPv4 addresses only.
+ .It Fl 6
+ Use IPv6 addresses only.
+-.It Fl C Ar certfile
+-Load the public key part of the TLS peer certificate from
+-.Ar certfile ,
+-in PEM format.
+-Requires
+-.Fl c .
+-.It Fl c
+-Use TLS to connect or listen.
+-Cannot be used together with any of the options
+-.Fl FuU .
++.It Fl b
++Allow broadcast.
++.It Fl C
++Send CRLF as line-ending.  Each line feed (LF) character from the input
++data is translated into CR+LF before being written to the socket.  Line
++feed characters that are already preceded with a carriage return (CR)
++are not translated.  Received data is not affected.
+ .It Fl D
+ Enable debugging on the socket.
+ .It Fl d
+ Do not attempt to read from stdin.
+-.It Fl e Ar name
+-Only accept the TLS peer certificate if it contains the
+-.Ar name .
+-Requires
+-.Fl c .
+-If not specified,
+-.Ar destination
+-is used.
+ .It Fl F
+ Pass the first connected socket using
+ .Xr sendmsg 2
+@@ -137,18 +120,7 @@
+ .Cm ProxyUseFdpass
+ option).
+ Cannot be used with
+-.Fl c
+-or
+ .Fl U .
+-.It Fl H Ar hash
+-Only accept the TLS peer certificate if its hash returned from
+-.Xr tls_peer_cert_hash 3
+-matches
+-.Ar hash .
+-Requires
+-.Fl c
+-and cannot be used with
+-.Fl T Cm noverify .
+ .It Fl h
+ Print out the
+ .Nm
+@@ -160,12 +132,6 @@
+ .Ar interval
+ seconds between lines of text sent and received.
+ Also causes a delay time between connections to multiple ports.
+-.It Fl K Ar keyfile
+-Load the TLS private key from
+-.Ar keyfile ,
+-in PEM format.
+-Requires
+-.Fl c .
+ .It Fl k
+ When a connection is completed, listen for another one.
+ Requires
+@@ -177,8 +143,20 @@
+ .It Fl l
+ Listen for an incoming connection rather than initiating a
+ connection to a remote host.
+-Cannot be used together with any of the options
+-.Fl psxz .
++The
++.Ar destination
++and
++.Ar port
++to listen on can be specified either as non-optional arguments, or with
++options
++.Fl s
++and
++.Fl p
++respectively.
++Cannot be used together with
++.Fl x
++or
++.Fl z .
+ Additionally, any timeouts specified with the
+ .Fl w
+ option are ignored.
+@@ -196,15 +174,6 @@
+ If a name cannot be resolved without DNS, an error will be reported.
+ .It Fl O Ar length
+ Specify the size of the TCP send buffer.
+-.It Fl o Ar staplefile
+-During the TLS handshake, load data to be stapled from
+-.Ar staplefile ,
+-which is expected to contain an OCSP response from an OCSP server in
+-DER format.
+-Requires
+-.Fl c
+-and
+-.Fl C .
+ .It Fl P Ar proxy_username
+ Specifies a username to present to a proxy server that requires authentication.
+ If no username is specified then authentication will not be attempted.
+@@ -213,15 +182,15 @@
+ Specify the source port
+ .Nm
+ should use, subject to privilege restrictions and availability.
+-Cannot be used together with
+-.Fl l .
+-.It Fl R Ar CAfile
+-Load the root CA bundle for TLS certificate verification from
+-.Ar CAfile ,
+-in PEM format, instead of
+-.Pa /etc/ssl/cert.pem .
+-Requires
+-.Fl c .
++.It Fl q Ar seconds
++after EOF on stdin, wait the specified number of
++.Ar seconds
++and then quit. If
++.Ar seconds
++is negative, wait forever (default).  Specifying a non-negative
++.Ar seconds
++implies
++.Fl N .
+ .It Fl r
+ Choose source and/or destination ports randomly
+ instead of sequentially within a range or in the order that the system
+@@ -236,43 +205,14 @@
+ datagram sockets, specifies the local temporary socket file
+ to create and use so that datagrams can be received.
+ Cannot be used together with
+-.Fl l
+-or
+ .Fl x .
+ .It Fl T Ar keyword
+-Change the IPv4 TOS/IPv6 traffic class value or the TLS options.
+-.Pp
+-For TLS options,
+-.Ar keyword
+-may be one of:
+-.Cm noverify ,
+-which disables certificate verification;
+-.Cm noname ,
+-which disables certificate name checking;
+-.Cm clientcert ,
+-which requires a client certificate on incoming connections; or
+-.Cm muststaple ,
+-which requires the peer to provide a valid stapled OCSP response
+-with the handshake.
+-The following TLS options specify a value in the form of a
+-.Ar key Ns = Ns Ar value
+-pair:
+-.Cm ciphers ,
+-which allows the supported TLS ciphers to be specified (see
+-.Xr tls_config_set_ciphers 3
+-for further details);
+-.Cm protocols ,
+-which allows the supported TLS protocols to be specified (see
+-.Xr tls_config_parse_protocols 3
+-for further details).
+-Specifying TLS options requires
+-.Fl c .
+-.Pp
+-For the IPv4 TOS/IPv6 traffic class value,
++Change the IPv4 TOS/IPv6 traffic class value.
+ .Ar keyword
+ may be one of
+ .Cm critical ,
+ .Cm inetcontrol ,
++.Cm lowcost ,
+ .Cm lowdelay ,
+ .Cm netcontrol ,
+ .Cm throughput ,
+@@ -291,13 +231,16 @@
+ Use
+ .Ux Ns -domain
+ sockets.
+-Cannot be used together with any of the options
+-.Fl cFx .
++Cannot be used together with
++.Fl F
++or
++.Fl x .
++On Linux, if the name starts with an at symbol (`@') it is read as an abstract
++namespace socket: the leading `@' is replaced with a \fBNUL\fR byte
++before binding or connecting.  For details, see \fBunix\fR(7).
+ .It Fl u
+ Use UDP instead of TCP.
+ Cannot be used together with
+-.Fl c
+-or
+ .Fl x .
+ For
+ .Ux Ns -domain
+@@ -360,12 +303,8 @@
+ in square brackets.
+ A proxy cannot be used with any of the options
+ .Fl lsuU .
+-.It Fl Z Ar peercertfile
+-Save the peer certificates to
+-.Ar peercertfile ,
+-in PEM format.
+-Requires
+-.Fl c .
++.It Fl Z
++DCCP mode.
+ .It Fl z
+ Only scan for listening daemons, without sending any data to them.
+ Cannot be used together with
+@@ -432,6 +371,54 @@
+ as the
+ .Fl N
+ flag was given.
++.Pp
++There is no
++.Fl c
++or
++.Fl e
++option in this netcat, but you still can execute a command after connection
++being established by redirecting file descriptors. Be cautious here because
++opening a port and let anyone connected execute arbitrary command on your
++site is DANGEROUS. If you really need to do this, here is an example:
++.Pp
++On
++.Sq server
++side:
++.Pp
++.Dl $ rm -f /tmp/f; mkfifo /tmp/f
++.Dl $ cat /tmp/f | /bin/sh -i 2>&1 | nc -l 127.0.0.1 1234 > /tmp/f
++.Pp
++On
++.Sq client
++side:
++.Pp
++.Dl $ nc host.example.com 1234
++.Dl $ (shell prompt from host.example.com)
++.Pp
++By doing this, you create a fifo at /tmp/f and make nc listen at port 1234
++of address 127.0.0.1 on
++.Sq server
++side, when a
++.Sq client
++establishes a connection successfully to that port, /bin/sh gets executed
++on
++.Sq server
++side and the shell prompt is given to
++.Sq client
++side.
++.Pp
++When connection is terminated,
++.Nm
++quits as well. Use
++.Fl k
++if you want it keep listening, but if the command quits this option won't
++restart it or keep
++.Nm
++running. Also don't forget to remove the file descriptor once you don't need
++it anymore:
++.Pp
++.Dl $ rm -f /tmp/f
++.Pp
+ .Sh DATA TRANSFER
+ The example in the previous section can be expanded to build a
+ basic data transfer model.
+@@ -473,7 +460,7 @@
+ of requests required by the server.
+ As another example, an email may be submitted to an SMTP server using:
+ .Bd -literal -offset indent
+-$ nc localhost 25 << EOF
++$ nc [\-C] localhost 25 << EOF
+ HELO host.example.com
+ MAIL FROM:<user@host.example.com>
+ RCPT TO:<user2@host.example.com>
+@@ -491,15 +478,35 @@
+ flag can be used to tell
+ .Nm
+ to report open ports,
+-rather than initiate a connection.
++rather than initiate a connection. Usually it's useful to turn on verbose
++output to stderr by use this option in conjunction with
++.Fl v
++option.
++.Pp
+ For example:
+ .Bd -literal -offset indent
+-$ nc -z host.example.com 20-30
++$ nc \-zv host.example.com 20-30
+ Connection to host.example.com 22 port [tcp/ssh] succeeded!
+ Connection to host.example.com 25 port [tcp/smtp] succeeded!
+ .Ed
+ .Pp
+-The port range was specified to limit the search to ports 20 \- 30.
++The port range was specified to limit the search to ports 20 \- 30, and is
++scanned by increasing order (unless the
++.Fl r
++flag is set).
++.Pp
++You can also specify a list of ports to scan, for example:
++.Bd -literal -offset indent
++$ nc \-zv host.example.com http 20 22-23
++nc: connect to host.example.com 80 (tcp) failed: Connection refused
++nc: connect to host.example.com 20 (tcp) failed: Connection refused
++Connection to host.example.com port [tcp/ssh] succeeded!
++nc: connect to host.example.com 23 (tcp) failed: Connection refused
++.Ed
++.Pp
++The ports are scanned by the order you given (unless the
++.Fl r
++flag is set).
+ .Pp
+ Alternatively, it might be useful to know which server software
+ is running, and which versions.
+@@ -523,16 +530,6 @@
+ .Pp
+ .Dl $ nc -p 31337 -w 5 host.example.com 42
+ .Pp
+-Open a TCP connection to port 443 of www.example.com, and negotiate TLS with
+-any supported TLS protocol version and "compat" ciphers:
+-.Pp
+-.Dl $ nc -cv -T protocols=all -T ciphers=compat www.example.com 443
+-.Pp
+-Open a TCP connection to port 443 of www.google.ca, and negotiate TLS.
+-Check for a different name in the certificate for validation:
+-.Pp
+-.Dl $ nc -cv -e adsf.au.doubleclick.net www.google.ca 443
+-.Pp
+ Open a UDP connection to port 53 of host.example.com:
+ .Pp
+ .Dl $ nc -u host.example.com 53
+@@ -574,6 +571,9 @@
+ .br
+ Rewritten with IPv6 support by
+ .An Eric Jackson Aq Mt ericj@monkey.org .
++.br
++Modified for Debian port by Aron Xu
++.Aq aron@debian.org .
+ .Sh CAVEATS
+ UDP port scans using the
+ .Fl uz
+diff '--color=auto' -aruN a/netcat.c b/netcat.c
+--- a/netcat.c	2025-04-27 21:13:07.000000000 +0100
++++ b/netcat.c	2025-05-01 19:13:10.377947475 +0100
+@@ -32,6 +32,8 @@
+  * *Hobbit* <hobbit@avian.org>.
+  */
+ 
++#define _GNU_SOURCE
++
+ #include <sys/types.h>
+ #include <sys/socket.h>
+ #include <sys/uio.h>
+@@ -41,26 +43,78 @@
+ #include <netinet/tcp.h>
+ #include <netinet/ip.h>
+ #include <arpa/telnet.h>
++#ifdef __linux__
++# include <linux/in6.h>
++#endif
++#if defined(TCP_MD5SIG_EXT) && defined(TCP_MD5SIG_MAXKEYLEN)
++# include <bsd/readpassphrase.h>
++#endif
++
++#ifndef IPTOS_LOWDELAY
++# define IPTOS_LOWDELAY 0x10
++# define IPTOS_THROUGHPUT 0x08
++# define IPTOS_RELIABILITY 0x04
++# define IPTOS_LOWCOST 0x02
++# define IPTOS_MINCOST IPTOS_LOWCOST
++#endif /* IPTOS_LOWDELAY */
++
++# ifndef IPTOS_DSCP_AF11
++# define	IPTOS_DSCP_AF11		0x28
++# define	IPTOS_DSCP_AF12		0x30
++# define	IPTOS_DSCP_AF13		0x38
++# define	IPTOS_DSCP_AF21		0x48
++# define	IPTOS_DSCP_AF22		0x50
++# define	IPTOS_DSCP_AF23		0x58
++# define	IPTOS_DSCP_AF31		0x68
++# define	IPTOS_DSCP_AF32		0x70
++# define	IPTOS_DSCP_AF33		0x78
++# define	IPTOS_DSCP_AF41		0x88
++# define	IPTOS_DSCP_AF42		0x90
++# define	IPTOS_DSCP_AF43		0x98
++# define	IPTOS_DSCP_EF		0xb8
++#endif /* IPTOS_DSCP_AF11 */
++
++#ifndef IPTOS_DSCP_CS0
++# define	IPTOS_DSCP_CS0		0x00
++# define	IPTOS_DSCP_CS1		0x20
++# define	IPTOS_DSCP_CS2		0x40
++# define	IPTOS_DSCP_CS3		0x60
++# define	IPTOS_DSCP_CS4		0x80
++# define	IPTOS_DSCP_CS5		0xa0
++# define	IPTOS_DSCP_CS6		0xc0
++# define	IPTOS_DSCP_CS7		0xe0
++#endif /* IPTOS_DSCP_CS0 */
++
++#ifndef IPTOS_DSCP_EF
++# define	IPTOS_DSCP_EF		0xb8
++#endif /* IPTOS_DSCP_EF */
++
+ 
+ #include <ctype.h>
+ #include <err.h>
+ #include <errno.h>
++#include <fcntl.h>
+ #include <limits.h>
+ #include <netdb.h>
+ #include <poll.h>
+ #include <signal.h>
++#include <stddef.h>
+ #include <stdarg.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+ #include <time.h>
+-#include <tls.h>
++#ifdef HAVE_TLS
++# include <tls.h>
++#endif
+ #include <unistd.h>
++#include <bsd/stdlib.h>
++#include <bsd/string.h>
+ 
+ #include "atomicio.h"
+ 
+ #define PORT_MAX	65535
+-#define UNIX_DG_TMP_SOCKET_SIZE	19
++#define UNIX_DG_TMP_SOCKET_SIZE	25
+ 
+ #define POLL_STDIN	0
+ #define POLL_NETOUT	1
+@@ -68,12 +122,21 @@
+ #define POLL_STDOUT	3
+ #define BUFSIZE		16384
+ 
+-#define TLS_NOVERIFY	(1 << 1)
+-#define TLS_NONAME	(1 << 2)
+-#define TLS_CCERT	(1 << 3)
+-#define TLS_MUSTSTAPLE	(1 << 4)
++#ifdef HAVE_TLS
++# define TLS_NOVERIFY	(1 << 1)
++# define TLS_NONAME	(1 << 2)
++# define TLS_CCERT	(1 << 3)
++# define TLS_MUSTSTAPLE	(1 << 4)
++#endif
++
++#define CONNECTION_SUCCESS 0
++#define CONNECTION_FAILED 1
++#define CONNECTION_TIMEOUT 2
++
++#define UDP_SCAN_TIMEOUT 3			/* Seconds */
+ 
+ /* Command Line Options */
++int	bflag;					/* Allow Broadcast */
+ int	dflag;					/* detached, no stdin */
+ int	Fflag;					/* fdpass sock to stdout */
+ unsigned int iflag;				/* Interval Flag */
+@@ -83,10 +146,12 @@
+ int	nflag;					/* Don't do name look up */
+ char   *Pflag;					/* Proxy username */
+ char   *pflag;					/* Localport flag */
++int    qflag = -1;				/* Quit after some secs */
+ int	rflag;					/* Random ports flag */
+ char   *sflag;					/* Source Address */
+ int	tflag;					/* Telnet Emulation */
+ int	uflag;					/* UDP - Default to TCP */
++int	dccpflag;				/* DCCP - Default to TCP */
+ int	vflag;					/* Verbosity */
+ int	xflag;					/* Socks proxy */
+ int	zflag;					/* Port Scan Flag */
+@@ -97,6 +162,7 @@
+ int	Tflag = -1;				/* IP Type of Service */
+ int	rtableid = -1;
+ 
++#ifdef HAVE_TLS
+ int	usetls;					/* use TLS */
+ const char    *Cflag;				/* Public cert file */
+ const char    *Kflag;				/* Private key file */
+@@ -109,7 +175,13 @@
+ char	*tls_ciphers;				/* TLS ciphers */
+ char	*tls_protocols;				/* TLS protocols */
+ FILE	*Zflag;					/* file to save peer cert */
+-
++#else
++int	Cflag = 0;			/* CRLF line-ending */
++#endif
++
++#if defined(TCP_MD5SIG_EXT) && defined(TCP_MD5SIG_MAXKEYLEN)
++char Sflag_password[TCP_MD5SIG_MAXKEYLEN];
++#endif
+ int recvcount, recvlimit;
+ int timeout = -1;
+ int family = AF_UNSPEC;
+@@ -120,38 +192,58 @@
+ 
+ void	atelnet(int, unsigned char *, unsigned int);
+ int	strtoport(char *portstr, int udp);
+-void	build_ports(char *);
++void	build_ports(char **);
+ void	help(void) __attribute__((noreturn));
+ int	local_listen(const char *, const char *, struct addrinfo);
++#ifdef HAVE_TLS
+ void	readwrite(int, struct tls *);
++#else
++void	readwrite(int);
++#endif
+ void	fdpass(int nfd) __attribute__((noreturn));
+ int	remote_connect(const char *, const char *, struct addrinfo, char *);
++#ifdef HAVE_TLS
+ int	timeout_tls(int, struct tls *, int (*)(struct tls *));
++#endif
+ int	timeout_connect(int, const struct sockaddr *, socklen_t);
+ int	socks_connect(const char *, const char *, struct addrinfo,
+ 	    const char *, const char *, struct addrinfo, int, const char *);
+ int	udptest(int);
++int	unix_setup_sockaddr(char *, struct sockaddr_un *, int *);
+ void	connection_info(const char *, const char *, const char *, const char *);
+ int	unix_bind(char *, int);
+ int	unix_connect(char *);
+ int	unix_listen(char *);
+-void	set_common_sockopts(int, int);
++void	set_common_sockopts(int, const struct sockaddr *);
+ int	process_tos_opt(char *, int *);
++#ifdef HAVE_TLS
+ int	process_tls_opt(char *, int *);
+ void	save_peer_cert(struct tls *_tls_ctx, FILE *_fp);
++#endif
+ void	report_sock(const char *, const struct sockaddr *, socklen_t, char *);
++#ifdef HAVE_TLS
+ void	report_tls(struct tls *tls_ctx, char * host);
++#endif
+ void	usage(int);
++#ifdef HAVE_TLS
+ ssize_t drainbuf(int, unsigned char *, size_t *, struct tls *);
+ ssize_t fillbuf(int, unsigned char *, size_t *, struct tls *);
+ void	tls_setup_client(struct tls *, int, char *);
+ struct tls *tls_setup_server(struct tls *, int, char *);
++#else
++ssize_t drainbuf(int, unsigned char *, size_t *, int);
++ssize_t fillbuf(int, unsigned char *, size_t *);
++#endif
++
++char *proto_name(int, int);
++static int connect_with_timeout(int, const struct sockaddr *, socklen_t, int);
++static void quit(int sig);
+ 
+ int
+ main(int argc, char *argv[])
+ {
+ 	int ch, s = -1, ret, socksv;
+-	char *host, *uport;
++	char *host, **uport;
+ 	char ipaddr[NI_MAXHOST];
+ 	struct addrinfo hints;
+ 	socklen_t len;
+@@ -160,20 +252,28 @@
+ 	const char *errstr;
+ 	struct addrinfo proxyhints;
+ 	char unix_dg_tmp_socket_buf[UNIX_DG_TMP_SOCKET_SIZE];
++#ifdef HAVE_TLS
+ 	struct tls_config *tls_cfg = NULL;
+ 	struct tls *tls_ctx = NULL;
++#endif
+ 	uint32_t protocols;
+ 
+ 	ret = 1;
+ 	socksv = 5;
+ 	host = NULL;
+ 	uport = NULL;
++#ifdef HAVE_TLS
+ 	Rflag = tls_default_ca_cert_file();
++#endif
+ 
+ 	signal(SIGPIPE, SIG_IGN);
+ 
+ 	while ((ch = getopt(argc, argv,
+-	    "46C:cDde:FH:hI:i:K:klM:m:NnO:o:P:p:R:rSs:T:tUuV:vW:w:X:x:Z:z"))
++#ifdef HAVE_TLS
++	    "46bC:cDde:FH:hI:i:K:klM:m:NnO:o:P:p:q:R:rSs:T:tUuV:vW:w:X:x:Z:z"))
++#else
++	    "46bCDdFhI:i:klM:m:NnO:P:p:q:rSs:T:tUuV:vW:w:X:x:Zz"))
++#endif
+ 	    != -1) {
+ 		switch (ch) {
+ 		case '4':
+@@ -182,6 +282,13 @@
+ 		case '6':
+ 			family = AF_INET6;
+ 			break;
++		case 'b':
++#ifdef SO_BROADCAST
++			bflag = 1;
++#else
++			errx(1, "no broadcast frame support available");
++#endif
++			break;
+ 		case 'U':
+ 			family = AF_UNIX;
+ 			break;
+@@ -195,24 +302,34 @@
+ 			else
+ 				errx(1, "unsupported proxy protocol");
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'C':
+ 			Cflag = optarg;
+ 			break;
+ 		case 'c':
+ 			usetls = 1;
+ 			break;
++#else
++		case 'C':
++			Cflag = 1;
++			break;
++#endif
+ 		case 'd':
+ 			dflag = 1;
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'e':
+ 			tls_expectname = optarg;
+ 			break;
++#endif
+ 		case 'F':
+ 			Fflag = 1;
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'H':
+ 			tls_expecthash = optarg;
+ 			break;
++#endif
+ 		case 'h':
+ 			help();
+ 			break;
+@@ -221,9 +338,11 @@
+ 			if (errstr)
+ 				errx(1, "interval %s: %s", errstr, optarg);
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'K':
+ 			Kflag = optarg;
+ 			break;
++#endif
+ 		case 'k':
+ 			kflag = 1;
+ 			break;
+@@ -252,10 +371,19 @@
+ 		case 'p':
+ 			pflag = optarg;
+ 			break;
++		case 'q':
++			qflag = strtonum(optarg, INT_MIN, INT_MAX, &errstr);
++			if (errstr)
++				errx(1, "quit timer %s: %s", errstr, optarg);
++			if (qflag >= 0)
++				Nflag = 1;
++			break;
++#ifdef HAVE_TLS
+ 		case 'R':
+ 			tls_cachanged = 1;
+ 			Rflag = optarg;
+ 			break;
++#endif
+ 		case 'r':
+ 			rflag = 1;
+ 			break;
+@@ -268,11 +396,22 @@
+ 		case 'u':
+ 			uflag = 1;
+ 			break;
++		case 'Z':
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++			dccpflag = 1;
++#else
++			errx(1, "no DCCP support available");
++#endif
++			break;
+ 		case 'V':
++#ifdef RT_TABLEID_MAX
+ 			rtableid = (int)strtonum(optarg, 0,
+ 			    RT_TABLEID_MAX, &errstr);
+ 			if (errstr)
+ 				errx(1, "rtable %s: %s", errstr, optarg);
++#else
++			errx(1, "no alternate routing table support available");
++#endif
+ 			break;
+ 		case 'v':
+ 			vflag = 1;
+@@ -293,12 +432,14 @@
+ 			if ((proxy = strdup(optarg)) == NULL)
+ 				err(1, NULL);
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'Z':
+ 			if (strcmp(optarg, "-") == 0)
+ 				Zflag = stderr;
+ 			else if ((Zflag = fopen(optarg, "w")) == NULL)
+ 				err(1, "can't open %s", optarg);
+ 			break;
++#endif
+ 		case 'z':
+ 			zflag = 1;
+ 			break;
+@@ -317,17 +458,28 @@
+ 				errx(1, "TCP send window %s: %s",
+ 				    errstr, optarg);
+ 			break;
++#ifdef HAVE_TLS
+ 		case 'o':
+ 			oflag = optarg;
+ 			break;
++#endif
+ 		case 'S':
++#if defined(TCP_MD5SIG_EXT) && defined(TCP_MD5SIG_MAXKEYLEN)
++			if (readpassphrase("TCP MD5SIG password: ",
++					Sflag_password, TCP_MD5SIG_MAXKEYLEN, RPP_REQUIRE_TTY) == NULL)
++				errx(1, "Unable to read TCP MD5SIG password");
+ 			Sflag = 1;
++#else
++			errx(1, "no TCP MD5 signature support available");
++#endif
+ 			break;
+ 		case 'T':
+ 			errstr = NULL;
+ 			errno = 0;
++#ifdef HAVE_TLS
+ 			if (process_tls_opt(optarg, &TLSopt))
+ 				break;
++#endif
+ 			if (process_tos_opt(optarg, &Tflag))
+ 				break;
+ 			if (strlen(optarg) > 1 && optarg[0] == '0' &&
+@@ -337,7 +489,11 @@
+ 				Tflag = (int)strtonum(optarg, 0, 255,
+ 				    &errstr);
+ 			if (Tflag < 0 || Tflag > 255 || errstr || errno)
++#ifdef HAVE_TLS
+ 				errx(1, "illegal tos/tls value %s", optarg);
++#else
++				errx(1, "illegal tos value %s", optarg);
++#endif
+ 			break;
+ 		default:
+ 			usage(1);
+@@ -346,21 +502,50 @@
+ 	argc -= optind;
+ 	argv += optind;
+ 
++#ifdef RT_TABLEID_MAX
+ 	if (rtableid >= 0)
+ 		if (setrtable(rtableid) == -1)
+ 			err(1, "setrtable");
++#endif
+ 
+ 	/* Cruft to make sure options are clean, and used properly. */
+-	if (argc == 1 && family == AF_UNIX) {
+-		host = argv[0];
+-	} else if (argc == 1 && lflag) {
+-		uport = argv[0];
+-	} else if (argc == 2) {
++	if (argc == 0 && lflag) {
++		uport = &pflag;
++		host = sflag;
++	} else if (argc == 1 && !pflag &&
++			/* `nc -l 12345` or `nc -U bar` or `nc -uU -s foo bar` */
++			(!sflag || (family == AF_UNIX && uflag && !lflag))) {
++		if (family == AF_UNIX) {
++			host = argv[0];
++			uport = NULL;
++		} else if (lflag) {
++			host  = NULL;
++			uport = argv;
++		}
++	} else if (argc >= 2) {
++		if (lflag && (pflag || sflag || argc > 2))
++			usage(1); /* conflict */
+ 		host = argv[0];
+-		uport = argv[1];
++		uport = &argv[1];
+ 	} else
+ 		usage(1);
+ 
++	if (family == AF_UNIX) {
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++		if (dccpflag)
++			errx(1, "cannot use -Z and -U");
++#endif
++		if (uport && *uport)
++			errx(1, "cannot use port with -U");
++		if (!host)
++			errx(1, "missing socket pathname");
++	} else if (!uport || !*uport)
++		errx(1, "missing port number");
++
++	if (lflag && zflag)
++		errx(1, "cannot use -z and -l");
++
++#ifdef HAVE_TLS
+ 	if (usetls) {
+ 		if (Cflag && unveil(Cflag, "r") == -1)
+ 			err(1, "unveil %s", Cflag);
+@@ -395,42 +580,19 @@
+ 				err(1, "unveil /");
+ 		}
+ 	}
++#endif
+ 
+-	if (family == AF_UNIX) {
+-		if (pledge("stdio rpath wpath cpath tmppath unix", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (Fflag && Pflag) {
+-		if (pledge("stdio inet dns sendfd tty", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (Fflag) {
+-		if (pledge("stdio inet dns sendfd", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (Pflag && usetls) {
+-		if (pledge("stdio rpath inet dns tty", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (Pflag) {
+-		if (pledge("stdio inet dns tty", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (usetls) {
+-		if (pledge("stdio rpath inet dns", NULL) == -1)
+-			err(1, "pledge");
+-	} else if (pledge("stdio inet dns", NULL) == -1)
+-		err(1, "pledge");
+-
+-	if (lflag && sflag)
+-		errx(1, "cannot use -s and -l");
+-	if (lflag && pflag)
+-		errx(1, "cannot use -p and -l");
+-	if (lflag && zflag)
+-		errx(1, "cannot use -z and -l");
+ 	if (!lflag && kflag)
+ 		errx(1, "must use -l with -k");
++#ifdef HAVE_TLS
+ 	if (uflag && usetls)
+ 		errx(1, "cannot use -c and -u");
+ 	if ((family == AF_UNIX) && usetls)
+ 		errx(1, "cannot use -c and -U");
++#endif
+ 	if ((family == AF_UNIX) && Fflag)
+ 		errx(1, "cannot use -F and -U");
++#ifdef HAVE_TLS
+ 	if (Fflag && usetls)
+ 		errx(1, "cannot use -c and -F");
+ 	if (TLSopt && !usetls)
+@@ -449,16 +611,27 @@
+ 		errx(1, "you must specify -c to use -H");
+ 	if (tls_expectname && !usetls)
+ 		errx(1, "you must specify -c to use -e");
++#endif
+ 
+ 	/* Get name of temporary socket for unix datagram client */
+ 	if ((family == AF_UNIX) && uflag && !lflag) {
+ 		if (sflag) {
+ 			unix_dg_tmp_socket = sflag;
+ 		} else {
+-			strlcpy(unix_dg_tmp_socket_buf, "/tmp/nc.XXXXXXXXXX",
++			/* On Linux it's tempting to use abstract sockets here in
++			 * order to limit bookkeeping and avoid cluttering /tmp.
++			 * Unfortunately though this has security implications, as a
++			 * second client could inject server responses if they
++			 * manage to connect(2) to the temporary socket between the
++			 * first client's bind(2) and connect(2) calls.  OTOH for
++			 * pathname sockets the injection is only possible on Linux
++			 * when write access to the socket is granted. */
++			strlcpy(unix_dg_tmp_socket_buf, "/tmp/nc-XXXXXX",
++			    UNIX_DG_TMP_SOCKET_SIZE);
++			if (mkdtemp(unix_dg_tmp_socket_buf) == NULL)
++				err(1, "mkdtemp");
++			strlcat(unix_dg_tmp_socket_buf, "/recv.sock",
+ 			    UNIX_DG_TMP_SOCKET_SIZE);
+-			if (mktemp(unix_dg_tmp_socket_buf) == NULL)
+-				err(1, "mktemp");
+ 			unix_dg_tmp_socket = unix_dg_tmp_socket_buf;
+ 		}
+ 	}
+@@ -467,8 +640,20 @@
+ 	if (family != AF_UNIX) {
+ 		memset(&hints, 0, sizeof(struct addrinfo));
+ 		hints.ai_family = family;
+-		hints.ai_socktype = uflag ? SOCK_DGRAM : SOCK_STREAM;
+-		hints.ai_protocol = uflag ? IPPROTO_UDP : IPPROTO_TCP;
++		if (uflag) {
++			hints.ai_socktype = SOCK_DGRAM;
++			hints.ai_protocol = IPPROTO_UDP;
++		}
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++		else if (dccpflag) {
++			hints.ai_socktype = SOCK_DCCP;
++			hints.ai_protocol = IPPROTO_DCCP;
++		}
++#endif
++		else {
++			hints.ai_socktype = SOCK_STREAM;
++			hints.ai_protocol = IPPROTO_TCP;
++		}
+ 		if (nflag)
+ 			hints.ai_flags |= AI_NUMERICHOST;
+ 	}
+@@ -476,7 +661,10 @@
+ 	if (xflag) {
+ 		if (uflag)
+ 			errx(1, "no proxy support for UDP mode");
+-
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++		if (dccpflag)
++			errx(1, "no proxy support for DCCP mode");
++#endif
+ 		if (lflag)
+ 			errx(1, "no proxy support for listen");
+ 
+@@ -515,6 +703,7 @@
+ 			proxyhints.ai_flags |= AI_NUMERICHOST;
+ 	}
+ 
++#ifdef HAVE_TLS
+ 	if (usetls) {
+ 		if ((tls_cfg = tls_config_new()) == NULL)
+ 			errx(1, "unable to allocate TLS config");
+@@ -551,6 +740,7 @@
+ 		} else if (pledge("stdio inet dns", NULL) == -1)
+ 			err(1, "pledge");
+ 	}
++#endif
+ 	if (lflag) {
+ 		ret = 0;
+ 
+@@ -559,8 +749,12 @@
+ 				s = unix_bind(host, 0);
+ 			else
+ 				s = unix_listen(host);
+-		}
++		} else
++			s = local_listen(host, *uport, hints);
++		if (s < 0)
++			err(1, NULL);
+ 
++#ifdef HAVE_TLS
+ 		if (usetls) {
+ 			tls_config_verify_client_optional(tls_cfg);
+ 			if ((tls_ctx = tls_server()) == NULL)
+@@ -569,26 +763,20 @@
+ 				errx(1, "tls configuration failed (%s)",
+ 				    tls_error(tls_ctx));
+ 		}
++#endif
+ 		/* Allow only one connection at a time, but stay alive. */
+ 		for (;;) {
+-			if (family != AF_UNIX) {
+-				if (s != -1)
+-					close(s);
+-				s = local_listen(host, uport, hints);
+-			}
+-			if (s == -1)
+-				err(1, NULL);
+ 			if (uflag && kflag) {
+-				if (family == AF_UNIX) {
+-					if (pledge("stdio unix", NULL) == -1)
+-						err(1, "pledge");
+-				}
+ 				/*
+ 				 * For UDP and -k, don't connect the socket,
+ 				 * let it receive datagrams from multiple
+ 				 * socket pairs.
+ 				 */
++#ifdef HAVE_TLS
+ 				readwrite(s, NULL);
++#else
++				readwrite(s);
++#endif
+ 			} else if (uflag && !kflag) {
+ 				/*
+ 				 * For UDP and not -k, we will use recvfrom()
+@@ -609,18 +797,19 @@
+ 				if (rv == -1)
+ 					err(1, "connect");
+ 
+-				if (family == AF_UNIX) {
+-					if (pledge("stdio unix", NULL) == -1)
+-						err(1, "pledge");
+-				}
+ 				if (vflag)
+ 					report_sock("Connection received",
+ 					    (struct sockaddr *)&z, len,
+ 					    family == AF_UNIX ? host : NULL);
+ 
++#ifdef HAVE_TLS
+ 				readwrite(s, NULL);
+ 			} else {
+ 				struct tls *tls_cctx = NULL;
++#else
++				readwrite(s);
++			} else {
++#endif
+ 				int connfd;
+ 
+ 				len = sizeof(cliaddr);
+@@ -634,6 +823,7 @@
+ 					report_sock("Connection received",
+ 					    (struct sockaddr *)&cliaddr, len,
+ 					    family == AF_UNIX ? host : NULL);
++#ifdef HAVE_TLS
+ 				if ((usetls) &&
+ 				    (tls_cctx = tls_setup_server(tls_ctx, connfd, host)))
+ 					readwrite(connfd, tls_cctx);
+@@ -643,25 +833,42 @@
+ 					timeout_tls(s, tls_cctx, tls_close);
+ 				close(connfd);
+ 				tls_free(tls_cctx);
++#else
++				readwrite(connfd);
++				close(connfd);
++#endif
+ 			}
+ 
+-			if (!kflag)
++			if (!kflag) {
++				if (s != -1)
++					close(s);
+ 				break;
++			}
+ 		}
+ 	} else if (family == AF_UNIX) {
+ 		ret = 0;
+ 
+ 		if ((s = unix_connect(host)) > 0) {
+ 			if (!zflag)
++#ifdef HAVE_TLS
+ 				readwrite(s, NULL);
++#else
++				readwrite(s);
++#endif
+ 			close(s);
+ 		} else {
+ 			warn("%s", host);
+ 			ret = 1;
+ 		}
+ 
+-		if (uflag)
++		if (uflag && !sflag) {
+ 			unlink(unix_dg_tmp_socket);
++			char *nam = strrchr(unix_dg_tmp_socket, '/');
++			if (nam != NULL) {
++				nam[0] = '\0';
++				rmdir(unix_dg_tmp_socket);
++			}
++		}
+ 		return ret;
+ 	} else {
+ 		int i = 0;
+@@ -673,6 +880,7 @@
+ 		for (s = -1, i = 0; portlist[i] != NULL; i++) {
+ 			if (s != -1)
+ 				close(s);
++#ifdef HAVE_TLS
+ 			tls_free(tls_ctx);
+ 			tls_ctx = NULL;
+ 
+@@ -683,6 +891,7 @@
+ 					errx(1, "tls configuration failed (%s)",
+ 					    tls_error(tls_ctx));
+ 			}
++#endif
+ 			if (xflag)
+ 				s = socks_connect(host, portlist[i], hints,
+ 				    proxy, proxyport, proxyhints, socksv,
+@@ -706,12 +915,15 @@
+ 						continue;
+ 					}
+ 				}
+-				if (print_info == 1)
++				if (print_info == 1) {
++					char *proto = proto_name(uflag, dccpflag);
+ 					connection_info(host, portlist[i],
+-					    uflag ? "udp" : "tcp", ipaddr);
++					    proto, ipaddr);
++				}
+ 			}
+ 			if (Fflag)
+ 				fdpass(s);
++#ifdef HAVE_TLS
+ 			else {
+ 				if (usetls)
+ 					tls_setup_client(tls_ctx, s, host);
+@@ -720,17 +932,63 @@
+ 				if (tls_ctx)
+ 					timeout_tls(s, tls_ctx, tls_close);
+ 			}
++#else
++			else if (!zflag)
++				readwrite(s);
++#endif
+ 		}
+ 	}
+ 
+ 	if (s != -1)
+ 		close(s);
++#ifdef HAVE_TLS
+ 	tls_free(tls_ctx);
+ 	tls_config_free(tls_cfg);
++#endif
+ 
+ 	return ret;
+ }
+ 
++int
++unix_setup_sockaddr(char *path, struct sockaddr_un *s_un, int *addrlen)
++{
++	int sun_path_len;
++
++	*addrlen = offsetof(struct sockaddr_un, sun_path);
++	memset(s_un, 0, *addrlen);
++	s_un->sun_family = AF_UNIX;
++
++	if (path[0] == '\0') {
++		/* Always reject the empty path, aka NUL abstract socket on
++		 * Linux (OTOH the *empty* abstract socket is supported and
++		 * specified as @""). */
++		errno = EINVAL;
++		return -1;
++	}
++#ifdef __linux__
++	/* If the unix domain socket path starts with '@',
++	 * treat it as a Linux abstract name. */
++	else if (path[0] == '@') {
++		if ((sun_path_len = strlen(path)) <= sizeof(s_un->sun_path)) {
++			s_un->sun_path[0] = '\0';
++			strncpy(s_un->sun_path+1, path+1, sun_path_len-1);
++			*addrlen += sun_path_len;
++		} else {
++			errno = ENAMETOOLONG;
++			return -1;
++		}
++	}
++#endif
++	else if ((sun_path_len = strlcpy(s_un->sun_path, path, sizeof(s_un->sun_path))) <
++	    sizeof(s_un->sun_path))
++		*addrlen += sun_path_len + 1; /* account for trailing '\0' */
++	else {
++		errno = ENAMETOOLONG;
++		return -1;
++	}
++	return 0;
++}
++
+ /*
+  * unix_bind()
+  * Returns a unix socket bound to the given path
+@@ -739,24 +997,22 @@
+ unix_bind(char *path, int flags)
+ {
+ 	struct sockaddr_un s_un;
+-	int s, save_errno;
++	int s, save_errno, addrlen;
++
++	if (unix_setup_sockaddr(path, &s_un, &addrlen) == -1)
++		return -1;
+ 
+ 	/* Create unix domain socket. */
+ 	if ((s = socket(AF_UNIX, flags | (uflag ? SOCK_DGRAM : SOCK_STREAM),
+ 	    0)) == -1)
+ 		return -1;
+ 
+-	memset(&s_un, 0, sizeof(struct sockaddr_un));
+-	s_un.sun_family = AF_UNIX;
+-
+-	if (strlcpy(s_un.sun_path, path, sizeof(s_un.sun_path)) >=
+-	    sizeof(s_un.sun_path)) {
+-		close(s);
+-		errno = ENAMETOOLONG;
+-		return -1;
+-	}
++#ifdef __linux__
++	if (path[0] != '@')
++#endif
++	unlink(path);
+ 
+-	if (bind(s, (struct sockaddr *)&s_un, sizeof(s_un)) == -1) {
++	if (bind(s, (struct sockaddr *)&s_un, addrlen) == -1) {
+ 		save_errno = errno;
+ 		close(s);
+ 		errno = save_errno;
+@@ -768,6 +1024,7 @@
+ 	return s;
+ }
+ 
++#ifdef HAVE_TLS
+ int
+ timeout_tls(int s, struct tls *tls_ctx, int (*func)(struct tls *))
+ {
+@@ -855,6 +1112,7 @@
+ 	}
+ 	return NULL;
+ }
++#endif
+ 
+ /*
+  * unix_connect()
+@@ -864,26 +1122,20 @@
+ unix_connect(char *path)
+ {
+ 	struct sockaddr_un s_un;
+-	int s, save_errno;
++	int s, save_errno, addrlen;
++
++	if (unix_setup_sockaddr(path, &s_un, &addrlen) == -1)
++		return -1;
+ 
+ 	if (uflag) {
+ 		if ((s = unix_bind(unix_dg_tmp_socket, SOCK_CLOEXEC)) == -1)
+-			return -1;
++			err(1, "%s", unix_dg_tmp_socket);
+ 	} else {
+ 		if ((s = socket(AF_UNIX, SOCK_STREAM | SOCK_CLOEXEC, 0)) == -1)
+ 			return -1;
+ 	}
+ 
+-	memset(&s_un, 0, sizeof(struct sockaddr_un));
+-	s_un.sun_family = AF_UNIX;
+-
+-	if (strlcpy(s_un.sun_path, path, sizeof(s_un.sun_path)) >=
+-	    sizeof(s_un.sun_path)) {
+-		close(s);
+-		errno = ENAMETOOLONG;
+-		return -1;
+-	}
+-	if (connect(s, (struct sockaddr *)&s_un, sizeof(s_un)) == -1) {
++	if (connect(s, (struct sockaddr *)&s_un, addrlen) == -1) {
+ 		save_errno = errno;
+ 		close(s);
+ 		errno = save_errno;
+@@ -913,6 +1165,21 @@
+ 	return s;
+ }
+ 
++char *proto_name(int uflag, int dccpflag) {
++	char *proto = NULL;
++
++	if (uflag)
++		proto = "udp";
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++	else if (dccpflag)
++		proto = "dccp";
++#endif
++	else
++		proto = "tcp";
++
++	return proto;
++}
++
+ /*
+  * remote_connect()
+  * Returns a socket connected to a remote host. Properly binds to a local
+@@ -938,12 +1205,26 @@
+ 		if (sflag || pflag) {
+ 			struct addrinfo ahints, *ares;
+ 
++#ifdef SO_BINDANY
+ 			/* try SO_BINDANY, but don't insist */
+ 			setsockopt(s, SOL_SOCKET, SO_BINDANY, &on, sizeof(on));
++#endif
+ 			memset(&ahints, 0, sizeof(struct addrinfo));
+ 			ahints.ai_family = res->ai_family;
+-			ahints.ai_socktype = uflag ? SOCK_DGRAM : SOCK_STREAM;
+-			ahints.ai_protocol = uflag ? IPPROTO_UDP : IPPROTO_TCP;
++			if (uflag) {
++				ahints.ai_socktype = SOCK_DGRAM;
++				ahints.ai_protocol = IPPROTO_UDP;
++			}
++#if defined(IPPROTO_DCCP) && defined(SOCK_DCCP)
++			else if (dccpflag) {
++				hints.ai_socktype = SOCK_DCCP;
++				hints.ai_protocol = IPPROTO_DCCP;
++			}
++#endif
++			else {
++				ahints.ai_socktype = SOCK_STREAM;
++				ahints.ai_protocol = IPPROTO_TCP;
++			}
+ 			ahints.ai_flags = AI_PASSIVE;
+ 			if ((error = getaddrinfo(sflag, pflag, &ahints, &ares)))
+ 				errx(1, "getaddrinfo: %s", gai_strerror(error));
+@@ -954,7 +1235,7 @@
+ 			freeaddrinfo(ares);
+ 		}
+ 
+-		set_common_sockopts(s, res->ai_family);
++		set_common_sockopts(s, res->ai_addr);
+ 
+ 		if (ipaddr != NULL) {
+ 			herr = getnameinfo(res->ai_addr, res->ai_addrlen,
+@@ -969,18 +1250,23 @@
+ 			}
+ 		}
+ 
+-		if (timeout_connect(s, res->ai_addr, res->ai_addrlen) == 0)
++		if ((error = connect_with_timeout(s, res->ai_addr, res->ai_addrlen,
++		    timeout)) == CONNECTION_SUCCESS)
+ 			break;
+ 
++		char *proto = proto_name(uflag, dccpflag);
++
+ 		if (vflag) {
+ 			/* only print IP if there is something to report */
+ 			if (nflag || ipaddr == NULL ||
+ 			    (strncmp(host, ipaddr, NI_MAXHOST) == 0))
+-				warn("connect to %s port %s (%s) failed", host,
+-				    port, uflag ? "udp" : "tcp");
++				warn("connect to %s port %s (%s) %s", host,
++				    port, proto,
++				    error == CONNECTION_TIMEOUT ? "timed out" : "failed");
+ 			else
+-				warn("connect to %s (%s) port %s (%s) failed",
+-				    host, ipaddr, port, uflag ? "udp" : "tcp");
++				warn("connect to %s (%s) port %s (%s) %s",
++				    host, ipaddr, port, proto,
++				    error == CONNECTION_TIMEOUT ? "timed out" : "failed");
+ 		}
+ 
+ 		save_errno = errno;
+@@ -1022,6 +1308,68 @@
+ 	return ret;
+ }
+ 
++static int connect_with_timeout(int fd, const struct sockaddr *sa,
++    socklen_t salen, int ctimeout)
++{
++	int err;
++	struct timeval tv, *tvp = NULL;
++	fd_set connect_fdset;
++	socklen_t len;
++	int orig_flags;
++
++	orig_flags = fcntl(fd, F_GETFL, 0);
++	if (fcntl(fd, F_SETFL, orig_flags | O_NONBLOCK) < 0 ) {
++		warn("can't set O_NONBLOCK - timeout not available");
++		if (connect(fd, sa, salen) == 0)
++			return CONNECTION_SUCCESS;
++		else
++			return CONNECTION_FAILED;
++	}
++
++	/* set connect timeout */
++	if (ctimeout > 0) {
++		tv.tv_sec = (time_t)ctimeout/1000;
++		tv.tv_usec = 0;
++		tvp = &tv;
++	}
++
++	/* attempt the connection */
++	err = connect(fd, sa, salen);
++	if (err != 0 && errno == EINPROGRESS) {
++		/* connection is proceeding
++		 * it is complete (or failed) when select returns */
++
++		/* initialize connect_fdset */
++		FD_ZERO(&connect_fdset);
++		FD_SET(fd, &connect_fdset);
++
++		/* call select */
++		do {
++			err = select(fd + 1, NULL, &connect_fdset, NULL, tvp);
++		} while (err < 0 && errno == EINTR);
++
++		/* select error */
++		if (err < 0)
++			errx(1,"select error: %s", strerror(errno));
++		/* we have reached a timeout */
++		if (err == 0)
++			return CONNECTION_TIMEOUT;
++		/* select returned successfully, but we must test socket
++		 * error for result */
++		len = sizeof(err);
++		if (getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &len) < 0)
++			errx(1, "getsockopt error: %s", strerror(errno));
++		/* setup errno according to the result returned by
++		 * getsockopt */
++		if (err != 0)
++			errno = err;
++	}
++
++	/* return aborted if an error occured, and valid otherwise */
++	fcntl(fd, F_SETFL, orig_flags);
++	return (err != 0)? CONNECTION_FAILED : CONNECTION_SUCCESS;
++}
++
+ /*
+  * local_listen()
+  * Returns a socket listening on a local port, binds to specified source
+@@ -1052,11 +1400,17 @@
+ 		    res->ai_protocol)) == -1)
+ 			continue;
+ 
++		ret = setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &x, sizeof(x));
++		if (ret == -1)
++			warn("Couldn't set SO_REUSEADDR");
++
++#ifdef SO_REUSEPORT
+ 		ret = setsockopt(s, SOL_SOCKET, SO_REUSEPORT, &x, sizeof(x));
+ 		if (ret == -1)
+-			err(1, NULL);
++			warn("Couldn't set SO_REUSEPORT");
++#endif
+ 
+-		set_common_sockopts(s, res->ai_family);
++		set_common_sockopts(s, res->ai_addr);
+ 
+ 		if (bind(s, (struct sockaddr *)res->ai_addr,
+ 		    res->ai_addrlen) == 0)
+@@ -1093,7 +1447,11 @@
+  * Loop that polls on the network file descriptor and stdin.
+  */
+ void
++#ifdef HAVE_TLS
+ readwrite(int net_fd, struct tls *tls_ctx)
++#else
++readwrite(int net_fd)
++#endif
+ {
+ 	struct pollfd pfd[4];
+ 	int stdin_fd = STDIN_FILENO;
+@@ -1128,21 +1486,27 @@
+ 	while (1) {
+ 		/* both inputs are gone, buffers are empty, we are done */
+ 		if (pfd[POLL_STDIN].fd == -1 && pfd[POLL_NETIN].fd == -1 &&
+-		    stdinbufpos == 0 && netinbufpos == 0)
+-			return;
++		    stdinbufpos == 0 && netinbufpos == 0) {
++			if (qflag <= 0)
++				return;
++			goto delay_exit;
++		}
+ 		/* both outputs are gone, we can't continue */
+-		if (pfd[POLL_NETOUT].fd == -1 && pfd[POLL_STDOUT].fd == -1)
+-			return;
++		if (pfd[POLL_NETOUT].fd == -1 && pfd[POLL_STDOUT].fd == -1) {
++			if (qflag <= 0)
++				return;
++			goto delay_exit;
++		}
+ 		/* listen and net in gone, queues empty, done */
+ 		if (lflag && pfd[POLL_NETIN].fd == -1 &&
+-		    stdinbufpos == 0 && netinbufpos == 0)
+-			return;
+-
+-		/* help says -i is for "wait between lines sent". We read and
+-		 * write arbitrary amounts of data, and we don't want to start
+-		 * scanning for newlines, so this is as good as it gets */
+-		if (iflag)
+-			sleep(iflag);
++		    stdinbufpos == 0 && netinbufpos == 0) {
++			if (qflag <= 0)
++				return;
++delay_exit:
++			close(net_fd);
++			signal(SIGALRM, quit);
++			alarm(qflag);
++		}
+ 
+ 		/* poll */
+ 		num_fds = poll(pfd, 4, timeout);
+@@ -1193,12 +1557,17 @@
+ 		/* try to read from stdin */
+ 		if (pfd[POLL_STDIN].revents & POLLIN && stdinbufpos < BUFSIZE) {
+ 			ret = fillbuf(pfd[POLL_STDIN].fd, stdinbuf,
++#ifdef HAVE_TLS
+ 			    &stdinbufpos, NULL);
+ 			if (ret == TLS_WANT_POLLIN)
+ 				pfd[POLL_STDIN].events = POLLIN;
+ 			else if (ret == TLS_WANT_POLLOUT)
+ 				pfd[POLL_STDIN].events = POLLOUT;
+-			else if (ret == 0 || ret == -1)
++			else
++#else
++			    &stdinbufpos);
++#endif
++			if (ret == 0 || ret == -1)
+ 				pfd[POLL_STDIN].fd = -1;
+ 			/* read something - poll net out */
+ 			if (stdinbufpos > 0)
+@@ -1210,12 +1579,17 @@
+ 		/* try to write to network */
+ 		if (pfd[POLL_NETOUT].revents & POLLOUT && stdinbufpos > 0) {
+ 			ret = drainbuf(pfd[POLL_NETOUT].fd, stdinbuf,
++#ifdef HAVE_TLS
+ 			    &stdinbufpos, tls_ctx);
+ 			if (ret == TLS_WANT_POLLIN)
+ 				pfd[POLL_NETOUT].events = POLLIN;
+ 			else if (ret == TLS_WANT_POLLOUT)
+ 				pfd[POLL_NETOUT].events = POLLOUT;
+-			else if (ret == -1)
++			else
++#else
++			    &stdinbufpos, (iflag || Cflag) ? 1 : 0);
++#endif
++			if (ret == -1)
+ 				pfd[POLL_NETOUT].fd = -1;
+ 			/* buffer empty - remove self from polling */
+ 			if (stdinbufpos == 0)
+@@ -1227,12 +1601,17 @@
+ 		/* try to read from network */
+ 		if (pfd[POLL_NETIN].revents & POLLIN && netinbufpos < BUFSIZE) {
+ 			ret = fillbuf(pfd[POLL_NETIN].fd, netinbuf,
++#ifdef HAVE_TLS
+ 			    &netinbufpos, tls_ctx);
+ 			if (ret == TLS_WANT_POLLIN)
+ 				pfd[POLL_NETIN].events = POLLIN;
+ 			else if (ret == TLS_WANT_POLLOUT)
+ 				pfd[POLL_NETIN].events = POLLOUT;
+-			else if (ret == -1)
++			else
++#else
++			    &netinbufpos);
++#endif
++			if (ret == -1)
+ 				pfd[POLL_NETIN].fd = -1;
+ 			/* eof on net in - remove from pfd */
+ 			if (ret == 0) {
+@@ -1259,12 +1638,17 @@
+ 		/* try to write to stdout */
+ 		if (pfd[POLL_STDOUT].revents & POLLOUT && netinbufpos > 0) {
+ 			ret = drainbuf(pfd[POLL_STDOUT].fd, netinbuf,
++#ifdef HAVE_TLS
+ 			    &netinbufpos, NULL);
+ 			if (ret == TLS_WANT_POLLIN)
+ 				pfd[POLL_STDOUT].events = POLLIN;
+ 			else if (ret == TLS_WANT_POLLOUT)
+ 				pfd[POLL_STDOUT].events = POLLOUT;
+-			else if (ret == -1)
++			else
++#else
++			    &netinbufpos, 0);
++#endif
++			if (ret == -1)
+ 				pfd[POLL_STDOUT].fd = -1;
+ 			/* buffer empty - remove self from polling */
+ 			if (netinbufpos == 0)
+@@ -1279,6 +1663,13 @@
+ 			if (pfd[POLL_NETOUT].fd != -1 && Nflag)
+ 				shutdown(pfd[POLL_NETOUT].fd, SHUT_WR);
+ 			pfd[POLL_NETOUT].fd = -1;
++			/* #817050: handle UDP sockets and kflag */
++			if ((lflag || uflag) && pfd[POLL_NETIN].fd != -1 &&
++			    qflag >= 0 && netinbufpos == 0) {
++				shutdown(pfd[POLL_NETIN].fd, SHUT_RD);
++				pfd[POLL_NETIN].fd = -1;
++				kflag = 0;
++			}
+ 		}
+ 		/* net in gone and queue empty? */
+ 		if (pfd[POLL_NETIN].fd == -1 && netinbufpos == 0) {
+@@ -1288,26 +1679,43 @@
+ }
+ 
+ ssize_t
+-drainbuf(int fd, unsigned char *buf, size_t *bufpos, struct tls *tls)
++drainbuf(int fd, unsigned char *buf, size_t *bufpos, int oneline)
+ {
+-	ssize_t n;
++	ssize_t n, r;
+ 	ssize_t adjust;
++	unsigned char *lf = NULL;
+ 
+ 	if (fd == -1)
+ 		return -1;
+ 
+-	if (tls) {
+-		n = tls_write(tls, buf, *bufpos);
+-		if (n == -1)
+-			errx(1, "tls write failed (%s)", tls_error(tls));
+-	} else {
+-		n = write(fd, buf, *bufpos);
+-		/* don't treat EAGAIN, EINTR as error */
+-		if (n == -1 && (errno == EAGAIN || errno == EINTR))
+-			n = TLS_WANT_POLLOUT;
+-	}
++	if (oneline)
++		lf = memchr(buf, '\n', *bufpos);
++	if (lf == NULL) {
++		n = *bufpos;
++		oneline = 0;
++	}
++	else if (Cflag && (lf == buf || buf[lf - buf - 1] != '\r')) {
++		n = lf - buf;
++		oneline = 2;
++	}
++	else
++		n = lf - buf + 1;
++	if (n > 0)
++		n = write(fd, buf, n);
++
++	/* don't treat EAGAIN, EINTR as error */
++	if (n == -1 && (errno == EAGAIN || errno == EINTR))
++		n = -2;
++	if (oneline == 2 && n >= 0)
++		n++;
+ 	if (n <= 0)
+ 		return n;
++
++	if (oneline == 2 && (r = atomicio(vwrite, fd, "\r\n", 2)) != 2)
++		err(1, "write failed (%zu/2)", r);
++	if (oneline > 0 && iflag)
++		sleep(iflag);
++
+ 	/* adjust buffer */
+ 	adjust = *bufpos - n;
+ 	if (adjust > 0)
+@@ -1317,7 +1725,11 @@
+ }
+ 
+ ssize_t
++#ifdef HAVE_TLS
+ fillbuf(int fd, unsigned char *buf, size_t *bufpos, struct tls *tls)
++#else
++fillbuf(int fd, unsigned char *buf, size_t *bufpos)
++#endif
+ {
+ 	size_t num = BUFSIZE - *bufpos;
+ 	ssize_t n;
+@@ -1325,16 +1737,22 @@
+ 	if (fd == -1)
+ 		return -1;
+ 
++#ifdef HAVE_TLS
+ 	if (tls) {
+ 		n = tls_read(tls, buf + *bufpos, num);
+ 		if (n == -1)
+ 			errx(1, "tls read failed (%s)", tls_error(tls));
+ 	} else {
++#endif
+ 		n = read(fd, buf + *bufpos, num);
+ 		/* don't treat EAGAIN, EINTR as error */
+ 		if (n == -1 && (errno == EAGAIN || errno == EINTR))
++#ifdef HAVE_TLS
+ 			n = TLS_WANT_POLLIN;
+ 	}
++#else
++			n = -2;
++#endif
+ 	if (n <= 0)
+ 		return n;
+ 	*bufpos += n;
+@@ -1457,51 +1875,61 @@
+  * that we should try to connect to.
+  */
+ void
+-build_ports(char *p)
++build_ports(char **p)
+ {
++	struct servent *sv;
+ 	char *n;
+ 	int hi, lo, cp;
+ 	int x = 0;
++	int i;
+ 
+-	if (isdigit((unsigned char)*p) && (n = strchr(p, '-')) != NULL) {
+-		*n = '\0';
+-		n++;
+-
+-		/* Make sure the ports are in order: lowest->highest. */
+-		hi = strtoport(n, uflag);
+-		lo = strtoport(p, uflag);
+-		if (lo > hi) {
+-			cp = hi;
+-			hi = lo;
+-			lo = cp;
+-		}
+-
+-		/*
+-		 * Initialize portlist with a random permutation.  Based on
+-		 * Knuth, as in ip_randomid() in sys/netinet/ip_id.c.
+-		 */
+-		if (rflag) {
+-			for (x = 0; x <= hi - lo; x++) {
+-				cp = arc4random_uniform(x + 1);
+-				portlist[x] = portlist[cp];
+-				if (asprintf(&portlist[cp], "%d", x + lo) == -1)
+-					err(1, "asprintf");
++	char *proto = proto_name(uflag, dccpflag);
++	for (i = 0; p[i] != NULL; i++) {
++		sv = getservbyname(p[i], proto);
++		if (sv) {
++			if (asprintf(&portlist[x], "%d", ntohs(sv->s_port)) < 0)
++				err(1, "asprintf");
++			x++;
++		} else if (isdigit((unsigned char)*p[i]) && (n = strchr(p[i], '-')) != NULL) {
++			*n = '\0';
++			n++;
++
++			/* Make sure the ports are in order: lowest->highest. */
++			hi = strtoport(n, uflag);
++			lo = strtoport(p[i], uflag);
++			if (lo > hi) {
++				cp = hi;
++				hi = lo;
++				lo = cp;
+ 			}
+-		} else { /* Load ports sequentially. */
++
++			/* Load ports sequentially. */
+ 			for (cp = lo; cp <= hi; cp++) {
+ 				if (asprintf(&portlist[x], "%d", cp) == -1)
+ 					err(1, "asprintf");
+ 				x++;
+ 			}
++		} else {
++			hi = strtoport(p[i], uflag);
++			if (asprintf(&portlist[x], "%d", hi) < 0)
++				err(1, "asprintf");
++			x++;
+ 		}
+-	} else {
+-		char *tmp;
++	}
+ 
+-		hi = strtoport(p, uflag);
+-		if (asprintf(&tmp, "%d", hi) != -1)
+-			portlist[0] = tmp;
+-		else
+-			err(1, NULL);
++	/*
++	 * Initialize portlist with a random permutation using
++	 * Fisher–Yates shuffle.
++	 */
++	if (rflag) {
++		for (i = x-1; i > 0; i--) {
++			cp = arc4random_uniform(i+1);
++			if (cp != i) {
++				n = portlist[i];
++				portlist[i] = portlist[cp];
++				portlist[cp] = n;
++			}
++		}
+ 	}
+ }
+ 
+@@ -1513,19 +1941,24 @@
+ int
+ udptest(int s)
+ {
+-	int i, ret;
++	int i, t;
+ 
+ 	/* Only write to the socket in scan mode or interactive mode. */
+ 	if (!zflag && !isatty(STDIN_FILENO))
+ 		return 0;
+ 
+-	for (i = 0; i <= 3; i++) {
+-		if (write(s, "X", 1) == 1)
+-			ret = 1;
+-		else
+-			ret = -1;
++	if ((write(s, "X", 1) != 1) ||
++	    ((write(s, "X", 1) != 1) && (errno == ECONNREFUSED)))
++		return -1;
++
++	/* Give the remote host some time to reply. */
++	for (i = 0, t = (timeout == -1) ? UDP_SCAN_TIMEOUT : (timeout / 1000);
++	     i < t; i++) {
++		sleep(1);
++		if ((write(s, "X", 1) != 1) && (errno == ECONNREFUSED))
++			return -1;
+ 	}
+-	return ret;
++	return 1;
+ }
+ 
+ void
+@@ -1555,15 +1988,35 @@
+ }
+ 
+ void
+-set_common_sockopts(int s, int af)
++set_common_sockopts(int s, const struct sockaddr* sa)
+ {
+ 	int x = 1;
++	int af = sa->sa_family;
+ 
++#ifdef SO_BROADCAST
++	if (bflag) {
++		/* allow datagram sockets to send packets to a broadcast address
++		 * (this option has no effect on stream-oriented sockets) */
++		if (setsockopt(s, SOL_SOCKET, SO_BROADCAST,
++			&x, sizeof(x)) == -1)
++			err(1, NULL);
++	}
++#endif
++#if defined(TCP_MD5SIG_EXT) && defined(TCP_MD5SIG_MAXKEYLEN)
+ 	if (Sflag) {
+-		if (setsockopt(s, IPPROTO_TCP, TCP_MD5SIG,
+-		    &x, sizeof(x)) == -1)
++		struct tcp_md5sig sig;
++		memset(&sig, 0, sizeof(sig));
++		memcpy(&sig.tcpm_addr, sa, sizeof(struct sockaddr_storage));
++		sig.tcpm_keylen = TCP_MD5SIG_MAXKEYLEN < strlen(Sflag_password)
++		    ? TCP_MD5SIG_MAXKEYLEN
++		    : strlen(Sflag_password);
++		memcpy(sig.tcpm_key, Sflag_password, sig.tcpm_keylen);
++		sig.tcpm_flags = TCP_MD5SIG_FLAG_PREFIX;
++		if (setsockopt(s, IPPROTO_TCP, TCP_MD5SIG_EXT,
++		    &sig, sizeof(sig)) == -1)
+ 			err(1, NULL);
+ 	}
++#endif
+ 	if (Dflag) {
+ 		if (setsockopt(s, SOL_SOCKET, SO_DEBUG,
+ 		    &x, sizeof(x)) == -1)
+@@ -1574,9 +2027,14 @@
+ 		    IP_TOS, &Tflag, sizeof(Tflag)) == -1)
+ 			err(1, "set IP ToS");
+ 
++#ifdef IPV6_TCLASS
+ 		else if (af == AF_INET6 && setsockopt(s, IPPROTO_IPV6,
+ 		    IPV6_TCLASS, &Tflag, sizeof(Tflag)) == -1)
+ 			err(1, "set IPv6 traffic class");
++#else
++		else if (af == AF_INET6)
++			errx(1, "can't set IPv6 traffic class (unavailable)");
++#endif
+ 	}
+ 	if (Iflag) {
+ 		if (setsockopt(s, SOL_SOCKET, SO_RCVBUF,
+@@ -1594,19 +2052,34 @@
+ 		    IP_TTL, &ttl, sizeof(ttl)))
+ 			err(1, "set IP TTL");
+ 
++#ifdef IPV6_UNICAST_HOPS
+ 		else if (af == AF_INET6 && setsockopt(s, IPPROTO_IPV6,
+ 		    IPV6_UNICAST_HOPS, &ttl, sizeof(ttl)))
+ 			err(1, "set IPv6 unicast hops");
++#else
++		else if (af == AF_INET6)
++			errx(1, "can't set IPv6 unicast hops (unavailable)");
++#endif
+ 	}
+ 
+ 	if (minttl != -1) {
++#ifdef IP_MINTTL
+ 		if (af == AF_INET && setsockopt(s, IPPROTO_IP,
+ 		    IP_MINTTL, &minttl, sizeof(minttl)))
+ 			err(1, "set IP min TTL");
++#else
++		if (af == AF_INET)
++			errx(1, "can't set IP min TTL (unavailable)");
++#endif
+ 
++#ifdef IPV6_MINHOPCOUNT
+ 		else if (af == AF_INET6 && setsockopt(s, IPPROTO_IPV6,
+ 		    IPV6_MINHOPCOUNT, &minttl, sizeof(minttl)))
+ 			err(1, "set IPv6 min hop count");
++#else
++		else if (af == AF_INET6)
++			errx(1, "can't set IPv6 min hop count (unavailable)");
++#endif
+ 	}
+ }
+ 
+@@ -1641,6 +2114,7 @@
+ 		{ "cs7",		IPTOS_DSCP_CS7 },
+ 		{ "ef",			IPTOS_DSCP_EF },
+ 		{ "inetcontrol",	IPTOS_PREC_INTERNETCONTROL },
++		{ "lowcost",		IPTOS_LOWCOST },
+ 		{ "lowdelay",		IPTOS_LOWDELAY },
+ 		{ "netcontrol",		IPTOS_PREC_NETCONTROL },
+ 		{ "reliability",	IPTOS_RELIABILITY },
+@@ -1658,6 +2132,7 @@
+ 	return 0;
+ }
+ 
++#ifdef HAVE_TLS
+ int
+ process_tls_opt(char *s, int *flags)
+ {
+@@ -1771,6 +2246,7 @@
+ 		break;
+ 	}
+ }
++#endif
+ 
+ void
+ report_sock(const char *msg, const struct sockaddr *sa, socklen_t salen,
+@@ -1794,9 +2270,11 @@
+ 	case 0:
+ 		break;
+ 	case EAI_SYSTEM:
+-		err(1, "getnameinfo");
++		warn("getnameinfo");
++		return;
+ 	default:
+-		errx(1, "getnameinfo: %s", gai_strerror(herr));
++		warnx("getnameinfo: %s", gai_strerror(herr));
++		return;
+ 	}
+ 
+ 	fprintf(stderr, "%s on %s %s\n", msg, host, port);
+@@ -1805,21 +2283,21 @@
+ void
+ help(void)
+ {
++#ifdef DEBIAN_VERSION
++	fprintf(stderr, "OpenBSD netcat (Debian patchlevel " DEBIAN_VERSION ")\n");
++#endif
+ 	usage(0);
+ 	fprintf(stderr, "\tCommand Summary:\n\
+ 	\t-4		Use IPv4\n\
+ 	\t-6		Use IPv6\n\
+-	\t-C certfile	Public key file\n\
+-	\t-c		Use TLS\n\
++	\t-b		Allow broadcast\n\
++	\t-C		Send CRLF as line-ending\n\
+ 	\t-D		Enable the debug socket option\n\
+ 	\t-d		Detach from stdin\n\
+-	\t-e name\t	Required name in peer certificate\n\
+ 	\t-F		Pass socket fd\n\
+-	\t-H hash\t	Hash string of peer certificate\n\
+ 	\t-h		This help text\n\
+ 	\t-I length	TCP receive buffer length\n\
+ 	\t-i interval	Delay interval for lines sent, ports scanned\n\
+-	\t-K keyfile	Private key file\n\
+ 	\t-k		Keep inbound sockets open for multiple connects\n\
+ 	\t-l		Listen mode, for inbound connects\n\
+ 	\t-M ttl		Outgoing TTL / Hop Limit\n\
+@@ -1827,14 +2305,13 @@
+ 	\t-N		Shutdown the network socket after EOF on stdin\n\
+ 	\t-n		Suppress name/port resolutions\n\
+ 	\t-O length	TCP send buffer length\n\
+-	\t-o staplefile	Staple file\n\
+ 	\t-P proxyuser\tUsername for proxy authentication\n\
+ 	\t-p port\t	Specify local port for remote connects\n\
+-	\t-R CAfile	CA bundle\n\
++	\t-q secs\t	quit after EOF on stdin and delay of secs\n\
+ 	\t-r		Randomize remote ports\n\
+ 	\t-S		Enable the TCP MD5 signature option\n\
+ 	\t-s sourceaddr	Local source address\n\
+-	\t-T keyword	TOS value or TLS options\n\
++	\t-T keyword	TOS value\n\
+ 	\t-t		Answer TELNET negotiation\n\
+ 	\t-U		Use UNIX domain socket\n\
+ 	\t-u		UDP mode\n\
+@@ -1844,26 +2321,30 @@
+ 	\t-w timeout	Timeout for connects and final net reads\n\
+ 	\t-X proto	Proxy protocol: \"4\", \"5\" (SOCKS) or \"connect\"\n\
+ 	\t-x addr[:port]\tSpecify proxy address and port\n\
+-	\t-Z		Peer certificate file\n\
++	\t-Z		DCCP mode\n\
+ 	\t-z		Zero-I/O mode [used for scanning]\n\
+ 	Port numbers can be individual or ranges: lo-hi [inclusive]\n");
+-	exit(1);
++	exit(0);
+ }
+ 
+ void
+ usage(int ret)
+ {
+ 	fprintf(stderr,
+-	    "usage: nc [-46cDdFhklNnrStUuvz] [-C certfile] [-e name] "
+-	    "[-H hash] [-I length]\n"
+-	    "\t  [-i interval] [-K keyfile] [-M ttl] [-m minttl] [-O length]\n"
+-	    "\t  [-o staplefile] [-P proxy_username] [-p source_port] "
+-	    "[-R CAfile]\n"
+-	    "\t  [-s sourceaddr] [-T keyword] [-V rtable] [-W recvlimit] "
+-	    "[-w timeout]\n"
+-	    "\t  [-X proxy_protocol] [-x proxy_address[:port]] "
+-	    "[-Z peercertfile]\n"
++	    "usage: nc [-46CDdFhklNnrStUuvZz] [-I length] [-i interval] [-M ttl]\n"
++	    "\t  [-m minttl] [-O length] [-P proxy_username] [-p source_port]\n"
++	    "\t  [-q seconds] [-s sourceaddr] [-T keyword] [-V rtable] [-W recvlimit]\n"
++	    "\t  [-w timeout] [-X proxy_protocol] [-x proxy_address[:port]]\n"
+ 	    "\t  [destination] [port]\n");
+ 	if (ret)
+ 		exit(1);
+ }
++
++/*
++ * quit()
++ * handler for a "-q" timeout (exit 0 instead of 1)
++ */
++static void quit(__attribute__((unused)) int sig)
++{
++	exit(0);
++}
+diff '--color=auto' -aruN a/socks.c b/socks.c
+--- a/socks.c	2025-04-27 21:13:07.000000000 +0100
++++ b/socks.c	2025-05-01 19:13:10.378376116 +0100
+@@ -38,7 +38,7 @@
+ #include <string.h>
+ #include <unistd.h>
+ #include <resolv.h>
+-#include <readpassphrase.h>
++#include <bsd/readpassphrase.h>
+ #include "atomicio.h"
+ 
+ #define SOCKS_PORT	"1080"
+@@ -217,11 +217,11 @@
+ 		buf[2] = SOCKS_NOAUTH;
+ 		cnt = atomicio(vwrite, proxyfd, buf, 3);
+ 		if (cnt != 3)
+-			err(1, "write failed (%zu/3)", cnt);
++			err(1, "write failed (%zu/3)", (size_t)cnt);
+ 
+ 		cnt = atomicio(read, proxyfd, buf, 2);
+ 		if (cnt != 2)
+-			err(1, "read failed (%zu/3)", cnt);
++			err(1, "read failed (%zu/3)", (size_t)cnt);
+ 
+ 		if (buf[1] == SOCKS_NOMETHOD)
+ 			errx(1, "authentication method negotiation failed");
+@@ -270,11 +270,11 @@
+ 
+ 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
+ 		if (cnt != wlen)
+-			err(1, "write failed (%zu/%zu)", cnt, wlen);
++			err(1, "write failed (%zu/%zu)", (size_t)cnt, (size_t)wlen);
+ 
+ 		cnt = atomicio(read, proxyfd, buf, 4);
+ 		if (cnt != 4)
+-			err(1, "read failed (%zu/4)", cnt);
++			err(1, "read failed (%zu/4)", (size_t)cnt);
+ 		if (buf[1] != 0) {
+ 			errx(1, "connection failed, SOCKSv5 error: %s",
+ 			    socks5_strerror(buf[1]));
+@@ -283,12 +283,12 @@
+ 		case SOCKS_IPV4:
+ 			cnt = atomicio(read, proxyfd, buf + 4, 6);
+ 			if (cnt != 6)
+-				err(1, "read failed (%zu/6)", cnt);
++				err(1, "read failed (%zu/6)", (size_t)cnt);
+ 			break;
+ 		case SOCKS_IPV6:
+ 			cnt = atomicio(read, proxyfd, buf + 4, 18);
+ 			if (cnt != 18)
+-				err(1, "read failed (%zu/18)", cnt);
++				err(1, "read failed (%zu/18)", (size_t)cnt);
+ 			break;
+ 		default:
+ 			errx(1, "connection failed, unsupported address type");
+@@ -308,11 +308,11 @@
+ 
+ 		cnt = atomicio(vwrite, proxyfd, buf, wlen);
+ 		if (cnt != wlen)
+-			err(1, "write failed (%zu/%zu)", cnt, wlen);
++			err(1, "write failed (%zu/%zu)", (size_t)cnt, (size_t)wlen);
+ 
+ 		cnt = atomicio(read, proxyfd, buf, 8);
+ 		if (cnt != 8)
+-			err(1, "read failed (%zu/8)", cnt);
++			err(1, "read failed (%zu/8)", (size_t)cnt);
+ 		if (buf[1] != 90) {
+ 			errx(1, "connection failed, SOCKSv4 error: %s",
+ 			    socks4_strerror(buf[1]));
+@@ -326,21 +326,21 @@
+ 
+ 		/* Try to be sane about numeric IPv6 addresses */
+ 		if (strchr(host, ':') != NULL) {
+-			r = snprintf(buf, sizeof(buf),
++			r = snprintf((char*)buf, sizeof(buf),
+ 			    "CONNECT [%s]:%d HTTP/1.0\r\n",
+ 			    host, ntohs(serverport));
+ 		} else {
+-			r = snprintf(buf, sizeof(buf),
++			r = snprintf((char*)buf, sizeof(buf),
+ 			    "CONNECT %s:%d HTTP/1.0\r\n",
+ 			    host, ntohs(serverport));
+ 		}
+ 		if (r < 0 || (size_t)r >= sizeof(buf))
+ 			errx(1, "hostname too long");
+-		r = strlen(buf);
++		r = strlen((char*)buf);
+ 
+ 		cnt = atomicio(vwrite, proxyfd, buf, r);
+ 		if (cnt != r)
+-			err(1, "write failed (%zu/%d)", cnt, r);
++			err(1, "write failed (%zu/%d)", (size_t)cnt, (int)r);
+ 
+ 		if (authretry > 1) {
+ 			char proxypass[256];
+@@ -348,20 +348,20 @@
+ 
+ 			getproxypass(proxyuser, proxyhost,
+ 			    proxypass, sizeof proxypass);
+-			r = snprintf(buf, sizeof(buf), "%s:%s",
++			r = snprintf((char*)buf, sizeof(buf), "%s:%s",
+ 			    proxyuser, proxypass);
+ 			explicit_bzero(proxypass, sizeof proxypass);
+ 			if (r == -1 || (size_t)r >= sizeof(buf) ||
+-			    b64_ntop(buf, strlen(buf), resp,
++			    b64_ntop(buf, strlen((char*)buf), resp,
+ 			    sizeof(resp)) == -1)
+ 				errx(1, "Proxy username/password too long");
+-			r = snprintf(buf, sizeof(buf), "Proxy-Authorization: "
++			r = snprintf((char*)buf, sizeof(buf), "Proxy-Authorization: "
+ 			    "Basic %s\r\n", resp);
+ 			if (r < 0 || (size_t)r >= sizeof(buf))
+ 				errx(1, "Proxy auth response too long");
+-			r = strlen(buf);
++			r = strlen((char*)buf);
+ 			if ((cnt = atomicio(vwrite, proxyfd, buf, r)) != r)
+-				err(1, "write failed (%zu/%d)", cnt, r);
++				err(1, "write failed (%zu/%d)", (size_t)cnt, r);
+ 			explicit_bzero(proxypass, sizeof proxypass);
+ 			explicit_bzero(buf, sizeof buf);
+ 		}
+@@ -371,23 +371,23 @@
+ 			err(1, "write failed (%zu/2)", cnt);
+ 
+ 		/* Read status reply */
+-		proxy_read_line(proxyfd, buf, sizeof(buf));
++		proxy_read_line(proxyfd, (char*)buf, sizeof(buf));
+ 		if (proxyuser != NULL &&
+-		    (strncmp(buf, "HTTP/1.0 407 ", 12) == 0 ||
+-		    strncmp(buf, "HTTP/1.1 407 ", 12) == 0)) {
++		    (strncmp((char*)buf, "HTTP/1.0 407 ", 12) == 0 ||
++		    strncmp((char*)buf, "HTTP/1.1 407 ", 12) == 0)) {
+ 			if (authretry > 1) {
+ 				fprintf(stderr, "Proxy authentication "
+ 				    "failed\n");
+ 			}
+ 			close(proxyfd);
+ 			goto again;
+-		} else if (strncmp(buf, "HTTP/1.0 200 ", 12) != 0 &&
+-		    strncmp(buf, "HTTP/1.1 200 ", 12) != 0)
++		} else if (strncmp((char*)buf, "HTTP/1.0 200 ", 12) != 0 &&
++		    strncmp((char*)buf, "HTTP/1.1 200 ", 12) != 0)
+ 			errx(1, "Proxy error: \"%s\"", buf);
+ 
+ 		/* Headers continue until we hit an empty line */
+ 		for (r = 0; r < HTTP_MAXHDRS; r++) {
+-			proxy_read_line(proxyfd, buf, sizeof(buf));
++			proxy_read_line(proxyfd, (char*)buf, sizeof(buf));
+ 			if (*buf == '\0')
+ 				break;
+ 		}
