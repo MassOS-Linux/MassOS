@@ -119,8 +119,9 @@ https://github.com/rhboot/efivar/archive/39/efivar-39.tar.gz
 https://github.com/NVIDIA/egl-wayland/archive/1.1.18/egl-wayland-1.1.18.tar.gz
 https://github.com/NVIDIA/eglexternalplatform/archive/1.2.1/eglexternalplatform-1.2.1.tar.gz
 https://sourceware.org/ftp/elfutils/0.193/elfutils-0.193.tar.bz2
-https://github.com/rrthomas/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz
+https://github.com/rrthomas/enchant/releases/download/v2.8.4/enchant-2.8.4.tar.gz
 https://github.com/espeak-ng/espeak-ng/archive/1.52.0/espeak-ng-1.52.0.tar.gz
+https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.14.tar.xz
 https://github.com/exfatprogs/exfatprogs/releases/download/1.2.8/exfatprogs-1.2.8.tar.xz
 https://github.com/Exiv2/exiv2/archive/v0.28.5/exiv2-0.28.5.tar.gz
 https://github.com/libexpat/libexpat/releases/download/R_2_7_1/expat-2.7.1.tar.xz
@@ -142,7 +143,7 @@ https://download.flashrom.org/releases/flashrom-v1.5.1.tar.xz
 https://github.com/flatpak/flatpak/releases/download/1.16.0/flatpak-1.16.0.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://files.pythonhosted.org/packages/source/f/flit-core/flit_core-3.12.0.tar.gz
-https://github.com/fmtlib/fmt/archive/11.1.4/fmt-11.1.4.tar.gz
+https://github.com/fmtlib/fmt/archive/11.2.0/fmt-11.2.0.tar.gz
 https://gitlab.freedesktop.org/xorg/font/util/-/archive/font-util-1.4.1/font-util-1.4.1.tar.bz2
 https://gitlab.freedesktop.org/fontconfig/fontconfig/-/archive/2.16.2/fontconfig-2.16.2.tar.bz2
 https://github.com/FreeGLUTProject/freeglut/releases/download/v3.6.0/freeglut-3.6.0.tar.gz
@@ -194,14 +195,14 @@ https://github.com/silnrsi/graphite/archive/6938f052/graphite2-1.3.14-99-g6938f0
 https://gitlab.com/graphviz/graphviz/-/archive/12.2.1/graphviz-12.2.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/grep/grep-3.12.tar.xz
 https://mirror.lyrahosting.com/gnu/groff/groff-1.23.0.tar.gz
-https://mirror.lyrahosting.com/gnu/grub/grub-2.12.tar.xz
+https://dmassey.net/files/dev/grub/grub-2.12-284-g4abac0ad5.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/432da22/grub-theme-distro-massos-001.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/48.0/gsettings-desktop-schemas-48.0.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
 https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.26.1/gstreamer-1.26.1.tar.bz2
 https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.13.5/gst-plugins-rs-0.13.5.tar.bz2
 https://github.com/GNOME/gtk/archive/3.24.49/gtk-3.24.49.tar.gz
-https://github.com/GNOME/gtk/archive/4.18.4/gtk-4.18.4.tar.gz
+https://github.com/GNOME/gtk/archive/4.18.5/gtk-4.18.5.tar.gz
 https://github.com/GNOME/gtk-doc/archive/1.34.0/gtk-doc-1.34.0.tar.gz
 https://github.com/wmww/gtk-layer-shell/archive/v0.9.1/gtk-layer-shell-0.9.1.tar.gz
 https://github.com/GNOME/gtkmm/archive/3.24.10/gtkmm-3.24.10.tar.gz
@@ -213,7 +214,7 @@ https://github.com/GNOME/gvdb/archive/2b42fc7/gvdb-2b42fc7.tar.gz
 https://github.com/GNOME/gvfs/archive/1.57.2/gvfs-1.57.2.tar.gz
 https://github.com/chromium/gyp/archive/1615ec/gyp-1615ec.tar.gz
 https://mirror.lyrahosting.com/gnu/gzip/gzip-1.14.tar.xz
-https://github.com/harfbuzz/harfbuzz/releases/download/11.1.0/harfbuzz-11.1.0.tar.xz
+https://github.com/harfbuzz/harfbuzz/releases/download/11.2.0/harfbuzz-11.2.0.tar.xz
 https://github.com/ofek/hatch-vcs/archive/v0.4.0/hatch-vcs-0.4.0.tar.gz
 https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.27.0.tar.gz
 https://mirror.lyrahosting.com/gnu/help2man/help2man-1.49.3.tar.xz
@@ -369,7 +370,7 @@ https://www.x.org/archive/individual/lib/libpciaccess-0.18.1.tar.xz
 https://github.com/GNOME/libpeas/archive/libpeas-1.36.0.tar.gz
 https://mirror.netcologne.de/savannah/libpipeline/libpipeline-1.5.8.tar.gz
 https://github.com/libimobiledevice/libplist/releases/download/2.6.0/libplist-2.6.0.tar.bz2
-https://freefr.dl.sourceforge.net/project/libpng/libpng16/1.6.47/libpng-1.6.47.tar.xz
+https://freefr.dl.sourceforge.net/project/libpng/libpng16/1.6.48/libpng-1.6.48.tar.xz
 https://github.com/flatpak/libportal/releases/download/0.9.1/libportal-0.9.1.tar.xz
 https://github.com/OpenPrinting/libppd/releases/download/2.1.1/libppd-2.1.1.tar.xz
 https://github.com/libproxy/libproxy/archive/0.5.9/libproxy-0.5.9.tar.gz
@@ -429,7 +430,7 @@ https://gitlab.freedesktop.org/xorg/lib/libxext/-/archive/libXext-1.3.6.tar.bz2
 https://www.x.org/archive/individual/lib/libXfixes-6.0.1.tar.xz
 https://gitlab.freedesktop.org/xorg/lib/libxfont/-/archive/libXfont2-2.0.7.tar.bz2
 https://gitlab.freedesktop.org/xorg/lib/libxft/-/archive/libXft-2.3.9.tar.bz2
-https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.8.1/libxkbcommon-xkbcommon-1.8.1.tar.gz
+https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.9.1/libxkbcommon-xkbcommon-1.9.1.tar.gz
 https://www.x.org/archive/individual/lib/libxkbfile-1.1.3.tar.xz
 https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
 https://www.x.org/archive/individual/lib/libXi-1.8.2.tar.xz
@@ -483,7 +484,7 @@ https://github.com/pallets/markupsafe/archive/3.0.2/markupsafe-3.0.2.tar.gz
 https://github.com/PyO3/maturin/archive/v1.8.3/maturin-1.8.3.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.4.tar.gz
 https://github.com/ryncsn/memstrack/archive/v0.2.5/memstrack-0.2.5.tar.gz
-https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-25.0.4/mesa-mesa-25.0.4.tar.bz2
+https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-25.0.5/mesa-mesa-25.0.5.tar.bz2
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
 https://github.com/mesonbuild/meson/releases/download/1.8.0/meson-1.8.0.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.17.1.tar.gz
@@ -502,7 +503,7 @@ https://bitmath.se/org/code/mtdev/mtdev-1.1.7.tar.bz2
 https://mirror.lyrahosting.com/gnu/mtools/mtools-4.0.48.tar.bz2
 https://github.com/opensvc/multipath-tools/archive/0.11.1/multipath-tools-0.11.1.tar.gz
 https://nano-editor.org/dist/v8/nano-8.4.tar.xz
-https://nasm.us/pub/nasm/releasebuilds/2.16.03/nasm-2.16.03.tar.xz
+https://dmassey.net/files/dev/nasm/nasm-2.16.03.tar.xz
 https://invisible-mirror.net/archives/ncurses/current/ncurses-6.5-20250426.tgz
 https://github.com/net-snmp/net-snmp/archive/v5.9.4/net-snmp-5.9.4.tar.gz
 https://freefr.dl.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz
@@ -566,12 +567,12 @@ https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.30.0/p
 https://distfiles.ariadne.space/pkgconf/pkgconf-2.4.3.tar.xz
 https://github.com/madler/pigz/archive/v2.8/pigz-2.8.tar.gz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.3.1.tar.bz2
-https://github.com/pypa/pip/archive/25.1/pip-25.1.tar.gz
+https://github.com/pypa/pip/archive/25.1.1/pip-25.1.1.tar.gz
 https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.2/pipewire-1.4.2.tar.bz2
-https://www.x.org/archive/individual/lib/pixman-0.44.2.tar.xz
+https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.0/pixman-pixman-0.46.0.tar.bz2
 https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.5.0.tar.gz
 https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
-https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/24.004.60/plymouth-24.004.60.tar.bz2
+https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/d42a2830/plymouth-24.004.60-91-gd42a2830.tar.bz2
 https://github.com/python-poetry/poetry-core/releases/download/2.1.2/poetry_core-2.1.2.tar.gz
 https://github.com/polkit-org/polkit/archive/126/polkit-126.tar.gz
 https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
@@ -631,7 +632,7 @@ https://github.com/kennylevinsen/seatd/archive/0.9.1/seatd-0.9.1.tar.gz
 https://mirror.lyrahosting.com/gnu/sed/sed-4.9.tar.xz
 https://files.pythonhosted.org/packages/source/s/semantic-version/semantic_version-2.10.0.tar.gz
 https://www.x.org/archive/individual/app/sessreg-1.1.3.tar.xz
-https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-80.0.1.tar.gz
+https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-80.3.1.tar.gz
 https://github.com/PyO3/setuptools-rust/archive/v1.11.1/setuptools-rust-1.11.1.tar.gz
 https://github.com/pypa/setuptools-scm/archive/v8.2.0/setuptools-scm-8.2.0.tar.gz
 https://www.x.org/archive/individual/app/setxkbmap-1.3.4.tar.xz
@@ -645,7 +646,7 @@ https://files.pythonhosted.org/packages/source/s/six/six-1.17.0.tar.gz
 https://github.com/webmproject/sjpeg/archive/e5ab130/sjpeg-e5ab130.tar.gz
 https://github.com/eyJhb/sl/archive/5.05/sl-5.05.tar.gz
 https://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2
-https://freefr.dl.sourceforge.net/project/smartmontools/smartmontools/7.4/smartmontools-7.4.tar.gz
+https://freefr.dl.sourceforge.net/project/smartmontools/smartmontools/7.5/smartmontools-7.5.tar.gz
 https://github.com/leohemsted/smartypants.py/archive/v2.0.1/smartypants.py-2.0.1.tar.gz
 https://www.x.org/archive/individual/app/smproxy-1.0.7.tar.xz
 https://github.com/snowballstem/snowball/archive/v2.2.0/snowball-2.2.0.tar.gz
@@ -658,7 +659,7 @@ https://dmassey.net/files/dev/sphinx-venv/mbs-revamped/sphinx-20250119-x86_64-py
 https://gitlab.freedesktop.org/spice/spice-protocol/-/archive/v0.14.4/spice-protocol-v0.14.4.tar.bz2
 https://www.spice-space.org/download/releases/spice-vdagent-0.22.1.tar.bz2
 https://github.com/KhronosGroup/SPIRV-Headers/archive/vulkan-sdk-1.4.309.0/SPIRV-Headers-vulkan-sdk-1.4.309.0.tar.gz
-https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v20.1.1/SPIRV-LLVM-Translator-20.1.1.tar.gz
+https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v20.1.2/SPIRV-LLVM-Translator-20.1.2.tar.gz
 https://github.com/KhronosGroup/SPIRV-Tools/archive/vulkan-sdk-1.4.309.0/SPIRV-Tools-vulkan-sdk-1.4.309.0.tar.gz
 https://sqlite.org/2025/sqlite-autoconf-3490100.tar.gz
 https://github.com/plougher/squashfs-tools/archive/4.6.1/squashfs-tools-4.6.1.tar.gz
@@ -677,6 +678,7 @@ https://www.samba.org/ftp/talloc/talloc-2.4.3.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.35.tar.xz
 https://freefr.dl.sourceforge.net/project/tcl/Tcl/8.6.16/tcl8.6.16-src.tar.gz
 https://github.com/dbrgn/tealdeer/archive/v1.7.2/tealdeer-1.7.2.tar.gz
+https://files.pythonhosted.org/packages/source/t/termcolor/termcolor-3.1.0.tar.gz
 https://mirror.lyrahosting.com/gnu/texinfo/texinfo-7.2.tar.xz
 https://github.com/GNOME/tinysparql/archive/3.9.2/tinysparql-3.9.2.tar.gz
 https://freefr.dl.sourceforge.net/project/tcl/Tcl/8.6.16/tk8.6.16-src.tar.gz

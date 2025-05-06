@@ -116,6 +116,7 @@ eglexternalplatform
 elfutils
 enchant
 espeak-ng
+ethtool
 exfatprogs
 exiv2
 expat
@@ -683,6 +684,7 @@ taglib
 talloc
 tar
 tcl
+termcolor
 texinfo
 tk
 tinysparql

@@ -127,6 +127,9 @@ echo "Installing firmware (please ignore any citation warnings)..."
 pushd iso-workdir/firmware
 ./copy-firmware.sh -j$(nproc) --xz "$PWD"/../massos-rootfs/usr/lib/firmware
 ./dedup-firmware.sh "$PWD"/../massos-rootfs/usr/lib/firmware
+## Remove firmware which is useless on x86_64 systems.
+rm -rf "$PWD"/../massos-rootfs/usr/lib/firmware/{mellanox,qcom}
+rm -f "$PWD"/../massos-rootfs//usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.xz
 install -t "$PWD"/../massos-rootfs/usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
 install -dm755 iso-workdir/massos-rootfs/usr/lib/firmware/intel-ucode

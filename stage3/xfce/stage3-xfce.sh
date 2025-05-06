@@ -293,14 +293,14 @@ install -t /usr/share/licenses/xfce4-notifyd -Dm644 COPYING
 popd
 rm -rf xfce4-notifyd-0.9.7
 # xfce4-pulseaudio-plugin.
-tar -xf ../sources/xfce4-pulseaudio-plugin-0.4.9.tar.bz2
-pushd xfce4-pulseaudio-plugin-0.4.9
-./configure --prefix=/usr
-make
-make install
+tar -xf ../sources/xfce4-pulseaudio-plugin-0.5.1.tar.xz
+pushd xfce4-pulseaudio-plugin-0.5.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/xfce4-pulseaudio-plugin -Dm644 COPYING
 popd
-rm -rf xfce4-pulseaudio-plugin-0.4.9
+rm -rf xfce4-pulseaudio-plugin-0.5.1
 # pavucontrol.
 tar -xf ../sources/pavucontrol-5.0.tar.xz
 pushd pavucontrol-5.0
@@ -352,7 +352,7 @@ pushd xfce4-screenshooter-1.11.1
 patch -Np1 -i ../../patches/xfce4-screenshooter-1.11.1-upstreamfix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib --disable-static --disable-debug --enable-wayland --enable-x11
 make
-make install
+make -j1 install
 install -t /usr/share/licenses/xfce4-screenshooter -Dm644 COPYING
 popd
 rm -rf xfce4-screenshooter-1.11.1

@@ -17,6 +17,7 @@ Changes:
 - Migrated Python modules away from Python EGGs, due to deprecation by pip (builds now use `build` and `installer` modules instead of `setup.py`.).
 - Switched default tar back to GNU tar (bsdtar is still present), and removed `set-default-tar` utility from the system.
 - Switched to Zstd compression for initramfs instead of XZ. It is faster, and only increases the initramfs size by ~3MiB.
+- Optimized the installation of firmware by excluding some unneeded components from the Linux-Firmware distribution. This cuts down the ISO size by over 100MiB.
 - Miscellaneous bug and security fixes/improvements.
 - Dropped legacy GTK2 support in the MassOS system.
 - Dropped old Xorg input drivers which are replaced by libinput.
@@ -137,8 +138,9 @@ Upgraded software (core):
 - egl-wayland: `1.1.11 --> 1.1.18`
 - eglexternalplatform: `1.1 --> 1.2.1`
 - elfutils: `0.187 --> 0.193`
-- Enchant: `2.3.3 --> 2.8.2`
+- Enchant: `2.3.3 --> 2.8.4`
 - espeak-ng: `(new package) --> 1.52.0`
+- ethtool: `(new package) --> 6.14`
 - exfatprogs: `1.1.3 --> 1.2.8`
 - exiv2: `0.27.5 --> 0.28.5`
 - Expat: `2.4.9 --> 2.7.1`
@@ -157,7 +159,7 @@ Upgraded software (core):
 - flashrom: `1.2 --> 1.5.1`
 - Flatpak: `1.14.0 --> 1.16.0`
 - flit-core: `(new package) --> 3.12.0`
-- fmt: `9.1.0 --> 11.1.4`
+- fmt: `9.1.0 --> 11.2.0`
 - font-util: `1.3.3 --> 1.4.1`
 - Fontconfig: `2.14.0 --> 2.16.2`
 - FreeGLUT: `3.2.2 --> 3.6.0`
@@ -201,7 +203,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 12.2.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12`
+- GRUB: `2.06 --> 2.12-284-g4abac0ad5`
 - grub-theme-distro-massos: `(new package) --> 001`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
@@ -220,7 +222,7 @@ Upgraded software (core):
 - gtk-layer-shell: `(new package) --> 0.9.1`
 - GTK2: `2.24.33 --> (removed)`
 - GTK3: `3.24.34 --> 3.24.49`
-- GTK4: `(new package) --> 4.18.4`
+- GTK4: `(new package) --> 4.18.5`
 - Gtkmm3: `3.24.7 --> 3.24.10`
 - gtksourceview3: `(new package) --> 3.24.11-28-g73e57b5`
 - gtksourceview4: `(new package) --> 4.8.4`
@@ -229,7 +231,7 @@ Upgraded software (core):
 - GVFS: `1.50.2 --> 1.57.2`
 - gz2xz: `1.1.0 --> (removed)`
 - Gzip: `1.12 --> 1.14`
-- HarfBuzz: `5.2.0 --> 11.1.0`
+- HarfBuzz: `5.2.0 --> 11.2.0`
 - hatch-vcs: `(new package) --> 0.4.0`
 - hatchling: `(new package) --> 1.27.0`
 - help2man: `1.49.2 --> 1.49.3`
@@ -361,7 +363,7 @@ Upgraded software (core):
 - libpeas: `1.34.0 --> 1.36.0`
 - libpipeline: `1.5.6 --> 1.5.8`
 - libplist: `2.2.0 --> 2.6.0`
-- libpng: `1.6.38 --> 1.6.47`
+- libpng: `1.6.38 --> 1.6.48`
 - libportal: `0.6 --> 0.9.1`
 - libportal-gtk3: `0.6 --> 0.9.1`
 - libportal-gtk4: `(new package) --> 0.9.1`
@@ -419,7 +421,7 @@ Upgraded software (core):
 - libXfixes: `6.0.0 --> 6.0.1`
 - libXfont2: `2.0.6 --> 2.0.7`
 - libXft: `2.3.6 --> 2.3.8`
-- libxkbcommon: `1.4.1 --> 1.8.1`
+- libxkbcommon: `1.4.1 --> 1.9.1`
 - libxkbfile: `1.1.0 --> 1.1.3`
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.5`
@@ -466,7 +468,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
 - memstrack: `(new package) --> 0.2.5`
-- Mesa: `22.1.7 --> 25.0.4`
+- Mesa: `22.1.7 --> 25.0.5`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.8.0`
 - meson-python: `(new package) --> 0.17.1`
@@ -547,11 +549,11 @@ Upgraded software (core):
 - pkgconf: `(new package) --> 2.4.3`
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.1`
-- pip: `(new package) --> 25.1`
+- pip: `(new package) --> 25.1.1`
 - PipeWire: `0.3.59 --> 1.4.2`
-- Pixman: `0.40.0 --> 0.44.2`
+- Pixman: `0.40.0 --> 0.46.0`
 - pluggy: `(new package) --> 1.5.0`
-- Plymouth: `22.02.122 --> 24.004.60`
+- Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
 - Poppler: `22.09.0 --> 25.04.0`
@@ -602,7 +604,7 @@ Upgraded software (core):
 - Sed: `4.8 --> 4.9`
 - semantic-version: `(new package) --> 2.10.0`
 - sessreg: `1.1.2 --> 1.1.3`
-- setuptools: `69.0.2 --> 80.0.1`
+- setuptools: `69.0.2 --> 80.3.1`
 - setuptools-rust: `(new package) --> 1.11.1`
 - setuptools-scm: `(new package) --> 8.0.4`
 - setxkbmap: `1.3.3 --> 1.3.4`
@@ -611,7 +613,7 @@ Upgraded software (core):
 - shared-mime-info: `2.2 --> 2.4`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
-- smartmontools: `(new package) --> 7.4`
+- smartmontools: `(new package) --> 7.5`
 - smbclient: `4.19.3 --> 4.21.5`
 - smproxy: `1.0.6 --> 1.0.7`
 - SoundTouch: `2.3.1 --> 2.4.0`
@@ -619,7 +621,7 @@ Upgraded software (core):
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
 - SPIRV-Headers: `1.3.216.0 --> 1.4.309.0`
-- SPIRV-LLVM-Translator: `(new package) --> 20.1.1`
+- SPIRV-LLVM-Translator: `(new package) --> 20.1.2`
 - SPIRV-Tools: `2022.2 --> 1.4.309.0`
 - SQLite: `3.39.3 --> 3.49.1`
 - squashfs-tools: `4.5.1 --> 4.6.1`
@@ -636,6 +638,7 @@ Upgraded software (core):
 - Tcl: `8.6.12 --> 8.6.16`
 - tinysparql: `(new package) --> 3.9.2`
 - tldr: `1.5.0 --> 1.7.2`
+- termcolor: `(new package) --> 3.1.0`
 - Texinfo: `6.8 --> 7.2`
 - thin-provisioning-tools: `0.9.0 --> (removed)`
 - Tk: `8.6.12 --> 8.6.16`
@@ -791,7 +794,7 @@ Upgraded software (Xfce):
 - xfce4-notifyd: `0.6.4 --> 0.9.7`
 - xfce4-panel: `4.17.3 --> 4.20.4`
 - xfce4-power-manager: `4.16.0 --> 4.20.0`
-- xfce4-pulseaudio-plugin: `0.4.5 --> 0.4.9`
+- xfce4-pulseaudio-plugin: `0.4.5 --> 0.5.1`
 - xfce4-screensaver: `4.16.0 --> 4.18.4`
 - xfce4-screenshooter: `1.9.11 --> 1.11.1`
 - xfce4-session: `4.16.0 --> 4.20.2`
@@ -805,9 +808,9 @@ Upgraded software (Xfce):
 
 Upgraded software (extras - may not be installed by default):
 
-- Linux-Firmware: `(new package) --> 20250311`
+- Linux-Firmware: `(new package) --> 20250408`
 - Intel-Microcode: `(new package) --> 20250211`
-- Snapd: `(new package) --> 2.68.3`
+- Snapd: `(new package) --> 2.68.4`
 - SOF-Firmware: `(new package) --> 2025.01.1`
 
 # MassOS 2022.10

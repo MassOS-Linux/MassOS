@@ -41,12 +41,6 @@ if test "$GCC_MAJOR" -lt 12; then
   bad "the installed GCC is too old (MUST BE 12.x OR NEWER)"
 fi
 
-# GCC must use the 'x86_64-pc-linux-gnu' triplet (sorry Fedora).
-GCC_TRIPLET="$(gcc -dumpmachine 2>/dev/null)"
-if test "$GCC_TRIPLET" != "x86_64-pc-linux-gnu"; then
-  bad "the installed GCC targets $GCC_TRIPLET, NOT x86_64-pc-linux-gnu."
-fi
-
 # GCC and G++ must be able to compile executables and support -Os optimization.
 rm -f /tmp/mbstestcompile{.,app-}{,c{,pp}}
 echo "int main(){}" > /tmp/mbstestcompile.c

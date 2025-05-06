@@ -180,11 +180,10 @@ make clean
 make CFLAGS="$CFLAGS"
 make PREFIX=/usr install
 cp -a libbz2.so.* /usr/lib
-ln -s libbz2.so.1.0.8 /usr/lib/libbz2.so
-cp bzip2-shared /usr/bin/bzip2
-for i in /usr/bin/{bzcat,bunzip2}; do
-  ln -sf bzip2 $i
-done
+ln -sf libbz2.so.1.0.8 /usr/lib/libbz2.so
+install -Dm755 bzip2-shared /usr/bin/bzip2
+ln -sf bzip2 /usr/bin/bzcat
+ln -sf bzip2 /usr/bin/bunzip2
 rm -f /usr/lib/libbz2.a
 install -t /usr/share/licenses/bzip2 -Dm644 LICENSE
 popd
@@ -223,7 +222,7 @@ install -t /usr/bin -Dm755 pigz unpigz
 install -t /usr/share/man/man1 -Dm644 pigz.1
 ln -sf pigz.1 /usr/share/man/man1/unpigz.1
 install -dm755 /usr/share/licenses/pigz
-cat README | tail -n18 > /usr/share/licenses/pigz/LICENSE
+tail -n18 README > /usr/share/licenses/pigz/LICENSE
 popd
 rm -rf pigz-2.8
 # lzip.
@@ -655,7 +654,7 @@ patch -Np1 -i ../../patches/lua-5.4.4-sharedlib+pkgconfig.patch
 make MYCFLAGS="$CFLAGS -fPIC" linux-readline
 make INSTALL_DATA="cp -d" INSTALL_TOP=/usr INSTALL_MAN=/usr/share/man/man1 TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.7" install
 install -t /usr/lib/pkgconfig -Dm644 lua.pc
-cat src/lua.h | tail -n24 | head -n20 | sed -e 's/* //g' -e 's/*//g' > COPYING
+tail -n24 src/lua.h | head -n20 | sed -e 's/* //g' -e 's/*//g' > COPYING
 install -t /usr/share/licenses/lua -Dm644 COPYING
 popd
 rm -rf lua-5.4.7
@@ -956,21 +955,22 @@ install -t /usr/share/licenses/wheel -Dm644 LICENSE.txt
 popd
 rm -rf wheel-0.46.1
 # setuptools.
-tar -xf ../sources/setuptools-80.0.1.tar.gz
-pushd setuptools-80.0.1
+tar -xf ../sources/setuptools-80.3.1.tar.gz
+pushd setuptools-80.3.1
+patch -Np1 -i ../../patches/setuptools-80.3.1-restorelicense.patch
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist setuptools
 install -t /usr/share/licenses/setuptools -Dm644 LICENSE
 popd
-rm -rf setuptools-80.0.1
+rm -rf setuptools-80.3.1
 # pip.
-tar -xf ../sources/pip-25.1.tar.gz
-pushd pip-25.1
+tar -xf ../sources/pip-25.1.1.tar.gz
+pushd pip-25.1.1
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist pip --upgrade
 install -t /usr/share/licenses/pip -Dm644 LICENSE.txt
 popd
-rm -rf pip-25.1
+rm -rf pip-25.1.1
 # pyproject-hooks.
 tar -xf ../sources/pyproject_hooks-1.2.0.tar.gz
 pushd pyproject_hooks-1.2.0
@@ -1130,6 +1130,14 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/legacy-cgi -Dm644 LICENSE
 popd
 rm -rf legacy-cgi-2.6.3
+# termcolor.
+tar -xf ../sources/termcolor-3.1.0.tar.gz
+pushd termcolor-3.1.0
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/termcolor -Dm644 COPYING.txt
+popd
+rm -rf termcolor-3.1.0
 # six.
 tar -xf ../sources/six-1.17.0.tar.gz
 pushd six-1.17.0
@@ -1358,6 +1366,15 @@ make SBINDIR=/usr/bin install
 install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 popd
 rm -rf iproute2-6.14.0
+# ethtool.
+tar -xf ../sources/ethtool-6.14.tar.xz
+pushd ethtool-6.14
+./configure --prefix=/usr --sbindir=/usr/bin
+make
+make install
+install -t /usr/share/licenses/ethtool -Dm644 COPYING LICENSE
+popd
+rm -rf ethtool-6.14
 # Kbd.
 tar -xf ../sources/kbd-2.7.1.tar.xz
 pushd kbd-2.7.1
@@ -2856,7 +2873,7 @@ pushd utfcpp-4.0.6
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
-install -t /usr/share/license/utfcpp -Dm644 LICENSE
+install -t /usr/share/licenses/utfcpp -Dm644 LICENSE
 popd
 rm -rf utfcpp-4.0.6
 # yyjson.
@@ -3257,15 +3274,15 @@ install -t /usr/share/licenses/libcap-ng -Dm644 COPYING{,.LIB}
 popd
 rm -rf libcap-ng-0.8.5
 # smartmontools.
-tar -xf ../sources/smartmontools-7.4.tar.gz
-pushd smartmontools-7.4
+tar -xf ../sources/smartmontools-7.5.tar.gz
+pushd smartmontools-7.5
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin
 make
 make install
 systemctl enable smartd
 install -t /usr/share/licenses/smartmontools -Dm644 COPYING
 popd
-rm -rf smartmontools-7.4
+rm -rf smartmontools-7.5
 # OpenVPN.
 tar -xf ../sources/openvpn-2.6.14.tar.gz
 pushd openvpn-2.6.14
@@ -3740,15 +3757,15 @@ install -t /usr/share/licenses/efibootmgr -Dm644 COPYING
 popd
 rm -rf efibootmgr-18
 # libpng.
-tar -xf ../sources/libpng-1.6.47.tar.xz
-pushd libpng-1.6.47
+tar -xf ../sources/libpng-1.6.48.tar.xz
+pushd libpng-1.6.48
 patch -Np1 -i ../../patches/libpng-1.6.47-apng.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libpng -Dm644 LICENSE
 popd
-rm -rf libpng-1.6.47
+rm -rf libpng-1.6.48
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf ../sources/freetype-2.13.3.tar.xz
 pushd freetype-2.13.3
@@ -3771,14 +3788,14 @@ install -t /usr/share/licenses/graphite2 -Dm644 COPYING LICENSE
 popd
 rm -rf graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
 # HarfBuzz.
-tar -xf ../sources/harfbuzz-11.1.0.tar.xz
-pushd harfbuzz-11.1.0
+tar -xf ../sources/harfbuzz-11.2.0.tar.xz
+pushd harfbuzz-11.2.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/harfbuzz -Dm644 COPYING
 popd
-rm -rf harfbuzz-11.1.0
+rm -rf harfbuzz-11.2.0
 # FreeType (rebuild to support HarfBuzz).
 tar -xf ../sources/freetype-2.13.3.tar.xz
 pushd freetype-2.13.3
@@ -3815,14 +3832,13 @@ gzip -cd unifont-16.0.02/font/precompiled/unifont-16.0.02.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.02/COPYING
 rm -rf unifont-16.0.02
 # GRUB.
-tar -xf ../sources/grub-2.12.tar.xz
-pushd grub-2.12
-echo "depends bli part_gpt" > grub-core/extra_deps.lst
+tar -xf ../sources/grub-2.12-284-g4abac0ad5.tar.xz
+pushd grub-2.12-284-g4abac0ad5
 mkdir -p build-pc; pushd build-pc
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=pc --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-284-g4abac0ad5" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-efiemu --enable-grub-mkfont --enable-grub-mount --with-platform=efi --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-284-g4abac0ad5" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3831,12 +3847,12 @@ make -C build-pc bashcompletiondir="/usr/share/bash-completion/completions" inst
 sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_linux
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,3,Free Software Foundation,grub,2.12,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12,https://massos.org
+grub,3,Free Software Foundation,grub,2.12-284-g4abac0ad5,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-284-g4abac0ad5,https://massos.org
 END
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12
+rm -rf grub-2.12-284-g4abac0ad5
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-001.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -4005,14 +4021,14 @@ make install
 popd
 rm -rf aspell6-en-2020.12.07-0
 # Enchant.
-tar -xf ../sources/enchant-2.8.2.tar.gz
-pushd enchant-2.8.2
+tar -xf ../sources/enchant-2.8.4.tar.gz
+pushd enchant-2.8.4
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 popd
-rm -rf enchant-2.8.2
+rm -rf enchant-2.8.4
 # Fontconfig.
 tar -xf ../sources/fontconfig-2.16.2.tar.bz2
 pushd fontconfig-2.16.2
@@ -4087,14 +4103,14 @@ install -t /usr/share/licenses/libgphoto2 -Dm644 COPYING
 popd
 rm -rf libgphoto2-2.5.31
 # Pixman.
-tar -xf ../sources/pixman-0.44.2.tar.xz
-pushd pixman-0.44.2
+tar -xf ../sources/pixman-pixman-0.46.0.tar.bz2
+pushd pixman-pixman-0.46.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/pixman -Dm644 COPYING
 popd
-rm -rf pixman-0.44.2
+rm -rf pixman-pixman-0.46.0
 # Qpdf.
 tar -xf ../sources/qpdf-12.1.0.tar.gz
 pushd qpdf-12.1.0
@@ -4284,14 +4300,14 @@ install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
 popd
 rm -rf wireless_tools.30
 # fmt.
-tar -xf ../sources/fmt-11.1.4.tar.gz
-pushd fmt-11.1.4
+tar -xf ../sources/fmt-11.2.0.tar.gz
+pushd fmt-11.2.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DFMT_TEST=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fmt -Dm644 LICENSE
 popd
-rm -rf fmt-11.1.4
+rm -rf fmt-11.2.0
 # libzip.
 tar -xf ../sources/libzip-1.11.3.tar.xz
 pushd libzip-1.11.3
@@ -4597,14 +4613,14 @@ install -t /usr/share/licenses/spirv-tools -Dm644 LICENSE
 popd
 rm -rf SPIRV-Tools-vulkan-sdk-1.4.309.0
 # SPIRV-LLVM-Translator.
-tar -xf ../sources/SPIRV-LLVM-Translator-20.1.1.tar.gz
-pushd SPIRV-LLVM-Translator-20.1.1
+tar -xf ../sources/SPIRV-LLVM-Translator-20.1.2.tar.gz
+pushd SPIRV-LLVM-Translator-20.1.2
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=ON -DBUILD_SHARED_LIBS=ON -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
-rm -rf SPIRV-LLVM-Translator-20.1.1
+rm -rf SPIRV-LLVM-Translator-20.1.2
 # libclc.
 tar -xf ../sources/libclc-20.1.4.src.tar.xz
 pushd libclc-20.1.4.src
@@ -4710,14 +4726,14 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-25.0.4.tar.bz2
-pushd mesa-mesa-25.0.4
+tar -xf ../sources/mesa-mesa-25.0.5.tar.bz2
+pushd mesa-mesa-25.0.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=auto -Dvulkan-drivers=auto -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-nine=true -Dgallium-opencl=icd -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dosmesa=true -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-25.0.4
+rm -rf mesa-mesa-25.0.5
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -4828,15 +4844,14 @@ install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
 popd
 rm -rf libxklavier-5.4
 # libxkbcommon.
-tar -xf ../sources/libxkbcommon-xkbcommon-1.8.1.tar.gz
-pushd libxkbcommon-xkbcommon-1.8.1
-sed -i 's/sizeof(dtdstr)/ARRAY_SIZE(dtdstr) - 1/' src/registry.c
+tar -xf ../sources/libxkbcommon-xkbcommon-1.9.1.tar.gz
+pushd libxkbcommon-xkbcommon-1.9.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Denable-docs=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxkbcommon -Dm644 LICENSE
 popd
-rm -rf libxkbcommon-xkbcommon-1.8.1
+rm -rf libxkbcommon-xkbcommon-1.9.1
 # eglexternalplatform.
 tar -xf ../sources/eglexternalplatform-1.2.1.tar.gz
 pushd eglexternalplatform-1.2.1
@@ -5437,13 +5452,13 @@ install -t /usr/share/licenses/cairomm -Dm644 COPYING
 popd
 rm -rf cairomm-1.14.5
 # HarfBuzz (rebuild to support Cairo).
-tar -xf ../sources/harfbuzz-11.1.0.tar.xz
-pushd harfbuzz-11.1.0
+tar -xf ../sources/harfbuzz-11.2.0.tar.xz
+pushd harfbuzz-11.2.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 popd
-rm -rf harfbuzz-11.1.0
+rm -rf harfbuzz-11.2.0
 # Pango.
 tar -xf ../sources/pango-1.56.3.tar.gz
 pushd pango-1.56.3
@@ -6628,7 +6643,7 @@ pushd JSON-4.10
 perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
-cat lib/JSON.pm | tail -n9 | head -n6 | install -Dm644 /dev/stdin /usr/share/licenses/json/COPYING
+tail -n9 lib/JSON.pm | head -n6 | install -Dm644 /dev/stdin /usr/share/licenses/json/COPYING
 popd
 rm -rf JSON-4.10
 # Parse-Yapp.
@@ -6638,7 +6653,7 @@ perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 install -dm755 /usr/share/licenses/parse-yapp
-cat lib/Parse/Yapp.pm | tail -n14 | head -n12 > /usr/share/licenses/parse-yapp/COPYING
+tail -n14 lib/Parse/Yapp.pm | head -n12 > /usr/share/licenses/parse-yapp/COPYING
 popd
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
@@ -7464,13 +7479,13 @@ install -t /usr/share/licenses/chafa -Dm644 COPYING{,.LESSER}
 popd
 rm -rf chafa-1.14.5
 # HarfBuzz (rebuild again to support chafa).
-tar -xf ../sources/harfbuzz-11.1.0.tar.xz
-pushd harfbuzz-11.1.0
+tar -xf ../sources/harfbuzz-11.2.0.tar.xz
+pushd harfbuzz-11.2.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 popd
-rm -rf harfbuzz-11.1.0
+rm -rf harfbuzz-11.2.0
 # FAAC.
 tar -xf ../sources/faac-1.31.1.tar.gz
 pushd faac-faac-1.31.1
@@ -7585,14 +7600,14 @@ install -t /usr/share/licenses/wireplumber -Dm644 subprojects/wireplumber/LICENS
 popd
 rm -rf pipewire-1.4.2
 # GTK4.
-tar -xf ../sources/gtk-4.18.4.tar.gz
-pushd gtk-4.18.4
+tar -xf ../sources/gtk-4.18.5.tar.gz
+pushd gtk-4.18.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbroadway-backend=true -Dbuild-demos=false -Dbuild-examples=false -Dbuild-tests=false -Dbuild-testsuite=false -Dcloudproviders=enabled -Dcolord=enabled -Dintrospection=enabled -Dman-pages=true -Dsysprof=enabled -Dtracker=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gtk4 -Dm644 COPYING
 popd
-rm -rf gtk-4.18.4
+rm -rf gtk-4.18.5
 # libadwaita.
 tar -xf ../sources/libadwaita-1.7.2.tar.gz
 pushd libadwaita-1.7.2
@@ -7831,8 +7846,9 @@ install -t /usr/share/licenses/gvfs -Dm644 COPYING
 popd
 rm -rf gvfs-1.57.2
 # Plymouth.
-tar -xf ../sources/plymouth-24.004.60.tar.bz2
-pushd plymouth-24.004.60
+tar -xf ../sources/plymouth-24.004.60-91-gd42a2830.tar.bz2
+pushd plymouth-d42a2830-d42a2830bd7c1cdc1012d35e05c65dc2ca1a3603
+echo -e "#!/bin/sh\necho '24.004.60-91-gd42a2830'" > scripts/generate-version.sh
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dlogo=/usr/share/massos/massos-logo-sidetext.png -Drelease-file=/etc/os-release
 ninja -C build
 ninja -C build install
@@ -7842,7 +7858,7 @@ cp /usr/share/massos/massos-logo-sidetext.png /usr/share/plymouth/themes/spinner
 plymouth-set-default-theme bgrt
 install -t /usr/share/licenses/plymouth -Dm644 COPYING
 popd
-rm -rf plymouth-24.004.60
+rm -rf plymouth-d42a2830-d42a2830bd7c1cdc1012d35e05c65dc2ca1a3603
 # Busybox.
 tar -xf ../sources/busybox-1.37.0.tar.bz2
 pushd busybox-1.37.0
@@ -7983,7 +7999,7 @@ cat > /usr/share/massos/firmwareversions << "END"
 # installing/uninstalling firmware on the fly. If you are reading this, chances
 # are it already exists. In any case, it will also reference this file.
 
-linux-firmware: 20250311
+linux-firmware: 20250410
 intel-microcode: 20250211
 sof-firmware: 2025.01.1
 END
@@ -8000,7 +8016,7 @@ cat > /usr/share/massos/snapdversion << "END"
 # to know which version of snapd to install.
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
-version: 2.68.3
+version: 2.68.4
 
 # Whether or not snapd is installed ('massos-snapd' sets this automatically).
 installed: no
