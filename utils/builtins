@@ -693,6 +693,7 @@ toml
 tomli
 tpm2-tools
 tpm2-tss
+traceroute
 tracker
 tree
 trove-classifiers
@@ -715,6 +716,7 @@ util-linux
 util-macros
 vala
 vim
+virglrenderer
 virtiofsd
 vitetris
 volume-key
@@ -766,6 +768,9 @@ xdriinfo
 xev
 xf86-input-libinput
 xf86-input-vmmouse
+xf86-video-fbdev
+xf86-video-qxl
+xf86-video-vesa
 xf86-video-vmware
 xfsprogs
 xgamma

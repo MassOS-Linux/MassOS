@@ -94,7 +94,7 @@ Upgraded software (core):
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
 - Clang: `14.0.6 --> 20.1.4`
-- CMake: `3.24.2 --> 4.0.1`
+- CMake: `3.24.2 --> 4.0.2`
 - compiler-rt: `15.0.3 --> 20.1.4`
 - colord: `1.4.6 --> 1.4.7`
 - colord-gtk: `(new package) --> 0.3.1`
@@ -421,7 +421,7 @@ Upgraded software (core):
 - libXfixes: `6.0.0 --> 6.0.1`
 - libXfont2: `2.0.6 --> 2.0.7`
 - libXft: `2.3.6 --> 2.3.8`
-- libxkbcommon: `1.4.1 --> 1.9.1`
+- libxkbcommon: `1.4.1 --> 1.9.2`
 - libxkbfile: `1.1.0 --> 1.1.3`
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.5`
@@ -442,9 +442,9 @@ Upgraded software (core):
 - libXxf86dga: `1.1.5 --> 1.1.6`
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.14.5`
-- Linux-API-Headers: `6.0.0 --> 6.14.5`
-- Linux-Headers: `6.0.0 --> 6.14.5`
+- Linux: `6.0.0 --> 6.14.6`
+- Linux-API-Headers: `6.0.0 --> 6.14.6`
+- Linux-Headers: `6.0.0 --> 6.14.6`
 - Linux-PAM: `1.5.2 --> 1.7.0`
 - LLD: `14.0.6 --> 20.1.4`
 - LLVM: `14.0.6 --> 20.1.4`
@@ -453,7 +453,7 @@ Upgraded software (core):
 - LSB-Tools: `0.10 --> 0.12`
 - lsof: `4.96.3 --> 4.99.4`
 - Lua: `5.4.4 --> 5.4.7`
-- LVM2: `2.03.16 --> 2.03.31`
+- LVM2: `2.03.16 --> 2.03.32`
 - lxml: `4.9.1 --> 5.4.0`
 - Lynx: `2.8.9 --> 2.9.2`
 - LZ4: `1.9.4 --> 1.10.0`
@@ -468,7 +468,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
 - memstrack: `(new package) --> 0.2.5`
-- Mesa: `22.1.7 --> 25.0.5`
+- Mesa: `22.1.7 --> 25.1.0`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.8.0`
 - meson-python: `(new package) --> 0.17.1`
@@ -556,7 +556,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
-- Poppler: `22.09.0 --> 25.04.0`
+- Poppler: `22.09.0 --> 25.05.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -582,7 +582,7 @@ Upgraded software (core):
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.2`
 - qemu-guest-agent: `(new package) --> 10.0.0`
-- Qpdf: `11.1.1 --> 12.1.0`
+- Qpdf: `11.1.1 --> 12.2.0`
 - rav1e: `0.5.1 --> 0.7.1`
 - rdfind: `(new package) --> 1.7.0`
 - Readline: `8.2 --> 8.3-rc1`
@@ -608,8 +608,8 @@ Upgraded software (core):
 - setuptools-rust: `(new package) --> 1.11.1`
 - setuptools-scm: `(new package) --> 8.0.4`
 - setxkbmap: `1.3.3 --> 1.3.4`
-- shaderc: `(new package) --> 2025.1`
-- Shadow: `4.12.3 --> 4.17.2`
+- shaderc: `(new package) --> 2025.2`
+- Shadow: `4.12.3 --> 4.17.4`
 - shared-mime-info: `2.2 --> 2.4`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
@@ -620,9 +620,9 @@ Upgraded software (core):
 - speech-dispatcher: `(new package) --> 0.12.0`
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
-- SPIRV-Headers: `1.3.216.0 --> 1.4.309.0`
+- SPIRV-Headers: `1.3.216.0 --> 1.4.313.0`
 - SPIRV-LLVM-Translator: `(new package) --> 20.1.2`
-- SPIRV-Tools: `2022.2 --> 1.4.309.0`
+- SPIRV-Tools: `2022.2 --> 1.4.313.0`
 - SQLite: `3.39.3 --> 3.49.1`
 - squashfs-tools: `4.5.1 --> 4.6.1`
 - squashfuse: `0.1.105 --> 0.6.0`
@@ -645,6 +645,7 @@ Upgraded software (core):
 - tomli: `(new package) --> 2.2.1`
 - tpm2-tools: `(new package) --> 5.7`
 - tpm2-tss: `3.2.0 --> 4.1.3`
+- traceroute: `(new package) --> 2.1.6`
 - tree: `2.0.4 --> 2.2.1`
 - trove-classifiers: `(new package) --> 2025.3.19.19`
 - typing-extensions: `(new package) --> 4.13.1`
@@ -663,12 +664,13 @@ Upgraded software (core):
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
 - Vim: `9.0.0600 --> 9.1.1350`
+- virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.1`
 - VTE4: `(new package) --> 0.80.1`
-- Vulkan-Headers: `1.3.230 --> 1.4.309.0`
-- Vulkan-Loader: `1.3.230 --> 1.4.309.0`
-- Vulkan-Tools: `1.3.230 --> 1.4.309.0`
+- Vulkan-Headers: `1.3.230 --> 1.4.313.0`
+- Vulkan-Loader: `1.3.230 --> 1.4.313.0`
+- Vulkan-Tools: `1.3.230 --> 1.4.313.0`
 - wavpack: `5.5.0 --> 5.8.1`
 - Wayland: `1.21.0 --> 1.23.1`
 - wayland-protocols: `1.26 --> 1.44`
@@ -706,6 +708,9 @@ Upgraded software (core):
 - xev: `1.2.5 --> 1.2.6`
 - xf86-input-libinput: `1.2.1 --> 1.5.0`
 - xf86-input-vmmouse: `(new package) --> 13.2.0`
+- xf86-video-fbdev: `(new package) --> 0.5.1`
+- xf86-video-qxl: `(new package) --> 0.1.6`
+- xf86-video-vesa: `(new package) --> 2.6.0`
 - xf86-video-vmware: `(new package) --> 13.4.0`
 - xfsprogs: `5.19.0 --> 6.14.0`
 - xgamma: `1.0.6 --> 1.0.7`

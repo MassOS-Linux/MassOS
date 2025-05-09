@@ -565,7 +565,7 @@ pushd lightdm-gtk-greeter-2.0.9
 ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-libido --disable-libindicator --disable-maintainer-mode --disable-static --enable-kill-on-sigterm --with-libxklavier
 make
 make install
-sed -i 's/#background=/background = \/usr\/share\/backgrounds\/MassOS-Futuristic-Dark.png/' /etc/lightdm/lightdm-gtk-greeter.conf
+sed -i 's|#background=|background = /usr/share/backgrounds/MassOS-Futuristic-Dark.png|' /etc/lightdm/lightdm-gtk-greeter.conf
 install -t /usr/share/licenses/lightdm-gtk-greeter -Dm644 COPYING
 systemctl enable lightdm
 popd
@@ -573,7 +573,7 @@ rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
 tar --no-same-owner -xf ../sources/firefox-138.0.1.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
-cat > /usr/lib/firefox/distribution/policies.json << END
+cat > /usr/lib/firefox/distribution/policies.json << "END"
 {
   "policies": {
     "DisableAppUpdate": true
@@ -582,7 +582,7 @@ cat > /usr/lib/firefox/distribution/policies.json << END
 END
 ln -sr /usr/lib/firefox/firefox /usr/bin/firefox
 mkdir -p /usr/share/{applications,pixmaps}
-cat > /usr/share/applications/firefox.desktop << END
+cat > /usr/share/applications/firefox.desktop << "END"
 [Desktop Entry]
 Encoding=UTF-8
 Name=Firefox Web Browser

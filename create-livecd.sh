@@ -15,6 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #
+# shellcheck disable=SC1091,SC2046,SC2086,SC2154
+#
 # Exit on error.
 set -e
 # Ensure we are running as root.
@@ -147,7 +149,7 @@ END
 # Create squashfs image.
 echo "Creating squashfs image..."
 cd iso-workdir/massos-rootfs
-mksquashfs * ../iso-root/LiveOS/squashfs.img -comp xz -quiet
+mksquashfs ./* ../iso-root/LiveOS/squashfs.img -comp xz -quiet
 cd ../..
 # Install kernel and generate initramfs.
 echo "Installing kernel..."

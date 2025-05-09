@@ -24,7 +24,7 @@
 export MBS_INV="$(basename "$0")"
 
 # What is our version and copyright year?
-export MBS_VER="0.0.1"
+export MBS_VER="0.0.2"
 export MBS_YEAR="2025"
 
 # What is the MassOS version?
@@ -35,7 +35,7 @@ test ! -z "$CFLAGS" || export CFLAGS="-Os"
 test ! -z "$CXXFLAGS" || export CXXFLAGS="-Os"
 
 # Set up common flags only if they are unset in the environment.
-test ! -z "$MBS_FLAGS_CONFIGURE" || export MBS_FLAGS_CONFIGURE="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --mandir=/usr/share/man"
+test ! -z "$MBS_FLAGS_CONFIGURE" || export MBS_FLAGS_CONFIGURE="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --infodir=/usr/share/info --mandir=/usr/share/man"
 test ! -z "$MBS_FLAGS_MESON" || export MBS_FLAGS_MESON="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=bin --buildtype=minsize"
 test ! -z "$MBS_FLAGS_CMAKE" || export MBS_FLAGS_CMAKE="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel"
 
@@ -68,7 +68,7 @@ mbs_usage() {
   echo "Copyright (C) 2025 Daniel Massey / MassOS Developers"
   echo "Licensed under GNU GPLv3+; see '/usr/share/massos/LICENSE'."
   echo
-  echo "Usage: mbs <command> [options]"
+  echo "Usage: $MBS_INV <command> [options]"
   echo
   echo "Available commands:"
   echo
@@ -82,7 +82,7 @@ mbs_usage() {
   echo "  $MBS_INV cleanup   - Clean up the current directory."
   echo
   echo "For help with individual commands, try '$MBS_INV help <command>'."
-  echo "For the full reference documentation, try 'man mbs'."
+  echo "For the full reference documentation, try 'man $MBS_INV'."
 }
 
 mbs_extract() {
@@ -285,6 +285,22 @@ mbs_install() {
   if test -z "$DESTDIR" && test "$MBS_HUSH_SYSINST_WARNING" != "YES"; then
     mbs_msg "WARNING! ALLOWING SYSTEM INSTALLATIONS MAY BREAK YOUR SYSTEM!"
   fi
+  # Track the installed files (pre-install), if we need to do that.
+  if test "$MBS_INSTALL_TRACK" = "YES"; then
+    #local snapshot1=()
+    # Do not allow tracking if DESTDIR is set.
+    # It should be unneeded since the DESTDIR should be empty to begin with.
+    if test -z "$DESTDIR"; then
+      mbs_msg "Running pre-install file track step (MBS_INSTALL_TRACK=YES)..."
+      # Get a dump of all directories. Ignore all unneeded directories.
+      # We're also ignoring everything under /snap except for the README file.
+      # This is slightly messier than simply grepping out, but it's much faster.
+      local s1file="$(mktemp /tmp/.mbsXXXXXX)"
+      find / \( -path /dev -o -path /home -o -path /media -o -path /mnt -o -path /proc -o -path /root -o -path /run -o -path /sys -o -path /tmp -o \( -path /snap/\* ! -path /snap/README \) \) ! -name \*.la -prune -o -print > "$s1file"
+    else
+      mbs_die "Tracking installed files is not allowed with DESTDIR set."
+    fi
+  fi
   # Decide what to do depending on the build system type.
   if test -e _mbsbuild; then
     # Ninja build system (respects DESTDIR environment variable).
@@ -303,6 +319,26 @@ mbs_install() {
   else
     # Nothing can be done.
     mbs_die "Neither the _mbsbuild directory nor a valid Makefile exists."
+  fi
+  # Track the installed files (post-install), if we need to do that.
+  if test "$MBS_INSTALL_TRACK" = "YES"; then
+    mbs_msg "Running post-install file track step (MBS_INSTALL_TRACK=YES)..."
+    # Same as before.
+    local s2file="$(mktemp /tmp/.mbsXXXXXX)"
+    find / \( -path /dev -o -path /home -o -path /media -o -path /mnt -o -path /proc -o -path /root -o -path /run -o -path /sys -o -path /tmp -o \( -path /snap/\* ! -path /snap/README \) \) ! -name \*.la -prune -o -print > "$s2file"
+    # Set up the tracking file location, or '.mbstracked' if unset.
+    test ! -z "$MBS_INSTALL_TRACK_FILE" || MBS_INSTALL_TRACK_FILE="$PWD/.mbstracked"
+    # Compare lists using grep and write to the tracking file.
+    # We could've done this with arrays instead, but it would be MUCH slower.
+    grep -Fvx -f "$s1file" "$s2file" > "$MBS_INSTALL_TRACK_FILE"
+    # Ensure the write process went OK.
+    if test $? -ne 0; then
+      mbs_msg "WARNING! WRITING TRACK DATA TO $MBS_INSTALL_TRACK_FILE FAILED."
+    else
+      mbs_msg "The tracking data was written to $MBS_INSTALL_TRACK_FILE."
+    fi
+    # Clean up temporary files.
+    rm -f "$s1file" "$s2file"
   fi
   # Finishing message.
   mbs_suc "The project was successfully installed."

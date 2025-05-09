@@ -7,7 +7,7 @@
 # See the 'LICENSE' file for the full license text. On a MassOS system, this
 # document can also be found at '/usr/share/massos/LICENSE'.
 #
-# === IF RESUMING A FAILED BUILD, DO NOT REMOVE ANY LINES BEFORE LINE 26 ===
+# shellcheck disable=SC1091,SC2016,SC2046,SC2086,SC2154
 #
 # Exit if something goes wrong.
 set -e
@@ -451,11 +451,11 @@ CFLAGS="-O2" CXXFLAGS="-O2" ../configure LD=ld --prefix=/usr --with-pkgversion="
 make
 make install
 ln -sfr /usr/bin/cpp /usr/lib
-ln -sf ../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.so /usr/lib/bfd-plugins/
+ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.so" /usr/lib/bfd-plugins/
 ln -sf gcc.1 /usr/share/man/man1/cc.1
 mkdir -p /usr/share/gdb/auto-load/usr/lib
 mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
-find /usr -depth -name x86_64-stage1-linux-gnu\* | xargs rm -rf
+find /usr -depth -name x86_64-stage1-linux-gnu\* -exec rm -rf {} +
 install -t /usr/share/licenses/gcc -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB ../COPYING.RUNTIME
 popd; popd
 rm -rf gcc-15.1.0
@@ -622,7 +622,7 @@ rm -rf libmetalink-0.1.3
 # Inetutils.
 tar -xf ../sources/inetutils-2.6.tar.xz
 pushd inetutils-2.6
-CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" ./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-ifconfig --disable-logger --disable-servers --disable-whois
+CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" ./configure --prefix=/usr --bindir=/usr/bin --localstatedir=/var --disable-ifconfig --disable-logger --disable-servers --disable-traceroute --disable-whois
 make
 make install
 install -t /usr/share/licenses/inetutils -Dm644 COPYING
@@ -638,6 +638,14 @@ make BINDIR=/usr/bin SBINDIR=/usr/bin install
 install -t /usr/share/licenses/net-tools -Dm644 COPYING
 popd
 rm -rf net-tools-2.10
+# traceroute.
+tar -xf ../sources/traceroute-2.1.6.tar.gz
+pushd traceroute-2.1.6
+make CFLAGS="$CFLAGS"
+make prefix=/usr install
+install -t /usr/share/licenses/traceroute -Dm644 COPYING{,.LIB}
+popd
+rm -rf traceroute-2.1.6
 # Less.
 tar -xf ../sources/less-668.tar.gz
 pushd less-668
@@ -1692,7 +1700,7 @@ perl Makefile.PL INSTALLDIRS=vendor
 make
 make install
 install -dm755 /usr/share/licenses/locale-gettext
-cat README | head -n16 | tail -n6 > /usr/share/licenses/locale-gettext/COPYING
+head -n16 README | tail -n6 > /usr/share/licenses/locale-gettext/COPYING
 popd
 rm -rf Locale-gettext-1.07
 # help2man.
@@ -1918,7 +1926,7 @@ sed -i -e '/ISO 8879/d' -e 's|DTDDECL "-//OASIS//DTD DocBook V3.1//EN"|SGMLDECL|
 install -dm755 /usr/share/sgml/docbook/sgml-dtd-3.1
 chown -R root:root .
 install docbook.cat /usr/share/sgml/docbook/sgml-dtd-3.1/catalog
-cp -af *.dtd *.mod *.dcl /usr/share/sgml/docbook/sgml-dtd-3.1
+cp -af -- *.dtd *.mod *.dcl /usr/share/sgml/docbook/sgml-dtd-3.1
 install-catalog --add /etc/sgml/sgml-docbook-dtd-3.1.cat /usr/share/sgml/docbook/sgml-dtd-3.1/catalog
 install-catalog --add /etc/sgml/sgml-docbook-dtd-3.1.cat /etc/sgml/sgml-docbook.cat
 cat >> /usr/share/sgml/docbook/sgml-dtd-3.1/catalog << "END"
@@ -1938,7 +1946,7 @@ sed -i -e '/ISO 8879/d' -e '/gml/d' docbook.cat
 install -d /usr/share/sgml/docbook/sgml-dtd-4.5
 chown -R root:root .
 install docbook.cat /usr/share/sgml/docbook/sgml-dtd-4.5/catalog
-cp -af *.dtd *.mod *.dcl /usr/share/sgml/docbook/sgml-dtd-4.5
+cp -af -- *.dtd *.mod *.dcl /usr/share/sgml/docbook/sgml-dtd-4.5
 install-catalog --add /etc/sgml/sgml-docbook-dtd-4.5.cat /usr/share/sgml/docbook/sgml-dtd-4.5/catalog
 install-catalog --add /etc/sgml/sgml-docbook-dtd-4.5.cat /etc/sgml/sgml-docbook.cat
 cat >> /usr/share/sgml/docbook/sgml-dtd-4.5/catalog << "END"
@@ -1980,7 +1988,7 @@ unzip -q ../../sources/docbook-xml-4.5.zip
 install -dm755 /usr/share/xml/docbook/xml-dtd-4.5
 install -dm755 /etc/xml
 chown -R root:root .
-cp -af docbook.cat *.dtd ent/ *.mod /usr/share/xml/docbook/xml-dtd-4.5
+cp -af -- docbook.cat *.dtd ent/ *.mod /usr/share/xml/docbook/xml-dtd-4.5
 test -e /etc/xml/docbook || xmlcatalog --noout --create /etc/xml/docbook
 xmlcatalog --noout --add "public" "-//OASIS//DTD DocBook XML V4.5//EN" "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" /etc/xml/docbook
 xmlcatalog --noout --add "public" "-//OASIS//DTD DocBook XML CALS Table Model V4.5//EN" "file:///usr/share/xml/docbook/xml-dtd-4.5/calstblx.dtd" /etc/xml/docbook
@@ -2096,7 +2104,7 @@ pushd docbook-dsssl-1.79
 install -m755 bin/collateindex.pl /usr/bin
 install -m644 bin/collateindex.pl.1 /usr/share/man/man1
 install -dm755 /usr/share/sgml/docbook/dsssl-stylesheets-1.79
-cp -R * /usr/share/sgml/docbook/dsssl-stylesheets-1.79
+cp -R -- * /usr/share/sgml/docbook/dsssl-stylesheets-1.79
 install-catalog --add /etc/sgml/dsssl-docbook-stylesheets.cat /usr/share/sgml/docbook/dsssl-stylesheets-1.79/catalog
 install-catalog --add /etc/sgml/dsssl-docbook-stylesheets.cat /usr/share/sgml/docbook/dsssl-stylesheets-1.79/common/catalog
 install-catalog --add /etc/sgml/sgml-docbook.cat /etc/sgml/dsssl-docbook-stylesheets.cat
@@ -2557,14 +2565,14 @@ install -t /usr/share/licenses/mdadm -Dm644 COPYING
 popd
 rm -rf mdadm-4.4
 # LVM2.
-tar -xf ../sources/LVM2.2.03.31.tgz
-pushd LVM2.2.03.31
+tar -xf ../sources/LVM2.2.03.32.tgz
+pushd LVM2.2.03.32
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --enable-cmdlib --enable-dmeventd --enable-lvmpolld --enable-pkgconfig --enable-readline --enable-udev_rules --enable-udev_sync --with-thin=internal
 make
 make install install_systemd_units
 install -t /usr/share/licenses/lvm2 -Dm644 COPYING{,.BSD,.LIB}
 popd
-rm -rf LVM2.2.03.31
+rm -rf LVM2.2.03.32
 # dmraid.
 tar -xf ../sources/dmraid-1.0.0.rc16-3.tar.bz2
 pushd dmraid/1.0.0.rc16-3/dmraid
@@ -2607,7 +2615,7 @@ tar -xf ../sources/xfsprogs-6.14.0.tar.xz
 pushd xfsprogs-6.14.0
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --with-systemd-unit-dir=/usr/lib/systemd/system --enable-editline
 make
-make PKG_USER=root PKG_GROUP=root install install-dev
+make -j1 PKG_USER=root PKG_GROUP=root install install-dev
 rm -f /usr/lib/libhandle.{l,}a
 install -t /usr/share/licenses/xfsprogs -Dm644 debian/copyright
 popd
@@ -2838,15 +2846,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 popd
 rm -rf RHash-1.4.5
 # CMake.
-tar -xf ../sources/cmake-4.0.1.tar.gz
-pushd cmake-4.0.1
+tar -xf ../sources/cmake-4.0.2.tar.gz
+pushd cmake-4.0.2
 sed -i 's/"lib64"/"lib"/' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --no-system-cppdap --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 LICENSE.rst
 popd
-rm -rf cmake-4.0.1
+rm -rf cmake-4.0.2
 # brotli.
 tar -xf ../sources/brotli-1.1.0.tar.gz
 pushd brotli-1.1.0
@@ -4112,8 +4120,8 @@ install -t /usr/share/licenses/pixman -Dm644 COPYING
 popd
 rm -rf pixman-pixman-0.46.0
 # Qpdf.
-tar -xf ../sources/qpdf-12.1.0.tar.gz
-pushd qpdf-12.1.0
+tar -xf ../sources/qpdf-12.2.0.tar.gz
+pushd qpdf-12.2.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DINSTALL_EXAMPLES=OFF -DREQUIRE_CRYPTO_GNUTLS=OFF -DREQUIRE_CRYPTO_OPENSSL=ON -DUSE_IMPLICIT_CRYPTO=OFF -DDEFAULT_CRYPTO=openssl -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
@@ -4121,7 +4129,7 @@ install -t /usr/share/bash-completion/completions -Dm644 completions/bash/qpdf
 install -t /usr/share/zsh/site-functions -Dm644 completions/zsh/_qpdf
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 popd
-rm -rf qpdf-12.1.0
+rm -rf qpdf-12.2.0
 # qrencode.
 tar -xf ../sources/qrencode-4.1.1.tar.gz
 pushd libqrencode-4.1.1
@@ -4407,93 +4415,284 @@ install -t /usr/share/licenses/xtrans -Dm644 COPYING
 popd
 rm -rf xtrans-1.6.0
 # font-util.
-tar -xf ../sources/font-util-1.4.1.tar.bz2
-pushd util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
-./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+tar -xf ../sources/font-util-1.4.1.tar.xz
+pushd font-util-1.4.1
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
 make
 make install
 install -t /usr/share/licenses/font-util -Dm644 COPYING
 popd
-rm -rf util-font-util-1.4.1-b5ca142f81a6f14eddb23be050291d1c25514777
+rm -rf font-util-1.4.1
 # libX11.
-tar -xf ../sources/libX11-1.8.12.tar.bz2
-pushd libx11-libX11-1.8.12-59917d28a3c41ad22d6fc52e323cafe2cdd596d5
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libX11-1.8.12.tar.xz
+pushd libX11-1.8.12
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libx11 -Dm644 COPYING
 popd
-rm -rf libx11-libX11-1.8.12-59917d28a3c41ad22d6fc52e323cafe2cdd596d5
+rm -rf libX11-1.8.12
 # libXext.
-tar -xf ../sources/libXext-1.3.6.tar.bz2
-pushd libxext-libXext-1.3.6-3826a58d190c2d8093d3586cb33867668cbb4553
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libXext-1.3.6.tar.xz
+pushd libXext-1.3.6
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libxext -Dm644 COPYING
 popd
-rm -rf libxext-libXext-1.3.6-3826a58d190c2d8093d3586cb33867668cbb4553
+rm -rf libXext-1.3.6
 # libFS.
-tar -xf ../sources/libFS-1.0.10.tar.bz2
-pushd libfs-libFS-1.0.10-a21531705199c69f25dd67234449c8c6404f9af6
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libFS-1.0.10.tar.xz
+pushd libFS-1.0.10
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libfs -Dm644 COPYING
 popd
-rm -rf libfs-libFS-1.0.10-a21531705199c69f25dd67234449c8c6404f9af6
-# Many needed libraries and dependencies from the Xorg project.
-for i in libICE-1.1.2 libSM-1.2.6 libXScrnSaver-1.2.4 libXt-1.3.1 libXmu-1.2.1 libXpm-3.5.17 libXaw-1.0.16 libXfixes-6.0.1 libXcomposite-0.4.6 libXrender-0.9.12 libXcursor-1.2.3 libXdamage-1.1.6 libXi-1.8.2 libXinerama-1.1.5 libXrandr-1.5.4 libXres-1.2.2 libXtst-1.2.5 libXv-1.0.13 libXvMC-1.0.14 libXxf86dga-1.1.6 libXxf86vm-1.1.6 libxkbfile-1.1.3 libxshmfence-1.3.3; do
-  tar -xf ../sources/$i.tar.*
-  pushd $i
-  case $i in
-    libXt-*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --with-appdefaultdir=/etc/X11/app-defaults ;;
-    libXpm-*) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-open-zfile ;;
-    *) ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static ;;
-  esac
-  make
-  make install
-  install -t /usr/share/licenses/$(echo $i | cut -d- -f1 | tr '[:upper:]' '[:lower:]') -Dm644 COPYING
-  popd
-  rm -rf $i
-  ldconfig
-done
+rm -rf libFS-1.0.10
+# libICE.
+tar -xf ../sources/libICE-1.1.2.tar.xz
+pushd libICE-1.1.2
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libice -Dm644 COPYING
+popd
+rm -rf libICE-1.1.2
+# libSM.
+tar -xf ../sources/libSM-1.2.6.tar.xz
+pushd libSM-1.2.6
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libsm -Dm644 COPYING
+popd
+rm -rf libSM-1.2.6
+# libXScrnSaver.
+tar -xf ../sources/libXScrnSaver-1.2.4.tar.xz
+pushd libXScrnSaver-1.2.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxscrnsaver -Dm644 COPYING
+popd
+rm -rf libXScrnSaver-1.2.4
+# libXt.
+tar -xf ../sources/libXt-1.3.1.tar.xz
+pushd libXt-1.3.1
+./configure --prefix=/usr --sysconfdir=/etc --disable-static --with-appdefaultdir=/etc/X11/app-defaults
+make
+make install
+install -t /usr/share/licenses/libxt -Dm644 COPYING
+popd
+rm -rf libXt-1.3.1
+# libXmu.
+tar -xf ../sources/libXmu-1.2.1.tar.xz
+pushd libXmu-1.2.1
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxmu -Dm644 COPYING
+popd
+rm -rf libXmu-1.2.1
+# libXpm.
+tar -xf ../sources/libXpm-3.5.17.tar.xz
+pushd libXpm-3.5.17
+./configure --prefix=/usr --sysconfdir=/etc --disable-static --disable-open-zfile
+make
+make install
+install -t /usr/share/licenses/libxpm -Dm644 COPYING
+popd
+rm -rf libXpm-3.5.17
+# libXaw.
+tar -xf ../sources/libXaw-1.0.16.tar.xz
+pushd libXaw-1.0.16
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxaw -Dm644 COPYING
+popd
+rm -rf libXaw-1.0.16
+# libXfixes.
+tar -xf ../sources/libXfixes-6.0.1.tar.xz
+pushd libXfixes-6.0.1
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxfixes -Dm644 COPYING
+popd
+rm -rf libXfixes-6.0.1
+# libXcomposite.
+tar -xf ../sources/libXcomposite-0.4.6.tar.xz
+pushd libXcomposite-0.4.6
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxcomposite -Dm644 COPYING
+popd
+rm -rf libXcomposite-0.4.6
+# libXrender.
+tar -xf ../sources/libXrender-0.9.12.tar.xz
+pushd libXrender-0.9.12
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxrender -Dm644 COPYING
+popd
+rm -rf libXrender-0.9.12
+# libXcursor.
+tar -xf ../sources/libXcursor-1.2.3.tar.xz
+pushd libXcursor-1.2.3
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxcursor -Dm644 COPYING
+popd
+rm -rf libXcursor-1.2.3
+# libXdamage.
+tar -xf ../sources/libXdamage-1.1.6.tar.xz
+pushd libXdamage-1.1.6
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxdamage -Dm644 COPYING
+popd
+rm -rf libXdamage-1.1.6
+# libXi.
+tar -xf ../sources/libXi-1.8.2.tar.xz
+pushd libXi-1.8.2
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxi -Dm644 COPYING
+popd
+rm -rf libXi-1.8.2
+# libXinerama.
+tar -xf ../sources/libXinerama-1.1.5.tar.xz
+pushd libXinerama-1.1.5
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxinerama -Dm644 COPYING
+popd
+rm -rf libXinerama-1.1.5
+# libXrandr.
+tar -xf ../sources/libXrandr-1.5.4.tar.xz
+pushd libXrandr-1.5.4
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxrandr -Dm644 COPYING
+popd
+rm -rf libXrandr-1.5.4
+# libXres.
+tar -xf ../sources/libXres-1.2.2.tar.xz
+pushd libXres-1.2.2
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxres -Dm644 COPYING
+popd
+rm -rf libXres-1.2.2
+# libXtst.
+tar -xf ../sources/libXtst-1.2.5.tar.xz
+pushd libXtst-1.2.5
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxtst -Dm644 COPYING
+popd
+rm -rf libXtst-1.2.5
+# libXv.
+tar -xf ../sources/libXv-1.0.13.tar.xz
+pushd libXv-1.0.13
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxv -Dm644 COPYING
+popd
+rm -rf libXv-1.0.13
+# libXvMC.
+tar -xf ../sources/libXvMC-1.0.14.tar.xz
+pushd libXvMC-1.0.14
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxvmc -Dm644 COPYING
+popd
+rm -rf libXvMC-1.0.14
+# libXxf86dga.
+tar -xf ../sources/libXxf86dga-1.1.6.tar.xz
+pushd libXxf86dga-1.1.6
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxxf86dga -Dm644 COPYING
+popd
+rm -rf libXxf86dga-1.1.6
+# libXxf86vm.
+tar -xf ../sources/libXxf86vm-1.1.6.tar.xz
+pushd libXxf86vm-1.1.6
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxxf86vm -Dm644 COPYING
+popd
+rm -rf libXxf86vm-1.1.6
+# libxkbfile.
+tar -xf ../sources/libxkbfile-1.1.3.tar.xz
+pushd libxkbfile-1.1.3
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxkbfile -Dm644 COPYING
+popd
+rm -rf libxkbfile-1.1.3
+# libxshmfence.
+tar -xf ../sources/libxshmfence-1.3.3.tar.xz
+pushd libxshmfence-1.3.3
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libxshmfence -Dm644 COPYING
+popd
+rm -rf libxshmfence-1.3.3
 # libfontenc.
-tar -xf ../sources/libfontenc-1.1.8.tar.bz2
-pushd libfontenc-libfontenc-1.1.8-92a85fda2acb4e14ec0b2f6d8fe3eaf2b687218c
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libfontenc-1.1.8.tar.xz
+pushd libfontenc-1.1.8
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libfontenc -Dm644 COPYING
 popd
-rm -rf libfontenc-libfontenc-1.1.8-92a85fda2acb4e14ec0b2f6d8fe3eaf2b687218c
+rm -rf libfontenc-1.1.8
 # libXfont2.
-tar -xf ../sources/libXfont2-2.0.7.tar.bz2
-pushd libxfont-libXfont2-2.0.7-2c2e44c94ef17ecd5003a173237b57b315e28d93
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libXfont2-2.0.7.tar.xz
+pushd libXfont2-2.0.7
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libxfont2 -Dm644 COPYING
 popd
-rm -rf libxfont-libXfont2-2.0.7-2c2e44c94ef17ecd5003a173237b57b315e28d93
+rm -rf libXfont2-2.0.7
 # libXft.
-tar -xf ../sources/libXft-2.3.9.tar.bz2
-pushd libxft-libXft-2.3.9-f4805c8645914cbdcfd42e71051ba3f8fc664ef5
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libXft-2.3.9.tar.xz
+pushd libXft-2.3.9
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libxft -Dm644 COPYING
 popd
-rm -rf libxft-libXft-2.3.9-f4805c8645914cbdcfd42e71051ba3f8fc664ef5
+rm -rf libXft-2.3.9
 # libdmx.
-tar -xf ../sources/libdmx-libdmx-1.1.5.tar.bz2
-pushd libdmx-libdmx-1.1.5
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libdmx-1.1.5.tar.xz
+pushd libdmx-1.1.5
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libdmx -Dm644 COPYING
 popd
-rm -rf libdmx-libdmx-1.1.5
+rm -rf libdmx-1.1.5
 # libpciaccess.
 tar -xf ../sources/libpciaccess-0.18.1.tar.xz
 pushd libpciaccess-0.18.1
@@ -4595,23 +4794,23 @@ install -t /usr/share/licenses/directx-headers -Dm644 LICENSE
 popd
 rm -rf DirectX-Headers-1.615.0
 # SPIRV-Headers.
-tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.309.0.tar.gz
-pushd SPIRV-Headers-vulkan-sdk-1.4.309.0
+tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.313.0.tar.gz
+pushd SPIRV-Headers-vulkan-sdk-1.4.313.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-headers -Dm644 LICENSE
 popd
-rm -rf SPIRV-Headers-vulkan-sdk-1.4.309.0
+rm -rf SPIRV-Headers-vulkan-sdk-1.4.313.0
 # SPIRV-Tools.
-tar -xf ../sources/SPIRV-Tools-vulkan-sdk-1.4.309.0.tar.gz
-pushd SPIRV-Tools-vulkan-sdk-1.4.309.0
+tar -xf ../sources/SPIRV-Tools-vulkan-sdk-1.4.313.0.tar.gz
+pushd SPIRV-Tools-vulkan-sdk-1.4.313.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DSPIRV_TOOLS_BUILD_STATIC=OFF -DSPIRV_WERROR=OFF -DSPIRV-Headers_SOURCE_DIR=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-tools -Dm644 LICENSE
 popd
-rm -rf SPIRV-Tools-vulkan-sdk-1.4.309.0
+rm -rf SPIRV-Tools-vulkan-sdk-1.4.313.0
 # SPIRV-LLVM-Translator.
 tar -xf ../sources/SPIRV-LLVM-Translator-20.1.2.tar.gz
 pushd SPIRV-LLVM-Translator-20.1.2
@@ -4640,36 +4839,36 @@ install -t /usr/share/licenses/glslang -Dm644 LICENSE.txt
 popd
 rm -rf glslang-15.3.0
 # shaderc.
-tar -xf ../sources/shaderc-2025.1.tar.gz
-pushd shaderc-2025.1
+tar -xf ../sources/shaderc-2025.2.tar.gz
+pushd shaderc-2025.2
 sed -i '/third_party/d' CMakeLists.txt
 sed -i '/build-version/d' glslc/CMakeLists.txt
 sed -i 's|SPIRV|glslang/&|' libshaderc_util/src/compiler.cc
-echo '"2025.1"' > glslc/src/build-version.inc
+echo '"2025.2"' > glslc/src/build-version.inc
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSHADERC_SKIP_TESTS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/shaderc -Dm644 LICENSE
 popd
-rm -rf shaderc-2025.1
+rm -rf shaderc-2025.2
 # Vulkan-Headers.
-tar -xf ../sources/Vulkan-Headers-vulkan-sdk-1.4.309.0.tar.gz
-pushd Vulkan-Headers-vulkan-sdk-1.4.309.0
+tar -xf ../sources/Vulkan-Headers-vulkan-sdk-1.4.313.0.tar.gz
+pushd Vulkan-Headers-vulkan-sdk-1.4.313.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/vulkan-headers -Dm644 LICENSE.md
 popd
-rm -rf Vulkan-Headers-vulkan-sdk-1.4.309.0
+rm -rf Vulkan-Headers-vulkan-sdk-1.4.313.0
 # Vulkan-Loader.
-tar -xf ../sources/Vulkan-Loader-vulkan-sdk-1.4.309.0.tar.gz
-pushd Vulkan-Loader-vulkan-sdk-1.4.309.0
+tar -xf ../sources/Vulkan-Loader-vulkan-sdk-1.4.313.0.tar.gz
+pushd Vulkan-Loader-vulkan-sdk-1.4.313.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/vulkan-loader -Dm644 LICENSE.txt
 popd
-rm -rf Vulkan-Loader-vulkan-sdk-1.4.309.0
+rm -rf Vulkan-Loader-vulkan-sdk-1.4.313.0
 # ORC.
 tar -xf ../sources/orc-0.4.41.tar.bz2
 pushd orc-0.4.41
@@ -4681,22 +4880,17 @@ install -t /usr/share/licenses/orc -Dm644 COPYING
 popd
 rm -rf orc-0.4.41
 # Vulkan-Tools.
-tar -xf ../sources/Vulkan-Tools-vulkan-sdk-1.4.309.0.tar.gz
-pushd Vulkan-Tools-vulkan-sdk-1.4.309.0
-mkdir -p volk
-tar -xf ../../sources/volk-1.4.304.tar.gz -C volk --strip-components=1
-cmake -DCMAKE_INSTALL_PREFIX="$PWD/volk/install" -DCMAKE_BUILD_TYPE=MinSizeRel -DVOLK_INSTALL=ON -Wno-dev -G Ninja -B volk/build -S volk
-ninja -C volk/build
-ninja -C volk/build install
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -DVOLK_INSTALL_DIR="$PWD/volk/install" -Wno-dev -G Ninja -B build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_WAYLAND_SUPPORT=ON -DVOLK_INSTALL_DIR="$PWD/volk/install" -Wno-dev -G Ninja -B build-wayland
+tar -xf ../sources/Vulkan-Tools-vulkan-sdk-1.4.313.0.tar.gz
+pushd Vulkan-Tools-vulkan-sdk-1.4.313.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build-wayland
 ninja -C build
 ninja -C build-wayland
 ninja -C build install
 install -Dm755 build-wayland/cube/vkcube /usr/bin/vkcube-wayland
 install -t /usr/share/licenses/vulkan-tools -Dm644 LICENSE.txt
 popd
-rm -rf Vulkan-Tools-vulkan-sdk-1.4.309.0
+rm -rf Vulkan-Tools-vulkan-sdk-1.4.313.0
 # libva (circular dependency; will be rebuilt later to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -4721,19 +4915,19 @@ pushd libglvnd-v1.7.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
-cat README.md | tail -n211 | head -n22 | sed 's/    //g' > COPYING
+tail -n211 README.md | head -n22 | sed 's/    //g' > COPYING
 install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-25.0.5.tar.bz2
-pushd mesa-mesa-25.0.5
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=auto -Dvulkan-drivers=auto -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-nine=true -Dgallium-opencl=icd -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dosmesa=true -Dvideo-codecs=all -Dvalgrind=disabled
+tar -xf ../sources/mesa-25.1.0.tar.xz
+pushd mesa-25.1.0
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-nine=true -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dosmesa=true -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-25.0.5
+rm -rf mesa-25.1.0
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -4752,14 +4946,14 @@ install -t /usr/share/licenses/xbitmaps -Dm644 COPYING
 popd
 rm -rf xbitmaps-1.1.3
 # iceauth.
-tar -xf ../sources/iceauth-iceauth-1.0.10.tar.bz2
-pushd iceauth-iceauth-1.0.10
-./autogen.sh --prefix=/usr
+tar -xf ../sources/iceauth-1.0.10.tar.xz
+pushd iceauth-1.0.10
+./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/iceauth -Dm644 COPYING
 popd
-rm -rf iceauth-iceauth-1.0.10
+rm -rf iceauth-1.0.10
 # luit.
 tar -xf ../sources/luit-1.1.1.tar.bz2
 pushd luit-1.1.1
@@ -4844,14 +5038,14 @@ install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
 popd
 rm -rf libxklavier-5.4
 # libxkbcommon.
-tar -xf ../sources/libxkbcommon-xkbcommon-1.9.1.tar.gz
-pushd libxkbcommon-xkbcommon-1.9.1
+tar -xf ../sources/libxkbcommon-xkbcommon-1.9.2.tar.gz
+pushd libxkbcommon-xkbcommon-1.9.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Denable-docs=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxkbcommon -Dm644 LICENSE
 popd
-rm -rf libxkbcommon-xkbcommon-1.9.1
+rm -rf libxkbcommon-xkbcommon-1.9.2
 # eglexternalplatform.
 tar -xf ../sources/eglexternalplatform-1.2.1.tar.gz
 pushd eglexternalplatform-1.2.1
@@ -4936,6 +5130,15 @@ ninja -C build install
 install -t /usr/share/licenses/libepoxy -Dm644 COPYING
 popd
 rm -rf libepoxy-1.5.10
+# virglrenderer.
+tar -xf ../sources/virglrenderer-1.1.1.tar.bz2
+pushd virglrenderer-1.1.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dvenus=true -Dvideo=true -Dtests=false
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/virglrenderer -Dm644 COPYING
+popd
+rm -rf virglrenderer-1.1.1
 # libxcvt.
 tar -xf ../sources/libxcvt-0.1.3.tar.xz
 pushd libxcvt-0.1.3
@@ -4946,8 +5149,8 @@ install -t /usr/share/licenses/libxcvt -Dm644 COPYING
 popd
 rm -rf libxcvt-0.1.3
 # Xorg-Server.
-tar -xf ../sources/xorg-server-21.1.16.tar.bz2
-pushd xserver-xorg-server-21.1.16-b7f84e6d509c004a7abb514af75b94cb907d451b
+tar -xf ../sources/xorg-server-21.1.16.tar.xz
+pushd xorg-server-21.1.16
 patch -Np1 -i ../../patches/xorg-server-21.1.2-addxvfbrun.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb
 ninja -C build
@@ -4957,16 +5160,16 @@ install -t /usr/share/man/man1 xvfb-run.1
 install -dm755 /etc/X11/xorg.conf.d
 install -t /usr/share/licenses/xorg-server -Dm644 COPYING
 popd
-rm -rf xserver-xorg-server-21.1.16-b7f84e6d509c004a7abb514af75b94cb907d451b
+rm -rf xorg-server-21.1.16
 # Xwayland.
-tar -xf ../sources/xwayland-24.1.6.tar.bz2
-pushd xserver-xwayland-24.1.6-5b1d9da00f217d3b52bfd3cc862dff79a9433e63
+tar -xf ../sources/xwayland-24.1.6.tar.xz
+pushd xwayland-24.1.6
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xwayland -Dm644 COPYING
 popd
-rm -rf xserver-xwayland-24.1.6-5b1d9da00f217d3b52bfd3cc862dff79a9433e63
+rm -rf xwayland-24.1.6
 # libinput.
 tar -xf ../sources/libinput-1.28.1.tar.bz2
 pushd libinput-1.28.1
@@ -4994,23 +5197,49 @@ make install
 install -t /usr/share/licenses/xf86-input-vmmouse -Dm644 COPYING
 popd
 rm -rf xf86-input-vmmouse-13.2.0
+# xf86-video-qxl.
+tar -xf ../sources/xf86-video-qxl-0.1.6.tar.xz
+pushd xf86-video-qxl-0.1.6
+./configure --prefix=/usr --disable-xspice
+make
+make install
+install -t /usr/share/licenses/xf86-video-qxl -Dm644 COPYING
+popd
+rm -rf xf86-video-qxl-0.1.6
 # xf86-video-vmware.
-tar -xf ../sources/xf86-video-vmware-13.4.0.tar.bz2
-pushd xf86-video-vmware-xf86-video-vmware-13.4.0-f82ce27f17e1c706f34a0fdc5cceaf6e42db1476
-autoreconf -fi
+tar -xf ../sources/xf86-video-vmware-13.4.0.tar.xz
+pushd xf86-video-vmware-13.4.0
 ./configure --prefix=/usr --enable-vmwarectrl-client
 make
 make install
 install -t /usr/share/licenses/xf86-video-vmware -Dm644 COPYING
 popd
-rm -rf xf86-video-vmware-xf86-video-vmware-13.4.0-f82ce27f17e1c706f34a0fdc5cceaf6e42db1476
+rm -rf xf86-video-vmware-13.4.0
+# xf86-video-fbdev.
+tar -xf ../sources/xf86-video-fbdev-0.5.1.tar.xz
+pushd xf86-video-fbdev-0.5.1
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xf86-video-fbdev -Dm644 COPYING
+popd
+rm -rf xf86-video-fbdev-0.5.1
+# xf86-video-vesa.
+tar -xf ../sources/xf86-video-vesa-2.6.0.tar.xz
+pushd xf86-video-vesa-2.6.0
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/xf86-video-vesa -Dm644 COPYING
+popd
+rm -rf xf86-video-vesa-2.6.0
 # intel-gmmlib.
 tar -xf ../sources/intel-gmmlib-22.7.1.tar.gz
 pushd gmmlib-intel-gmmlib-22.7.1
 patch -Np1 -i ../../patches/intel-gmmlib-22.7.1-cmake400.patch
-CFLAGS="" CXXFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
-CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build
-CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build install
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/intel-gmmlib -Dm644 LICENSE.md
 popd
 rm -rf gmmlib-intel-gmmlib-22.7.1
@@ -5027,9 +5256,9 @@ rm -rf intel-vaapi-driver-2.4.1
 tar -xf ../sources/intel-media-25.2.1.tar.gz
 pushd media-driver-intel-media-25.2.1
 patch -Np1 -i ../../patches/intel-media-driver-25.2.0-cmake400.patch
-CFLAGS="" CXXFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
-CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build
-CFLAGS="" CXXFLAGS="" LDFLAGS="" ninja -C build install
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
 install -t /usr/share/licenses/intel-media-driver -Dm644 LICENSE.md
 popd
 rm -rf media-driver-intel-media-25.2.1
@@ -6148,7 +6377,7 @@ rm -rf laptop-detect-0.16
 # flashrom.
 tar -xf ../sources/flashrom-v1.5.1.tar.xz
 pushd flashrom-v1.5.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dprogrammer=all -Dtests=disabled
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=plain -Dprogrammer=all -Dtests=disabled
 ninja -C build
 ninja -C build install
 rm -f /usr/lib/libflashrom.a
@@ -6343,14 +6572,14 @@ install -t /usr/share/licenses/gnome-keyring -Dm644 COPYING COPYING.LIB
 popd
 rm -rf gnome-keyring-48.0
 # Poppler.
-tar -xf ../sources/poppler-25.04.0.tar.xz
-pushd poppler-25.04.0
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -Wno-dev -G Ninja -B build
+tar -xf ../sources/poppler-25.05.0.tar.xz
+pushd poppler-25.05.0
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/poppler -Dm644 COPYING{,3}
 popd
-rm -rf poppler-25.04.0
+rm -rf poppler-25.05.0
 # poppler-data.
 tar -xf ../sources/poppler-data-0.4.12.tar.gz
 pushd poppler-data-0.4.12
@@ -7928,8 +8157,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.14.5.tar.xz
-pushd linux-6.14.5
+tar -xf ../sources/linux-6.14.6.tar.xz
+pushd linux-6.14.6
 make mrproper
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -7967,7 +8196,7 @@ echo "options kvm enable_virt_at_load=0" > /usr/lib/modprobe.d/kvm.conf
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.14.5
+rm -rf linux-6.14.6
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-575.51.02.tar.gz
 pushd open-gpu-kernel-modules-575.51.02
@@ -7986,7 +8215,7 @@ rm -rf open-gpu-kernel-modules-575.51.02
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Determine the version of osinstallgui that should be used by the Live CD.
-echo "0.7.2" > /usr/share/massos/.osinstallguiver
+echo "0.7.4" > /usr/share/massos/.osinstallguiver
 # Determine firmware versions that should be installed.
 cat > /usr/share/massos/firmwareversions << "END"
 # DO NOT EDIT THIS FILE!
