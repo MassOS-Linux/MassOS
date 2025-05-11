@@ -14,6 +14,12 @@ if [ "$(find sources -type f | wc -l)" != "$(wc -l < source-urls)" ]; then
   echo "Error: You must ensure all sources downloaded successfully first." >&2
   exit 1
 fi
+# Do not allow building if cache exists from a previous build.
+if [ -e massos-rootfs ]; then
+  echo "Error: Cache from a previous (incomplete) MassOS build was found." >&2
+  echo "Error: Please remove the 'massos-rootfs' directory first." >&2
+  exit 1
+fi
 # Starting message.
 echo "Starting Stage 1 Build..."
 # Setup the environment.

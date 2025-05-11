@@ -490,6 +490,15 @@ ninja -C build install
 install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
 rm -rf evince-48.0
+# simple-scan.
+tar -xf ../sources/simple-scan-48.1.tar.bz2
+pushd simple-scan-48.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/simple-scan -Dm644 COPYING
+popd
+rm -rf simple-scan-48.1
 # Baobab.
 tar -xf ../sources/baobab-48.0.tar.bz2
 pushd baobab-48.0

@@ -54,6 +54,7 @@ Upgraded software (core):
 - Acl: `2.3.1 --> 2.3.2`
 - adwaita-icon-theme: `43 --> 48.0`
 - alsa-lib: `1.2.7.2 --> 1.2.14`
+- alsa-oss: `(new package) --> 1.1.8`
 - alsa-utils: `(new package) --> 1.2.14`
 - AMF-Headers: `(new package) --> 1.4.36.0`
 - AppArmor: `3.1.1 --> 4.1.0`
@@ -95,6 +96,7 @@ Upgraded software (core):
 - charset-normalizer: `(new package) --> 3.4.1`
 - Clang: `14.0.6 --> 20.1.4`
 - CMake: `3.24.2 --> 4.0.2`
+- cnijfilter2: `(new package) --> 6.80`
 - compiler-rt: `15.0.3 --> 20.1.4`
 - colord: `1.4.6 --> 1.4.7`
 - colord-gtk: `(new package) --> 0.3.1`
@@ -110,7 +112,7 @@ Upgraded software (core):
 - cups-pdf: `(new package) --> 3.0.2`
 - cups-pk-helper: `(new package) --> 0.2.7`
 - curl: `7.85.0 --> 8.13.0`
-- Cython: `0.29.25 --> 3.0.12`
+- Cython: `0.29.25 --> 3.1.0`
 - D-Bus: `1.14.2 --> 1.16.2`
 - dav1d: `1.0.0 --> 1.5.1`
 - dbus-glib: `0.112 --> 0.114`
@@ -240,7 +242,7 @@ Upgraded software (core):
 - highway: `(new package) --> 1.2.0`
 - HPLIP: `3.22.6 --> 3.25.2`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.394`
+- hwdata: `0.363 --> 0.395`
 - hyfetch: `(new package) --> 2.0.0-rc1`
 - iana-etc: `20220922 --> 20250407`
 - iceauth: `1.0.9 --> 1.0.10`
@@ -254,6 +256,7 @@ Upgraded software (core):
 - intel-media-driver: `(new package) --> 25.2.1`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
+- ipp-usb: `(new package) --> 0.9.30`
 - IPRoute2: `5.19.0 --> 6.14.0`
 - iptables: `1.8.8 --> 1.8.11`
 - ISL: `(new package) --> 0.27`
@@ -315,7 +318,7 @@ Upgraded software (core):
 - libfontenc: `1.1.6 --> 1.1.8`
 - libfreeaptx: `(new package) --> 0.2.2`
 - libFS: `1.0.9 --> 1.0.10`
-- libgcrypt: `1.10.1 --> 1.11.0`
+- libgcrypt: `1.10.1 --> 1.11.1`
 - libgee: `0.20.6 --> 0.20.8`
 - libglade: `2.6.4 --> (removed)`
 - libglvnd: `1.5.0 --> 1.7.0`
@@ -506,6 +509,7 @@ Upgraded software (core):
 - npth: `1.6 --> 1.8`
 - NSPR: `4.35 --> 4.36`
 - NSS: `3.83 --> 3.110`
+- nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
 - nvidia-modules-open: `(new package) --> 575.51.02`
@@ -595,11 +599,12 @@ Upgraded software (core):
 - rtmpdump: `2.4-99-gf1b83c1 --> 2.4-105-g6f6bb13`
 - Ruby: `3.1.2 --> 3.4.3`
 - SANE: `1.1.1 --> 1.3.1`
+- sane-airscan: `(new package) --> 0.99.35`
 - SBC: `2.0 --> 2.1`
 - scdoc: `(new package) --> 1.11.0`
 - SDL: `1.2.15 --> (removed)`
 - sdl12-compat: `(new package) --> 1.2.68`
-- SDL2: `2.24.0 --> 2.32.4`
+- SDL2: `2.24.0 --> 2.32.6`
 - seatd: `(new package) --> 0.9.1`
 - Sed: `4.8 --> 4.9`
 - semantic-version: `(new package) --> 2.10.0`
@@ -623,7 +628,7 @@ Upgraded software (core):
 - SPIRV-Headers: `1.3.216.0 --> 1.4.313.0`
 - SPIRV-LLVM-Translator: `(new package) --> 20.1.2`
 - SPIRV-Tools: `2022.2 --> 1.4.313.0`
-- SQLite: `3.39.3 --> 3.49.1`
+- SQLite: `3.39.3 --> 3.49.2`
 - squashfs-tools: `4.5.1 --> 4.6.1`
 - squashfuse: `0.1.105 --> 0.6.0`
 - strace: `5.19 --> 6.14`
@@ -785,6 +790,7 @@ Upgraded software (Xfce):
 - Parole: `4.16.0 --> 4.18.2`
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
 - Shotwell: `0.31.5 --> 0.32.10`
+- simple-scan: `(new package) --> 48.1`
 - Thunar: `4.17.9 --> 4.20.2`
 - thunar-archive-plugin: `0.5.0 --> 0.5.3`
 - thunar-volman: `4.16.0 --> 4.20.0`

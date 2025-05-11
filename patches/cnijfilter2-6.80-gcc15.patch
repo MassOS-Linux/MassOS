@@ -1,0 +1,34 @@
+--- a/lgmon3/src/cnijlgmon3.c
++++ b/lgmon3/src/cnijlgmon3.c
+@@ -55,7 +55,7 @@
+ int (*GET_STATUS)(char *, int, int *, int * , char *);
+ int (*GET_STATUS2)(char *, int, char *, int *, int * , char *, char *);
+ int (*GET_STATUS2_MAINTENANCE)(char *, int, char *, int *, int * , char *, char *);
+-int (*GET_PROTOCOL)(char *, size_t);
++extern int (*GET_PROTOCOL)(char *, size_t);
+ 
+ 
+  int main(int argc, char *argv[])
+--- a/lgmon3/src/common/libcnnet2_type.h
++++ b/lgmon3/src/common/libcnnet2_type.h
+@@ -47,10 +47,6 @@
+   CNNET2_SETTING_FLAG_DISCOVER_PACKET_WAIT_MILLIS,         /*検索パケット複数送信時の待ち時間*/
+ } CNNET2_SETTING_FLAGS;
+ 
+-#ifndef __cplusplus
+-typedef char bool;
+-#endif
+-
+ typedef struct {
+   int nicIndex_;
+   char ipAddressStr_[46];
+--- a/lgmon3/src/keytext.c
++++ b/lgmon3/src/keytext.c
+@@ -37,6 +37,7 @@
+ #include <unistd.h>
+ #include <libxml/parser.h>	/* Ver.2.80 */
+ #include <string.h>
++#include <stdlib.h>
+ 
+ #include "keytext.h"
+ 

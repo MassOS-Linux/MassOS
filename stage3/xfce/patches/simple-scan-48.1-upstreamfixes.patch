@@ -1,0 +1,127 @@
+From 6e1ffb4d206d859bc380698d003d42c3a8596dd4 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ball=C3=B3=20Gy=C3=B6rgy?= <ballogyor@gmail.com>
+Date: Thu, 27 Mar 2025 16:00:11 +0000
+Subject: [PATCH] Fix application activate
+
+Calling start() methods in activate() leads to crash on second activation.
+Call them from startup() instead, and just present the window when the
+application is launched second time.
+---
+ src/simple-scan.vala | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/src/simple-scan.vala b/src/simple-scan.vala
+index 100823ed..d2ffce41 100644
+--- a/src/simple-scan.vala
++++ b/src/simple-scan.vala
+@@ -90,13 +90,15 @@ public class SimpleScan : Adw.Application
+             app.set_scan_devices (device_list);
+             app.set_selected_device (default_device.name);
+         }
++
++        app.start ();
++        scanner.start ();
+     }
+ 
+     public override void activate ()
+     {
+         base.activate ();
+-        app.start ();
+-        scanner.start ();
++        app.present ();
+     }
+ 
+     public override void shutdown ()
+-- 
+GitLab
+
+From 87d40f27ff70397133ba785b120a4b1b1e6c3e17 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ball=C3=B3=20Gy=C3=B6rgy?= <ballogyor@gmail.com>
+Date: Sat, 29 Mar 2025 13:08:28 +0100
+Subject: [PATCH] Rename desktop file to match with the application ID
+
+The desktop file basename must be the same as the application ID, otherwise
+Wayland compositors couldn't match the window with the desktop file.
+The application ID was changed in commit c09a6def153e52494072a36233c7e7b3307b67bf,
+so the desktop file name needs to be changed too.
+---
+ build-aux/flatpak/org.gnome.SimpleScan.json                   | 1 -
+ build-aux/snap/snapcraft.yaml                                 | 2 +-
+ data/meson.build                                              | 4 ++--
+ data/org.gnome.SimpleScan.appdata.xml.in                      | 2 +-
+ ...simple-scan.desktop.in => org.gnome.SimpleScan.desktop.in} | 0
+ po/POTFILES.in                                                | 2 +-
+ 6 files changed, 5 insertions(+), 6 deletions(-)
+ rename data/{simple-scan.desktop.in => org.gnome.SimpleScan.desktop.in} (100%)
+
+diff --git a/build-aux/flatpak/org.gnome.SimpleScan.json b/build-aux/flatpak/org.gnome.SimpleScan.json
+index 54643d49..f4934a96 100644
+--- a/build-aux/flatpak/org.gnome.SimpleScan.json
++++ b/build-aux/flatpak/org.gnome.SimpleScan.json
+@@ -4,7 +4,6 @@
+     "runtime-version" : "master",
+     "sdk" : "org.gnome.Sdk",
+     "command" : "simple-scan",
+-    "rename-desktop-file" : "simple-scan.desktop",
+     "tags" : [
+         "devel"
+     ],
+diff --git a/build-aux/snap/snapcraft.yaml b/build-aux/snap/snapcraft.yaml
+index 2a508934..62f1c8fd 100644
+--- a/build-aux/snap/snapcraft.yaml
++++ b/build-aux/snap/snapcraft.yaml
+@@ -29,7 +29,7 @@ apps:
+       - raw-usb
+     command: usr/bin/simple-scan
+     extensions: [ gnome ]
+-    desktop: usr/share/applications/simple-scan.desktop
++    desktop: usr/share/applications/org.gnome.SimpleScan.desktop
+     environment:
+       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
+ 
+diff --git a/data/meson.build b/data/meson.build
+index 304345bc..d4804a77 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -10,8 +10,8 @@ install_data ('org.gnome.SimpleScan.gschema.xml',
+ gnome.post_install (glib_compile_schemas: true,
+                     gtk_update_icon_cache: true)
+ 
+-i18n.merge_file (input: 'simple-scan.desktop.in',
+-                 output: 'simple-scan.desktop',
++i18n.merge_file (input: 'org.gnome.SimpleScan.desktop.in',
++                 output: 'org.gnome.SimpleScan.desktop',
+                  install: true,
+                  install_dir: join_paths (datadir, 'applications'),
+                  po_dir: '../po',
+diff --git a/data/org.gnome.SimpleScan.appdata.xml.in b/data/org.gnome.SimpleScan.appdata.xml.in
+index 84fad4ed..a2fe9ec6 100644
+--- a/data/org.gnome.SimpleScan.appdata.xml.in
++++ b/data/org.gnome.SimpleScan.appdata.xml.in
+@@ -182,5 +182,5 @@
+   <content_rating type="oars-1.1" />
+   <update_contact>robert.ancell_AT_canonical.com</update_contact>
+   <translation type="gettext">simple-scan</translation>
+-  <launchable type="desktop-id">simple-scan.desktop</launchable>
++  <launchable type="desktop-id">org.gnome.SimpleScan.desktop</launchable>
+ </component>
+diff --git a/data/simple-scan.desktop.in b/data/org.gnome.SimpleScan.desktop.in
+similarity index 100%
+rename from data/simple-scan.desktop.in
+rename to data/org.gnome.SimpleScan.desktop.in
+diff --git a/po/POTFILES.in b/po/POTFILES.in
+index 7b6daae6..9b61e3bb 100644
+--- a/po/POTFILES.in
++++ b/po/POTFILES.in
+@@ -2,7 +2,7 @@
+ # Please keep this file sorted alphabetically.
+ data/org.gnome.SimpleScan.gschema.xml
+ data/org.gnome.SimpleScan.appdata.xml.in
+-data/simple-scan.desktop.in
++data/org.gnome.SimpleScan.desktop.in
+ data/ui/app-window.ui
+ data/ui/authorize-dialog.ui
+ data/ui/drivers-dialog.ui
+-- 
+GitLab
+

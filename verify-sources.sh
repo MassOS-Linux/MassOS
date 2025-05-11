@@ -4,7 +4,7 @@
 # MassOS now uses Blake-2 (b2) checksums, so the 'b2sum' program is required.
 #
 # Cannot verify anything if the sources directory is missing.
-if [ ! -d sources ]; then
+if test ! -d sources; then
   echo "Error: You must run 'retrieve-sources.sh' first." >&2
   exit 1
 fi

@@ -4,6 +4,7 @@ https://mirror.netcologne.de/savannah/acl/acl-2.3.2.tar.xz
 https://freefr.dl.sourceforge.net/project/acpiclient/acpiclient/1.7/acpi-1.7.tar.gz
 https://github.com/GNOME/adwaita-icon-theme/archive/48.0/adwaita-icon-theme-48.0.tar.gz
 https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2
+https://www.alsa-project.org/files/pub/oss-lib/alsa-oss-1.1.8.tar.bz2
 https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.14.tar.bz2
 https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.4.36/AMF-headers-v1.4.36.tar.gz
 https://launchpad.net/apparmor/4.1/4.1.0/+download/apparmor-4.1.0.tar.gz
@@ -58,6 +59,7 @@ https://download.gnome.org/sources/clutter-gst/3.0/clutter-gst-3.0.27.tar.xz
 https://download.gnome.org/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
 https://github.com/Kitware/CMake/releases/download/v4.0.2/cmake-4.0.2.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
+https://gdlp01.c-wss.com/gds/2/0100012302/02/cnijfilter2-source-6.80-1.tar.gz
 https://download.gnome.org/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.7.tar.xz
 https://github.com/hughsie/colord-gtk/archive/0.3.1/colord-gtk-0.3.1.tar.gz
@@ -75,7 +77,7 @@ https://www.cups-pdf.de/src/cups-pdf_3.0.2.tar.gz
 https://www.freedesktop.org/software/cups-pk-helper/releases/cups-pk-helper-0.2.7.tar.xz
 https://curl.se/download/curl-8.13.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
-https://github.com/cython/cython/releases/download/3.0.12/cython-3.0.12.tar.gz
+https://github.com/cython/cython/releases/download/3.1.0/cython-3.1.0.tar.gz
 https://code.videolan.org/videolan/dav1d/-/archive/1.5.1/dav1d-1.5.1.tar.bz2
 https://github.com/GNOME/dconf/archive/0.40.0/dconf-0.40.0.tar.gz
 https://github.com/GNOME/dconf-editor/archive/45.0.1/dconf-editor-45.0.1.tar.gz
@@ -223,7 +225,7 @@ https://github.com/libusb/hidapi/archive/refs/tags/hidapi-0.14.0.tar.gz
 https://github.com/google/highway/releases/download/1.2.0/highway-1.2.0.tar.gz
 https://freefr.dl.sourceforge.net/project/hplip/hplip/3.25.2/hplip-3.25.2.tar.gz
 https://github.com/htop-dev/htop/releases/download/3.4.1/htop-3.4.1.tar.xz
-https://github.com/vcrhonek/hwdata/archive/v0.394/hwdata-0.394.tar.gz
+https://github.com/vcrhonek/hwdata/archive/v0.395/hwdata-0.395.tar.gz
 https://github.com/hykilpikonna/hyfetch/archive/2.0.0-rc1/hyfetch-2.0.0-rc1.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20250407/iana-etc-20250407.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/iceauth-1.0.10.tar.xz
@@ -239,6 +241,7 @@ https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-
 https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/IO-Tty-1.20.tar.gz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/IPC-Run-20231003.0.tar.gz
+https://github.com/OpenPrinting/ipp-usb/archive/0.9.30/ipp-usb-0.9.30.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.14.0.tar.xz
 https://www.netfilter.org/projects/iptables/files/iptables-1.8.11.tar.xz
 https://libisl.sourceforge.io/isl-0.27.tar.xz
@@ -315,7 +318,7 @@ https://developers.yubico.com/libfido2/Releases/libfido2-1.15.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/lib/libfontenc-1.1.8.tar.xz
 https://github.com/regularhunter/libfreeaptx/archive/0.2.2/libfreeaptx-0.2.2.tar.gz
 https://xorg.freedesktop.org/archive/individual/lib/libFS-1.0.10.tar.xz
-https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.0.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-1.11.1.tar.bz2
 https://github.com/GNOME/libgdata/archive/0.18.1/libgdata-0.18.1.tar.gz
 https://github.com/GNOME/libgee/archive/0.20.8/libgee-0.20.8.tar.gz
 https://gitlab.gnome.org/pwithnall/libglib-testing/-/archive/0.1.1/libglib-testing-0.1.1.tar.bz2
@@ -524,6 +527,7 @@ https://github.com/DanielMYT/noto-fonts-tarball/releases/download/20241202/noto-
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.8.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.36/src/nspr-4.36.tar.gz
 https://archive.mozilla.org/pub/security/nss/releases/NSS_3_110_RTM/src/nss-3.110.tar.gz
+https://github.com/avahi/nss-mdns/releases/download/v0.15.1/nss-mdns-0.15.1.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2022.10.3/ntfs-3g-2022.10.3.tar.gz
 https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec-headers-13.0.19.0.tar.gz
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
@@ -623,11 +627,12 @@ https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.3.tar.xz
 https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.86.0-x86_64-unknown-linux-gnu.tar.gz
 https://download.samba.org/pub/samba/stable/samba-4.21.5.tar.gz
 https://gitlab.com/sane-project/backends/-/archive/1.3.1/sane-1.3.1.tar.gz
+https://github.com/alexpevzner/sane-airscan/archive/0.99.35/sane-airscan-0.99.35.tar.gz
 https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
 https://cdn.kernel.org/pub/linux/bluetooth/sbc-2.1.tar.xz
 https://github.com/ddevault/scdoc/archive/1.11.0/scdoc-1.11.0.tar.gz
 https://github.com/libsdl-org/sdl12-compat/archive/release-1.2.68/sdl12-compat-release-1.2.68.tar.gz
-https://github.com/libsdl-org/SDL/releases/download/release-2.32.4/SDL2-2.32.4.tar.gz
+https://github.com/libsdl-org/SDL/releases/download/release-2.32.6/SDL2-2.32.6.tar.gz
 https://github.com/kennylevinsen/seatd/archive/0.9.1/seatd-0.9.1.tar.gz
 https://mirror.lyrahosting.com/gnu/sed/sed-4.9.tar.xz
 https://files.pythonhosted.org/packages/source/s/semantic-version/semantic_version-2.10.0.tar.gz
@@ -661,7 +666,7 @@ https://www.spice-space.org/download/releases/spice-vdagent-0.22.1.tar.bz2
 https://github.com/KhronosGroup/SPIRV-Headers/archive/vulkan-sdk-1.4.313.0/SPIRV-Headers-vulkan-sdk-1.4.313.0.tar.gz
 https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v20.1.2/SPIRV-LLVM-Translator-20.1.2.tar.gz
 https://github.com/KhronosGroup/SPIRV-Tools/archive/vulkan-sdk-1.4.313.0/SPIRV-Tools-vulkan-sdk-1.4.313.0.tar.gz
-https://sqlite.org/2025/sqlite-autoconf-3490100.tar.gz
+https://sqlite.org/2025/sqlite-autoconf-3490200.tar.gz
 https://github.com/plougher/squashfs-tools/archive/4.6.1/squashfs-tools-4.6.1.tar.gz
 https://github.com/vasi/squashfuse/releases/download/0.6.0/squashfuse-0.6.0.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.3/sshfs-3.7.3.tar.xz

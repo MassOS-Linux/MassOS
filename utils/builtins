@@ -4,6 +4,7 @@ acl
 acpi
 adwaita-icon-theme
 alsa-lib
+alsa-oss
 alsa-utils
 amf-headers
 apparmor
@@ -57,6 +58,7 @@ clutter-gst
 clutter-gtk
 cmake
 cmatrix
+cnijfilter2
 cogl
 colord
 colord-gtk
@@ -238,6 +240,7 @@ intel-vaapi-driver
 intltool
 io-tty
 ipc-run
+ipp-usb
 iproute2
 iptables
 isl
@@ -533,6 +536,7 @@ noto-fonts-emoji
 npth
 nspr
 nss
+nss-mdns
 ntfs-3g
 nv-codec-headers
 nvidia-modules
@@ -631,6 +635,7 @@ rtmpdump
 ruby
 run-parts
 sane
+sane-airscan
 sassc
 sbc
 scdoc

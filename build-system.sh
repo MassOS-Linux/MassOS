@@ -1669,13 +1669,13 @@ head -n32 README.md | tail -n28 | install -Dm644 /dev/stdin /usr/share/licenses/
 popd
 rm -rf ply-3.11
 # Cython.
-tar -xf ../sources/cython-3.0.12.tar.gz
-pushd cython-3.0.12
+tar -xf ../sources/cython-3.1.0.tar.gz
+pushd cython-3.1.0
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/cython -Dm644 {COPYING,LICENSE}.txt
 popd
-rm -rf cython-3.0.12
+rm -rf cython-3.1.0
 # PyYAML.
 tar -xf ../sources/pyyaml-6.0.2.tar.gz
 pushd pyyaml-6.0.2
@@ -1853,14 +1853,14 @@ install -t /usr/share/licenses/libgpg-error -Dm644 COPYING COPYING.LIB
 popd
 rm -rf libgpg-error-1.55
 # libgcrypt.
-tar -xf ../sources/libgcrypt-1.11.0.tar.bz2
-pushd libgcrypt-1.11.0
+tar -xf ../sources/libgcrypt-1.11.1.tar.bz2
+pushd libgcrypt-1.11.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/libgcrypt -Dm644 COPYING COPYING.LIB
 popd
-rm -rf libgcrypt-1.11.0
+rm -rf libgcrypt-1.11.1
 # Unzip.
 tar -xf ../sources/unzip60.tar.gz
 pushd unzip60
@@ -2234,6 +2234,8 @@ rm -rf docbook-5.1
 # lxml.
 tar -xf ../sources/lxml-5.4.0.tar.gz
 pushd lxml-5.4.0
+sed -i 's/, < 3.1.0//' pyproject.toml
+sed -i 's/, < 3.1.0//' requirements.txt
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/lxml -Dm644 LICENSE.txt LICENSES.txt
@@ -2293,14 +2295,14 @@ install -t /usr/share/licenses/gnu-efi -Dm644 README.efilib
 popd
 rm -rf gnu-efi-3.0.18
 # hwdata.
-tar -xf ../sources/hwdata-0.394.tar.gz
-pushd hwdata-0.394
+tar -xf ../sources/hwdata-0.395.tar.gz
+pushd hwdata-0.395
 ./configure --prefix=/usr --disable-blacklist
 make
 make install
 install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
-rm -rf hwdata-0.394
+rm -rf hwdata-0.395
 # systemd (initial build; will be rebuilt later to support more features).
 tar -xf ../sources/systemd-257.5.tar.gz
 pushd systemd-257.5
@@ -2974,18 +2976,24 @@ install -t /usr/share/licenses/tcl -Dm644 ../license.terms
 popd
 rm -rf tcl8.6.16
 # SQLite.
-tar -xf ../sources/sqlite-autoconf-3490100.tar.gz
-pushd sqlite-autoconf-3490100
-CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1" ./configure --prefix=/usr --disable-static --enable-fts4 --enable-fts5
+tar -xf ../sources/sqlite-autoconf-3490200.tar.gz
+pushd sqlite-autoconf-3490200
+sed -i "6i#include <stdint.h>" tea/generic/tclsqlite3.c
+CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_STMTVTAB=1 -DSQLITE_ENABLE_STAT4=1 -DSQLITE_ENABLE_MATH_FUNCTIONS=1" ./configure --prefix=/usr --disable-static --fts4 --fts5 --rtree --icu-collations --with-icu-ldflags="-licui18n -licuuc -licudata"
 make
 make install
+pushd tea
+./configure --prefix=/usr --with-system-sqlite
+popd
+make -C tea
+make -C tea install
 install -dm755 /usr/share/licenses/sqlite
 cat > /usr/share/licenses/sqlite/LICENSE << "END"
 The code and documentation of SQLite is dedicated to the public domain.
 See <https://www.sqlite.org/copyright.html> for more information.
 END
 popd
-rm -rf sqlite-autoconf-3490100
+rm -rf sqlite-autoconf-3490200
 # libusb.
 tar -xf ../sources/libusb-1.0.28.tar.bz2
 pushd libusb-1.0.28
@@ -5121,6 +5129,21 @@ make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 popd
 rm -rf alsa-lib-1.2.14
+# alsa-oss.
+tar -xf ../sources/alsa-oss-1.1.8.tar.bz2
+pushd alsa-oss-1.1.8
+./configure --prefix=/usr --disable-static
+make
+make install
+install -dm755 /usr/lib/modules-load.d
+cat > /usr/lib/modules-load.d/alsa-oss.conf << "END"
+snd_pcm_oss
+snd_mixer_oss
+snd_seq_oss
+END
+install -t /usr/share/licenses/alsa-oss -Dm644 COPYING
+popd
+rm -rf alsa-oss-1.1.8
 # libepoxy.
 tar -xf ../sources/libepoxy-1.5.10.tar.gz
 pushd libepoxy-1.5.10
@@ -5813,7 +5836,7 @@ rm -rf libmanette-0.2.11
 # librsvg.
 tar -xf ../sources/librsvg-2.60.0.tar.gz
 pushd librsvg-2.60.0
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+meson setup build --prefix=/usr --sbindir=bin --buildtype=release
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
@@ -6014,7 +6037,7 @@ rm -rf pygobject-3.52.3
 # dbus-python.
 tar -xf ../sources/dbus-python-1.4.0.tar.xz
 pushd dbus-python-1.4.0
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=false
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=disabled
 ninja -C build
 tools/generate-pkginfo.py 1.4.0 PKG-INFO
 ninja -C build install
@@ -6278,6 +6301,34 @@ systemctl enable avahi-daemon
 install -t /usr/share/licenses/avahi -Dm644 LICENSE
 popd
 rm -rf avahi-0.8
+# nss-mdns.
+tar -xf ../sources/nss-mdns-0.15.1.tar.gz
+pushd nss-mdns-0.15.1
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var
+make
+make install
+install -t /usr/share/licenses/nss-mdns -Dm644 LICENSE
+popd
+rm -rf nss-mdns-0.15.1
+# ipp-usb.
+tar -xf ../sources/ipp-usb-0.9.30.tar.gz
+pushd ipp-usb-0.9.30
+sed -i 's|ExecStart=/sbin|ExecStart=/usr/bin|' systemd-udev/ipp-usb.service
+cat >> systemd-udev/ipp-usb.service << "END"
+
+[Install]
+WantedBy=multi-user.target
+END
+GOFLAGS="-trimpath -buildmode=pie -ldflags=-linkmode=external" make
+install -t /usr/bin -Dm755 ipp-usb
+install -t /usr/share/man/man8 -Dm644 ipp-usb.8
+install -t /usr/share/ipp-usb/quirks -Dm644 ipp-usb-quirks/*
+install -t /usr/lib/systemd/system -Dm644 systemd-udev/ipp-usb.service
+install -t /usr/lib/udev/rules.d -Dm644 systemd-udev/71-ipp-usb.rules
+systemctl enable ipp-usb
+install -t /usr/share/licenses/ipp-usb -Dm644 LICENSE
+popd
+rm -rf ipp-usb-0.9.30
 # PulseAudio.
 tar -xf ../sources/pulseaudio-17.0.tar.xz
 pushd pulseaudio-17.0
@@ -6330,14 +6381,14 @@ install -t /usr/share/licenses/speech-dispatcher -Dm644 COPYING.{GPL-2,GPL-3,LGP
 popd
 rm -rf speech-dispatcher-0.12.0
 # SDL2.
-tar -xf ../sources/SDL2-2.32.4.tar.gz
-pushd SDL2-2.32.4
+tar -xf ../sources/SDL2-2.32.6.tar.gz
+pushd SDL2-2.32.6
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_HIDAPI_LIBUSB=ON -DSDL_RPATH=OFF -DSDL_STATIC=OFF -DSDL_TEST=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/sdl2 -Dm644 LICENSE.txt
 popd
-rm -rf SDL2-2.32.4
+rm -rf SDL2-2.32.6
 # sdl12-compat (provides SDL).
 tar -xf ../sources/sdl12-compat-release-1.2.68.tar.gz
 pushd sdl12-compat-release-1.2.68
@@ -6674,6 +6725,15 @@ install -Dm644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
 install -t /usr/share/licenses/sane -Dm644 ../COPYING ../LICENSE ../README.djpeg
 popd; popd
 rm -rf backends-1.3.1-3ff55fd8ee04ae459e199088ebe11ac979671d0e
+# sane-airscan.
+tar -xf ../sources/sane-airscan-0.99.35.tar.gz
+pushd sane-airscan-0.99.35
+make
+make install
+ln -sf libsane-airscan.so.1 /usr/lib/sane/libsane-airscan.so
+install -t /usr/share/licenses/sane-airscan -Dm644 COPYING LICENSE
+popd
+rm -rf sane-airscan-0.99.35
 # HPLIP.
 tar -xf ../sources/hplip-3.25.2.tar.gz
 pushd hplip-3.25.2
@@ -6689,6 +6749,53 @@ rm -f /usr/bin/hp-{uninstall,upgrade} /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 popd
 rm -rf hplip-3.25.2
+# cnijfilter2.
+tar -xf ../sources/cnijfilter2-source-6.80-1.tar.gz
+pushd cnijfilter2-source-6.80-1
+patch -Np1 -i ../../patches/cnijfilter2-6.80-gcc15.patch
+pushd cmdtocanonij2
+LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share
+popd
+pushd cmdtocanonij3
+LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share
+popd
+pushd cnijbe2
+./autogen.sh --prefix=/usr --enable-progpath=/usr/bin
+popd
+pushd lgmon3
+LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share --enable-libpath=/usr/lib/bjlib2 --enable-progpath=/usr/bin
+popd
+pushd rastertocanonij
+./autogen.sh --prefix=/usr --enable-progpath=/usr/bin
+popd
+pushd tocanonij
+./autogen.sh --prefix=/usr
+popd
+pushd tocnpwg
+./autogen.sh --prefix=/usr
+popd
+make -C cmdtocanonij2
+make -C cmdtocanonij3
+make -C cnijbe2
+make -C lgmon3
+make -C rastertocanonij
+make -C tocanonij
+make -C tocnpwg
+make -C cmdtocanonij2 install
+make -C cmdtocanonij3 install
+make -C cnijbe2 install
+make -C lgmon3 install
+make -C rastertocanonij install
+make -C tocanonij install
+make -C tocnpwg install
+install -t /usr/lib -Dm755 com/libs_bin_x86_64/lib*.so.*
+install -t /usr/lib/bjlib2 -Dm644 com/ini/cnnet.ini
+install -t /usr/share/ppd/cnijfilter2 -Dm644 ppd/*.ppd
+find /usr/share/ppd/cnijfilter2 -type f -name \*.ppd -exec gzip {} ';'
+ldconfig
+install -t /usr/share/licenses/cnijfilter2 -Dm644 doc/LICENSE-cnijfilter-*.txt
+popd
+rm -rf cnijfilter2-source-6.80-1
 # system-config-printer.
 tar -xf ../sources/system-config-printer-1.5.18.tar.xz
 pushd system-config-printer-1.5.18
@@ -6822,7 +6929,7 @@ rm -rf requests-2.32.3
 # libplist.
 tar -xf ../sources/libplist-2.6.0.tar.bz2
 pushd libplist-2.6.0
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --disable-static --without-cython
 make
 make install
 install -t /usr/share/licenses/libplist -Dm644 COPYING COPYING.LESSER
@@ -8215,7 +8322,7 @@ rm -rf open-gpu-kernel-modules-575.51.02
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Determine the version of osinstallgui that should be used by the Live CD.
-echo "0.7.4" > /usr/share/massos/.osinstallguiver
+echo "0.7.5" > /usr/share/massos/.osinstallguiver
 # Determine firmware versions that should be installed.
 cat > /usr/share/massos/firmwareversions << "END"
 # DO NOT EDIT THIS FILE!
