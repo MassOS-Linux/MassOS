@@ -34,18 +34,12 @@ mv arc-theme-20220102/usr/share/{themes,licenses/arc-theme}/LICENSE
 cp -r arc-theme-20220102/usr /
 gtk-update-icon-cache /usr/share/icons/Arc
 gtk4-update-icon-cache /usr/share/icons/Arc
-install -dm755 /etc/gtk-{2,3,4}.0
-cat > /etc/gtk-2.0/gtkrc << "END"
-gtk-theme-name = "Arc-Dark"
-gtk-icon-theme-name = "Arc"
-gtk-cursor-theme-name = "Adwaita"
-gtk-font-name = "Noto Sans 10"
-END
+install -dm755 /etc/gtk-{3,4}.0
 cat > /etc/gtk-3.0/settings.ini << "END"
 [Settings]
 gtk-theme-name = Arc-Dark
 gtk-icon-theme-name = Arc
-gtk-font-name = Noto Sans 10
+gtk-font-name = Noto Sans 11
 gtk-cursor-theme-size = 0
 gtk-toolbar-style = GTK_TOOLBAR_ICONS
 gtk-xft-antialias = 1
@@ -58,7 +52,7 @@ cat > /etc/gtk-4.0/settings.ini << "END"
 [Settings]
 gtk-theme-name = Arc-Dark
 gtk-icon-theme-name = Arc
-gtk-font-name = Noto Sans 10
+gtk-font-name = Noto Sans 11
 gtk-cursor-theme-name = Adwaita
 END
 cat > /etc/profile.d/arc-theme.sh << "END"
@@ -139,14 +133,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
 # Thunar.
-tar -xf ../sources/thunar-4.20.2.tar.bz2
-pushd thunar-4.20.2
+tar -xf ../sources/thunar-4.20.3.tar.bz2
+pushd thunar-4.20.3
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.2
+rm -rf thunar-4.20.3
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -472,15 +466,6 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
-# Claws-Mail.
-tar -xf ../sources/claws-mail-4.3.1.tar.xz
-pushd claws-mail-4.3.1
-./configure --prefix=/usr --disable-static --enable-bogofilter-plugin --enable-crash-dialog --enable-enchant --enable-fancy-plugin --enable-gnutls --enable-ldap --enable-manual --enable-pgpmime-plugin --enable-spamassassin-plugin
-make
-make install
-install -t /usr/share/licenses/claws-mail -Dm644 COPYING
-popd
-rm -rf claws-mail-4.3.1
 # Evince.
 tar -xf ../sources/evince-48.0.tar.gz
 pushd evince-48.0
@@ -571,7 +556,8 @@ rm -rf lightdm-1.32.0
 # lightdm-gtk-greeter.
 tar -xf ../sources/lightdm-gtk-greeter-2.0.9.tar.gz
 pushd lightdm-gtk-greeter-2.0.9
-./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-libido --disable-libindicator --disable-maintainer-mode --disable-static --enable-kill-on-sigterm --with-libxklavier
+patch -Np1 -i ../../patches/lightdm-gtk-greeter-2.0.9-massos.patch
+./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-libido --disable-maintainer-mode --disable-static --enable-kill-on-sigterm --with-libxklavier
 make
 make install
 sed -i 's|#background=|background = /usr/share/backgrounds/MassOS-Futuristic-Dark.png|' /etc/lightdm/lightdm-gtk-greeter.conf
@@ -580,7 +566,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-138.0.1.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-138.0.3.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

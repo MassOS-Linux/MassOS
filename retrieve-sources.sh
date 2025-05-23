@@ -2,11 +2,14 @@
 #
 # This script downloads the sources necessary for building a MassOS system.
 #
-# Create directory where the sources will be saved.
-mkdir -p sources && cd sources
+# Create directory where the sources will be saved, and change to it.
+mkdir -p sources
+pushd sources >/dev/null || true
 # Download sources using source-urls as a wget input file.
 wget -nc --continue --input-file=../source-urls
 STATUS=$?
+# Return out of the sources directory.
+popd >/dev/null || true
 # Ensure everything downloaded successfully.
 if [ $STATUS -ne 0 ]; then
   echo -e "\nOne or more download(s) failed." >&2

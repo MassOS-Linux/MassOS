@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# shellcheck disable=SC1091
+#
 # Finalize the MassOS build. Stage 3 will run this in chroot once the Stage 3
 # build is finished.
 set -e

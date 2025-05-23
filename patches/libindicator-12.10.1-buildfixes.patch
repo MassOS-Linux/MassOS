@@ -1,0 +1,36 @@
+diff '--color=auto' -aruN a/configure.ac b/configure.ac
+--- a/configure.ac	2012-09-19 16:38:40.047378393 +0100
++++ b/configure.ac	2025-05-17 23:34:30.077475700 +0100
+@@ -66,7 +66,7 @@
+ AM_CONDITIONAL(USE_GTK3, [test "x$with_gtk" = x3])
+ 
+ LT_LIB_M
+-LIBINDICATOR_LIBS+="$LIBM"
++LIBINDICATOR_LIBS+=" $LIBM"
+ 
+ ##############################
+ # Custom Junk
+diff '--color=auto' -aruN a/libindicator/Makefile.am b/libindicator/Makefile.am
+--- a/libindicator/Makefile.am	2012-09-19 16:38:05.113919565 +0100
++++ b/libindicator/Makefile.am	2025-05-17 23:34:17.986809008 +0100
+@@ -57,7 +57,7 @@
+ 	$(LIBINDICATOR_CFLAGS) \
+ 	$(COVERAGE_CFLAGS) \
+ 	-DG_LOG_DOMAIN=\"libindicator\" \
+-	-Wall -Werror
++	-Wall 
+ 
+ libindicator_la_LIBADD = \
+ 	$(LIBINDICATOR_LIBS)
+diff '--color=auto' -aruN a/tools/Makefile.am b/tools/Makefile.am
+--- a/tools/Makefile.am	2012-09-19 16:38:04.933829559 +0100
++++ b/tools/Makefile.am	2025-05-17 23:34:17.987172348 +0100
+@@ -17,7 +17,7 @@
+ 	indicator-loader.c
+ 
+ indicator_loader_CFLAGS = \
+-	-Wall -Werror \
++	-Wall  \
+ 	$(LIBINDICATOR_CFLAGS) -I$(top_srcdir) \
+ 	-DBUILD_DIR="\"$(builddir)\""
+ 

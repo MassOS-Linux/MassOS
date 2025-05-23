@@ -38,7 +38,7 @@ which xorriso &>/dev/null || (echo "Error: xorriso from libisoburn is required."
 # Ensure that the rootfs file is specified and exists.
 if test -z "$1"; then
   echo "Error: No rootfs file was specified." >&2
-  echo "Usage: $(basename "$0") <rootfs-file-name>.tar.xz" >&2
+  echo "Usage: $(basename "$0") <rootfs-tarball-file>" >&2
   exit 1
 fi
 if test ! -f "$1"; then
@@ -101,7 +101,7 @@ ver="$(cat iso-workdir/massos-rootfs/etc/massos-release)"
 # Prepare the live system.
 echo "Preparing the live system..."
 chroot iso-workdir/massos-rootfs /usr/sbin/groupadd -r autologin
-chroot iso-workdir/massos-rootfs /usr/sbin/useradd -c "Live User" -G wheel,autologin -ms /bin/bash massos
+chroot iso-workdir/massos-rootfs /usr/sbin/useradd -c "Live User" -G wheel,lpadmin,autologin -ms /usr/bin/bash massos
 echo "massos:massos" | chroot iso-workdir/massos-rootfs /usr/sbin/chpasswd -c YESCRYPT
 echo "massos ALL=(ALL) NOPASSWD: ALL" > iso-workdir/massos-rootfs/etc/sudoers.d/live
 cat > iso-workdir/massos-rootfs/etc/polkit-1/rules.d/49-live.rules << "END"
@@ -116,6 +116,7 @@ END
 echo "Installing osinstallgui..."
 make -C iso-workdir/osinstallgui
 make -C iso-workdir/osinstallgui DESTDIR="$PWD"/iso-workdir/massos-rootfs install
+sed -i 's|OSINSTALLGUI_ADMIN_GROUP="wheel"|OSINSTALLGUI_ADMIN_GROUP="wheel,lpadmin"|' iso-workdir/massos-rootfs/usr/share/osinstallgui/osinstallgui.conf
 sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|<name-of-live-user>|massos|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -dm755 /home/massos/Desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -m755 /usr/share/applications/osinstallgui.desktop /home/massos/Desktop/osinstallgui.desktop
@@ -125,13 +126,14 @@ chroot iso-workdir/massos-rootfs /usr/bin/chown -R massos:massos /home/massos/.c
 # Set up desktop-specific autologin configuration.
 . livecd-data/autologin/autologin.sh
 # Install firmware.
-echo "Installing firmware (please ignore any citation warnings)..."
+echo "Installing firmware (this may take a while)..."
 pushd iso-workdir/firmware
-./copy-firmware.sh -j$(nproc) --xz "$PWD"/../massos-rootfs/usr/lib/firmware
+sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
+./copy-firmware.sh -j$(nproc) --zstd "$PWD"/../massos-rootfs/usr/lib/firmware
 ./dedup-firmware.sh "$PWD"/../massos-rootfs/usr/lib/firmware
 ## Remove firmware which is useless on x86_64 systems.
 rm -rf "$PWD"/../massos-rootfs/usr/lib/firmware/{mellanox,qcom}
-rm -f "$PWD"/../massos-rootfs//usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.xz
+rm -f "$PWD"/../massos-rootfs/usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t "$PWD"/../massos-rootfs/usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
 install -dm755 iso-workdir/massos-rootfs/usr/lib/firmware/intel-ucode
@@ -149,11 +151,11 @@ END
 # Create squashfs image.
 echo "Creating squashfs image..."
 cd iso-workdir/massos-rootfs
-mksquashfs ./* ../iso-root/LiveOS/squashfs.img -comp xz -quiet
+mksquashfs ./* ../iso-root/LiveOS/squashfs.img -comp zstd -Xcompression-level 22 -quiet
 cd ../..
 # Install kernel and generate initramfs.
 echo "Installing kernel..."
-cp iso-workdir/massos-rootfs/boot/vmlinuz* iso-workdir/iso-root/vmlinuz
+cp iso-workdir/massos-rootfs/boot/vmlinuz-* iso-workdir/iso-root/vmlinuz
 echo "Generating initramfs..."
 mass-chroot iso-workdir/massos-rootfs /usr/sbin/mkinitramfs "$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)" >/dev/null
 mv iso-workdir/massos-rootfs/boot/initramfs-*.img iso-workdir/iso-root/initramfs.img

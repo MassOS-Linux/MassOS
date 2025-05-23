@@ -1,0 +1,19 @@
+This Python 2 compatibility code (which is obsolete on MassOS, as we only use
+Python 3 anyway) is causing build failures with Cython 3.1.0+. Just remove it.
+
+diff '--color=auto' -aruN a/cython/debugserver.pxi b/cython/debugserver.pxi
+--- a/cython/debugserver.pxi	2024-04-01 12:45:03.000000000 +0100
++++ b/cython/debugserver.pxi	2025-05-18 20:09:51.575434687 +0100
+@@ -45,11 +45,7 @@
+ 
+ # from http://stackoverflow.com/a/17511714
+ # https://github.com/libimobiledevice/libimobiledevice/pull/198
+-from cpython cimport PY_MAJOR_VERSION
+-if PY_MAJOR_VERSION <= 2:
+-    from cpython.string cimport PyString_AsString
+-else:
+-    from cpython.bytes cimport PyBytes_AsString as PyString_AsString
++from cpython.bytes cimport PyBytes_AsString as PyString_AsString
+ cdef char ** to_cstring_array(list_str):
+     if not list_str:
+         return NULL

@@ -1,0 +1,133 @@
+--- a/lib/fflush.c
++++ b/lib/fflush.c
+@@ -33,7 +33,7 @@
+ #undef fflush
+ 
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+ 
+ /* Clear the stream's ungetc buffer, preserving the value of ftello (fp).  */
+ static void
+@@ -72,7 +72,7 @@
+ 
+ #endif
+ 
+-#if ! (defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
++#if ! (defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */)
+ 
+ # if (defined __sferror || defined __DragonFly__ || defined __ANDROID__) && defined __SNPT
+ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin, Android */
+@@ -148,7 +148,7 @@
+   if (stream == NULL || ! freading (stream))
+     return fflush (stream);
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+ 
+   clear_ungetc_buffer_preserving_position (stream);
+ 
+--- a/lib/fpurge.c
++++ b/lib/fpurge.c
+@@ -62,7 +62,7 @@
+   /* Most systems provide FILE as a struct and the necessary bitmask in
+      <stdio.h>, because they need it for implementing getc() and putc() as
+      fast macros.  */
+-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   fp->_IO_read_end = fp->_IO_read_ptr;
+   fp->_IO_write_ptr = fp->_IO_write_base;
+   /* Avoid memory leak when there is an active ungetc buffer.  */
+--- a/lib/freading.c
++++ b/lib/freading.c
+@@ -31,7 +31,7 @@
+   /* Most systems provide FILE as a struct and the necessary bitmask in
+      <stdio.h>, because they need it for implementing getc() and putc() as
+      fast macros.  */
+-# if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++# if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   return ((fp->_flags & _IO_NO_WRITES) != 0
+           || ((fp->_flags & (_IO_NO_READS | _IO_CURRENTLY_PUTTING)) == 0
+               && fp->_IO_read_base != NULL));
+--- a/lib/fseeko.c
++++ b/lib/fseeko.c
+@@ -47,7 +47,7 @@
+ #endif
+ 
+   /* These tests are based on fpurge.c.  */
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+   if (fp->_IO_read_end == fp->_IO_read_ptr
+       && fp->_IO_write_ptr == fp->_IO_write_base
+       && fp->_IO_save_base == NULL)
+@@ -123,7 +123,7 @@
+           return -1;
+         }
+ 
+-#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
++#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
+       fp->_flags &= ~_IO_EOF_SEEN;
+       fp->_offset = pos;
+ #elif defined __sferror || defined __DragonFly__ || defined __ANDROID__
+--- a/lib/stdio-impl.h
++++ b/lib/stdio-impl.h
+@@ -111,3 +111,4 @@
+ # endif
+ 
+ #endif
++#define _IO_IN_BACKUP 0x100
+--- a/src/shar-opts.h
++++ b/src/shar-opts.h
+@@ -352,7 +352,7 @@
+  *  global exported definitions
+  */
+ #include "local.h"
+-char const * const program_name;
++extern char const * const program_name;
+ 
+ extern bool initialization_done;
+ extern int optidx;
+--- a/src/unshar.c
++++ b/src/unshar.c
+@@ -240,7 +240,7 @@
+       off_t position = ftello (file);
+ 
+       /* Read next line, fail if no more and no previous process.  */
+-      if (!fgets (rw_buffer, BUFSIZ, file))
++      if (!fgets (rw_buffer, rw_base_size, file))
+ 	{
+ 	  if (!start)
+ 	    error (0, 0, _("Found no shell commands in %s"), name);
+--- a/src/unshar-opts.h
++++ b/src/unshar-opts.h
+@@ -192,7 +192,7 @@
+ extern size_t       separator_str_len;
+ 
+ #include "local.h"
+-char const * const program_name;
++extern char const * const program_name;
+ 
+ 
+ /* * * * * *
+--- a/src/uudecode-opts.h
++++ b/src/uudecode-opts.h
+@@ -170,7 +170,7 @@
+  *  global exported definitions
+  */
+ #include "local.h"
+-char const * const program_name;
++extern char const * const program_name;
+ 
+ 
+ /* * * * * *
+--- a/src/uuencode-opts.h
++++ b/src/uuencode-opts.h
+@@ -166,7 +166,7 @@
+  *  global exported definitions
+  */
+ #include "local.h"
+-char const * const program_name;
++extern char const * const program_name;
+ 
+ 
+ /* * * * * *

@@ -9,10 +9,12 @@ if test ! -d sources; then
   exit 1
 fi
 # Change into the sources directory.
-cd sources
+pushd sources >/dev/null || true
 # Run b2sum on all downloaded files.
 b2sum -c ../source-urls.b2
 STATUS=$?
+# Return out of the sources directory.
+popd >/dev/null || true
 # Ensure everything verified successfully.
 if [ $STATUS -ne 0 ]; then
   echo -e "\nOne or file(s) failed to verify successfully." >&2

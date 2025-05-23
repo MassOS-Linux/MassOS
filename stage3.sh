@@ -1,5 +1,7 @@
 #!/bin/bash
 #
+# shellcheck disable=SC2035,SC2046,SC2086
+#
 # Prepare the environment for building a desktop environment.
 set -e
 # Ensure we're running as root.
@@ -99,20 +101,20 @@ install -t "$MASSOS"/tmp -m755 utils/livecd-cleanup.sh
 # Strip executables and libraries to free up space.
 printf "Stripping binaries and libraries... "
 find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f ! -name \*.a ! -name \*.o ! -name \*.mod ! -name \*.module -exec strip --strip-unneeded {} ';' &>/dev/null || true
-find "$MASSOS"/usr/lib -type f -name \*.a -or -name \*.o -or -name \*.mod -or -name \*.module -exec strip --strip-debug {} ';' &>/dev/null || true
+find "$MASSOS"/usr/lib -type f \( -name \*.a -o -name \*.o -o -name \*.mod -o -name \*.module \) -exec strip --strip-debug {} ';' &>/dev/null || true
 echo "Done!"
 # Finish the MassOS system.
 outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-x86_64-$1.tar"
-printf "Creating $outfile... "
+printf "Creating %s..." "$outfile"
 cd "$MASSOS"
 tar -cpf ../"$outfile" *
 cd ..
 echo "Done!"
-echo "Compressing $outfile with XZ (using $(nproc) threads)..."
-xz -v --threads=$(nproc) "$outfile"
-echo "Successfully created $outfile.xz."
-b2sum "$outfile.xz" > "$outfile.xz.b2"
-echo "Wrote Blake-2 checksum to $outfile.xz.b2."
+echo "Compressing $outfile with ZSTD (using $(nproc) threads)..."
+zstd --ultra -22 -T$(nproc) --rm "$outfile"
+echo "Successfully created $outfile.zst."
+b2sum "$outfile.zst" > "$outfile.zst.b2"
+echo "Wrote Blake-2 checksum to $outfile.zst.b2."
 # Clean up.
 rm -rf "$MASSOS"
 # Finishing message.

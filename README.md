@@ -1,5 +1,5 @@
 # IMPORTANT NOTICE
-Official development of MassOS was ceased at the end of 2022. Unless otherwise stated, any subsequent code commits beyond this date are done purely for experimental purposes; they are NOT indicative of any upcoming release, should NOT be considered stable/usable, and will NOT be given any support whatsoever. See [changelog.md in the development branch](https://github.com/MassOS-Linux/MassOS/blob/development/changelog.md) for more information.
+Official development of MassOS was ceased at the end of 2022. Unless otherwise stated, any subsequent code commits beyond this date are done purely for experimental purposes; they are NOT indicative of any upcoming release, should NOT be considered stable/usable, and will NOT be given any support whatsoever. See [changelog.md in the development branch](https://github.com/MassOS-Linux/MassOS/blob/development/changelog.md) for more information, including how to download builds based on these experimental commits.
 
 # MassOS
 This is the main source repository for the [MassOS](https://massos.org) operating system.

@@ -63,6 +63,7 @@ cogl
 colord
 colord-gtk
 compiler-rt
+confuse
 coreutils
 cowsay
 cpio
@@ -310,7 +311,6 @@ libdvdnav
 libdvdread
 libedit
 libepoxy
-libetpan
 libevdev
 libevent
 libexif
@@ -319,6 +319,7 @@ libfido2
 libfontenc
 libfreeaptx
 libfs
+libftdi
 libgcrypt
 libgdata
 libgee
@@ -337,6 +338,7 @@ libiec61883
 libieee1284
 libimobiledevice
 libimobiledevice-glue
+libindicator
 libinput
 libisoburn
 libisofs
@@ -462,6 +464,7 @@ libxvmc
 libxxf86dga
 libxxf86vm
 libyaml
+libyuv
 libzip
 linux
 linux-api-headers
@@ -549,6 +552,7 @@ openal
 openh264
 openjade
 openjpeg
+openmp
 opensp
 openssh
 openssl
@@ -642,6 +646,8 @@ scdoc
 sdl
 sdl12-compat
 sdl2
+sdl2-compat
+sdl3
 seatd
 sed
 semantic-version
@@ -663,6 +669,7 @@ smartmontools
 smartypants
 smbclient
 smproxy
+sndio
 snowball
 sound-theme-freedesktop
 soundtouch

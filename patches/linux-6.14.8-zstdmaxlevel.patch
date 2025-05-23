@@ -1,0 +1,12 @@
+diff '--color=auto' -aruN a/scripts/Makefile.modinst b/scripts/Makefile.modinst
+--- a/scripts/Makefile.modinst	2025-05-18 07:26:10.000000000 +0100
++++ b/scripts/Makefile.modinst	2025-05-19 00:00:09.680251147 +0100
+@@ -150,7 +150,7 @@
+ quiet_cmd_xz = XZ      $@
+       cmd_xz = $(XZ) --check=crc32 --lzma2=dict=1MiB -f $<
+ quiet_cmd_zstd = ZSTD    $@
+-      cmd_zstd = $(ZSTD) --rm -f -q $<
++      cmd_zstd = $(ZSTD) --ultra -22 -T0 --rm -f -q $<
+ 
+ $(dst)/%.ko.gz: $(dst)/%.ko FORCE
+ 	$(call cmd,gzip)
