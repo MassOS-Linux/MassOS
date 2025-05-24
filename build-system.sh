@@ -865,14 +865,6 @@ make install
 install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
 popd
 rm -rf strace-6.14
-# memstrack.
-tar -xf ../sources/memstrack-0.2.5.tar.gz
-pushd memstrack-0.2.5
-make
-make install
-install -t /usr/share/licenses/memstrack -Dm644 LICENSE
-popd
-rm -rf memstrack-0.2.5
 # libffi.
 tar -xf ../sources/libffi-3.4.7.tar.gz
 pushd libffi-3.4.7
@@ -1674,13 +1666,13 @@ head -n32 README.md | tail -n28 | install -Dm644 /dev/stdin /usr/share/licenses/
 popd
 rm -rf ply-3.11
 # Cython.
-tar -xf ../sources/cython-3.1.0.tar.gz
-pushd cython-3.1.0
+tar -xf ../sources/cython-3.1.1.tar.gz
+pushd cython-3.1.1
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/cython -Dm644 {COPYING,LICENSE}.txt
 popd
-rm -rf cython-3.1.0
+rm -rf cython-3.1.1
 # PyYAML.
 tar -xf ../sources/pyyaml-6.0.2.tar.gz
 pushd pyyaml-6.0.2
@@ -3267,23 +3259,23 @@ install -t /usr/share/licenses/keyutils -Dm644 LICENCE.{L,}GPL
 popd
 rm -rf keyutils-1.6.3
 # libnvme.
-tar -xf ../sources/libnvme-1.13.tar.gz
-pushd libnvme-1.13
+tar -xf ../sources/libnvme-1.14.tar.gz
+pushd libnvme-1.14
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dlibdbus=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libnvme -Dm644 COPYING
 popd
-rm -rf libnvme-1.13
+rm -rf libnvme-1.14
 # nvme-cli.
-tar -xf ../sources/nvme-cli-2.13.tar.gz
-pushd nvme-cli-2.13
+tar -xf ../sources/nvme-cli-2.14.tar.gz
+pushd nvme-cli-2.14
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --buildtype=minsize -Ddocs=man -Ddocs-build=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/nvme-cli -Dm644 LICENSE
 popd
-rm -rf nvme-cli-2.13
+rm -rf nvme-cli-2.14
 # libcap-ng.
 tar -xf ../sources/libcap-ng-0.8.5.tar.gz
 pushd libcap-ng-0.8.5
@@ -3321,8 +3313,8 @@ install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 popd
 rm -rf openvpn-2.6.14
 # GPGME.
-tar -xf ../sources/gpgme-1.24.2.tar.bz2
-pushd gpgme-1.24.2
+tar -xf ../sources/gpgme-1.24.3.tar.bz2
+pushd gpgme-1.24.3
 ./configure --prefix=/usr --disable-gpg-test --disable-gpgsm-test --enable-languages=cl,cpp,python
 make PYTHONS=
 top_builddir="$PWD" srcdir="$PWD/lang/python" python -m build -nw -o dist "$PWD/lang/python"
@@ -3330,7 +3322,7 @@ make PYTHONS= install
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/gpgme -Dm644 COPYING{,.LESSER} LICENSES
 popd
-rm -rf gpgme-1.24.2
+rm -rf gpgme-1.24.3
 # Cyrus-SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf ../sources/cyrus-sasl-2.1.28.tar.gz
 pushd cyrus-sasl-2.1.28
@@ -3607,15 +3599,15 @@ install -t /usr/share/licenses/xmlsec -Dm644 Copyright
 popd
 rm -rf xmlsec-1.3.7
 # GLib (initial build for circular dependency).
-tar -xf ../sources/glib-2.84.1.tar.gz
-pushd glib-2.84.1
+tar -xf ../sources/glib-2.84.2.tar.gz
+pushd glib-2.84.2
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=disabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.84.1
+rm -rf glib-2.84.2
 # GTK-Doc.
 tar -xf ../sources/gtk-doc-1.34.0.tar.gz
 pushd gtk-doc-1.34.0
@@ -3662,15 +3654,15 @@ install -t /usr/share/licenses/gobject-introspection -Dm644 COPYING{,.{GPL,LGPL}
 popd
 rm -rf gobject-introspection-1.84.0
 # GLib (rebuild to support gobject-introspection).
-tar -xf ../sources/glib-2.84.1.tar.gz
-pushd glib-2.84.1
+tar -xf ../sources/glib-2.84.2.tar.gz
+pushd glib-2.84.2
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=enabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.84.1
+rm -rf glib-2.84.2
 # shared-mime-info.
 tar -xf ../sources/shared-mime-info-2.4.tar.gz
 pushd shared-mime-info-2.4
@@ -3704,7 +3696,7 @@ rm -rf graphene-1.10.8
 tar -xf ../sources/llvm-project-20.1.5.src.tar.xz
 pushd llvm-project-20.1.5.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
 ninja -C build install
 install -dm755 /etc/clang
@@ -4932,14 +4924,14 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-25.1.0.tar.xz
-pushd mesa-25.1.0
+tar -xf ../sources/mesa-25.1.1.tar.xz
+pushd mesa-25.1.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-nine=true -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dosmesa=true -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-25.1.0
+rm -rf mesa-25.1.1
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -5050,14 +5042,14 @@ install -t /usr/share/licenses/libxklavier -Dm644 COPYING.LIB
 popd
 rm -rf libxklavier-5.4
 # libxkbcommon.
-tar -xf ../sources/libxkbcommon-xkbcommon-1.9.2.tar.gz
-pushd libxkbcommon-xkbcommon-1.9.2
+tar -xf ../sources/libxkbcommon-xkbcommon-1.10.0.tar.gz
+pushd libxkbcommon-xkbcommon-1.10.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Denable-docs=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxkbcommon -Dm644 LICENSE
 popd
-rm -rf libxkbcommon-xkbcommon-1.9.2
+rm -rf libxkbcommon-xkbcommon-1.10.0
 # eglexternalplatform.
 tar -xf ../sources/eglexternalplatform-1.2.1.tar.gz
 pushd eglexternalplatform-1.2.1
@@ -6433,15 +6425,6 @@ install -t /usr/share/licenses/sdl12-compat -Dm644 LICENSE.txt
 ln -sf sdl12-compat /usr/share/licenses/sdl
 popd
 rm -rf sdl12-compat-release-1.2.68
-# biosdevname.
-tar -xf ../sources/biosdevname-0.7.3.tar.gz
-pushd biosdevname-0.7.3
-./autogen.sh --prefix=/usr --sbindir=/usr/bin --mandir=/usr/share/man
-make
-make install
-install -t /usr/share/licenses/biosdevname -Dm644 COPYING
-popd
-rm -rf biosdevname-0.7.3
 # dmidecode.
 tar -xf ../sources/dmidecode-3.6.tar.xz
 pushd dmidecode-3.6
@@ -8380,7 +8363,7 @@ rm -rf open-gpu-kernel-modules-575.51.02
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Determine the version of osinstallgui that should be used by the Live CD.
-echo "0.7.7" > /usr/share/massos/.osinstallguiver
+echo "0.7.8" > /usr/share/massos/.osinstallguiver
 # Determine firmware versions that should be installed.
 cat > /usr/share/massos/firmwareversions << "END"
 # DO NOT EDIT THIS FILE!

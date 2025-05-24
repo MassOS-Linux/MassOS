@@ -30,7 +30,6 @@ https://github.com/koverstreet/bcachefs-tools/archive/v1.25.1/bcachefs-tools-1.2
 https://ftp.isc.org/isc/bind9/9.20.7/bind-9.20.7.tar.xz
 https://github.com/rust-lang/rust-bindgen/releases/download/v0.71.1/bindgen-cli-x86_64-unknown-linux-gnu.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-2.44.tar.xz
-https://github.com/dell/biosdevname/archive/v0.7.3/biosdevname-0.7.3.tar.gz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.82.tar.xz
 https://github.com/boostorg/boost/releases/download/boost-1.88.0/boost-1.88.0-b2-nodocs.tar.xz
@@ -78,7 +77,7 @@ https://www.cups-pdf.de/src/cups-pdf_3.0.2.tar.gz
 https://www.freedesktop.org/software/cups-pk-helper/releases/cups-pk-helper-0.2.7.tar.xz
 https://curl.se/download/curl-8.13.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
-https://github.com/cython/cython/releases/download/3.1.0/cython-3.1.0.tar.gz
+https://github.com/cython/cython/releases/download/3.1.1/cython-3.1.1.tar.gz
 https://code.videolan.org/videolan/dav1d/-/archive/1.5.1/dav1d-1.5.1.tar.bz2
 https://github.com/GNOME/dconf/archive/0.40.0/dconf-0.40.0.tar.gz
 https://github.com/GNOME/dconf-editor/archive/45.0.1/dconf-editor-45.0.1.tar.gz
@@ -174,7 +173,7 @@ https://freefr.dl.sourceforge.net/project/giflib/giflib-5.2.2.tar.gz
 https://cdn.kernel.org/pub/software/scm/git/git-2.49.0.tar.xz
 https://gitlab.freedesktop.org/gstreamer/meson-ports/gl-headers/-/archive/5c8c7c0/gl-headers-5c8c7c0.tar.bz2
 https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.tgz
-https://github.com/GNOME/glib/archive/2.84.1/glib-2.84.1.tar.gz
+https://github.com/GNOME/glib/archive/2.84.2/glib-2.84.2.tar.gz
 https://github.com/GNOME/glib-networking/archive/2.80.1/glib-networking-2.80.1.tar.gz
 https://mirror.lyrahosting.com/gnu/glibc/glibc-2.41.tar.xz
 https://github.com/GNOME/glibmm/archive/2.66.8/glibmm-2.66.8.tar.gz
@@ -190,7 +189,7 @@ https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.9.tar.xz
 https://dl.google.com/go/go1.24.2.linux-amd64.tar.gz
 https://github.com/GNOME/gobject-introspection/archive/1.84.0/gobject-introspection-1.84.0.tar.gz
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.3.tar.gz
-https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.24.2.tar.bz2
+https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.24.3.tar.bz2
 https://github.com/telmich/gpm/archive/e82d1a6/gpm-1.20.7-38-ge82d1a6.tar.gz
 https://freefr.dl.sourceforge.net/project/gptfdisk/gptfdisk/1.0.10/gptfdisk-1.0.10.tar.gz
 https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
@@ -367,7 +366,7 @@ https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-3.11.0.tar.
 https://github.com/GNOME/libnma/archive/1.10.6/libnma-1.10.6.tar.gz
 https://github.com/GNOME/libnotify/archive/0.8.6/libnotify-0.8.6.tar.gz
 https://github.com/thkukuk/libnsl/releases/download/v2.0.1/libnsl-2.0.1.tar.xz
-https://github.com/linux-nvme/libnvme/archive/v1.13/libnvme-1.13.tar.gz
+https://github.com/linux-nvme/libnvme/archive/v1.14/libnvme-1.14.tar.gz
 https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.5.tar.xz
 https://github.com/ostreedev/ostree/releases/download/v2025.2/libostree-2025.2.tar.xz
 https://github.com/rrthomas/libpaper/releases/download/v2.2.6/libpaper-2.2.6.tar.gz
@@ -436,7 +435,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXext-1.3.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXfixes-6.0.1.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXfont2-2.0.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXft-2.3.9.tar.xz
-https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.9.2/libxkbcommon-xkbcommon-1.9.2.tar.gz
+https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.10.0/libxkbcommon-xkbcommon-1.10.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/lib/libxkbfile-1.1.3.tar.xz
 https://people.freedesktop.org/~svu/libxklavier-5.4.tar.bz2
 https://xorg.freedesktop.org/archive/individual/lib/libXi-1.8.2.tar.xz
@@ -490,8 +489,7 @@ https://github.com/Python-Markdown/markdown/archive/3.7/markdown-3.7.tar.gz
 https://github.com/pallets/markupsafe/archive/3.0.2/markupsafe-3.0.2.tar.gz
 https://github.com/PyO3/maturin/archive/v1.8.3/maturin-1.8.3.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.4.tar.gz
-https://github.com/ryncsn/memstrack/archive/v0.2.5/memstrack-0.2.5.tar.gz
-https://archive.mesa3d.org/mesa-25.1.0.tar.xz
+https://archive.mesa3d.org/mesa-25.1.1.tar.xz
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
 https://github.com/mesonbuild/meson/releases/download/1.8.0/meson-1.8.0.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.17.1.tar.gz
@@ -535,7 +533,7 @@ https://github.com/avahi/nss-mdns/releases/download/v0.15.1/nss-mdns-0.15.1.tar.
 https://github.com/tuxera/ntfs-3g/archive/2022.10.3/ntfs-3g-2022.10.3.tar.gz
 https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec-headers-13.0.19.0.tar.gz
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
-https://github.com/linux-nvme/nvme-cli/archive/v2.13/nvme-cli-2.13.tar.gz
+https://github.com/linux-nvme/nvme-cli/archive/v2.14/nvme-cli-2.14.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
 https://github.com/NVIDIA/open-gpu-kernel-modules/archive/575.51.02/open-gpu-kernel-modules-575.51.02.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-12.5.0/open-vm-tools-stable-12.5.0.tar.gz

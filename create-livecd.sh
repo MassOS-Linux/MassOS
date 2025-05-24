@@ -116,7 +116,7 @@ END
 echo "Installing osinstallgui..."
 make -C iso-workdir/osinstallgui
 make -C iso-workdir/osinstallgui DESTDIR="$PWD"/iso-workdir/massos-rootfs install
-sed -i 's|OSINSTALLGUI_ADMIN_GROUP="wheel"|OSINSTALLGUI_ADMIN_GROUP="wheel,lpadmin"|' iso-workdir/massos-rootfs/usr/share/osinstallgui/osinstallgui.conf
+install -t iso-workdir/massos-rootfs/usr/share/osinstallgui -Dm644 livecd-data/osinstallgui.conf
 sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|<name-of-live-user>|massos|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -dm755 /home/massos/Desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -m755 /usr/share/applications/osinstallgui.desktop /home/massos/Desktop/osinstallgui.desktop

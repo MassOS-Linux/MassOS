@@ -11,11 +11,11 @@ pushd /root/mbs/work
 . ../build.env
 # === IF RESUMING A FAILED BUILD, ONLY REMOVE LINES BELOW THIS ONE.
 # Install Rust to a temporary directory to support building some packages.
-tar -xf ../sources/rust-1.86.0-x86_64-unknown-linux-gnu.tar.gz
-pushd rust-1.86.0-x86_64-unknown-linux-gnu
+tar -xf ../sources/rust-1.87.0-x86_64-unknown-linux-gnu.tar.gz
+pushd rust-1.87.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
 popd
-rm -rf rust-1.86.0-x86_64-unknown-linux-gnu
+rm -rf rust-1.87.0-x86_64-unknown-linux-gnu
 # elementary-icon-theme.
 tar -xf ../sources/elementary-icon-theme-8.1.0.tar.gz
 pushd icons-8.1.0

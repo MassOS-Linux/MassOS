@@ -30,7 +30,6 @@ bc
 bcachefs-tools
 bind-utils
 binutils
-biosdevname
 bison
 bluez
 boost
@@ -499,7 +498,6 @@ markdown
 markupsafe
 maturin
 mdadm
-memstrack
 mesa
 mesa-utils
 meson

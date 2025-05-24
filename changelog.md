@@ -78,7 +78,6 @@ Upgraded software (core):
 - bcachefs-tools: `(new package) --> 1.25.1`
 - BIND-Utils: `9.18.6 --> 9.20.7`
 - Binutils: `2.39 --> 2.44`
-- biosdevname: `(new package) --> 0.7.3`
 - BlueZ: `5.65 --> 5.82`
 - Boost: `1.80.0 --> 1.88.0`
 - bpftool: `7.0.0 --> 7.5.0`
@@ -115,7 +114,7 @@ Upgraded software (core):
 - cups-pdf: `(new package) --> 3.0.2`
 - cups-pk-helper: `(new package) --> 0.2.7`
 - curl: `7.85.0 --> 8.13.0`
-- Cython: `0.29.25 --> 3.1.0`
+- Cython: `0.29.25 --> 3.1.1`
 - D-Bus: `1.14.2 --> 1.16.2`
 - dav1d: `1.0.0 --> 1.5.1`
 - dbus-glib: `0.112 --> 0.114`
@@ -188,7 +187,7 @@ Upgraded software (core):
 - gi-docgen: `2022.1 --> 2025.3`
 - giflib: `5.2.1 --> 5.2.2`
 - Git: `2.38.0 --> 2.49.0`
-- GLib: `2.74.0 --> 2.84.1`
+- GLib: `2.74.0 --> 2.84.2`
 - glib-networking: `2.74.0 --> 2.80.1`
 - Glibc: `2.36 --> 2.41`
 - GLibmm: `2.66.5 --> 2.66.8`
@@ -202,7 +201,7 @@ Upgraded software (core):
 - GNUTLS: `3.7.8 --> 3.8.9`
 - gobject-introspection: `1.74.0 --> 1.82.0`
 - gperf: `3.1 --> 3.3`
-- GPGME: `1.18.0 --> 1.24.2`
+- GPGME: `1.18.0 --> 1.24.3`
 - gptfdisk: `1.0.9 --> 1.0.10`
 - Graphite2: `1.3.14 --> 1.3.14-99-g6938f052`
 - Graphviz: `6.0.1 --> 12.2.1`
@@ -362,7 +361,7 @@ Upgraded software (core):
 - libnma: `1.10.2 --> 1.10.6`
 - libnma-gtk4: `(new package) --> 1.10.6`
 - libnotify: `0.8.1 --> 0.8.6`
-- libnvme: `(new package) --> 1.13`
+- libnvme: `(new package) --> 1.14`
 - libnsl: `2.0.0 --> 2.0.1`
 - libpaper: `1.1.28 --> 2.2.6`
 - libpcap: `1.10.1 --> 1.10.5`
@@ -428,7 +427,7 @@ Upgraded software (core):
 - libXfixes: `6.0.0 --> 6.0.1`
 - libXfont2: `2.0.6 --> 2.0.7`
 - libXft: `2.3.6 --> 2.3.8`
-- libxkbcommon: `1.4.1 --> 1.9.2`
+- libxkbcommon: `1.4.1 --> 1.10.0`
 - libxkbfile: `1.1.0 --> 1.1.3`
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.5`
@@ -476,8 +475,7 @@ Upgraded software (core):
 - MarkupSafe: `2.1.1 --> 3.0.2`
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
-- memstrack: `(new package) --> 0.2.5`
-- Mesa: `22.1.7 --> 25.1.0`
+- Mesa: `22.1.7 --> 25.1.1`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.8.0`
 - meson-python: `(new package) --> 0.17.1`
@@ -521,7 +519,7 @@ Upgraded software (core):
 - nvidia-modules-open: `(new package) --> 575.51.02`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
-- nvme-cli: `(new package) --> 2.13`
+- nvme-cli: `(new package) --> 2.14`
 - oniguruma: `6.9.8 --> 6.9.10`
 - open-vm-tools: `(new package) --> 12.5.0`
 - OpenAL: `1.22.2 --> 1.24.3`
