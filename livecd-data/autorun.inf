@@ -1,4 +1,4 @@
 [autorun]
 label=MassOS Live CD
 icon=autorun.ico
-open=notepad README.txt
+open=README.txt

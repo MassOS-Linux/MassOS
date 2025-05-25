@@ -85,6 +85,9 @@ tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --st
 echo "Downloading Memtest86+..."
 curl -fL https://www.memtest.org/download/v7.20/mt86plus_7.20.binaries.zip -o iso-workdir/mt86plus.zip
 unzip -q iso-workdir/mt86plus.zip -d iso-workdir/mt86plus
+echo "Downloading IPXE..."
+curl -fL https://github.com/DanielMYT/ipxe-nightly/releases/download/nightly-20250525/ipxe.efi -o iso-workdir/ipxe.efi
+curl -fL https://github.com/DanielMYT/ipxe-nightly/releases/download/nightly-20250525/ipxe.lkrn -o iso-workdir/ipxe.lkrn
 echo "Downloading UEFI Interactive Shell..."
 curl -fL https://github.com/pbatard/UEFI-Shell/releases/download/24H2/shellx64.efi -o iso-workdir/shellx64.efi
 echo "Downloading firmware..."
@@ -167,6 +170,7 @@ cp iso-workdir/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32 iso-workdir/iso-r
 cp iso-workdir/syslinux/bios/com32/lib/libcom32.c32 iso-workdir/iso-root/isolinux/libcom32.c32
 cp iso-workdir/syslinux/bios/com32/libutil/libutil.c32 iso-workdir/iso-root/isolinux/libutil.c32
 cp iso-workdir/syslinux/bios/com32/menu/vesamenu.c32 iso-workdir/iso-root/isolinux/vesamenu.c32
+cp iso-workdir/syslinux/bios/com32/chain/chain.c32 iso-workdir/iso-root/isolinux/chain.c32
 cp iso-workdir/syslinux/bios/com32/modules/reboot.c32 iso-workdir/iso-root/isolinux/reboot.c32
 cp iso-workdir/syslinux/bios/com32/modules/poweroff.c32 iso-workdir/iso-root/isolinux/poweroff.c32
 cp iso-workdir/syslinux/bios/mbr/isohdpfx.bin iso-workdir/iso-root/isolinux/isohdpfx.bin
@@ -186,17 +190,20 @@ mkfs.fat -F12 iso-workdir/iso-root/EFI/BOOT/efiboot.img -n "MASSOS_EFI"
 mount -o loop iso-workdir/iso-root/EFI/BOOT/efiboot.img iso-workdir/efitmp
 mkdir -p iso-workdir/efitmp/EFI/BOOT
 cp iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI iso-workdir/efitmp/EFI/BOOT/BOOTX64.EFI
+cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
 sync
 umount iso-workdir/efitmp
-# Install Memtest86+ and UEFI EDK2 Shell.
+# Install Memtest86+, IPXE and UEFI EDK2 Shell.
 cp iso-workdir/mt86plus/memtest64.bin iso-workdir/iso-root/isolinux/memtest64.bin
 cp iso-workdir/mt86plus/memtest64.efi iso-workdir/iso-root/EFI/tools/memtest64.efi
+cp iso-workdir/ipxe.efi iso-workdir/iso-root/EFI/tools/ipxe.efi
+cp iso-workdir/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
 cp iso-workdir/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
 # Copy additional files.
 cp livecd-data/autorun.ico iso-workdir/iso-root/autorun.ico
 cp livecd-data/autorun.inf iso-workdir/iso-root/autorun.inf
 cp livecd-data/README.txt iso-workdir/iso-root/README.txt
-cp LICENSE iso-workdir/iso-root/LICENSE.txt
+for l in LICENSE CC-BY-SA-4.0 GPL-3.0; do cp "$l" iso-workdir/iso-root/"$l".txt; done
 cp livecd-data/LICENSES/*.txt iso-workdir/iso-root/LICENSES/
 touch iso-workdir/iso-root/THIS_IS_THE_MASSOS_LIVECD
 # Create the ISO image.

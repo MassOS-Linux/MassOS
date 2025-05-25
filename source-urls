@@ -27,7 +27,7 @@ https://mirror.lyrahosting.com/gnu/bash/bash-5.3-rc1.tar.gz
 https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
 https://github.com/koverstreet/bcachefs-tools/archive/v1.25.1/bcachefs-tools-1.25.1.tar.gz
-https://ftp.isc.org/isc/bind9/9.20.7/bind-9.20.7.tar.xz
+https://ftp.isc.org/isc/bind9/9.20.9/bind-9.20.9.tar.xz
 https://github.com/rust-lang/rust-bindgen/releases/download/v0.71.1/bindgen-cli-x86_64-unknown-linux-gnu.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-2.44.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
@@ -197,7 +197,7 @@ https://github.com/silnrsi/graphite/archive/6938f052/graphite2-1.3.14-99-g6938f0
 https://gitlab.com/graphviz/graphviz/-/archive/12.2.1/graphviz-12.2.1.tar.bz2
 https://mirror.lyrahosting.com/gnu/grep/grep-3.12.tar.xz
 https://mirror.lyrahosting.com/gnu/groff/groff-1.23.0.tar.gz
-https://dmassey.net/files/dev/grub/grub-2.12-284-g4abac0ad5.tar.xz
+https://dmassey.net/files/dev/grub/grub-2.12-292-g73d1c959e.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/432da22/grub-theme-distro-massos-001.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/48.0/gsettings-desktop-schemas-48.0.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
@@ -271,7 +271,7 @@ https://github.com/mm2/Little-CMS/releases/download/lcms2.17/lcms2-2.17.tar.gz
 https://github.com/EHfive/ldacBT/releases/download/v2.0.2.3/ldacBT-2.0.2.3.tar.gz
 https://github.com/jackrosenthal/legacy-cgi/archive/v2.6.3/legacy-cgi-2.6.3.tar.gz
 https://www.greenwoodsoftware.com/less/less-668.tar.gz
-https://github.com/GNOME/libadwaita/archive/1.7.2/libadwaita-1.7.2.tar.gz
+https://github.com/GNOME/libadwaita/archive/1.7.3/libadwaita-1.7.3.tar.gz
 https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
 https://gitlab.xiph.org/xiph/libao/-/archive/1.2.2/libao-1.2.2.tar.bz2
 https://storage.googleapis.com/aom-releases/libaom-3.12.1.tar.gz
@@ -408,7 +408,7 @@ https://mirror.lyrahosting.com/gnu/libtool/libtool-2.5.4.tar.xz
 https://github.com/stefanberger/libtpms/archive/v0.10.0/libtpms-0.10.0.tar.gz
 https://code.videolan.org/videolan/libudfread/-/archive/1.1.2/libudfread-1.1.2.tar.bz2
 https://mirror.lyrahosting.com/gnu/libunistring/libunistring-1.3.tar.xz
-https://github.com/libunwind/libunwind/releases/download/v1.8.1/libunwind-1.8.1.tar.gz
+https://github.com/libunwind/libunwind/releases/download/v1.8.2/libunwind-1.8.2.tar.gz
 https://github.com/axboe/liburing/archive/refs/tags/liburing-2.9.tar.gz
 https://github.com/libusb/libusb/releases/download/v1.0.28/libusb-1.0.28.tar.bz2
 https://github.com/libimobiledevice/libusbmuxd/releases/download/2.1.0/libusbmuxd-2.1.0.tar.bz2
@@ -541,7 +541,7 @@ https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
 https://freefr.dl.sourceforge.net/project/openjade/openjade/1.3.2/openjade-1.3.2.tar.gz
 https://github.com/uclouvain/openjpeg/archive/v2.5.3/openjpeg-2.5.3.tar.gz
-https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.9.tgz
+https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.10.tgz
 https://freefr.dl.sourceforge.net/project/openjade/opensp/1.5.2/OpenSP-1.5.2.tar.gz
 https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p1.tar.gz
 https://www.openssl.org/source/openssl-3.5.0.tar.gz
@@ -574,7 +574,7 @@ https://distfiles.ariadne.space/pkgconf/pkgconf-2.4.3.tar.xz
 https://github.com/madler/pigz/archive/v2.8/pigz-2.8.tar.gz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.3.1.tar.bz2
 https://github.com/pypa/pip/archive/25.1.1/pip-25.1.1.tar.gz
-https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.2/pipewire-1.4.2.tar.bz2
+https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.3/pipewire-1.4.3.tar.bz2
 https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.0/pixman-pixman-0.46.0.tar.bz2
 https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.5.0.tar.gz
 https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
@@ -605,7 +605,7 @@ https://files.pythonhosted.org/packages/source/p/pyproject-hooks/pyproject_hooks
 https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject_metadata-0.9.1.tar.gz
 https://www.python.org/ftp/python/3.13.3/Python-3.13.3.tar.xz
 https://github.com/certifi/python-certifi/archive/2025.01.31/python-certifi-2025.01.31.tar.gz
-https://files.pythonhosted.org/packages/source/p/python_dbusmock/python_dbusmock-0.34.3.tar.gz
+https://files.pythonhosted.org/packages/source/p/python_dbusmock/python_dbusmock-0.35.0.tar.gz
 https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distutils-extra-2.39.tar.gz
 https://github.com/stub42/pytz/releases/download/release_2025.2/pytz-2025.2.tar.gz
 https://files.pythonhosted.org/packages/source/p/pyxdg/pyxdg-0.28.tar.gz
@@ -736,7 +736,7 @@ https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.46.1.tar.gz
 https://mirror.lyrahosting.com/gnu/which/which-2.23.tar.gz
 https://github.com/rfc1036/whois/archive/v5.6.1/whois-5.6.1.tar.gz
 https://hewlettpackard.github.io/wireless-tools/wireless_tools.30.pre9.tar.gz
-https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.8/wireplumber-0.5.8.tar.bz2
+https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.10/wireplumber-0.5.10.tar.bz2
 https://gitlab.freedesktop.org/wlroots/wlr-protocols/-/archive/ffb89ac/wlr-protocols-107.tar.gz
 https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/0.18.2/wlroots-0.18.2.tar.bz2
 https://github.com/google/woff2/archive/v1.0.2/woff2-1.0.2.tar.gz

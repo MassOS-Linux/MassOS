@@ -1402,14 +1402,14 @@ install -t /usr/share/licenses/libpipeline -Dm644 COPYING
 popd
 rm -rf libpipeline-1.5.8
 # libunwind.
-tar -xf ../sources/libunwind-1.8.1.tar.gz
-pushd libunwind-1.8.1
+tar -xf ../sources/libunwind-1.8.2.tar.gz
+pushd libunwind-1.8.2
 ./configure --prefix=/usr --disable-static --disable-tests
 make
 make install
 install -t /usr/share/licenses/libunwind -Dm644 COPYING
 popd
-rm -rf libunwind-1.8.1
+rm -rf libunwind-1.8.2
 # libuv.
 tar -xf ../sources/libuv-v1.51.0.tar.gz
 pushd libuv-v1.51.0
@@ -3156,8 +3156,8 @@ install -t /usr/share/licenses/libevent -Dm644 LICENSE
 popd
 rm -rf libevent-2.1.12-stable
 # libldap.
-tar -xf ../sources/openldap-2.6.9.tgz
-pushd openldap-2.6.9
+tar -xf ../sources/openldap-2.6.10.tgz
+pushd openldap-2.6.10
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --enable-dynamic --enable-versioning --disable-debug --disable-slapd --disable-static
 make depend
@@ -3166,7 +3166,7 @@ make install
 chmod 755 /usr/lib/libl{ber,dap}.so.2.*
 install -t /usr/share/licenses/libldap -Dm644 COPYRIGHT LICENSE
 popd
-rm -rf openldap-2.6.9
+rm -rf openldap-2.6.10
 # npth.
 tar -xf ../sources/npth-1.8.tar.bz2
 pushd npth-1.8
@@ -3843,13 +3843,13 @@ gzip -cd unifont-16.0.02/font/precompiled/unifont-16.0.02.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.02/COPYING
 rm -rf unifont-16.0.02
 # GRUB.
-tar -xf ../sources/grub-2.12-284-g4abac0ad5.tar.xz
-pushd grub-2.12-284-g4abac0ad5
+tar -xf ../sources/grub-2.12-292-g73d1c959e.tar.xz
+pushd grub-2.12-292-g73d1c959e
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-284-g4abac0ad5" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-292-g73d1c959e" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-284-g4abac0ad5" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-292-g73d1c959e" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3858,12 +3858,12 @@ make -C build-pc bashcompletiondir="/usr/share/bash-completion/completions" inst
 sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_linux
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,3,Free Software Foundation,grub,2.12-284-g4abac0ad5,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-284-g4abac0ad5,https://massos.org
+grub,3,Free Software Foundation,grub,2.12-292-g73d1c959e,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-292-g73d1c959e,https://massos.org
 END
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-284-g4abac0ad5
+rm -rf grub-2.12-292-g73d1c959e
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-001.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -4211,8 +4211,8 @@ install -t /usr/share/licenses/slang -Dm644 COPYING
 popd
 rm -rf slang-2.3.3
 # BIND Utils.
-tar -xf ../sources/bind-9.20.7.tar.xz
-pushd bind-9.20.7
+tar -xf ../sources/bind-9.20.9.tar.xz
+pushd bind-9.20.9
 ./configure --prefix=/usr --with-json-c --with-libidn2 --with-libxml2 --with-lmdb --with-openssl
 make -C lib/isc
 make -C lib/dns
@@ -4234,7 +4234,7 @@ make -C bin/rndc install
 install -t /usr/share/man/man1 -Dm644 doc/man/{dig,host,nslookup,nsupdate}.1
 install -t /usr/share/licenses/bind-utils -Dm644 COPYRIGHT LICENSE
 popd
-rm -rf bind-9.20.7
+rm -rf bind-9.20.9
 # dhcpcd.
 tar -xf ../sources/dhcpcd-10.2.3.tar.xz
 pushd dhcpcd-10.2.3
@@ -6062,13 +6062,13 @@ install -t /usr/share/licenses/dbus-python -Dm644 COPYING
 popd
 rm -rf dbus-python-1.4.0
 # python-dbusmock.
-tar -xf ../sources/python_dbusmock-0.34.3.tar.gz
-pushd python_dbusmock-0.34.3
+tar -xf ../sources/python_dbusmock-0.35.0.tar.gz
+pushd python_dbusmock-0.35.0
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/python-dbusmock -Dm644 COPYING
 popd
-rm -rf python_dbusmock-0.34.3
+rm -rf python_dbusmock-0.35.0
 # pycups.
 tar -xf ../sources/pycups-2.0.4.tar.gz
 pushd pycups-2.0.4
@@ -7952,10 +7952,10 @@ install -t /usr/share/licenses/nvidia-vaapi-driver -Dm644 COPYING
 popd
 rm -rf nvidia-vaapi-driver-0.0.13
 # PipeWire + WirePlumber.
-tar -xf ../sources/pipewire-1.4.2.tar.bz2
-pushd pipewire-1.4.2
+tar -xf ../sources/pipewire-1.4.3.tar.bz2
+pushd pipewire-1.4.3
 mkdir -p subprojects/wireplumber
-tar -xf ../../sources/wireplumber-0.5.8.tar.bz2 -C subprojects/wireplumber --strip-components=1
+tar -xf ../../sources/wireplumber-0.5.10.tar.bz2 -C subprojects/wireplumber --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbluez5-backend-native-mm=enabled -Dexamples=disabled -Dffmpeg=enabled -Dpw-cat-ffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false
 ninja -C build
 ninja -C build install
@@ -7965,7 +7965,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 subprojects/wireplumber/LICENSE
 popd
-rm -rf pipewire-1.4.2
+rm -rf pipewire-1.4.3
 # SDL3 (rebuild for PipeWire support).
 tar -xf ../sources/SDL3-3.2.14.tar.gz
 pushd SDL3-3.2.14
@@ -7985,14 +7985,14 @@ install -t /usr/share/licenses/gtk4 -Dm644 COPYING
 popd
 rm -rf gtk-4.18.5
 # libadwaita.
-tar -xf ../sources/libadwaita-1.7.2.tar.gz
-pushd libadwaita-1.7.2
+tar -xf ../sources/libadwaita-1.7.3.tar.gz
+pushd libadwaita-1.7.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libadwaita -Dm644 COPYING
 popd
-rm -rf libadwaita-1.7.2
+rm -rf libadwaita-1.7.3
 # gst-plugin-gtk4.
 tar -xf ../sources/gst-plugins-rs-0.13.5.tar.bz2
 pushd gst-plugins-rs-0.13.5/video/gtk4

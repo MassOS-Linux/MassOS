@@ -6,7 +6,7 @@ diff '--color=auto' -aruN a/data/lightdm-gtk-greeter.conf b/data/lightdm-gtk-gre
  #
  [greeter]
 -#background=
-+background = /usr/share/backgrounds/MassOS-Futuristic-Dark.png
++background = /usr/share/backgrounds/MassOS-Avantgarde-Dark.png
  #user-background=
 -#theme-name=
 -#icon-theme-name=

@@ -14,10 +14,11 @@ Changes:
 - Migrated to merged bin-sbin filesystem structure, as required by future systemd versions (`sbin` directories are now symlinks to their `bin` counterpart).
 - Migrated to systemd-sysusers for system user management where possible.
 - Changed minimum supported kernel version in Glibc from 3.2 to 5.10, to improve optimisation.
-- Migrated Python modules away from Python EGGs, due to deprecation by pip (builds now use `build` and `installer` modules instead of `setup.py`.).
+- Migrated Python modules away from Python EGGs, due to deprecation by pip (builds now use `build` and `installer` modules instead of `setup.py`).
 - Switched default tar back to GNU tar (bsdtar is still present), and removed `set-default-tar` utility from the system.
 - Switched from XZ to ZSTD compression for the kernel, modules, initramfs and firmware. It slightly increases the system size, but is significantly faster.
 - Optimized the installation of firmware by excluding some unneeded components from the Linux-Firmware distribution. This cuts down the ISO size by over 100MiB.
+- Added a new default MassOS background ("Avantgarde").
 - Miscellaneous bug and security fixes/improvements.
 - Dropped legacy GTK2 support in the MassOS system.
 - Dropped old Xorg input drivers which are replaced by libinput.
@@ -76,7 +77,7 @@ Upgraded software (core):
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
 - bcachefs-tools: `(new package) --> 1.25.1`
-- BIND-Utils: `9.18.6 --> 9.20.7`
+- BIND-Utils: `9.18.6 --> 9.20.9`
 - Binutils: `2.39 --> 2.44`
 - BlueZ: `5.65 --> 5.82`
 - Boost: `1.80.0 --> 1.88.0`
@@ -207,7 +208,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 12.2.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-284-g4abac0ad5`
+- GRUB: `2.06 --> 2.12-292-g73d1c959e`
 - grub-theme-distro-massos: `(new package) --> 001`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
@@ -282,7 +283,7 @@ Upgraded software (core):
 - lcms2: `2.13.1 --> 2.17`
 - legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 668`
-- libadwaita: `(new package) --> 1.7.2`
+- libadwaita: `(new package) --> 1.7.3`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.12.1`
 - libarchive: `3.6.1 --> 3.8.0`
@@ -344,7 +345,7 @@ Upgraded software (core):
 - libjxl: `(new package) --> 1.2.0`
 - libksba: `1.6.1 --> 1.6.7`
 - liblc3: `(new package) --> 1.1.3`
-- libldap: `2.6.3 --> 2.6.9`
+- libldap: `2.6.3 --> 2.6.10`
 - libmanette: `(new package) --> 0.2.11`
 - libmbim: `1.26.4 --> 1.32.0`
 - libmd: `(new package) --> 1.1.0`
@@ -402,7 +403,7 @@ Upgraded software (core):
 - libtpms: `0.9.2 --> 0.10.0`
 - libudfread: `(new package) --> 1.1.2`
 - libunistring: `1.0 --> 1.3`
-- libunwind: `1.6.2 --> 1.8.1`
+- libunwind: `1.6.2 --> 1.8.2`
 - liburing: `2.1 --> 2.9`
 - libusb: `1.0.26 --> 1.0.28`
 - libusbmuxd: `2.0.2 --> 2.1.0`
@@ -559,7 +560,7 @@ Upgraded software (core):
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.1`
 - pip: `(new package) --> 25.1.1`
-- PipeWire: `0.3.59 --> 1.4.2`
+- PipeWire: `0.3.59 --> 1.4.3`
 - Pixman: `0.40.0 --> 0.46.0`
 - pluggy: `(new package) --> 1.5.0`
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
@@ -586,7 +587,7 @@ Upgraded software (core):
 - pyproject-metadata: `(new package) --> 0.9.1`
 - Python: `3.10.7 --> 3.13.3`
 - python-certifi: `2022.06.15 --> 2025.01.31`
-- python-dbusmock: `0.28.4 --> 0.34.3`
+- python-dbusmock: `0.28.4 --> 0.35.0`
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.2`
@@ -693,7 +694,7 @@ Upgraded software (core):
 - wheel: `(new package) --> 0.46.1`
 - Which: `2.21 --> 2.23`
 - whois: `5.5.13 --> 5.6.1`
-- WirePlumber: `0.4.12 --> 0.5.8`
+- WirePlumber: `0.4.12 --> 0.5.10`
 - wlr-protocols: `(new package) --> 107`
 - wpa-supplicant: `2.10 --> 2.11`
 - wpebackend-fdo: `1.14.0 --> 1.16.0`
@@ -776,26 +777,26 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.0`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 138.0.3`
+- Firefox: `105.0.1 --> 138.0.4`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
 - GNOME-Calculator: `(new package) --> 48.1`
 - gnome-disk-utility: `(new package) --> 46.1`
 - GNOME-Firmware: `41.0 --> 47.0`
-- GNOME-Software: `41.5 --> 48.0`
+- GNOME-Software: `41.5 --> 48.1`
 - GParted: `1.4.0 --> 1.7.0`
 - gtksourceview4: `4.8.3 --> (removed)`
 - LabWC: `(new package) --> 0.8.3`
 - libetpan: `1.9.4 --> (removed)`
 - libxfce4ui: `4.17.6 --> 4.20.1`
 - libxfce4util: `4.17.2 --> 4.20.1`
-- libxfce4windowing: `(new package) --> 4.20.2`
+- libxfce4windowing: `(new package) --> 4.20.3`
 - lightdm-gtk-greeter: `2.0.8 --> 2.0.9`
 - MassOS-Welcome: `001 --> 002`
 - Mousepad: `0.5.10 --> 0.6.5`
 - Orage: `4.16.0 --> 4.20.1`
-- Parole: `4.16.0 --> 4.18.2`
+- Parole: `4.16.0 --> 4.20.0`
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
 - Shotwell: `0.31.5 --> 0.32.10`
 - simple-scan: `(new package) --> 48.1`

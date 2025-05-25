@@ -44,7 +44,7 @@ GRUB_GFXPAYLOAD_LINUX="keep"
 #GRUB_COLOR_HIGHLIGHT="light-cyan/blue"
 
 # Uncomment ONE of the following to set EITHER a background or a theme.
-#GRUB_BACKGROUND="/usr/share/backgrounds/MassOS-Futuristic-Dark.png"
+#GRUB_BACKGROUND="/usr/share/backgrounds/MassOS-Avantgarde-Dark.png"
 GRUB_THEME="/usr/share/grub/themes/distro-massos/theme.txt"
 
 # Uncomment for a beep on startup. Some sound cards may not support this.
