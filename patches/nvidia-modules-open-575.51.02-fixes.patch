@@ -1,14 +1,3 @@
-diff '--color=auto' -aruN a/kernel-open/Kbuild b/kernel-open/Kbuild
---- a/kernel-open/Kbuild	2025-04-17 18:35:59.000000000 +0100
-+++ b/kernel-open/Kbuild	2025-05-03 15:49:31.930792454 +0100
-@@ -87,6 +87,7 @@
- EXTRA_CFLAGS += -Wall $(DEFINES) $(INCLUDES) -Wno-cast-qual -Wno-format-extra-args
- EXTRA_CFLAGS += -D__KERNEL__ -DMODULE -DNVRM
- EXTRA_CFLAGS += -DNV_VERSION_STRING=\"575.51.02\"
-+EXTRA_CFLAGS += -std=gnu17
- 
- ifneq ($(SYSSRCHOST1X),)
-  EXTRA_CFLAGS += -I$(SYSSRCHOST1X)
 diff '--color=auto' -aruN a/kernel-open/nvidia-drm/nvidia-drm-linux.c b/kernel-open/nvidia-drm/nvidia-drm-linux.c
 --- a/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-04-17 18:35:59.000000000 +0100
 +++ b/kernel-open/nvidia-drm/nvidia-drm-linux.c	2025-05-03 15:49:22.237796231 +0100

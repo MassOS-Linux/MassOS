@@ -143,7 +143,7 @@ Upgraded software (core):
 - egl-wayland: `1.1.11 --> 1.1.18`
 - eglexternalplatform: `1.1 --> 1.2.1`
 - elfutils: `0.187 --> 0.193`
-- Enchant: `2.3.3 --> 2.8.4`
+- Enchant: `2.3.3 --> 2.8.5`
 - espeak-ng: `(new package) --> 1.52.0`
 - ethtool: `(new package) --> 6.14`
 - exfatprogs: `1.1.3 --> 1.2.8`
@@ -153,7 +153,8 @@ Upgraded software (core):
 - FAAC: `(new package) --> 1.31.1`
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
-- fastfetch: `(new package) --> 2.43.0`
+- fast-float: `(new package) --> 8.0.2`
+- fastfetch: `(new package) --> 2.44.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 7.1.1`
 - File: `5.43 --> 5.46`
@@ -183,7 +184,7 @@ Upgraded software (core):
 - GDK-Pixbuf: `2.42.9 --> 2.42.12`
 - GeoClue: `2.6.0 --> 2.7.2`
 - Gettext: `0.21 --> 0.25`
-- gexiv2: `0.14.0 --> 0.14.3`
+- gexiv2: `0.14.0 --> 0.14.5`
 - GhostScript: `10.0.0 --> 10.05.1`
 - gi-docgen: `2022.1 --> 2025.3`
 - giflib: `5.2.1 --> 5.2.2`
@@ -214,7 +215,7 @@ Upgraded software (core):
 - gspell: `1.12.0 --> 1.14.0`
 - gst-editing-services: `(new package) --> 1.26.1`
 - gst-libav: `1.20.3 --> 1.26.1`
-- gst-plugin-gtk4: `(new package) --> 0.13.4`
+- gst-plugin-gtk4: `(new package) --> 0.13.6`
 - gst-plugins-bad: `1.20.3 --> 1.26.1`
 - gst-plugins-base: `1.20.3 --> 1.26.1`
 - gst-plugins-good: `1.20.3 --> 1.26.1`
@@ -278,7 +279,7 @@ Upgraded software (core):
 - kbd: `2.5.1 --> 2.7.1`
 - keyutils: `(new package) --> 1.6.3`
 - kmod: `30 --> 34.2`
-- krb5: `1.20 --> 1.21.3-147-gbd8b2a6a3`
+- krb5: `1.20 --> 1.21.3-149-g76ca2f3e6`
 - lark: `(new package) --> 1.2.2`
 - lcms2: `2.13.1 --> 2.17`
 - legacy-cgi: `(new package) --> 2.6.3`
@@ -450,9 +451,9 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.14.8`
-- Linux-API-Headers: `6.0.0 --> 6.14.8`
-- Linux-Headers: `6.0.0 --> 6.14.8`
+- Linux: `6.0.0 --> 6.15.0`
+- Linux-API-Headers: `6.0.0 --> 6.15.0`
+- Linux-Headers: `6.0.0 --> 6.15.0`
 - Linux-PAM: `1.5.2 --> 1.7.0`
 - LLD: `14.0.6 --> 20.1.5`
 - LLVM: `14.0.6 --> 20.1.5`
@@ -593,7 +594,7 @@ Upgraded software (core):
 - PyYAML: `(new package) --> 6.0.2`
 - qemu-guest-agent: `(new package) --> 10.0.0`
 - Qpdf: `11.1.1 --> 12.2.0`
-- rav1e: `0.5.1 --> 0.7.1`
+- rav1e: `0.5.1 --> 0.8.0`
 - rdfind: `(new package) --> 1.7.0`
 - Readline: `8.2 --> 8.3-rc1`
 - reiserfsprogs: `(new package) --> 3.6.27`
@@ -677,7 +678,7 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1350`
+- Vim: `9.0.0600 --> 9.1.1400`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.1`
@@ -699,7 +700,7 @@ Upgraded software (core):
 - wpa-supplicant: `2.10 --> 2.11`
 - wpebackend-fdo: `1.14.0 --> 1.16.0`
 - x11perf: `1.6.1 --> 1.7.0`
-- x264: `0.164.3099 --> 0.164.3215`
+- x264: `0.164.3099 --> 0.164.3218`
 - x265: `3.5-40-g931178347 --> 4.1`
 - xauth: `1.1.2 --> 1.1.4`
 - xbacklight: `1.2.3 --> 1.2.4`
@@ -777,7 +778,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.0`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 138.0.4`
+- Firefox: `105.0.1 --> 139.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

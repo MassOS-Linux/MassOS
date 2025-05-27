@@ -2303,7 +2303,7 @@ rm -rf hwdata-0.395
 # systemd (initial build; will be rebuilt later to support more features).
 tar -xf ../sources/systemd-257.5.tar.gz
 pushd systemd-257.5
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.5-massos -Dshared-lib-tag=257.5-massos -Dbpf-framework=disabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.5-massos -Dshared-lib-tag=257.5-massos -Dbpf-framework=disabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -2441,7 +2441,8 @@ rm -rf dosfstools-4.2
 # dracut.
 tar -xf ../sources/dracut-ng-107.tar.gz
 pushd dracut-ng-107
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions
+patch -Np1 -i ../../patches/dracut-107-upstreamfix.patch
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio
 make
 make install
 cat > /etc/dracut.conf.d/massos.conf << "END"
@@ -2883,6 +2884,15 @@ ninja -C build install
 install -t /usr/share/licenses/utfcpp -Dm644 LICENSE
 popd
 rm -rf utfcpp-4.0.6
+# fast-float.
+tar -xf ../sources/fast_float-8.0.2.tar.gz
+pushd fast_float-8.0.2
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/fast-float -Dm644 LICENSE-{APACHE,BOOST,MIT}
+popd
+rm -rf fast_float-8.0.2
 # yyjson.
 tar -xf ../sources/yyjson-0.10.0.tar.gz
 pushd yyjson-0.10.0
@@ -3195,15 +3205,15 @@ install -t /usr/share/licenses/gnupg -Dm644 COPYING{,.CC0,.GPL2,.LGPL21,.LGPL3,.
 popd
 rm -rf gnupg-2.5.6
 # krb5.
-tar -xf ../sources/krb5-1.21.3-147-gbd8b2a6a3.tar.gz
-pushd krb5-bd8b2a6a380b6b10ea1a3f90e8a1c8f775f5fc2c/src
+tar -xf ../sources/krb5-1.21.3-149-g76ca2f3e6.tar.gz
+pushd krb5-76ca2f3e684367dfef264e05d24b1d7a6f99ba04/src
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --sbindir=/usr/bin --disable-rpath --enable-dns-for-realm --with-system-et --with-system-ss --without-system-verto
 make
 make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
 popd
-rm -rf krb5-bd8b2a6a380b6b10ea1a3f90e8a1c8f775f5fc2c
+rm -rf krb5-76ca2f3e684367dfef264e05d24b1d7a6f99ba04
 # libnfs.
 tar -xf ../sources/libnfs-6.0.2.tar.gz
 pushd libnfs-libnfs-6.0.2
@@ -4032,14 +4042,14 @@ make install
 popd
 rm -rf aspell6-en-2020.12.07-0
 # Enchant.
-tar -xf ../sources/enchant-2.8.4.tar.gz
-pushd enchant-2.8.4
+tar -xf ../sources/enchant-2.8.5.tar.gz
+pushd enchant-2.8.5
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 popd
-rm -rf enchant-2.8.4
+rm -rf enchant-2.8.5
 # Fontconfig.
 tar -xf ../sources/fontconfig-2.16.2.tar.bz2
 pushd fontconfig-2.16.2
@@ -4926,7 +4936,7 @@ rm -rf libglvnd-v1.7.0
 # Mesa.
 tar -xf ../sources/mesa-25.1.1.tar.xz
 pushd mesa-25.1.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-nine=true -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dosmesa=true -Dvideo-codecs=all -Dvalgrind=disabled
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
@@ -5081,7 +5091,7 @@ rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
 tar -xf ../sources/systemd-257.5.tar.gz
 pushd systemd-257.5
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.5-massos -Dshared-lib-tag=257.5-massos -Dbpf-framework=enabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.5-massos -Dshared-lib-tag=257.5-massos -Dbpf-framework=enabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -5427,14 +5437,14 @@ install -t /usr/share/licenses/hyfetch -Dm644 LICENSE.md
 popd
 rm -rf hyfetch-2.0.0-rc1
 # fastfetch.
-tar -xf ../sources/fastfetch-2.43.0.tar.gz
-pushd fastfetch-2.43.0
+tar -xf ../sources/fastfetch-2.44.0.tar.gz
+pushd fastfetch-2.44.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.43.0
+rm -rf fastfetch-2.44.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -6080,6 +6090,7 @@ rm -rf pycups-2.0.4
 # firewalld.
 tar -xf ../sources/firewalld-2.3.0.tar.bz2
 pushd firewalld-2.3.0
+patch -Np1 -i ../../patches/firewalld-2.3.0-errormessage.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin
 make
 make install
@@ -6088,14 +6099,14 @@ install -t /usr/share/licenses/firewalld -Dm644 COPYING
 popd
 rm -rf firewalld-2.3.0
 # gexiv2.
-tar -xf ../sources/gexiv2-0.14.3.tar.gz
-pushd gexiv2-gexiv2-0.14.3
+tar -xf ../sources/gexiv2-0.14.5.tar.gz
+pushd gexiv2-gexiv2-0.14.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gexiv2 -Dm644 COPYING
 popd
-rm -rf gexiv2-gexiv2-0.14.3
+rm -rf gexiv2-gexiv2-0.14.5
 # libpeas.
 tar -xf ../sources/libpeas-1.36.0.tar.gz
 pushd libpeas-libpeas-1.36.0
@@ -6524,8 +6535,8 @@ END
 popd
 rm -rf ppp-2.5.2
 # Vim.
-tar -xf ../sources/vim-9.1.1350.tar.gz
-pushd vim-9.1.1350
+tar -xf ../sources/vim-9.1.1400.tar.gz
+pushd vim-9.1.1400
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -6548,7 +6559,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 popd
-rm -rf vim-9.1.1350
+rm -rf vim-9.1.1400
 # libwpe.
 tar -xf ../sources/libwpe-1.16.2.tar.xz
 pushd libwpe-1.16.2
@@ -7596,16 +7607,16 @@ chmod 755 /etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module.sh
 popd
 rm -rf libcanberra-0.30
 # x264.
-tar -xf ../sources/x264-0.164.3215.tar.bz2
-pushd x264-32c3b80-32c3b801191522961102d4bea292cdb61068d0dd
+tar -xf ../sources/x264-0.164.3218.tar.bz2
+pushd x264-85b5cce-85b5ccea1fab98841d79455e344c797c5ffc3212
 cat > version.sh << "END"
 #!/usr/bin/env bash
 # Hardcode the version because the git tarball lacks the required data.
 cat > /dev/stdout << "EOS"
-#define X264_REV 3215
+#define X264_REV 3218
 #define X264_REV_DIFF 0
-#define X264_VERSION " r3215 32c3b80"
-#define X264_POINTVER "0.164.3215 32c3b80"
+#define X264_VERSION " r3218 85b5cce"
+#define X264_POINTVER "0.165.3218 85b5cce"
 EOS
 END
 ./configure --prefix=/usr --enable-shared --enable-strip --extra-cflags="-DX264_BIT_DEPTH=0 -DX264_CHROMA_FORMAT=0 -DX264_GPL=1 -DX264_INTERLACED=1"
@@ -7613,7 +7624,7 @@ make
 make install
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 popd
-rm -rf x264-32c3b80-32c3b801191522961102d4bea292cdb61068d0dd
+rm -rf x264-85b5cce-85b5ccea1fab98841d79455e344c797c5ffc3212
 # x265.
 tar -xf ../sources/x265_4.1.tar.gz
 pushd x265_4.1
@@ -7722,21 +7733,21 @@ install -t /usr/share/licenses/dav1d -Dm644 COPYING
 popd
 rm -rf dav1d-1.5.1
 # rav1e.
-tar -xf ../sources/rav1e-0.7.1.tar.gz
-pushd rav1e-0.7.1
+tar -xf ../sources/rav1e-0.8.0.tar.gz
+pushd rav1e-0.8.0
 cargo build --release
 cargo cbuild --release
 sed -i 's|/usr/local|/usr|' target/x86_64-unknown-linux-gnu/release/rav1e.pc
 install -t /usr/bin -Dm755 target/release/rav1e
 install -t /usr/include/rav1e -Dm644 target/x86_64-unknown-linux-gnu/release/include/rav1e/rav1e.h
 install -t /usr/lib/pkgconfig -Dm644 target/x86_64-unknown-linux-gnu/release/rav1e.pc
-install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.7.1
-ln -sf librav1e.so.0.7.1 /usr/lib/librav1e.so.0
-ln -sf librav1e.so.0.7.1 /usr/lib/librav1e.so
+install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.8.0
+ln -sf librav1e.so.0.8.0 /usr/lib/librav1e.so.0
+ln -sf librav1e.so.0.8.0 /usr/lib/librav1e.so
 ldconfig
 install -t /usr/share/licenses/rav1e -Dm644 LICENSE PATENTS
 popd
-rm -rf rav1e-0.7.1
+rm -rf rav1e-0.8.0
 # wavpack.
 tar -xf ../sources/wavpack-5.8.1.tar.xz
 pushd wavpack-5.8.1
@@ -7994,13 +8005,13 @@ install -t /usr/share/licenses/libadwaita -Dm644 COPYING
 popd
 rm -rf libadwaita-1.7.3
 # gst-plugin-gtk4.
-tar -xf ../sources/gst-plugins-rs-0.13.5.tar.bz2
-pushd gst-plugins-rs-0.13.5/video/gtk4
+tar -xf ../sources/gst-plugins-rs-0.13.6.tar.bz2
+pushd gst-plugins-rs-0.13.6/video/gtk4
 cargo build --release
 install -t /usr/lib/gstreamer-1.0 -Dm755 ../../target/release/libgstgtk4.so
 install -t /usr/share/licenses/gst-plugin-gtk4 -Dm644 LICENSE-MPL-2.0
 popd
-rm -rf gst-plugins-rs-0.13.5
+rm -rf gst-plugins-rs-0.13.6
 # Gcr4.
 tar -xf ../sources/gcr-4.4.0.1.tar.gz
 pushd gcr-4.4.0.1
@@ -8304,8 +8315,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.14.8.tar.xz
-pushd linux-6.14.8
+tar -xf ../sources/linux-6.15.tar.xz
+pushd linux-6.15
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 make mrproper
 cp ../../extras/build-configs/kernel-config .config
@@ -8344,15 +8355,16 @@ echo "options kvm enable_virt_at_load=0" > /usr/lib/modprobe.d/kvm.conf
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.14.8
+rm -rf linux-6.15
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-575.51.02.tar.gz
 pushd open-gpu-kernel-modules-575.51.02
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
+patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-linux615.patch
 make modules SYSSRC=/usr/src/linux
 install -t /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -Dm644 kernel-open/*.ko
 find /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -type f -name \*.ko -exec strip --strip-debug {} ';'
-find /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -type f -name \*.ko -exec zstd -q --rm {} ';'
+find /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -type f -name \*.ko -exec zstd --ultra -22 -T0 -q --rm {} ';'
 echo "options nvidia NVreg_OpenRmEnableUnsupportedGpus=1" > /usr/lib/modprobe.d/nvidia.conf
 depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING

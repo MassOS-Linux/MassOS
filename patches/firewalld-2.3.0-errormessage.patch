@@ -1,0 +1,18 @@
+Downstream patch by MassOS developers, designed to make the "connection failed"
+error message on startup be more useful (by explaining how to enable/start the
+firewalld service (as it is now disabled by default on MassOS).
+
+diff '--color=auto' -aruN a/src/firewall-config b/src/firewall-config
+--- a/src/firewall-config	2024-11-05 14:45:12.000000000 +0000
++++ b/src/firewall-config	2025-05-25 20:25:52.108487366 +0100
+@@ -86,7 +86,9 @@
+         self.trying_to_connect_label = _("Trying to connect to firewalld, waiting...")
+         self.failed_to_connect_label = _(
+             "Failed to connect to firewalld. Please make sure that the "
+-            "service has been started correctly and try again."
++            "service has been started correctly and try again. You can "
++            "enable/start the service by running the following command "
++            "from a terminal:\n\nsystemctl --now enable firewalld"
+         )
+         self.changes_applied_label = _("Changes applied.")
+         self.used_by_label = _("Used by network connection '%s'")

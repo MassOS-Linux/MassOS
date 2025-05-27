@@ -121,7 +121,7 @@ https://github.com/rhboot/efivar/archive/39/efivar-39.tar.gz
 https://github.com/NVIDIA/egl-wayland/archive/1.1.18/egl-wayland-1.1.18.tar.gz
 https://github.com/NVIDIA/eglexternalplatform/archive/1.2.1/eglexternalplatform-1.2.1.tar.gz
 https://sourceware.org/ftp/elfutils/0.193/elfutils-0.193.tar.bz2
-https://github.com/rrthomas/enchant/releases/download/v2.8.4/enchant-2.8.4.tar.gz
+https://github.com/rrthomas/enchant/releases/download/v2.8.5/enchant-2.8.5.tar.gz
 https://github.com/espeak-ng/espeak-ng/archive/1.52.0/espeak-ng-1.52.0.tar.gz
 https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.14.tar.xz
 https://github.com/exfatprogs/exfatprogs/releases/download/1.2.8/exfatprogs-1.2.8.tar.xz
@@ -131,7 +131,8 @@ https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git/snapshot/
 https://github.com/knik0/faac/archive/faac-1.31.1/faac-1.31.1.tar.gz
 https://github.com/knik0/faad2/archive/2.11.2/faad2-2.11.2.tar.gz
 https://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.37.1.1/fakeroot-upstream-1.37.1.1.tar.bz2
-https://github.com/fastfetch-cli/fastfetch/archive/2.43.0/fastfetch-2.43.0.tar.gz
+https://github.com/fastfloat/fast_float/archive/v8.0.2/fast_float-8.0.2.tar.gz
+https://github.com/fastfetch-cli/fastfetch/archive/2.44.0/fastfetch-2.44.0.tar.gz
 https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2.21.1.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_3_1/fcron-ver3_3_1.tar.gz
 https://ffmpeg.org/releases/ffmpeg-7.1.1.tar.xz
@@ -166,7 +167,7 @@ https://github.com/GNOME/gdk-pixbuf/archive/2.42.12/gdk-pixbuf-2.42.12.tar.gz
 https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.7.2/geoclue-2.7.2.tar.bz2
 https://github.com/GNOME/geocode-glib/archive/3.26.4/geocode-glib-3.26.4.tar.gz
 https://mirror.lyrahosting.com/gnu/gettext/gettext-0.25.tar.xz
-https://github.com/GNOME/gexiv2/archive/gexiv2-0.14.3.tar.gz
+https://github.com/GNOME/gexiv2/archive/gexiv2-0.14.5.tar.gz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/ghostscript-10.05.1.tar.xz
 https://github.com/GNOME/gi-docgen/archive/2025.3/gi-docgen-2025.3.tar.gz
 https://freefr.dl.sourceforge.net/project/giflib/giflib-5.2.2.tar.gz
@@ -202,7 +203,7 @@ https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/432da22/grub-th
 https://github.com/GNOME/gsettings-desktop-schemas/archive/48.0/gsettings-desktop-schemas-48.0.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
 https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.26.1/gstreamer-1.26.1.tar.bz2
-https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.13.5/gst-plugins-rs-0.13.5.tar.bz2
+https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.13.6/gst-plugins-rs-0.13.6.tar.bz2
 https://github.com/GNOME/gtk/archive/3.24.49/gtk-3.24.49.tar.gz
 https://github.com/GNOME/gtk/archive/4.18.5/gtk-4.18.5.tar.gz
 https://github.com/GNOME/gtk-doc/archive/1.34.0/gtk-doc-1.34.0.tar.gz
@@ -262,7 +263,7 @@ https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.7.1.tar.xz
 https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
 https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-1.6.3.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
-https://github.com/krb5/krb5/archive/bd8b2a6a3/krb5-1.21.3-147-gbd8b2a6a3.tar.gz
+https://github.com/krb5/krb5/archive/76ca2f3e6/krb5-1.21.3-149-g76ca2f3e6.tar.gz
 https://github.com/ultravideo/kvazaar/releases/download/v2.3.1/kvazaar-2.3.1.tar.xz
 https://github.com/despoa/LAME/archive/refs/tags/lame3_100.tar.gz
 https://deb.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_0.16.tar.xz
@@ -458,7 +459,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/61bdaee/libyuv-2833.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.3/libzip-1.11.3.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.14.8.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.15.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.0/Linux-PAM-1.7.0.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.5/llvm-project-20.1.5.src.tar.xz
@@ -613,7 +614,7 @@ https://files.pythonhosted.org/packages/source/P/PyYAML/pyyaml-6.0.2.tar.gz
 https://download.qemu.org/qemu-10.0.0.tar.xz
 https://github.com/qpdf/qpdf/releases/download/v12.2.0/qpdf-12.2.0.tar.gz
 https://github.com/fukuchi/libqrencode/archive/v4.1.1/qrencode-4.1.1.tar.gz
-https://github.com/xiph/rav1e/archive/v0.7.1/rav1e-0.7.1.tar.gz
+https://github.com/xiph/rav1e/archive/v0.8.0/rav1e-0.8.0.tar.gz
 https://github.com/pauldreik/rdfind/archive/releases%2F1.7.0/rdfind-releases-1.7.0.tar.gz
 https://mirror.lyrahosting.com/gnu/readline/readline-8.3-rc1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v3.6.27/reiserfsprogs-3.6.27.tar.xz
@@ -717,7 +718,7 @@ https://github.com/nemtrif/utfcpp/archive/v4.0.6/utfcpp-4.0.6.tar.gz
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-2.41.tar.xz
 https://xorg.freedesktop.org/archive/individual/util/util-macros-1.20.2.tar.xz
 https://download.gnome.org/sources/vala/0.56/vala-0.56.18.tar.xz
-https://github.com/vim/vim/archive/v9.1.1350/vim-9.1.1350.tar.gz
+https://github.com/vim/vim/archive/v9.1.1400/vim-9.1.1400.tar.gz
 https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/1.1.1/virglrenderer-1.1.1.tar.bz2
 https://gitlab.com/virtio-fs/virtiofsd/-/archive/v1.13.1/virtiofsd-v1.13.1.tar.bz2
 https://github.com/vicgeralds/vitetris/archive/v0.59.1/vitetris-0.59.1.tar.gz
@@ -743,7 +744,7 @@ https://github.com/google/woff2/archive/v1.0.2/woff2-1.0.2.tar.gz
 https://w1.fi/releases/wpa_supplicant-2.11.tar.gz
 https://wpewebkit.org/releases/wpebackend-fdo-1.16.0.tar.xz
 https://xorg.freedesktop.org/archive/individual/test/x11perf-1.7.0.tar.xz
-https://code.videolan.org/videolan/x264/-/archive/32c3b80/x264-0.164.3215.tar.bz2
+https://code.videolan.org/videolan/x264/-/archive/85b5cce/x264-0.164.3218.tar.bz2
 https://bitbucket.org/multicoreware/x265_git/downloads/x265_4.1.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/xauth-1.1.4.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xbacklight-1.2.4.tar.xz
