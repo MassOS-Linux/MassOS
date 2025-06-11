@@ -1,0 +1,27 @@
+This patch alters the 10_linux script of grub-mkconfig, to ensure that it
+automatically puts in the correct kernel parameters for booting from a LUKS
+encrypted drive using a dracut initramfs.
+
+Other operating systems shouldn't be affected, as they will be detected by GRUB
+using 30_os-prober instead of 10_linux, which isn't affected by this script.
+
+--- a/util/grub.d/10_linux.in
++++ b/util/grub.d/10_linux.in
+@@ -214,6 +214,17 @@
+   alt_version=`echo $version | sed -e "s,\.old$,,g"`
+   linux_root_device_thisversion="${LINUX_ROOT_DEVICE}"
+ 
++  # Detect LUKS encryption and change parameters for dracut initramfs.
++  luks_device=""
++  luks_uuid=""
++  if test "${GRUB_DEVICE}" = /dev/mapper/cryptroot; then
++    luks_device="$(cryptsetup status /dev/mapper/cryptroot 2>/dev/null || true)"
++    luks_uuid="$(blkid -s UUID -o value -t TYPE=crypto_LUKS "$(echo "${luks_device}" | grep 'device:' | xargs | cut -d' ' -f2)" || true)"
++  fi
++  if test -n "${luks_uuid}"; then
++    linux_root_device_thisversion="/dev/mapper/cryptroot rd.luks.uuid=${luks_uuid} rd.luks.name=${luks_uuid}=cryptroot"
++  fi
++
+   initrd_early=
+   for i in ${GRUB_EARLY_INITRD_LINUX_STOCK} \
+ 	   ${GRUB_EARLY_INITRD_LINUX_CUSTOM}; do

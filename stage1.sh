@@ -32,10 +32,10 @@ CONFIG_SITE="$MASSOS"/usr/share/config.site
 export LC_ALL MASSOS MASSOS_TARGET PATH CONFIG_SITE
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
-# Compiler flags for MassOS. We prefer to optimise for size.
-CFLAGS="-Os"
-CXXFLAGS="-Os"
+# All compiler optimisation flags must be unset for the toolchain packages.
+CFLAGS=""
 CPPFLAGS=""
+CXXFLAGS=""
 LDFLAGS=""
 export CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
 # Setup the basic filesystem structure (full structure is set up later).
@@ -56,14 +56,14 @@ cp -r patches "$MASSOS"/root/mbs
 # Change to the working directory.
 pushd "$MASSOS"/root/mbs/work
 # Binutils (build 1).
-tar -xf ../sources/binutils-2.44.tar.xz
-pushd binutils-2.44
+tar -xf ../sources/binutils-with-gold-2.44.tar.xz
+pushd binutils-with-gold-2.44
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gprofng --disable-nls --disable-werror
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make install
 popd; popd
-rm -rf binutils-2.44
+rm -rf binutils-with-gold-2.44
 # GCC (build 1).
 tar -xf ../sources/gcc-15.1.0.tar.xz
 pushd gcc-15.1.0
@@ -74,29 +74,29 @@ tar -xf ../../sources/mpc-1.3.1.tar.gz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.41 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.41 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
 make install
 cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-stage1-linux-gnu/15.1.0/install-tools/include/limits.h
 popd; popd
 rm -rf gcc-15.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.15.tar.xz
-pushd linux-6.15
+tar -xf ../sources/linux-6.15.2.tar.xz
+pushd linux-6.15.2
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.15
+rm -rf linux-6.15.2
 # Glibc.
 tar -xf ../sources/glibc-2.41.tar.xz
 pushd glibc-2.41
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.41" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.41" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 make DESTDIR="$MASSOS" install
 ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
@@ -107,23 +107,23 @@ rm -rf glibc-2.41
 tar -xf ../sources/gcc-15.1.0.tar.xz
 pushd gcc-15.1.0
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/15.1.0
+../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/15.1.0
 make
 make DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
 rm -rf gcc-15.1.0
 # Binutils (build 2).
-tar -xf ../sources/binutils-2.44.tar.xz
-pushd binutils-2.44
+tar -xf ../sources/binutils-with-gold-2.44.tar.xz
+pushd binutils-with-gold-2.44
 sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gprofng --disable-nls --disable-werror
+../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
-rm -rf binutils-2.44
+rm -rf binutils-with-gold-2.44
 # GCC (build 2).
 tar -xf ../sources/gcc-15.1.0.tar.xz
 pushd gcc-15.1.0
@@ -135,7 +135,7 @@ tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir -p build; pushd build
-CFLAGS="-O2" CXXFLAGS="-O2" ../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
+../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
 make
 make DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc

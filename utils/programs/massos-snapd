@@ -6,7 +6,7 @@
 set -e
 
 # Set the software version.
-ver="0.0.2"
+ver="0.0.3"
 
 # Version of Go. Shouldn't really need to be updated frequently.
 ver_go="1.23.4"
@@ -211,13 +211,13 @@ operation_status() {
   # Display message based on consistency.
   if test "$snapd_installed_reported" = "yes" && test "$snapd_installed_really" != "no"; then
     # Reported as installed and really is installed.
-    msg "Snapd is installed ($snapd_installed_really)."
+    msg "Snapd is installed ($ver_snapd)."
   elif test "$snapd_installed_reported" = "yes" && test "$snapd_installed_really" = "no"; then
     # Reported as installed but is not really installed.
     msg "Snapd is not installed (although it is reported as installed)."
   elif test "$snapd_installed_reported" != "yes" && test "$snapd_installed_really" != "no"; then
     # Reported as not installed but it is somehow installed.
-    msg "Snapd is installed ($snapd_installed_really), but is reported as not."
+    msg "Snapd is installed ($ver_snapd), but is reported as not."
   else
     # Neither reported as installed or really installed.
     msg "Snapd is not installed."

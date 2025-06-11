@@ -1,0 +1,446 @@
+Various patches taken from Debian sources, unified and rediffed for MassOS.
+
+<https://sources.debian.org/src/efitools/1.9.2-3.5/debian/patches/>
+
+Also fixes a typo in lib/console.c ("UNKOWN" instead of "UNKNOWN").
+
+Also disables building of all .efi binaries, as they require the bundled ASN.1
+parser, which is broken with modern GCC/Clang. They're useless on MassOS
+anyway, due to a chicken-and-egg problem - these programs are supposed to make
+it easy to import custom secure boot keys into the UEFI firmware, but the
+programs themselves would only be able to load on a secure boot system if the
+keys they were signed with were already in the firmware to begin with. Thus
+defeating the point, since in order to import the MassOS secure boot keys using
+this program, you'd have to ALREADY HAVE THE SECURE BOOT KEYS IMPORTED.
+
+TLDR: Secure boot is a shitfest on all distros, apart from the corporate-backed
+ones (Ubuntu and Fedora), who can suck up to daddy Microsoft so as to get
+officially signed by the only keys which secure boot systems trust OOTB.
+
+diff '--color=auto' -aruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
+--- a/cert-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
++++ b/cert-to-efi-sig-list.c	2025-06-08 23:11:15.254745102 +0100
+@@ -6,7 +6,6 @@
+ 
+ 
+ #include <stdint.h>
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ #ifdef CONFIG_arm
+ /* FIXME:
+diff '--color=auto' -aruN a/efi-keytool.c b/efi-keytool.c
+--- a/efi-keytool.c	2019-01-08 22:13:13.000000000 +0000
++++ b/efi-keytool.c	2025-06-08 23:11:15.255096803 +0100
+@@ -15,7 +15,6 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ 
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ 
+ #include <kernel_efivars.h>
+diff '--color=auto' -aruN a/efi-readvar.c b/efi-readvar.c
+--- a/efi-readvar.c	2019-01-08 22:13:13.000000000 +0000
++++ b/efi-readvar.c	2025-06-08 23:11:15.255344176 +0100
+@@ -17,7 +17,6 @@
+ 
+ #include <openssl/x509.h>
+ 
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ 
+ #include <kernel_efivars.h>
+diff '--color=auto' -aruN a/efi-updatevar.c b/efi-updatevar.c
+--- a/efi-updatevar.c	2019-01-08 22:13:13.000000000 +0000
++++ b/efi-updatevar.c	2025-06-08 23:11:15.255625162 +0100
+@@ -11,6 +11,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <strings.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+ #include <unistd.h>
+@@ -20,7 +21,6 @@
+ #include <openssl/err.h>
+ #include <openssl/pem.h>
+ 
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ 
+ #include <kernel_efivars.h>
+diff '--color=auto' -aruN a/flash-var.c b/flash-var.c
+--- a/flash-var.c	2019-01-08 22:13:13.000000000 +0000
++++ b/flash-var.c	2025-06-08 23:11:15.255921528 +0100
+@@ -10,7 +10,6 @@
+ #include <fcntl.h>
+ #include <unistd.h>
+ 
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ 
+ #include <version.h>
+diff '--color=auto' -aruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
+--- a/hash-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
++++ b/hash-to-efi-sig-list.c	2025-06-08 23:11:15.256240868 +0100
+@@ -4,7 +4,6 @@
+  * see COPYING file
+  */
+ #include <stdint.h>
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ #ifdef CONFIG_arm
+ /* FIXME:
+diff '--color=auto' -aruN a/include/pecoff.h b/include/pecoff.h
+--- a/include/pecoff.h	2019-01-08 22:13:13.000000000 +0000
++++ b/include/pecoff.h	2025-06-08 23:11:15.256506926 +0100
+@@ -1,7 +1,8 @@
+ #include <PeImage.h>
+ 
+ EFI_STATUS
+-pecoff_read_header(PE_COFF_LOADER_IMAGE_CONTEXT *context, void *data);
++pecoff_read_header(PE_COFF_LOADER_IMAGE_CONTEXT *context, void *data,
++		   UINTN size);
+ EFI_STATUS
+ pecoff_relocate(PE_COFF_LOADER_IMAGE_CONTEXT *context, void **data);
+ EFI_STATUS
+diff '--color=auto' -aruN a/lib/asn1/oid.h b/lib/asn1/oid.h
+--- a/lib/asn1/oid.h	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/asn1/oid.h	2025-06-08 23:11:15.256787732 +0100
+@@ -11,11 +11,11 @@
+ #define OID_H_
+ 
+ typedef struct {
+-    u_char octet;
+-    u_int  next;
+-    u_int  down;
+-    u_int  level;
+-    const u_char *name;
++    unsigned char octet;
++    unsigned int  next;
++    unsigned int  down;
++    unsigned int  level;
++    const unsigned char *name;
+ } oid_t;
+ 
+ extern const oid_t oid_names[];
+diff '--color=auto' -aruN a/lib/console.c b/lib/console.c
+--- a/lib/console.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/console.c	2025-06-08 23:11:15.257105609 +0100
+@@ -357,7 +357,7 @@
+ 	{  EFI_SECURITY_VIOLATION,     L"Security Violation"},
+ 
+ 	// warnings
+-	{  EFI_WARN_UNKOWN_GLYPH,      L"Warning Unknown Glyph"},
++	{  EFI_WARN_UNKNOWN_GLYPH,      L"Warning Unknown Glyph"},
+ 	{  EFI_WARN_DELETE_FAILURE,    L"Warning Delete Failure"},
+ 	{  EFI_WARN_WRITE_FAILURE,     L"Warning Write Failure"},
+ 	{  EFI_WARN_BUFFER_TOO_SMALL,  L"Warning Buffer Too Small"},
+diff '--color=auto' -aruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
+--- a/lib/kernel_efivars.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/kernel_efivars.c	2025-06-08 23:11:15.257540639 +0100
+@@ -16,7 +16,6 @@
+ #include <unistd.h>
+ #include <time.h>
+ 
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ 
+ #include <kernel_efivars.h>
+@@ -29,54 +28,39 @@
+ void
+ kernel_variable_init(void)
+ {
+-	char fname[] = "/tmp/efi.XXXXXX";
+-	char cmdline[256];
+-	int fd, ret;
+-	struct stat st;
+-	char *buf;
+-
+-	if (kernel_efi_path)
+-		return;
+-	mktemp(fname);
+-	snprintf(cmdline, sizeof(cmdline), "mount -l > %s", fname);
+-	ret = system(cmdline);
+-	if (WEXITSTATUS(ret) != 0)
+-		/* hopefully stderr said what was wrong */
+-		exit(1);
+-	fd = open(fname, O_RDONLY);
+-	unlink(fname);
+-	if (fd < 0) {
+-		fprintf(stderr, "Failed to open output of %s\n", cmdline);
+-		exit(1);
+-	}
+-	if (fstat(fd, &st) < 0) {
+-		perror("stat failed");
+-		exit(1);
+-	}
+-	if (st.st_size == 0) {
+-		fprintf(stderr, "No efivarfs filesystem is mounted\n");
++	FILE *mount_l_fp = NULL;
++	char *path = NULL;
++	char *type = NULL;
++
++	mount_l_fp = popen("mount -l", "r");
++
++	if (mount_l_fp == NULL) {
++		fprintf(stderr, "Failed to get output of mount -l\n");
+ 		exit(1);
+ 	}
+-	buf = malloc(st.st_size);
+-	read(fd, buf, st.st_size);
+-	close(fd);
+-
+-	char *ptr = buf;
+-	char path[512], type[512];
+-	while (ptr < buf + st.st_size) {
+-		int count;
+-
+-		sscanf(ptr, "%*s on %s type %s %*[^\n]\n%n", path, type, &count);
+-		ptr += count;
+-		if (strcmp(type, "efivarfs") == 0)
++
++	while (fscanf(mount_l_fp, "%*s on %ms type %ms %*[^\n]\n", &path, &type) == 2) {
++		if (strcmp(type, "efivarfs") == 0) {
++			kernel_efi_path = strdup(path);
+ 			break;
++		}
++		free(path);
++		path = NULL;
++		free(type);
++		type = NULL;
+ 	}
+-	if (strcmp(type, "efivarfs") != 0) {
++
++	if (mount_l_fp != NULL)
++		pclose(mount_l_fp);
++	if (path != NULL)
++		free(path);
++	if (type != NULL)
++		free(type);
++
++	if (kernel_efi_path == NULL) {
+ 		fprintf(stderr, "No efivarfs filesystem is mounted\n");
+ 		exit(1);
+ 	}
+-	kernel_efi_path = malloc(strlen(path) + 1);
+-	strcpy(kernel_efi_path, path);
+ }
+ 
+ int
+diff '--color=auto' -aruN a/lib/pecoff.c b/lib/pecoff.c
+--- a/lib/pecoff.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/pecoff.c	2025-06-08 23:11:15.257922889 +0100
+@@ -69,7 +69,7 @@
+ #include <buildefi.h>
+ 
+ EFI_STATUS
+-pecoff_read_header(PE_COFF_LOADER_IMAGE_CONTEXT *context, void *data)
++pecoff_read_header(PE_COFF_LOADER_IMAGE_CONTEXT *context, void *data, UINTN size)
+ {
+ 	EFI_IMAGE_DOS_HEADER *DosHdr = data;
+ 	EFI_IMAGE_OPTIONAL_HEADER_UNION *PEHdr = data;
+@@ -116,7 +116,7 @@
+ 	context->NumberOfSections = PEHdr->Pe32.FileHeader.NumberOfSections;
+ 	context->FirstSection = (EFI_IMAGE_SECTION_HEADER *)((char *)PEHdr + PEHdr->Pe32.FileHeader.SizeOfOptionalHeader + sizeof(UINT32) + sizeof(EFI_IMAGE_FILE_HEADER));
+ 
+-	if (context->SecDir->VirtualAddress >= context->ImageSize) {
++	if (context->SecDir->VirtualAddress >= size) {
+ 		Print(L"Malformed security header\n");
+ 		return EFI_INVALID_PARAMETER;
+ 	}
+@@ -404,7 +404,7 @@
+ 	}
+ 
+ 	Print(L"Read %d bytes from %s\n", DataSize, name);
+-	efi_status = pecoff_read_header(&context, buffer);
++	efi_status = pecoff_read_header(&context, buffer, DataSize);
+ 	if (efi_status != EFI_SUCCESS) {
+ 		Print(L"Failed to read header\n");
+ 		goto out;
+diff '--color=auto' -aruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
+--- a/lib/pkcs7verify.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/pkcs7verify.c	2025-06-08 23:11:15.258298456 +0100
+@@ -172,7 +172,7 @@
+ 	EFI_STATUS status;
+ 	int i;
+ 
+-	status = pecoff_read_header(&context, data);
++	status = pecoff_read_header(&context, data, len);
+ 	if (status != EFI_SUCCESS)
+ 		goto out;
+ 
+diff '--color=auto' -aruN a/lib/sha256.c b/lib/sha256.c
+--- a/lib/sha256.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/sha256.c	2025-06-08 23:11:15.258629768 +0100
+@@ -290,7 +290,7 @@
+ 	 * filled to the end of the page */
+ 	DataSize = ALIGN_VALUE(DataSize, 8);
+ 
+-	efi_status = pecoff_read_header(&context, buffer);
++	efi_status = pecoff_read_header(&context, buffer, DataSize);
+ 	if (efi_status != EFI_SUCCESS) {
+ 		Print(L"Failed to read header\n");
+ 		return efi_status;
+diff '--color=auto' -aruN a/lib/shim_protocol.c b/lib/shim_protocol.c
+--- a/lib/shim_protocol.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/shim_protocol.c	2025-06-08 23:11:15.258955470 +0100
+@@ -13,7 +13,7 @@
+ static EFI_STATUS shimprotocol_context(void *data, unsigned int size,
+ 				       PE_COFF_LOADER_IMAGE_CONTEXT *context)
+ {
+-	return pecoff_read_header(context, data);
++	return pecoff_read_header(context, data, size);
+ }
+ 
+ static EFI_STATUS shimprotocol_verify(void *buffer, UINT32 size)
+diff '--color=auto' -aruN a/Makefile b/Makefile
+--- a/Makefile	2019-01-08 22:13:13.000000000 +0000
++++ b/Makefile	2025-06-08 23:12:15.485688794 +0100
+@@ -1,5 +1,3 @@
+-EFIFILES = HelloWorld.efi LockDown.efi Loader.efi ReadVars.efi UpdateVars.efi \
+-	KeyTool.efi HashTool.efi SetNull.efi ShimReplace.efi
+ BINARIES = cert-to-efi-sig-list sig-list-to-certs sign-efi-sig-list \
+ 	hash-to-efi-sig-list efi-readvar efi-updatevar cert-to-efi-hash-list \
+ 	flash-var
+@@ -21,21 +19,26 @@
+ KEYBLACKLISTAUTH = $(ALLKEYS:=-blacklist.auth)
+ KEYHASHBLACKLISTAUTH = $(ALLKEYS:=-hash-blacklist.auth)
+ 
++OLD_CFLAGS:=$(CFLAGS)
++OLD_LDFLAGS:=$(LDFLAGS)
++
+ export TOPDIR	:= $(shell pwd)/
+ 
+ include Make.rules
+ 
+ EFISIGNED = $(patsubst %.efi,%-signed.efi,$(EFIFILES))
+ 
++ifeq ($(ARCH),aarch64)
++all: $(BINARIES) $(MANPAGES) noPK.auth $(KEYAUTH) \
++	$(KEYUPDATEAUTH) $(KEYBLACKLISTAUTH) $(KEYHASHBLACKLISTAUTH)
++else
+ all: $(EFISIGNED) $(BINARIES) $(MANPAGES) noPK.auth $(KEYAUTH) \
+ 	$(KEYUPDATEAUTH) $(KEYBLACKLISTAUTH) $(KEYHASHBLACKLISTAUTH)
+-
++endif
+ 
+ install: all
+ 	$(INSTALL) -m 755 -d $(MANDIR)
+ 	$(INSTALL) -m 644 $(MANPAGES) $(MANDIR)
+-	$(INSTALL) -m 755 -d $(EFIDIR)
+-	$(INSTALL) -m 755 $(EFIFILES) $(EFIDIR)
+ 	$(INSTALL) -m 755 -d $(BINDIR)
+ 	$(INSTALL) -m 755 $(BINARIES) $(BINDIR)
+ 	$(INSTALL) -m 755 mkusb.sh $(BINDIR)/efitool-mkusb
+@@ -88,31 +91,31 @@
+ ShimReplace.so: lib/lib-efi.a
+ 
+ cert-to-efi-sig-list: cert-to-efi-sig-list.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ sig-list-to-certs: sig-list-to-certs.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ sign-efi-sig-list: sign-efi-sig-list.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ hash-to-efi-sig-list: hash-to-efi-sig-list.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a
+ 
+ cert-to-efi-hash-list: cert-to-efi-hash-list.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ efi-keytool: efi-keytool.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a
+ 
+ efi-readvar: efi-readvar.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ efi-updatevar: efi-updatevar.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a -lcrypto
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a -lcrypto
+ 
+ flash-var: flash-var.o lib/lib.a
+-	$(CC) $(ARCH3264) -o $@ $< lib/lib.a
++	$(CC) $(ARCH3264) -o $@ $< $(OLD_CFLAGS) $(OLD_LDFLAGS) lib/lib.a
+ 
+ clean:
+ 	rm -f PK.* KEK.* DB.* $(EFIFILES) $(EFISIGNED) $(BINARIES) *.o *.so
+diff '--color=auto' -aruN a/Make.rules b/Make.rules
+--- a/Make.rules	2019-01-08 22:13:13.000000000 +0000
++++ b/Make.rules	2025-06-08 23:11:15.259477347 +0100
+@@ -8,6 +8,10 @@
+ ARCH3264 =
+ else ifeq ($(ARCH),aarch64)
+ ARCH3264 =
++else ifeq ($(ARCH),riscv64)
++ARCH3264 =
++else ifeq ($(ARCH),loongarch64)
++ARCH3264 =
+ else ifeq ($(ARCH),arm)
+ ARCH3264 =
+ else
+@@ -15,7 +19,7 @@
+ endif
+ INCDIR	   = -I$(TOPDIR)include/ -I/usr/include/efi -I/usr/include/efi/$(ARCH) -I/usr/include/efi/protocol
+ CPPFLAGS   = -DCONFIG_$(ARCH)
+-CFLAGS	   = -O2 -g $(ARCH3264) -fpic -Wall -fshort-wchar -fno-strict-aliasing -fno-merge-constants -fno-stack-protector -ffreestanding -fno-stack-check
++CFLAGS	   = -O2 -g $(ARCH3264) -fno-stack-protector -fpic -Wall -fshort-wchar -fno-strict-aliasing -fno-merge-constants -D_XOPEN_SOURCE=700
+ LDFLAGS	   = -nostdlib
+ CRTOBJ		= crt0-efi-$(ARCH).o
+ CRTPATHS	= /lib /lib64 /lib/efi /lib64/efi /usr/lib /usr/lib64 /usr/lib/efi /usr/lib64/efi /usr/lib/gnuefi /usr/lib64/gnuefi
+@@ -56,6 +60,15 @@
+   FORMAT = -O binary
+ endif
+ 
++ifeq ($(ARCH),riscv64)
++  LDFLAGS += --defsym=EFI_SUBSYSTEM=0x0a
++  FORMAT = -O binary
++endif
++
++ifeq ($(ARCH),loongarch64)
++  LDFLAGS += --defsym=EFI_SUBSYSTEM=0x0a
++endif
++
+ %.efi: %.so
+ 	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .dynsym \
+ 		   -j .rel -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
+@@ -71,7 +84,7 @@
+ %.hash: %.efi hash-to-efi-sig-list
+ 	./hash-to-efi-sig-list $< $@
+ 
+-%-blacklist.esl: %.crt cert-to-efi-hash-list
++%-blacklist.esl: %.crt cert-to-efi-sig-list
+ 	./cert-to-efi-sig-list $< $@
+ 
+ %-hash-blacklist.esl: %.crt cert-to-efi-hash-list
+diff '--color=auto' -aruN a/sig-list-to-certs.c b/sig-list-to-certs.c
+--- a/sig-list-to-certs.c	2019-01-08 22:13:13.000000000 +0000
++++ b/sig-list-to-certs.c	2025-06-08 23:11:15.259725581 +0100
+@@ -4,7 +4,6 @@
+  * see COPYING file
+  */
+ #include <stdint.h>
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ #ifdef CONFIG_arm
+ /* FIXME:
+diff '--color=auto' -aruN a/sign-efi-sig-list.c b/sign-efi-sig-list.c
+--- a/sign-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
++++ b/sign-efi-sig-list.c	2025-06-08 23:11:15.259942084 +0100
+@@ -4,7 +4,6 @@
+  * see COPYING file
+  */
+ #include <stdint.h>
+-#define __STDC_VERSION__ 199901L
+ #include <efi.h>
+ #ifdef CONFIG_arm
+ /* FIXME:

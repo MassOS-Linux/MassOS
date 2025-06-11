@@ -112,6 +112,7 @@ easy-rsa
 ed
 editables
 efibootmgr
+efitools
 efivar
 egl-wayland
 eglexternalplatform
@@ -133,6 +134,7 @@ fcron
 ffmpeg
 figlet
 file
+file-slurp
 findutils
 firewalld
 fish
@@ -641,6 +643,7 @@ sane
 sane-airscan
 sassc
 sbc
+sbsigntools
 scdoc
 sdl
 sdl12-compat
