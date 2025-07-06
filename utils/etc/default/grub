@@ -1,10 +1,21 @@
-# Configuration file for GRUB bootloader.
+# Configuration settings for GRUB bootloader.
+# After modifying this file, run 'grub-mkconfig -o /boot/grub/grub.cfg'.
 
-# Basic options.
+# The entry to start by default when the countdown (GRUB_TIMEOUT) ends.
+# Set to 2 if you want Windows to be the default entry in a dual-boot setup.
 GRUB_DEFAULT=0
-GRUB_TIMEOUT=5
+
+# The timeout, in seconds, before the default entry (GRUB_DEFAULT) will start.
+GRUB_TIMEOUT=10
+
+# Don't change this from the default unless you know what you are doing.
 GRUB_DISTRIBUTOR="MassOS"
+
+# Add custom kernel parameters for standard entries only here.
+# 'quiet splash' are the ideal parameters for a graphical boot with plymouth.
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+
+# Add custom kernel parameters for all entries (including recovery mode) here.
 GRUB_CMDLINE_LINUX=""
 
 # Ensure modules for both GPT and MBR disks are preloaded.

@@ -1,6 +1,6 @@
 #
 # Automatically generated file; DO NOT EDIT.
-# Linux/x86 6.15.1 Kernel Configuration
+# Linux/x86 6.15.4 Kernel Configuration
 #
 CONFIG_CC_VERSION_TEXT="gcc (MassOS GCC 15.1.0) 15.1.0"
 CONFIG_CC_IS_GCC=y
@@ -12382,7 +12382,7 @@ CONFIG_FIPS_SIGNATURE_SELFTEST_RSA=y
 #
 # Certificates for signature checking
 #
-CONFIG_MODULE_SIG_KEY="certs/signing_key.pem"
+CONFIG_MODULE_SIG_KEY="certs/massos_signing.pem"
 CONFIG_MODULE_SIG_KEY_TYPE_RSA=y
 # CONFIG_MODULE_SIG_KEY_TYPE_ECDSA is not set
 CONFIG_SYSTEM_TRUSTED_KEYRING=y

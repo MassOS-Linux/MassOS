@@ -104,6 +104,7 @@ docutils
 dos2unix
 dosfstools
 dotconf
+dovi-tool
 dracut
 duktape
 dvd+rw-tools
@@ -169,6 +170,7 @@ ghostscript
 gi-docgen
 giflib
 git
+glad
 glew
 glib
 glib-networking
@@ -307,6 +309,7 @@ libde265
 libdecor
 libdisplay-info
 libdmx
+libdovi
 libdrm
 libdv
 libdvdnav
@@ -380,6 +383,7 @@ libpcap
 libpciaccess
 libpeas
 libpipeline
+libplacebo
 libplist
 libpng
 libportal

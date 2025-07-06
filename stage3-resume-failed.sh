@@ -56,8 +56,11 @@ cp utils/{pre,post}upgrade "$MASSOS"/tmp
 # Install Live CD cleanup script for osinstallgui.
 install -t "$MASSOS"/tmp -m755 utils/livecd-cleanup.sh
 # Strip executables and libraries to free up space.
+# Use --strip-unneeded on binaries and shared libraries.
+# Use --strip-debug on object files and static libraries.
+# Do NOT strip .efi executables as it will remove their secure boot signature!
 printf "Stripping binaries and libraries... "
-find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f ! -name \*.a ! -name \*.o ! -name \*.mod ! -name \*.module -exec strip --strip-unneeded {} ';' &>/dev/null || true
+find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f ! -name \*.a ! -name \*.o ! -name \*.mod ! -name \*.module ! -name \*.ko\* ! -name \*.efi\* -exec strip --strip-unneeded {} ';' &>/dev/null || true
 find "$MASSOS"/usr/lib -type f \( -name \*.a -o -name \*.o -o -name \*.mod -o -name \*.module \) -exec strip --strip-debug {} ';' &>/dev/null || true
 echo "Done!"
 # Finish the MassOS system.

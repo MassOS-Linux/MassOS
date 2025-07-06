@@ -1,10 +1,17 @@
+# Working directories.
 iso-workdir
 massos-rootfs
 sources
 stage3/sources
+
+# Output builds and their checksums.
 massos-*-rootfs-*.tar
-massos-*-rootfs-*.tar.xz
-massos-*-rootfs-*.tar.xz.b2
+massos-*-rootfs-*.tar.*
 massos-*.iso
-massos-*.iso.b2
-utils/programs/mbs.next
+massos-*.iso.*
+
+# Builder-specific signing keys and certificates.
+keys/secureboot
+
+# For internal use by MassOS developers.
+utils/programs/*.next

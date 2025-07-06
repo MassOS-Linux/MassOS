@@ -22,6 +22,13 @@ if [ -e massos-rootfs ]; then
   echo "Error: Please remove the 'massos-rootfs' directory first." >&2
   exit 1
 fi
+# Do not run if no secure boot signing keys are present.
+if [ ! -e keys/secureboot/db.key ] || [ ! -e keys/secureboot/db.crt ] || [ ! -e keys/secureboot/db.der ] || [ ! -e keys/secureboot/db.esl ] || [ ! -e keys/secureboot/db.auth ]; then
+  echo "Error: A valid secure boot signing key set was not found." >&2
+  echo "Error: Please generate one with 'generate-sb-keys.sh'." >&2
+  echo "Error: Or place an existing set in 'keys/secureboot/'." >&2
+  exit 1
+fi
 # Starting message.
 echo "Starting Stage 1 Build..."
 # Setup the environment.
@@ -81,15 +88,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.15.2.tar.xz
-pushd linux-6.15.2
+tar -xf ../sources/linux-6.15.4.tar.xz
+pushd linux-6.15.4
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.15.2
+rm -rf linux-6.15.4
 # Glibc.
 tar -xf ../sources/glibc-2.41.tar.xz
 pushd glibc-2.41
@@ -182,6 +189,10 @@ cp -r utils/build-configs "$MASSOS"/root/mbs/extras
 cp -r utils/systemd-units "$MASSOS"/root/mbs/extras
 # Copy extra package licenses, for packages without a license in their source.
 cp -r utils/extra-package-licenses "$MASSOS"/root/mbs/extras
+# Copy secure boot signing keys into the extras directory.
+cp -r keys/secureboot "$MASSOS"/root/mbs/extras
+# Install public secure boot certs (but DO NOT install the private db.key).
+install -t "$MASSOS"/usr/share/massos/certs/secureboot -Dm644 keys/secureboot/db.{auth,crt,der,esl}
 # Copy stage 2 script and environment file into the top-level mbs directory.
 cp build-system.sh build.env "$MASSOS"/root/mbs
 # MassOS now uses systemd-sysusers, but root still needs to be hardcoded.

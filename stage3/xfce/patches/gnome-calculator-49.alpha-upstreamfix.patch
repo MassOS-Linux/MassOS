@@ -1,0 +1,53 @@
+From 58734539b3be976277f9898690845cc9e29bc0d1 Mon Sep 17 00:00:00 2001
+From: Robert Roth <robert.roth.off@gmail.com>
+Date: Mon, 30 Jun 2025 16:44:30 +0300
+Subject: [PATCH] Don't use development vala API (fixes #490)
+
+---
+ lib/serializer.vala            | 2 +-
+ src/math-function-popover.vala | 2 +-
+ src/math-variable-popover.vala | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/lib/serializer.vala b/lib/serializer.vala
+index 12ecdd0b..6dd148e9 100644
+--- a/lib/serializer.vala
++++ b/lib/serializer.vala
+@@ -497,7 +497,7 @@ public class Serializer : Object
+         var mantissa_string = cast_to_string (mantissa, ref n_digits);
+         if (eng_format)
+         {
+-            mantissa_string = mantissa_string.replace (tsep.to_string (), "", 1);
++            mantissa_string = mantissa_string.replace (tsep.to_string (), "");
+             if (mantissa_string.has_prefix ("1000"))
+             {
+                 exponent += 3;
+diff --git a/src/math-function-popover.vala b/src/math-function-popover.vala
+index 4d44d152..a1e914e5 100644
+--- a/src/math-function-popover.vala
++++ b/src/math-function-popover.vala
+@@ -27,7 +27,7 @@ public class MathFunctionPopover : MathPopover<MathFunction>
+ 
+     public MathFunctionPopover (MathEquation equation)
+     {
+-        base (equation, new ListStore (typeof (MathFunction)), MathFunction.name_compare_func);
++        base (equation, new ListStore (typeof (MathFunction)), (CompareDataFunc<MathFunction>) MathFunction.name_compare_func);
+ 
+         function_list.bind_model (model, (item) => make_item_row (item as MathFunction));
+         add_arguments_button.set_range (1, 10);
+diff --git a/src/math-variable-popover.vala b/src/math-variable-popover.vala
+index 4ac6aa47..8ac86ea1 100644
+--- a/src/math-variable-popover.vala
++++ b/src/math-variable-popover.vala
+@@ -48,7 +48,7 @@ public class MathVariablePopover : MathPopover<MathVariable>
+ 
+     public MathVariablePopover (MathEquation equation)
+     {
+-        base (equation, new ListStore (typeof (MathVariable)), MathVariable.name_compare_func);
++        base (equation, new ListStore (typeof (MathVariable)), (CompareDataFunc<MathVariable>) MathVariable.name_compare_func);
+ 
+         variable_list.bind_model (model, (variable) => make_item_row (variable as MathVariable));
+         closed.connect (() => {
+-- 
+GitLab
+

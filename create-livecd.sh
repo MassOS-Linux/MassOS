@@ -27,14 +27,15 @@ fi
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
 export PATH="$PATH:$PWD/utils/programs"
 # Ensure dependencies are present.
-which curl &>/dev/null || (echo "Error: curl is required." >&2; exit 1)
-which mass-chroot &>/dev/null || (echo "Error: mass-chroot (from MassOS) is required." >&2; exit 1)
-which mkfs.fat &>/dev/null || (echo "Error: mkfs.fat from dosfstools is required." >&2; exit 1)
-which mksquashfs &>/dev/null || (echo "Error: mksquashfs from squashfs-tools is required." >&2; exit 1)
-which parallel &>/dev/null || (echo "Error: parallel is required." >&2; exit 1)
-which rdfind &>/dev/null || (echo "Error: rdfind is required." >&2; exit 1)
-which unzip &>/dev/null || (echo "Error: unzip is required." >&2; exit 1)
-which xorriso &>/dev/null || (echo "Error: xorriso from libisoburn is required." >&2; exit 1)
+command -v curl &>/dev/null || { echo "Error: curl is required." >&2; exit 1; }
+command -v mass-chroot &>/dev/null || { echo "Error: mass-chroot (from MassOS) is required." >&2; exit 1; }
+command -v mkfs.fat &>/dev/null || { echo "Error: mkfs.fat from dosfstools is required." >&2; exit 1; }
+command -v mksquashfs &>/dev/null || { echo "Error: mksquashfs from squashfs-tools is required." >&2; exit 1; }
+command -v parallel &>/dev/null || { echo "Error: parallel (GNU - not moreutils) is required." >&2; exit 1; }
+command -v sbsign &>/dev/null || { echo "Error: sbsign from sbsigntools is required." >&2; exit 1; }
+command -v rdfind &>/dev/null || { echo "Error: rdfind is required." >&2; exit 1; }
+command -v unzip &>/dev/null || { echo "Error: unzip is required." >&2; exit 1; }
+command -v xorriso &>/dev/null || { echo "Error: xorriso from libisoburn is required." >&2; exit 1; }
 # Ensure that the rootfs file is specified and exists.
 if test -z "$1"; then
   echo "Error: No rootfs file was specified." >&2
@@ -181,24 +182,53 @@ cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
 mkdir -p iso-workdir/massos-rootfs/boot/grub
 cp livecd-data/grub.cfg iso-workdir/massos-rootfs/boot/grub/grub.cfg
 mass-chroot iso-workdir/massos-rootfs /usr/bin/grub-mkstandalone -d /usr/lib/grub/x86_64-efi -O x86_64-efi -o BOOTX64.EFI --compress=xz /boot/grub/grub.cfg >/dev/null
+rm -f iso-workdir/massos-rootfs/boot/grub/grub.cfg
+rmdir iso-workdir/massos-rootfs/boot/grub 2>/dev/null || true
 cp iso-workdir/massos-rootfs/BOOTX64.EFI iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
 chmod +x iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
 cp iso-workdir/massos-rootfs/usr/share/grub/unicode.pf2 iso-workdir/iso-root/unicode.pf2
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
-fallocate -l $(($(du -bc iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI | tail -n1 | cut -f1) + 80000)) iso-workdir/iso-root/EFI/BOOT/efiboot.img
-mkfs.fat -F12 iso-workdir/iso-root/EFI/BOOT/efiboot.img -n "MASSOS_EFI"
-mount -o loop iso-workdir/iso-root/EFI/BOOT/efiboot.img iso-workdir/efitmp
-mkdir -p iso-workdir/efitmp/EFI/BOOT
-cp iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI iso-workdir/efitmp/EFI/BOOT/BOOTX64.EFI
 cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
-sync
-umount iso-workdir/efitmp
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
 cp iso-workdir/mt86plus/memtest64.bin iso-workdir/iso-root/isolinux/memtest64.bin
 cp iso-workdir/mt86plus/memtest64.efi iso-workdir/iso-root/EFI/tools/memtest64.efi
 cp iso-workdir/ipxe.efi iso-workdir/iso-root/EFI/tools/ipxe.efi
 cp iso-workdir/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
 cp iso-workdir/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
+# Sign EFI executables if (and only if) the rootfs's certificate matches ours.
+if test -e iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot/db.crt; then
+  if test -e keys/secureboot/db.crt; then
+    if diff -q iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot/db.crt keys/secureboot/db.crt &>/dev/null; then
+      echo "Rootfs and local SB certs match - EFI binaries will be SB signed."
+      # Sign each executable.
+      for e in BOOT/BOOTX64.EFI tools/{ipxe,memtest64,shellx64}.efi; do
+        sbsign --key keys/secureboot/db.key --cert keys/secureboot/db.crt iso-workdir/iso-root/EFI/"$e"
+        rm -f iso-workdir/iso-root/EFI/"$e"
+        mv iso-workdir/iso-root/EFI/"$e".signed iso-workdir/iso-root/EFI/"$e"
+      done
+      # Copy over the certs from the rootfs to the live CD.
+      cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
+      # Copy secure boot README to the top level of the live CD.
+      cp livecd-data/README.SECUREBOOT.txt iso-workdir/iso-root/README.SECUREBOOT.txt
+    else
+      echo "WARNING: SB signing disabled due to rootfs/local cert mismatch." >&2
+    fi
+  else
+    echo "WARNING: SB signing disabled due to missing local SB cert." >&2
+  fi
+else
+  echo "WARNING: SB signing disabled due to lack of SB cert in rootfs." >&2
+fi
+# Create a small FAT12 image containing BOOTX64.EFI, to use for UEFI cdboot.
+# This is required as most UEFI firmwares don't support the ISO9660 filesystem.
+# This was previously done earlier, but has been moved to after SB signing.
+fallocate -l $(($(du -bc iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI | tail -n1 | cut -f1) + 80000)) iso-workdir/iso-root/EFI/BOOT/efiboot.img
+mkfs.fat -F12 iso-workdir/iso-root/EFI/BOOT/efiboot.img -n "MASSOS_EFI"
+mount -o loop iso-workdir/iso-root/EFI/BOOT/efiboot.img iso-workdir/efitmp
+mkdir -p iso-workdir/efitmp/EFI/BOOT
+cp iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI iso-workdir/efitmp/EFI/BOOT/BOOTX64.EFI
+sync
+umount iso-workdir/efitmp
 # Copy additional files.
 cp livecd-data/autorun.ico iso-workdir/iso-root/autorun.ico
 cp livecd-data/autorun.inf iso-workdir/iso-root/autorun.inf

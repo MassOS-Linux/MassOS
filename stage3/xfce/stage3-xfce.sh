@@ -250,14 +250,14 @@ install -t /usr/share/licenses/orage -Dm644 COPYING
 popd
 rm -rf orage-4.20.1
 # Xfburn.
-tar -xf ../sources/xfburn-0.7.2.tar.bz2
-pushd xfburn-0.7.2
+tar -xf ../sources/xfburn-0.8.0.tar.bz2
+pushd xfburn-0.8.0
 ./configure --prefix=/usr --enable-gstreamer --disable-debug --disable-static
 make
 make install
 install -t /usr/share/licenses/xfburn -Dm644 COPYING
 popd
-rm -rf xfburn-0.7.2
+rm -rf xfburn-0.8.0
 # xfce4-terminal.
 tar -xf ../sources/xfce4-terminal-1.1.5.tar.xz
 pushd xfce4-terminal-1.1.5
@@ -422,14 +422,15 @@ install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
 rm -rf mousepad-0.6.5
 # GNOME-Calculator.
-tar -xf ../sources/gnome-calculator-48.1.tar.bz2
-pushd gnome-calculator-48.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+tar -xf ../sources/gnome-calculator-49.alpha.tar.bz2
+pushd gnome-calculator-49.alpha
+patch -Np1 -i ../../patches/gnome-calculator-49.alpha-upstreamfix.patch
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddoc=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
-rm -rf gnome-calculator-48.1
+rm -rf gnome-calculator-49.alpha
 # GParted.
 tar -xf ../sources/gparted-GPARTED_1_7_0.tar.bz2
 pushd gparted-GPARTED_1_7_0
@@ -564,7 +565,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-139.0.4.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-140.0.2.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {
