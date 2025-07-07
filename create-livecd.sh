@@ -181,7 +181,7 @@ cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
 ## UEFI.
 mkdir -p iso-workdir/massos-rootfs/boot/grub
 cp livecd-data/grub.cfg iso-workdir/massos-rootfs/boot/grub/grub.cfg
-mass-chroot iso-workdir/massos-rootfs /usr/bin/grub-mkstandalone -d /usr/lib/grub/x86_64-efi -O x86_64-efi -o BOOTX64.EFI --compress=xz /boot/grub/grub.cfg >/dev/null
+mass-chroot iso-workdir/massos-rootfs /usr/bin/grub-mkstandalone -d /usr/lib/grub/x86_64-efi -O x86_64-efi -o BOOTX64.EFI --compress=xz --disable-shim-lock /boot/grub/grub.cfg >/dev/null
 rm -f iso-workdir/massos-rootfs/boot/grub/grub.cfg
 rmdir iso-workdir/massos-rootfs/boot/grub 2>/dev/null || true
 cp iso-workdir/massos-rootfs/BOOTX64.EFI iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
@@ -222,11 +222,15 @@ fi
 # Create a small FAT12 image containing BOOTX64.EFI, to use for UEFI cdboot.
 # This is required as most UEFI firmwares don't support the ISO9660 filesystem.
 # This was previously done earlier, but has been moved to after SB signing.
+# Also install SB certs here, to allow importing into firmware from FAT volume.
 fallocate -l $(($(du -bc iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI | tail -n1 | cut -f1) + 80000)) iso-workdir/iso-root/EFI/BOOT/efiboot.img
 mkfs.fat -F12 iso-workdir/iso-root/EFI/BOOT/efiboot.img -n "MASSOS_EFI"
 mount -o loop iso-workdir/iso-root/EFI/BOOT/efiboot.img iso-workdir/efitmp
 mkdir -p iso-workdir/efitmp/EFI/BOOT
 cp iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI iso-workdir/efitmp/EFI/BOOT/BOOTX64.EFI
+if test -d iso-workdir/iso-root/secureboot; then
+  cp -r iso-workdir/iso-root/secureboot iso-workdir/efitmp
+fi
 sync
 umount iso-workdir/efitmp
 # Copy additional files.

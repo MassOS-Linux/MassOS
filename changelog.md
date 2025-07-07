@@ -108,7 +108,7 @@ Upgraded software (core):
 - cpio: `(new package) --> 2.15`
 - CrackLib: `2.9.8 --> 2.10.3`
 - cryptography: `37.0.1 --> 44.0.2`
-- cryptsetup: `2.5.0 --> 2.7.5`
+- cryptsetup: `2.5.0 --> 2.8.0`
 - CUPS: `2.4.2 --> 2.4.12`
 - cups-browsed: `(new package) --> 2.1.1`
 - cups-filters: `1.28.16 --> 2.0.1`
@@ -170,7 +170,7 @@ Upgraded software (core):
 - flit-core: `(new package) --> 3.12.0`
 - fmt: `9.1.0 --> 11.2.0`
 - font-util: `1.3.3 --> 1.4.1`
-- Fontconfig: `2.14.0 --> 2.17.0`
+- Fontconfig: `2.14.0 --> 2.17.1`
 - FreeGLUT: `3.2.2 --> 3.6.0`
 - FreeType: `2.12.1 --> 2.13.3`
 - Fribidi: `1.0.12 --> 1.0.16`
@@ -201,7 +201,7 @@ Upgraded software (core):
 - GLU: `9.0.2 --> 9.0.3`
 - GMP: `6.2.1 --> 6.3.0`
 - gnome-keyring: `42.1 --> 48.0`
-- gnome-online-accounts: `3.46.0 --> 3.54.3`
+- gnome-online-accounts: `3.46.0 --> 3.54.4`
 - GNU-EFI: `3.0.15 --> 3.0.18`
 - GNUPG: `2.3.7 --> 2.5.6`
 - GNUTLS: `3.7.8 --> 3.8.9`
@@ -210,24 +210,24 @@ Upgraded software (core):
 - GPGME: `1.18.0 --> 1.24.3`
 - gptfdisk: `1.0.9 --> 1.0.10`
 - Graphite2: `1.3.14 --> 1.3.14-99-g6938f052`
-- Graphviz: `6.0.1 --> 13.0.1`
+- Graphviz: `6.0.1 --> 13.1.0`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
 - GRUB: `2.06 --> 2.12-311-gdb506b3b8`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
-- gst-editing-services: `(new package) --> 1.26.2`
-- gst-libav: `1.20.3 --> 1.26.2`
+- gst-editing-services: `(new package) --> 1.26.3`
+- gst-libav: `1.20.3 --> 1.26.3`
 - gst-plugin-gtk4: `(new package) --> 0.13.6`
-- gst-plugins-bad: `1.20.3 --> 1.26.2`
-- gst-plugins-base: `1.20.3 --> 1.26.2`
-- gst-plugins-good: `1.20.3 --> 1.26.2`
+- gst-plugins-bad: `1.20.3 --> 1.26.3`
+- gst-plugins-base: `1.20.3 --> 1.26.3`
+- gst-plugins-good: `1.20.3 --> 1.26.3`
 - gst-plugins-rs: `0.8.4 --> (removed)`
-- gst-plugins-ugly: `1.20.3 --> 1.26.2`
-- gst-python: `(new package) --> 1.26.2`
-- GStreamer: `1.20.3 --> 1.26.2`
-- gstreamer-vaapi: `1.20.3 --> 1.26.2`
+- gst-plugins-ugly: `1.20.3 --> 1.26.3`
+- gst-python: `(new package) --> 1.26.3`
+- GStreamer: `1.20.3 --> 1.26.3`
+- gstreamer-vaapi: `1.20.3 --> 1.26.3`
 - GTK-Doc: `1.33.2 --> 1.34.0`
 - gtk-layer-shell: `(new package) --> 0.9.1`
 - GTK2: `2.24.33 --> (removed)`
@@ -250,7 +250,7 @@ Upgraded software (core):
 - highway: `(new package) --> 1.2.0`
 - HPLIP: `3.22.6 --> 3.25.2`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.396`
+- hwdata: `0.363 --> 0.397`
 - hyfetch: `(new package) --> 2.0.0-rc1`
 - iana-etc: `20220922 --> 20250618`
 - iceauth: `1.0.9 --> 1.0.10`
@@ -378,7 +378,7 @@ Upgraded software (core):
 - libpipeline: `1.5.6 --> 1.5.8`
 - libplacebo: `(new package) --> 7.351.0`
 - libplist: `2.2.0 --> 2.7.0`
-- libpng: `1.6.38 --> 1.6.49`
+- libpng: `1.6.38 --> 1.6.50`
 - libportal: `0.6 --> 0.9.1`
 - libportal-gtk3: `0.6 --> 0.9.1`
 - libportal-gtk4: `(new package) --> 0.9.1`
@@ -458,18 +458,18 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.15.4`
-- Linux-API-Headers: `6.0.0 --> 6.15.4`
-- Linux-Headers: `6.0.0 --> 6.15.4`
+- Linux: `6.0.0 --> 6.15.5`
+- Linux-API-Headers: `6.0.0 --> 6.15.5`
+- Linux-Headers: `6.0.0 --> 6.15.5`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 20.1.7`
 - LLVM: `14.0.6 --> 20.1.7`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
-- lsof: `4.96.3 --> 4.99.4`
+- lsof: `4.96.3 --> 4.99.5`
 - Lua: `5.4.4 --> 5.4.8`
-- LVM2: `2.03.16 --> 2.03.32`
+- LVM2: `2.03.16 --> 2.03.33`
 - lxml: `4.9.1 --> 6.0.0`
 - Lynx: `2.8.9 --> 2.9.2`
 - LZ4: `1.9.4 --> 1.10.0`
@@ -574,7 +574,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
-- Poppler: `22.09.0 --> 25.06.0`
+- Poppler: `22.09.0 --> 25.07.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -644,18 +644,18 @@ Upgraded software (core):
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
 - SPIRV-Headers: `1.3.216.0 --> 1.4.313.0`
-- SPIRV-LLVM-Translator: `(new package) --> 20.1.3`
+- SPIRV-LLVM-Translator: `(new package) --> 20.1.4`
 - SPIRV-Tools: `2022.2 --> 1.4.313.0`
 - SQLite: `3.39.3 --> 3.50.2`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
 - strace: `5.19 --> 6.15`
-- Sudo: `1.9.11p3 --> 1.9.17`
+- Sudo: `1.9.11p3 --> 1.9.17p1`
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.3.1`
 - system-config-printer: `(new package) --> 1.5.18`
 - systemd: `251.5 --> 257.7`
-- Taglib: `1.12 --> 2.1`
+- Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
 - Tcl: `8.6.12 --> 8.6.16`
@@ -686,11 +686,11 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41.1`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1498`
+- Vim: `9.0.0600 --> 9.1.1518`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
-- VTE: `0.70.0 --> 0.80.2`
-- VTE4: `(new package) --> 0.80.2`
+- VTE: `0.70.0 --> 0.80.3`
+- VTE4: `(new package) --> 0.80.3`
 - Vulkan-Headers: `1.3.230 --> 1.4.313.0`
 - Vulkan-Loader: `1.3.230 --> 1.4.313.0`
 - Vulkan-Tools: `1.3.230 --> 1.4.313.0`
