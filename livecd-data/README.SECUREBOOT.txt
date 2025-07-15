@@ -62,12 +62,6 @@ keys (whether official or custom), or any other custom keys, are not). And this
 would violate the TiVoization clause of the GPL3, which prevents running free
 software on hardware that would essentially render it non-free in practise.
 
-The shim bootloader is, however, licensed under the GPL2, which does not have
-this restriction. As such, Microsoft can sign it. And Microsoft has signed the
-shim bootloaders of Ubuntu, Fedora, and other commercially-backed distros too.
-However, the MassOS developers have made the decision not to use shim, as it is
-only really useful when signed by Microsoft, which a distro like MassOS cannot
-feasibly receive. For more information on shim, and the rationale behind the
-decision not to use it, please see the following page on the MassOS wiki:
+Please see the following URL for more in-depth information:
 
   https://github.com/MassOS-Linux/MassOS/wiki/UEFI-Secure-Boot

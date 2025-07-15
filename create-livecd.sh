@@ -31,6 +31,7 @@ command -v curl &>/dev/null || { echo "Error: curl is required." >&2; exit 1; }
 command -v mass-chroot &>/dev/null || { echo "Error: mass-chroot (from MassOS) is required." >&2; exit 1; }
 command -v mkfs.fat &>/dev/null || { echo "Error: mkfs.fat from dosfstools is required." >&2; exit 1; }
 command -v mksquashfs &>/dev/null || { echo "Error: mksquashfs from squashfs-tools is required." >&2; exit 1; }
+command -v mcopy &>/dev/null || { echo "Error: mcopy from mtools is required." >&2; exit 1; }
 command -v parallel &>/dev/null || { echo "Error: parallel (GNU - not moreutils) is required." >&2; exit 1; }
 command -v sbsign &>/dev/null || { echo "Error: sbsign from sbsigntools is required." >&2; exit 1; }
 command -v rdfind &>/dev/null || { echo "Error: rdfind is required." >&2; exit 1; }
@@ -65,7 +66,6 @@ mkdir -p iso-workdir/iso-root/isolinux
 mkdir -p iso-workdir/iso-root/LICENSES
 mkdir -p iso-workdir/iso-root/LiveOS
 mkdir -p iso-workdir/squashfs-tmp/LiveOS
-mkdir -p iso-workdir/efitmp
 # Get information from the rootfs (before extracting the whole thing).
 echo "Getting information from the rootfs..."
 # Get firmware versions.
@@ -181,12 +181,11 @@ cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
 ## UEFI.
 mkdir -p iso-workdir/massos-rootfs/boot/grub
 cp livecd-data/grub.cfg iso-workdir/massos-rootfs/boot/grub/grub.cfg
-mass-chroot iso-workdir/massos-rootfs /usr/bin/grub-mkstandalone -d /usr/lib/grub/x86_64-efi -O x86_64-efi -o BOOTX64.EFI --compress=xz --disable-shim-lock /boot/grub/grub.cfg >/dev/null
+mass-chroot iso-workdir/massos-rootfs /usr/bin/grub-mkstandalone -d /usr/lib/grub/x86_64-efi -O x86_64-efi -o BOOTX64.EFI --compress=xz --sbat=/usr/share/grub/sbat.csv /boot/grub/grub.cfg >/dev/null
 rm -f iso-workdir/massos-rootfs/boot/grub/grub.cfg
 rmdir iso-workdir/massos-rootfs/boot/grub 2>/dev/null || true
 cp iso-workdir/massos-rootfs/BOOTX64.EFI iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
 chmod +x iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
-cp iso-workdir/massos-rootfs/usr/share/grub/unicode.pf2 iso-workdir/iso-root/unicode.pf2
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
 cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
@@ -206,10 +205,29 @@ if test -e iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot/db.crt; t
         rm -f iso-workdir/iso-root/EFI/"$e"
         mv iso-workdir/iso-root/EFI/"$e".signed iso-workdir/iso-root/EFI/"$e"
       done
+      # Add KeyTool if it's found in the rootfs (note that it's pre-signed).
+      if test -f iso-workdir/massos-rootfs/usr/share/efitools/efi/KeyTool.efi.signed; then
+        echo "Signed KeyTool found in rootfs - will be added to Live CD."
+        cp iso-workdir/massos-rootfs/usr/share/efitools/efi/KeyTool.efi.signed iso-workdir/iso-root/EFI/tools/KeyTool.efi
+      else
+        echo "WARNING: Signed KeyTool not found in rootfs (non-critical)." >&2
+      fi
       # Copy over the certs from the rootfs to the live CD.
       cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
       # Copy secure boot README to the top level of the live CD.
       cp livecd-data/README.SECUREBOOT.txt iso-workdir/iso-root/README.SECUREBOOT.txt
+      # Use shim if it exists, otherwise GRUB throws a hissy fit on SB systems.
+      # TODO: Fix it (currently just a placeholder since shim is broken).
+      if test -f iso-workdir/massos-rootfs/usr/lib/shim/shimx64.efi.signed; then
+        echo "shim found in rootfs - will be used as the primary loader."
+        # Rename BOOTX64.EFI to grubx64.efi (since shim will become BOOTX64).
+        mv iso-workdir/iso-root/EFI/BOOT/{BOOTX64.EFI,grubx64.efi}
+        # Copy over shim binaries, ensuring to remove the '.signed' extension.
+        cp iso-workdir/massos-rootfs/usr/lib/shim/shimx64.efi.signed iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
+        cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi.signed iso-workdir/iso-root/EFI/BOOT/mmx64.efi
+      else
+        echo "WARNING: shim not found - booting with secure boot may fail." >&2
+      fi
     else
       echo "WARNING: SB signing disabled due to rootfs/local cert mismatch." >&2
     fi
@@ -223,16 +241,14 @@ fi
 # This is required as most UEFI firmwares don't support the ISO9660 filesystem.
 # This was previously done earlier, but has been moved to after SB signing.
 # Also install SB certs here, to allow importing into firmware from FAT volume.
-fallocate -l $(($(du -bc iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI | tail -n1 | cut -f1) + 80000)) iso-workdir/iso-root/EFI/BOOT/efiboot.img
-mkfs.fat -F12 iso-workdir/iso-root/EFI/BOOT/efiboot.img -n "MASSOS_EFI"
-mount -o loop iso-workdir/iso-root/EFI/BOOT/efiboot.img iso-workdir/efitmp
-mkdir -p iso-workdir/efitmp/EFI/BOOT
-cp iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI iso-workdir/efitmp/EFI/BOOT/BOOTX64.EFI
+dd if=/dev/zero of=iso-workdir/efiboot.img bs=$(($(du -bc iso-workdir/iso-root/EFI/BOOT | tail -n1 | cut -f1) + 80000)) count=1
+mkfs.fat -F12 iso-workdir/efiboot.img -n "MASSOS_EFI"
+mmd -i iso-workdir/efiboot.img ::/EFI
+mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/EFI/BOOT ::/EFI
 if test -d iso-workdir/iso-root/secureboot; then
-  cp -r iso-workdir/iso-root/secureboot iso-workdir/efitmp
+  mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/secureboot ::
 fi
-sync
-umount iso-workdir/efitmp
+mv iso-workdir/efiboot.img iso-workdir/iso-root/EFI/BOOT/efiboot.img
 # Copy additional files.
 cp livecd-data/autorun.ico iso-workdir/iso-root/autorun.ico
 cp livecd-data/autorun.inf iso-workdir/iso-root/autorun.inf

@@ -89,6 +89,7 @@ Upgraded software (core):
 - build: `(new package) --> 1.2.2.post1`
 - Busybox: `1.35.0 --> 1.37.0`
 - c-ares: `1.18.1 --> 1.34.5`
+- cabextract: `(new package) --> 1.11`
 - Cairo: `1.17.6 --> 1.18.4`
 - Cairomm: `1.14.4 --> 1.14.5`
 - calver: `(new package) --> 2025.04.02`
@@ -96,10 +97,10 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
-- Clang: `14.0.6 --> 20.1.7`
+- Clang: `14.0.6 --> 20.1.8`
 - CMake: `3.24.2 --> 4.0.3`
 - cnijfilter2: `(new package) --> 6.80`
-- compiler-rt: `15.0.3 --> 20.1.7`
+- compiler-rt: `15.0.3 --> 20.1.8`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -156,7 +157,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.0.2`
-- fastfetch: `(new package) --> 2.46.0`
+- fastfetch: `(new package) --> 2.47.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 7.1.1`
 - File: `5.43 --> 5.46`
@@ -189,9 +190,9 @@ Upgraded software (core):
 - Gettext: `0.21 --> 0.25`
 - gexiv2: `0.14.0 --> 0.14.5`
 - GhostScript: `10.0.0 --> 10.05.1`
-- gi-docgen: `2022.1 --> 2025.3`
+- gi-docgen: `2022.1 --> 2025.4`
 - giflib: `5.2.1 --> 5.2.2`
-- Git: `2.38.0 --> 2.50.0`
+- Git: `2.38.0 --> 2.50.1`
 - glad: `(new package) --> 2.0.8`
 - GLib: `2.74.0 --> 2.84.3`
 - glib-networking: `2.74.0 --> 2.80.1`
@@ -204,10 +205,12 @@ Upgraded software (core):
 - gnome-online-accounts: `3.46.0 --> 3.54.4`
 - GNU-EFI: `3.0.15 --> 3.0.18`
 - GNUPG: `2.3.7 --> 2.5.6`
-- GNUTLS: `3.7.8 --> 3.8.9`
+- GNUTLS: `3.7.8 --> 3.8.10`
 - gobject-introspection: `1.74.0 --> 1.82.0`
 - gperf: `3.1 --> 3.3`
-- GPGME: `1.18.0 --> 1.24.3`
+- GPGME: `1.18.0 --> 2.0.0`
+- gpgmepp: `(new package) --> 2.0.0`
+- gpgmepy: `(new package) --> 2.0.0`
 - gptfdisk: `1.0.9 --> 1.0.10`
 - Graphite2: `1.3.14 --> 1.3.14-99-g6938f052`
 - Graphviz: `6.0.1 --> 13.1.0`
@@ -307,11 +310,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 20.1.7`
+- libclc: `(new package) --> 20.1.8`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 20.1.7`
-- libc++abi: `(new package) --> 20.1.7`
+- libc++: `(new package) --> 20.1.8`
+- libc++abi: `(new package) --> 20.1.8`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.2.0`
@@ -419,7 +422,7 @@ Upgraded software (core):
 - libva: `2.16.0 --> 2.22.0`
 - libvpx: `1.12.0 --> 1.15.2`
 - libwacom: `2.4.0 --> 2.16.0`
-- libwebp: `1.2.5 --> 1.5.0`
+- libwebp: `1.2.5 --> 1.6.0`
 - libwnck: `43.0 --> 43.2`
 - libwpe: `1.14.0 --> 1.16.2`
 - libX11: `1.8.1 --> 1.8.12`
@@ -458,12 +461,12 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.15.5`
-- Linux-API-Headers: `6.0.0 --> 6.15.5`
-- Linux-Headers: `6.0.0 --> 6.15.5`
+- Linux: `6.0.0 --> 6.15.6`
+- Linux-API-Headers: `6.0.0 --> 6.15.6`
+- Linux-Headers: `6.0.0 --> 6.15.6`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 20.1.7`
-- LLVM: `14.0.6 --> 20.1.7`
+- LLD: `14.0.6 --> 20.1.8`
+- LLVM: `14.0.6 --> 20.1.8`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -534,7 +537,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.3`
-- OpenMP: `(new package) --> 20.1.7`
+- OpenMP: `(new package) --> 20.1.8`
 - OpenSSH: `9.0p1 --> 10.0p1`
 - OpenSSL: `3.0.5 --> 3.5.0`
 - OpenVPN: `2.5.7 --> 2.6.14`
@@ -612,6 +615,7 @@ Upgraded software (core):
 - rsync: `3.2.6 --> 3.4.1`
 - rtmpdump: `2.4-99-gf1b83c1 --> 2.4-105-g6f6bb13`
 - Ruby: `3.1.2 --> 3.4.4`
+- run-parts: `5.5 --> 5.23.1`
 - SANE: `1.1.1 --> 1.4.0`
 - sane-airscan: `(new package) --> 0.99.35`
 - SBC: `2.0 --> 2.1`
@@ -633,10 +637,11 @@ Upgraded software (core):
 - shaderc: `(new package) --> 2025.3`
 - Shadow: `4.12.3 --> 4.18.0`
 - shared-mime-info: `2.2 --> 2.4`
+- shim: `(new package) --> 16.0`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
 - smartmontools: `(new package) --> 7.5`
-- smbclient: `4.19.3 --> 4.22.2`
+- smbclient: `4.19.3 --> 4.22.3`
 - smproxy: `1.0.6 --> 1.0.8`
 - sndio: `(new package) --> 1.10.0`
 - SoundTouch: `2.3.1 --> 2.4.0`
@@ -695,7 +700,7 @@ Upgraded software (core):
 - Vulkan-Loader: `1.3.230 --> 1.4.313.0`
 - Vulkan-Tools: `1.3.230 --> 1.4.313.0`
 - wavpack: `5.5.0 --> 5.8.1`
-- Wayland: `1.21.0 --> 1.23.1`
+- Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.45`
 - WebKitGTK: `2.38.0 --> 2.48.3`
 - webp-pixbuf-loader: `0.0.6 --> 0.2.7`
@@ -708,7 +713,7 @@ Upgraded software (core):
 - wpa-supplicant: `2.10 --> 2.11`
 - wpebackend-fdo: `1.14.0 --> 1.16.0`
 - x11perf: `1.6.1 --> 1.7.0`
-- x264: `0.164.3099 --> 0.164.3218`
+- x264: `0.164.3099 --> 0.165.3222`
 - x265: `3.5-40-g931178347 --> 4.1`
 - xauth: `1.1.2 --> 1.1.4`
 - xbacklight: `1.2.3 --> 1.2.4`

@@ -65,7 +65,10 @@ openssl x509 -in db.crt -outform DER -out db.der
 cert-to-efi-sig-list db.crt db.esl
 sign-efi-sig-list -k db.key -c db.crt db db.esl db.auth
 
+echo "" >&2
 echo "The new secure boot key set was placed in 'keys/secureboot/'." >&2
-echo "DO NOT, UNDER ANY CIRCUMSTANCE, SHARE THE 'db.key' FILE WITH ANYONE." >&2
-echo "DOING SO MAY ALLOW SOMEONE TO IMPERSONATE YOU!" >&2
-echo "It is, however, safe to share all the other files." >&2
+echo "It will be valid for 10 years from now (see 'keys/README.md')." >&2
+echo "DO NOT, UNDER ANY CIRCUMSTANCE, SHARE THE 'db.key' FILE WITH ANYONE!" >&2
+echo "OTHERWISE IMPERSONATION CAN OCCUR AND THE DBX MAY REVOKE YOUR KEY!" >&2
+echo "It is, however, safe to share all the other 'db.*' files." >&2
+echo "The MassOS wiki has info on how to import the new key into firmware." >&2

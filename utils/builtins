@@ -42,6 +42,7 @@ build
 busybox
 bzip2
 c-ares
+cabextract
 cairo
 cairomm
 calver
@@ -188,6 +189,8 @@ gnutls
 gobject-introspection
 gperf
 gpgme
+gpgmepp
+gpgmepy
 gpm
 gptfdisk
 graphene
@@ -668,6 +671,7 @@ shaderc
 shadow
 shared-mime-info
 sharutils
+shim
 six
 sl
 slang

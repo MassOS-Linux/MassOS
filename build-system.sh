@@ -448,7 +448,7 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure LD=ld --prefix=/usr --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --enable-linker-build-id --disable-fixincludes --disable-multilib
 make
-make install
+make -j1 install
 ln -sfr /usr/bin/cpp /usr/lib
 ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.so" /usr/lib/bfd-plugins/
 ln -sf gcc.1 /usr/share/man/man1/cc.1
@@ -1186,15 +1186,25 @@ ninja -C build install
 install -t /usr/share/licenses/libsfdo -Dm644 LICENSE
 popd
 rm -rf libsfdo-v0.1.4
-# libmspack.
+# libmspack + cabextract.
 tar -xf ../sources/libmspack-1.11.tar.gz
-pushd libmspack-1.11/libmspack
+pushd libmspack-1.11
+pushd libmspack
 ./autogen.sh
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libmspack -Dm644 COPYING.LIB
 popd
+pushd cabextract
+sed -i '/^AM_ICONV$/d' configure.ac
+./autogen.sh
+./configure --prefix=/usr --sysconfdir=/etc
+sed -i 's/@LIBICONV@//' Makefile
+make
+make install
+install -t /usr/share/licenses/cabextract -Dm644 COPYING
+popd; popd
 rm -rf libmspack-1.11
 # libseccomp.
 tar -xf ../sources/libseccomp-2.6.0.tar.gz
@@ -1690,14 +1700,14 @@ install -t /usr/share/licenses/pyyaml -Dm644 LICENSE
 popd
 rm -rf pyyaml-6.0.2
 # gi-docgen.
-tar -xf ../sources/gi-docgen-2025.3.tar.gz
-pushd gi-docgen-2025.3
+tar -xf ../sources/gi-docgen-2025.4.tar.gz
+pushd gi-docgen-2025.4
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddevelopment_tests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gi-docgen -Dm644 LICENSES/{Apache-2.0.txt,GPL-3.0-or-later.txt}
 popd
-rm -rf gi-docgen-2025.3
+rm -rf gi-docgen-2025.4
 # Locale-gettext.
 tar -xf ../sources/Locale-gettext-1.07.tar.gz
 pushd Locale-gettext-1.07
@@ -2315,6 +2325,7 @@ pushd efitools-1.9.2
 patch -Np1 -i ../../patches/efitools-1.9.2-fixes.patch
 ARCH=x86_64 CC="gcc -std=gnu17" make -j1
 make -j1 install
+find /usr/share/efitools/efi -type f -name \*.efi -exec sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt {} ';'
 install -t /usr/share/licenses/efitools -Dm644 COPYING
 popd
 rm -rf efitools-1.9.2
@@ -2755,15 +2766,16 @@ install -t /usr/share/licenses/gptfdisk -Dm644 COPYING
 popd
 rm -rf gptfdisk-1.0.10
 # run-parts (from debianutils).
-tar -xf ../sources/debianutils-5.5.tar.gz
-pushd debianutils-5.5
+tar -xf ../sources/debianutils-debian-5.23.1.tar.gz
+pushd debianutils-debian-5.23.1
+autoreconf -fi
 ./configure --prefix=/usr
 make run-parts
 install -t /usr/bin -Dm755 run-parts
 install -t /usr/share/man/man8 -Dm644 run-parts.8
 install -t /usr/share/licenses/run-parts -Dm644 /usr/share/licenses/gptfdisk/COPYING
 popd
-rm -rf debianutils-5.5
+rm -rf debianutils-debian-5.23.1
 # spice-protocol.
 tar -xf ../sources/spice-protocol-v0.14.4.tar.bz2
 pushd spice-protocol-v0.14.4
@@ -3175,14 +3187,14 @@ install -t /usr/share/licenses/nettle -Dm644 COPYINGv2 COPYINGv3 COPYING.LESSERv
 popd
 rm -rf nettle-3.10.2
 # GNUTLS.
-tar -xf ../sources/gnutls-3.8.9.tar.xz
-pushd gnutls-3.8.9
+tar -xf ../sources/gnutls-3.8.10.tar.xz
+pushd gnutls-3.8.10
 ./configure --prefix=/usr --disable-rpath --disable-static --with-default-trust-store-pkcs11="pkcs11:" --enable-openssl-compatibility --enable-ssl3-support
 make
 make install
 install -t /usr/share/licenses/gnutls -Dm644 COPYING{,.LESSERv2}
 popd
-rm -rf gnutls-3.8.9
+rm -rf gnutls-3.8.10
 # libevent.
 tar -xf ../sources/libevent-2.1.12-stable.tar.gz
 pushd libevent-2.1.12-stable
@@ -3350,16 +3362,34 @@ install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 popd
 rm -rf openvpn-2.6.14
 # GPGME.
-tar -xf ../sources/gpgme-1.24.3.tar.bz2
-pushd gpgme-1.24.3
-./configure --prefix=/usr --disable-gpg-test --disable-gpgsm-test --enable-languages=cl,cpp,python
-make PYTHONS=
-top_builddir="$PWD" srcdir="$PWD/lang/python" python -m build -nw -o dist "$PWD/lang/python"
-make PYTHONS= install
-python -m installer --compile-bytecode 1 dist/*.whl
+tar -xf ../sources/gpgme-2.0.0.tar.bz2
+pushd gpgme-2.0.0
+./configure --prefix=/usr --disable-gpg-test --disable-gpgsm-test
+make
+make install
 install -t /usr/share/licenses/gpgme -Dm644 COPYING{,.LESSER} LICENSES
 popd
-rm -rf gpgme-1.24.3
+rm -rf gpgme-2.0.0
+# gpgmepp.
+tar -xf ../sources/gpgmepp-2.0.0.tar.xz
+pushd gpgmepp-2.0.0
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_TESTING=OFF -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/gpgmepp -Dm644 COPYING{,.L{ESSER,IB}}
+popd
+rm -rf gpgmepp-2.0.0
+# gpgmepy.
+tar -xf ../sources/gpgmepy-2.0.0.tar.bz2
+pushd gpgmepy-2.0.0
+sed -i 's/, "swig"//' pyproject.toml
+./configure --prefix=/usr
+mv src gpg
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/gpgmepy -Dm644 COPYING
+popd
+rm -rf gpgmepy-2.0.0
 # Cyrus-SASL (rebuild to support krb5 and OpenLDAP).
 tar -xf ../sources/cyrus-sasl-2.1.28.tar.gz
 pushd cyrus-sasl-2.1.28
@@ -3575,14 +3605,14 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 popd
 rm -rf nss-3.113.1
 # Git.
-tar -xf ../sources/git-2.50.0.tar.xz
-pushd git-2.50.0
+tar -xf ../sources/git-2.50.1.tar.xz
+pushd git-2.50.1
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
 make all man
 make perllibdir=/usr/lib/perl5/5.40/vendor_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 popd
-rm -rf git-2.50.0
+rm -rf git-2.50.1
 # snowball.
 tar -xf ../sources/snowball-2.2.0.tar.gz
 pushd snowball-2.2.0
@@ -3730,8 +3760,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-20.1.7.src.tar.xz
-pushd llvm-project-20.1.7.src
+tar -xf ../sources/llvm-project-20.1.8.src.tar.xz
+pushd llvm-project-20.1.8.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3740,7 +3770,7 @@ install -dm755 /etc/clang
 echo "-fstack-protector-strong" > /etc/clang/clang.cfg
 echo "-fstack-protector-strong" > /etc/clang/clang++.cfg
 sed -i 's/^complete/test ! -z "$ZSH_VERSION" || complete/' /usr/share/clang/bash-autocomplete.sh
-ln -srf /usr/share/clang/bash-autocomplete.sh /etc/profile.d/clang.sh
+ln -srf /usr/share/clang/bash-autocomplete.sh /etc/profile.d/clang-autocomplete.sh
 install -t /usr/share/licenses/llvm -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/clang -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/lld -Dm644 LICENSE.TXT
@@ -3749,7 +3779,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-20.1.7.src
+rm -rf llvm-project-20.1.8.src
 # bpftool.
 tar -xf ../sources/bpftool-7.5.0.tar.gz
 tar -xf ../sources/libbpf-1.5.0.tar.gz -C bpftool-7.5.0/libbpf --strip-components=1
@@ -3873,6 +3903,16 @@ ninja -C build install
 install -t /usr/share/licenses/woff2 -Dm644 LICENSE
 popd
 rm -rf woff2-1.0.2
+# shim.
+tar -xf ../sources/shim-16.0.tar.bz2
+pushd shim-16.0
+cp ../../extras/secureboot/db.der .
+make EFIDIR=massos VENDOR_CERT_FILE=db.der
+make DATATARGETDIR=/usr/lib/shim install-as-data
+for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; done
+install -t /usr/share/licenses/shim -Dm644 COPYRIGHT
+popd
+rm -rf shim-16.0
 # Unifont.
 tar -xf ../sources/unifont-16.0.02.tar.gz
 install -dm755 /usr/share/fonts/unifont
@@ -3899,11 +3939,11 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,3,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
+grub,4,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
 END
 #install -dm755 /usr/lib/grub/x86_64-efi-signed
-#grub-mkimage -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi -p /EFI/massos --disable-shim-lock $(find /usr/lib/grub/x86_64-efi -maxdepth 1 -name \*.mod | sed -e 's|/usr/lib/grub/x86_64-efi/||' -e 's|.mod$||' | xargs)
+#grub-mkimage -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi -p /EFI/massos $(find /usr/lib/grub/x86_64-efi -maxdepth 1 -name \*.mod | sed -e 's|/usr/lib/grub/x86_64-efi/||' -e 's|.mod$||' | xargs)
 #sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/grubx64.efi
 #rm -f /usr/lib/grub/x86_64-efi-signed/grubx64.efi
 install -t /usr/share/licenses/grub -Dm644 COPYING
@@ -4027,14 +4067,14 @@ install -t /usr/share/licenses/mtdev -Dm644 COPYING
 popd
 rm -rf mtdev-1.1.7
 # Wayland.
-tar -xf ../sources/wayland-1.23.1.tar.xz
-pushd wayland-1.23.1
+tar -xf ../sources/wayland-1.24.0.tar.xz
+pushd wayland-1.24.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddocumentation=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/wayland -Dm644 COPYING
 popd
-rm -rf wayland-1.23.1
+rm -rf wayland-1.24.0
 # wayland-protocols.
 tar -xf ../sources/wayland-protocols-1.45.tar.xz
 pushd wayland-protocols-1.45
@@ -4870,14 +4910,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-20.1.4
 # libclc.
-tar -xf ../sources/libclc-20.1.7.src.tar.xz
-pushd libclc-20.1.7.src
+tar -xf ../sources/libclc-20.1.8.src.tar.xz
+pushd libclc-20.1.8.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-20.1.7.src
+rm -rf libclc-20.1.8.src
 # glslang.
 tar -xf ../sources/glslang-15.4.0.tar.gz
 pushd glslang-15.4.0
@@ -4931,6 +4971,7 @@ rm -rf orc-0.4.41
 # Vulkan-Tools.
 tar -xf ../sources/Vulkan-Tools-vulkan-sdk-1.4.313.0.tar.gz
 pushd Vulkan-Tools-vulkan-sdk-1.4.313.0
+patch -Np1 -i ../../patches/vulkan-tools-1.4.313.0-wayland124.patch
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build-wayland
 ninja -C build
@@ -5473,14 +5514,14 @@ install -t /usr/share/licenses/hyfetch -Dm644 LICENSE.md
 popd
 rm -rf hyfetch-2.0.0-rc1
 # fastfetch.
-tar -xf ../sources/fastfetch-2.46.0.tar.gz
-pushd fastfetch-2.46.0
+tar -xf ../sources/fastfetch-2.47.0.tar.gz
+pushd fastfetch-2.47.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.46.0
+rm -rf fastfetch-2.47.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -5799,14 +5840,14 @@ install -t /usr/share/licenses/sound-theme-freedesktop -Dm644 CREDITS
 popd
 rm -rf sound-theme-freedesktop-0.8
 # libwebp.
-tar -xf ../sources/libwebp-1.5.0.tar.gz
-pushd libwebp-1.5.0
+tar -xf ../sources/libwebp-1.6.0.tar.gz
+pushd libwebp-1.6.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=ON -DBUILD_SHARED_LIBS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libwebp -Dm644 COPYING
 popd
-rm -rf libwebp-1.5.0
+rm -rf libwebp-1.6.0
 # jp2a.
 tar -xf ../sources/jp2a-1.3.2.tar.bz2
 pushd jp2a-1.3.2
@@ -7063,8 +7104,8 @@ tail -n14 lib/Parse/Yapp.pm | head -n12 > /usr/share/licenses/parse-yapp/COPYING
 popd
 rm -rf Parse-Yapp-1.21
 # smbclient (client portion of Samba).
-tar -xf ../sources/samba-4.22.2.tar.gz
-pushd samba-4.22.2
+tar -xf ../sources/samba-4.22.3.tar.gz
+pushd samba-4.22.3
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --with-pammodulesdir=/usr/lib/security --with-piddir=/run/samba --systemd-install-services --enable-fhs --with-acl-support --with-ads --with-cluster-support --with-ldap --with-pam --with-profiling-data --with-systemd --with-winbind
 make
 make install
@@ -7087,7 +7128,7 @@ rm -f /usr/share/man/man8/{cifsdd,eventlogadm,idmap_ad,idmap_autorid,idmap_hash,
 rm -rf /var/cache/samba /var/lib/{ctdb,samba} /var/lock/samba /var/log/samba /var/run/{ctdb,samba}
 install -t /usr/share/licenses/smbclient -Dm644 COPYING VFS-License-clarification.txt
 popd
-rm -rf samba-4.22.2
+rm -rf samba-4.22.3
 # mobile-broadband-provider-info.
 tar -xf ../sources/mobile-broadband-provider-info-20240407.tar.gz
 pushd mobile-broadband-provider-info-20240407
@@ -7430,11 +7471,10 @@ rm -rf passim-0.1.9
 # fwupd-efi.
 tar -xf ../sources/fwupd-efi-1.7.tar.gz
 pushd fwupd-efi-1.7
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Defi_sbat_distro_id="massos" -Defi_sbat_distro_summary="MassOS" -Defi_sbat_distro_pkgname="fwupd-efi" -Defi_sbat_distro_version="1.5" -Defi_sbat_distro_url="https://massos.org"
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Defi_sbat_distro_id=massos -Defi_sbat_distro_summary=MassOS -Defi_sbat_distro_pkgname=fwupd-efi -Defi_sbat_distro_version=1.7 -Defi_sbat_distro_url=https://massos.org
 ninja -C build
 ninja -C build install
-mv /usr/libexec/fwupd/efi/fwupdx64.efi{,.unsigned}
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt --output /usr/libexec/fwupd/efi/fwupdx64.efi{,.unsigned}
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/libexec/fwupd/efi/fwupdx64.efi
 install -t /usr/share/licenses/fwupd-efi -Dm644 COPYING
 popd
 rm -rf fwupd-efi-1.7
@@ -7650,16 +7690,16 @@ chmod 755 /etc/X11/xinit/xinitrc.d/40-libcanberra-gtk-module.sh
 popd
 rm -rf libcanberra-0.30
 # x264.
-tar -xf ../sources/x264-0.164.3218.tar.bz2
-pushd x264-85b5cce-85b5ccea1fab98841d79455e344c797c5ffc3212
+tar -xf ../sources/x264-0.165.3222.tar.bz2
+pushd x264-b35605a-b35605ace3ddf7c1a5d67a2eb553f034aef41d55
 cat > version.sh << "END"
 #!/usr/bin/env bash
 # Hardcode the version because the git tarball lacks the required data.
 cat > /dev/stdout << "EOS"
-#define X264_REV 3218
+#define X264_REV 3222
 #define X264_REV_DIFF 0
-#define X264_VERSION " r3218 85b5cce"
-#define X264_POINTVER "0.164.3218 85b5cce"
+#define X264_VERSION " r3222 b35605a"
+#define X264_POINTVER "0.165.3222 b35605a"
 EOS
 END
 ./configure --prefix=/usr --enable-shared --enable-strip --extra-cflags="-DX264_BIT_DEPTH=0 -DX264_CHROMA_FORMAT=0 -DX264_GPL=1 -DX264_INTERLACED=1"
@@ -7667,7 +7707,7 @@ make
 make install
 install -t /usr/share/licenses/x264 -Dm644 COPYING
 popd
-rm -rf x264-85b5cce-85b5ccea1fab98841d79455e344c797c5ffc3212
+rm -rf x264-b35605a-b35605ace3ddf7c1a5d67a2eb553f034aef41d55
 # x265.
 tar -xf ../sources/x265_4.1.tar.gz
 pushd x265_4.1
@@ -8378,8 +8418,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.15.5.tar.xz
-pushd linux-6.15.5
+tar -xf ../sources/linux-6.15.6.tar.xz
+pushd linux-6.15.6
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
@@ -8420,7 +8460,7 @@ echo "options kvm enable_virt_at_load=0" > /usr/lib/modprobe.d/kvm.conf
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.15.5
+rm -rf linux-6.15.6
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-575.64.tar.gz
 pushd open-gpu-kernel-modules-575.64
