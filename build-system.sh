@@ -448,7 +448,7 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure LD=ld --prefix=/usr --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --enable-linker-build-id --disable-fixincludes --disable-multilib
 make
-make -j1 install
+make install
 ln -sfr /usr/bin/cpp /usr/lib
 ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.so" /usr/lib/bfd-plugins/
 ln -sf gcc.1 /usr/share/man/man1/cc.1
@@ -3909,7 +3909,10 @@ pushd shim-16.0
 cp ../../extras/secureboot/db.der .
 make EFIDIR=massos VENDOR_CERT_FILE=db.der
 make DATATARGETDIR=/usr/lib/shim install-as-data
-for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; done
+## Remove unsigned, store signed as shimx64.efi.signed/mmx64.efi/fbx64.efi.
+## This seems nonsensical, but the GRUB secureboot patch expects it this way.
+for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; rm -f /usr/lib/shim/"$f"x64.efi; done
+for f in fb mm; do mv /usr/lib/shim/"$f"x64.efi{.signed,}; done
 install -t /usr/share/licenses/shim -Dm644 COPYRIGHT
 popd
 rm -rf shim-16.0
@@ -3920,10 +3923,9 @@ gzip -cd unifont-16.0.02/font/precompiled/unifont-16.0.02.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.02/COPYING
 rm -rf unifont-16.0.02
 # GRUB.
-# TODO: Fix secure boot stuff so it properly worked with signed EFI.
 tar -xf ../sources/grub-2.12-311-gdb506b3b8.tar.xz
 pushd grub-2.12-311-gdb506b3b8
-#patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
+patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksdracut.patch
 mkdir -p build-pc; pushd build-pc
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
@@ -3942,8 +3944,9 @@ sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,4,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
 END
+# TODO: Generate signed efi once it works properly and doesn't cause issues.
 #install -dm755 /usr/lib/grub/x86_64-efi-signed
-#grub-mkimage -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi -p /EFI/massos $(find /usr/lib/grub/x86_64-efi -maxdepth 1 -name \*.mod | sed -e 's|/usr/lib/grub/x86_64-efi/||' -e 's|.mod$||' | xargs)
+#grub-mkimage -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi -p /EFI/massos --sbat=/usr/share/grub/sbat.csv $(find /usr/lib/grub/x86_64-efi -maxdepth 1 -name \*.mod | sed -e 's|/usr/lib/grub/x86_64-efi/||' -e 's|.mod$||' | xargs)
 #sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/grubx64.efi
 #rm -f /usr/lib/grub/x86_64-efi-signed/grubx64.efi
 install -t /usr/share/licenses/grub -Dm644 COPYING

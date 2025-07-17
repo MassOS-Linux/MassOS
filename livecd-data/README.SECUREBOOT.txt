@@ -9,7 +9,7 @@ the 'secureboot/' directory of this Live CD.
 For official builds of MassOS published by the MassOS developers, this will be
 the official MassOS signing key, named the following:
 
-  Official MassOS Secure Boot Key (Daniel Massey)
+  MassOS Project Official SB Signing 2025
 
 For unofficial builds made and published by others, the key will be their own
 custom signing key, which will have a different name to the official MassOS key

@@ -222,9 +222,9 @@ if test -e iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot/db.crt; t
         echo "shim found in rootfs - will be used as the primary loader."
         # Rename BOOTX64.EFI to grubx64.efi (since shim will become BOOTX64).
         mv iso-workdir/iso-root/EFI/BOOT/{BOOTX64.EFI,grubx64.efi}
-        # Copy over shim binaries, ensuring to remove the '.signed' extension.
+        # Copy over shim binaries (only shim and mm, not fb).
         cp iso-workdir/massos-rootfs/usr/lib/shim/shimx64.efi.signed iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
-        cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi.signed iso-workdir/iso-root/EFI/BOOT/mmx64.efi
+        cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi iso-workdir/iso-root/EFI/BOOT/mmx64.efi
       else
         echo "WARNING: shim not found - booting with secure boot may fail." >&2
       fi

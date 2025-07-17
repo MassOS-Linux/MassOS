@@ -45,7 +45,7 @@ echo "For example, \"John Smith Secure Boot Signing Key\"." >&2
 while true; do
   read -rp "Enter the common name (CN) to be used for the signing key: " name
   # Do not permit using the same name as the official MassOS key.
-  if test "$name" = "Official MassOS Secure Boot Key (Daniel Massey)"; then
+  if test "$name" = "Official MassOS Secure Boot Key (Daniel Massey)" || test "$name" = "MassOS Project Official SB Signing 2025"; then
     echo "Sorry, please choose a different name for your CN." >&2
     continue
   fi
@@ -62,7 +62,7 @@ openssl req -new -x509 -newkey rsa:2048 -nodes -keyout db.key -out db.crt -days 
 openssl x509 -in db.crt -outform DER -out db.der
 
 # Create .esl and .auth files.
-cert-to-efi-sig-list db.crt db.esl
+cert-to-efi-sig-list -g "$(uuidgen)" db.crt db.esl
 sign-efi-sig-list -k db.key -c db.crt db db.esl db.auth
 
 echo "" >&2
