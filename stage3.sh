@@ -113,11 +113,13 @@ cd "$MASSOS"
 tar -cpf ../"$outfile" *
 cd ..
 echo "Done!"
-echo "Compressing $outfile with ZSTD (using $(nproc) threads)..."
+echo "Compressing $outfile with ZSTD (using $(nproc) threads)... "
 zstd --ultra -22 -T$(nproc) --rm "$outfile"
 echo "Successfully created $outfile.zst."
 b2sum "$outfile.zst" > "$outfile.zst.b2"
 echo "Wrote Blake-2 checksum to $outfile.zst.b2."
+# Change ownership of rootfs to top-level directory owner if possible.
+chown -v "$(stat -c "%U:%G" .)" "$outfile.zst" "$outfile.zst.b2" || true
 # Clean up.
 rm -rf "$MASSOS"
 # Finishing message.

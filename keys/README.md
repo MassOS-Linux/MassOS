@@ -11,7 +11,7 @@ Here is an explanation of the five `db.*` files that will be placed in the `secu
 - `db.key`: The private signing key. **DO NOT, UNDER ANY CIRCUMSTANCE, EVER SHARE THIS WITH ANYONE!**
 - `db.crt`: The public certificate for the key in the PEM format. Safe to share, but not very useful (apart from maybe verifying a valid signature inside a binary with `sbverify`).
 - `db.der`: The public certificate for the key in the DER (x509) binary format. Used again by certain parts of the process. However, if you were importing the key into shim using MokManager, instead of importing into the UEFI firmware directly, it would expect this format.
-- `db.esl`: The raw EFI signature list. Only used to generate the `db.auth` file, has no other purpose.
+- `db.esl`: The raw, unsigned EFI signature list. Only used to generate the `db.auth` file, has no other purpose. But you could use it to generate a `db.auth` file signed by a different key, e.g., your own KEK on a secure boot configuration that is controlled by you.
 - `db.auth`: The signed EFI signature list, suitable for importing into a secure-boot-enabled UEFI firmware, so as to allow it to be able to boot `.efi` binaries which are signed with the key set.
 
 # More information

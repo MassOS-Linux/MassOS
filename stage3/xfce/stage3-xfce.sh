@@ -133,14 +133,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
 # Thunar.
-tar -xf ../sources/thunar-4.20.3.tar.bz2
-pushd thunar-4.20.3
+tar -xf ../sources/thunar-4.20.4.tar.bz2
+pushd thunar-4.20.4
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.3
+rm -rf thunar-4.20.4
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -503,15 +503,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-47.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-48.1.tar.bz2
-pushd gnome-software-48.1
+tar -xf ../sources/gnome-software-48.3.tar.bz2
+pushd gnome-software-48.3
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-48.1
+rm -rf gnome-software-48.3
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-002.tar.gz
 pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
@@ -565,7 +565,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-140.0.2.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-141.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

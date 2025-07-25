@@ -1,3 +1,4 @@
+7zip
 a52dec
 accountsservice
 acl
@@ -725,7 +726,6 @@ typogrify
 tzdata
 udftools
 udisks
-ufw
 unifdef
 unifont
 unzip

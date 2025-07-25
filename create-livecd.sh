@@ -205,13 +205,6 @@ if test -e iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot/db.crt; t
         rm -f iso-workdir/iso-root/EFI/"$e"
         mv iso-workdir/iso-root/EFI/"$e".signed iso-workdir/iso-root/EFI/"$e"
       done
-      # Add KeyTool if it's found in the rootfs (note that it's pre-signed).
-      if test -f iso-workdir/massos-rootfs/usr/share/efitools/efi/KeyTool.efi.signed; then
-        echo "Signed KeyTool found in rootfs - will be added to Live CD."
-        cp iso-workdir/massos-rootfs/usr/share/efitools/efi/KeyTool.efi.signed iso-workdir/iso-root/EFI/tools/KeyTool.efi
-      else
-        echo "WARNING: Signed KeyTool not found in rootfs (non-critical)." >&2
-      fi
       # Copy over the certs from the rootfs to the live CD.
       cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
       # Copy secure boot README to the top level of the live CD.
@@ -267,3 +260,5 @@ echo "All done! Output image written to massos-$ver-livecd-x86_64-$variant.iso."
 # Generate Blake-2 checksum.
 b2sum "massos-$ver-livecd-x86_64-$variant.iso" > "massos-$ver-livecd-x86_64-$variant.iso.b2"
 echo "Blake-2 checksum written to massos-$ver-livecd-x86_64-$variant.iso.b2."
+# Try to change ownership of ISO image to top-level directory owner.
+chown -v "$(stat -c "%U:%G" .)" "massos-$ver-livecd-x86_64-$variant.iso" "massos-$ver-livecd-x86_64-$variant.iso.b2" || true
