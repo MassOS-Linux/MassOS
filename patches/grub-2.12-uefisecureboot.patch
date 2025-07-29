@@ -9,7 +9,7 @@ boot (i.e., ones lacking a pregenerated and signed grubx64.efi binary).
 
 diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 --- a/util/grub-install.c	2025-06-20 18:04:12.000000000 +0100
-+++ b/util/grub-install.c	2025-07-15 19:23:14.561421404 +0100
++++ b/util/grub-install.c	2025-07-28 02:22:54.816999465 +0100
 @@ -79,6 +79,7 @@
  static char *label_bgcolor;
  static char *product_version;
@@ -248,7 +248,17 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
  	  /*  generic method (used on coreboot and ata mod).  */
  	  if (!force_file_id
  	      && grub_fs->fs_uuid && grub_fs->fs_uuid (grub_dev, &uuid))
-@@ -1978,7 +2018,74 @@
+@@ -1559,9 +1599,6 @@
+ 		grub_device_close (dev);
+ 	    }
+ 	  fprintf (load_cfg_f, "\n");
+-	  char *escaped_relpath = escape (relative_grubdir);
+-	  fprintf (load_cfg_f, "set prefix=($root)'%s'\n",
+-		   escaped_relpath);
+ 	}
+       else
+ 	{
+@@ -1978,7 +2015,75 @@
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);
@@ -315,7 +325,8 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 +	    config_dst = grub_util_path_concat (2, efidir, "grub.cfg");
 +	    grub_install_copy_file (load_cfg, config_dst, 1);
 +	    config_dst_f = grub_util_fopen (config_dst, "ab");
-+	    fprintf (config_dst_f, "configfile $prefix/grub.cfg\n");
++	    char *escaped_relpath = escape (relative_grubdir);
++	    fprintf (config_dst_f, "configfile ($root)'%s'/grub.cfg\n", escaped_relpath);
 +	    fclose (config_dst_f);
 +	    free (config_dst);
 +	  }

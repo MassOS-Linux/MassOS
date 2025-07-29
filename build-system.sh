@@ -134,12 +134,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 END
 rm -rf iana-etc-20250618
 # Glibc.
-tar -xf ../sources/glibc-2.41.tar.xz
-pushd glibc-2.41
+tar -xf ../sources/glibc-2.42.tar.xz
+pushd glibc-2.42
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.41" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 sed -i '/test-installation/s@$(PERL)@echo not running@' ../Makefile
 make install
@@ -148,7 +148,7 @@ sed -e '/#/d' -e '/SUPPORTED-LOCALES/d' -e 's|\\||g' -e 's|/| |g' -e 's|^|#|g' -
 mklocales
 install -t /usr/share/licenses/glibc -Dm644 ../COPYING ../COPYING.LIB ../LICENSES
 popd; popd
-rm -rf glibc-2.41
+rm -rf glibc-2.42
 # tzdata.
 mkdir -p tzdata; pushd tzdata
 tar -xf ../../sources/tzdata2025b.tar.gz
@@ -286,16 +286,17 @@ ln -sf pkgconf /usr/share/licenses/pkg-config
 popd
 rm -rf pkgconf-2.5.1
 # Binutils.
-tar -xf ../sources/binutils-with-gold-2.44.tar.xz
-pushd binutils-with-gold-2.44
+tar -xf ../sources/binutils-2.45.tar.xz
+pushd binutils-2.45
+tar -xf ../../sources/binutils-with-gold-2.44.tar.xz binutils-with-gold-2.44/{elfcpp,gold} -C . --strip-components=1
 mkdir -p build; pushd build
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --with-pkgversion="MassOS Binutils 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-default-hash-style=gnu --enable-gold --enable-install-libiberty --enable-ld=default --enable-new-dtags --enable-plugins --enable-relro --enable-shared --disable-werror
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --with-pkgversion="MassOS Binutils 2.45" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-default-hash-style=gnu --enable-gold --enable-install-libiberty --enable-ld=default --enable-new-dtags --enable-plugins --enable-relro --enable-shared --disable-werror
 make tooldir=/usr
 make -j1 tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 popd; popd
-rm -rf binutils-with-gold-2.44
+rm -rf binutils-2.45
 # GMP.
 tar -xf ../sources/gmp-6.3.0.tar.xz
 pushd gmp-6.3.0
@@ -444,6 +445,7 @@ rm -rf shadow-4.18.0
 # GCC.
 tar -xf ../sources/gcc-15.1.0.tar.xz
 pushd gcc-15.1.0
+patch -Np1 -i ../../patches/gcc-15.1.0-glibc242.patch
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure LD=ld --prefix=/usr --with-pkgversion="MassOS GCC 15.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --enable-linker-build-id --disable-fixincludes --disable-multilib
@@ -518,15 +520,15 @@ install -t /usr/share/licenses/sed -Dm644 COPYING
 popd
 rm -rf sed-4.9
 # Gettext.
-tar -xf ../sources/gettext-0.25.1.tar.xz
-pushd gettext-0.25.1
+tar -xf ../sources/gettext-0.26.tar.xz
+pushd gettext-0.26
 ./configure --prefix=/usr --disable-static
 make
 make install
 chmod 0755 /usr/lib/preloadable_libintl.so
 install -t /usr/share/licenses/gettext -Dm644 COPYING
 popd
-rm -rf gettext-0.25.1
+rm -rf gettext-0.26
 # Bison.
 tar -xf ../sources/bison-3.8.2.tar.xz
 pushd bison-3.8.2
@@ -2625,14 +2627,14 @@ install -t /usr/share/licenses/btrfs-progs -Dm644 COPYING
 popd
 rm -rf btrfs-progs-v6.15
 # inih.
-tar -xf ../sources/inih-r60.tar.gz
-pushd inih-r60
+tar -xf ../sources/inih-r61.tar.gz
+pushd inih-r61
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/inih -Dm644 LICENSE.txt
 popd
-rm -rf inih-r60
+rm -rf inih-r61
 # Userspace-RCU.
 tar -xf ../sources/userspace-rcu-0.15.3.tar.bz2
 pushd userspace-rcu-0.15.3
@@ -3301,23 +3303,23 @@ install -t /usr/share/licenses/keyutils -Dm644 LICENCE.{L,}GPL
 popd
 rm -rf keyutils-1.6.3
 # libnvme.
-tar -xf ../sources/libnvme-1.14.tar.gz
-pushd libnvme-1.14
+tar -xf ../sources/libnvme-1.15.tar.gz
+pushd libnvme-1.15
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dlibdbus=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libnvme -Dm644 COPYING
 popd
-rm -rf libnvme-1.14
+rm -rf libnvme-1.15
 # nvme-cli.
-tar -xf ../sources/nvme-cli-2.14.tar.gz
-pushd nvme-cli-2.14
+tar -xf ../sources/nvme-cli-2.15.tar.gz
+pushd nvme-cli-2.15
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --buildtype=minsize -Ddocs=man -Ddocs-build=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/nvme-cli -Dm644 LICENSE
 popd
-rm -rf nvme-cli-2.14
+rm -rf nvme-cli-2.15
 # libcap-ng.
 tar -xf ../sources/libcap-ng-0.8.5.tar.gz
 pushd libcap-ng-0.8.5
@@ -3339,21 +3341,22 @@ install -t /usr/share/licenses/smartmontools -Dm644 COPYING
 popd
 rm -rf smartmontools-7.5
 # OpenVPN.
-tar -xf ../sources/openvpn-2.6.14.tar.gz
-pushd openvpn-2.6.14
+tar -xf ../sources/openvpn-2.7_alpha2.tar.gz
+pushd openvpn-2.7_alpha2
 echo 'u openvpn - "OpenVPN" -' > /usr/lib/sysusers.d/openvpn.conf
 systemd-sysusers
+patch -Np1 -i ../../patches/openvpn-2.7-alpha2-linux616.patch
 sed -i '/^CONFIGURE_DEFINES=/ s/set/env/g' configure.ac
 autoreconf -fi
 ./configure --prefix=/usr --sbindir=/usr/bin --enable-pkcs11 --enable-plugins --enable-systemd --enable-x509-alt-username
 make
 make install
 find contrib -type f -exec install -t /usr/share/openvpn -Dm644 {} ';'
-chmod 755 /usr/share/openvpn/{OCSP_check.sh,{client,fwmarkroute}.{down,up}}
+chmod 755 /usr/share/openvpn/*.{sh,down,up}
 cp -r sample/sample-config-files /usr/share/openvpn/examples
 install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 popd
-rm -rf openvpn-2.6.14
+rm -rf openvpn-2.7_alpha2
 # GPGME.
 tar -xf ../sources/gpgme-2.0.0.tar.bz2
 pushd gpgme-2.0.0
@@ -3516,8 +3519,8 @@ rm -f /etc/{limits,login.access}
 popd
 rm -rf shadow-4.18.0
 # Sudo.
-tar -xf ../sources/sudo-1.9.17p1.tar.gz
-pushd sudo-1.9.17p1
+tar -xf ../sources/sudo-1.9.17p2.tar.gz
+pushd sudo-1.9.17p2
 ./configure --prefix=/usr --sbindir=/usr/bin --libexecdir=/usr/lib --with-linux-audit --with-secure-path --with-insults --with-all-insults --with-passwd-tries=5 --with-env-editor --with-passprompt="[sudo] password for %p: "
 make
 make install
@@ -3528,7 +3531,7 @@ sed -i '54iDefaults pwfeedback' /etc/sudoers
 sed -i '55i##' /etc/sudoers
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 popd
-rm -rf sudo-1.9.17p1
+rm -rf sudo-1.9.17p2
 # Fcron.
 tar -xf ../sources/fcron-ver3_3_1.tar.gz
 pushd fcron-ver3_3_1
@@ -3859,14 +3862,14 @@ install -t /usr/share/licenses/graphite2 -Dm644 COPYING LICENSE
 popd
 rm -rf graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
 # HarfBuzz.
-tar -xf ../sources/harfbuzz-11.3.2.tar.xz
-pushd harfbuzz-11.3.2
+tar -xf ../sources/harfbuzz-11.3.3.tar.xz
+pushd harfbuzz-11.3.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/harfbuzz -Dm644 COPYING
 popd
-rm -rf harfbuzz-11.3.2
+rm -rf harfbuzz-11.3.3
 # FreeType (rebuild to support HarfBuzz).
 tar -xf ../sources/freetype-2.13.3.tar.xz
 pushd freetype-2.13.3
@@ -3902,6 +3905,7 @@ pushd shim-16.0
 cp ../../extras/secureboot/db.der .
 make EFIDIR=massos VENDOR_CERT_FILE=db.der
 make DATATARGETDIR=/usr/lib/shim install-as-data
+echo "shimx64.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE > /usr/lib/shim/BOOTX64.CSV
 ## Remove unsigned, store signed as shimx64.efi.signed/mmx64.efi/fbx64.efi.
 ## This seems nonsensical, but the GRUB secureboot patch expects it this way.
 for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; rm -f /usr/lib/shim/"$f"x64.efi; done
@@ -3919,7 +3923,7 @@ rm -rf unifont-16.0.02
 tar -xf ../sources/grub-2.12-311-gdb506b3b8.tar.xz
 pushd grub-2.12-311-gdb506b3b8
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
-patch -Np1 -i ../../patches/grub-2.12-luksdracut.patch
+patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
@@ -3937,9 +3941,8 @@ sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,4,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
 END
-## Generate GRUB image that can be pre-signed for secure boot.
+## Generate a GRUB EFI image that can be pre-signed for secure boot.
 ## TODO: Make sure it handles multiple installations and --removable.
-## TODO: Also check if we need to preload any additional modules.
 mkdir -p /boot/grub
 cat > /boot/grub/grub.cfg << "END"
 insmod part_msdos
@@ -3947,6 +3950,24 @@ insmod part_gpt
 insmod fat
 insmod luks
 insmod luks2
+insmod font
+set gfxpayload=keep
+if [ x$feature_all_video_module = xy ]; then
+  insmod all_video
+else
+  insmod efi_gop
+  insmod efi_uga
+  insmod ieee1275_fb
+  insmod vbe
+  insmod vga
+  insmod video_bochs
+fi
+if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
+  insmod gfxterm
+  set gfxmode=auto
+  terminal_input console
+  terminal_output gfxterm
+fi
 search --file --no-floppy --set=root /EFI/massos/grub.cfg
 configfile /EFI/massos/grub.cfg
 END
@@ -5115,7 +5136,7 @@ install -t /usr/share/licenses/smproxy -Dm644 COPYING
 popd
 rm -rf smproxy-1.0.8
 # Many needed programs from the Xorg project.
-for i in x11perf-1.7.0 xauth-1.1.4 xbacklight-1.2.4 xcmsdb-1.0.7 xcursorgen-1.0.9 xdpyinfo-1.3.4 xdriinfo-1.0.7 xev-1.2.6 xgamma-1.0.7 xhost-1.0.10 xinput-1.6.4 xkbcomp-1.4.7 xkbevd-1.1.6 xkbutils-1.0.6 xkill-1.0.6 xlsatoms-1.1.4 xlsclients-1.1.5 xmessage-1.0.7 xmodmap-1.0.11 xpr-1.2.0 xprop-1.2.8 xrandr-1.5.3 xrdb-1.2.2 xrefresh-1.1.0 xset-1.2.5 xsetroot-1.1.3 xvinfo-1.1.5 xwd-1.0.9 xwininfo-1.1.6 xwud-1.0.7; do
+for i in x11perf-1.7.0 xauth-1.1.4 xbacklight-1.2.4 xcmsdb-1.0.7 xcursorgen-1.0.9 xdpyinfo-1.4.0 xdriinfo-1.0.8 xev-1.2.6 xgamma-1.0.7 xhost-1.0.10 xinput-1.6.4 xkbcomp-1.4.7 xkbevd-1.1.6 xkbutils-1.0.6 xkill-1.0.6 xlsatoms-1.1.4 xlsclients-1.1.5 xmessage-1.0.7 xmodmap-1.0.11 xpr-1.2.0 xprop-1.2.8 xrandr-1.5.3 xrdb-1.2.2 xrefresh-1.1.0 xset-1.2.5 xsetroot-1.1.3 xvinfo-1.1.5 xwd-1.0.9 xwininfo-1.1.6 xwud-1.0.7; do
   tar -xf ../sources/$i.tar.*
   pushd $i
   ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
@@ -5373,15 +5394,14 @@ install -t /usr/share/licenses/xf86-video-vesa -Dm644 COPYING
 popd
 rm -rf xf86-video-vesa-2.6.0
 # intel-gmmlib.
-tar -xf ../sources/intel-gmmlib-22.7.1.tar.gz
-pushd gmmlib-intel-gmmlib-22.7.1
-patch -Np1 -i ../../patches/intel-gmmlib-22.7.1-cmake400.patch
+tar -xf ../sources/intel-gmmlib-22.8.1.tar.gz
+pushd gmmlib-intel-gmmlib-22.8.1
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/intel-gmmlib -Dm644 LICENSE.md
 popd
-rm -rf gmmlib-intel-gmmlib-22.7.1
+rm -rf gmmlib-intel-gmmlib-22.8.1
 # intel-vaapi-driver.
 tar -xf ../sources/intel-vaapi-driver-2.4.1.tar.bz2
 pushd intel-vaapi-driver-2.4.1
@@ -5392,15 +5412,15 @@ install -t /usr/share/licenses/intel-vaapi-driver -Dm644 COPYING
 popd
 rm -rf intel-vaapi-driver-2.4.1
 # intel-media-driver.
-tar -xf ../sources/intel-media-25.2.1.tar.gz
-pushd media-driver-intel-media-25.2.1
+tar -xf ../sources/intel-media-25.2.6.tar.gz
+pushd media-driver-intel-media-25.2.6
 patch -Np1 -i ../../patches/intel-media-driver-25.2.0-cmake400.patch
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/intel-media-driver -Dm644 LICENSE.md
 popd
-rm -rf media-driver-intel-media-25.2.1
+rm -rf media-driver-intel-media-25.2.6
 # xinit.
 tar -xf ../sources/xinit-1.4.4.tar.xz
 pushd xinit-1.4.4
@@ -5820,13 +5840,13 @@ install -t /usr/share/licenses/cairomm -Dm644 COPYING
 popd
 rm -rf cairomm-1.14.5
 # HarfBuzz (rebuild to support Cairo).
-tar -xf ../sources/harfbuzz-11.3.2.tar.xz
-pushd harfbuzz-11.3.2
+tar -xf ../sources/harfbuzz-11.3.3.tar.xz
+pushd harfbuzz-11.3.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 popd
-rm -rf harfbuzz-11.3.2
+rm -rf harfbuzz-11.3.3
 # Pango.
 tar -xf ../sources/pango-1.56.4.tar.gz
 pushd pango-1.56.4
@@ -7982,13 +8002,13 @@ install -t /usr/share/licenses/chafa -Dm644 COPYING{,.LESSER}
 popd
 rm -rf chafa-1.14.5
 # HarfBuzz (rebuild again to support chafa).
-tar -xf ../sources/harfbuzz-11.3.2.tar.xz
-pushd harfbuzz-11.3.2
+tar -xf ../sources/harfbuzz-11.3.3.tar.xz
+pushd harfbuzz-11.3.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgraphite2=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 popd
-rm -rf harfbuzz-11.3.2
+rm -rf harfbuzz-11.3.3
 # FAAC.
 tar -xf ../sources/faac-1.31.1.tar.gz
 pushd faac-faac-1.31.1
@@ -8088,8 +8108,8 @@ install -t /usr/share/licenses/nvidia-vaapi-driver -Dm644 COPYING
 popd
 rm -rf nvidia-vaapi-driver-0.0.13
 # PipeWire + WirePlumber.
-tar -xf ../sources/pipewire-1.4.6.tar.bz2
-pushd pipewire-1.4.6
+tar -xf ../sources/pipewire-1.4.7.tar.bz2
+pushd pipewire-1.4.7
 mkdir -p subprojects/wireplumber
 tar -xf ../../sources/wireplumber-0.5.10.tar.bz2 -C subprojects/wireplumber --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbluez5-backend-native-mm=enabled -Dexamples=disabled -Dffmpeg=enabled -Dpw-cat-ffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false
@@ -8101,7 +8121,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 subprojects/wireplumber/LICENSE
 popd
-rm -rf pipewire-1.4.6
+rm -rf pipewire-1.4.7
 # SDL3 (rebuild for PipeWire support).
 tar -xf ../sources/SDL3-3.2.16.tar.gz
 pushd SDL3-3.2.16
@@ -8390,8 +8410,8 @@ install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
 popd
 rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-10.0.2.tar.xz
-pushd qemu-10.0.2
+tar -xf ../sources/qemu-10.0.3.tar.xz
+pushd qemu-10.0.3
 patch -Np1 -i ../../patches/qemu-9.2.3-libnfs6fix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list=x86_64-linux-user,x86_64-softmmu
 make
@@ -8411,7 +8431,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-10.0.2
+rm -rf qemu-10.0.3
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -8439,8 +8459,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.15.8.tar.xz
-pushd linux-6.15.8
+tar -xf ../sources/linux-6.16.tar.xz
+pushd linux-6.16
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
@@ -8481,10 +8501,10 @@ echo "options kvm enable_virt_at_load=0" > /usr/lib/modprobe.d/kvm.conf
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.15.8
+rm -rf linux-6.16
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-575.64.tar.gz
-pushd open-gpu-kernel-modules-575.64
+tar -xf ../sources/open-gpu-kernel-modules-575.64.05.tar.gz
+pushd open-gpu-kernel-modules-575.64.05
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -8496,7 +8516,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-575.64
+rm -rf open-gpu-kernel-modules-575.64.05
 # MassOS release detection utility.
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release

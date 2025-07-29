@@ -1,9 +1,14 @@
 This patch alters the 10_linux script of grub-mkconfig, to ensure that it
 automatically puts in the correct kernel parameters for booting from a LUKS
-encrypted drive using a dracut initramfs.
+encrypted drive. The patch was originally only for dracut initramfs, but it now
+also puts in more generic parameters for other initramfs systems too.
+
+Note that the patch only supports opening the LUKS root device as "cryptroot",
+which is a common GNU/Linux convention, and the default in MassOS. Other names
+you may open the LUKS device as aren't supported by this patch.
 
 Other operating systems shouldn't be affected, as they will be detected by GRUB
-using 30_os-prober instead of 10_linux, which isn't affected by this script.
+using 30_os-prober instead of 10_linux, which isn't affected by this patch.
 
 --- a/util/grub.d/10_linux.in
 +++ b/util/grub.d/10_linux.in
@@ -11,7 +16,7 @@ using 30_os-prober instead of 10_linux, which isn't affected by this script.
    alt_version=`echo $version | sed -e "s,\.old$,,g"`
    linux_root_device_thisversion="${LINUX_ROOT_DEVICE}"
  
-+  # Detect LUKS encryption and change parameters for dracut initramfs.
++  # Detect LUKS encryption and change parameters for initramfs.
 +  luks_device=""
 +  luks_uuid=""
 +  if test "${GRUB_DEVICE}" = /dev/mapper/cryptroot; then
@@ -19,7 +24,7 @@ using 30_os-prober instead of 10_linux, which isn't affected by this script.
 +    luks_uuid="$(blkid -s UUID -o value -t TYPE=crypto_LUKS "$(echo "${luks_device}" | grep 'device:' | xargs | cut -d' ' -f2)" || true)"
 +  fi
 +  if test -n "${luks_uuid}"; then
-+    linux_root_device_thisversion="/dev/mapper/cryptroot rd.luks.uuid=${luks_uuid} rd.luks.name=${luks_uuid}=cryptroot"
++    linux_root_device_thisversion="/dev/mapper/cryptroot cryptdevice=UUID=${luks_uuid}:cryptroot rd.luks.uuid=${luks_uuid} rd.luks.name=${luks_uuid}=cryptroot"
 +  fi
 +
    initrd_early=

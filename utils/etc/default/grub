@@ -55,8 +55,10 @@ GRUB_GFXPAYLOAD_LINUX="keep"
 #GRUB_COLOR_HIGHLIGHT="light-cyan/blue"
 
 # Uncomment ONE of the following to set EITHER a background or a theme.
+# Note that neither of these options can be used with UEFI secure boot.
+# You must ensure secure boot is DISABLED before uncommenting one of these.
 #GRUB_BACKGROUND="/usr/share/backgrounds/MassOS-Avantgarde-Dark.png"
-GRUB_THEME="/usr/share/grub/themes/distro-massos/theme.txt"
+#GRUB_THEME="/usr/share/grub/themes/distro-massos/theme.txt"
 
 # Uncomment for a beep on startup. Some sound cards may not support this.
 #GRUB_INIT_TUNE="480 440 1"
