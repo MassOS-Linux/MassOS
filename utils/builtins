@@ -114,6 +114,7 @@ e2fsprogs
 easy-rsa
 ed
 editables
+edk2-shell
 efibootmgr
 efitools
 efivar
@@ -245,6 +246,7 @@ inih
 installer
 intel-gmmlib
 intel-media-driver
+intel-microcode
 intel-vaapi-driver
 intltool
 io-tty
@@ -252,6 +254,7 @@ ipc-run
 ipp-usb
 iproute2
 iptables
+ipxe
 isl
 iso-codes
 itstool
@@ -478,6 +481,7 @@ libyuv
 libzip
 linux
 linux-api-headers
+linux-firmware
 linux-headers
 linux-pam
 lld
@@ -509,6 +513,7 @@ markdown
 markupsafe
 maturin
 mdadm
+memtest86+
 mesa
 mesa-utils
 meson
@@ -518,6 +523,7 @@ minizip
 mm-common
 mobile-broadband-provider-info
 modemmanager
+mokutil
 moreutils
 mpc
 mpdecimal
@@ -682,6 +688,7 @@ smbclient
 smproxy
 sndio
 snowball
+sof-firmware
 sound-theme-freedesktop
 soundtouch
 speech-dispatcher

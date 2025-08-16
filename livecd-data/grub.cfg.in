@@ -1,0 +1,52 @@
+insmod png
+background_image /splash2.png
+
+set timeout=20
+
+menuentry "MassOS Live CD" {
+  linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image
+  initrd /initramfs.img
+}
+
+menuentry "MassOS Live CD (copy-to-RAM, high memory systems)" {
+  linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram
+  initrd /initramfs.img
+}
+
+menuentry "MassOS Live CD (fallback graphics, unsupported GPUs)" {
+  linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image nomodeset
+  initrd /initramfs.img
+}
+
+menuentry "MassOS Live CD (copy-to-RAM + fallback graphics)" {
+  linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram nomodeset
+  initrd /initramfs.img
+}
+
+menuentry "Run memory test (Memtest86+)" {
+  chainloader /EFI/tools/memtest64.efi
+}
+
+menuentry "Boot from local disk" {
+  exit 1
+}
+
+menuentry "Boot from network (IPXE)" {
+  chainloader /EFI/tools/ipxe.efi
+}
+
+menuentry "UEFI EDK2 Shell" {
+  chainloader /EFI/tools/shellx64.efi
+}
+
+menuentry "UEFI Firmware Settings" {
+  fwsetup
+}
+
+menuentry "Reboot system" {
+  reboot
+}
+
+menuentry "Shut down system" {
+  halt
+}

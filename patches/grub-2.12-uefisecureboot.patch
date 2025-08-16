@@ -1,15 +1,17 @@
-This is a unified and rediffed patch consisting of two patches from Ubuntu, to
-make grub-install support UEFI secure boot, by copying a signed .efi binary. It
-is also slightly modified to work better with MassOS.
+Makes GRUB support UEFI secure boot via the use of pregenerated GRUB .efi
+binaries which can be signed for UEFI secure boot. Also makes use of shim where
+necessary.
 
-PATCH ORIGINS: <https://packages.ubuntu.com/source/noble/grub2>
+Heavily based on two patches from Ubuntu, but with minor modifications to work
+better on MassOS systems: <https://packages.ubuntu.com/source/noble/grub2>
 
-Note that the patch does not affect systems which are not configured for secure
-boot (i.e., ones lacking a pregenerated and signed grubx64.efi binary).
+Note that the patch does not affect distros which are not configured for secure
+boot (i.e., ones lacking a pregenerated and signed grubx64.efi.signed binary).
+Similarly, it won't affect --removable unless there is a gcdx64.efi.signed.
 
 diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 --- a/util/grub-install.c	2025-06-20 18:04:12.000000000 +0100
-+++ b/util/grub-install.c	2025-07-28 02:22:54.816999465 +0100
++++ b/util/grub-install.c	2025-08-10 23:56:49.132151394 +0100
 @@ -79,6 +79,7 @@
  static char *label_bgcolor;
  static char *product_version;
@@ -322,7 +324,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 +	    else
 +	      grub_install_copy_file (efi_signed, dst, 1);
 +
-+	    config_dst = grub_util_path_concat (2, efidir, "grub.cfg");
++	    config_dst = grub_util_path_concat (2, efidir, "massos.cfg");
 +	    grub_install_copy_file (load_cfg, config_dst, 1);
 +	    config_dst_f = grub_util_fopen (config_dst, "ab");
 +	    char *escaped_relpath = escape (relative_grubdir);

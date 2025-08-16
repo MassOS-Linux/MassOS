@@ -9,22 +9,22 @@ MENU BACKGROUND splash.png
 LABEL massos
 MENU LABEL MassOS Live CD
 KERNEL /vmlinuz
-APPEND initrd=/initramfs.img root=live:CDLABEL=MASSOS ro quiet splash rd.live.image
+APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image
 
 LABEL massos-copytoram
 MENU LABEL MassOS Live CD (copy-to-RAM, high memory systems)
 KERNEL /vmlinuz
-APPEND initrd=/initramfs.img root=live:CDLABEL=MASSOS ro quiet splash rd.live.image rd.live.ram
+APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram
 
 LABEL massos-nomodeset
 MENU LABEL MassOS Live CD (fallback graphics, unsupported GPUs)
 KERNEL /vmlinuz
-APPEND initrd=/initramfs.img root=live:CDLABEL=MASSOS ro quiet splash rd.live.image nomodeset
+APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image nomodeset
 
 LABEL massos-copytoram-nomodeset
 MENU LABEL MassOS Live CD (copy-to-RAM + fallback graphics)
 KERNEL /vmlinuz
-APPEND initrd=/initramfs.img root=live:CDLABEL=MASSOS ro quiet splash rd.live.image rd.live.ram nomodeset
+APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram nomodeset
 
 LABEL memtest
 MENU LABEL Run memory test (Memtest86+)

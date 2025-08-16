@@ -1,0 +1,4 @@
+This is an unsupported option, primarily used for internal testing. Producing a
+build without a desktop environment is highly discouraged unless you know what
+you are doing and intentionally creating a build that you intend to hack on and
+use for your own testing/development purposes.

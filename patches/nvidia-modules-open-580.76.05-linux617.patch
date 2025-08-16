@@ -1,0 +1,142 @@
+From 24a667d858b9fbcaf9d64ac92722171f4f9a7dbb Mon Sep 17 00:00:00 2001
+From: Aleksey Smolenchuk <lxe@lxe.co>
+Date: Mon, 11 Aug 2025 16:11:56 -0700
+Subject: [PATCH] nvidia-drm: Add support for kernel 6.17
+ drm_helper_mode_fill_fb_struct API
+
+The drm_helper_mode_fill_fb_struct() function signature changed in
+Linux kernel 6.17 to include a const struct drm_format_info * parameter.
+This was introduced by kernel commit a34cc7bf1034 ("drm: Allow the caller
+to pass in the format info to drm_helper_mode_fill_fb_struct()").
+---
+ kernel-open/conftest.sh                      | 22 ++++++++++++++++++
+ kernel-open/nvidia-drm/nvidia-drm-fb.c       | 24 ++++++++++++++++++++
+ kernel-open/nvidia-drm/nvidia-drm-fb.h       |  8 +++++++
+ kernel-open/nvidia-drm/nvidia-drm-sources.mk |  1 +
+ 4 files changed, 55 insertions(+)
+
+diff --git a/kernel-open/conftest.sh b/kernel-open/conftest.sh
+index 5078d26c6..78c407c2a 100755
+--- a/kernel-open/conftest.sh
++++ b/kernel-open/conftest.sh
+@@ -4819,6 +4819,28 @@ compile_test() {
+             compile_check_conftest "$CODE" "NV_DRM_CONNECTOR_HELPER_FUNCS_MODE_VALID_HAS_CONST_MODE_ARG" "" "types"
+         ;;
+ 
++        drm_helper_mode_fill_fb_struct_has_info_arg)
++            #
++            # Determine if drm_helper_mode_fill_fb_struct() takes the info argument.
++            #
++            # The drm_helper_mode_fill_fb_struct() function was updated to take
++            # a const struct drm_format_info * argument by kernel commit
++            # a34cc7bf1034 ("drm: Allow the caller to pass in the format info
++            # to drm_helper_mode_fill_fb_struct()") in v6.17.
++            #
++            CODE="
++            #include <drm/drm_modeset_helper.h>
++            void conftest_drm_helper_mode_fill_fb_struct(void) {
++                struct drm_device *dev = NULL;
++                struct drm_framebuffer *fb = NULL;
++                const struct drm_format_info *info = NULL;
++                const struct drm_mode_fb_cmd2 *cmd = NULL;
++                drm_helper_mode_fill_fb_struct(dev, fb, info, cmd);
++            }"
++
++            compile_check_conftest "$CODE" "NV_DRM_HELPER_MODE_FILL_FB_STRUCT_HAS_INFO_ARG" "" "functions"
++        ;;
++
+         # When adding a new conftest entry, please use the correct format for
+         # specifying the relevant upstream Linux kernel commit.  Please
+         # avoid specifying -rc kernels, and only use SHAs that actually exist
+diff --git a/kernel-open/nvidia-drm/nvidia-drm-fb.c b/kernel-open/nvidia-drm/nvidia-drm-fb.c
+index 5977953c3..3105c242b 100644
+--- a/kernel-open/nvidia-drm/nvidia-drm-fb.c
++++ b/kernel-open/nvidia-drm/nvidia-drm-fb.c
+@@ -33,6 +33,9 @@
+ #include "nvidia-drm-format.h"
+ 
+ #include <drm/drm_crtc_helper.h>
++#if defined(NV_DRM_HELPER_MODE_FILL_FB_STRUCT_HAS_INFO_ARG)
++#include <drm/drm_fourcc.h>
++#endif
+ 
+ static void __nv_drm_framebuffer_free(struct nv_drm_framebuffer *nv_fb)
+ {
+@@ -239,10 +242,18 @@ static int nv_drm_framebuffer_init(struct drm_device *dev,
+     return -EINVAL;
+ }
+ 
++#if !defined(NV_DRM_HELPER_MODE_FILL_FB_STRUCT_HAS_INFO_ARG)
++struct drm_framebuffer *nv_drm_framebuffer_create(
++    struct drm_device *dev,
++    struct drm_file *file,
++    const struct drm_mode_fb_cmd2 *cmd)
++#else
+ struct drm_framebuffer *nv_drm_framebuffer_create(
+     struct drm_device *dev,
+     struct drm_file *file,
++    const struct drm_format_info *info,
+     const struct drm_mode_fb_cmd2 *cmd)
++#endif
+ {
+     struct nv_drm_device *nv_dev = to_nv_device(dev);
+     struct nv_drm_framebuffer *nv_fb;
+@@ -286,10 +297,23 @@ struct drm_framebuffer *nv_drm_framebuffer_create(
+ 
+     /* Fill out framebuffer metadata from the userspace fb creation request */
+ 
++#if !defined(NV_DRM_HELPER_MODE_FILL_FB_STRUCT_HAS_INFO_ARG)
+     drm_helper_mode_fill_fb_struct(
+         dev,
+         &nv_fb->base,
+         cmd);
++#else
++    if (!info) {
++        u64 modifier = (cmd->flags & DRM_MODE_FB_MODIFIERS) ? 
++                       cmd->modifier[0] : DRM_FORMAT_MOD_INVALID;
++        info = drm_get_format_info(dev, cmd->pixel_format, modifier);
++    }
++    drm_helper_mode_fill_fb_struct(
++        dev,
++        &nv_fb->base,
++        info,
++        cmd);
++#endif
+ 
+     /*
+      * Finish up FB initialization by creating the backing NVKMS surface and
+diff --git a/kernel-open/nvidia-drm/nvidia-drm-fb.h b/kernel-open/nvidia-drm/nvidia-drm-fb.h
+index a7a83048c..3879a3e47 100644
+--- a/kernel-open/nvidia-drm/nvidia-drm-fb.h
++++ b/kernel-open/nvidia-drm/nvidia-drm-fb.h
+@@ -50,10 +50,18 @@ static inline struct nv_drm_framebuffer *to_nv_framebuffer(
+     return container_of(fb, struct nv_drm_framebuffer, base);
+ }
+ 
++#if !defined(NV_DRM_HELPER_MODE_FILL_FB_STRUCT_HAS_INFO_ARG)
+ struct drm_framebuffer *nv_drm_framebuffer_create(
+     struct drm_device *dev,
+     struct drm_file *file,
+     const struct drm_mode_fb_cmd2 *cmd);
++#else
++struct drm_framebuffer *nv_drm_framebuffer_create(
++    struct drm_device *dev,
++    struct drm_file *file,
++    const struct drm_format_info *info,
++    const struct drm_mode_fb_cmd2 *cmd);
++#endif
+ 
+ #endif /* NV_DRM_AVAILABLE */
+ 
+diff --git a/kernel-open/nvidia-drm/nvidia-drm-sources.mk b/kernel-open/nvidia-drm/nvidia-drm-sources.mk
+index d8c9271ae..e9c079bac 100644
+--- a/kernel-open/nvidia-drm/nvidia-drm-sources.mk
++++ b/kernel-open/nvidia-drm/nvidia-drm-sources.mk
+@@ -62,6 +62,7 @@ NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_plane_create_color_properties
+ NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_atomic_helper_legacy_gamma_set
+ NV_CONFTEST_FUNCTION_COMPILE_TESTS += vmf_insert_mixed
+ NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_gem_prime_mmap
++NV_CONFTEST_FUNCTION_COMPILE_TESTS += drm_helper_mode_fill_fb_struct_has_info_arg
+ 
+ NV_CONFTEST_TYPE_COMPILE_TESTS += drm_driver_has_legacy_dev_list
+ NV_CONFTEST_TYPE_COMPILE_TESTS += vm_ops_fault_removed_vma_arg

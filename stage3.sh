@@ -106,6 +106,8 @@ printf "Stripping binaries and libraries... "
 find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f ! -name \*.a ! -name \*.o ! -name \*.mod ! -name \*.module ! -name \*.ko\* ! -name \*.efi\* -exec strip --strip-unneeded {} ';' &>/dev/null || true
 find "$MASSOS"/usr/lib -type f \( -name \*.a -o -name \*.o -o -name \*.mod -o -name \*.module \) -exec strip --strip-debug {} ';' &>/dev/null || true
 echo "Done!"
+# Generate list of distribution-provided files, for 'upgrade-massos' utility.
+find "$MASSOS"/{boot,etc,usr,var} -type d,f,l -printf "%y:%p\n" | sed "s|$MASSOS||" > "$MASSOS"/usr/share/massos/.distfiles
 # Finish the MassOS system.
 outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-x86_64-$1.tar"
 printf "Creating %s..." "$outfile"

@@ -37,8 +37,5 @@ rm -f /usr/bin/livecd-installer
 rm -f /usr/share/applications/livecd-installer.desktop
 rm -f /etc/xdg/autostart/trust-livecd-installer.desktop
 
-# Restore open-command setting for yad to the default.
-gsettings set yad.settings open-command 'xdg-open "%s"'
-
 # Self destruct.
 rm -f /tmp/{livecd-cleanup.sh,{post,pre}upgrade}
