@@ -3938,15 +3938,15 @@ gzip -cd unifont-16.0.02/font/precompiled/unifont-16.0.02.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.02/COPYING
 rm -rf unifont-16.0.02
 # GRUB.
-tar -xf ../sources/grub-2.12-350-g0e367796c.tar.xz
-pushd grub-2.12-350-g0e367796c
+tar -xf ../sources/grub-2.12-359-g19c698d12.tar.xz
+pushd grub-2.12-359-g19c698d12
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-350-g0e367796c" PACKAGE_STRING="GRUB 2.12-350-g0e367796c" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-359-g19c698d12" PACKAGE_STRING="GRUB 2.12-359-g19c698d12" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-350-g0e367796c" PACKAGE_STRING="GRUB 2.12-350-g0e367796c" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-359-g19c698d12" PACKAGE_STRING="GRUB 2.12-359-g19c698d12" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3956,8 +3956,8 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,4,Free Software Foundation,grub,2.12-350-g0e367796c,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-350-g0e367796c,https://massos.org
+grub,4,Free Software Foundation,grub,2.12-359-g19c698d12,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-359-g19c698d12,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## TODO: Make sure it handles multiple installations properly.
@@ -4024,7 +4024,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-350-g0e367796c
+rm -rf grub-2.12-359-g19c698d12
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -7236,7 +7236,7 @@ install -t /usr/share/licenses/modemmanager -Dm644 COPYING COPYING.LIB
 popd
 rm -rf ModemManager-1.24.2
 # libndp.
-tar -xf ../sources/libndp_1.9.orig.tar.gz
+tar -xf ../sources/libndp-1.9.tar.gz
 pushd libndp-1.9
 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
@@ -8555,16 +8555,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17-rc1.tar.gz
-pushd linux-6.17-rc1
+tar -xf ../sources/linux-6.17-rc2.tar.gz
+pushd linux-6.17-rc2
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.0-rc1,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.0-rc1,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.0-rc2,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.0-rc2,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8578,7 +8578,7 @@ cp arch/x86/boot/bzImage.signed /usr/lib/modules/"$(cat version)"/vmlinuz
 cp System.map /boot/System.map-"$(cat version)"
 cp .config /boot/config-"$(cat version)"
 rm -f /usr/lib/modules/"$(cat version)"/{build,source}
-install -t /usr/lib/modules/"$(cat version)"/build -Dm644 .config Makefile Module.symvers System.map version vmlinux
+install -t /usr/lib/modules/"$(cat version)"/build -Dm644 .config Makefile Module.symvers System.map version vmlinux sbat.csv
 install -t /usr/lib/modules/"$(cat version)"/build/kernel -Dm644 kernel/Makefile
 install -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -Dm644 arch/x86/Makefile
 cp -t /usr/lib/modules/"$(cat version)"/build -a scripts
@@ -8619,7 +8619,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc1
+rm -rf linux-6.17-rc2
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.76.05.tar.gz
 pushd open-gpu-kernel-modules-580.76.05

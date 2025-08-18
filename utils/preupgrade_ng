@@ -1,0 +1,3 @@
+# Any pre-upgrade checks/tasks to perform for the new MassOS upgrade utility.
+# Note that some validity checks are performed by the utility itself.
+# This file may be left empty (with just these comments) if unused.

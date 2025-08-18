@@ -1,0 +1,15 @@
+# Any tasks to perform after a system upgrade using the new upgrade utility.
+# e.g., to adapt an existing system to changes in a newer MassOS version.
+
+# Standard tasks to perform after an upgrade.
+ldconfig
+glib-compile-schemas /usr/share/glib-2.0/schemas
+gdk-pixbuf-query-loaders --update-cache
+gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
+gtk4-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
+update-desktop-database
+update-mime-database /usr/share/mime
+fc-cache
+dconf update
+systemd-sysusers
+

@@ -52,7 +52,7 @@ echo "Finalizing the build..."
 cp finalize.sh "$MASSOS"/root/mbs
 utils/programs/mass-chroot "$MASSOS" /root/mbs/finalize.sh
 # Install preupgrade and postupgrade.
-cp utils/{pre,post}upgrade "$MASSOS"/tmp
+cp utils/{pre,post}upgrade{,_ng} "$MASSOS"/tmp
 # Install Live CD cleanup script for osinstallgui.
 install -t "$MASSOS"/tmp -m755 utils/livecd-cleanup.sh
 # Strip executables and libraries to free up space.

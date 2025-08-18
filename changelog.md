@@ -219,7 +219,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 13.1.2`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-350-g0e367796c`
+- GRUB: `2.06 --> 2.12-359-g19c698d12`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
@@ -466,7 +466,7 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.17.0-rc1`
+- Linux: `6.0.0 --> 6.17.0-rc2`
 - Linux-API-Headers: `6.0.0 --> 6.17.0-rc1`
 - Linux-Firmware: `(new package) --> 20250708`
 - Linux-Headers: `6.0.0 --> 6.17.0-rc1`
