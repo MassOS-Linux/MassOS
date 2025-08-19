@@ -10,6 +10,8 @@ body:
     options:
       - label: "I have searched for [other issues](https://www.github.com/MassOS-Linux/MassOS/issues), and can confirm my feature request has not already been reported."
         required: true
+      - label: "I have read and understood the MassOS project's [community rules for contributions](https://github.com/MassOS-Linux/MassOS/wiki/Contributing#community-rules-for-contributions)."
+        required: true
 - type: "textarea"
   attributes:
     label: "Suggestion"

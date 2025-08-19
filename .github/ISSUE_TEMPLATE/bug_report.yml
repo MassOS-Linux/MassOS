@@ -10,18 +10,20 @@ body:
     options:
       - label: "I have searched for [other issues](https://www.github.com/MassOS-Linux/MassOS/issues), and can confirm my issue has not already been reported."
         required: true
+      - label: "I have read and understood the MassOS project's [community rules for contributions](https://github.com/MassOS-Linux/MassOS/wiki/Contributing#community-rules-for-contributions)."
+        required: true
 - type: "input"
   attributes:
     label: "MassOS version"
-    description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure."
-    placeholder: "2022.10"
+    description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure. Note that we no longer accept bug reports for MassOS 2022.10 or older."
+    placeholder: "experimental-20250818"
   validations:
     required: true
 - type: "input"
   attributes:
     label: "Kernel version"
-    description: "What is the output of `uname -srvm`?"
-    placeholder: "Linux 6.0.0-massos #1 SMP PREEMPT_DYNAMIC Tue Oct 4 23:50:51 UTC 2022 x86_64"
+    description: "What is the output of `uname -srvm` in a terminal? You may skip this question if your issue is related to booting MassOS in the first place."
+    placeholder: "Linux 6.17.0-rc2-massos #1 SMP PREEMPT_DYNAMIC Mon Aug 18 20:33:43 UTC 2025 x86_64"
   validations:
     required: false
 - type: "checkboxes"
@@ -52,14 +54,20 @@ body:
     required: true
 - type: "textarea"
   attributes:
-    label: "Steps to reproduce"
+    label: "Steps to Reproduce"
     description: "A clear description of how to reproduce the problem."
     placeholder: "Open `...`, click on `...`, select `...`, see error."
   validations:
     required: false
 - type: "textarea"
   attributes:
-    label: "Additional Information"
-    description: "Any additional information you feel will be useful for debugging/solving your issue."
+    label: "Hardware Information"
+    description: "Please include as much information about your hardware as possible, such as CPU, GPU and System Model / Motherboard. If you are using a VM, please state the virtualization software used as well as the VM's configuration."
+  validations:
+    required: false
+- type: "textarea"
+  attributes:
+    label: "Additional Information or Context"
+    description: "If desired, you can provide additional information about, or context for, your issue, if you feel it will be useful for solving/debugging."
   validations:
     required: false
