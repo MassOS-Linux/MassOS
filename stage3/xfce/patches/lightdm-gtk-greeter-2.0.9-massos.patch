@@ -1,7 +1,7 @@
-diff '--color=auto' -aruN a/data/lightdm-gtk-greeter.conf b/data/lightdm-gtk-greeter.conf
+diff '--color=auto' -apruN a/data/lightdm-gtk-greeter.conf b/data/lightdm-gtk-greeter.conf
 --- a/data/lightdm-gtk-greeter.conf	2024-02-24 19:19:05.000000000 +0000
-+++ b/data/lightdm-gtk-greeter.conf	2025-05-17 23:15:04.558550864 +0100
-@@ -57,15 +57,15 @@
++++ b/data/lightdm-gtk-greeter.conf	2025-08-21 13:57:46.288091205 +0100
+@@ -57,18 +57,18 @@
  #  transition-duration = overrides default value
  #
  [greeter]
@@ -24,4 +24,8 @@ diff '--color=auto' -aruN a/data/lightdm-gtk-greeter.conf b/data/lightdm-gtk-gre
 +xft-rgba = rgb
  #indicators=
  #clock-format=
- #keyboard=
+-#keyboard=
++keyboard = onboard
+ #reader=
+ #position=
+ #screensaver-timeout=

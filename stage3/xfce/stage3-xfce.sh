@@ -79,14 +79,14 @@ install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 popd
 rm -rf libxfce4util-4.20.1
 # libxfce4windowing.
-tar -xf ../sources/libxfce4windowing-4.20.3.tar.bz2
-pushd libxfce4windowing-4.20.3
+tar -xf ../sources/libxfce4windowing-4.20.4.tar.bz2
+pushd libxfce4windowing-4.20.4
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled -Dx11=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxfce4windowing -Dm644 COPYING
 popd
-rm -rf libxfce4windowing-4.20.3
+rm -rf libxfce4windowing-4.20.4
 # xfconf.
 tar -xf ../sources/xfconf-4.20.0.tar.bz2
 pushd xfconf-4.20.0
@@ -97,14 +97,14 @@ install -t /usr/share/licenses/xfconf -Dm644 COPYING
 popd
 rm -rf xfconf-4.20.0
 # libxfce4ui.
-tar -xf ../sources/libxfce4ui-4.20.1.tar.bz2
-pushd libxfce4ui-4.20.1
+tar -xf ../sources/libxfce4ui-4.20.2.tar.bz2
+pushd libxfce4ui-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-wayland --enable-x11 --with-vendor-info=MassOS
 make
 make install
 install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 popd
-rm -rf libxfce4ui-4.20.1
+rm -rf libxfce4ui-4.20.2
 # catfish.
 tar -xf ../sources/catfish-4.20.0.tar.bz2
 pushd catfish-4.20.0
@@ -169,14 +169,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 popd
 rm -rf xfce4-appfinder-4.20.0
 # xfce4-panel.
-tar -xf ../sources/xfce4-panel-4.20.4.tar.bz2
-pushd xfce4-panel-4.20.4
+tar -xf ../sources/xfce4-panel-4.20.5.tar.bz2
+pushd xfce4-panel-4.20.5
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gio-unix --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
-rm -rf xfce4-panel-4.20.4
+rm -rf xfce4-panel-4.20.5
 # xfce4-power-manager.
 tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
 pushd xfce4-power-manager-4.20.0
@@ -187,14 +187,14 @@ install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
 popd
 rm -rf xfce4-power-manager-4.20.0
 # xfce4-settings.
-tar -xf ../sources/xfce4-settings-4.20.1.tar.bz2
-pushd xfce4-settings-4.20.1
+tar -xf ../sources/xfce4-settings-4.20.2.tar.bz2
+pushd xfce4-settings-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc --enable-libxklavier --enable-libnotify --enable-pluggable-dialogs --enable-sound-settings --enable-wayland --enable-x11 --enable-xcursor --enable-xrandr
 make
 make install
 install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
-rm -rf xfce4-settings-4.20.1
+rm -rf xfce4-settings-4.20.2
 # xfdesktop.
 tar -xf ../sources/xfdesktop-4.20.1.tar.bz2
 pushd xfdesktop-4.20.1
@@ -224,14 +224,14 @@ install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
 rm -rf labwc-0.8.3
 # xfce4-session.
-tar -xf ../sources/xfce4-session-4.20.2.tar.bz2
-pushd xfce4-session-4.20.2
+tar -xf ../sources/xfce4-session-4.20.3.tar.bz2
+pushd xfce4-session-4.20.3
 ./configure --prefix=/usr --sysconfdir=/etc --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-session -Dm644 COPYING
 popd
-rm -rf xfce4-session-4.20.2
+rm -rf xfce4-session-4.20.3
 # Parole.
 tar -xf ../sources/parole-4.20.0.tar.xz
 pushd parole-4.20.0
@@ -339,6 +339,17 @@ chmod 755 /bin/blueman-autostart
 install -t /usr/share/licenses/blueman -Dm644 COPYING
 popd
 rm -rf blueman-2.4.4
+# onboard.
+tar -xf ../sources/onboard-1.4.1.tar.gz
+pushd onboard-1.4.1
+patch -Np1 -i ../../patches/onboard-1.4.1-fixes.patch
+CFLAGS="$CFLAGS -std=gnu17" python setup.py build
+python setup.py install
+sed -i 's/OnlyShowIn=GNOME;Unity;MATE;/OnlyShowIn=GNOME;Unity;MATE;Xfce;/' /etc/xdg/autostart/onboard-autostart.desktop
+sed -e 's/^key-label-font=Ubuntu$/key-label-font=Noto Sans/' -e 's/^superkey-label=/#superkey-label=/' -e 's/^#superkey-label=Super$/superkey-label=Super/' -e 's/^#start-minimized=False$/start-minimized=True/' -e 's/^#dock-height=205$/dock-height=350/' -e 's/^#dock-height=200$/dock-height=300/' /usr/share/onboard/onboard-defaults.conf.example | install -Dm644 /dev/stdin /etc/onboard/onboard-defaults.conf
+install -t /usr/share/licenses/onboard -Dm644 COPYING{,.BSD3,.GPL3}
+popd
+rm -rf onboard-1.4.1
 # xfce4-screenshooter.
 tar -xf ../sources/xfce4-screenshooter-1.11.1.tar.bz2
 pushd xfce4-screenshooter-1.11.1
@@ -565,7 +576,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-141.0.3.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-142.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

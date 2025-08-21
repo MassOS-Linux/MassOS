@@ -3,6 +3,7 @@ a52dec
 accountsservice
 acl
 acpi
+acpid
 adwaita-icon-theme
 alsa-lib
 alsa-oss
@@ -124,6 +125,7 @@ elfutils
 enchant
 espeak-ng
 ethtool
+evtest
 exfatprogs
 exiv2
 expat

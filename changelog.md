@@ -57,13 +57,14 @@ Upgraded software (core):
 - a52dec: `0.7.4 --> 0.8.0`
 - AccountsService: `22.08.8 --> 23.13.9`
 - Acl: `2.3.1 --> 2.3.2`
+- acpid: `(new package) --> 2.0.34`
 - adwaita-icon-theme: `43 --> 48.1`
 - alsa-lib: `1.2.7.2 --> 1.2.14`
 - alsa-oss: `(new package) --> 1.1.8`
 - alsa-utils: `(new package) --> 1.2.14`
 - AMF-Headers: `(new package) --> 1.4.36.0`
 - AppArmor: `3.1.1 --> 4.1.0`
-- AppStream: `0.15.5 --> 1.0.5`
+- AppStream: `0.15.5 --> 1.0.6`
 - appstream-glib: `0.8.0 --> 0.8.3`
 - aria2: `(new package) --> 1.37.0`
 - Asciidoc: `10.2.0 --> 10.2.1`
@@ -111,7 +112,7 @@ Upgraded software (core):
 - cpio: `(new package) --> 2.15`
 - CrackLib: `2.9.8 --> 2.10.3`
 - cryptography: `37.0.1 --> 44.0.2`
-- cryptsetup: `2.5.0 --> 2.8.0`
+- cryptsetup: `2.5.0 --> 2.8.1`
 - CUPS: `2.4.2 --> 2.4.12`
 - cups-browsed: `(new package) --> 2.1.1`
 - cups-filters: `1.28.16 --> 2.0.1`
@@ -141,7 +142,7 @@ Upgraded software (core):
 - dracut: `056 --> 108`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
-- Ed: `1.18 --> 1.21.1`
+- Ed: `1.18 --> 1.22.2`
 - editables: `(new package) --> 0.5`
 - EDK2-Shell: `(new package) --> 202505`
 - efitools: `(new package) --> 1.9.2`
@@ -152,6 +153,7 @@ Upgraded software (core):
 - Enchant: `2.3.3 --> 2.8.12`
 - espeak-ng: `(new package) --> 1.52.0`
 - ethtool: `(new package) --> 6.14`
+- evtest: `(new package) --> 1.35`
 - exfatprogs: `1.1.3 --> 1.2.8`
 - exiv2: `0.27.5 --> 0.28.5`
 - Expat: `2.4.9 --> 2.7.1`
@@ -160,7 +162,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.0.2`
-- fastfetch: `(new package) --> 2.50.1`
+- fastfetch: `(new package) --> 2.50.2`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 7.1.1`
 - File: `5.43 --> 5.46`
@@ -178,7 +180,7 @@ Upgraded software (core):
 - FreeGLUT: `3.2.2 --> 3.6.0`
 - FreeType: `2.12.1 --> 2.13.3`
 - Fribidi: `1.0.12 --> 1.0.16`
-- FUSE3: `3.12.0 --> 3.17.3`
+- FUSE3: `3.12.0 --> 3.17.4`
 - fuseiso: `(new package) --> 20070708`
 - fwupd: `1.7.6 --> 2.0.11`
 - fwupd-efi: `1.3 --> 1.7`
@@ -253,12 +255,12 @@ Upgraded software (core):
 - help2man: `1.49.2 --> 1.49.3`
 - hicolor-icon-theme: `0.17 --> 0.18`
 - hidapi: `(new package) --> 0.14.0`
-- highway: `(new package) --> 1.2.0`
-- HPLIP: `3.22.6 --> 3.25.2`
+- highway: `(new package) --> 1.3.0`
+- HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.398`
 - hyfetch: `(new package) --> 2.0.0-rc1`
-- iana-etc: `20220922 --> 20250618`
+- iana-etc: `20220922 --> 20250807`
 - iceauth: `1.0.9 --> 1.0.10`
 - ICU: `71.1 --> 77.1`
 - idna: `3.4 --> 3.10`
@@ -268,11 +270,11 @@ Upgraded software (core):
 - installer: `(new package) --> 0.7.0`
 - intel-gmmlib: `(new package) --> 22.8.1`
 - intel-media-driver: `(new package) --> 25.2.6`
-- Intel-Microcode: `(new package) --> 20250512`
+- Intel-Microcode: `(new package) --> 20250812`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
 - ipp-usb: `(new package) --> 0.9.30`
-- IPRoute2: `5.19.0 --> 6.15.0`
+- IPRoute2: `5.19.0 --> 6.16.0`
 - iptables: `1.8.8 --> 1.8.11`
 - IPXE: `(new package) --> 1.21.1-1049-g5f10b7`
 - ISL: `(new package) --> 0.27`
@@ -322,7 +324,7 @@ Upgraded software (core):
 - libc++abi: `(new package) --> 21.1.0-rc3`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
-- libdisplay-info: `(new package) --> 0.2.0`
+- libdisplay-info: `(new package) --> 0.3.0`
 - libdmx: `1.1.4 --> 1.1.5`
 - libdovi: `(new package) --> 2.3.0`
 - libdrm: `2.4.113 --> 2.4.125`
@@ -397,7 +399,7 @@ Upgraded software (core):
 - libqmi: `1.30.8 --> 1.36.0`
 - libqrtr-glib: `(new package) --> 1.2.2`
 - libraw: `0.20.2 --> 0.21.3`
-- librsvg: `2.54.5 --> 2.60.0`
+- librsvg: `2.54.5 --> 2.61.0`
 - libsass: `3.6.5 --> 3.6.6`
 - libseccomp: `2.5.4 --> 2.6.0`
 - libsecret: `0.20.5 --> 0.21.7`
@@ -604,7 +606,7 @@ Upgraded software (core):
 - PyParsing: `3.0.7 --> 3.2.3`
 - pyproject-hooks: `(new package) --> 1.2.0`
 - pyproject-metadata: `(new package) --> 0.9.1`
-- Python: `3.10.7 --> 3.13.6`
+- Python: `3.10.7 --> 3.13.7`
 - python-certifi: `2022.06.15 --> 2025.01.31`
 - python-dbusmock: `0.28.4 --> 0.36.0`
 - pytz: `(new package) --> 2025.2`
@@ -616,7 +618,7 @@ Upgraded software (core):
 - rdfind: `(new package) --> 1.7.0`
 - Readline: `8.2 --> 8.3`
 - reiserfsprogs: `(new package) --> 3.6.27`
-- requests: `2.28.1 --> 2.32.4`
+- requests: `2.28.1 --> 2.32.5`
 - rhash: `1.4.2 --> 1.4.5`
 - rpcsvc-proto: `1.4.3 --> 1.4.4`
 - rrdtool: `1.8.0 --> 1.9.0`
@@ -801,7 +803,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.0`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 141.0.3`
+- Firefox: `105.0.1 --> 142.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
@@ -813,12 +815,13 @@ Upgraded software (Xfce):
 - gtksourceview4: `4.8.3 --> (removed)`
 - LabWC: `(new package) --> 0.8.3`
 - libetpan: `1.9.4 --> (removed)`
-- libxfce4ui: `4.17.6 --> 4.20.1`
+- libxfce4ui: `4.17.6 --> 4.20.2`
 - libxfce4util: `4.17.2 --> 4.20.1`
-- libxfce4windowing: `(new package) --> 4.20.3`
+- libxfce4windowing: `(new package) --> 4.20.4`
 - lightdm-gtk-greeter: `2.0.8 --> 2.0.9`
 - MassOS-Welcome: `001 --> 002`
 - Mousepad: `0.5.10 --> 0.6.5`
+- onboard: `(new package) --> 1.4.1`
 - Orage: `4.16.0 --> 4.20.1`
 - Parole: `4.16.0 --> 4.20.0`
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
@@ -836,13 +839,13 @@ Upgraded software (Xfce):
 - xfce4-dev-tools: `(new package) --> 4.20.0`
 - xfce4-mount-plugin: `1.1.5 --> 1.1.7`
 - xfce4-notifyd: `0.6.4 --> 0.9.7`
-- xfce4-panel: `4.17.3 --> 4.20.4`
+- xfce4-panel: `4.17.3 --> 4.20.5`
 - xfce4-power-manager: `4.16.0 --> 4.20.0`
 - xfce4-pulseaudio-plugin: `0.4.5 --> 0.5.1`
 - xfce4-screensaver: `4.16.0 --> 4.18.4`
 - xfce4-screenshooter: `1.9.11 --> 1.11.1`
-- xfce4-session: `4.16.0 --> 4.20.2`
-- xfce4-settings: `4.16.3 --> 4.20.1`
+- xfce4-session: `4.16.0 --> 4.20.3`
+- xfce4-settings: `4.16.3 --> 4.20.2`
 - xfce4-taskmanager: `1.5.4 --> 1.5.8`
 - xfce4-terminal: `1.0.4 --> 1.1.5`
 - xfce4-whiskermenu-plugin: `2.6.1 --> 2.9.2`

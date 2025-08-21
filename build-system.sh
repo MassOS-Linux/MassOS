@@ -89,13 +89,13 @@ make install
 popd
 rm -rf perl-5.40.2
 # Python (circular deps; rebuilt later).
-tar -xf ../sources/Python-3.13.6.tar.xz
-pushd Python-3.13.6
+tar -xf ../sources/Python-3.13.7.tar.xz
+pushd Python-3.13.7
 ./configure --prefix=/usr --enable-shared --without-ensurepip --disable-test-modules
 make
 make install
 popd
-rm -rf Python-3.13.6
+rm -rf Python-3.13.7
 # Texinfo (circular deps; rebuilt later).
 tar -xf ../sources/texinfo-7.2.tar.xz
 pushd texinfo-7.2
@@ -121,8 +121,8 @@ install -t /usr/share/licenses/man-pages -Dm644 LICENSES/*
 popd
 rm -rf man-pages-6.14
 # iana-etc.
-tar -xf ../sources/iana-etc-20250618.tar.gz
-install -t /etc -Dm644 iana-etc-20250618/{protocols,services}
+tar -xf ../sources/iana-etc-20250807.tar.gz
+install -t /etc -Dm644 iana-etc-20250807/{protocols,services}
 install -dm755 /usr/share/licenses/iana-etc
 cat > /usr/share/licenses/iana-etc/LICENSE << "END"
 Copyright 2017 Jörg Thalheim
@@ -133,7 +133,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 END
-rm -rf iana-etc-20250618
+rm -rf iana-etc-20250807
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -936,8 +936,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 popd
 rm -rf kmod-34.2
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf ../sources/Python-3.13.6.tar.xz
-pushd Python-3.13.6
+tar -xf ../sources/Python-3.13.7.tar.xz
+pushd Python-3.13.7
 ./configure --prefix=/usr --enable-shared --enable-optimizations --with-system-expat --with-system-libmpdec --with-ensurepip --disable-test-modules
 make
 make install
@@ -948,7 +948,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 popd
-rm -rf Python-3.13.6
+rm -rf Python-3.13.7
 # flit-core.
 tar -xf ../sources/flit_core-3.12.0.tar.gz
 pushd flit_core-3.12.0
@@ -1379,13 +1379,13 @@ install -t /usr/share/licenses/iptables -Dm644 COPYING
 popd
 rm -rf iptables-1.8.11
 # IPRoute2.
-tar -xf ../sources/iproute2-6.15.0.tar.xz
-pushd iproute2-6.15.0
+tar -xf ../sources/iproute2-6.16.0.tar.xz
+pushd iproute2-6.16.0
 make
 make SBINDIR=/usr/bin install
 install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 popd
-rm -rf iproute2-6.15.0
+rm -rf iproute2-6.16.0
 # ethtool.
 tar -xf ../sources/ethtool-6.14.tar.xz
 pushd ethtool-6.14
@@ -1458,14 +1458,14 @@ install -t /usr/share/licenses/make -Dm644 COPYING
 popd
 rm -rf make-4.4.1
 # Ed.
-tar -xf ../sources/ed-1.21.1.tar.lz
-pushd ed-1.21.1
+tar -xf ../sources/ed-1.22.2.tar.lz
+pushd ed-1.22.2
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/ed -Dm644 COPYING
 popd
-rm -rf ed-1.21.1
+rm -rf ed-1.22.2
 # Patch.
 tar -xf ../sources/patch-2.8.tar.xz
 pushd patch-2.8
@@ -2434,8 +2434,8 @@ install -t /usr/share/licenses/fuse2 -Dm644 COPYING COPYING.LIB
 popd
 rm -rf fuse-2.9.9
 # FUSE3.
-tar -xf ../sources/fuse-3.17.3.tar.gz
-pushd fuse-3.17.3
+tar -xf ../sources/fuse-3.17.4.tar.gz
+pushd fuse-3.17.4
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false -Dtests=false
 ninja -C build
 ninja -C build install
@@ -2450,7 +2450,7 @@ cat > /etc/fuse.conf << "END"
 END
 install -t /usr/share/licenses/fuse3 -Dm644 LICENSE GPL2.txt LGPL2.txt
 popd
-rm -rf fuse-3.17.3
+rm -rf fuse-3.17.4
 # e2fsprogs.
 tar -xf ../sources/e2fsprogs-1.47.3.tar.xz
 pushd e2fsprogs-1.47.3
@@ -2552,6 +2552,17 @@ make install
 install -t /usr/share/licenses/squashfuse -Dm644 LICENSE
 popd
 rm -rf squashfuse-0.6.0
+# acpid.
+tar -xf ../sources/acpid-2.0.34.tar.xz
+pushd acpid-2.0.34
+./configure --prefix=/usr --sbindir=/usr/bin
+make
+make install
+install -dm755 /etc/acpi/{actions,events}
+systemctl enable acpid
+install -t /usr/share/licenses/acpid -Dm644 COPYING
+popd
+rm -rf acpid-2.0.34
 # libtasn1.
 tar -xf ../sources/libtasn1-4.20.0.tar.gz
 pushd libtasn1-4.20.0
@@ -2798,14 +2809,14 @@ install -t /usr/share/licenses/seatd -Dm644 LICENSE
 popd
 rm -rf seatd-0.9.1
 # libdisplay-info.
-tar -xf ../sources/libdisplay-info-0.2.0.tar.bz2
-pushd libdisplay-info-0.2.0
+tar -xf ../sources/libdisplay-info-0.3.0.tar.bz2
+pushd libdisplay-info-0.3.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libdisplay-info -Dm644 LICENSE
 popd
-rm -rf libdisplay-info-0.2.0
+rm -rf libdisplay-info-0.3.0
 # libpaper.
 tar -xf ../sources/libpaper-2.2.6.tar.gz
 pushd libpaper-2.2.6
@@ -2965,14 +2976,14 @@ install -t /usr/share/licenses/nlohmann-json -Dm644 LICENSE.MIT LICENSES/*.txt
 popd
 rm -rf json-3.11.3
 # cryptsetup.
-tar -xf ../sources/cryptsetup-2.8.0.tar.xz
-pushd cryptsetup-2.8.0
+tar -xf ../sources/cryptsetup-2.8.1.tar.xz
+pushd cryptsetup-2.8.1
 ./configure --prefix=/usr --sbindir=/usr/bin --disable-asciidoc --disable-ssh-token
 make
 make install
 install -t /usr/share/licenses/cryptsetup -Dm644 COPYING docs/licenses/*
 popd
-rm -rf cryptsetup-2.8.0
+rm -rf cryptsetup-2.8.1
 # multipath-tools.
 tar -xf ../sources/multipath-tools-0.11.1.tar.gz
 pushd multipath-tools-0.11.1
@@ -4124,6 +4135,16 @@ ninja -C build install
 install -t /usr/share/licenses/libevdev -Dm644 COPYING
 popd
 rm -rf libevdev-1.13.4
+# evtest.
+tar -xf ../sources/evtest-evtest-1.35.tar.gz
+pushd evtest-evtest-1.35
+./autogen.sh
+./configure --prefix=/usr
+make
+make install
+install -t /usr/share/licenses/evtest -Dm644 COPYING
+popd
+rm -rf evtest-evtest-1.35
 # libwacom.
 tar -xf ../sources/libwacom-2.16.1.tar.xz
 pushd libwacom-2.16.1
@@ -4192,6 +4213,19 @@ make
 make install
 popd
 rm -rf aspell6-en-2020.12.07-0
+# hunspell / hunspell-en.
+tar -xf ../sources/hunspell-1.7.2.tar.gz
+pushd hunspell-1.7.2
+for f in AU CA GB US; do unzip -q ../../sources/hunspell-en_$f-large-2020.12.07.zip; mv en_$f{-large,}.aff; mv en_$f{-large,}.dic; sed -i 's/SET UTF8/SET UTF-8/g' en_$f.aff; done
+./configure --prefix=/usr --disable-static --with-readline --with-ui
+make
+make install
+install -t /usr/share/hunspell -Dm644 en_{AU,CA,GB,US}.{aff,dic}
+for l in AG BS BW BZ DK GH HK IE IN JM NA NG NZ SG TT ZA ZW; do ln -sf en_GB.aff /usr/share/hunspell/en_$l.aff; ln -sf en_GB.dic /usr/share/hunspell/en_$l.dic; done
+install -t /usr/share/licenses/hunspell -Dm644 COPYING{,.LESSER,.MPL}
+install -t /usr/share/licenses/hunspell-en -Dm644 COPYING{,.LESSER,.MPL}
+popd
+rm -rf hunspell-1.7.2
 # Enchant.
 tar -xf ../sources/enchant-2.8.12.tar.gz
 pushd enchant-2.8.12
@@ -5597,6 +5631,7 @@ rm -rf tealdeer-1.7.2
 # hyfetch (provides neofetch).
 tar -xf ../sources/hyfetch-2.0.0-rc1.tar.gz
 pushd hyfetch-2.0.0-rc1
+patch -Np1 -i ../../patches/hyfetch-2.0.0-rc1-upstreamfix.patch
 cargo build --release
 install -t /usr/bin -Dm755 target/release/hyfetch
 install -Dm755 neofetch /usr/bin/neowofetch
@@ -5605,14 +5640,14 @@ install -t /usr/share/licenses/hyfetch -Dm644 LICENSE.md
 popd
 rm -rf hyfetch-2.0.0-rc1
 # fastfetch.
-tar -xf ../sources/fastfetch-2.50.1.tar.gz
-pushd fastfetch-2.50.1
+tar -xf ../sources/fastfetch-2.50.2.tar.gz
+pushd fastfetch-2.50.2
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.50.1
+rm -rf fastfetch-2.50.2
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -6017,14 +6052,14 @@ install -t /usr/share/licenses/libmanette -Dm644 COPYING
 popd
 rm -rf libmanette-0.2.11
 # librsvg.
-tar -xf ../sources/librsvg-2.60.0.tar.gz
-pushd librsvg-2.60.0
+tar -xf ../sources/librsvg-2.61.0.tar.gz
+pushd librsvg-2.61.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=release
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/librsvg -Dm644 COPYING.LIB
 popd
-rm -rf librsvg-2.60.0
+rm -rf librsvg-2.61.0
 # Colord.
 tar -xf ../sources/colord-1.4.8.tar.xz
 pushd colord-1.4.8
@@ -6927,8 +6962,8 @@ install -t /usr/share/licenses/sane-airscan -Dm644 COPYING LICENSE
 popd
 rm -rf sane-airscan-0.99.35
 # HPLIP.
-tar -xf ../sources/hplip-3.25.2.tar.gz
-pushd hplip-3.25.2
+tar -xf ../sources/hplip-3.25.6.tar.gz
+pushd hplip-3.25.6
 patch -Np1 -i ../../patches/hplip-3.25.2-manyfixes.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=incompatible-pointer-types -Wno-error=return-mismatch" ./configure --prefix=/usr --sbindir=/usr/bin --enable-cups-drv-install --enable-hpcups-install --disable-imageProcessor-build --enable-pp-build --disable-qt4 --disable-qt5
@@ -6940,7 +6975,7 @@ rm -f /usr/share/applications/hp{lip,-uiscan}.desktop
 rm -f /usr/bin/hp-{uninstall,upgrade} /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 popd
-rm -rf hplip-3.25.2
+rm -rf hplip-3.25.6
 # cnijfilter2.
 tar -xf ../sources/cnijfilter2-source-6.80-1.tar.gz
 pushd cnijfilter2-source-6.80-1
@@ -7012,13 +7047,13 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 popd
 rm -rf tk8.6.16
 # Python (rebuild to support SQLite and Tk).
-tar -xf ../sources/Python-3.13.6.tar.xz
-pushd Python-3.13.6
+tar -xf ../sources/Python-3.13.7.tar.xz
+pushd Python-3.13.7
 ./configure --prefix=/usr --enable-shared --enable-optimizations --with-system-expat --with-system-libmpdec --without-ensurepip --disable-test-modules
 make
 make install
 popd
-rm -rf Python-3.13.6
+rm -rf Python-3.13.7
 # dnspython.
 tar -xf ../sources/dnspython-2.7.0.tar.gz
 pushd dnspython-2.7.0
@@ -7116,14 +7151,14 @@ install -t /usr/share/licenses/urllib3 -Dm644 LICENSE.txt
 popd
 rm -rf urllib3-2.5.0
 # requests.
-tar -xf ../sources/requests-2.32.4.tar.gz
-pushd requests-2.32.4
+tar -xf ../sources/requests-2.32.5.tar.gz
+pushd requests-2.32.5
 patch -Np1 -i ../../patches/requests-2.32.3-systemcertificates.patch
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/requests -Dm644 LICENSE
 popd
-rm -rf requests-2.32.4
+rm -rf requests-2.32.5
 # libplist.
 tar -xf ../sources/libplist-2.7.0.tar.bz2
 pushd libplist-2.7.0
@@ -7444,14 +7479,14 @@ install -t /usr/share/licenses/libxmlb -Dm644 LICENSE
 popd
 rm -rf libxmlb-0.3.23
 # AppStream.
-tar -xf ../sources/AppStream-1.0.5.tar.xz
-pushd AppStream-1.0.5
+tar -xf ../sources/AppStream-1.0.6.tar.xz
+pushd AppStream-1.0.6
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dvapi=true -Dcompose=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/appstream -Dm644 COPYING
 popd
-rm -rf AppStream-1.0.5
+rm -rf AppStream-1.0.6
 # appstream-glib.
 tar -xf ../sources/appstream_glib_0_8_3.tar.gz
 pushd appstream-glib-appstream_glib_0_8_3
@@ -8020,14 +8055,14 @@ install -t /usr/share/licenses/libavif -Dm644 LICENSE
 popd
 rm -rf libavif-1.3.0
 # highway.
-tar -xf ../sources/highway-1.2.0.tar.gz
-pushd highway-1.2.0
+tar -xf ../sources/highway-1.3.0.tar.gz
+pushd highway-1.3.0
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/highway -Dm644 LICENSE{,-BSD3}
 popd
-rm -rf highway-1.2.0
+rm -rf highway-1.3.0
 # libjxl.
 tar -xf ../sources/libjxl-0.11.1.tar.gz
 pushd libjxl-0.11.1
@@ -8648,12 +8683,12 @@ install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENS
 popd
 rm -rf linux-firmware-20250708
 # Intel-Microcode.
-tar -xf ../sources/intel-microcode-20250512.tar.gz
-pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20250512
+tar -xf ../sources/intel-microcode-20250812.tar.gz
+pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
 install -t /usr/lib/firmware/intel-ucode -Dm644 intel-ucode{,-with-caveats}/*
 install -t /usr/share/licenses/intel-microcode -Dm644 license
 popd
-rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20250512
+rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
 # SOF-Firmware.
 tar -xf ../sources/sof-bin-2025.05.tar.gz
 pushd sof-bin-2025.05
