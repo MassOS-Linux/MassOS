@@ -132,7 +132,7 @@ Upgraded software (core):
 - Diffutils: `3.8 --> 3.12`
 - DirectX-Headers: `1.606.3 --> 1.615.0`
 - distro: `1.6.0 --> 1.9.0`
-- DKMS: `3.0.6 --> 3.1.7`
+- DKMS: `3.0.6 --> 3.2.1`
 - dmidecode: `3.4 --> 3.6`
 - dnspython: `2.2.0 --> 2.7.0`
 - docutils: `0.18.1 --> 0.21.2`
@@ -164,7 +164,7 @@ Upgraded software (core):
 - fast-float: `(new package) --> 8.0.2`
 - fastfetch: `(new package) --> 2.50.2`
 - fastjsonschema: `(new package) --> 2.21.1`
-- FFmpeg: `5.1.2 --> 7.1.1`
+- FFmpeg: `5.1.2 --> 8.0`
 - File: `5.43 --> 5.46`
 - File-Slurp: `(new package) --> 9999.32`
 - Findutils: `4.9.0 --> 4.10.0`
@@ -468,7 +468,7 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.17.0-rc2`
+- Linux: `6.0.0 --> 6.17.0-rc3`
 - Linux-API-Headers: `6.0.0 --> 6.17.0-rc1`
 - Linux-Firmware: `(new package) --> 20250708`
 - Linux-Headers: `6.0.0 --> 6.17.0-rc1`
@@ -496,7 +496,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 25.2.0`
+- Mesa: `22.1.7 --> 25.2.1`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.8.2`
 - meson-python: `(new package) --> 0.18.0`
@@ -647,7 +647,7 @@ Upgraded software (core):
 - shaderc: `(new package) --> 2025.3`
 - Shadow: `4.12.3 --> 4.18.0`
 - shared-mime-info: `2.2 --> 2.4`
-- shim: `(new package) --> 16.0`
+- shim: `(new package) --> 16.1`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
 - smartmontools: `(new package) --> 7.5`
@@ -657,7 +657,7 @@ Upgraded software (core):
 - sndio: `(new package) --> 1.10.0`
 - SOF-Firmware: `(new package) --> 2025.05`
 - SoundTouch: `2.3.1 --> 2.4.0`
-- speech-dispatcher: `(new package) --> 0.12.0`
+- speech-dispatcher: `(new package) --> 0.12.1`
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
 - SPIRV-Headers: `1.3.216.0 --> 1.4.321.0`

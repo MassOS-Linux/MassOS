@@ -37,5 +37,11 @@ rm -f /usr/bin/livecd-installer
 rm -f /usr/share/applications/livecd-installer.desktop
 rm -f /etc/xdg/autostart/trust-livecd-installer.desktop
 
+# Auto-generate a Machine Owner Key (MOK) for the new system.
+# This is to support signing of out of tree kernel modules and similar.
+# Follow the formatting of Ubuntu/Debian, as VirtualBox also expects that.
+openssl req -new -x509 -newkey rsa:2048 -nodes -keyout /var/lib/shim-signed/mok/MOK.priv -out /var/lib/shim-signed/mok/MOK.der -outform DER -days 3650 -subj "/CN=Auto-generated MOK for $(cat /etc/hostname) on $(date +%Y-%m-%d)/"
+chmod 0600 /var/lib/shim-signed/mok/MOK.priv
+
 # Self destruct.
-rm -f /tmp/{livecd-cleanup.sh,{post,pre}upgrade}
+rm -f /tmp/{livecd-cleanup.sh,{post,pre}upgrade{,_ng}}

@@ -3665,12 +3665,13 @@ install -t /usr/share/licenses/libsmbios -Dm644 COPYING COPYING-GPL
 popd
 rm -rf libsmbios-2.4.3
 # DKMS.
-tar -xf ../sources/dkms-3.1.7.tar.gz
-pushd dkms-3.1.7
-make MODDIR=/usr/lib/modules SBIN=/usr/bin install
+tar -xf ../sources/dkms-3.2.1.tar.gz
+pushd dkms-3.2.1
+make MODDIR=/usr/lib/modules SBIN=/usr/bin KCONF=/tmp/.mbs_trash LIBDIR=/tmp/.mbs_trash install
+sed -e 's|^# sign_file="/path/to/sign-file"$|sign_file="/usr/lib/modules/$kernelver/build/scripts/sign-file"|' -e 's|^# mok_signing_key=/var/lib/dkms/mok.key$|mok_signing_key=/var/lib/shim-signed/mok/MOK.priv|' -e 's|^# mok_certificate=/var/lib/dkms/mok.pub$|mok_certificate=/var/lib/shim-signed/mok/MOK.der|' -i /etc/dkms/framework.conf
 install -t /usr/share/licenses/dkms -Dm644 COPYING
 popd
-rm -rf dkms-3.1.7
+rm -rf dkms-3.2.1
 # xmlsec.
 tar -xf ../sources/xmlsec-1.3.7.tar.gz
 pushd xmlsec-1.3.7
@@ -3920,8 +3921,8 @@ install -t /usr/share/licenses/woff2 -Dm644 LICENSE
 popd
 rm -rf woff2-1.0.2
 # shim.
-tar -xf ../sources/shim-16.0.tar.bz2
-pushd shim-16.0
+tar -xf ../sources/shim-16.1.tar.bz2
+pushd shim-16.1
 cp ../../extras/secureboot/db.der .
 make EFIDIR=massos VENDOR_CERT_FILE=db.der
 make DATATARGETDIR=/usr/lib/shim install-as-data
@@ -3930,9 +3931,10 @@ echo "shimx64.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE 
 ## This seems nonsensical, but the GRUB secureboot patch expects it this way.
 for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; rm -f /usr/lib/shim/"$f"x64.efi; done
 for f in fb mm; do mv /usr/lib/shim/"$f"x64.efi{.signed,}; done
+install -dm755 /var/lib/shim-signed/mok
 install -t /usr/share/licenses/shim -Dm644 COPYRIGHT
 popd
-rm -rf shim-16.0
+rm -rf shim-16.1
 # mokutil.
 tar -xf ../sources/mokutil-0.7.2.tar.gz
 pushd mokutil-0.7.2
@@ -5136,14 +5138,14 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-25.2.0.tar.xz
-pushd mesa-25.2.0
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-clc=enabled -Dintel-rt=enabled -Dvideo-codecs=all -Dvalgrind=disabled
+tar -xf ../sources/mesa-mesa-25.2.1.tar.bz2
+pushd mesa-mesa-25.2.1
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-25.2.0
+rm -rf mesa-mesa-25.2.1
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -5745,8 +5747,8 @@ rm -rf mtools-4.0.48
 # bcachefs-tools.
 tar -xf ../sources/bcachefs-tools-1.25.1.tar.gz
 pushd bcachefs-tools-1.25.1
-make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/trash
-make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/trash install
+make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash
+make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash install
 bcachefs completions bash > /usr/share/bash-completion/completions/bcachefs
 bcachefs completions zsh > /usr/share/zsh/site-functions/_bcachefs
 bcachefs completions fish > /usr/share/fish/vendor_completions.d/bcachefs.fish
@@ -6594,8 +6596,8 @@ install -t /usr/share/licenses/espeak-ng -Dm644 COPYING{,.{APACHE,BSD2,UCD}}
 popd
 rm -rf espeak-ng-1.52.0
 # speech-dispatcher.
-tar -xf ../sources/speech-dispatcher-0.12.0.tar.gz
-pushd speech-dispatcher-0.12.0
+tar -xf ../sources/speech-dispatcher-0.12.1.tar.gz
+pushd speech-dispatcher-0.12.1
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-static --without-baratinoo --without-espeak --without-flite --without-ibmtts --without-kali --without-voxin
 make
 make install
@@ -6605,7 +6607,7 @@ sed -i 's/#AddModule "espeak-ng"/AddModule "espeak-ng"/' /etc/speech-dispatcher/
 systemctl enable speech-dispatcherd
 install -t /usr/share/licenses/speech-dispatcher -Dm644 COPYING.{GPL-2,GPL-3,LGPL}
 popd
-rm -rf speech-dispatcher-0.12.0
+rm -rf speech-dispatcher-0.12.1
 # SDL3 (initial build - will be rebuilt later for PipeWire support).
 tar -xf ../sources/SDL3-3.2.16.tar.gz
 pushd SDL3-3.2.16
@@ -8142,10 +8144,9 @@ install -t /usr/share/licenses/openal -Dm644 COPYING BSD-3Clause
 popd
 rm -rf openal-soft-1.24.3
 # FFmpeg.
-tar -xf ../sources/ffmpeg-7.1.1.tar.xz
-pushd ffmpeg-7.1.1
+tar -xf ../sources/ffmpeg-8.0.tar.xz
+pushd ffmpeg-8.0
 patch -Np1 -i ../../patches/ffmpeg-7.1-chromium.patch
-sed -i '/svt_av1_enc_init_handle/s/svt_enc, //' libavcodec/libsvtav1.c
 ./configure --prefix=/usr --disable-debug --disable-htmlpages --disable-nonfree --disable-podpages --disable-rpath --disable-static --disable-txtpages --enable-alsa --enable-amf --enable-bzlib --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-gmp --enable-gpl --enable-iconv --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libiec61883 --enable-libjack --enable-libjxl --enable-libkvazaar --enable-liblc3 --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libplacebo --enable-libpulse --enable-libqrencode --enable-librav1e --enable-librsvg --enable-librtmp --enable-libshaderc --enable-libspeex --enable-libsvtav1 --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-libxvid --enable-manpages --enable-nvdec --enable-nvenc --enable-openal --enable-opengl --enable-openssl --enable-optimizations --enable-sdl2 --enable-shared --enable-small --enable-stripping --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart $LDFLAGS
@@ -8153,7 +8154,7 @@ make install
 install -t /usr/bin -Dm755 tools/qt-faststart
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 popd
-rm -rf ffmpeg-7.1.1
+rm -rf ffmpeg-8.0
 # OpenAL (rebuild - circular dependency with FFmpeg).
 tar -xf ../sources/openal-soft-1.24.3.tar.gz
 pushd openal-soft-1.24.3
@@ -8590,16 +8591,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17-rc2.tar.gz
-pushd linux-6.17-rc2
+tar -xf ../sources/linux-6.17-rc3.tar.gz
+pushd linux-6.17-rc3
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.0-rc2,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.0-rc2,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.0-rc3,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.0-rc3,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8654,7 +8655,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc2
+rm -rf linux-6.17-rc3
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.76.05.tar.gz
 pushd open-gpu-kernel-modules-580.76.05
@@ -8700,8 +8701,8 @@ rm -rf sof-bin-2025.05
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.10.0" > /usr/share/massos/.osinstallguiver
-echo "08415c97347cc8a264aa0939899a4e1c8dbe4449c9886c4a42009935262dfc8f" > /usr/share/massos/.osinstallguisum
+echo "0.10.1" > /usr/share/massos/.osinstallguiver
+echo "ab3ff12a3a0ffaed3623734c3c6e484b8ad29c01ab7e4855bc2bc0ea10ac6df2" > /usr/share/massos/.osinstallguisum
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
