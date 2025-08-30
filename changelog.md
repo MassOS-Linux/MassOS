@@ -100,10 +100,10 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
-- Clang: `14.0.6 --> 21.1.0-rc3`
+- Clang: `14.0.6 --> 21.1.0`
 - CMake: `3.24.2 --> 4.1.0`
 - cnijfilter2: `(new package) --> 6.80`
-- compiler-rt: `15.0.3 --> 21.1.0-rc3`
+- compiler-rt: `15.0.3 --> 21.1.0`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -259,8 +259,8 @@ Upgraded software (core):
 - HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.398`
-- hyfetch: `(new package) --> 2.0.0-rc1`
-- iana-etc: `20220922 --> 20250807`
+- hyfetch: `(new package) --> 2.0.1`
+- iana-etc: `20220922 --> 20250815`
 - iceauth: `1.0.9 --> 1.0.10`
 - ICU: `71.1 --> 77.1`
 - idna: `3.4 --> 3.10`
@@ -317,11 +317,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 21.1.0-rc3`
+- libclc: `(new package) --> 21.1.0`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 21.1.0-rc3`
-- libc++abi: `(new package) --> 21.1.0-rc3`
+- libc++: `(new package) --> 21.1.0`
+- libc++abi: `(new package) --> 21.1.0`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -473,8 +473,8 @@ Upgraded software (core):
 - Linux-Firmware: `(new package) --> 20250708`
 - Linux-Headers: `6.0.0 --> 6.17.0-rc1`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 21.1.0-rc3`
-- LLVM: `14.0.6 --> 21.1.0-rc3`
+- LLD: `14.0.6 --> 21.1.0`
+- LLVM: `14.0.6 --> 21.1.0`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -514,7 +514,7 @@ Upgraded software (core):
 - mtdev: `1.1.6 --> 1.1.7`
 - mtools: `4.0.40 --> 4.0.48`
 - multipath-tools: `(new package) --> 0.11.1`
-- Nano: `6.4 --> 8.5`
+- Nano: `6.4 --> 8.6`
 - NASM: `2.15.05 --> 2.16.03`
 - Ncurses: `6.3 --> 6.5-20250809`
 - Net-SNMP: `5.9.3 --> 5.9.4`
@@ -547,7 +547,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.3`
-- OpenMP: `(new package) --> 21.1.0-rc3`
+- OpenMP: `(new package) --> 21.1.0`
 - OpenSSH: `9.0p1 --> 10.0p1`
 - OpenSSL: `3.0.5 --> 3.5.2`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
@@ -612,7 +612,7 @@ Upgraded software (core):
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.2`
-- qemu-guest-agent: `(new package) --> 10.0.3`
+- qemu-guest-agent: `(new package) --> 10.1.0`
 - Qpdf: `11.1.1 --> 12.2.0`
 - rav1e: `0.5.1 --> 0.8.0`
 - rdfind: `(new package) --> 1.7.0`
@@ -671,7 +671,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.3.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 257.8`
+- systemd: `251.5 --> 258-rc3`
 - Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
@@ -694,7 +694,7 @@ Upgraded software (core):
 - UDisks: `2.9.4 --> 2.10.1`
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
-- Unifont: `15.0.01 --> 16.0.02`
+- Unifont: `15.0.01 --> 16.0.04`
 - UPower: `1.90.0 --> 1.90.9`
 - urllib3: `1.26.11 --> 2.5.0`
 - usbutils: `014 --> 018`
@@ -703,7 +703,7 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41.1`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1634`
+- Vim: `9.0.0600 --> 9.1.1706`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.3`
@@ -803,7 +803,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.0`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 142.0`
+- Firefox: `105.0.1 --> 142.0.1`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
@@ -853,9 +853,9 @@ Upgraded software (Xfce):
 - xfdesktop: `4.17.0 --> 4.20.1`
 - xfwm4: `4.16.1 --> 4.20.0`
 
-Upgraded software (extras - not installed by default):
+Upgraded software (extras - **NOT** installed by default):
 
-- Snapd: `(new package) --> 2.70`
+- Snapd: `(new package) --> 2.71`
 
 # MassOS 2022.10
 Changes:

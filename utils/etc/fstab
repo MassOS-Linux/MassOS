@@ -6,11 +6,14 @@
 # BE SURE TO REPLACE THE 'x' PLACEHOLDERS WITH THE UUID OF YOUR PARTITION.
 # If unsure of the UUID, 'blkid' can be used to find them.
 
-# Root filesystem:
-#UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx / ext4 defaults 1 1
+# See the 'fstab(5)' manual page for more information about the formatting of
+# this file.
 
-# Swap (optional):
-#UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx swap swap pri=1 0 0
+# Root filesystem:
+#UUID=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx / btrfs defaults 1 1
 
 # EFI system (UEFI only):
-#UUID=xxxx-xxxx /boot/efi vfat umask=0077 0 1
+#UUID=xxxx-xxxx /boot/efi vfat umask=0077 0 2
+
+# Swap file (optional):
+#/swapfile none swap sw 0 0

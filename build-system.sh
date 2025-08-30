@@ -121,8 +121,8 @@ install -t /usr/share/licenses/man-pages -Dm644 LICENSES/*
 popd
 rm -rf man-pages-6.14
 # iana-etc.
-tar -xf ../sources/iana-etc-20250807.tar.gz
-install -t /etc -Dm644 iana-etc-20250807/{protocols,services}
+tar -xf ../sources/iana-etc-20250815.tar.gz
+install -t /etc -Dm644 iana-etc-20250815/{protocols,services}
 install -dm755 /usr/share/licenses/iana-etc
 cat > /usr/share/licenses/iana-etc/LICENSE << "END"
 Copyright 2017 Jörg Thalheim
@@ -133,7 +133,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 END
-rm -rf iana-etc-20250807
+rm -rf iana-etc-20250815
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -378,16 +378,15 @@ rm -rf libxcrypt-4.4.38
 tar -xf ../sources/libcap-2.76.tar.xz
 pushd libcap-2.76
 sed -i '/install -m.*STA/d' libcap/Makefile
-make prefix=/usr lib=lib CFLAGS="$CFLAGS -fPIC"
-make prefix=/usr lib=lib install
-chmod 755 /usr/lib/lib{cap,psx}.so.2.*
+make prefix=/usr lib=lib sbin=bin GO_BUILD_FLAGS="-buildmode=pie"
+make prefix=/usr lib=lib sbin=bin install
 install -t /usr/share/licenses/libcap -Dm644 License
 popd
 rm -rf libcap-2.76
 # CrackLib.
 tar -xf ../sources/cracklib-2.10.3.tar.bz2
 pushd cracklib-2.10.3
-CPPFLAGS="-I/usr/include/$(readlink /usr/bin/python3)" ./configure --prefix=/usr --sbindir=/usr/bin --disable-static --with-python --with-default-dict=/usr/lib/cracklib/pw_dict
+CPPFLAGS="$CPPFLAGS -I/usr/include/$(readlink /usr/bin/python3)" ./configure --prefix=/usr --sbindir=/usr/bin --disable-static --with-python --with-default-dict=/usr/lib/cracklib/pw_dict
 make
 make install
 install -dm755 /usr/lib/cracklib
@@ -1485,8 +1484,8 @@ install -t /usr/share/licenses/tar -Dm644 COPYING
 popd
 rm -rf tar-1.35
 # Nano.
-tar -xf ../sources/nano-8.5.tar.xz
-pushd nano-8.5
+tar -xf ../sources/nano-8.6.tar.xz
+pushd nano-8.6
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
@@ -1494,7 +1493,7 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 install -t /usr/share/licenses/nano -Dm644 COPYING
 popd
-rm -rf nano-8.5
+rm -rf nano-8.6
 # dos2unix.
 tar -xf ../sources/dos2unix-7.5.2.tar.gz
 pushd dos2unix-7.5.2
@@ -2336,9 +2335,9 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.398
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-257.8.tar.gz
-pushd systemd-257.8
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.8-massos -Dshared-lib-tag=257.8-massos -Dbpf-framework=disabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
+tar -xf ../sources/systemd-258-rc3.tar.gz
+pushd systemd-258-rc3
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc3-massos -Dshared-lib-tag=258-rc3-massos -Dsbat-distro-version=258-rc3-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -2353,7 +2352,6 @@ session  optional pam_systemd.so
 auth     required pam_deny.so
 password required pam_deny.so
 END
-systemd-machine-id-setup
 cat > /usr/lib/sysusers.d/massos.conf << "END"
 # This file defines additional system users/groups which are required on a
 # MassOS system, but systemd doesn't provide sysusers files for by default.
@@ -2377,7 +2375,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-257.8
+rm -rf systemd-258-rc3
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -3777,8 +3775,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-21.1.0-rc3.src.tar.xz
-pushd llvm-project-21.1.0-rc3.src
+tar -xf ../sources/llvm-project-21.1.0.src.tar.xz
+pushd llvm-project-21.1.0.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3796,7 +3794,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-21.1.0-rc3.src
+rm -rf llvm-project-21.1.0.src
 # bpftool.
 tar -xf ../sources/bpftool-7.5.0.tar.gz
 tar -xf ../sources/libbpf-1.5.0.tar.gz -C bpftool-7.5.0/libbpf --strip-components=1
@@ -3945,11 +3943,11 @@ install -t /usr/share/licenses/mokutil -Dm644 COPYING
 popd
 rm -rf mokutil-0.7.2
 # Unifont.
-tar -xf ../sources/unifont-16.0.02.tar.gz
+tar -xf ../sources/unifont-16.0.04.tar.gz
 install -dm755 /usr/share/fonts/unifont
-gzip -cd unifont-16.0.02/font/precompiled/unifont-16.0.02.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
-install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.02/COPYING
-rm -rf unifont-16.0.02
+gzip -cd unifont-16.0.04/font/precompiled/unifont-16.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.04/COPYING
+rm -rf unifont-16.0.04
 # GRUB.
 tar -xf ../sources/grub-2.12-359-g19c698d12.tar.xz
 pushd grub-2.12-359-g19c698d12
@@ -5038,14 +5036,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-21.1.0
 # libclc.
-tar -xf ../sources/libclc-21.1.0-rc3.src.tar.xz
-pushd libclc-21.1.0-rc3.src
+tar -xf ../sources/libclc-21.1.0.src.tar.xz
+pushd libclc-21.1.0.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-21.1.0-rc3.src
+rm -rf libclc-21.1.0.src
 # glslang.
 tar -xf ../sources/glslang-15.4.0.tar.gz
 pushd glslang-15.4.0
@@ -5293,9 +5291,9 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-257.8.tar.gz
-pushd systemd-257.8
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=257.8-massos -Dshared-lib-tag=257.8-massos -Dbpf-framework=enabled -Dcryptolib=openssl -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
+tar -xf ../sources/systemd-258-rc3.tar.gz
+pushd systemd-258-rc3
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc3-massos -Dshared-lib-tag=258-rc3-massos -Dsbat-distro-version=258-rc3-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
 ninja -C build
 ninja -C build install
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-bootx64.efi
@@ -5312,7 +5310,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-257.8
+rm -rf systemd-258-rc3
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5631,16 +5629,16 @@ install -t /usr/share/licenses/tldr -Dm644 LICENSE-APACHE LICENSE-MIT
 popd
 rm -rf tealdeer-1.7.2
 # hyfetch (provides neofetch).
-tar -xf ../sources/hyfetch-2.0.0-rc1.tar.gz
-pushd hyfetch-2.0.0-rc1
-patch -Np1 -i ../../patches/hyfetch-2.0.0-rc1-upstreamfix.patch
+tar -xf ../sources/hyfetch-2.0.1.tar.gz
+pushd hyfetch-2.0.1
 cargo build --release
 install -t /usr/bin -Dm755 target/release/hyfetch
 install -Dm755 neofetch /usr/bin/neowofetch
 ln -sf neowofetch /usr/bin/neofetch
 install -t /usr/share/licenses/hyfetch -Dm644 LICENSE.md
+ln -sf hyfetch /usr/share/licenses/neofetch
 popd
-rm -rf hyfetch-2.0.0-rc1
+rm -rf hyfetch-2.0.1
 # fastfetch.
 tar -xf ../sources/fastfetch-2.50.2.tar.gz
 pushd fastfetch-2.50.2
@@ -6737,8 +6735,8 @@ END
 popd
 rm -rf ppp-2.5.2
 # Vim.
-tar -xf ../sources/vim-9.1.1634.tar.gz
-pushd vim-9.1.1634
+tar -xf ../sources/vim-9.1.1706.tar.gz
+pushd vim-9.1.1706
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -6761,7 +6759,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 popd
-rm -rf vim-9.1.1634
+rm -rf vim-9.1.1706
 # libwpe.
 tar -xf ../sources/libwpe-1.16.2.tar.xz
 pushd libwpe-1.16.2
@@ -8541,10 +8539,9 @@ install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
 popd
 rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-10.0.3.tar.xz
-pushd qemu-10.0.3
+tar -xf ../sources/qemu-10.1.0.tar.xz
+pushd qemu-10.1.0
 patch -Np1 -i ../../patches/qemu-9.2.3-libnfs6fix.patch
-patch -Np1 -i ../../patches/qemu-10.0.3-pip252fix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list=x86_64-linux-user,x86_64-softmmu
 make
 install -t /usr/bin -Dm755 build/qga/qemu-ga
@@ -8563,7 +8560,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-10.0.3
+rm -rf qemu-10.1.0
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -8701,8 +8698,8 @@ rm -rf sof-bin-2025.05
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.10.1" > /usr/share/massos/.osinstallguiver
-echo "ab3ff12a3a0ffaed3623734c3c6e484b8ad29c01ab7e4855bc2bc0ea10ac6df2" > /usr/share/massos/.osinstallguisum
+echo "0.11.0" > /usr/share/massos/.osinstallguiver
+echo "41d3a63192e399b6e7219d5d0022f58eb730b9f0f4850688c2b1660a8365add2" > /usr/share/massos/.osinstallguisum
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
@@ -8716,7 +8713,7 @@ cat > /usr/share/massos/snapdversion << "END"
 # to know which version of snapd to install.
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
-version: 2.70
+version: 2.71
 
 # Whether or not snapd is installed ('massos-snapd' sets this automatically).
 installed: no

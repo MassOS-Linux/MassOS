@@ -172,6 +172,7 @@ install -t "$MASSOS"/usr/share/man/man1 -Dm644 utils/man/man1/*.1
 install -t "$MASSOS"/usr/share/man/man8 -Dm644 utils/man/man8/*.8
 # Install additional MassOS files.
 install -t "$MASSOS"/usr/share/massos -Dm644 CC-BY-SA-4.0 GPL-3.0 LICENSE utils/builtins logo/*.png
+install -t "$MASSOS"/usr/share/licenses/massos-base -Dm644 CC-BY-SA-4.0 GPL-3.0 LICENSE
 # Create MassOS logo symlinks in pixmaps directory.
 install -dm755 "$MASSOS"/usr/share/pixmaps
 for i in "$MASSOS"/usr/share/massos/*.png; do ln -sfr "$i" "$MASSOS"/usr/share/pixmaps; done

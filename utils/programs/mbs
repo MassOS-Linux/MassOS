@@ -24,7 +24,7 @@
 export MBS_INV="$(basename "$0")"
 
 # What is our version and copyright year?
-export MBS_VER="0.0.2"
+export MBS_VER="0.1.0"
 export MBS_YEAR="2025"
 
 # What is the MassOS version?
@@ -33,14 +33,16 @@ export MBS_HOST_VER="$(cat /etc/massos-release 2>/dev/null || echo "UNKNOWN")"
 # Set up default compiler options if they are not specified.
 test ! -z "$CFLAGS" || export CFLAGS="-Os"
 test ! -z "$CXXFLAGS" || export CXXFLAGS="-Os"
+test ! -z "$LDFLAGS" || export LDFLAGS="-Wl,-O1"
+
+# Set up default build types for Meson and CMake if unset.
+test ! -z "$MBS_MESON_BT" || export MBS_MESON_BT="minsize"
+test ! -z "$MBS_CMAKE_BT" || export MBS_CMAKE_BT="MinSizeRel"
 
 # Set up common flags only if they are unset in the environment.
 test ! -z "$MBS_FLAGS_CONFIGURE" || export MBS_FLAGS_CONFIGURE="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --infodir=/usr/share/info --mandir=/usr/share/man"
-test ! -z "$MBS_FLAGS_MESON" || export MBS_FLAGS_MESON="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=bin --buildtype=minsize"
-test ! -z "$MBS_FLAGS_CMAKE" || export MBS_FLAGS_CMAKE="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel"
-
-# Unset all flags if MBS_FLAGS_NODEFAULTS=YES
-test "$MBS_FLAGS_NODEFAULTS" != "YES" || export MBS_FLAGS_CONFIGURE="" MBS_FLAGS_MESON="" MBS_FLAGS_CMAKE=""
+test ! -z "$MBS_FLAGS_MESON" || export MBS_FLAGS_MESON="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=bin --buildtype=$MBS_MESON_BT"
+test ! -z "$MBS_FLAGS_CMAKE" || export MBS_FLAGS_CMAKE="-DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=$MBS_CMAKE_BT"
 
 # Parallel build by default, unless otherwise specified.
 test ! -z "$MAKEFLAGS" || export MAKEFLAGS="-j$(nproc)"
@@ -55,7 +57,6 @@ mbs_suc() {
   echo -e "\e[1;32m$MBS_INV: $*\e[0m"
 }
 
-
 # Exit on error function.
 mbs_die() {
   echo -e "\e[1;31m$MBS_INV: $* Aborting...\e[0m" >&2
@@ -64,25 +65,202 @@ mbs_die() {
 
 # Usage function.
 mbs_usage() {
-  echo "$MBS_INV (MassOS Build System Utility) $MBS_VER (MassOS $MBS_HOST_VER)"
-  echo "Copyright (C) 2025 Daniel Massey / MassOS Developers"
-  echo "Licensed under GNU GPLv3+; see '/usr/share/massos/LICENSE'."
-  echo
-  echo "Usage: $MBS_INV <command> [options]"
-  echo
-  echo "Available commands:"
-  echo
-  echo "  $MBS_INV extract   - Extract a source tarball."
-  echo "  $MBS_INV apply     - Apply a patch file to the source tree."
-  echo "  $MBS_INV configure - Build a project using a configure script."
-  echo "  $MBS_INV meson     - Build a project using the Meson build system."
-  echo "  $MBS_INV cmake     - Build a project using the CMake build system."
-  echo "  $MBS_INV install   - Install a project after it has been built."
-  echo "  $MBS_INV license   - Install one or more project license files."
-  echo "  $MBS_INV cleanup   - Clean up the current directory."
-  echo
-  echo "For help with individual commands, try '$MBS_INV help <command>'."
-  echo "For the full reference documentation, try 'man $MBS_INV'."
+  case "$1" in
+    extract)
+      echo "Usage: $MBS_INV extract <tarball-file>"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_TARBALL_DIR   - Where to find the tarball if it is not in or"
+      echo "                      relative to the current directory."
+      echo "  MBS_EXTRACT_DEPTH - The parameter for '--strip-components' in"
+      echo "                      tar. The default in $MBS_INV is 1, but tar"
+      echo "                      itself would default to 0."
+      echo
+      echo "Notes:"
+      echo
+      echo "  $MBS_INV tries to find the 'bsdtar' program for extraction. If"
+      echo "  this is not found, it instead tries to find the 'tar' program."
+      echo "  If neither programs are found, $MBS_INV will exit on error."
+      echo
+      echo "  'bsdtar' (from libarchive) has inbuilt support for compressed"
+      echo "  tarballs, and can also support many non-tar archive formats. By"
+      echo "  contrast, 'tar' (GNU) only supports tarballs, and compressed"
+      echo "  tarball support is dependent upon the relevant decompressor"
+      echo "  being installed on the system. Keep this in mind when attempting"
+      echo "  to extract non-tar archives and certain compressed tarballs."
+      ;;
+    apply)
+      echo "Usage: $MBS_INV apply <patch-file>"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_PATCH_DIR   - Where to find the patch file if it is not in"
+      echo "                    or relative to the current directory."
+      echo "  MBS_PATCH_DEPTH - The parameter for '-p' in patch. The default"
+      echo "                    in $MBS_INV is 1, which is the most commonly"
+      echo "                    patch depth. Should only be changed under rare"
+      echo "                    circumstances, if you know you need a patch"
+      echo "                    depth which differs from the default.."
+      ;;
+    configure)
+      echo "Usage: $MBS_INV configure [optional additional parameters]"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_CONFIGURE_RECONF - Set to 'YES' if 'autoreconf -fiv' should"
+      echo "                         be run to (re)generate the configure"
+      echo "                         script before configuring."
+      echo "  MBS_FLAGS_CONFIGURE  - Replace the default flags to pass to"
+      echo "                         configure, which are the following:"
+      echo "                           --prefix=/usr \\"
+      echo "                           --sysconfdir=/etc \\"
+      echo "                           --localstatedir=/var \\"
+      echo "                           --runstatedir=/run \\"
+      echo "                           --bindir=/usr/bin \\"
+      echo "                           --libdir=/usr/lib \\"
+      echo "                           --sbindir=/usr/bin \\"
+      echo "                           --infodir=/usr/share/info \\"
+      echo "                           --mandir=/usr/share/man"
+      echo
+      echo "Notes:"
+      echo
+      echo "  $MBS_INV ONLY supports GNU Autotools-based configure scripts."
+      echo "  It will run configure from (and hence, cause the Makefile to be"
+      echo "  placed into) the '_mbsbuild' subdirectory of the source tree."
+      echo "  '$MBS_INV build' detects this directory automatically (so you do"
+      echo "  NOT need to 'cd' or 'pushd' into it after configure is done)."
+      ;;
+    meson)
+      echo "Usage: $MBS_INV meson [optional additional parameters]"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_MESON_BT    - The Meson build type ('--buildtype=')."
+      echo "                    $MBS_INV will default to 'minsize' if unset."
+      echo "                    See the Meson documentation for more options."
+      echo "  MBS_FLAGS_MESON - Replace the default flags to pass to"
+      echo "                    'meson setup', which are the following:"
+      echo "                      --prefix=/usr \\"
+      echo "                      --sysconfdir=/etc \\"
+      echo "                      --localstatedir=/var \\"
+      echo "                      --sbindir=bin \\"
+      echo "                      --buildtype=\$MBS_MESON_BT"
+      echo
+      echo "Notes:"
+      echo
+      echo "  $MBS_INV will place the output of 'meson setup' into the"
+      echo " '_mbsbuild' subdirectory of the source tree. '$MBS_INV build'"
+      echo "  detects this directory automatically when subsequently run."
+      ;;
+    cmake)
+      echo "Usage: $MBS_INV cmake [optional additional parameters]"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_CMAKE_BT    - The CMake build type ('-DCMAKE_BUILD_TYPE')."
+      echo "                    $MBS_INV will default to 'MinSizeRel' if"
+      echo "                    unset. Commonly used build types include"
+      echo "                    'Release', 'RelWithDebInfo', 'None'. See the"
+      echo "                    CMake documentation for more information."
+      echo "  MBS_FLAGS_CMAKE - Replace the default flags to pass to 'cmake',"
+      echo "                    which are the following:"
+      echo "                      -DCMAKE_INSTALL_PREFIX=/usr \\"
+      echo "                      -DCMAKE_BUILD_TYPE=\$MBS_CMAKE_BT"
+      echo
+      echo "Notes:"
+      echo
+      echo "  $MBS_INV will place the output of 'cmake' into the '_mbsbuild'"
+      echo "  subdirectory of the source tree. '$MBS_INV build' detects this"
+      echo "  directory automatically when subsequently run."
+      ;;
+    build)
+      echo "Usage: $MBS_INV build [optional additional parameters]"
+      echo
+      echo "Notes:"
+      echo
+      echo "  The subdirectory '_mbsbuild' is expected. $MBS_INV will detect"
+      echo "  whether the build system uses a Makefile or Ninja automatically."
+      echo "  Any optional additional parameters will be passed directly to"
+      echo "  'make' or 'ninja', so only pass them if you know which build"
+      echo "  system is in use (in most cases, they aren't needed anyway)."
+      ;;
+    install)
+      echo "Usage: $MBS_INV install [optional additional parameters]"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  DESTDIR                  - The path to use as the virtual root"
+      echo "                             for the package installation. This"
+      echo "                             creates a staged installation into a"
+      echo "                             temporary directory, which could then"
+      echo "                             be packaged or copied to '/' as"
+      echo "                             desired."
+      echo "  MBS_ALLOW_SYSINST        - Set to 'YES' to allow direct system"
+      echo "                             installations if DESTDIR is unset."
+      echo "                             This is NOT recommended for use on"
+      echo "                             production systems."
+      echo "  MBS_HUSH_SYSINST_WARNING - Set to 'YES' to surpress the warning"
+      echo "                             emitted by $MBS_INV when performing a"
+      echo "                             system installation (non-DESTDIR)."
+      echo
+      echo "Notes:"
+      echo
+      echo "  The subdirectory '_mbsbuild' is expected. $MBS_INV will detect"
+      echo "  whether the build system uses a Makefile or Ninja automatically."
+      echo "  Any optional additional parameters will be passed directly to"
+      echo "  'make install' or 'ninja install', so only pass them if you know"
+      echo "  which build system is in use (in most cases, they aren't needed"
+      echo "  anyway). Makefile-based builds are always installed with '-j1'."
+      ;;
+    license)
+      echo "Usage: $MBS_INV license <package-name> <license-file(s)>"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  DESTDIR - The path to use as the virtual root for the license"
+      echo "            file installation. It should match the DESTDIR set for"
+      echo "            '$MBS_INV install'."
+      echo
+      echo "Notes:"
+      echo
+      echo "  License file(s) get installed under the directory"
+      echo "  '/usr/share/licenses/<package-name>', prepended also by"
+      echo "  \$DESTDIR if it is set."
+      ;;
+    cleanup)
+      echo "Usage: $MBS_INV cleanup"
+      echo
+      echo "Recognized environment variables:"
+      echo
+      echo "  MBS_ALLOW_CLEANUP - If not set to 'YES' cleanup is not allowed."
+      echo "                      Do NOT set this unless you know what you are"
+      echo "                      doing, as it will remove everything from the"
+      echo "                      current directory recursively, potentially"
+      echo "                      causing data loss."
+      ;;
+    *)
+      echo "$MBS_INV (MassOS Build System Utility) $MBS_VER (on $MBS_HOST_VER)"
+      echo "Copyright (C) 2025 Daniel Massey / MassOS Developers"
+      echo "Licensed under GNU GPLv3+; see '/usr/share/massos/LICENSE'."
+      echo
+      echo "Usage: $MBS_INV <command> [options]"
+      echo
+      echo "Available commands:"
+      echo
+      echo "  $MBS_INV extract   - Extract a source tarball."
+      echo "  $MBS_INV apply     - Apply a patch file to the source tree."
+      echo "  $MBS_INV configure - Configure a project using GNU Autotools."
+      echo "  $MBS_INV meson     - Configure a project using Meson."
+      echo "  $MBS_INV cmake     - Configure a project using CMake."
+      echo "  $MBS_INV build     - Build a project after it is configured."
+      echo "  $MBS_INV install   - Install a project after it has been built."
+      echo "  $MBS_INV license   - Install one or more project license files."
+      echo "  $MBS_INV cleanup   - Clean up the current directory."
+      echo
+      echo "For help with a specific command, use '$MBS_INV help <command>'."
+      ;;
+  esac
 }
 
 mbs_extract() {
@@ -112,6 +290,7 @@ mbs_extract() {
     mbs_die "No valid command for untarring was found on the system."
   fi
   # Extract the thing.
+  mbs_msg "Extracting $tarball with $extractor"
   "$extractor" -xf "$tarball" --strip-components="$MBS_EXTRACT_DEPTH"
   if test $? -ne 0; then
     mbs_die "Failed to untar $tarball (MBS_EXTRACT_DEPTH=$MBS_EXTRACT_DEPTH)."
@@ -147,7 +326,7 @@ mbs_apply() {
   # Apply the patch with specified patch depth, or 1 if unset.
   test ! -z "$MBS_PATCH_DEPTH" || MBS_PATCH_DEPTH=1
   mbs_msg "Applying $patchfile with a patch depth of $MBS_PATCH_DEPTH."
-  patch -fNp"$MBS_PATCH_DEPTH" -i "$patchfile"
+  patch -Np"$MBS_PATCH_DEPTH" -i "$patchfile"
   if test $? -ne 0; then
     mbs_die "Failed to apply $patchfile (MBS_PATCH_DEPTH=$MBS_PATCH_DEPTH)."
   fi
@@ -158,62 +337,41 @@ mbs_apply() {
 mbs_configure() {
   # Welcome message.
   mbs_msg "Working in directory $PWD."
-  local confscript
-  # Check if a configure script was specified, and if so, if it's valid.
-  if test ! -z "$MBS_CONFIGURE_SCRIPT"; then
-    if test -x "$MBS_CONFIGURE_SCRIPT"; then
-      confscript="$MBS_CONFIGURE_SCRIPT"
-    else
-      # Exit on error with an appropriate message.
-      mbs_die "Specified configure script $MBS_CONFIGURE_SCRIPT is not valid."
-    fi
-  fi
-  # Look for configure scripts with various possible names.
-  # TODO: Support configuring from a subdir (../configure) automatically.
-  if test -z "$confscript"; then
-    for cnf in {c,C}onfig{ure,}{,.sh}; do
-      if test -x "$cnf"; then
-        confscript="$cnf"
-        break
-      fi
-    done
-  fi
   # Ensure the directory has a configure script.
-  if test -z "$confscript"; then
+  if test ! -x configure; then
     # Exit and report that the configure script was not found.
-    mbs_die "No valid configure was found, and MBS_CONFIGURE_SCRIPT is unset."
+    mbs_die "No valid configure script was found."
+  fi
+  # Ensure the directory does not have leftovers from a previous build.
+  if test -e _mbsbuild; then
+    mbs_die "Existing build cache was found. Remove the _mbsbuild directory."
   fi
   # Run autoreconf if required.
-  if test "$MBS_CONFIGURE_AUTORECONF" = "YES"; then
+  if test "$MBS_CONFIGURE_RECONF" = "YES"; then
     mbs_msg "Running autoreconf to regenerate the configure script..."
-    autoreconf -fi
+    autoreconf -fiv
     if test $? -ne 0; then
       mbs_die "Running autoreconf failed to regenerate the configure script."
     fi
   fi
   # Run the configure script.
   mbs_msg "Configuring the project with the configure script..."
-  ./"$confscript" $MBS_FLAGS_CONFIGURE "$@"
+  mkdir -p _mbsbuild; pushd _mbsbuild >/dev/null
   if test $? -ne 0; then
+    mbs_die "$MBS_INV failed to create and change to _mbsbuild subdirectory."
+  fi
+  ../configure $MBS_FLAGS_CONFIGURE "$@"
+  if test $? -ne 0; then
+    popd >/dev/null
     mbs_die "The configure script failed to configure the project."
   fi
-  # Exit immediately if make is disabled.
-  if test "$MBS_CONFIGURE_NOMAKE" = "YES"; then
-    mbs_suc "The project was successfully configured (make step disabled)."
-    return
-  fi
+  popd >/dev/null
   # Ensure the configure script actually generated a Makefile.
-  if test ! -e Makefile; then
+  if test ! -f _mbsbuild/Makefile; then
     mbs_die "The configure script did not generate a Makefile."
   fi
-  # Build the project.
-  mbs_msg "Building the project using the generated Makefile..."
-  make
-  if test $? -ne 0; then
-    mbs_die "The project failed to build using the generated Makefile."
-  fi
   # It's done.
-  mbs_suc "The project was successfully configured and built."
+  mbs_suc "The project was successfully configured."
 }
 
 mbs_meson() {
@@ -233,14 +391,8 @@ mbs_meson() {
   if test $? -ne 0; then
     mbs_die "The Meson build system failed to configure the project."
   fi
-  # Build the project.
-  mbs_msg "Building the project using the Ninja build system..."
-  ninja -C _mbsbuild
-  if test $? -ne 0; then
-    mbs_die "The project failed to build using the Ninja build system."
-  fi
   # It's done.
-  mbs_suc "The project was successfully configured and built."
+  mbs_suc "The project was successfully configured."
 }
 
 mbs_cmake() {
@@ -256,18 +408,38 @@ mbs_cmake() {
   fi
   # Run the CMake build system.
   mbs_msg "Configuring the project with the CMake build system..."
-  cmake $MBS_FLAGS_CMAKE "$@" -Wno-dev -G Ninja -B _mbsbuild
+  cmake $MBS_FLAGS_CMAKE "$@" -Wno-dev -G Ninja -B _mbsbuild -S .
   if test $? -ne 0; then
     mbs_die "The CMake build system failed to configure the project."
   fi
-  # Build the project.
-  mbs_msg "Building the project using the Ninja build system..."
-  ninja -C _mbsbuild
+  # It's done.
+  mbs_suc "The project was successfully configured."
+}
+
+mbs_build() {
+  # Welcome message.
+  mbs_msg "Working in directory $PWD."
+  # Ensure the _mbsbuild directory exists.
+  if test ! -d _mbsbuild; then
+    mbs_die "The project is not configured. Please configure it first."
+  fi
+  # Find a build file to indicate either Ninja or Make build should be used.
+  local buildsystem
+  if test -f _mbsbuild/build.ninja; then
+    buildsystem="ninja"
+  elif test -f _mbsbuild/Makefile; then
+    buildsystem="make"
+  else
+    mbs_die "The project is not configured. Please configure it first."
+  fi
+  # Run the build system with any additional arguments needed.
+  mbs_msg "Building the project using $buildsystem..."
+  "$buildsystem" -C _mbsbuild "$@"
   if test $? -ne 0; then
-    mbs_die "The project failed to build using the Ninja build system."
+    mbs_die "The project failed to be built using $buildsystem."
   fi
   # It's done.
-  mbs_suc "The project was successfully configured and built."
+  mbs_suc "The project was successfully built."
 }
 
 mbs_install() {
@@ -285,60 +457,30 @@ mbs_install() {
   if test -z "$DESTDIR" && test "$MBS_HUSH_SYSINST_WARNING" != "YES"; then
     mbs_msg "WARNING! ALLOWING SYSTEM INSTALLATIONS MAY BREAK YOUR SYSTEM!"
   fi
-  # Track the installed files (pre-install), if we need to do that.
-  if test "$MBS_INSTALL_TRACK" = "YES"; then
-    #local snapshot1=()
-    # Do not allow tracking if DESTDIR is set.
-    # It should be unneeded since the DESTDIR should be empty to begin with.
-    if test -z "$DESTDIR"; then
-      mbs_msg "Running pre-install file track step (MBS_INSTALL_TRACK=YES)..."
-      # Get a dump of all directories. Ignore all unneeded directories.
-      # We're also ignoring everything under /snap except for the README file.
-      # This is slightly messier than simply grepping out, but it's much faster.
-      local s1file="$(mktemp /tmp/.mbsXXXXXX)"
-      find / \( -path /dev -o -path /home -o -path /media -o -path /mnt -o -path /proc -o -path /root -o -path /run -o -path /sys -o -path /tmp -o \( -path /snap/\* ! -path /snap/README \) \) ! -name \*.la -prune -o -print > "$s1file"
-    else
-      mbs_die "Tracking installed files is not allowed with DESTDIR set."
-    fi
+  # Do not proceed if the _mbsbuild directory does not exist.
+  if test ! -d _mbsbuild; then
+    mbs_die "Project is not configured. Please configure and build it first."
   fi
-  # Decide what to do depending on the build system type.
-  if test -e _mbsbuild; then
-    # Ninja build system (respects DESTDIR environment variable).
-    mbs_msg "Installing the project using the Ninja build system..."
-    ninja -C _mbsbuild -j1 install
-    if test $? -ne 0; then
-      mbs_die "The project failed to install using the Ninja build system."
-    fi
-  elif test -e Makefile; then
-    # Generated Makefile (needs to manually pass DESTDIR arguments).
-    mbs_msg "Installing the project using the generated Makefile..."
-    make -j1 DESTDIR="$DESTDIR" install "$@"
-    if test $? -ne 0; then
-      mbs_die "The project failed to install using the generated Makefile."
-    fi
+  # Find a build file to indicate either Ninja or Make build should be used.
+  local buildsystem
+  if test -f _mbsbuild/build.ninja; then
+    buildsystem="ninja"
+  elif test -f _mbsbuild/Makefile; then
+    buildsystem="make"
   else
-    # Nothing can be done.
-    mbs_die "Neither the _mbsbuild directory nor a valid Makefile exists."
+    mbs_die "Project is not configured. Please configure and build it first."
   fi
-  # Track the installed files (post-install), if we need to do that.
-  if test "$MBS_INSTALL_TRACK" = "YES"; then
-    mbs_msg "Running post-install file track step (MBS_INSTALL_TRACK=YES)..."
-    # Same as before.
-    local s2file="$(mktemp /tmp/.mbsXXXXXX)"
-    find / \( -path /dev -o -path /home -o -path /media -o -path /mnt -o -path /proc -o -path /root -o -path /run -o -path /sys -o -path /tmp -o \( -path /snap/\* ! -path /snap/README \) \) ! -name \*.la -prune -o -print > "$s2file"
-    # Set up the tracking file location, or '.mbstracked' if unset.
-    test ! -z "$MBS_INSTALL_TRACK_FILE" || MBS_INSTALL_TRACK_FILE="$PWD/.mbstracked"
-    # Compare lists using grep and write to the tracking file.
-    # We could've done this with arrays instead, but it would be MUCH slower.
-    grep -Fvx -f "$s1file" "$s2file" > "$MBS_INSTALL_TRACK_FILE"
-    # Ensure the write process went OK.
-    if test $? -ne 0; then
-      mbs_msg "WARNING! WRITING TRACK DATA TO $MBS_INSTALL_TRACK_FILE FAILED."
-    else
-      mbs_msg "The tracking data was written to $MBS_INSTALL_TRACK_FILE."
-    fi
-    # Clean up temporary files.
-    rm -f "$s1file" "$s2file"
+  # Makefile needs DESTDIR passed as an argument, not as environment variable.
+  local installparams=""
+  if test "$buildsystem" = "make"; then
+    installparams="-j1 DESTDIR=$DESTDIR"
+  fi
+  installparams+="$@"
+  # Run the build system to install with any additional arguments needed.
+  mbs_msg "Installing the project using $buildsystem..."
+  "$buildsystem" -C _mbsbuild install $installparams
+  if test $? -ne 0; then
+    mbs_die "The project failed to install using $buildsystem."
   fi
   # Finishing message.
   mbs_suc "The project was successfully installed."
@@ -409,10 +551,11 @@ case "$MBS_COMMAND" in
   configure) mbs_configure "$@" ;;
   meson) mbs_meson "$@" ;;
   cmake) mbs_cmake "$@" ;;
+  build) mbs_build "$@" ;;
   install) mbs_install "$@" ;;
   license) mbs_license "$@" ;;
   cleanup) mbs_cleanup "$@" ;;
-  help|h|-h|-help|--help) mbs_usage ;;
+  help|h|-h|-help|--help) mbs_usage "$@" ;;
   version|v|-v|-version|--version) mbs_usage | head -n3 ;;
   *) mbs_usage >&2; exit 1 ;;
 esac
