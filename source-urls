@@ -36,7 +36,7 @@ https://ftp.nluug.nl/gnu/binutils/binutils-with-gold-2.44.tar.xz
 https://ftp.nluug.nl/gnu/bison/bison-3.8.2.tar.xz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.83.tar.xz
 https://github.com/boostorg/boost/releases/download/boost-1.89.0/boost-1.89.0-b2-nodocs.tar.xz
-https://github.com/libbpf/bpftool/archive/v7.5.0/bpftool-7.5.0.tar.gz
+https://github.com/libbpf/bpftool/archive/v7.6.0/bpftool-7.6.0.tar.gz
 https://github.com/google/brotli/archive/v1.1.0/brotli-1.1.0.tar.gz
 https://freefr.dl.sourceforge.net/project/bsd-games/bsd-games-3.3.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/kdave/btrfs-progs/btrfs-progs-v6.16.tar.xz
@@ -52,7 +52,6 @@ https://github.com/lu-zero/cargo-c/releases/download/v0.10.15/cargo-c-x86_64-unk
 https://github.com/mozilla/cbindgen/releases/download/0.29.0/cbindgen-ubuntu22.04
 https://github.com/rustyrussell/ccan/archive/7340873/ccan-7340873.tar.gz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
-https://deb.debian.org/debian/pool/main/c/cdrkit/cdrkit_1.1.11.orig.tar.gz
 https://files.pythonhosted.org/packages/source/c/cffi/cffi-1.17.1.tar.gz
 https://github.com/hpjansson/chafa/releases/download/1.14.5/chafa-1.14.5.tar.xz
 https://files.pythonhosted.org/packages/source/c/chardet/chardet-5.2.0.tar.gz
@@ -60,7 +59,7 @@ https://files.pythonhosted.org/packages/source/c/charset-normalizer/charset_norm
 https://download.gnome.org/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://download.gnome.org/sources/clutter-gst/3.0/clutter-gst-3.0.27.tar.xz
 https://download.gnome.org/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v4.1.0/cmake-4.1.0.tar.gz
+https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://gdlp01.c-wss.com/gds/2/0100012302/02/cnijfilter2-source-6.80-1.tar.gz
 https://download.gnome.org/sources/cogl/1.22/cogl-1.22.8.tar.xz
@@ -116,7 +115,6 @@ https://github.com/williamh/dotconf/archive/v1.4.1/dotconf-1.4.1.tar.gz
 https://github.com/quietvoid/dovi_tool/archive/2.3.0/dovi_tool-2.3.0.tar.gz
 https://github.com/dracut-ng/dracut-ng/archive/108/dracut-ng-108.tar.gz
 https://duktape.org/duktape-2.7.0.tar.xz
-https://github.com/rbrito/pkg-dvd-rw-tools/archive/upstream%2F7.1/dvd+rw-tools-7.1.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.3/e2fsprogs-1.47.3.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.2/EasyRSA-3.2.2.tgz
 https://ftp.nluug.nl/gnu/ed/ed-1.22.2.tar.lz
@@ -206,11 +204,11 @@ https://www.gnupg.org/ftp/gcrypt/gpgmepy/gpgmepy-2.0.0.tar.bz2
 https://github.com/telmich/gpm/archive/e82d1a6/gpm-1.20.7-38-ge82d1a6.tar.gz
 https://freefr.dl.sourceforge.net/project/gptfdisk/gptfdisk/1.0.10/gptfdisk-1.0.10.tar.gz
 https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
-https://github.com/silnrsi/graphite/archive/6938f052/graphite2-1.3.14-99-g6938f052.tar.gz
+https://github.com/silnrsi/graphite/archive/93e20f92/graphite2-1.3.14-101-g93e20f92.tar.gz
 https://gitlab.com/graphviz/graphviz/-/archive/13.1.2/graphviz-13.1.2.tar.bz2
 https://ftp.nluug.nl/gnu/grep/grep-3.12.tar.xz
 https://ftp.nluug.nl/gnu/groff/groff-1.23.0.tar.gz
-https://dmassey.net/files/dev/grub/grub-2.12-359-g19c698d12.tar.xz
+https://dmassey.net/files/dev/grub/grub-2.12-311-gdb506b3b8.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/db13f63/grub-theme-distro-massos-002.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/48.0/gsettings-desktop-schemas-48.0.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
@@ -263,7 +261,7 @@ https://cpan.metacpan.org/authors/id/T/TO/TODDR/IPC-Run-20231003.0.tar.gz
 https://github.com/OpenPrinting/ipp-usb/archive/0.9.30/ipp-usb-0.9.30.tar.gz
 https://cdn.kernel.org/pub/linux/utils/net/iproute2/iproute2-6.16.0.tar.xz
 https://www.netfilter.org/projects/iptables/files/iptables-1.8.11.tar.xz
-https://github.com/ipxe/ipxe/archive/5f10b7/ipxe-1.21.1-1049-g5f10b7.tar.gz
+https://github.com/ipxe/ipxe/archive/969ce2/ipxe-1.21.1-1063-g969ce2.tar.gz
 https://freefr.dl.sourceforge.net/project/libisl/isl-0.27.tar.xz
 https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v4.18.0/iso-codes-v4.18.0.tar.bz2
 https://files.itstool.org/itstool/itstool-2.0.7.tar.bz2
@@ -282,7 +280,7 @@ https://cdn.kernel.org/pub/linux/utils/kbd/kbd-2.8.0.tar.xz
 https://github.com/kupferlauncher/keybinder/releases/download/keybinder-3.0-v0.3.2/keybinder-3.0-0.3.2.tar.gz
 https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-1.6.3.tar.gz
 https://cdn.kernel.org/pub/linux/utils/kernel/kmod/kmod-34.2.tar.xz
-https://github.com/krb5/krb5/archive/krb5-1.22-final/krb5-krb5-1.22-final.tar.gz
+https://github.com/krb5/krb5/archive/krb5-1.22.1-final/krb5-krb5-1.22.1-final.tar.gz
 https://github.com/ultravideo/kvazaar/releases/download/v2.3.1/kvazaar-2.3.1.tar.xz
 https://github.com/despoa/LAME/archive/refs/tags/lame3_100.tar.gz
 https://deb.debian.org/debian/pool/main/l/laptop-detect/laptop-detect_0.16.tar.xz
@@ -303,7 +301,7 @@ https://freefr.dl.sourceforge.net/project/libavc1394/libavc1394/libavc1394-0.5.4
 https://github.com/AOMediaCodec/libavif/archive/v1.3.0/libavif-1.3.0.tar.gz
 https://github.com/storaged-project/libblockdev/releases/download/3.3.1/libblockdev-3.3.1.tar.gz
 https://code.videolan.org/videolan/libbluray/-/archive/1.3.4/libbluray-1.3.4.tar.bz2
-https://github.com/libbpf/libbpf/archive/v1.5.0/libbpf-1.5.0.tar.gz
+https://github.com/libbpf/libbpf/archive/v1.6.2/libbpf-1.6.2.tar.gz
 https://freefr.dl.sourceforge.net/project/bs2b/libbs2b/3.1.0/libbs2b-3.1.0.tar.bz2
 https://gitlab.freedesktop.org/libbsd/libbsd/-/archive/0.12.2/libbsd-0.12.2.tar.bz2
 https://files.libburnia-project.org/releases/libburn-1.5.6.tar.gz
@@ -356,7 +354,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libICE-1.1.2.tar.xz
 https://ftp.nluug.nl/gnu/libidn/libidn2-2.3.8.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libiec61883-1.2.0.tar.xz
 https://github.com/twaugh/libieee1284/archive/0663326/libieee1284-0.2.11-12-g0663326.tar.gz
-https://github.com/libimobiledevice/libimobiledevice/archive/1ec2c2c/libimobiledevice-1.3.0-217-g1ec2c2c.tar.gz
+https://github.com/libimobiledevice/libimobiledevice/archive/c269d7e/libimobiledevice-1.3.0-303-gc269d7e.tar.gz
 https://github.com/libimobiledevice/libimobiledevice-glue/releases/download/1.3.1/libimobiledevice-glue-1.3.1.tar.bz2
 https://launchpad.net/libindicator/12.10/12.10.1/+download/libindicator-12.10.1.tar.gz
 https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.29.0/libinput-1.29.0.tar.bz2
@@ -422,6 +420,7 @@ https://github.com/GNOME/libsoup/archive/2.74.3/libsoup-2.74.3.tar.gz
 https://github.com/GNOME/libsoup/archive/3.6.5/libsoup-3.6.5.tar.gz
 https://libssh2.org/download/libssh2-1.11.1.tar.xz
 https://ftp.nluug.nl/gnu/libtasn1/libtasn1-4.20.0.tar.gz
+https://github.com/libimobiledevice/libtatsu/releases/download/1.0.5/libtatsu-1.0.5.tar.bz2
 https://ftp.osuosl.org/pub/xiph/releases/theora/libtheora-1.2.0.tar.xz
 https://gitlab.com/libtiff/libtiff/-/archive/v4.7.0/libtiff-v4.7.0.tar.bz2
 https://freefr.dl.sourceforge.net/project/libtirpc/libtirpc/1.3.6/libtirpc-1.3.6.tar.bz2
@@ -478,8 +477,8 @@ https://xorg.freedesktop.org/archive/individual/lib/libXvMC-1.0.14.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/61bdaee/libyuv-2833.tar.gz
-https://github.com/nih-at/libzip/releases/download/v1.11.3/libzip-1.11.3.tar.xz
-https://github.com/torvalds/linux/archive/v6.17-rc3/linux-6.17-rc3.tar.gz
+https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
+https://github.com/torvalds/linux/archive/v6.17-rc4/linux-6.17-rc4.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250708.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -513,7 +512,7 @@ https://github.com/PyO3/maturin/archive/v1.8.3/maturin-1.8.3.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.4.tar.gz
 https://github.com/memtest86plus/memtest86plus/archive/v7.20/memtest86plus-7.20.tar.gz
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
-https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-25.2.1/mesa-mesa-25.2.1.tar.bz2
+https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-25.2.2/mesa-mesa-25.2.2.tar.bz2
 https://github.com/mesonbuild/meson/releases/download/1.8.2/meson-1.8.2.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.18.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/mkfontscale-1.2.3.tar.xz
@@ -559,7 +558,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.15/nvme-cli-2.15.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/580.76.05/open-gpu-kernel-modules-580.76.05.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/580.82.07/open-gpu-kernel-modules-580.82.07.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-12.5.0/open-vm-tools-stable-12.5.0.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
@@ -636,7 +635,7 @@ https://files.pythonhosted.org/packages/source/P/PyYAML/pyyaml-6.0.2.tar.gz
 https://download.qemu.org/qemu-10.1.0.tar.xz
 https://github.com/qpdf/qpdf/releases/download/v12.2.0/qpdf-12.2.0.tar.gz
 https://github.com/fukuchi/libqrencode/archive/v4.1.1/qrencode-4.1.1.tar.gz
-https://github.com/xiph/rav1e/archive/v0.8.0/rav1e-0.8.0.tar.gz
+https://github.com/xiph/rav1e/archive/v0.8.1/rav1e-0.8.1.tar.gz
 https://github.com/pauldreik/rdfind/archive/releases%2F1.7.0/rdfind-releases-1.7.0.tar.gz
 https://ftp.nluug.nl/gnu/readline/readline-8.3.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/people/jeffm/reiserfsprogs/v3.6.27/reiserfsprogs-3.6.27.tar.xz
@@ -709,7 +708,7 @@ https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v3.0.2/SVT-AV1-v3.0.2.tar.bz2
 https://github.com/swig/swig/archive/v4.3.1/swig-4.3.1.tar.gz
 https://github.com/GNOME/sysprof/archive/48.0/sysprof-48.0.tar.gz
 https://github.com/OpenPrinting/system-config-printer/releases/download/v1.5.18/system-config-printer-1.5.18.tar.xz
-https://github.com/systemd/systemd/archive/v258-rc3/systemd-258-rc3.tar.gz
+https://github.com/systemd/systemd/archive/v258-rc4/systemd-258-rc4.tar.gz
 https://taglib.org/releases/taglib-2.1.1.tar.gz
 https://www.samba.org/ftp/talloc/talloc-2.4.3.tar.gz
 https://ftp.nluug.nl/gnu/tar/tar-1.35.tar.xz

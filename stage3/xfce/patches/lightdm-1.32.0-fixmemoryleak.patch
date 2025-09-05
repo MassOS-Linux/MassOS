@@ -1,0 +1,33 @@
+From f043bfd81e10a3499e865aafd99781a4df854784 Mon Sep 17 00:00:00 2001
+From: KT-lcz <54447789+kt-lcz@users.noreply.github.com>
+Date: Wed, 11 Dec 2024 15:50:34 +0800
+Subject: [PATCH] fix: fix some memory leak in session_child_run
+
+The memory requested using g_strdup_printf is not released. Use g_autofree to release the memory.
+---
+ src/session-child.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+diff --git a/src/session-child.c b/src/session-child.c
+index 4e04137d..42831e2f 100644
+--- a/src/session-child.c
++++ b/src/session-child.c
+@@ -398,10 +398,14 @@ session_child_run (int argc, char **argv)
+         {
+             /* Set POSIX variables */
+             pam_putenv (pam_handle, "PATH=/usr/local/bin:/usr/bin:/bin");
+-            pam_putenv (pam_handle, g_strdup_printf ("USER=%s", username));
+-            pam_putenv (pam_handle, g_strdup_printf ("LOGNAME=%s", username));
+-            pam_putenv (pam_handle, g_strdup_printf ("HOME=%s", user_get_home_directory (user)));
+-            pam_putenv (pam_handle, g_strdup_printf ("SHELL=%s", user_get_shell (user)));
++            g_autofree gchar* user_env = g_strdup_printf ("USER=%s", username);
++            pam_putenv (pam_handle, user_env);
++            g_autofree gchar* logname_env = g_strdup_printf ("LOGNAME=%s", username);
++            pam_putenv (pam_handle, logname_env);
++            g_autofree gchar* home_env = g_strdup_printf ("HOME=%s",user_get_home_directory (user));
++            pam_putenv (pam_handle, home_env);
++            g_autofree gchar* shell_env = g_strdup_printf ("SHELL=%s", user_get_shell (user));
++            pam_putenv (pam_handle, shell_env);
+ 
+             /* Let the greeter and user session inherit the system default locale */
+             static const gchar * const locale_var_names[] = {

@@ -22,6 +22,7 @@ Changes:
 - Miscellaneous bug and security fixes/improvements.
 - Dropped legacy GTK2 support in the MassOS system.
 - Dropped old Xorg input drivers which are replaced by libinput.
+- Removed cdrkit and dvd+rw-tools (libisoburn provides more modern and safer alternatives to the utilities for ISO creation, disc burning, and others).
 - Renamed NVIDIA-Open-Kernel-Modules package to nvidia-modules-open, and marked as provides nvidia-modules.
 - Split Noto fonts package into normal fonts, CJK fonts and emoji fonts.
 - Added qemu-guest-agent, spice-vdagent and open-vm-tools, to improve the experience when running MassOS in a VM.
@@ -84,7 +85,7 @@ Upgraded software (core):
 - Binutils: `2.39 --> 2.45`
 - BlueZ: `5.65 --> 5.83`
 - Boost: `1.80.0 --> 1.89.0`
-- bpftool: `7.0.0 --> 7.5.0`
+- bpftool: `7.0.0 --> 7.6.0`
 - brotli: `1.0.9 --> 1.1.0`
 - bsd-games: `3.2 --> 3.3`
 - btrfs-progs: `5.19.1 --> 6.16`
@@ -96,12 +97,13 @@ Upgraded software (core):
 - Cairo: `1.17.6 --> 1.18.4`
 - Cairomm: `1.14.4 --> 1.14.5`
 - calver: `(new package) --> 2025.04.02`
+- cdrkit: `1.1.11 --> (removed)`
 - cffi: `1.15.0 --> 1.17.1`
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
 - Clang: `14.0.6 --> 21.1.0`
-- CMake: `3.24.2 --> 4.1.0`
+- CMake: `3.24.2 --> 4.1.1`
 - cnijfilter2: `(new package) --> 6.80`
 - compiler-rt: `15.0.3 --> 21.1.0`
 - colord: `1.4.6 --> 1.4.8`
@@ -140,6 +142,7 @@ Upgraded software (core):
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.0`
 - dracut: `056 --> 108`
+- dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
 - Ed: `1.18 --> 1.22.2`
@@ -217,11 +220,11 @@ Upgraded software (core):
 - gpgmepp: `(new package) --> 2.0.0`
 - gpgmepy: `(new package) --> 2.0.0`
 - gptfdisk: `1.0.9 --> 1.0.10`
-- Graphite2: `1.3.14 --> 1.3.14-99-g6938f052`
+- Graphite2: `1.3.14 --> 1.3.14-101-g93e20f92`
 - Graphviz: `6.0.1 --> 13.1.2`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-359-g19c698d12`
+- GRUB: `2.06 --> 2.12-311-gdb506b3b8`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
@@ -276,7 +279,7 @@ Upgraded software (core):
 - ipp-usb: `(new package) --> 0.9.30`
 - IPRoute2: `5.19.0 --> 6.16.0`
 - iptables: `1.8.8 --> 1.8.11`
-- IPXE: `(new package) --> 1.21.1-1049-g5f10b7`
+- IPXE: `(new package) --> 1.21.1-1063-g969ce2`
 - ISL: `(new package) --> 0.27`
 - ISO-Codes: `4.11.0 --> 4.17.0`
 - JACK2: `1.9.21 --> 1.9.22`
@@ -293,7 +296,7 @@ Upgraded software (core):
 - kbd: `2.5.1 --> 2.8.0`
 - keyutils: `(new package) --> 1.6.3`
 - kmod: `30 --> 34.2`
-- krb5: `1.20 --> 1.22`
+- krb5: `1.20 --> 1.22.1`
 - lark: `(new package) --> 1.2.2`
 - lcms2: `2.13.1 --> 2.17`
 - legacy-cgi: `(new package) --> 2.6.3`
@@ -307,7 +310,7 @@ Upgraded software (core):
 - libavif: `0.10.1 --> 1.3.0`
 - libblockdev: `2.28 --> 3.3.1`
 - libbluray: `1.3.3 --> 1.3.4`
-- libbpf: `1.0.0 --> 1.5.0`
+- libbpf: `1.0.0 --> 1.6.2`
 - libbsd: `(new package) --> 0.12.2`
 - libburn: `1.5.4 --> 1.5.6`
 - libbytesize: `2.7 --> 2.11`
@@ -350,7 +353,7 @@ Upgraded software (core):
 - libical: `3.0.14 --> 3.0.20`
 - libICE: `1.0.10 --> 1.1.2`
 - libidn2: `2.3.3 --> 2.3.8`
-- libimobiledevice: `1.3.0 --> 1.3.0-217-g1ec2c2c`
+- libimobiledevice: `1.3.0 --> 1.3.0-303-gc269d7e`
 - libimobiledevice-glue: `(new package) --> 1.3.1`
 - libindicator: `(new package) --> 12.10.1`
 - libinput: `1.21.0 --> 1.29.0`
@@ -414,6 +417,7 @@ Upgraded software (core):
 - libssh2: `1.10.0 --> 1.11.1`
 - libsysprof-capture: `3.46.0 --> 48.0`
 - libtasn1: `4.19.0 --> 4.20.0`
+- libtatsu: `(new package) --> 1.0.5`
 - libtheora: `1.1.1 --> 1.2.0`
 - libtiff: `4.4.0 --> 4.7.0`
 - libtirpc: `1.3.3 --> 1.3.6`
@@ -467,11 +471,11 @@ Upgraded software (core):
 - libXxf86dga: `1.1.5 --> 1.1.6`
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
-- libzip: `1.9.2 --> 1.11.3`
-- Linux: `6.0.0 --> 6.17.0-rc3`
-- Linux-API-Headers: `6.0.0 --> 6.17.0-rc1`
+- libzip: `1.9.2 --> 1.11.4`
+- Linux: `6.0.0 --> 6.17.0-rc4`
+- Linux-API-Headers: `6.0.0 --> 6.17.0-rc4`
 - Linux-Firmware: `(new package) --> 20250708`
-- Linux-Headers: `6.0.0 --> 6.17.0-rc1`
+- Linux-Headers: `6.0.0 --> 6.17.0-rc4`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.0`
 - LLVM: `14.0.6 --> 21.1.0`
@@ -496,7 +500,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 25.2.1`
+- Mesa: `22.1.7 --> 25.2.2`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.8.2`
 - meson-python: `(new package) --> 0.18.0`
@@ -538,7 +542,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 580.76.05`
+- nvidia-modules-open: `(new package) --> 580.82.07`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.15`
@@ -614,7 +618,7 @@ Upgraded software (core):
 - PyYAML: `(new package) --> 6.0.2`
 - qemu-guest-agent: `(new package) --> 10.1.0`
 - Qpdf: `11.1.1 --> 12.2.0`
-- rav1e: `0.5.1 --> 0.8.0`
+- rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
 - Readline: `8.2 --> 8.3`
 - reiserfsprogs: `(new package) --> 3.6.27`
@@ -671,7 +675,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.3.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 258-rc3`
+- systemd: `251.5 --> 258-rc4`
 - Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`

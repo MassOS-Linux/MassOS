@@ -88,19 +88,20 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17-rc3.tar.gz
-pushd linux-6.17-rc3
+tar -xf ../sources/linux-6.17-rc4.tar.gz
+pushd linux-6.17-rc4
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc3
+rm -rf linux-6.17-rc4
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
+patch -Np1 -i ../../patches/glibc-2.42-runtimefix.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
 ../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib

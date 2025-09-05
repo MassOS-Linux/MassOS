@@ -138,6 +138,7 @@ rm -rf iana-etc-20250815
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
+patch -Np1 -i ../../patches/glibc-2.42-runtimefix.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
@@ -849,14 +850,14 @@ install -t /usr/share/licenses/elfutils -Dm644 COPYING COPYING-GPLV2 COPYING-LGP
 popd
 rm -rf elfutils-0.193
 # libbpf.
-tar -xf ../sources/libbpf-1.5.0.tar.gz
-pushd libbpf-1.5.0/src
+tar -xf ../sources/libbpf-1.6.2.tar.gz
+pushd libbpf-1.6.2/src
 make
 make LIBSUBDIR=lib install
 rm -f /usr/lib/libbpf.a
 install -t /usr/share/licenses/libbpf -Dm644 ../LICENSE{,.BSD-2-Clause,.LGPL-2.1}
 popd
-rm -rf libbpf-1.5.0
+rm -rf libbpf-1.6.2
 # patchelf.
 tar -xf ../sources/patchelf-0.18.0.tar.bz2
 pushd patchelf-0.18.0
@@ -2335,9 +2336,9 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.398
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-258-rc3.tar.gz
-pushd systemd-258-rc3
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc3-massos -Dshared-lib-tag=258-rc3-massos -Dsbat-distro-version=258-rc3-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
+tar -xf ../sources/systemd-258-rc4.tar.gz
+pushd systemd-258-rc4
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc4-massos -Dshared-lib-tag=258-rc4-massos -Dsbat-distro-version=258-rc4-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -2375,7 +2376,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-258-rc3
+rm -rf systemd-258-rc4
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -2898,15 +2899,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 popd
 rm -rf RHash-1.4.5
 # CMake.
-tar -xf ../sources/cmake-4.1.0.tar.gz
-pushd cmake-4.1.0
+tar -xf ../sources/cmake-4.1.1.tar.gz
+pushd cmake-4.1.1
 sed -i 's/"lib64"/"lib"/' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --no-system-cppdap --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 LICENSE.rst
 popd
-rm -rf cmake-4.1.0
+rm -rf cmake-4.1.1
 # brotli.
 tar -xf ../sources/brotli-1.1.0.tar.gz
 pushd brotli-1.1.0
@@ -3257,15 +3258,15 @@ install -t /usr/share/licenses/gnupg -Dm644 COPYING{,.CC0,.GPL2,.LGPL21,.LGPL3,.
 popd
 rm -rf gnupg-2.5.6
 # krb5.
-tar -xf ../sources/krb5-krb5-1.22-final.tar.gz
-pushd krb5-krb5-1.22-final/src
+tar -xf ../sources/krb5-krb5-1.22.1-final.tar.gz
+pushd krb5-krb5-1.22.1-final/src
 autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var/lib --runstatedir=/run --sbindir=/usr/bin --disable-rpath --enable-dns-for-realm --with-system-et --with-system-ss --without-system-verto
 make
 make install
 install -t /usr/share/licenses/krb5 -Dm644 ../NOTICE
 popd
-rm -rf krb5-krb5-1.22-final
+rm -rf krb5-krb5-1.22.1-final
 # libnfs.
 tar -xf ../sources/libnfs-6.0.2.tar.gz
 pushd libnfs-libnfs-6.0.2
@@ -3796,14 +3797,14 @@ install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
 rm -rf llvm-project-21.1.0.src
 # bpftool.
-tar -xf ../sources/bpftool-7.5.0.tar.gz
-tar -xf ../sources/libbpf-1.5.0.tar.gz -C bpftool-7.5.0/libbpf --strip-components=1
-pushd bpftool-7.5.0/src
+tar -xf ../sources/bpftool-7.6.0.tar.gz
+tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
+pushd bpftool-7.6.0/src
 make all doc
 make install doc-install prefix=/usr mandir=/usr/share/man
 install -t /usr/share/licenses/bpftool -Dm644 ../LICENSE{,.BSD-2-Clause,.GPL-2.0}
 popd
-rm -rf bpftool-7.5.0
+rm -rf bpftool-7.6.0
 # volume-key.
 tar -xf ../sources/volume_key-0.3.12.tar.gz
 pushd volume_key-volume_key-0.3.12
@@ -3871,15 +3872,15 @@ install -t /usr/share/licenses/freetype -Dm644 LICENSE.TXT docs/GPLv2.TXT
 popd
 rm -rf freetype-2.13.3
 # Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
-tar -xf ../sources/graphite2-1.3.14-99-g6938f052.tar.gz
-pushd graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
-patch -Np1 -i ../../patches/graphite2-1.3.14-99-g6938f052-cmake400-gcc15.patch
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja -B build
+tar -xf ../sources/graphite2-1.3.14-101-g93e20f92.tar.gz
+pushd graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
+sed -i '9i#include <stdint.h>' tests/featuremap/featuremaptest.cpp
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/graphite2 -Dm644 COPYING LICENSE
 popd
-rm -rf graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
+rm -rf graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
 # HarfBuzz.
 tar -xf ../sources/harfbuzz-11.4.1.tar.xz
 pushd harfbuzz-11.4.1
@@ -3900,14 +3901,14 @@ make install
 popd
 rm -rf freetype-2.13.3
 # Graphite2 (rebuild to support HarfBuzz).
-tar -xf ../sources/graphite2-1.3.14-99-g6938f052.tar.gz
-pushd graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
-patch -Np1 -i ../../patches/graphite2-1.3.14-99-g6938f052-cmake400-gcc15.patch
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja -B build
+tar -xf ../sources/graphite2-1.3.14-101-g93e20f92.tar.gz
+pushd graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
+sed -i '9i#include <stdint.h>' tests/featuremap/featuremaptest.cpp
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 popd
-rm -rf graphite-6938f05260a63a070304d0fccf6fbc9d0e52758c
+rm -rf graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
 # Woff2.
 tar -xf ../sources/woff2-1.0.2.tar.gz
 pushd woff2-1.0.2
@@ -3949,15 +3950,15 @@ gzip -cd unifont-16.0.04/font/precompiled/unifont-16.0.04.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.04/COPYING
 rm -rf unifont-16.0.04
 # GRUB.
-tar -xf ../sources/grub-2.12-359-g19c698d12.tar.xz
-pushd grub-2.12-359-g19c698d12
+tar -xf ../sources/grub-2.12-311-gdb506b3b8.tar.xz
+pushd grub-2.12-311-gdb506b3b8
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-359-g19c698d12" PACKAGE_STRING="GRUB 2.12-359-g19c698d12" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" PACKAGE_STRING="GRUB 2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-359-g19c698d12" PACKAGE_STRING="GRUB 2.12-359-g19c698d12" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" PACKAGE_STRING="GRUB 2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3967,8 +3968,8 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,4,Free Software Foundation,grub,2.12-359-g19c698d12,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-359-g19c698d12,https://massos.org
+grub,4,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## TODO: Make sure it handles multiple installations properly.
@@ -4035,7 +4036,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-359-g19c698d12
+rm -rf grub-2.12-311-gdb506b3b8
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -4530,14 +4531,14 @@ install -t /usr/share/licenses/fmt -Dm644 LICENSE
 popd
 rm -rf fmt-11.2.0
 # libzip.
-tar -xf ../sources/libzip-1.11.3.tar.xz
-pushd libzip-1.11.3
+tar -xf ../sources/libzip-1.11.4.tar.xz
+pushd libzip-1.11.4
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_REGRESS=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libzip -Dm644 LICENSE
 popd
-rm -rf libzip-1.11.3
+rm -rf libzip-1.11.4
 # dmg2img.
 tar -xf ../sources/dmg2img_1.6.7.orig.tar.gz
 pushd dmg2img-1.6.7
@@ -5136,14 +5137,14 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-25.2.1.tar.bz2
-pushd mesa-mesa-25.2.1
+tar -xf ../sources/mesa-mesa-25.2.2.tar.bz2
+pushd mesa-mesa-25.2.2
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-25.2.1
+rm -rf mesa-mesa-25.2.2
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.22.0.tar.bz2
 pushd libva-2.22.0
@@ -5291,9 +5292,9 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-258-rc3.tar.gz
-pushd systemd-258-rc3
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc3-massos -Dshared-lib-tag=258-rc3-massos -Dsbat-distro-version=258-rc3-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
+tar -xf ../sources/systemd-258-rc4.tar.gz
+pushd systemd-258-rc4
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-rc4-massos -Dshared-lib-tag=258-rc4-massos -Dsbat-distro-version=258-rc4-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
 ninja -C build
 ninja -C build install
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-bootx64.efi
@@ -5310,7 +5311,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-258-rc3
+rm -rf systemd-258-rc4
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5512,26 +5513,6 @@ ldconfig
 install -t /usr/share/licenses/xinit -Dm644 COPYING
 popd
 rm -rf xinit-1.4.4
-# cdrkit.
-tar -xf ../sources/cdrkit_1.1.11.orig.tar.gz
-pushd cdrkit-1.1.11
-patch -Np1 -i ../../patches/cdrkit-1.1.11-buildfixes.patch
-CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/cdrkit -Dm644 COPYING
-popd
-rm -rf cdrkit-1.1.11
-# dvd+rw-tools.
-tar -xf ../sources/dvd+rw-tools-7.1.tar.gz
-pushd pkg-dvd-rw-tools-upstream-7.1
-patch -Np1 -i ../../patches/dvd+rw-tools-7.1-genericfixes.patch
-make
-install -t /usr/bin -m755 growisofs dvd+rw-booktype dvd+rw-format dvd+rw-mediainfo dvd-ram-control
-install -t /usr/share/man/man1 -m644 growisofs.1
-install -t /usr/share/licenses/dvd+rw-tools -Dm644 LICENSE
-popd
-rm -rf pkg-dvd-rw-tools-upstream-7.1
 # libburn.
 tar -xf ../sources/libburn-1.5.6.tar.gz
 pushd libburn-1.5.6
@@ -7186,17 +7167,25 @@ make install
 install -t /usr/share/licenses/libusbmuxd -Dm644 COPYING
 popd
 rm -rf libusbmuxd-2.1.0
+# libtatsu.
+tar -xf ../sources/libtatsu-1.0.5.tar.bz2
+pushd libtatsu-1.0.5
+./configure --prefix=/usr --disable-static
+make
+make install
+install -t /usr/share/licenses/libtatsu -Dm644 COPYING
+popd
+rm -rf libtatsu-1.0.5
 # libimobiledevice.
-tar -xf ../sources/libimobiledevice-1.3.0-217-g1ec2c2c.tar.gz
-pushd libimobiledevice-1ec2c2c5e3609cc02b302bcbd79ed2872260d350
-patch -Np1 -i ../../patches/libimobiledevice-1.3.0-217-g1ec2c2c-buildfix.patch
-echo "1.3.0-217-g1ec2c2c" > .tarball-version
+tar -xf ../sources/libimobiledevice-1.3.0-303-gc269d7e.tar.gz
+pushd libimobiledevice-c269d7e3a7c28ac33d05d5c3de6a8682f480abd0
+echo "1.3.0-303-gc269d7e" > .tarball-version
 ./autogen.sh --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libimobiledevice -Dm644 COPYING COPYING.LESSER
 popd
-rm -rf libimobiledevice-1ec2c2c5e3609cc02b302bcbd79ed2872260d350
+rm -rf libimobiledevice-c269d7e3a7c28ac33d05d5c3de6a8682f480abd0
 # ytnef.
 tar -xf ../sources/ytnef-2.1.2.tar.gz
 pushd ytnef-2.1.2
@@ -7939,21 +7928,21 @@ install -t /usr/share/licenses/dav1d -Dm644 COPYING
 popd
 rm -rf dav1d-1.5.1
 # rav1e.
-tar -xf ../sources/rav1e-0.8.0.tar.gz
-pushd rav1e-0.8.0
+tar -xf ../sources/rav1e-0.8.1.tar.gz
+pushd rav1e-0.8.1
 cargo build --release
 cargo cbuild --release
 sed -i 's|/usr/local|/usr|' target/x86_64-unknown-linux-gnu/release/rav1e.pc
 install -t /usr/bin -Dm755 target/release/rav1e
 install -t /usr/include/rav1e -Dm644 target/x86_64-unknown-linux-gnu/release/include/rav1e/rav1e.h
 install -t /usr/lib/pkgconfig -Dm644 target/x86_64-unknown-linux-gnu/release/rav1e.pc
-install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.8.0
-ln -sf librav1e.so.0.8.0 /usr/lib/librav1e.so.0
-ln -sf librav1e.so.0.8.0 /usr/lib/librav1e.so
+install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.8.1
+ln -sf librav1e.so.0.8.1 /usr/lib/librav1e.so.0
+ln -sf librav1e.so.0.8.1 /usr/lib/librav1e.so
 ldconfig
 install -t /usr/share/licenses/rav1e -Dm644 LICENSE PATENTS
 popd
-rm -rf rav1e-0.8.0
+rm -rf rav1e-0.8.1
 # libdovi / dovi-tool.
 tar -xf ../sources/dovi_tool-2.3.0.tar.gz
 pushd dovi_tool-2.3.0
@@ -8492,15 +8481,15 @@ install -t /usr/share/licenses/memtest86+ -Dm644 LICENSE
 popd
 rm -rf memtest86plus-7.20
 # IPXE.
-tar -xf ../sources/ipxe-1.21.1-1049-g5f10b7.tar.gz
-pushd ipxe-5f10b7455547fc563caab58f8941111346346433
-patch -Np1 -i ../../patches/ipxe-1.21.1-1049-g5f10b7-configuration.patch
+tar -xf ../sources/ipxe-1.21.1-1063-g969ce2.tar.gz
+pushd ipxe-969ce2c559a6841a949a1b73a3967b1889e0c999
+cp ../../extras/build-configs/ipxe-config src/config/general.h
 cat > src/config/local/general.h << "END"
 #undef IMAGE_EFI
 END
-make -C src VERSION="1.21.1+ (g5f10b7)" bin/ipxe.{lkrn,pxe}
+make -C src VERSION="1.21.1+ (g969ce2)" bin/ipxe.{lkrn,pxe}
 cp src/bin/ipxe.{lkrn,pxe} .
-make -C src VERSION="1.21.1+ (g5f10b7)" veryclean
+make -C src VERSION="1.21.1+ (g969ce2)" veryclean
 cat > src/config/local/general.h << "END"
 #undef IMAGE_NBI
 #undef IMAGE_ELF
@@ -8510,12 +8499,12 @@ cat > src/config/local/general.h << "END"
 #undef IMAGE_SDI
 #undef PXE_CMD
 END
-make -C src VERSION="1.21.1+ (g5f10b7)" bin-x86_64-efi/ipxe.efi
+make -C src VERSION="1.21.1+ (g969ce2)" bin-x86_64-efi/ipxe.efi
 install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe} src/bin-x86_64-efi/ipxe.efi
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/ipxe/ipxe.efi
 install -t /usr/share/licenses/ipxe -Dm644 COPYING{,.GPLv2,.UBDL}
 popd
-rm -rf ipxe-5f10b7455547fc563caab58f8941111346346433
+rm -rf ipxe-969ce2c559a6841a949a1b73a3967b1889e0c999
 # EDK2-Shell.
 tar -xf ../sources/edk2-stable202505.tar.xz
 pushd edk2-stable202505
@@ -8588,16 +8577,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17-rc3.tar.gz
-pushd linux-6.17-rc3
+tar -xf ../sources/linux-6.17-rc4.tar.gz
+pushd linux-6.17-rc4
 patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
 patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.0-rc3,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.0-rc3,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.0-rc4,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.0-rc4,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8652,12 +8641,11 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc3
+rm -rf linux-6.17-rc4
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-580.76.05.tar.gz
-pushd open-gpu-kernel-modules-580.76.05
+tar -xf ../sources/open-gpu-kernel-modules-580.82.07.tar.gz
+pushd open-gpu-kernel-modules-580.82.07
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
-patch -Np1 -i ../../patches/nvidia-modules-open-580.76.05-linux617.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
 find kernel-open -name \*.ko -exec kmodsign sha512 ../../extras/secureboot/db.key ../../extras/secureboot/db.der {} ';'
@@ -8668,7 +8656,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-580.76.05
+rm -rf open-gpu-kernel-modules-580.82.07
 # Linux-Firmware.
 tar -xf ../sources/linux-firmware-20250708.tar.xz
 pushd linux-firmware-20250708

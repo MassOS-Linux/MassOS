@@ -548,6 +548,7 @@ rm -rf massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
 # LightDM.
 tar -xf ../sources/lightdm-1.32.0.tar.xz
 pushd lightdm-1.32.0
+patch -Np1 -i ../../patches/lightdm-1.32.0-fixmemoryleak.patch
 echo 'u lightdm - "LightDM Daemon" /var/lib/lightdm' > /usr/lib/sysusers.d/lightdm.conf
 systemd-sysusers
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
