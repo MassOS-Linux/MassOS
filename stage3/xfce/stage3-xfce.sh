@@ -106,14 +106,14 @@ install -t /usr/share/licenses/libxfce4ui -Dm644 COPYING
 popd
 rm -rf libxfce4ui-4.20.2
 # catfish.
-tar -xf ../sources/catfish-4.20.0.tar.bz2
-pushd catfish-4.20.0
+tar -xf ../sources/catfish-4.20.1.tar.xz
+pushd catfish-4.20.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/catfish -Dm644 COPYING
 popd
-rm -rf catfish-4.20.0
+rm -rf catfish-4.20.1
 # Exo.
 tar -xf ../sources/exo-4.20.0.tar.bz2
 pushd exo-4.20.0
@@ -241,14 +241,14 @@ ninja -C build install
 popd
 rm -rf parole-4.20.0
 # Orage.
-tar -xf ../sources/orage-4.20.1.tar.bz2
-pushd orage-4.20.1
+tar -xf ../sources/orage-4.20.2.tar.bz2
+pushd orage-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
 make
 make install
 install -t /usr/share/licenses/orage -Dm644 COPYING
 popd
-rm -rf orage-4.20.1
+rm -rf orage-4.20.2
 # Xfburn.
 tar -xf ../sources/xfburn-0.8.0.tar.bz2
 pushd xfburn-0.8.0
@@ -304,15 +304,14 @@ install -t /usr/share/licenses/pavucontrol -Dm644 LICENSE
 popd
 rm -rf pavucontrol-5.0
 # Blueman.
-tar -xf ../sources/blueman-2.4.4.tar.xz
-pushd blueman-2.4.4
-sed -i '/^dbusdir =/ s/sysconfdir/datadir/' data/configs/Makefile.{am,in}
-./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config=/etc/dhcp/dhcpd.conf
+tar -xf ../sources/blueman-2.4.6.tar.xz
+pushd blueman-2.4.6
+./configure --prefix=/usr --sysconfdir=/etc --with-dhcp-config=/etc/dhcpd.conf
 make
 make install
 cp -af /etc/xdg/autostart/blueman.desktop /usr/share/blueman/autostart.desktop
 cat > /usr/bin/blueman-autostart << "END"
-#!/bin/bash
+#!/usr/bin/env bash
 
 not_root() {
   echo "Error: $(basename "$0") must be run as root." >&2
@@ -338,7 +337,7 @@ END
 chmod 755 /bin/blueman-autostart
 install -t /usr/share/licenses/blueman -Dm644 COPYING
 popd
-rm -rf blueman-2.4.4
+rm -rf blueman-2.4.6
 # onboard.
 tar -xf ../sources/onboard-1.4.1.tar.gz
 pushd onboard-1.4.1
@@ -388,14 +387,14 @@ install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 COPYING
 popd
 rm -rf xfce4-mount-plugin-1.1.7
 # xfce4-whiskermenu-plugin.
-tar -xf ../sources/xfce4-whiskermenu-plugin-2.9.2.tar.bz2
-pushd xfce4-whiskermenu-plugin-2.9.2
+tar -xf ../sources/xfce4-whiskermenu-plugin-2.10.0.tar.xz
+pushd xfce4-whiskermenu-plugin-2.10.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -Wno-dev -G Ninja -B build -S .
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 COPYING
 popd
-rm -rf xfce4-whiskermenu-plugin-2.9.2
+rm -rf xfce4-whiskermenu-plugin-2.10.0
 # xfce4-screensaver.
 tar -xf ../sources/xfce4-screensaver-4.18.4.tar.bz2
 pushd xfce4-screensaver-4.18.4
@@ -406,14 +405,14 @@ install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
 popd
 rm -rf xfce4-screensaver-4.18.4
 # xarchiver.
-tar -xf ../sources/xarchiver-0.5.4.25.tar.gz
-pushd xarchiver-0.5.4.25
+tar -xf ../sources/xarchiver-0.5.4.26.tar.gz
+pushd xarchiver-0.5.4.26
 ./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
 make
 make install
 install -t /usr/share/licenses/xarchiver -Dm644 COPYING
 popd
-rm -rf xarchiver-0.5.4.25
+rm -rf xarchiver-0.5.4.26
 # thunar-archive-plugin.
 tar -xf ../sources/thunar-archive-plugin-0.5.3.tar.bz2
 pushd thunar-archive-plugin-0.5.3
@@ -478,14 +477,14 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf ../sources/evince-48.0.tar.gz
-pushd evince-48.0
+tar -xf ../sources/evince-48.1.tar.gz
+pushd evince-48.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dnautilus=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
-rm -rf evince-48.0
+rm -rf evince-48.1
 # simple-scan.
 tar -xf ../sources/simple-scan-48.1.tar.bz2
 pushd simple-scan-48.1
@@ -514,15 +513,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-47.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-48.3.tar.bz2
-pushd gnome-software-48.3
+tar -xf ../sources/gnome-software-48.4.tar.bz2
+pushd gnome-software-48.4
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-48.3
+rm -rf gnome-software-48.4
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-002.tar.gz
 pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79

@@ -15,10 +15,14 @@ fi
 . /root/mbs/build.env
 # Remove leftover junk in /root.
 rm -rf /root/.{cache,cargo,cmake}
-rm -rf /root/go
+rm -rf /root/{,.config/}go
 # Remove Debian stuff.
 # TODO: Find and fix the package(s) causing files to be installed here.
-rm -rf /etc/kernel
+if [ -d /etc/kernel ]; then
+  echo "WARNING: Removing /etc/kernel." >&2
+  echo "WARNING: Ensure no MassOS packages install files here." >&2
+  rm -rfv /etc/kernel >&2
+fi
 # Move any misplaced files.
 # Emit warnings to remind us to fix the offending packages.
 # Be verbose so we can see exactly which files are being relocated.

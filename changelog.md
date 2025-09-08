@@ -194,13 +194,13 @@ Upgraded software (core):
 - Gcr4: `(new package) --> 4.4.0.1`
 - GDBM: `1.23 --> 1.25`
 - GDK-Pixbuf: `2.42.9 --> 2.42.12`
-- GeoClue: `2.6.0 --> 2.7.2`
+- GeoClue: `2.6.0 --> 2.8.0`
 - Gettext: `0.21 --> 0.26`
 - gexiv2: `0.14.0 --> 0.14.6`
 - GhostScript: `10.0.0 --> 10.05.1`
 - gi-docgen: `2022.1 --> 2025.4`
 - giflib: `5.2.1 --> 5.2.2`
-- Git: `2.38.0 --> 2.50.1`
+- Git: `2.38.0 --> 2.51.0`
 - glad: `(new package) --> 2.0.8`
 - GLib: `2.74.0 --> 2.84.4`
 - glib-networking: `2.74.0 --> 2.80.1`
@@ -243,7 +243,7 @@ Upgraded software (core):
 - gtk-layer-shell: `(new package) --> 0.9.1`
 - GTK2: `2.24.33 --> (removed)`
 - GTK3: `3.24.34 --> 3.24.50`
-- GTK4: `(new package) --> 4.18.6`
+- GTK4: `(new package) --> 4.20.0`
 - Gtkmm3: `3.24.7 --> 3.24.10`
 - gtksourceview3: `(new package) --> 3.24.11-28-g73e57b5`
 - gtksourceview4: `(new package) --> 4.8.4`
@@ -252,7 +252,7 @@ Upgraded software (core):
 - GVFS: `1.50.2 --> 1.57.2`
 - gz2xz: `1.1.0 --> (removed)`
 - Gzip: `1.12 --> 1.14`
-- HarfBuzz: `5.2.0 --> 11.4.1`
+- HarfBuzz: `5.2.0 --> 11.4.5`
 - hatch-vcs: `(new package) --> 0.5.0`
 - hatchling: `(new package) --> 1.27.0`
 - help2man: `1.49.2 --> 1.49.3`
@@ -261,7 +261,7 @@ Upgraded software (core):
 - highway: `(new package) --> 1.3.0`
 - HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.398`
+- hwdata: `0.363 --> 0.399`
 - hyfetch: `(new package) --> 2.0.1`
 - iana-etc: `20220922 --> 20250815`
 - iceauth: `1.0.9 --> 1.0.10`
@@ -356,7 +356,7 @@ Upgraded software (core):
 - libimobiledevice: `1.3.0 --> 1.3.0-303-gc269d7e`
 - libimobiledevice-glue: `(new package) --> 1.3.1`
 - libindicator: `(new package) --> 12.10.1`
-- libinput: `1.21.0 --> 1.29.0`
+- libinput: `1.21.0 --> 1.29.1`
 - libisoburn: `1.5.4 --> 1.5.6`
 - libisofs: `1.5.4 --> 1.5.6`
 - libjcat: `0.1.11 --> 0.2.3`
@@ -374,7 +374,7 @@ Upgraded software (core):
 - libnfs: `4.0.0 --> 6.0.2`
 - libnfnetlink: `(new package) --> 1.0.2`
 - libnftnl: `(new package) --> 1.2.8`
-- libnghttp2: `1.50.0 --> 1.66.0`
+- libnghttp2: `1.50.0 --> 1.67.0`
 - libnghttp3: `(new package) --> 1.10.1`
 - libnice: `0.1.19 --> 0.1.22`
 - libnl: `3.7.0 --> 3.11.0`
@@ -420,7 +420,7 @@ Upgraded software (core):
 - libtatsu: `(new package) --> 1.0.5`
 - libtheora: `1.1.1 --> 1.2.0`
 - libtiff: `4.4.0 --> 4.7.0`
-- libtirpc: `1.3.3 --> 1.3.6`
+- libtirpc: `1.3.3 --> 1.3.7`
 - libtool: `2.4.7 --> 2.5.4`
 - libtpms: `0.9.2 --> 0.10.0`
 - libudfread: `(new package) --> 1.1.2`
@@ -434,7 +434,7 @@ Upgraded software (core):
 - libvpx: `1.12.0 --> 1.15.2`
 - libwacom: `2.4.0 --> 2.16.0`
 - libwebp: `1.2.5 --> 1.6.0`
-- libwnck: `43.0 --> 43.2`
+- libwnck: `43.0 --> 43.3`
 - libwpe: `1.14.0 --> 1.16.2`
 - libX11: `1.8.1 --> 1.8.12`
 - libXau: `1.0.10 --> 1.0.12`
@@ -447,7 +447,7 @@ Upgraded software (core):
 - libXdamage: `1.4.5 --> 1.4.6`
 - libXdmcp: `1.1.3 --> 1.1.5`
 - libXext: `1.3.4 --> 1.3.6`
-- libXfixes: `6.0.0 --> 6.0.1`
+- libXfixes: `6.0.0 --> 6.0.2`
 - libXfont2: `2.0.6 --> 2.0.7`
 - libXft: `2.3.6 --> 2.3.8`
 - libxkbcommon: `1.4.1 --> 1.11.0`
@@ -472,10 +472,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.0-rc4`
-- Linux-API-Headers: `6.0.0 --> 6.17.0-rc4`
+- Linux: `6.0.0 --> 6.17.0-rc5`
+- Linux-API-Headers: `6.0.0 --> 6.17.0-rc5`
 - Linux-Firmware: `(new package) --> 20250708`
-- Linux-Headers: `6.0.0 --> 6.17.0-rc4`
+- Linux-Headers: `6.0.0 --> 6.17.0-rc5`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.0`
 - LLVM: `14.0.6 --> 21.1.0`
@@ -485,7 +485,7 @@ Upgraded software (core):
 - lsof: `4.96.3 --> 4.99.5`
 - Lua: `5.4.4 --> 5.4.8`
 - LVM2: `2.03.16 --> 2.03.34`
-- lxml: `4.9.1 --> 6.0.0`
+- lxml: `4.9.1 --> 6.0.1`
 - Lynx: `2.8.9 --> 2.9.2`
 - LZ4: `1.9.4 --> 1.10.0`
 - lzip: `1.22 --> 1.25`
@@ -564,7 +564,7 @@ Upgraded software (core):
 - p7zip: `17.04 --> (removed)`
 - packaging: `21.3 --> 25.0`
 - Pahole: `1.24 --> 1.29`
-- Pango: `1.50.11 --> 1.56.4`
+- Pango: `1.50.11 --> 1.57.0`
 - Pangomm: `2.46.3 --> 2.46.4`
 - parallel: `(new package) --> 20250322`
 - parted: `3.5 --> 3.6`
@@ -591,7 +591,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
-- Poppler: `22.09.0 --> 25.08.0`
+- Poppler: `22.09.0 --> 25.09.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -639,7 +639,7 @@ Upgraded software (core):
 - sdl12-compat: `(new package) --> 1.2.68`
 - SDL2: `2.24.0 --> (removed)`
 - sdl2-compat: `(new package) --> 2.32.56`
-- SDL3: `(new package) --> 3.2.16`
+- SDL3: `(new package) --> 3.2.22`
 - seatd: `(new package) --> 0.9.1`
 - Sed: `4.8 --> 4.9`
 - semantic-version: `(new package) --> 2.10.0`
@@ -699,7 +699,7 @@ Upgraded software (core):
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
 - Unifont: `15.0.01 --> 16.0.04`
-- UPower: `1.90.0 --> 1.90.9`
+- UPower: `1.90.0 --> 1.90.10`
 - urllib3: `1.26.11 --> 2.5.0`
 - usbutils: `014 --> 018`
 - Userspace-RCU: `0.13.2 --> 0.15.3`
@@ -718,7 +718,7 @@ Upgraded software (core):
 - wavpack: `5.5.0 --> 5.8.1`
 - Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.45`
-- WebKitGTK: `2.38.0 --> 2.48.5`
+- WebKitGTK: `2.38.0 --> 2.48.6`
 - webp-pixbuf-loader: `0.0.6 --> 0.2.7`
 - Wget: `1.21.3 --> 1.25.0`
 - wheel: `(new package) --> 0.46.1`
@@ -756,7 +756,7 @@ Upgraded software (core):
 - xf86-video-qxl: `(new package) --> 0.1.6`
 - xf86-video-vesa: `(new package) --> 2.6.0`
 - xf86-video-vmware: `(new package) --> 13.4.0`
-- xfsprogs: `5.19.0 --> 6.15.0`
+- xfsprogs: `5.19.0 --> 6.16.0`
 - xgamma: `1.0.6 --> 1.0.7`
 - xhost: `1.0.8 --> 1.0.10`
 - xinit: `1.4.1 --> 1.4.4`
@@ -801,11 +801,11 @@ Upgraded software (core):
 Upgraded software (Xfce):
 
 - Baobab: `41.0 --> 48.0`
-- Blueman: `2.2.2 --> 2.4.4`
-- catfish: `(new package) --> 4.20.0`
+- Blueman: `2.2.2 --> 2.4.6`
+- catfish: `(new package) --> 4.20.1`
 - Claws-Mail: `4.1.0 --> (removed)`
 - elementary-icon-theme: `(new package) --> 8.1.0`
-- Evince: `43.0 --> 48.0`
+- Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
 - Firefox: `105.0.1 --> 142.0.1`
 - FreeRDP: `2.8.0 --> (removed)`
@@ -814,7 +814,7 @@ Upgraded software (Xfce):
 - GNOME-Calculator: `(new package) --> 49.alpha`
 - gnome-disk-utility: `(new package) --> 46.1`
 - GNOME-Firmware: `41.0 --> 47.0`
-- GNOME-Software: `41.5 --> 48.3`
+- GNOME-Software: `41.5 --> 48.4`
 - GParted: `1.4.0 --> 1.7.0`
 - gtksourceview4: `4.8.3 --> (removed)`
 - LabWC: `(new package) --> 0.8.3`
@@ -826,7 +826,7 @@ Upgraded software (Xfce):
 - MassOS-Welcome: `001 --> 002`
 - Mousepad: `0.5.10 --> 0.6.5`
 - onboard: `(new package) --> 1.4.1`
-- Orage: `4.16.0 --> 4.20.1`
+- Orage: `4.16.0 --> 4.20.2`
 - Parole: `4.16.0 --> 4.20.0`
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
 - Shotwell: `0.31.5 --> 0.32.10`
@@ -836,7 +836,7 @@ Upgraded software (Xfce):
 - thunar-volman: `4.16.0 --> 4.20.0`
 - tumbler: `4.17.2 --> 4.20.0`
 - Weston: `10.0.2 --> (removed)`
-- xarchiver: `0.5.4.19 --> 0.5.4.25`
+- xarchiver: `0.5.4.19 --> 0.5.4.26`
 - xfburn: `0.6.2 --> 0.8.0`
 - xfce4-appfinder: `4.17.0 --> 4.20.0`
 - xfce4-clipman-plugin: `1.6.2 --> 1.6.7`
@@ -852,7 +852,7 @@ Upgraded software (Xfce):
 - xfce4-settings: `4.16.3 --> 4.20.2`
 - xfce4-taskmanager: `1.5.4 --> 1.5.8`
 - xfce4-terminal: `1.0.4 --> 1.1.5`
-- xfce4-whiskermenu-plugin: `2.6.1 --> 2.9.2`
+- xfce4-whiskermenu-plugin: `2.6.1 --> 2.10.0`
 - xfconf: `4.16.0 --> 4.20.0`
 - xfdesktop: `4.17.0 --> 4.20.1`
 - xfwm4: `4.16.1 --> 4.20.0`

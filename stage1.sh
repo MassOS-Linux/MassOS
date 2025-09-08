@@ -88,15 +88,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17-rc4.tar.gz
-pushd linux-6.17-rc4
+tar -xf ../sources/linux-6.17-rc5.tar.gz
+pushd linux-6.17-rc5
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc4
+rm -rf linux-6.17-rc5
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42

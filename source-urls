@@ -171,14 +171,14 @@ https://github.com/GNOME/gcr/archive/3.41.2/gcr-3.41.2.tar.gz
 https://github.com/GNOME/gcr/archive/4.4.0.1/gcr-4.4.0.1.tar.gz
 https://ftp.nluug.nl/gnu/gdbm/gdbm-1.25.tar.gz
 https://github.com/GNOME/gdk-pixbuf/archive/2.42.12/gdk-pixbuf-2.42.12.tar.gz
-https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.7.2/geoclue-2.7.2.tar.bz2
+https://gitlab.freedesktop.org/geoclue/geoclue/-/archive/2.8.0/geoclue-2.8.0.tar.bz2
 https://github.com/GNOME/geocode-glib/archive/3.26.4/geocode-glib-3.26.4.tar.gz
 https://ftp.nluug.nl/gnu/gettext/gettext-0.26.tar.xz
 https://github.com/GNOME/gexiv2/archive/gexiv2-0.14.6.tar.gz
 https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10051/ghostscript-10.05.1.tar.xz
 https://github.com/GNOME/gi-docgen/archive/2025.4/gi-docgen-2025.4.tar.gz
 https://freefr.dl.sourceforge.net/project/giflib/giflib-5.2.2.tar.gz
-https://cdn.kernel.org/pub/software/scm/git/git-2.50.1.tar.xz
+https://cdn.kernel.org/pub/software/scm/git/git-2.51.0.tar.xz
 https://gitlab.freedesktop.org/gstreamer/meson-ports/gl-headers/-/archive/5c8c7c0/gl-headers-5c8c7c0.tar.bz2
 https://github.com/Dav1dde/glad/archive/v2.0.8/glad-2.0.8.tar.gz
 https://github.com/nigels-com/glew/releases/download/glew-2.2.0/glew-2.2.0.tgz
@@ -215,7 +215,7 @@ https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
 https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.26.5/gstreamer-1.26.5.tar.bz2
 https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.13.6/gst-plugins-rs-0.13.6.tar.bz2
 https://github.com/GNOME/gtk/archive/3.24.50/gtk-3.24.50.tar.gz
-https://github.com/GNOME/gtk/archive/4.18.6/gtk-4.18.6.tar.gz
+https://github.com/GNOME/gtk/archive/4.20.0/gtk-4.20.0.tar.gz
 https://github.com/GNOME/gtk-doc/archive/1.34.0/gtk-doc-1.34.0.tar.gz
 https://github.com/wmww/gtk-layer-shell/archive/v0.9.1/gtk-layer-shell-0.9.1.tar.gz
 https://github.com/GNOME/gtkmm/archive/3.24.10/gtkmm-3.24.10.tar.gz
@@ -227,7 +227,7 @@ https://github.com/GNOME/gvdb/archive/2b42fc7/gvdb-2b42fc7.tar.gz
 https://github.com/GNOME/gvfs/archive/1.57.2/gvfs-1.57.2.tar.gz
 https://github.com/chromium/gyp/archive/1615ec/gyp-1615ec.tar.gz
 https://ftp.nluug.nl/gnu/gzip/gzip-1.14.tar.xz
-https://github.com/harfbuzz/harfbuzz/releases/download/11.4.1/harfbuzz-11.4.1.tar.xz
+https://github.com/harfbuzz/harfbuzz/releases/download/11.4.5/harfbuzz-11.4.5.tar.xz
 https://github.com/ofek/hatch-vcs/archive/v0.5.0/hatch-vcs-0.5.0.tar.gz
 https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.27.0.tar.gz
 https://ftp.nluug.nl/gnu/help2man/help2man-1.49.3.tar.xz
@@ -241,7 +241,7 @@ https://freefr.dl.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-e
 https://freefr.dl.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-en_CA-large-2020.12.07.zip
 https://freefr.dl.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-en_GB-large-2020.12.07.zip
 https://freefr.dl.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-en_US-large-2020.12.07.zip
-https://github.com/vcrhonek/hwdata/archive/v0.398/hwdata-0.398.tar.gz
+https://github.com/vcrhonek/hwdata/archive/v0.399/hwdata-0.399.tar.gz
 https://github.com/hykilpikonna/hyfetch/archive/2.0.1/hyfetch-2.0.1.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20250815/iana-etc-20250815.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/iceauth-1.0.10.tar.xz
@@ -357,7 +357,7 @@ https://github.com/twaugh/libieee1284/archive/0663326/libieee1284-0.2.11-12-g066
 https://github.com/libimobiledevice/libimobiledevice/archive/c269d7e/libimobiledevice-1.3.0-303-gc269d7e.tar.gz
 https://github.com/libimobiledevice/libimobiledevice-glue/releases/download/1.3.1/libimobiledevice-glue-1.3.1.tar.bz2
 https://launchpad.net/libindicator/12.10/12.10.1/+download/libindicator-12.10.1.tar.gz
-https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.29.0/libinput-1.29.0.tar.bz2
+https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.29.1/libinput-1.29.1.tar.bz2
 https://files.libburnia-project.org/releases/libisoburn-1.5.6.tar.gz
 https://files.libburnia-project.org/releases/libisofs-1.5.6.tar.gz
 https://github.com/hughsie/libjcat/releases/download/0.2.3/libjcat-0.2.3.tar.xz
@@ -423,7 +423,7 @@ https://ftp.nluug.nl/gnu/libtasn1/libtasn1-4.20.0.tar.gz
 https://github.com/libimobiledevice/libtatsu/releases/download/1.0.5/libtatsu-1.0.5.tar.bz2
 https://ftp.osuosl.org/pub/xiph/releases/theora/libtheora-1.2.0.tar.xz
 https://gitlab.com/libtiff/libtiff/-/archive/v4.7.0/libtiff-v4.7.0.tar.bz2
-https://freefr.dl.sourceforge.net/project/libtirpc/libtirpc/1.3.6/libtirpc-1.3.6.tar.bz2
+https://freefr.dl.sourceforge.net/project/libtirpc/libtirpc/1.3.7/libtirpc-1.3.7.tar.bz2
 https://ftp.nluug.nl/gnu/libtool/libtool-2.5.4.tar.xz
 https://github.com/stefanberger/libtpms/archive/v0.10.0/libtpms-0.10.0.tar.gz
 https://code.videolan.org/videolan/libudfread/-/archive/1.1.2/libudfread-1.1.2.tar.bz2
@@ -439,7 +439,7 @@ https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.7.tar.xz
 https://github.com/webmproject/libvpx/archive/v1.15.2/libvpx-1.15.2.tar.gz
 https://github.com/linuxwacom/libwacom/releases/download/libwacom-2.16.1/libwacom-2.16.1.tar.xz
 https://github.com/webmproject/libwebp/archive/v1.6.0/libwebp-1.6.0.tar.gz
-https://github.com/GNOME/libwnck/archive/43.2/libwnck-43.2.tar.gz
+https://github.com/GNOME/libwnck/archive/43.3/libwnck-43.3.tar.gz
 https://wpewebkit.org/releases/libwpe-1.16.2.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libX11-1.8.12.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.tar.xz
@@ -452,7 +452,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libxcvt-0.1.3.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXdamage-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXdmcp-1.1.5.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXext-1.3.6.tar.xz
-https://xorg.freedesktop.org/archive/individual/lib/libXfixes-6.0.1.tar.xz
+https://xorg.freedesktop.org/archive/individual/lib/libXfixes-6.0.2.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXfont2-2.0.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXft-2.3.9.tar.xz
 https://github.com/xkbcommon/libxkbcommon/archive/xkbcommon-1.11.0/libxkbcommon-xkbcommon-1.11.0.tar.gz
@@ -478,7 +478,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/61bdaee/libyuv-2833.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://github.com/torvalds/linux/archive/v6.17-rc4/linux-6.17-rc4.tar.gz
+https://github.com/torvalds/linux/archive/v6.17-rc5/linux-6.17-rc5.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250708.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -492,7 +492,7 @@ https://github.com/lsof-org/lsof/archive/4.99.5/lsof-4.99.5.tar.gz
 https://www.lua.org/ftp/lua-5.4.8.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/luit-1.1.1.tar.bz2
 https://sourceware.org/pub/lvm2/LVM2.2.03.34.tgz
-https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.0.tar.gz
+https://files.pythonhosted.org/packages/source/l/lxml/lxml-6.0.1.tar.gz
 https://invisible-mirror.net/archives/lynx/tarballs/lynx2.9.2.tar.bz2
 https://github.com/lz4/lz4/releases/download/v1.10.0/lz4-1.10.0.tar.gz
 https://mirror.netcologne.de/savannah/lzip/lzip-1.25.tar.gz
@@ -542,7 +542,7 @@ https://github.com/NetworkManager/NetworkManager/archive/1.54.0/NetworkManager-1
 https://gitlab.gnome.org/GNOME/NetworkManager-openvpn/-/archive/1.12.0/NetworkManager-openvpn-1.12.0.tar.bz2
 https://releases.pagure.org/newt/newt-0.52.25.tar.gz
 https://www.netfilter.org/pub/nftables/nftables-1.1.1.tar.xz
-https://github.com/nghttp2/nghttp2/releases/download/v1.66.0/nghttp2-1.66.0.tar.xz
+https://github.com/nghttp2/nghttp2/releases/download/v1.67.0/nghttp2-1.67.0.tar.xz
 https://github.com/ngtcp2/nghttp3/releases/download/v1.10.1/nghttp3-1.10.1.tar.xz
 https://github.com/ninja-build/ninja/archive/v1.13.1/ninja-1.13.1.tar.gz
 https://github.com/nlohmann/json/archive/v3.11.3/nlohmann-json-3.11.3.tar.gz
@@ -551,7 +551,7 @@ https://github.com/DanielMYT/noto-fonts-tarball/releases/download/20250815/noto-
 https://github.com/DanielMYT/noto-fonts-tarball/releases/download/20250815/noto-fonts-emoji-2.048.tar.xz
 https://www.gnupg.org/ftp/gcrypt/npth/npth-1.8.tar.bz2
 https://archive.mozilla.org/pub/nspr/releases/v4.37/src/nspr-4.37.tar.gz
-https://archive.mozilla.org/pub/security/nss/releases/NSS_3_114_RTM/src/nss-3.114.tar.gz
+https://archive.mozilla.org/pub/security/nss/releases/NSS_3_115_1_RTM/src/nss-3.115.1.tar.gz
 https://github.com/avahi/nss-mdns/releases/download/v0.15.1/nss-mdns-0.15.1.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2022.10.3/ntfs-3g-2022.10.3.tar.gz
 https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec-headers-13.0.19.0.tar.gz
@@ -576,7 +576,7 @@ https://github.com/nzjrs/osm-gps-map/releases/download/1.2.0/osm-gps-map-1.2.0.t
 https://github.com/p11-glue/p11-kit/releases/download/0.25.5/p11-kit-0.25.5.tar.xz
 https://github.com/pypa/packaging/archive/25.0/packaging-25.0.tar.gz
 https://git.kernel.org/pub/scm/devel/pahole/pahole.git/snapshot/pahole-1.29.tar.gz
-https://github.com/GNOME/pango/archive/1.56.4/pango-1.56.4.tar.gz
+https://github.com/GNOME/pango/archive/1.57.0/pango-1.57.0.tar.gz
 https://github.com/GNOME/pangomm/archive/2.46.4/pangomm-2.46.4.tar.gz
 https://ftp.nluug.nl/gnu/parallel/parallel-20250322.tar.bz2
 https://cpan.metacpan.org/authors/id/W/WB/WBRASWELL/Parse-Yapp-1.21.tar.gz
@@ -604,7 +604,7 @@ https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/d42a2830/plymouth-24.
 https://github.com/python-poetry/poetry-core/releases/download/2.1.2/poetry_core-2.1.2.tar.gz
 https://github.com/polkit-org/polkit/archive/126/polkit-126.tar.gz
 https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
-https://poppler.freedesktop.org/poppler-25.08.0.tar.xz
+https://poppler.freedesktop.org/poppler-25.09.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
 https://github.com/rpm-software-management/popt/archive/popt-1.19-release/popt-popt-1.19-release.tar.gz
 https://gitlab.freedesktop.org/upower/power-profiles-daemon/-/archive/0.30/power-profiles-daemon-0.30.tar.bz2
@@ -660,7 +660,7 @@ https://git.kernel.org/pub/scm/linux/kernel/git/jejb/sbsigntools.git/snapshot/sb
 https://github.com/ddevault/scdoc/archive/1.11.0/scdoc-1.11.0.tar.gz
 https://github.com/libsdl-org/sdl12-compat/archive/release-1.2.68/sdl12-compat-release-1.2.68.tar.gz
 https://github.com/libsdl-org/sdl2-compat/releases/download/release-2.32.56/sdl2-compat-2.32.56.tar.gz
-https://github.com/libsdl-org/SDL/releases/download/release-3.2.16/SDL3-3.2.16.tar.gz
+https://github.com/libsdl-org/SDL/releases/download/release-3.2.22/SDL3-3.2.22.tar.gz
 https://github.com/kennylevinsen/seatd/archive/0.9.1/seatd-0.9.1.tar.gz
 https://ftp.nluug.nl/gnu/sed/sed-4.9.tar.xz
 https://files.pythonhosted.org/packages/source/s/semantic-version/semantic_version-2.10.0.tar.gz
@@ -735,7 +735,7 @@ https://unifoundry.com/pub/unifont/unifont-16.0.04/unifont-16.0.04.tar.gz
 https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.2.1/unix-tree-2.2.1.tar.bz2
 https://freefr.dl.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz
 https://github.com/MassOS-Linux/upgrade-toolset/releases/download/20250728/upgrade-toolset-20250728-x86_64.tar.xz
-https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.9/upower-v1.90.9.tar.bz2
+https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.10/upower-v1.90.10.tar.bz2
 https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-2.5.0.tar.gz
 https://cdn.kernel.org/pub/linux/utils/usb/usbutils/usbutils-018.tar.xz
 https://lttng.org/files/urcu/userspace-rcu-0.15.3.tar.bz2
@@ -755,7 +755,7 @@ https://github.com/KhronosGroup/Vulkan-Tools/archive/vulkan-sdk-1.4.321.0/Vulkan
 https://github.com/dbry/WavPack/releases/download/5.8.1/wavpack-5.8.1.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.24.0/downloads/wayland-1.24.0.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.45/downloads/wayland-protocols-1.45.tar.xz
-https://webkitgtk.org/releases/webkitgtk-2.48.5.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.48.6.tar.xz
 https://github.com/aruiz/webp-pixbuf-loader/archive/0.2.7/webp-pixbuf-loader-0.2.7.tar.gz
 https://ftp.nluug.nl/gnu/wget/wget-1.25.0.tar.gz
 https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.46.1.tar.gz
@@ -799,7 +799,7 @@ https://xorg.freedesktop.org/archive/individual/driver/xf86-video-fbdev-0.5.1.ta
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-qxl-0.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-vesa-2.6.0.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-vmware-13.4.0.tar.xz
-https://cdn.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.15.0.tar.xz
+https://cdn.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/xfsprogs-6.16.0.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xgamma-1.0.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xhost-1.0.10.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xinit-1.4.4.tar.xz
