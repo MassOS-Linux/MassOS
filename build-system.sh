@@ -4467,49 +4467,29 @@ make install
 install -t /usr/share/licenses/xdg-utils -Dm644 LICENSE
 popd
 rm -rf xdg-utils-1.1.3
+# iw.
+tar -xf ../sources/iw-6.17.tar.gz
+pushd iw-6.17
+make
+make SBINDIR=/usr/bin install
+install -t /usr/share/licenses/iw -Dm644 COPYING
+popd
+rm -rf iw-6.17
 # wpa_supplicant.
 tar -xf ../sources/wpa_supplicant-2.11.tar.gz
-pushd wpa_supplicant-2.11/wpa_supplicant
-cat > .config << "END"
-CONFIG_BACKEND=file
-CONFIG_CTRL_IFACE=y
-CONFIG_CTRL_IFACE_DBUS=y
-CONFIG_CTRL_IFACE_DBUS_NEW=y
-CONFIG_CTRL_IFACE_DBUS_INTRO=y
-CONFIG_DEBUG_FILE=y
-CONFIG_DEBUG_SYSLOG=y
-CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
-CONFIG_DRIVER_NL80211=y
-CONFIG_DRIVER_WEXT=y
-CONFIG_DRIVER_WIRED=y
-CONFIG_EAP_GTC=y
-CONFIG_EAP_LEAP=y
-CONFIG_EAP_MD5=y
-CONFIG_EAP_MSCHAPV2=y
-CONFIG_EAP_OTP=y
-CONFIG_EAP_PEAP=y
-CONFIG_EAP_TLS=y
-CONFIG_EAP_TTLS=y
-CONFIG_IEEE8021X_EAPOL=y
-CONFIG_IPV6=y
-CONFIG_LIBNL32=y
-CONFIG_PEERKEY=y
-CONFIG_PKCS12=y
-CONFIG_READLINE=y
-CONFIG_SMARTCARD=y
-CONFIG_WPS=y
-CFLAGS += -I/usr/include/libnl3
-END
+pushd wpa_supplicant-2.11
+patch -Np1 -i ../../patches/wpa_supplicant-2.11-miscfixes.patch
+pushd wpa_supplicant
+cp ../../../extras/build-configs/wpasup-config .config
 make BINDIR=/usr/bin LIBDIR=/usr/lib
-install -m755 wpa_{cli,passphrase,supplicant} /usr/bin/
-install -m644 doc/docbook/wpa_supplicant.conf.5 /usr/share/man/man5/
-install -m644 doc/docbook/wpa_{cli,passphrase,supplicant}.8 /usr/share/man/man8/
-install -m644 systemd/*.service /usr/lib/systemd/system/
-install -m644 dbus/fi.w1.wpa_supplicant1.service /usr/share/dbus-1/system-services/
-install -dm755 /etc/dbus-1/system.d
-install -m644 dbus/dbus-wpa_supplicant.conf /etc/dbus-1/system.d/wpa_supplicant.conf
+install -t /usr/bin -Dm755 wpa_{cli,passphrase,supplicant}
+install -t /usr/share/man/man5 -Dm644 doc/docbook/wpa_supplicant.conf.5
+install -t /usr/share/man/man8 -Dm644 doc/docbook/wpa_{cli,passphrase,supplicant}.8
+install -t /usr/lib/systemd/system -Dm644 systemd/wpa_supplicant{,@,-nl80211@,-wired@}.service
+install -t /usr/share/dbus-1/system-services -Dm644 dbus/fi.w1.wpa_supplicant1.service
+install -Dm644 dbus/dbus-wpa_supplicant.conf /etc/dbus-1/system.d/wpa_supplicant.conf
 install -t /usr/share/licenses/wpa-supplicant -Dm644 ../COPYING ../README
-popd
+popd; popd
 rm -rf wpa_supplicant-2.11
 # wireless-tools.
 tar -xf ../sources/wireless_tools.30.pre9.tar.gz

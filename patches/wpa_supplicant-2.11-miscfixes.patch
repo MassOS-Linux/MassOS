@@ -1,0 +1,73 @@
+diff '--color=auto' -apruN a/src/crypto/tls_openssl.c b/src/crypto/tls_openssl.c
+--- a/src/crypto/tls_openssl.c	2024-07-20 19:04:37.000000000 +0100
++++ b/src/crypto/tls_openssl.c	2025-09-11 12:35:08.018877141 +0100
+@@ -1098,6 +1098,13 @@ void * tls_init(const struct tls_config
+ 		os_free(data);
+ 		return NULL;
+ 	}
++
++#ifndef EAP_SERVER_TLS
++	/* Enable TLSv1.0 by default to allow connecting to legacy
++	 * networks since Debian OpenSSL is set to minimum TLSv1.2 and SECLEVEL=2. */
++	SSL_CTX_set_min_proto_version(ssl, TLS1_VERSION);
++#endif
++
+ 	data->ssl = ssl;
+ 	if (conf) {
+ 		data->tls_session_lifetime = conf->tls_session_lifetime;
+@@ -1107,6 +1114,16 @@ void * tls_init(const struct tls_config
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv2);
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv3);
+ 
++	/* Many enterprise PEAP server implementations (e.g. used in large
++	 corporations and universities) do not support RFC5746 secure
++	 renegotiation, and starting with OpenSSL 3.0,
++	 SSL_OP_LEGACY_SERVER_CONNECT is no longer set as part of SSL_OP_ALL.
++	 So until we implement a way to request SSL_OP_LEGACY_SERVER_CONNECT
++	 only in EAP peer mode, just set SSL_OP_LEGACY_SERVER_CONNECT
++	 globally. */
++
++	SSL_CTX_set_options(ssl, SSL_OP_LEGACY_SERVER_CONNECT);
++
+ 	SSL_CTX_set_mode(ssl, SSL_MODE_AUTO_RETRY);
+ 
+ #ifdef SSL_MODE_NO_AUTO_CHAIN
+diff '--color=auto' -apruN a/src/drivers/driver.h b/src/drivers/driver.h
+--- a/src/drivers/driver.h	2024-07-20 19:04:37.000000000 +0100
++++ b/src/drivers/driver.h	2025-09-11 12:35:13.595450858 +0100
+@@ -2355,6 +2355,9 @@ struct wpa_driver_capa {
+ 	/** Maximum number of iterations in a single scan plan */
+ 	u32 max_sched_scan_plan_iterations;
+ 
++	/** Maximum number of extra IE bytes for scans */
++	u16 max_scan_ie_len;
++
+ 	/** Whether sched_scan (offloaded scanning) is supported */
+ 	int sched_scan_supported;
+ 
+diff '--color=auto' -apruN a/src/drivers/driver_nl80211_capa.c b/src/drivers/driver_nl80211_capa.c
+--- a/src/drivers/driver_nl80211_capa.c	2024-07-20 19:04:37.000000000 +0100
++++ b/src/drivers/driver_nl80211_capa.c	2025-09-11 12:35:13.596599276 +0100
+@@ -976,6 +976,10 @@ static int wiphy_info_handler(struct nl_
+ 			nla_get_u32(tb[NL80211_ATTR_MAX_SCAN_PLAN_ITERATIONS]);
+ 	}
+ 
++	if (tb[NL80211_ATTR_MAX_SCAN_IE_LEN])
++		capa->max_scan_ie_len =
++			nla_get_u16(tb[NL80211_ATTR_MAX_SCAN_IE_LEN]);
++
+ 	if (tb[NL80211_ATTR_MAX_MATCH_SETS])
+ 		capa->max_match_sets =
+ 			nla_get_u8(tb[NL80211_ATTR_MAX_MATCH_SETS]);
+diff '--color=auto' -apruN a/src/drivers/driver_nl80211_scan.c b/src/drivers/driver_nl80211_scan.c
+--- a/src/drivers/driver_nl80211_scan.c	2024-07-20 19:04:37.000000000 +0100
++++ b/src/drivers/driver_nl80211_scan.c	2025-09-11 12:35:13.596783617 +0100
+@@ -221,7 +221,7 @@ nl80211_scan_common(struct i802_bss *bss
+ 		wpa_printf(MSG_DEBUG, "nl80211: Passive scan requested");
+ 	}
+ 
+-	if (params->extra_ies) {
++	if (params->extra_ies && drv->capa.max_scan_ie_len >= params->extra_ies_len) {
+ 		wpa_hexdump(MSG_MSGDUMP, "nl80211: Scan extra IEs",
+ 			    params->extra_ies, params->extra_ies_len);
+ 		if (nla_put(msg, NL80211_ATTR_IE, params->extra_ies_len,

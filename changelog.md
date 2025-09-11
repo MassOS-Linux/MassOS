@@ -282,6 +282,7 @@ Upgraded software (core):
 - IPXE: `(new package) --> 1.21.1-1063-g969ce2`
 - ISL: `(new package) --> 0.27`
 - ISO-Codes: `4.11.0 --> 4.17.0`
+- iw: `(new package) --> 6.17`
 - JACK2: `1.9.21 --> 1.9.22`
 - Jansson: `2.13.1 --> 2.14.1`
 - JasPer: `3.0.6 --> 4.2.8`
