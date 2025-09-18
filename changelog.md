@@ -120,8 +120,8 @@ Upgraded software (core):
 - cups-filters: `1.28.16 --> 2.0.1`
 - cups-pdf: `(new package) --> 3.0.2`
 - cups-pk-helper: `(new package) --> 0.2.7`
-- curl: `7.85.0 --> 8.15.0`
-- Cython: `0.29.25 --> 3.1.2`
+- curl: `7.85.0 --> 8.16.0`
+- Cython: `0.29.25 --> 3.1.3`
 - D-Bus: `1.14.2 --> 1.16.2`
 - dav1d: `1.0.0 --> 1.5.1`
 - dbus-glib: `0.112 --> 0.114`
@@ -165,7 +165,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.0.2`
-- fastfetch: `(new package) --> 2.50.2`
+- fastfetch: `(new package) --> 2.52.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0`
 - File: `5.43 --> 5.46`
@@ -181,7 +181,7 @@ Upgraded software (core):
 - font-util: `1.3.3 --> 1.4.1`
 - Fontconfig: `2.14.0 --> 2.17.1`
 - FreeGLUT: `3.2.2 --> 3.6.0`
-- FreeType: `2.12.1 --> 2.13.3`
+- FreeType: `2.12.1 --> 2.14.0`
 - Fribidi: `1.0.12 --> 1.0.16`
 - FUSE3: `3.12.0 --> 3.17.4`
 - fuseiso: `(new package) --> 20070708`
@@ -243,7 +243,7 @@ Upgraded software (core):
 - gtk-layer-shell: `(new package) --> 0.9.1`
 - GTK2: `2.24.33 --> (removed)`
 - GTK3: `3.24.34 --> 3.24.50`
-- GTK4: `(new package) --> 4.20.0`
+- GTK4: `(new package) --> 4.20.1`
 - Gtkmm3: `3.24.7 --> 3.24.10`
 - gtksourceview3: `(new package) --> 3.24.11-28-g73e57b5`
 - gtksourceview4: `(new package) --> 4.8.4`
@@ -263,13 +263,13 @@ Upgraded software (core):
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.399`
 - hyfetch: `(new package) --> 2.0.1`
-- iana-etc: `20220922 --> 20250815`
+- iana-etc: `20220922 --> 20250826`
 - iceauth: `1.0.9 --> 1.0.10`
 - ICU: `71.1 --> 77.1`
 - idna: `3.4 --> 3.10`
 - importlib-metadata: `4.10.1 --> 8.6.1`
 - Inetutils: `2.3 --> 2.6`
-- inih: `56 --> 61`
+- inih: `56 --> 62`
 - installer: `(new package) --> 0.7.0`
 - intel-gmmlib: `(new package) --> 22.8.1`
 - intel-media-driver: `(new package) --> 25.2.6`
@@ -294,7 +294,7 @@ Upgraded software (core):
 - JSON-C: `0.16 --> 0.18`
 - JSON-GLib: `1.6.6 --> 1.10.6`
 - jsoncpp: `1.9.5 --> 1.9.6`
-- kbd: `2.5.1 --> 2.8.0`
+- kbd: `2.5.1 --> 2.9.0`
 - keyutils: `(new package) --> 1.6.3`
 - kmod: `30 --> 34.2`
 - krb5: `1.20 --> 1.22.1`
@@ -397,7 +397,7 @@ Upgraded software (core):
 - libportal-gtk3: `0.6 --> 0.9.1`
 - libportal-gtk4: `(new package) --> 0.9.1`
 - libppd: `(new package) --> 2.1.1`
-- libproxy: `(new package) --> 0.5.10`
+- libproxy: `(new package) --> 0.5.11`
 - libpsl: `0.21.1 --> 0.21.5`
 - libpwquality: `1.4.4 --> 1.4.5`
 - libqmi: `1.30.8 --> 1.36.0`
@@ -455,14 +455,15 @@ Upgraded software (core):
 - libxkbfile: `1.1.0 --> 1.1.3`
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.5`
-- libxml2: `2.9.14 --> 2.14.5`
+- libxml2: `2.9.14 --> 2.14.6`
 - libxmlb: `0.3.6 --> 0.3.23`
 - libXmu: `1.1.3 --> 1.2.1`
 - libXpm: `3.5.13 --> 3.5.17`
+- libXpresent: `(new package) --> 1.0.2`
 - libXrandr: `1.5.2 --> 1.5.4`
 - libXrender: `0.9.10 --> 0.9.12`
-- libXres: `1.2.1 --> 1.2.2`
-- libXScrnSaver: `1.2.3 --> 1.2.4`
+- libXres: `1.2.1 --> 1.2.3`
+- libXScrnSaver: `1.2.3 --> 1.2.5`
 - libxshmfence: `1.3 --> 1.3.3`
 - libxslt: `1.1.37 --> 1.1.43`
 - libXt: `1.2.1 --> 1.3.1`
@@ -473,7 +474,7 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2833`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.0-rc5`
+- Linux: `6.0.0 --> 6.17.0-rc6`
 - Linux-API-Headers: `6.0.0 --> 6.17.0-rc5`
 - Linux-Firmware: `(new package) --> 20250708`
 - Linux-Headers: `6.0.0 --> 6.17.0-rc5`
@@ -503,7 +504,7 @@ Upgraded software (core):
 - memtest86+ `(new package) --> 7.20`
 - Mesa: `22.1.7 --> 25.2.2`
 - mesa-utils: `8.5.0 --> 9.0.0`
-- Meson: `0.63.2 --> 1.8.2`
+- Meson: `0.63.2 --> 1.9.0`
 - meson-python: `(new package) --> 0.18.0`
 - minizip: `1.2.13 --> 1.3.1`
 - mkfontscale: `1.2.2 --> 1.2.3`
@@ -543,7 +544,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 580.82.07`
+- nvidia-modules-open: `(new package) --> 580.82.09`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.15`
@@ -561,7 +562,7 @@ Upgraded software (core):
 - os-prober: `1.79 --> 1.83`
 - osm-gps-map: `(new package) --> 1.2.0`
 - ostree: `2022.5 --> 2025.2`
-- p11-kit: `0.24.1 --> 0.25.5`
+- p11-kit: `0.24.1 --> 0.25.8`
 - p7zip: `17.04 --> (removed)`
 - packaging: `21.3 --> 25.0`
 - Pahole: `1.24 --> 1.29`
@@ -576,7 +577,7 @@ Upgraded software (core):
 - pcaudiolib: `(new package) --> 1.3`
 - pciutils: `3.8.0 --> 3.14.0`
 - PCRE: `8.45 --> (removed)`
-- PCRE2: `10.40 --> 10.45`
+- PCRE2: `10.40 --> 10.46`
 - pefile: `(new package) --> 2024.8.26`
 - Perl: `5.36.0 --> 5.40.2`
 - pexpect: `4.8.0 --> 4.9`
@@ -586,7 +587,7 @@ Upgraded software (core):
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.2`
 - pip: `(new package) --> 25.2`
-- PipeWire: `0.3.59 --> 1.4.7`
+- PipeWire: `0.3.59 --> 1.4.8`
 - Pixman: `0.40.0 --> 0.46.4`
 - pluggy: `(new package) --> 1.6.0`
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
@@ -676,7 +677,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.3.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 258-rc4`
+- systemd: `251.5 --> 258`
 - Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
@@ -708,7 +709,7 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41.1`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1706`
+- Vim: `9.0.0600 --> 9.1.1760`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.3`
@@ -725,7 +726,7 @@ Upgraded software (core):
 - wheel: `(new package) --> 0.46.1`
 - Which: `2.21 --> 2.23`
 - whois: `5.5.13 --> 5.6.4`
-- WirePlumber: `0.4.12 --> 0.5.10`
+- WirePlumber: `0.4.12 --> 0.5.11`
 - wlr-protocols: `(new package) --> 107`
 - wpa-supplicant: `2.10 --> 2.11`
 - wpebackend-fdo: `1.14.0 --> 1.16.0`
@@ -793,7 +794,7 @@ Upgraded software (core):
 - yad: `(new package) --> 14.1`
 - yq: `(new package) --> 4.45.1`
 - ytnef: `2.0 --> 2.1.2`
-- yyjson: `(new package) --> 0.10.0`
+- yyjson: `(new package) --> 0.12.0`
 - zipp: `3.7.0 --> 3.21.0`
 - zlib: `1.2.12 --> 1.3.1`
 - zsh: `(new package) --> 5.9`
@@ -808,7 +809,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 142.0.1`
+- Firefox: `105.0.1 --> 143.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

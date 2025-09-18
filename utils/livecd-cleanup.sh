@@ -33,6 +33,10 @@ rm -f /usr/bin/osinstallgui
 rm -f /usr/share/applications/osinstallgui.desktop
 rm -rf /usr/share/osinstallgui
 
+# Remove massos-recovery-tui.
+rm -f /usr/bin/massos-recovery-tui
+rm -f /usr/share/applications/massos-recovery-tui.desktop
+
 # Remove legacy livecd-installer, if for some reason it still exists.
 rm -f /usr/bin/livecd-installer
 rm -f /usr/share/applications/livecd-installer.desktop
