@@ -206,7 +206,9 @@ gsettings-desktop-schemas
 gspell
 gst-editing-services
 gst-libav
+gst-plugin-dav1d
 gst-plugin-gtk4
+gst-plugin-rav1e
 gst-plugins-bad
 gst-plugins-base
 gst-plugins-good

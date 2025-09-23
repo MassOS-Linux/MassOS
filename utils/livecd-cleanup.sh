@@ -42,15 +42,18 @@ rm -f /usr/bin/livecd-installer
 rm -f /usr/share/applications/livecd-installer.desktop
 rm -f /etc/xdg/autostart/trust-livecd-installer.desktop
 
-# Set up machine-id for this installation.
+# Set up machine-id for this installation, if it lacks one.
 systemd-machine-id-setup
 
 # Auto-generate a Machine Owner Key (MOK) for the new system.
 # This is to support signing of out of tree kernel modules and similar.
 # Follow the formatting of Ubuntu/Debian, as VirtualBox also expects that.
-openssl req -new -x509 -newkey rsa:2048 -nodes -keyout /var/lib/shim-signed/mok/MOK.priv -out /var/lib/shim-signed/mok/MOK.der -outform DER -days 3650 -subj "/CN=Auto-generated MOK for $(cat /etc/hostname) on $(date +%Y-%m-%d)/"
-openssl x509 -in /var/lib/shim-signed/mok/MOK.der -inform DER -out /var/lib/shim-signed/mok/MOK.crt -outform PEM
-chmod 0600 /var/lib/shim-signed/mok/MOK.priv
+# Don't generate keys if they for some reason already exist.
+if test ! -e /var/lib/shim-signed/mok/MOK.priv && test ! -e /var/lib/shim-signed/mok/MOK.der && test ! -e /var/lib/shim-signed/mok/MOK.crt; then
+  openssl req -new -x509 -newkey rsa:2048 -nodes -keyout /var/lib/shim-signed/mok/MOK.priv -out /var/lib/shim-signed/mok/MOK.der -outform DER -days 3650 -subj "/CN=Auto-generated MOK for MassOS on $(date +%Y-%m-%d)/"
+  openssl x509 -in /var/lib/shim-signed/mok/MOK.der -inform DER -out /var/lib/shim-signed/mok/MOK.crt -outform PEM
+  chmod 0600 /var/lib/shim-signed/mok/MOK.priv
+fi
 
 # Self destruct.
 rm -f /tmp/{livecd-cleanup.sh,{post,pre}upgrade{,_ng}}

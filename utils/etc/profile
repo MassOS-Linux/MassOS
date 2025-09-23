@@ -4,7 +4,7 @@
 # Set up environment variables.
 export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
 export PKG_CONFIG_PATH=/usr/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig
-export HISTSIZE=1000
+export HISTSIZE=10000
 export HISTIGNORE="&:[bf]g:exit"
 export XDG_DATA_DIRS=${XDG_DATA_DIRS:-/usr/share/}
 export XDG_CONFIG_DIRS=${XDG_CONFIG_DIRS:-/etc/xdg/}
@@ -53,12 +53,20 @@ if [ -f "$HOME/.dircolors" ]; then
 fi
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias zgrep='zgrep --color=auto'
+alias zegrep='zegrep --color=auto'
+alias zfgrep='zfgrep --color=auto'
 alias diff='diff --color=auto'
 
 # Provide common ls aliases familiar to users of Ubuntu and related distros.
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -aFl'
+
+# Let the steam locomotive be merciful for careless users.
+alias sl='sl -e'
 
 # Load drop-in startup files from /etc/profile.d.
 for script in /etc/profile.d/*.sh ; do

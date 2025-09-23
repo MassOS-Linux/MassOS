@@ -39,9 +39,11 @@ menuentry "UEFI EDK2 Shell" {
   chainloader /EFI/tools/shellx64.efi
 }
 
-menuentry "UEFI Firmware Settings" {
-  fwsetup
-}
+if fwsetup --is-supported; then
+  menuentry "UEFI Firmware Settings" {
+    fwsetup
+  }
+fi
 
 menuentry "Reboot system" {
   reboot
