@@ -2339,7 +2339,7 @@ rm -rf hwdata-0.399
 # systemd (initial build; will be rebuilt later to support more features).
 tar -xf ../sources/systemd-258.tar.gz
 pushd systemd-258
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-massos -Dshared-lib-tag=258-massos -Dsbat-distro-version=258-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -3777,8 +3777,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-21.1.1.src.tar.xz
-pushd llvm-project-21.1.1.src
+tar -xf ../sources/llvm-project-21.1.2.src.tar.xz
+pushd llvm-project-21.1.2.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3796,7 +3796,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-21.1.1.src
+rm -rf llvm-project-21.1.2.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -5036,14 +5036,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-21.1.0
 # libclc.
-tar -xf ../sources/libclc-21.1.1.src.tar.xz
-pushd libclc-21.1.1.src
+tar -xf ../sources/libclc-21.1.2.src.tar.xz
+pushd libclc-21.1.2.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-21.1.1.src
+rm -rf libclc-21.1.2.src
 # glslang.
 tar -xf ../sources/glslang-15.4.0.tar.gz
 pushd glslang-15.4.0
@@ -5293,7 +5293,7 @@ rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
 tar -xf ../sources/systemd-258.tar.gz
 pushd systemd-258
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag=258-massos -Dshared-lib-tag=258-massos -Dsbat-distro-version=258-massos -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-bootx64.efi
@@ -5620,14 +5620,14 @@ ln -sf hyfetch /usr/share/licenses/neofetch
 popd
 rm -rf hyfetch-2.0.1
 # fastfetch.
-tar -xf ../sources/fastfetch-2.52.0.tar.gz
-pushd fastfetch-2.52.0
+tar -xf ../sources/fastfetch-2.53.0.tar.gz
+pushd fastfetch-2.53.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.52.0
+rm -rf fastfetch-2.53.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -6956,53 +6956,6 @@ rm -f /usr/bin/hp-{uninstall,upgrade} /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 popd
 rm -rf hplip-3.25.6
-# cnijfilter2.
-tar -xf ../sources/cnijfilter2-source-6.80-1.tar.gz
-pushd cnijfilter2-source-6.80-1
-patch -Np1 -i ../../patches/cnijfilter2-6.80-gcc15.patch
-pushd cmdtocanonij2
-LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share
-popd
-pushd cmdtocanonij3
-LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share
-popd
-pushd cnijbe2
-./autogen.sh --prefix=/usr --enable-progpath=/usr/bin
-popd
-pushd lgmon3
-LDFLAGS="$LDFLAGS -L../../com/libs_bin_x86_64" ./autogen.sh --prefix=/usr --datadir=/usr/share --enable-libpath=/usr/lib/bjlib2 --enable-progpath=/usr/bin
-popd
-pushd rastertocanonij
-./autogen.sh --prefix=/usr --enable-progpath=/usr/bin
-popd
-pushd tocanonij
-./autogen.sh --prefix=/usr
-popd
-pushd tocnpwg
-./autogen.sh --prefix=/usr
-popd
-make -C cmdtocanonij2
-make -C cmdtocanonij3
-make -C cnijbe2
-make -C lgmon3
-make -C rastertocanonij
-make -C tocanonij
-make -C tocnpwg
-make -C cmdtocanonij2 install
-make -C cmdtocanonij3 install
-make -C cnijbe2 install
-make -C lgmon3 install
-make -C rastertocanonij install
-make -C tocanonij install
-make -C tocnpwg install
-install -t /usr/lib -Dm755 com/libs_bin_x86_64/lib*.so.*
-install -t /usr/lib/bjlib2 -Dm644 com/ini/cnnet.ini
-install -t /usr/share/ppd/cnijfilter2 -Dm644 ppd/*.ppd
-find /usr/share/ppd/cnijfilter2 -type f -name \*.ppd -exec gzip {} ';'
-ldconfig
-install -t /usr/share/licenses/cnijfilter2 -Dm644 doc/LICENSE-cnijfilter-*.txt
-popd
-rm -rf cnijfilter2-source-6.80-1
 # system-config-printer.
 tar -xf ../sources/system-config-printer-1.5.18.tar.xz
 pushd system-config-printer-1.5.18
@@ -8586,16 +8539,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd; popd
 rm -rf open-vm-tools-stable-12.5.0
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17-rc7.tar.gz
-pushd linux-6.17-rc7
-patch -Np1 -i ../../patches/linux-6.14.8-zstdmaxlevel.patch
+tar -xf ../sources/linux-6.17.tar.xz
+pushd linux-6.17
 patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
+sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.0-rc7,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.0-rc7,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.0,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.0,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8650,7 +8603,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17-rc7
+rm -rf linux-6.17
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.82.09.tar.gz
 pushd open-gpu-kernel-modules-580.82.09
@@ -8667,8 +8620,8 @@ ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
 rm -rf open-gpu-kernel-modules-580.82.09
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20250708.tar.xz
-pushd linux-firmware-20250708
+tar -xf ../sources/linux-firmware-20250917.tar.xz
+pushd linux-firmware-20250917
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -8676,7 +8629,7 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20250708
+rm -rf linux-firmware-20250917
 # Intel-Microcode.
 tar -xf ../sources/intel-microcode-20250812.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812

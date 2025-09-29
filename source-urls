@@ -61,7 +61,6 @@ https://download.gnome.org/sources/clutter-gst/3.0/clutter-gst-3.0.27.tar.xz
 https://download.gnome.org/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
 https://github.com/Kitware/CMake/releases/download/v4.1.1/cmake-4.1.1.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
-https://gdlp01.c-wss.com/gds/2/0100012302/02/cnijfilter2-source-6.80-1.tar.gz
 https://download.gnome.org/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.8.tar.xz
 https://github.com/hughsie/colord-gtk/archive/0.3.1/colord-gtk-0.3.1.tar.gz
@@ -138,7 +137,7 @@ https://github.com/knik0/faac/archive/faac-1.31.1/faac-1.31.1.tar.gz
 https://github.com/knik0/faad2/archive/2.11.2/faad2-2.11.2.tar.gz
 https://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.37.1.1/fakeroot-upstream-1.37.1.1.tar.bz2
 https://github.com/fastfloat/fast_float/archive/v8.0.2/fast_float-8.0.2.tar.gz
-https://github.com/fastfetch-cli/fastfetch/archive/2.52.0/fastfetch-2.52.0.tar.gz
+https://github.com/fastfetch-cli/fastfetch/archive/2.53.0/fastfetch-2.53.0.tar.gz
 https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2.21.1.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_3_1/fcron-ver3_3_1.tar.gz
 https://ffmpeg.org/releases/ffmpeg-8.0.tar.xz
@@ -314,7 +313,7 @@ https://github.com/PJK/libcbor/archive/v0.12.0/libcbor-0.12.0.tar.gz
 https://github.com/libcdio/libcdio/releases/download/2.2.0/libcdio-2.2.0.tar.bz2
 https://ftp.nluug.nl/gnu/libcdio/libcdio-paranoia-10.2+2.0.2.tar.gz
 https://github.com/GNOME/libchamplain/archive/0.12.21/libchamplain-0.12.21.tar.gz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.1/libclc-21.1.1.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.2/libclc-21.1.2.src.tar.xz
 https://github.com/GNOME/libcloudproviders/archive/0.3.6/libcloudproviders-0.3.6.tar.gz
 https://github.com/OpenPrinting/libcupsfilters/releases/download/2.1.1/libcupsfilters-2.1.1.tar.xz
 https://deb.debian.org/debian/pool/main/libd/libdaemon/libdaemon_0.14.orig.tar.gz
@@ -480,11 +479,11 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://github.com/torvalds/linux/archive/v6.17-rc7/linux-6.17-rc7.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250708.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250917.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.1/llvm-project-21.1.1.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.2/llvm-project-21.1.2.src.tar.xz
 https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.33.tar.bz2
 https://www.cpan.org/authors/id/P/PV/PVANDRY/Locale-gettext-1.07.tar.gz

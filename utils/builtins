@@ -59,7 +59,6 @@ clutter-gst
 clutter-gtk
 cmake
 cmatrix
-cnijfilter2
 cogl
 colord
 colord-gtk

@@ -102,10 +102,9 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
-- Clang: `14.0.6 --> 21.1.1`
+- Clang: `14.0.6 --> 21.1.2`
 - CMake: `3.24.2 --> 4.1.1`
-- cnijfilter2: `(new package) --> 6.80`
-- compiler-rt: `15.0.3 --> 21.1.1`
+- compiler-rt: `15.0.3 --> 21.1.2`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -165,7 +164,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.0.2`
-- fastfetch: `(new package) --> 2.52.0`
+- fastfetch: `(new package) --> 2.53.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0`
 - File: `5.43 --> 5.46`
@@ -323,11 +322,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 21.1.1`
+- libclc: `(new package) --> 21.1.2`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 21.1.1`
-- libc++abi: `(new package) --> 21.1.1`
+- libc++: `(new package) --> 21.1.2`
+- libc++abi: `(new package) --> 21.1.2`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -476,13 +475,13 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.0-rc7`
-- Linux-API-Headers: `6.0.0 --> 6.17.0-rc7`
-- Linux-Firmware: `(new package) --> 20250708`
-- Linux-Headers: `6.0.0 --> 6.17.0-rc7`
+- Linux: `6.0.0 --> 6.17.0`
+- Linux-API-Headers: `6.0.0 --> 6.17.0`
+- Linux-Firmware: `(new package) --> 20250917`
+- Linux-Headers: `6.0.0 --> 6.17.0`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 21.1.1`
-- LLVM: `14.0.6 --> 21.1.1`
+- LLD: `14.0.6 --> 21.1.2`
+- LLVM: `14.0.6 --> 21.1.2`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -555,7 +554,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.3`
-- OpenMP: `(new package) --> 21.1.1`
+- OpenMP: `(new package) --> 21.1.2`
 - OpenSSH: `9.0p1 --> 10.0p1`
 - OpenSSL: `3.0.5 --> 3.5.2`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
