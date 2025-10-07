@@ -2,6 +2,9 @@
 # from standard post-upgrade tasks, it can also contain specific tasks required
 # to adapt an existing system to changes made by a newer MassOS version.
 
+# systemd 258 removes this file, keeping it will cause warnings on bootup.
+rm -f /usr/lib/systemd/system/systemd-update-utmp-runlevel.service || true
+
 # Standard tasks to perform after an upgrade.
 ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas
@@ -10,5 +13,6 @@ gtk-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 gtk4-update-icon-cache -q -t -f --include-image-data /usr/share/icons/hicolor
 update-desktop-database
 update-mime-database /usr/share/mime
+fc-cache
 dconf update
 systemd-sysusers

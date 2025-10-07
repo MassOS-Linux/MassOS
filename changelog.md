@@ -81,9 +81,9 @@ Upgraded software (core):
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
 - bcachefs-tools: `(new package) --> 1.25.1`
-- BIND-Utils: `9.18.6 --> 9.20.11`
+- BIND-Utils: `9.18.6 --> 9.20.13`
 - Binutils: `2.39 --> 2.45`
-- BlueZ: `5.65 --> 5.83`
+- BlueZ: `5.65 --> 5.84`
 - Boost: `1.80.0 --> 1.89.0`
 - bpftool: `7.0.0 --> 7.6.0`
 - brotli: `1.0.9 --> 1.1.0`
@@ -103,18 +103,18 @@ Upgraded software (core):
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
 - Clang: `14.0.6 --> 21.1.2`
-- CMake: `3.24.2 --> 4.1.1`
+- CMake: `3.24.2 --> 4.1.2`
 - compiler-rt: `15.0.3 --> 21.1.2`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
-- Coreutils: `9.1 --> 9.7`
+- Coreutils: `9.1 --> 9.8`
 - cowsay: `3.04 --> 3.8.4`
 - cpio: `(new package) --> 2.15`
 - CrackLib: `2.9.8 --> 2.10.3`
 - cryptography: `37.0.1 --> 44.0.2`
 - cryptsetup: `2.5.0 --> 2.8.1`
-- CUPS: `2.4.2 --> 2.4.12`
+- CUPS: `2.4.2 --> 2.4.14`
 - cups-browsed: `(new package) --> 2.1.1`
 - cups-filters: `1.28.16 --> 2.0.1`
 - cups-pdf: `(new package) --> 3.0.2`
@@ -157,13 +157,13 @@ Upgraded software (core):
 - ethtool: `(new package) --> 6.14`
 - evtest: `(new package) --> 1.35`
 - exfatprogs: `1.1.3 --> 1.2.8`
-- exiv2: `0.27.5 --> 0.28.5`
-- Expat: `2.4.9 --> 2.7.1`
+- exiv2: `0.27.5 --> 0.28.7`
+- Expat: `2.4.9 --> 2.7.3`
 - f2fs-tools: `(new package) --> 1.16.0`
 - FAAC: `(new package) --> 1.31.1`
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
-- fast-float: `(new package) --> 8.0.2`
+- fast-float: `(new package) --> 8.1.0`
 - fastfetch: `(new package) --> 2.53.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0`
@@ -176,7 +176,7 @@ Upgraded software (core):
 - flashrom: `1.2 --> 1.5.1`
 - Flatpak: `1.14.0 --> 1.16.1`
 - flit-core: `(new package) --> 3.12.0`
-- fmt: `9.1.0 --> 11.2.0`
+- fmt: `9.1.0 --> 12.0.0`
 - font-util: `1.3.3 --> 1.4.1`
 - Fontconfig: `2.14.0 --> 2.17.1`
 - FreeGLUT: `3.2.2 --> 3.6.0`
@@ -192,7 +192,7 @@ Upgraded software (core):
 - Gcr: `3.41.1 --> 3.41.2`
 - Gcr4: `(new package) --> 4.4.0.1`
 - GDBM: `1.23 --> 1.25`
-- GDK-Pixbuf: `2.42.9 --> 2.42.12`
+- GDK-Pixbuf: `2.42.9 --> 2.44.2`
 - GeoClue: `2.6.0 --> 2.8.0`
 - Gettext: `0.21 --> 0.26`
 - gexiv2: `0.14.0 --> 0.14.6`
@@ -205,7 +205,7 @@ Upgraded software (core):
 - glib-networking: `2.74.0 --> 2.80.1`
 - Glibc: `2.36 --> 2.41`
 - GLibmm: `2.66.5 --> 2.66.8`
-- glslang: `11.11.0 --> 15.4.0`
+- glslang: `11.11.0 --> 16.0.0`
 - GLU: `9.0.2 --> 9.0.3`
 - GMP: `6.2.1 --> 6.3.0`
 - gnome-keyring: `42.1 --> 48.0`
@@ -215,12 +215,12 @@ Upgraded software (core):
 - GNUTLS: `3.7.8 --> 3.8.10`
 - gobject-introspection: `1.74.0 --> 1.86.0`
 - gperf: `3.1 --> 3.3`
-- GPGME: `1.18.0 --> 2.0.0`
+- GPGME: `1.18.0 --> 2.0.1`
 - gpgmepp: `(new package) --> 2.0.0`
 - gpgmepy: `(new package) --> 2.0.0`
 - gptfdisk: `1.0.9 --> 1.0.10`
 - Graphite2: `1.3.14 --> 1.3.14-101-g93e20f92`
-- Graphviz: `6.0.1 --> 13.1.2`
+- Graphviz: `6.0.1 --> 14.0.0`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
 - GRUB: `2.06 --> 2.12-311-gdb506b3b8`
@@ -240,11 +240,11 @@ Upgraded software (core):
 - gst-python: `(new package) --> 1.26.6`
 - GStreamer: `1.20.3 --> 1.26.6`
 - gstreamer-vaapi: `1.20.3 --> 1.26.6`
-- GTK-Doc: `1.33.2 --> 1.34.0`
+- GTK-Doc: `1.33.2 --> 1.35.1`
 - gtk-layer-shell: `(new package) --> 0.9.1`
 - GTK2: `2.24.33 --> (removed)`
-- GTK3: `3.24.34 --> 3.24.50`
-- GTK4: `(new package) --> 4.20.1`
+- GTK3: `3.24.34 --> 3.24.51`
+- GTK4: `(new package) --> 4.20.2`
 - Gtkmm3: `3.24.7 --> 3.24.10`
 - gtksourceview3: `(new package) --> 3.24.11-28-g73e57b5`
 - gtksourceview4: `(new package) --> 4.8.4`
@@ -253,7 +253,7 @@ Upgraded software (core):
 - GVFS: `1.50.2 --> 1.57.2`
 - gz2xz: `1.1.0 --> (removed)`
 - Gzip: `1.12 --> 1.14`
-- HarfBuzz: `5.2.0 --> 11.5.0`
+- HarfBuzz: `5.2.0 --> 12.1.0`
 - hatch-vcs: `(new package) --> 0.5.0`
 - hatchling: `(new package) --> 1.27.0`
 - help2man: `1.49.2 --> 1.49.3`
@@ -262,9 +262,9 @@ Upgraded software (core):
 - highway: `(new package) --> 1.3.0`
 - HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.399`
+- hwdata: `0.363 --> 0.400`
 - hyfetch: `(new package) --> 2.0.1`
-- iana-etc: `20220922 --> 20250826`
+- iana-etc: `20220922 --> 20250926`
 - iceauth: `1.0.9 --> 1.0.10`
 - ICU: `71.1 --> 77.1`
 - idna: `3.4 --> 3.10`
@@ -272,8 +272,8 @@ Upgraded software (core):
 - Inetutils: `2.3 --> 2.6`
 - inih: `56 --> 62`
 - installer: `(new package) --> 0.7.0`
-- intel-gmmlib: `(new package) --> 22.8.1`
-- intel-media-driver: `(new package) --> 25.2.6`
+- intel-gmmlib: `(new package) --> 22.8.2`
+- intel-media-driver: `(new package) --> 25.3.4`
 - Intel-Microcode: `(new package) --> 20250812`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
@@ -303,14 +303,14 @@ Upgraded software (core):
 - lcms2: `2.13.1 --> 2.17`
 - legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 679`
-- libadwaita: `(new package) --> 1.7.6`
+- libadwaita: `(new package) --> 1.8.0`
 - libao: `(new package) --> 1.2.2`
-- libaom: `(new package) --> 3.12.1`
+- libaom: `(new package) --> 3.13.1`
 - libarchive: `3.6.1 --> 3.8.1`
 - libass: `0.16.0 --> 0.17.4`
 - libassuan: `2.5.5 --> 3.0.2`
 - libavif: `0.10.1 --> 1.3.0`
-- libblockdev: `2.28 --> 3.3.1`
+- libblockdev: `2.28 --> 3.4.0`
 - libbluray: `1.3.3 --> 1.3.4`
 - libbpf: `1.0.0 --> 1.6.2`
 - libbsd: `(new package) --> 0.12.2`
@@ -332,7 +332,7 @@ Upgraded software (core):
 - libdisplay-info: `(new package) --> 0.3.0`
 - libdmx: `1.1.4 --> 1.1.5`
 - libdovi: `(new package) --> 2.3.0`
-- libdrm: `2.4.113 --> 2.4.125`
+- libdrm: `2.4.113 --> 2.4.126`
 - libedit: `20210910-3.1 --> 20250104-3.1`
 - libevdev: `1.13.0 --> 1.13.4`
 - libexif: `0.6.23 --> 0.6.25`
@@ -382,7 +382,7 @@ Upgraded software (core):
 - libnl: `3.7.0 --> 3.11.0`
 - libnma: `1.10.2 --> 1.10.6`
 - libnma-gtk4: `(new package) --> 1.10.6`
-- libnotify: `0.8.1 --> 0.8.6`
+- libnotify: `0.8.1 --> 0.8.7`
 - libnvme: `(new package) --> 1.15`
 - libnsl: `2.0.0 --> 2.0.1`
 - libogg: `1.3.5 --> 1.3.6`
@@ -421,13 +421,13 @@ Upgraded software (core):
 - libtasn1: `4.19.0 --> 4.20.0`
 - libtatsu: `(new package) --> 1.0.5`
 - libtheora: `1.1.1 --> 1.2.0`
-- libtiff: `4.4.0 --> 4.7.0`
+- libtiff: `4.4.0 --> 4.7.1`
 - libtirpc: `1.3.3 --> 1.3.7`
 - libtool: `2.4.7 --> 2.5.4`
 - libtpms: `0.9.2 --> 0.10.0`
 - libudfread: `(new package) --> 1.1.2`
-- libunistring: `1.0 --> 1.3`
-- libunwind: `1.6.2 --> 1.8.2`
+- libunistring: `1.0 --> 1.4`
+- libunwind: `1.6.2 --> 1.8.3`
 - liburing: `2.1 --> 2.9`
 - libusb: `1.0.26 --> 1.0.28`
 - libusbmuxd: `2.0.2 --> 2.1.0`
@@ -475,10 +475,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.0`
-- Linux-API-Headers: `6.0.0 --> 6.17.0`
+- Linux: `6.0.0 --> 6.17.1`
+- Linux-API-Headers: `6.0.0 --> 6.17.1`
 - Linux-Firmware: `(new package) --> 20250917`
-- Linux-Headers: `6.0.0 --> 6.17.0`
+- Linux-Headers: `6.0.0 --> 6.17.1`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.2`
 - LLVM: `14.0.6 --> 21.1.2`
@@ -499,13 +499,13 @@ Upgraded software (core):
 - Man-DB: `2.10.2 --> 2.13.1`
 - man-pages: `5.13 --> 6.13`
 - Markdown: `3.3.6 --> 3.8.2`
-- MarkupSafe: `2.1.1 --> 3.0.2`
+- MarkupSafe: `2.1.1 --> 3.0.3`
 - maturin: `(new package) --> 1.8.3`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
 - Mesa: `22.1.7 --> 25.2.3`
 - mesa-utils: `8.5.0 --> 9.0.0`
-- Meson: `0.63.2 --> 1.9.0`
+- Meson: `0.63.2 --> 1.9.1`
 - meson-python: `(new package) --> 0.18.0`
 - minizip: `1.2.13 --> 1.3.1`
 - mkfontscale: `1.2.2 --> 1.2.3`
@@ -516,7 +516,7 @@ Upgraded software (core):
 - moreutils: `0.67 --> 0.69`
 - MPC: `1.2.1 --> 1.3.1`
 - mpdecimal: `2.5.1 --> 4.0.0`
-- mpg123: `1.30.1 --> 1.33.2`
+- mpg123: `1.30.1 --> 1.33.3`
 - msgraph: `(new package) --> 0.3.3`
 - mtdev: `1.1.6 --> 1.1.7`
 - mtools: `4.0.40 --> 4.0.48`
@@ -530,7 +530,7 @@ Upgraded software (core):
 - Neofetch: `7.3.0 --> (removed)`
 - net-tools: `(new package) --> 2.10`
 - Netcat: `0.7.1 --> 1.229`
-- NetworkManager: `1.40.0 --> 1.54.0`
+- NetworkManager: `1.40.0 --> 1.54.1`
 - NetworkManager-openvpn: `1.10.0 --> 1.12.0`
 - newt: `0.52.21 --> 0.52.25`
 - nftables: `(new package) --> 1.1.1`
@@ -541,29 +541,29 @@ Upgraded software (core):
 - noto-fonts-emoji: `20220920 --> 2.048`
 - npth: `1.6 --> 1.8`
 - NSPR: `4.35 --> 4.37`
-- NSS: `3.83 --> 3.116`
+- NSS: `3.83 --> 3.117`
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 580.82.09`
+- nvidia-modules-open: `(new package) --> 580.95.05`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.15`
 - oniguruma: `6.9.8 --> 6.9.10`
-- open-vm-tools: `(new package) --> 12.5.0`
+- open-vm-tools: `(new package) --> 13.0.5`
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
-- OpenJPEG: `2.5.0 --> 2.5.3`
+- OpenJPEG: `2.5.0 --> 2.5.4`
 - OpenMP: `(new package) --> 21.1.2`
 - OpenSSH: `9.0p1 --> 10.0p1`
-- OpenSSL: `3.0.5 --> 3.5.2`
+- OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
 - Opus: `1.3.1 --> 1.5.2`
 - ORC: `0.4.32 --> 0.4.41`
 - os-prober: `1.79 --> 1.83`
 - osm-gps-map: `(new package) --> 1.2.0`
 - ostree: `2022.5 --> 2025.2`
-- p11-kit: `0.24.1 --> 0.25.8`
+- p11-kit: `0.24.1 --> 0.25.10`
 - p7zip: `17.04 --> (removed)`
 - packaging: `21.3 --> 25.0`
 - Pahole: `1.24 --> 1.29`
@@ -594,7 +594,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
-- Poppler: `22.09.0 --> 25.09.0`
+- Poppler: `22.09.0 --> 25.10.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -610,7 +610,7 @@ Upgraded software (core):
 - Pygments: `2.13.0 --> 2.19.2`
 - PyGObject: `3.42.2 --> 3.52.3`
 - pyopenssl: `22.1.0 --> 25.0.0`
-- PyParsing: `3.0.7 --> 3.2.4`
+- PyParsing: `3.0.7 --> 3.2.5`
 - pyproject-hooks: `(new package) --> 1.2.0`
 - pyproject-metadata: `(new package) --> 0.9.1`
 - Python: `3.10.7 --> 3.13.7`
@@ -618,7 +618,7 @@ Upgraded software (core):
 - python-dbusmock: `0.28.4 --> 0.37.0`
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
-- PyYAML: `(new package) --> 6.0.2`
+- PyYAML: `(new package) --> 6.0.3`
 - qemu-guest-agent: `(new package) --> 10.1.0`
 - Qpdf: `11.1.1 --> 12.2.0`
 - rav1e: `0.5.1 --> 0.8.1`
@@ -631,7 +631,7 @@ Upgraded software (core):
 - rrdtool: `1.8.0 --> 1.9.0`
 - rsync: `3.2.6 --> 3.4.1`
 - rtmpdump: `2.4-99-gf1b83c1 --> 2.4-105-g6f6bb13`
-- Ruby: `3.1.2 --> 3.4.5`
+- Ruby: `3.1.2 --> 3.4.6`
 - run-parts: `5.5 --> 5.23.1`
 - SANE: `1.1.1 --> 1.4.0`
 - sane-airscan: `(new package) --> 0.99.35`
@@ -651,7 +651,7 @@ Upgraded software (core):
 - setuptools-rust: `(new package) --> 1.11.1`
 - setuptools-scm: `(new package) --> 8.3.1`
 - setxkbmap: `1.3.3 --> 1.3.4`
-- shaderc: `(new package) --> 2025.3`
+- shaderc: `(new package) --> 2025.4`
 - Shadow: `4.12.3 --> 4.18.0`
 - shared-mime-info: `2.2 --> 2.4`
 - shim: `(new package) --> 16.1`
@@ -707,10 +707,10 @@ Upgraded software (core):
 - usbutils: `014 --> 018`
 - Userspace-RCU: `0.13.2 --> 0.15.3`
 - utfcpp: `(new package) --> 4.0.8`
-- util-linux: `2.38.1 --> 2.41.1`
+- util-linux: `2.38.1 --> 2.41.2`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1782`
+- Vim: `9.0.0600 --> 9.1.1833`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.3`
@@ -750,6 +750,7 @@ Upgraded software (core):
 - xdg-dbus-proxy: `0.1.4 --> 0.1.6`
 - xdg-desktop-portal: `1.14.6 --> 1.20.3`
 - xdg-desktop-portal-gtk: `1.14.0 --> 1.15.3`
+- xdg-user-dirs: `0.18 --> 0.19`
 - xdpyinfo: `1.3.3 --> 1.4.0`
 - xdriinfo: `1.0.6 --> 1.0.8`
 - xev: `1.2.5 --> 1.2.6`
@@ -767,7 +768,7 @@ Upgraded software (core):
 - xkbcomp: `1.4.5 --> 1.4.7`
 - xkbevd: `1.1.4 --> 1.1.6`
 - xkbutils: `1.0.5 --> 1.0.6`
-- xkeyboard-config: `2.36 --> 2.45`
+- xkeyboard-config: `2.36 --> 2.46`
 - xkill: `1.0.5 --> 1.0.6`
 - xlsatoms: `1.1.3 --> 1.1.4`
 - xlsclients: `1.1.4 --> 1.1.5`
@@ -810,7 +811,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 143.0`
+- Firefox: `105.0.1 --> 143.0.4`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
