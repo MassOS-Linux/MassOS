@@ -28,7 +28,7 @@ https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
 https://ftp.nluug.nl/gnu/bash/bash-5.3.tar.gz
 https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
-https://github.com/koverstreet/bcachefs-tools/archive/v1.25.1/bcachefs-tools-1.25.1.tar.gz
+https://github.com/koverstreet/bcachefs-tools/archive/v1.31.7/bcachefs-tools-1.31.7.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.13/bind-9.20.13.tar.xz
 https://github.com/rust-lang/rust-bindgen/releases/download/v0.71.1/bindgen-cli-x86_64-unknown-linux-gnu.tar.xz
 https://ftp.nluug.nl/gnu/binutils/binutils-2.45.tar.xz
@@ -112,7 +112,7 @@ https://waterlan.home.xs4all.nl/dos2unix/dos2unix-7.5.2.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://github.com/williamh/dotconf/archive/v1.4.1/dotconf-1.4.1.tar.gz
 https://github.com/quietvoid/dovi_tool/archive/2.3.0/dovi_tool-2.3.0.tar.gz
-https://github.com/dracut-ng/dracut-ng/archive/108/dracut-ng-108.tar.gz
+https://github.com/dracut-ng/dracut-ng/archive/05692b8/dracut-ng-108-206-g05692b89.tar.gz
 https://duktape.org/duktape-2.7.0.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.3/e2fsprogs-1.47.3.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.2/EasyRSA-3.2.2.tgz
@@ -479,7 +479,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.1.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.2.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250917.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -601,7 +601,7 @@ https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.8/pipewire-1.4.8.
 https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.4/pixman-pixman-0.46.4.tar.bz2
 https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.6.0.tar.gz
 https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
-https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/d42a2830/plymouth-24.004.60-91-gd42a2830.tar.bz2
+https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/4a3c171d/plymouth-24.004.60-149-g4a3c171d.tar.bz2
 https://github.com/python-poetry/poetry-core/releases/download/2.1.2/poetry_core-2.1.2.tar.gz
 https://github.com/polkit-org/polkit/archive/126/polkit-126.tar.gz
 https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz

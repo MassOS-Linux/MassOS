@@ -80,7 +80,7 @@ Upgraded software (core):
 - Bash: `5.2 --> 5.3`
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
-- bcachefs-tools: `(new package) --> 1.25.1`
+- bcachefs-tools: `(new package) --> 1.31.7`
 - BIND-Utils: `9.18.6 --> 9.20.13`
 - Binutils: `2.39 --> 2.45`
 - BlueZ: `5.65 --> 5.84`
@@ -140,7 +140,7 @@ Upgraded software (core):
 - dos2unix: `0.4.2 --> 0.5.2`
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.0`
-- dracut: `056 --> 108`
+- dracut: `056 --> 108-206-g05692b89`
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
@@ -475,10 +475,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.1`
-- Linux-API-Headers: `6.0.0 --> 6.17.1`
+- Linux: `6.0.0 --> 6.17.2`
+- Linux-API-Headers: `6.0.0 --> 6.17.2`
 - Linux-Firmware: `(new package) --> 20250917`
-- Linux-Headers: `6.0.0 --> 6.17.1`
+- Linux-Headers: `6.0.0 --> 6.17.2`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.2`
 - LLVM: `14.0.6 --> 21.1.2`
@@ -591,7 +591,7 @@ Upgraded software (core):
 - PipeWire: `0.3.59 --> 1.4.8`
 - Pixman: `0.40.0 --> 0.46.4`
 - pluggy: `(new package) --> 1.6.0`
-- Plymouth: `22.02.122 --> 24.004.60-91-gd42a2830`
+- Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
 - Poppler: `22.09.0 --> 25.10.0`

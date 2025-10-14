@@ -4,7 +4,7 @@ massos-rootfs
 sources
 stage3/sources
 
-# Output builds and their checksums.
+# Output builds and their checksums/signatures.
 massos-*-rootfs-*.tar
 massos-*-rootfs-*.tar.*
 massos-*.iso

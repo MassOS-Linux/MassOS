@@ -2474,9 +2474,9 @@ install -t /usr/share/licenses/dosfstools -Dm644 COPYING
 popd
 rm -rf dosfstools-4.2
 # dracut.
-tar -xf ../sources/dracut-ng-108.tar.gz
-pushd dracut-ng-108
-patch -Np1 -i ../../patches/dracut-108-upstreamfix.patch
+tar -xf ../sources/dracut-ng-108-206-g05692b89.tar.gz
+pushd dracut-ng-05692b89bf29e3aa20292cc4d41902a7430b9659
+sed -i 's/108/108-206-g05692b89/' dracut-version.sh
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio --disable-asciidoctor
 make
 make install
@@ -2488,6 +2488,7 @@ cat > /etc/dracut.conf.d/massos.conf << "END"
 compress="zstd"
 
 # Make the initramfs reproducible.
+# Note that this is not supported if you use bsdcpio as your cpio program.
 reproducible="yes"
 
 # A hostonly initramfs will only include drivers for the system it was made on.
@@ -2506,7 +2507,7 @@ omit_dracutmodules+=" biosdevname cifs connman dash dbus-broker fcoe fcoe-uefi h
 END
 install -t /usr/share/licenses/dracut -Dm644 COPYING
 popd
-rm -rf dracut-ng-108
+rm -rf dracut-ng-05692b89bf29e3aa20292cc4d41902a7430b9659
 # LZO.
 tar -xf ../sources/lzo-2.10.tar.gz
 pushd lzo-2.10
@@ -3966,7 +3967,7 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,4,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
+grub,5,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
@@ -5722,16 +5723,18 @@ install -t /usr/share/licenses/mtools -Dm644 COPYING
 popd
 rm -rf mtools-4.0.48
 # bcachefs-tools.
-tar -xf ../sources/bcachefs-tools-1.25.1.tar.gz
-pushd bcachefs-tools-1.25.1
-make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash
-make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash install
+tar -xf ../sources/bcachefs-tools-1.31.7.tar.gz
+pushd bcachefs-tools-1.31.7
+## Initramfs scripts are inappropriate for dracut - throw them away.
+## bcachefs will be built as an external module once Linux 6.18 releases.
+make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash DKMSDIR=/tmp/.mbs_trash
+make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash DKMSDIR=/tmp/.mbs_trash install
 bcachefs completions bash > /usr/share/bash-completion/completions/bcachefs
 bcachefs completions zsh > /usr/share/zsh/site-functions/_bcachefs
 bcachefs completions fish > /usr/share/fish/vendor_completions.d/bcachefs.fish
 install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.25.1
+rm -rf bcachefs-tools-1.31.7
 # Polkit.
 tar -xf ../sources/polkit-126.tar.gz
 pushd polkit-126
@@ -6103,6 +6106,15 @@ ninja -C build install
 install -t /usr/share/licenses/libhandy -Dm644 COPYING
 popd
 rm -rf libhandy-1.8.3
+# GTK4 (initial build - rebuilt later for GStreamer and tinysparql support).
+tar -xf ../sources/gtk-4.20.2.tar.gz
+pushd gtk-4.20.2
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbroadway-backend=true -Dbuild-demos=false -Dbuild-examples=false -Dbuild-tests=false -Dbuild-testsuite=false -Dcloudproviders=enabled -Dcolord=enabled -Dintrospection=enabled -Dman-pages=true -Dmedia-gstreamer=disabled -Dsysprof=enabled -Dtracker=disabled
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/gtk4 -Dm644 COPYING
+popd
+rm -rf gtk-4.20.2
 # dconf-editor.
 tar -xf ../sources/dconf-editor-45.0.1.tar.gz
 cd dconf-editor-45.0.1
@@ -6777,6 +6789,15 @@ ninja -C build install
 install -t /usr/share/licenses/gcr -Dm644 COPYING
 popd
 rm -rf gcr-3.41.2
+# Gcr4.
+tar -xf ../sources/gcr-4.4.0.1.tar.gz
+pushd gcr-4.4.0.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/gcr4 -Dm644 COPYING
+popd
+rm -rf gcr-4.4.0.1
 # pinentry.
 tar -xf ../sources/pinentry-1.3.2.tar.bz2
 pushd pinentry-1.3.2
@@ -7263,13 +7284,14 @@ install -t /usr/share/licenses/networkmanager -Dm644 COPYING{,.{GFD,LGP}L}
 systemctl enable NetworkManager
 popd
 rm -rf NetworkManager-1.54.1
-# libnma (initial build; will be rebuilt later for libnma-gtk4).
+# libnma / libnma-gtk4
 tar -xf ../sources/libnma-1.10.6.tar.gz
 pushd libnma-1.10.6
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgcr=false
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgcr=true -Dlibnma_gtk4=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libnma -Dm644 COPYING{,.LGPL}
+install -t /usr/share/licenses/libnma-gtk4 -Dm644 COPYING{,.LGPL}
 popd
 rm -rf libnma-1.10.6
 # libnotify.
@@ -7488,14 +7510,15 @@ flatpak remote-add --if-not-exists flathub ./flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 popd
 rm -rf flatpak-1.16.1
-# libportal / libportal-gtk3.
+# libportal / libportal-gtk3 / libportal-gtk4.
 tar -xf ../sources/libportal-0.9.1.tar.xz
 pushd libportal-0.9.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbackend-gtk3=enabled -Dbackend-gtk4=disabled -Dbackend-qt5=disabled -Dbackend-qt6=disabled -Ddocs=false -Dtests=false
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbackend-gtk3=enabled -Dbackend-gtk4=enabled -Dbackend-qt5=disabled -Dbackend-qt6=disabled -Ddocs=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libportal -Dm644 COPYING
 install -t /usr/share/licenses/libportal-gtk3 -Dm644 COPYING
+install -t /usr/share/licenses/libportal-gtk4 -Dm644 COPYING
 popd
 rm -rf libportal-0.9.1
 # geocode-glib.
@@ -8152,10 +8175,10 @@ ninja -C build install
 install -t /usr/share/licenses/sdl3 -Dm644 LICENSE.txt
 popd
 rm -rf SDL3-3.2.22
-# GTK4.
+# GTK4 (rebuild to support GStreamer and tinysparql).
 tar -xf ../sources/gtk-4.20.2.tar.gz
 pushd gtk-4.20.2
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbroadway-backend=true -Dbuild-demos=false -Dbuild-examples=false -Dbuild-tests=false -Dbuild-testsuite=false -Dcloudproviders=enabled -Dcolord=enabled -Dintrospection=enabled -Dman-pages=true -Dsysprof=enabled -Dtracker=enabled
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbroadway-backend=true -Dbuild-demos=false -Dbuild-examples=false -Dbuild-tests=false -Dbuild-testsuite=false -Dcloudproviders=enabled -Dcolord=enabled -Dintrospection=enabled -Dman-pages=true -Dmedia-gstreamer=enabled -Dsysprof=enabled -Dtracker=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gtk4 -Dm644 COPYING
@@ -8188,15 +8211,6 @@ install -t /usr/share/licenses/gst-plugin-dav1d -Dm644 video/dav1d/LICENSE-{APAC
 install -t /usr/share/licenses/gst-plugin-rav1e -Dm644 video/rav1e/LICENSE-{APACHE,MIT}
 popd
 rm -rf gst-plugins-rs-0.14.2
-# Gcr4.
-tar -xf ../sources/gcr-4.4.0.1.tar.gz
-pushd gcr-4.4.0.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/gcr4 -Dm644 COPYING
-popd
-rm -rf gcr-4.4.0.1
 # colord-gtk.
 tar -xf ../sources/colord-gtk-0.3.1.tar.gz
 pushd colord-gtk-0.3.1
@@ -8206,24 +8220,6 @@ ninja -C build install
 install -t /usr/share/licenses/colord-gtk -Dm644 COPYING
 popd
 rm -rf colord-gtk-0.3.1
-# libnma (rebuild for libnma-gtk4).
-tar -xf ../sources/libnma-1.10.6.tar.gz
-pushd libnma-1.10.6
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgcr=true -Dlibnma_gtk4=true
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/libnma-gtk4 -Dm644 COPYING{,.LGPL}
-popd
-rm -rf libnma-1.10.6
-# libportal-gtk4.
-tar -xf ../sources/libportal-0.9.1.tar.xz
-pushd libportal-0.9.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbackend-gtk3=disabled -Dbackend-gtk4=enabled -Dbackend-qt5=disabled -Dbackend-qt6=disabled -Ddocs=false -Dtests=false
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/libportal-gtk4 -Dm644 COPYING
-popd
-rm -rf libportal-0.9.1
 # xdg-desktop-portal.
 tar -xf ../sources/xdg-desktop-portal-1.20.3.tar.xz
 pushd xdg-desktop-portal-1.20.3
@@ -8409,18 +8405,19 @@ install -t /usr/share/licenses/gvfs -Dm644 COPYING
 popd
 rm -rf gvfs-1.57.2
 # Plymouth.
-tar -xf ../sources/plymouth-24.004.60-91-gd42a2830.tar.bz2
-pushd plymouth-d42a2830-d42a2830bd7c1cdc1012d35e05c65dc2ca1a3603
-echo -e "#!/bin/sh\necho '24.004.60-91-gd42a2830'" > scripts/generate-version.sh
+tar -xf ../sources/plymouth-24.004.60-149-g4a3c171d.tar.bz2
+pushd plymouth-4a3c171d-4a3c171df86de1e6d2586fd09382fe4f6b69d307
+echo -e '#!/bin/sh\necho 24.004.60-149-g4a3c171d' > scripts/generate-version.sh
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dlogo=/usr/share/massos/massos-logo-sidetext.png -Drelease-file=/etc/os-release
 ninja -C build
 ninja -C build install
-sed -i 's/dracut -f/mkinitramfs/' /usr/libexec/plymouth/plymouth-update-initrd
 cp /usr/share/massos/massos-logo-sidetext.png /usr/share/plymouth/themes/spinner/watermark.png
-plymouth-set-default-theme bgrt
+sed -i 's/dracut -f/mkinitramfs/' /usr/libexec/plymouth/plymouth-update-initrd
+sed -i 's/Theme=spinner/Theme=bgrt/' /usr/share/plymouth/plymouthd.defaults
+echo "UseSimpledrm=1" >> /usr/share/plymouth/plymouthd.defaults
 install -t /usr/share/licenses/plymouth -Dm644 COPYING
 popd
-rm -rf plymouth-d42a2830-d42a2830bd7c1cdc1012d35e05c65dc2ca1a3603
+rm -rf plymouth-4a3c171d-4a3c171df86de1e6d2586fd09382fe4f6b69d307
 # Busybox.
 tar -xf ../sources/busybox-1.37.0.tar.bz2
 pushd busybox-1.37.0
@@ -8535,18 +8532,19 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17.1.tar.xz
-pushd linux-6.17.1
+tar -xf ../sources/linux-6.17.2.tar.xz
+pushd linux-6.17.2
 # TODO: Re-add secureboot patch once it is fixed (MOK-signed modules).
-# NB: The MassOS Project will switch to a new signing key once fixed.
+# TODO: The MassOS Project will switch to a new signing key once fixed.
+# TODO: Therefore all new "hardened" builds with use the new signing key.
 #patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.1,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.1,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.2,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.2,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8601,7 +8599,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.1
+rm -rf linux-6.17.2
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.95.05.tar.gz
 pushd open-gpu-kernel-modules-580.95.05
@@ -8646,8 +8644,8 @@ rm -rf sof-bin-2025.05
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.11.3" > /usr/share/massos/.osinstallguiver
-echo "76b03aadf05b12e1355973496ef124d9371aa3ca18cc587259d684071fee29ec" > /usr/share/massos/.osinstallguisum
+echo "0.11.5" > /usr/share/massos/.osinstallguiver
+echo "e1b8a1ca8c73c44d8709c0cb12917d2cff4e67a6e8074fef18d38b7aa7ceeab1" > /usr/share/massos/.osinstallguisum
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
