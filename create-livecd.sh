@@ -26,7 +26,7 @@ if test $EUID -ne 0; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=1
+SCRIPT_COMPAT=2
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
 export PATH="$PATH:$PWD/utils/programs"
 # Ensure dependencies are present.
@@ -148,7 +148,7 @@ cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi iso-workdir/iso-root/EFI/BOO
 cp iso-workdir/massos-rootfs/usr/lib/grub/x86_64-efi-signed/glcdx64.efi.signed iso-workdir/iso-root/EFI/BOOT/grubx64.efi
 chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTX64.EFI,{grubx64,mmx64}.efi}
 sed "s|@@ISOFILE@@|$isoname|g" livecd-data/grub.cfg.in > iso-workdir/iso-root/grub.cfg
-cp iso-workdir/massos-rootfs/usr/share/licenses/shim/COPYRIGHT iso-workdir/iso-root/LICENSES/shim.txt
+cp iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright iso-workdir/iso-root/LICENSES/shim.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
 cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
@@ -162,17 +162,19 @@ cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/i
 cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt
 # Copy over secure boot certs from the rootfs to the live CD.
 cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
+# Copy db.der as ENROLLME.CER, for easier MokManager import.
+cp iso-workdir/iso-root/secureboot/db.der iso-workdir/iso-root/ENROLLME.CER
 # Copy secure boot README to the top level of the live CD.
 cp livecd-data/README.SECUREBOOT.txt iso-workdir/iso-root/README.SECUREBOOT.txt
 # Create a small FAT12 image containing BOOTX64.EFI, to use for UEFI cdboot.
 # This is required as most UEFI firmwares don't support the ISO9660 filesystem.
-# This was previously done earlier, but has been moved to after SB signing.
 # Also install SB certs here, to allow importing into firmware from FAT volume.
 dd if=/dev/zero of=iso-workdir/efiboot.img bs=$(($(du -bc iso-workdir/iso-root/EFI/BOOT | tail -n1 | cut -f1) + 80000)) count=1
 mkfs.fat -F12 iso-workdir/efiboot.img -n "MASSOS_EFI"
 mmd -i iso-workdir/efiboot.img ::/EFI
 mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/EFI/BOOT ::/EFI
 mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/secureboot ::
+mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/ENROLLME.CER
 mv iso-workdir/efiboot.img iso-workdir/iso-root/EFI/BOOT/efiboot.img
 # Copy additional files.
 cp livecd-data/autorun.ico iso-workdir/iso-root/autorun.ico

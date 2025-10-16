@@ -207,7 +207,7 @@ https://github.com/silnrsi/graphite/archive/93e20f92/graphite2-1.3.14-101-g93e20
 https://gitlab.com/graphviz/graphviz/-/archive/14.0.0/graphviz-14.0.0.tar.bz2
 https://ftp.nluug.nl/gnu/grep/grep-3.12.tar.xz
 https://ftp.nluug.nl/gnu/groff/groff-1.23.0.tar.gz
-https://dmassey.net/files/dev/grub/grub-2.12-311-gdb506b3b8.tar.xz
+https://dmassey.net/files/dev/grub/grub-2.12-418-g6b5c671d3.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/db13f63/grub-theme-distro-massos-002.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/48.0/gsettings-desktop-schemas-48.0.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
@@ -479,7 +479,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.2.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.3.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20250917.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -676,7 +676,7 @@ https://github.com/google/shaderc/archive/v2025.4/shaderc-2025.4.tar.gz
 https://github.com/shadow-maint/shadow/releases/download/4.18.0/shadow-4.18.0.tar.xz
 https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.4/shared-mime-info-2.4.tar.gz
 https://ftp.nluug.nl/gnu/sharutils/sharutils-4.15.2.tar.xz
-https://github.com/rhboot/shim/releases/download/16.1/shim-16.1.tar.bz2
+https://dmassey.net/files/dev/shim-signed/shim-signed-15.8-ubuntu-1.59.tar.xz
 https://files.pythonhosted.org/packages/source/s/six/six-1.17.0.tar.gz
 https://github.com/webmproject/sjpeg/archive/e5ab130/sjpeg-e5ab130.tar.gz
 https://github.com/eyJhb/sl/archive/5.05/sl-5.05.tar.gz
@@ -732,7 +732,7 @@ https://data.iana.org/time-zones/releases/tzdata2025b.tar.gz
 https://github.com/pali/udftools/releases/download/2.3/udftools-2.3.tar.gz
 https://github.com/storaged-project/udisks/releases/download/udisks-2.10.1/udisks-2.10.1.tar.bz2
 https://dotat.at/prog/unifdef/unifdef-2.12.tar.gz
-https://unifoundry.com/pub/unifont/unifont-16.0.04/unifont-16.0.04.tar.gz
+https://unifoundry.com/pub/unifont/unifont-17.0.01/unifont-17.0.01.tar.gz
 https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.2.1/unix-tree-2.2.1.tar.bz2
 https://freefr.dl.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz
 https://github.com/MassOS-Linux/upgrade-toolset/releases/download/20250728/upgrade-toolset-20250728-x86_64.tar.xz

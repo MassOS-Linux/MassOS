@@ -3918,21 +3918,15 @@ ninja -C build install
 install -t /usr/share/licenses/woff2 -Dm644 LICENSE
 popd
 rm -rf woff2-1.0.2
-# shim.
-tar -xf ../sources/shim-16.1.tar.bz2
-pushd shim-16.1
-cp ../../extras/secureboot/db.der .
-make EFIDIR=massos VENDOR_CERT_FILE=db.der
-make DATATARGETDIR=/usr/lib/shim install-as-data
+# shim (Microsoft-signed version from Ubuntu).
+tar -xf ../sources/shim-signed-15.8-ubuntu-1.59.tar.xz
+pushd shim-signed-15.8-ubuntu-1.59
+install -t /usr/lib/shim -Dm644 fbx64.efi mmx64.efi shimx64.efi.signed
 echo "shimx64.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE > /usr/lib/shim/BOOTX64.CSV
-## Remove unsigned, store signed as shimx64.efi.signed/mmx64.efi/fbx64.efi.
-## This seems nonsensical, but the GRUB secureboot patch expects it this way.
-for f in fb mm shim; do sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/shim/"$f"x64.efi; rm -f /usr/lib/shim/"$f"x64.efi; done
-for f in fb mm; do mv /usr/lib/shim/"$f"x64.efi{.signed,}; done
 install -dm755 /var/lib/shim-signed/mok
-install -t /usr/share/licenses/shim -Dm644 COPYRIGHT
+install -t /usr/share/licenses/shim -Dm644 copyright
 popd
-rm -rf shim-16.1
+rm -rf shim-signed-15.8-ubuntu-1.59.tar.xz
 # mokutil.
 tar -xf ../sources/mokutil-0.7.2.tar.gz
 pushd mokutil-0.7.2
@@ -3943,21 +3937,21 @@ install -t /usr/share/licenses/mokutil -Dm644 COPYING
 popd
 rm -rf mokutil-0.7.2
 # Unifont.
-tar -xf ../sources/unifont-16.0.04.tar.gz
+tar -xf ../sources/unifont-17.0.01.tar.gz
 install -dm755 /usr/share/fonts/unifont
-gzip -cd unifont-16.0.04/font/precompiled/unifont-16.0.04.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
-install -t /usr/share/licenses/unifont -Dm644 unifont-16.0.04/COPYING
-rm -rf unifont-16.0.04
+gzip -cd unifont-17.0.01/font/precompiled/unifont-17.0.01.pcf.gz > /usr/share/fonts/unifont/unifont.pcf
+install -t /usr/share/licenses/unifont -Dm644 unifont-17.0.01/COPYING
+rm -rf unifont-17.0.01
 # GRUB.
-tar -xf ../sources/grub-2.12-311-gdb506b3b8.tar.xz
-pushd grub-2.12-311-gdb506b3b8
+tar -xf ../sources/grub-2.12-418-g6b5c671d3.tar.xz
+pushd grub-2.12-418-g6b5c671d3
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" PACKAGE_STRING="GRUB 2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-418-g6b5c671d3" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-311-gdb506b3b8" PACKAGE_STRING="GRUB 2.12-311-gdb506b3b8" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-418-g6b5c671d3" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3967,8 +3961,8 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,5,Free Software Foundation,grub,2.12-311-gdb506b3b8,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-311-gdb506b3b8,https://massos.org
+grub,5,Free Software Foundation,grub,2.12-418-g6b5c671d3,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-418-g6b5c671d3,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## The basic initialization config is used by all images.
@@ -4046,7 +4040,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-311-gdb506b3b8
+rm -rf grub-2.12-418-g6b5c671d3
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -8532,8 +8526,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17.2.tar.xz
-pushd linux-6.17.2
+tar -xf ../sources/linux-6.17.3.tar.xz
+pushd linux-6.17.3
 # TODO: Re-add secureboot patch once it is fixed (MOK-signed modules).
 # TODO: The MassOS Project will switch to a new signing key once fixed.
 # TODO: Therefore all new "hardened" builds with use the new signing key.
@@ -8543,8 +8537,8 @@ make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.2,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.2,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.3,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.3,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8599,7 +8593,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.2
+rm -rf linux-6.17.3
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.95.05.tar.gz
 pushd open-gpu-kernel-modules-580.95.05
@@ -8666,7 +8660,7 @@ installed: no
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 1 > /usr/share/massos/.rootfs_compat
+echo 2 > /usr/share/massos/.rootfs_compat
 # Clean up the entire mbs directory and self-destruct.
 popd
 rm -rf /root/mbs

@@ -268,14 +268,14 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 popd
 rm -rf xfce4-terminal-1.1.5
 # Shotwell.
-tar -xf ../sources/shotwell-shotwell-0.32.10.tar.bz2
-pushd shotwell-shotwell-0.32.10
+tar -xf ../sources/shotwell-shotwell-0.32.13.tar.bz2
+pushd shotwell-shotwell-0.32.13
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/shotwell -Dm644 COPYING
 popd
-rm -rf shotwell-shotwell-0.32.10
+rm -rf shotwell-shotwell-0.32.13
 # xfce4-notifyd.
 tar -xf ../sources/xfce4-notifyd-0.9.7.tar.bz2
 pushd xfce4-notifyd-0.9.7
@@ -432,15 +432,14 @@ install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
 rm -rf mousepad-0.6.5
 # GNOME-Calculator.
-tar -xf ../sources/gnome-calculator-49.alpha.tar.bz2
-pushd gnome-calculator-49.alpha
-patch -Np1 -i ../../patches/gnome-calculator-49.alpha-upstreamfix.patch
+tar -xf ../sources/gnome-calculator-49.1.tar.bz2
+pushd gnome-calculator-49.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddoc=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
-rm -rf gnome-calculator-49.alpha
+rm -rf gnome-calculator-49.1
 # GParted.
 tar -xf ../sources/gparted-GPARTED_1_7_0.tar.bz2
 pushd gparted-GPARTED_1_7_0
@@ -486,42 +485,42 @@ install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
 rm -rf evince-48.1
 # simple-scan.
-tar -xf ../sources/simple-scan-48.1.tar.bz2
-pushd simple-scan-48.1
+tar -xf ../sources/simple-scan-49.0.1.tar.bz2
+pushd simple-scan-49.0.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/simple-scan -Dm644 COPYING
 popd
-rm -rf simple-scan-48.1
+rm -rf simple-scan-49.0.1
 # Baobab.
-tar -xf ../sources/baobab-48.0.tar.bz2
-pushd baobab-48.0
+tar -xf ../sources/baobab-49.0.tar.bz2
+pushd baobab-49.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/baobab -Dm644 COPYING
 popd
-rm -rf baobab-48.0
+rm -rf baobab-49.0
 # GNOME-Firmware.
-tar -xf ../sources/gnome-firmware-47.0.tar.bz2
-pushd gnome-firmware-47.0
+tar -xf ../sources/gnome-firmware-49.0.tar.bz2
+pushd gnome-firmware-49.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
-rm -rf gnome-firmware-47.0
+rm -rf gnome-firmware-49.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-48.4.tar.bz2
-pushd gnome-software-48.4
+tar -xf ../sources/gnome-software-49.1.tar.bz2
+pushd gnome-software-49.1
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-48.4
+rm -rf gnome-software-49.1
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-002.tar.gz
 pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
@@ -576,7 +575,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-143.0.4.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-144.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

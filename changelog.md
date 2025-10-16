@@ -223,7 +223,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 14.0.0`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-311-gdb506b3b8`
+- GRUB: `2.06 --> 2.12-418-g6b5c671d3`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 48.0`
 - gspell: `1.12.0 --> 1.14.0`
@@ -475,10 +475,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.2`
-- Linux-API-Headers: `6.0.0 --> 6.17.2`
+- Linux: `6.0.0 --> 6.17.3`
+- Linux-API-Headers: `6.0.0 --> 6.17.3`
 - Linux-Firmware: `(new package) --> 20250917`
-- Linux-Headers: `6.0.0 --> 6.17.2`
+- Linux-Headers: `6.0.0 --> 6.17.3`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.2`
 - LLVM: `14.0.6 --> 21.1.2`
@@ -654,7 +654,7 @@ Upgraded software (core):
 - shaderc: `(new package) --> 2025.4`
 - Shadow: `4.12.3 --> 4.18.0`
 - shared-mime-info: `2.2 --> 2.4`
-- shim: `(new package) --> 16.1`
+- shim: `(new package) --> 15.8`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
 - smartmontools: `(new package) --> 7.5`
@@ -701,7 +701,7 @@ Upgraded software (core):
 - UDisks: `2.9.4 --> 2.10.1`
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
-- Unifont: `15.0.01 --> 16.0.04`
+- Unifont: `15.0.01 --> 17.0.01`
 - UPower: `1.90.0 --> 1.90.10`
 - urllib3: `1.26.11 --> 2.5.0`
 - usbutils: `014 --> 018`
@@ -804,21 +804,21 @@ Upgraded software (core):
 
 Upgraded software (Xfce):
 
-- Baobab: `41.0 --> 48.0`
+- Baobab: `41.0 --> 49.0`
 - Blueman: `2.2.2 --> 2.4.6`
 - catfish: `(new package) --> 4.20.1`
 - Claws-Mail: `4.1.0 --> (removed)`
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 143.0.4`
+- Firefox: `105.0.1 --> 144.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
-- GNOME-Calculator: `(new package) --> 49.alpha`
+- GNOME-Calculator: `(new package) --> 49.1`
 - gnome-disk-utility: `(new package) --> 46.1`
-- GNOME-Firmware: `41.0 --> 47.0`
-- GNOME-Software: `41.5 --> 48.4`
+- GNOME-Firmware: `41.0 --> 49.0`
+- GNOME-Software: `41.5 --> 49.1`
 - GParted: `1.4.0 --> 1.7.0`
 - gtksourceview4: `4.8.3 --> (removed)`
 - LabWC: `(new package) --> 0.8.3`
@@ -833,8 +833,8 @@ Upgraded software (Xfce):
 - Orage: `4.16.0 --> 4.20.2`
 - Parole: `4.16.0 --> 4.20.0`
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
-- Shotwell: `0.31.5 --> 0.32.10`
-- simple-scan: `(new package) --> 48.1`
+- Shotwell: `0.31.5 --> 0.32.13`
+- simple-scan: `(new package) --> 49.0.1`
 - Thunar: `4.17.9 --> 4.20.5`
 - thunar-archive-plugin: `0.5.0 --> 0.5.3`
 - thunar-volman: `4.16.0 --> 4.20.0`
