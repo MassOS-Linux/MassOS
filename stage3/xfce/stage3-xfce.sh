@@ -133,14 +133,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
 # Thunar.
-tar -xf ../sources/thunar-4.20.5.tar.bz2
-pushd thunar-4.20.5
+tar -xf ../sources/thunar-4.20.6.tar.bz2
+pushd thunar-4.20.6
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.5
+rm -rf thunar-4.20.6
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -151,14 +151,14 @@ install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
 popd
 rm -rf thunar-volman-4.20.0
 # Tumbler.
-tar -xf ../sources/tumbler-4.20.0.tar.bz2
-pushd tumbler-4.20.0
+tar -xf ../sources/tumbler-4.20.1.tar.bz2
+pushd tumbler-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/tumbler -Dm644 COPYING
 popd
-rm -rf tumbler-4.20.0
+rm -rf tumbler-4.20.1
 # xfce4-appfinder.
 tar -xf ../sources/xfce4-appfinder-4.20.0.tar.bz2
 pushd xfce4-appfinder-4.20.0

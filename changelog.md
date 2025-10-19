@@ -59,7 +59,7 @@ Upgraded software (core):
 - AccountsService: `22.08.8 --> 23.13.9`
 - Acl: `2.3.1 --> 2.3.2`
 - acpid: `(new package) --> 2.0.34`
-- adwaita-icon-theme: `43 --> 48.1`
+- adwaita-icon-theme: `43 --> 49.0`
 - alsa-lib: `1.2.7.2 --> 1.2.14`
 - alsa-oss: `(new package) --> 1.1.8`
 - alsa-utils: `(new package) --> 1.2.14`
@@ -70,7 +70,7 @@ Upgraded software (core):
 - aria2: `(new package) --> 1.37.0`
 - Asciidoc: `10.2.0 --> 10.2.1`
 - Aspell: `0.60.8 --> 0.60.8.1`
-- at-spi2-core: `2.46.0 --> 2.58.0`
+- at-spi2-core: `2.46.0 --> 2.58.1`
 - Atkmm: `2.28.3 --> 2.28.4`
 - Attr: `2.5.1 --> 2.5.2`
 - Audit: `3.0.9 --> 4.0.3`
@@ -88,7 +88,7 @@ Upgraded software (core):
 - bpftool: `7.0.0 --> 7.6.0`
 - brotli: `1.0.9 --> 1.1.0`
 - bsd-games: `3.2 --> 3.3`
-- btrfs-progs: `5.19.1 --> 6.16.1`
+- btrfs-progs: `5.19.1 --> 6.17`
 - Bubblewrap: `0.6.2 --> 0.11.0`
 - build: `(new package) --> 1.2.2.post1`
 - Busybox: `1.35.0 --> 1.37.0`
@@ -136,8 +136,8 @@ Upgraded software (core):
 - DKMS: `3.0.6 --> 3.2.1`
 - dmidecode: `3.4 --> 3.6`
 - dnspython: `2.2.0 --> 2.7.0`
-- docutils: `0.18.1 --> 0.21.2`
-- dos2unix: `0.4.2 --> 0.5.2`
+- docutils: `0.18.1 --> 0.22.2`
+- dos2unix: `0.4.2 --> 0.5.3`
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.0`
 - dracut: `056 --> 108-206-g05692b89`
@@ -197,9 +197,9 @@ Upgraded software (core):
 - Gettext: `0.21 --> 0.26`
 - gexiv2: `0.14.0 --> 0.14.6`
 - GhostScript: `10.0.0 --> 10.06.0`
-- gi-docgen: `2022.1 --> 2025.4`
+- gi-docgen: `2022.1 --> 2025.5`
 - giflib: `5.2.1 --> 5.2.2`
-- Git: `2.38.0 --> 2.51.0`
+- Git: `2.38.0 --> 2.51.1`
 - glad: `(new package) --> 2.0.8`
 - GLib: `2.74.0 --> 2.86.0`
 - glib-networking: `2.74.0 --> 2.80.1`
@@ -220,12 +220,12 @@ Upgraded software (core):
 - gpgmepy: `(new package) --> 2.0.0`
 - gptfdisk: `1.0.9 --> 1.0.10`
 - Graphite2: `1.3.14 --> 1.3.14-101-g93e20f92`
-- Graphviz: `6.0.1 --> 14.0.0`
+- Graphviz: `6.0.1 --> 14.0.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
 - GRUB: `2.06 --> 2.12-418-g6b5c671d3`
 - grub-theme-distro-massos: `(new package) --> 002`
-- gsettings-desktop-schemas: `43.0 --> 48.0`
+- gsettings-desktop-schemas: `43.0 --> 49.1`
 - gspell: `1.12.0 --> 1.14.0`
 - gst-editing-services: `(new package) --> 1.26.6`
 - gst-libav: `1.20.3 --> 1.26.6`
@@ -278,7 +278,7 @@ Upgraded software (core):
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
 - ipp-usb: `(new package) --> 0.9.30`
-- IPRoute2: `5.19.0 --> 6.16.0`
+- IPRoute2: `5.19.0 --> 6.17.0`
 - iptables: `1.8.8 --> 1.8.11`
 - IPXE: `(new package) --> 1.21.1-1063-g969ce2`
 - ISL: `(new package) --> 0.27`
@@ -302,11 +302,11 @@ Upgraded software (core):
 - lark: `(new package) --> 1.2.2`
 - lcms2: `2.13.1 --> 2.17`
 - legacy-cgi: `(new package) --> 2.6.3`
-- Less: `608 --> 679`
-- libadwaita: `(new package) --> 1.8.0`
+- Less: `608 --> 685`
+- libadwaita: `(new package) --> 1.8.1`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.13.1`
-- libarchive: `3.6.1 --> 3.8.1`
+- libarchive: `3.6.1 --> 3.8.2`
 - libass: `0.16.0 --> 0.17.4`
 - libassuan: `2.5.5 --> 3.0.2`
 - libavif: `0.10.1 --> 1.3.0`
@@ -332,7 +332,7 @@ Upgraded software (core):
 - libdisplay-info: `(new package) --> 0.3.0`
 - libdmx: `1.1.4 --> 1.1.5`
 - libdovi: `(new package) --> 2.3.0`
-- libdrm: `2.4.113 --> 2.4.126`
+- libdrm: `2.4.113 --> 2.4.127`
 - libedit: `20210910-3.1 --> 20250104-3.1`
 - libevdev: `1.13.0 --> 1.13.4`
 - libexif: `0.6.23 --> 0.6.25`
@@ -342,11 +342,12 @@ Upgraded software (core):
 - libfreeaptx: `(new package) --> 0.2.2`
 - libFS: `1.0.9 --> 1.0.10`
 - libftdi: `(new package) --> 1.5`
+- libfyaml: `(new package) --> 0.9`
 - libgcrypt: `1.10.1 --> 1.11.2`
 - libgee: `0.20.6 --> 0.20.8`
 - libglade: `2.6.4 --> (removed)`
 - libglvnd: `1.5.0 --> 1.7.0`
-- libgpg-error: `1.45 --> 1.55`
+- libgpg-error: `1.45 --> 1.56`
 - libgphoto2: `2.5.30 --> 2.5.31`
 - libgudev: `237 --> 238`
 - libgusb: `0.4.0 --> 0.4.9`
@@ -426,7 +427,7 @@ Upgraded software (core):
 - libtool: `2.4.7 --> 2.5.4`
 - libtpms: `0.9.2 --> 0.10.0`
 - libudfread: `(new package) --> 1.1.2`
-- libunistring: `1.0 --> 1.4`
+- libunistring: `1.0 --> 1.4.1`
 - libunwind: `1.6.2 --> 1.8.3`
 - liburing: `2.1 --> 2.9`
 - libusb: `1.0.26 --> 1.0.28`
@@ -452,7 +453,7 @@ Upgraded software (core):
 - libXfixes: `6.0.0 --> 6.0.2`
 - libXfont2: `2.0.6 --> 2.0.7`
 - libXft: `2.3.6 --> 2.3.8`
-- libxkbcommon: `1.4.1 --> 1.11.0`
+- libxkbcommon: `1.4.1 --> 1.12.0`
 - libxkbfile: `1.1.0 --> 1.1.3`
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.5`
@@ -522,7 +523,7 @@ Upgraded software (core):
 - mtools: `4.0.40 --> 4.0.48`
 - multipath-tools: `(new package) --> 0.11.1`
 - Nano: `6.4 --> 8.6`
-- NASM: `2.15.05 --> 2.16.03`
+- NASM: `2.15.05 --> 3.01`
 - Ncurses: `6.3 --> 6.5-20250809`
 - Net-SNMP: `5.9.3 --> 5.9.4`
 - Nettle: `3.8.1 --> 3.10.2`
@@ -555,7 +556,7 @@ Upgraded software (core):
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.4`
 - OpenMP: `(new package) --> 21.1.2`
-- OpenSSH: `9.0p1 --> 10.0p1`
+- OpenSSH: `9.0p1 --> 10.2p1`
 - OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
 - Opus: `1.3.1 --> 1.5.2`
@@ -588,7 +589,7 @@ Upgraded software (core):
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.2`
 - pip: `(new package) --> 25.2`
-- PipeWire: `0.3.59 --> 1.4.8`
+- PipeWire: `0.3.59 --> 1.4.9`
 - Pixman: `0.40.0 --> 0.46.4`
 - pluggy: `(new package) --> 1.6.0`
 - Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
@@ -613,13 +614,13 @@ Upgraded software (core):
 - PyParsing: `3.0.7 --> 3.2.5`
 - pyproject-hooks: `(new package) --> 1.2.0`
 - pyproject-metadata: `(new package) --> 0.9.1`
-- Python: `3.10.7 --> 3.13.7`
+- Python: `3.10.7 --> 3.14.0`
 - python-certifi: `2022.06.15 --> 2025.01.31`
-- python-dbusmock: `0.28.4 --> 0.37.0`
+- python-dbusmock: `0.28.4 --> 0.37.1`
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.3`
-- qemu-guest-agent: `(new package) --> 10.1.0`
+- qemu-guest-agent: `(new package) --> 10.1.1`
 - Qpdf: `11.1.1 --> 12.2.0`
 - rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
@@ -631,7 +632,7 @@ Upgraded software (core):
 - rrdtool: `1.8.0 --> 1.9.0`
 - rsync: `3.2.6 --> 3.4.1`
 - rtmpdump: `2.4-99-gf1b83c1 --> 2.4-105-g6f6bb13`
-- Ruby: `3.1.2 --> 3.4.6`
+- Ruby: `3.1.2 --> 3.4.7`
 - run-parts: `5.5 --> 5.23.1`
 - SANE: `1.1.1 --> 1.4.0`
 - sane-airscan: `(new package) --> 0.99.35`
@@ -667,9 +668,9 @@ Upgraded software (core):
 - speech-dispatcher: `(new package) --> 0.12.1`
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
-- SPIRV-Headers: `1.3.216.0 --> 1.4.321.0`
-- SPIRV-LLVM-Translator: `(new package) --> 21.1.0`
-- SPIRV-Tools: `2022.2 --> 1.4.321.0`
+- SPIRV-Headers: `1.3.216.0 --> 1.4.328.1`
+- SPIRV-LLVM-Translator: `(new package) --> 21.1.1`
+- SPIRV-Tools: `2022.2 --> 1.4.328.1`
 - SQLite: `3.39.3 --> 3.50.4`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
@@ -678,7 +679,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.3.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 258`
+- systemd: `251.5 --> 258.1`
 - Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
@@ -710,14 +711,14 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41.2`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.1833`
+- Vim: `9.0.0600 --> 9.1.1864`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.80.3`
 - VTE4: `(new package) --> 0.80.3`
-- Vulkan-Headers: `1.3.230 --> 1.4.321.0`
-- Vulkan-Loader: `1.3.230 --> 1.4.321.0`
-- Vulkan-Tools: `1.3.230 --> 1.4.321.0`
+- Vulkan-Headers: `1.3.230 --> 1.4.328.1`
+- Vulkan-Loader: `1.3.230 --> 1.4.328.1`
+- Vulkan-Tools: `1.3.230 --> 1.4.328.1`
 - wavpack: `5.5.0 --> 5.8.1`
 - Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.45`
@@ -726,13 +727,13 @@ Upgraded software (core):
 - Wget: `1.21.3 --> 1.25.0`
 - wheel: `(new package) --> 0.46.1`
 - Which: `2.21 --> 2.23`
-- whois: `5.5.13 --> 5.6.4`
+- whois: `5.5.13 --> 5.6.5`
 - WirePlumber: `0.4.12 --> 0.5.11`
 - wlr-protocols: `(new package) --> 107`
 - wpa-supplicant: `2.10 --> 2.11`
 - wpebackend-fdo: `1.14.0 --> 1.16.0`
 - x11perf: `1.6.1 --> 1.7.0`
-- x264: `0.164.3099 --> 0.165.3222`
+- x264: `0.164.3099 --> 0.165.3223`
 - x265: `3.5-40-g931178347 --> 4.1`
 - xauth: `1.1.2 --> 1.1.4`
 - xbacklight: `1.2.3 --> 1.2.4`
@@ -835,10 +836,10 @@ Upgraded software (Xfce):
 - Popsicle: `1.3.0-65-g389d13d --> 1.3.3`
 - Shotwell: `0.31.5 --> 0.32.13`
 - simple-scan: `(new package) --> 49.0.1`
-- Thunar: `4.17.9 --> 4.20.5`
+- Thunar: `4.17.9 --> 4.20.6`
 - thunar-archive-plugin: `0.5.0 --> 0.5.3`
 - thunar-volman: `4.16.0 --> 4.20.0`
-- tumbler: `4.17.2 --> 4.20.0`
+- tumbler: `4.17.2 --> 4.20.1`
 - Weston: `10.0.2 --> (removed)`
 - xarchiver: `0.5.4.19 --> 0.5.4.26`
 - xfburn: `0.6.2 --> 0.8.0`

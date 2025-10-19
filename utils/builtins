@@ -334,6 +334,7 @@ libfontenc
 libfreeaptx
 libfs
 libftdi
+libfyaml
 libgcrypt
 libgdata
 libgee

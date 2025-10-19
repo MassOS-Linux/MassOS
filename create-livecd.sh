@@ -162,8 +162,8 @@ cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/i
 cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt
 # Copy over secure boot certs from the rootfs to the live CD.
 cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
-# Copy db.der as ENROLLME.CER, for easier MokManager import.
-cp iso-workdir/iso-root/secureboot/db.der iso-workdir/iso-root/ENROLLME.CER
+# Copy db.der as ENROLLME.cer, for easier MokManager import.
+cp iso-workdir/iso-root/secureboot/db.der iso-workdir/iso-root/ENROLLME.cer
 # Copy secure boot README to the top level of the live CD.
 cp livecd-data/README.SECUREBOOT.txt iso-workdir/iso-root/README.SECUREBOOT.txt
 # Create a small FAT12 image containing BOOTX64.EFI, to use for UEFI cdboot.
@@ -174,7 +174,7 @@ mkfs.fat -F12 iso-workdir/efiboot.img -n "MASSOS_EFI"
 mmd -i iso-workdir/efiboot.img ::/EFI
 mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/EFI/BOOT ::/EFI
 mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/secureboot ::
-mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/ENROLLME.CER
+mcopy -i iso-workdir/efiboot.img -s iso-workdir/iso-root/ENROLLME.cer ::
 mv iso-workdir/efiboot.img iso-workdir/iso-root/EFI/BOOT/efiboot.img
 # Copy additional files.
 cp livecd-data/autorun.ico iso-workdir/iso-root/autorun.ico
