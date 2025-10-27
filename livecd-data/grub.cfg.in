@@ -1,4 +1,3 @@
-insmod png
 background_image /splash2.png
 
 set timeout=20
@@ -31,8 +30,12 @@ menuentry "Boot from local disk" {
   exit 1
 }
 
-menuentry "Boot from network (IPXE)" {
+menuentry "Boot from network (iPXE)" {
   chainloader /EFI/tools/ipxe.efi
+}
+
+menuentry "Import Secure Boot keys/hashes (MokManager)" {
+  chainloader /EFI/BOOT/mmx64.efi
 }
 
 menuentry "UEFI EDK2 Shell" {

@@ -56,7 +56,7 @@ while true; do
 done
 
 # Generate the key pair using OpenSSL.
-openssl req -new -x509 -newkey rsa:2048 -nodes -keyout db.key -out db.crt -days 3650 -subj "/CN=$name/"
+openssl req -new -x509 -newkey rsa:2048 -nodes -keyout db.key -out db.crt -days 3650 -subj "/CN=$name/" -addext "extendedKeyUsage=codeSigning"
 
 # Convert public key to DER (x509) format.
 openssl x509 -in db.crt -outform DER -out db.der

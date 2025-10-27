@@ -16,14 +16,14 @@ body:
   attributes:
     label: "MassOS version"
     description: "What version of MassOS are you using? Run `massos-release` in a terminal if unsure. Note that we no longer accept bug reports for MassOS 2022.10 or older."
-    placeholder: "experimental-20250818"
+    placeholder: "experimental-20251016"
   validations:
     required: true
 - type: "input"
   attributes:
     label: "Kernel version"
     description: "What is the output of `uname -srvm` in a terminal? You may skip this question if your issue is related to booting MassOS in the first place."
-    placeholder: "Linux 6.17.0-rc2-massos #1 SMP PREEMPT_DYNAMIC Mon Aug 18 20:33:43 UTC 2025 x86_64"
+    placeholder: "Linux 6.17.3-massos #1 SMP PREEMPT_DYNAMIC Thu Oct 16 22:59:17 UTC 2025 x86_64"
   validations:
     required: false
 - type: "checkboxes"

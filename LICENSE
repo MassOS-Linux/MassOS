@@ -24,7 +24,9 @@ despite a common misconception.
 
 The MassOS wallpaper assets, under the directory 'backgrounds', are licensed
 under the Creative Commons Attribution-ShareAlike 4.0 International License
-(CC-BY-SA-4.0).
+(CC-BY-SA-4.0). All backgrounds EXCEPT Futuristic and Avantgarde (plus their
+variants) are (C) 2021-2022 Muhammad Hassan Murtaza <IKGissmart>. Futuristic is
+(C) 2022 Daniel Massey, and Avantgarde is (C) 2025 Daniel Massey.
 
 A copy of both licenses can be found in the files 'GPL-3.0' and 'CC-BY-SA-4.0'
 respectively. These are also installed under the directory '/usr/share/massos/'

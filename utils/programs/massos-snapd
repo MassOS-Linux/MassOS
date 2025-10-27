@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 
 # massos-snapd - Utility to manage the Snapd installation on a MassOS system.
+# Copyright (C) 2025 Daniel Massey. Licensed under GPLv3+.
+
+# shellcheck disable=SC2155
 
 # Exit on error.
 set -e
 
 # Set the software version.
-ver="0.0.3"
+ver="0.0.4"
 
 # Version of Go. Shouldn't really need to be updated frequently.
-ver_go="1.23.4"
+ver_go="1.25.3"
+sum_go="0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"
 
 # What is our name?
 inv="$(basename "$0")"
@@ -34,7 +38,7 @@ suc() {
 # Prompt.
 prompt() {
   # Yellow text.
-  printf "\e[1m$* [y/N]\e[0m "
+  printf '\e[1m%s [y/N]\e[0m ' "$*"
   read -r ans
   # Return depending on what was specified.
   case "$ans" in
@@ -53,6 +57,7 @@ ver_massos="$(cat /etc/massos-release 2>/dev/null || echo "UNKNOWN")"
 
 # Determine the version of snapd as defined by the MassOS build.
 ver_snapd="$(grep -sm1 "^version:" /usr/share/massos/snapdversion | cut -d' ' -f2)"
+sum_snapd="$(grep -sm1 "^checksum:" /usr/share/massos/snapdversion | cut -d' ' -f2)"
 
 # We can only run if a version was successfully determined.
 if test -z "$ver_snapd"; then
@@ -64,6 +69,14 @@ if ! readlink /usr/sbin &>/dev/null; then
   die "This utility is only supported on a newer version of MassOS."
 fi
 
+# Determine the installed status of snapd.
+installed_snapd=""
+if snap version &>/dev/null; then
+  installed_snapd="$(snap version 2>/dev/null | head -n1 | xargs | cut -d' ' -f2)"
+fi
+
+# Determin
+
 # Display usage function.
 usage() {
   echo "$inv (MassOS Snapd Installation Manager) $ver"
@@ -73,7 +86,7 @@ usage() {
   echo
   echo "Supported operations:"
   echo
-  echo "  $inv install   - Install Snapd on your system."
+  echo "  $inv install   - Install (or update) Snapd on your system."
   echo "  $inv uninstall - Uninstall Snapd from your system."
   echo "  $inv status    - Check if Snapd is installed on your system."
   echo
@@ -88,7 +101,16 @@ usage() {
 
 # Install function.
 operation_install() {
-  msg "Snapd $ver_snapd will be installed on your system."
+  # Check if we are up-to-date first.
+  if test ! -z "$installed_snapd"; then
+    if test "$installed_snapd" = "$ver_snapd"; then
+      msg "Snapd is already installed ($ver_snapd). It will be reinstalled."
+    else
+      msg "Snapd will be updated from $installed_snapd to $ver_snapd."
+    fi
+  else
+    msg "Snapd $ver_snapd will be installed on your system."
+  fi
   # Confirmation prompt.
   if ! prompt "Do you want to proceed with this operation?"; then
     die "Operation will not proceed at user's discretion."
@@ -100,6 +122,9 @@ operation_install() {
   msg "Downloading source files..."
   curl -fL "https://dl.google.com/go/go$ver_go.linux-amd64.tar.gz" -o dl_go
   curl -fL "https://github.com/canonical/snapd/releases/download/$ver_snapd/snapd_$ver_snapd.vendor.tar.xz" -o dl_snapd
+  # Verify stuff.
+  echo "$sum_go dl_go" | sha256sum -c
+  echo "$sum_snapd dl_snapd" | sha256sum -c
   # Extract stuff.
   msg "Extracting source files..."
   install -d go snapd
@@ -179,9 +204,6 @@ operation_install() {
   popd >/dev/null
   popd >/dev/null
   rm -rf "$workdir"
-  # Mark Snapd as installed.
-  msg "Recording changes to Snapd installation..."
-  sed -i 's/installed: no/installed: yes/' /usr/share/massos/snapdversion
   # Display successful finishing message and restart prompt.
   suc "Snapd $ver_snapd has been successfully installed."
   if prompt "Your system will now reboot. Is this OK?"; then
@@ -193,6 +215,10 @@ operation_install() {
 
 # Uninstall function.
 operation_uninstall() {
+  # We cannot uninstall it if it is already not installed.
+  if test -z "$installed_snapd"; then
+    die "Snapd is already not installed. Nothing to uninstall."
+  fi
   msg "Snapd $ver_snapd will be uninstalled from your system."
   # Confirmation prompt.
   if ! prompt "Do you want to proceed with this operation?"; then
@@ -204,25 +230,19 @@ operation_uninstall() {
 
 # Status function.
 operation_status() {
-  # Determine if snapd is reported to be installed.
-  snapd_installed_reported="$(grep -sm1 "^installed:" /usr/share/massos/snapdversion | cut -d' ' -f2)"
-  # Determine is snapd is really installed.
-  snapd_installed_really="$(snap --version 2>/dev/null || echo "no")"
-  # Display message based on consistency.
-  if test "$snapd_installed_reported" = "yes" && test "$snapd_installed_really" != "no"; then
-    # Reported as installed and really is installed.
-    msg "Snapd is installed ($ver_snapd)."
-  elif test "$snapd_installed_reported" = "yes" && test "$snapd_installed_really" = "no"; then
-    # Reported as installed but is not really installed.
-    msg "Snapd is not installed (although it is reported as installed)."
-  elif test "$snapd_installed_reported" != "yes" && test "$snapd_installed_really" != "no"; then
-    # Reported as not installed but it is somehow installed.
-    msg "Snapd is installed ($ver_snapd), but is reported as not."
+  if test ! -z "$installed_snapd"; then
+    # Snapd is installed.
+    if test "$installed_snapd" = "$ver_snapd"; then
+      # Snapd is up-to-date.
+      msg "Snapd $installed_snapd is installed and up-to-date."
+    else
+      # Snapd is outdated.
+      msg "Snapd $installed_snapd is installed, but outdated by $ver_snapd."
+      msg "Run '$inv install' to upgrade the Snapd installation to $ver_snapd."
+    fi
   else
-    # Neither reported as installed or really installed.
-    msg "Snapd is not installed."
+    msg "Snapd is not installed. Run '$inv install' to install $ver_snapd."
   fi
-  # TODO: Add option to correct the problem, i.e., change reported value.
 }
 
 # Determine what to do based on which operation was specified.

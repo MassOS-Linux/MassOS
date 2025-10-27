@@ -68,7 +68,7 @@ pushd binutils-2.45
 mkdir -p build; pushd build
 ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.45" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
-make install
+make -j1 install
 popd; popd
 rm -rf binutils-2.45
 # GCC (build 1).
@@ -83,20 +83,20 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
 ../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.41 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
-make install
+make -j1 install
 cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-stage1-linux-gnu/15.2.0/install-tools/include/limits.h
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17.3.tar.xz
-pushd linux-6.17.3
+tar -xf ../sources/linux-6.17.5.tar.xz
+pushd linux-6.17.5
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.3
+rm -rf linux-6.17.5
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -106,7 +106,7 @@ mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
 ../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
-make DESTDIR="$MASSOS" install
+make -j1 DESTDIR="$MASSOS" install
 ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed -i '/RTLDLIST=/s@/usr@@g' "$MASSOS"/usr/bin/ldd
 popd; popd
@@ -117,7 +117,7 @@ pushd gcc-15.2.0
 mkdir -p build; pushd build
 ../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/15.2.0
 make
-make DESTDIR="$MASSOS" install
+make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
 rm -rf gcc-15.2.0
@@ -128,7 +128,7 @@ sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
 ../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.45" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
-make DESTDIR="$MASSOS" install
+make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
 rm -rf binutils-2.45
@@ -145,7 +145,7 @@ sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/i
 mkdir -p build; pushd build
 ../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
 make
-make DESTDIR="$MASSOS" install
+make -j1 DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 popd; popd
 rm -rf gcc-15.2.0

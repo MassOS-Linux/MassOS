@@ -1,0 +1,480 @@
+This patch contains some diffs extracted from the Fedora kernel patches, aiming
+to improve UEFI secure boot support by more closely replicating the behavior of
+of most other modern GNU/Linux distributions which support secure boot.
+
+This includes supporting auto-enabling of lockdown=integrity depending upon
+whether or not the system is booted with UEFI secure boot enabled, as well as
+supporting module verification for modules which are signed by keys trusted by
+the platform (e.g., certificates in UEFI db or MokList), instead of being
+solely reliant upon only the kernel's internal trust database.
+
+The original patch source, from which this patch was extracted/isolated from,
+can be found at the following URL:
+
+<https://src.fedoraproject.org/rpms/kernel/blob/f43/f/patch-6.17-redhat.patch>
+
+diff '--color=auto' -apruN a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+--- a/arch/x86/kernel/setup.c	2025-09-28 22:39:22.000000000 +0100
++++ b/arch/x86/kernel/setup.c	2025-09-30 01:03:32.231092204 +0100
+@@ -21,6 +21,7 @@
+ #include <linux/pci.h>
+ #include <linux/random.h>
+ #include <linux/root_dev.h>
++#include <linux/security.h>
+ #include <linux/static_call.h>
+ #include <linux/swiotlb.h>
+ #include <linux/tboot.h>
+@@ -991,6 +992,13 @@ void __init setup_arch(char **cmdline_p)
+ 	if (efi_enabled(EFI_BOOT))
+ 		efi_init();
+ 
++	efi_set_secure_boot(boot_params.secure_boot);
++
++#ifdef CONFIG_LOCK_DOWN_IN_EFI_SECURE_BOOT
++	if (efi_enabled(EFI_SECURE_BOOT))
++		security_lock_kernel_down("EFI Secure Boot mode", LOCKDOWN_INTEGRITY_MAX);
++#endif
++
+ 	reserve_ibft_region();
+ 	x86_init.resources.dmi_setup();
+ 
+@@ -1154,19 +1162,7 @@ void __init setup_arch(char **cmdline_p)
+ 	/* Allocate bigger log buffer */
+ 	setup_log_buf(1);
+ 
+-	if (efi_enabled(EFI_BOOT)) {
+-		switch (boot_params.secure_boot) {
+-		case efi_secureboot_mode_disabled:
+-			pr_info("Secure boot disabled\n");
+-			break;
+-		case efi_secureboot_mode_enabled:
+-			pr_info("Secure boot enabled\n");
+-			break;
+-		default:
+-			pr_info("Secure boot could not be determined\n");
+-			break;
+-		}
+-	}
++	efi_set_secure_boot(boot_params.secure_boot);
+ 
+ 	reserve_initrd();
+ 
+diff '--color=auto' -apruN a/drivers/firmware/efi/efi.c b/drivers/firmware/efi/efi.c
+--- a/drivers/firmware/efi/efi.c	2025-09-28 22:39:22.000000000 +0100
++++ b/drivers/firmware/efi/efi.c	2025-09-30 01:03:32.231343148 +0100
+@@ -33,6 +33,7 @@
+ #include <linux/memblock.h>
+ #include <linux/security.h>
+ #include <linux/notifier.h>
++#include <linux/bsearch.h>
+ 
+ #include <asm/early_ioremap.h>
+ 
+@@ -1016,40 +1017,101 @@ int efi_mem_type(unsigned long phys_addr
+ 	return -EINVAL;
+ }
+ 
++struct efi_error_code {
++	efi_status_t status;
++	int errno;
++	const char *description;
++};
++
++static const struct efi_error_code efi_error_codes[] = {
++	{ EFI_SUCCESS, 0, "Success"},
++#if 0
++	{ EFI_LOAD_ERROR, -EPICK_AN_ERRNO, "Load Error"},
++#endif
++	{ EFI_INVALID_PARAMETER, -EINVAL, "Invalid Parameter"},
++	{ EFI_UNSUPPORTED, -ENOSYS, "Unsupported"},
++	{ EFI_BAD_BUFFER_SIZE, -ENOSPC, "Bad Buffer Size"},
++	{ EFI_BUFFER_TOO_SMALL, -ENOSPC, "Buffer Too Small"},
++	{ EFI_NOT_READY, -EAGAIN, "Not Ready"},
++	{ EFI_DEVICE_ERROR, -EIO, "Device Error"},
++	{ EFI_WRITE_PROTECTED, -EROFS, "Write Protected"},
++	{ EFI_OUT_OF_RESOURCES, -ENOMEM, "Out of Resources"},
++#if 0
++	{ EFI_VOLUME_CORRUPTED, -EPICK_AN_ERRNO, "Volume Corrupt"},
++	{ EFI_VOLUME_FULL, -EPICK_AN_ERRNO, "Volume Full"},
++	{ EFI_NO_MEDIA, -EPICK_AN_ERRNO, "No Media"},
++	{ EFI_MEDIA_CHANGED, -EPICK_AN_ERRNO, "Media changed"},
++#endif
++	{ EFI_NOT_FOUND, -ENOENT, "Not Found"},
++#if 0
++	{ EFI_ACCESS_DENIED, -EPICK_AN_ERRNO, "Access Denied"},
++	{ EFI_NO_RESPONSE, -EPICK_AN_ERRNO, "No Response"},
++	{ EFI_NO_MAPPING, -EPICK_AN_ERRNO, "No mapping"},
++	{ EFI_TIMEOUT, -EPICK_AN_ERRNO, "Time out"},
++	{ EFI_NOT_STARTED, -EPICK_AN_ERRNO, "Not started"},
++	{ EFI_ALREADY_STARTED, -EPICK_AN_ERRNO, "Already started"},
++#endif
++	{ EFI_ABORTED, -EINTR, "Aborted"},
++#if 0
++	{ EFI_ICMP_ERROR, -EPICK_AN_ERRNO, "ICMP Error"},
++	{ EFI_TFTP_ERROR, -EPICK_AN_ERRNO, "TFTP Error"},
++	{ EFI_PROTOCOL_ERROR, -EPICK_AN_ERRNO, "Protocol Error"},
++	{ EFI_INCOMPATIBLE_VERSION, -EPICK_AN_ERRNO, "Incompatible Version"},
++#endif
++	{ EFI_SECURITY_VIOLATION, -EACCES, "Security Policy Violation"},
++#if 0
++	{ EFI_CRC_ERROR, -EPICK_AN_ERRNO, "CRC Error"},
++	{ EFI_END_OF_MEDIA, -EPICK_AN_ERRNO, "End of Media"},
++	{ EFI_END_OF_FILE, -EPICK_AN_ERRNO, "End of File"},
++	{ EFI_INVALID_LANGUAGE, -EPICK_AN_ERRNO, "Invalid Languages"},
++	{ EFI_COMPROMISED_DATA, -EPICK_AN_ERRNO, "Compromised Data"},
++
++	// warnings
++	{ EFI_WARN_UNKOWN_GLYPH, -EPICK_AN_ERRNO, "Warning Unknown Glyph"},
++	{ EFI_WARN_DELETE_FAILURE, -EPICK_AN_ERRNO, "Warning Delete Failure"},
++	{ EFI_WARN_WRITE_FAILURE, -EPICK_AN_ERRNO, "Warning Write Failure"},
++	{ EFI_WARN_BUFFER_TOO_SMALL, -EPICK_AN_ERRNO, "Warning Buffer Too Small"},
++#endif
++};
++
++static int
++efi_status_cmp_bsearch(const void *key, const void *item)
++{
++	u64 status = (u64)(uintptr_t)key;
++	struct efi_error_code *code = (struct efi_error_code *)item;
++
++	if (status < code->status)
++		return -1;
++	if (status > code->status)
++		return 1;
++	return 0;
++}
++
+ int efi_status_to_err(efi_status_t status)
+ {
+-	int err;
++	struct efi_error_code *found;
++	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
+ 
+-	switch (status) {
+-	case EFI_SUCCESS:
+-		err = 0;
+-		break;
+-	case EFI_INVALID_PARAMETER:
+-		err = -EINVAL;
+-		break;
+-	case EFI_OUT_OF_RESOURCES:
+-		err = -ENOSPC;
+-		break;
+-	case EFI_DEVICE_ERROR:
+-		err = -EIO;
+-		break;
+-	case EFI_WRITE_PROTECTED:
+-		err = -EROFS;
+-		break;
+-	case EFI_SECURITY_VIOLATION:
+-		err = -EACCES;
+-		break;
+-	case EFI_NOT_FOUND:
+-		err = -ENOENT;
+-		break;
+-	case EFI_ABORTED:
+-		err = -EINTR;
+-		break;
+-	default:
+-		err = -EINVAL;
+-	}
++	found = bsearch((void *)(uintptr_t)status, efi_error_codes,
++			sizeof(struct efi_error_code), num,
++			efi_status_cmp_bsearch);
++	if (!found)
++		return -EINVAL;
++	return found->errno;
++}
++
++const char *
++efi_status_to_str(efi_status_t status)
++{
++	struct efi_error_code *found;
++	size_t num = sizeof(efi_error_codes) / sizeof(struct efi_error_code);
+ 
+-	return err;
++	found = bsearch((void *)(uintptr_t)status, efi_error_codes,
++			sizeof(struct efi_error_code), num,
++			efi_status_cmp_bsearch);
++	if (!found)
++		return "Unknown error code";
++	return found->description;
+ }
+ EXPORT_SYMBOL_GPL(efi_status_to_err);
+ 
+diff '--color=auto' -apruN a/drivers/firmware/efi/libstub/fdt.c b/drivers/firmware/efi/libstub/fdt.c
+--- a/drivers/firmware/efi/libstub/fdt.c	2025-09-28 22:39:22.000000000 +0100
++++ b/drivers/firmware/efi/libstub/fdt.c	2025-09-30 01:03:32.231472169 +0100
+@@ -132,6 +132,11 @@ static efi_status_t update_fdt(void *ori
+ 		}
+ 	}
+ 
++	fdt_val32 = cpu_to_fdt32((u32)efi_get_secureboot());
++	status = fdt_setprop_var(fdt, node, "secure-boot-mode", fdt_val32);
++	if (status)
++		goto fdt_set_fail;
++
+ 	/* Shrink the FDT back to its minimum size: */
+ 	fdt_pack(fdt);
+ 
+diff '--color=auto' -apruN a/drivers/firmware/efi/libstub/secureboot.c b/drivers/firmware/efi/libstub/secureboot.c
+--- a/drivers/firmware/efi/libstub/secureboot.c	2025-09-28 22:39:22.000000000 +0100
++++ b/drivers/firmware/efi/libstub/secureboot.c	2025-09-30 01:03:32.231563161 +0100
+@@ -29,10 +29,13 @@ enum efi_secureboot_mode efi_get_secureb
+ {
+ 	u32 attr;
+ 	unsigned long size;
+-	enum efi_secureboot_mode mode;
++	static enum efi_secureboot_mode mode;
+ 	efi_status_t status;
+ 	u8 moksbstate;
+ 
++	if (mode != efi_secureboot_mode_unset)
++		return mode;
++
+ 	mode = efi_get_secureboot_mode(get_var);
+ 	if (mode == efi_secureboot_mode_unknown) {
+ 		efi_err("Could not determine UEFI Secure Boot status.\n");
+@@ -53,10 +56,13 @@ enum efi_secureboot_mode efi_get_secureb
+ 	/* If it fails, we don't care why. Default to secure */
+ 	if (status != EFI_SUCCESS)
+ 		goto secure_boot_enabled;
+-	if (!(attr & EFI_VARIABLE_NON_VOLATILE) && moksbstate == 1)
+-		return efi_secureboot_mode_disabled;
++	if (!(attr & EFI_VARIABLE_NON_VOLATILE) && moksbstate == 1) {
++		mode = efi_secureboot_mode_disabled;
++		return mode;
++	}
+ 
+ secure_boot_enabled:
+ 	efi_info("UEFI Secure Boot is enabled.\n");
+-	return efi_secureboot_mode_enabled;
++	mode = efi_secureboot_mode_enabled;
++	return mode;
+ }
+diff '--color=auto' -apruN a/drivers/firmware/efi/Makefile b/drivers/firmware/efi/Makefile
+--- a/drivers/firmware/efi/Makefile	2025-09-28 22:39:22.000000000 +0100
++++ b/drivers/firmware/efi/Makefile	2025-09-30 01:03:32.231259066 +0100
+@@ -25,6 +25,7 @@ subdir-$(CONFIG_EFI_STUB)		+= libstub
+ obj-$(CONFIG_EFI_BOOTLOADER_CONTROL)	+= efibc.o
+ obj-$(CONFIG_EFI_TEST)			+= test/
+ obj-$(CONFIG_EFI_DEV_PATH_PARSER)	+= dev-path-parser.o
++obj-$(CONFIG_EFI)			+= secureboot.o
+ obj-$(CONFIG_APPLE_PROPERTIES)		+= apple-properties.o
+ obj-$(CONFIG_EFI_RCI2_TABLE)		+= rci2-table.o
+ obj-$(CONFIG_EFI_EMBEDDED_FIRMWARE)	+= embedded-firmware.o
+diff '--color=auto' -apruN a/drivers/firmware/efi/secureboot.c b/drivers/firmware/efi/secureboot.c
+--- a/drivers/firmware/efi/secureboot.c	1970-01-01 01:00:00.000000000 +0100
++++ b/drivers/firmware/efi/secureboot.c	2025-09-30 01:03:32.231619662 +0100
+@@ -0,0 +1,38 @@
++/* Core kernel secure boot support.
++ *
++ * Copyright (C) 2017 Red Hat, Inc. All Rights Reserved.
++ * Written by David Howells (dhowells@redhat.com)
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU General Public Licence
++ * as published by the Free Software Foundation; either version
++ * 2 of the Licence, or (at your option) any later version.
++ */
++
++#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
++
++#include <linux/efi.h>
++#include <linux/kernel.h>
++#include <linux/printk.h>
++
++/*
++ * Decide what to do when UEFI secure boot mode is enabled.
++ */
++void __init efi_set_secure_boot(enum efi_secureboot_mode mode)
++{
++	if (efi_enabled(EFI_BOOT)) {
++		switch (mode) {
++		case efi_secureboot_mode_disabled:
++			pr_info("Secure boot disabled\n");
++			break;
++		case efi_secureboot_mode_enabled:
++			set_bit(EFI_SECURE_BOOT, &efi.flags);
++			pr_info("Secure boot enabled\n");
++			break;
++		default:
++			pr_warn("Secure boot could not be determined (mode %u)\n",
++				   mode);
++			break;
++		}
++	}
++}
+diff '--color=auto' -apruN a/include/linux/efi.h b/include/linux/efi.h
+--- a/include/linux/efi.h	2025-09-28 22:39:22.000000000 +0100
++++ b/include/linux/efi.h	2025-09-30 01:03:32.231771214 +0100
+@@ -45,6 +45,8 @@ struct screen_info;
+ #define EFI_ABORTED		(21 | (1UL << (BITS_PER_LONG-1)))
+ #define EFI_SECURITY_VIOLATION	(26 | (1UL << (BITS_PER_LONG-1)))
+ 
++#define EFI_IS_ERROR(x)		((x) & (1UL << (BITS_PER_LONG-1)))
++
+ typedef unsigned long efi_status_t;
+ typedef u8 efi_bool_t;
+ typedef u16 efi_char16_t;		/* UNICODE character */
+@@ -865,6 +867,14 @@ static inline int efi_range_is_wc(unsign
+ #define EFI_MEM_ATTR		9	/* Did firmware publish an EFI_MEMORY_ATTRIBUTES table? */
+ #define EFI_MEM_NO_SOFT_RESERVE	10	/* Is the kernel configured to ignore soft reservations? */
+ #define EFI_PRESERVE_BS_REGIONS	11	/* Are EFI boot-services memory segments available? */
++#define EFI_SECURE_BOOT		12	/* Are we in Secure Boot mode? */
++
++enum efi_secureboot_mode {
++	efi_secureboot_mode_unset,
++	efi_secureboot_mode_unknown,
++	efi_secureboot_mode_disabled,
++	efi_secureboot_mode_enabled,
++};
+ 
+ #ifdef CONFIG_EFI
+ /*
+@@ -876,6 +886,8 @@ static inline bool efi_enabled(int featu
+ }
+ extern void efi_reboot(enum reboot_mode reboot_mode, const char *__unused);
+ 
++extern void __init efi_set_secure_boot(enum efi_secureboot_mode mode);
++
+ bool __pure __efi_soft_reserve_enabled(void);
+ 
+ static inline bool __pure efi_soft_reserve_enabled(void)
+@@ -897,6 +909,8 @@ static inline bool efi_enabled(int featu
+ static inline void
+ efi_reboot(enum reboot_mode reboot_mode, const char *__unused) {}
+ 
++static inline void efi_set_secure_boot(enum efi_secureboot_mode mode) {}
++
+ static inline bool efi_soft_reserve_enabled(void)
+ {
+ 	return false;
+@@ -911,6 +925,7 @@ static inline void efi_find_mirror(void)
+ #endif
+ 
+ extern int efi_status_to_err(efi_status_t status);
++extern const char *efi_status_to_str(efi_status_t status);
+ 
+ /*
+  * Variable Attributes
+@@ -1126,13 +1141,6 @@ static inline bool efi_runtime_disabled(
+ extern void efi_call_virt_check_flags(unsigned long flags, const void *caller);
+ extern unsigned long efi_call_virt_save_flags(void);
+ 
+-enum efi_secureboot_mode {
+-	efi_secureboot_mode_unset,
+-	efi_secureboot_mode_unknown,
+-	efi_secureboot_mode_disabled,
+-	efi_secureboot_mode_enabled,
+-};
+-
+ static inline
+ enum efi_secureboot_mode efi_get_secureboot_mode(efi_get_variable_t *get_var)
+ {
+diff '--color=auto' -apruN a/include/linux/security.h b/include/linux/security.h
+--- a/include/linux/security.h	2025-09-28 22:39:22.000000000 +0100
++++ b/include/linux/security.h	2025-09-30 01:03:32.231946916 +0100
+@@ -2405,4 +2405,13 @@ static inline void security_initramfs_po
+ }
+ #endif /* CONFIG_SECURITY */
+ 
++#ifdef CONFIG_SECURITY_LOCKDOWN_LSM
++extern int security_lock_kernel_down(const char *where, enum lockdown_reason level);
++#else
++static inline int security_lock_kernel_down(const char *where, enum lockdown_reason level)
++{
++	return 0;
++}
++#endif /* CONFIG_SECURITY_LOCKDOWN_LSM */
++
+ #endif /* ! __LINUX_SECURITY_H */
+diff '--color=auto' -apruN a/kernel/module/signing.c b/kernel/module/signing.c
+--- a/kernel/module/signing.c	2025-09-28 22:39:22.000000000 +0100
++++ b/kernel/module/signing.c	2025-09-30 01:03:32.232117229 +0100
+@@ -61,10 +61,17 @@ int mod_verify_sig(const void *mod, stru
+ 	modlen -= sig_len + sizeof(ms);
+ 	info->len = modlen;
+ 
+-	return verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
++	ret = verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
+ 				      VERIFY_USE_SECONDARY_KEYRING,
+ 				      VERIFYING_MODULE_SIGNATURE,
+ 				      NULL, NULL);
++	if (ret == -ENOKEY && IS_ENABLED(CONFIG_INTEGRITY_PLATFORM_KEYRING)) {
++		ret = verify_pkcs7_signature(mod, modlen, mod + modlen, sig_len,
++				VERIFY_USE_PLATFORM_KEYRING,
++				VERIFYING_MODULE_SIGNATURE,
++				NULL, NULL);
++	}
++	return ret;
+ }
+ 
+ int module_sig_check(struct load_info *info, int flags)
+diff '--color=auto' -apruN a/security/integrity/platform_certs/load_uefi.c b/security/integrity/platform_certs/load_uefi.c
+--- a/security/integrity/platform_certs/load_uefi.c	2025-09-28 22:39:22.000000000 +0100
++++ b/security/integrity/platform_certs/load_uefi.c	2025-09-30 01:03:32.232211760 +0100
+@@ -74,7 +74,8 @@ static __init void *get_cert_list(efi_ch
+ 		return NULL;
+ 
+ 	if (*status != EFI_BUFFER_TOO_SMALL) {
+-		pr_err("Couldn't get size: 0x%lx\n", *status);
++		pr_err("Couldn't get size: %s (0x%lx)\n",
++		       efi_status_to_str(*status), *status);
+ 		return NULL;
+ 	}
+ 
+@@ -85,7 +86,8 @@ static __init void *get_cert_list(efi_ch
+ 	*status = efi.get_variable(name, guid, NULL, &lsize, db);
+ 	if (*status != EFI_SUCCESS) {
+ 		kfree(db);
+-		pr_err("Error reading db var: 0x%lx\n", *status);
++		pr_err("Error reading db var: %s (0x%lx)\n",
++		       efi_status_to_str(*status), *status);
+ 		return NULL;
+ 	}
+ 
+diff '--color=auto' -apruN a/security/lockdown/Kconfig b/security/lockdown/Kconfig
+--- a/security/lockdown/Kconfig	2025-09-28 22:39:22.000000000 +0100
++++ b/security/lockdown/Kconfig	2025-09-30 01:03:32.232282881 +0100
+@@ -16,6 +16,19 @@ config SECURITY_LOCKDOWN_LSM_EARLY
+ 	  subsystem is fully initialised. If enabled, lockdown will
+ 	  unconditionally be called before any other LSMs.
+ 
++config LOCK_DOWN_IN_EFI_SECURE_BOOT
++	bool "Lock down the kernel in EFI Secure Boot mode"
++	default n
++	depends on EFI && SECURITY_LOCKDOWN_LSM_EARLY
++	help
++	  UEFI Secure Boot provides a mechanism for ensuring that the firmware
++	  will only load signed bootloaders and kernels.  Secure boot mode may
++	  be determined from EFI variables provided by the system firmware if
++	  not indicated by the boot parameters.
++
++	  Enabling this option results in kernel lockdown being triggered if
++	  EFI Secure Boot is set.
++
+ choice
+ 	prompt "Kernel default lockdown mode"
+ 	default LOCK_DOWN_KERNEL_FORCE_NONE
+diff '--color=auto' -apruN a/security/lockdown/lockdown.c b/security/lockdown/lockdown.c
+--- a/security/lockdown/lockdown.c	2025-09-28 22:39:22.000000000 +0100
++++ b/security/lockdown/lockdown.c	2025-09-30 01:03:32.232339212 +0100
+@@ -72,6 +72,17 @@ static int lockdown_is_locked_down(enum
+ 	return 0;
+ }
+ 
++/**
++ * security_lock_kernel_down() - Put the kernel into lock-down mode.
++ *
++ * @where: Where the lock-down is originating from (e.g. command line option)
++ * @level: The lock-down level (can only increase)
++ */
++int security_lock_kernel_down(const char *where, enum lockdown_reason level)
++{
++	return lock_kernel_down(where, level);
++}
++
+ static struct security_hook_list lockdown_hooks[] __ro_after_init = {
+ 	LSM_HOOK_INIT(locked_down, lockdown_is_locked_down),
+ };

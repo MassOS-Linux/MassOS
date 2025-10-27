@@ -36,7 +36,7 @@ COM32 chain.c32
 APPEND hd0 0
 
 LABEL ipxe
-MENU LABEL Boot from network (IPXE)
+MENU LABEL Boot from network (iPXE)
 KERNEL ipxe.lkrn
 
 LABEL reboot

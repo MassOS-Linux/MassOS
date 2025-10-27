@@ -1,4 +1,4 @@
-.TH "MASSOS-SNAPD" "8" "February 2025" "massos-snapd" "MassOS System Utilities"
+.TH "MASSOS-SNAPD" "8" "October 2025" "massos-snapd" "MassOS System Utilities"
 .hy
 .SH NAME
 .PP
@@ -12,9 +12,9 @@ massos-snapd - Utility to manage the Snapd installation on a MassOS system.
 
 \f[B]massos-snapd\f[R] can install and uninstall Snapd, as well as check and report the installed status of Snapd.
 
-Snapd is not installed by default, due to its controversy. It is (justifiably) disliked by many users for a variety of reasons. However, it can provide easy access to some packages which are not otherwise available on MassOS, and are not available through flatpak(1).
+Snapd is not installed by default, due to its controversy. It is disliked by many users for a variety of (justified) reasons. However, it can provide easy access to some packages which are not otherwise available on MassOS, and are not available through flatpak(1). It is therefore beneficial to make Snapd available to any users of MassOS who may want or need to use it.
 
-\f[B]massos-snapd\f[R] accesses the file <\f[I]/usr/share/massos/snapdversion\f[R]>, which contains information about the version of Snapd corresponding to the MassOS version, and whether or not Snapd is currently installed (default = no). The utility updates this file as necessary, however the Snapd version is hardcoded for compatibility with the version of MassOS, so should not be changed, apart from after a MassOS upgrade.
+\f[B]massos-snapd\f[R] accesses the file <\f[I]/usr/share/massos/snapdversion\f[R]>, which contains information about the version of Snapd corresponding to the MassOS version. It uses this file to determine which Snapd version to install. The file can also be used to inform the utility of an available update to the Snapd version (e.g., after a MassOS system upgrade).
 
 Be aware that a system restart will be required after installing or uninstalling Snapd. Note also that this utility is incompatible with (older) versions of MassOS which lack the <\f[I]/usr/share/massos/snapdversion\f[R]> file or use a split bin-sbin filesystem structure.
 
@@ -28,7 +28,7 @@ After installing Snapd, you can optionally install the "App Center" (previously 
 Check whether or not Snapd is installed on the system.
 .TP
 \f[B]massos-snapd install\f[R]
-Install Snapd onto the system.
+Install, update, or reinstall Snapd onto the system.
 .TP
 \f[B]massos-snapd uninstall\f[R]
 Uninstall Snapd from the system.

@@ -2,7 +2,7 @@
 # See 'man 8 useradd' for more information.
 
 # Default login shell for new users.
-SHELL=/bin/bash
+SHELL=/usr/bin/bash
 
 # Default group for new users.
 GROUP=users

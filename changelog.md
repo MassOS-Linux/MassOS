@@ -90,7 +90,7 @@ Upgraded software (core):
 - bsd-games: `3.2 --> 3.3`
 - btrfs-progs: `5.19.1 --> 6.17`
 - Bubblewrap: `0.6.2 --> 0.11.0`
-- build: `(new package) --> 1.2.2.post1`
+- build: `(new package) --> 1.3.0`
 - Busybox: `1.35.0 --> 1.37.0`
 - c-ares: `1.18.1 --> 1.34.5`
 - cabextract: `(new package) --> 1.11`
@@ -102,9 +102,9 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
-- Clang: `14.0.6 --> 21.1.2`
+- Clang: `14.0.6 --> 21.1.4`
 - CMake: `3.24.2 --> 4.1.2`
-- compiler-rt: `15.0.3 --> 21.1.2`
+- compiler-rt: `15.0.3 --> 21.1.4`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -223,7 +223,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 14.0.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-418-g6b5c671d3`
+- GRUB: `2.06 --> 2.12-470-g8271bcc13`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 49.1`
 - gspell: `1.12.0 --> 1.14.0`
@@ -322,11 +322,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 21.1.2`
+- libclc: `(new package) --> 21.1.4`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 21.1.2`
-- libc++abi: `(new package) --> 21.1.2`
+- libc++: `(new package) --> 21.1.4`
+- libc++abi: `(new package) --> 21.1.4`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -404,7 +404,7 @@ Upgraded software (core):
 - libpwquality: `1.4.4 --> 1.4.5`
 - libqmi: `1.30.8 --> 1.36.0`
 - libqrtr-glib: `(new package) --> 1.2.2`
-- libraw: `0.20.2 --> 0.21.3`
+- libraw: `0.20.2 --> 0.21.4`
 - librsvg: `2.54.5 --> 2.61.0`
 - libsass: `3.6.5 --> 3.6.6`
 - libseccomp: `2.5.4 --> 2.6.0`
@@ -476,13 +476,13 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.3`
-- Linux-API-Headers: `6.0.0 --> 6.17.3`
-- Linux-Firmware: `(new package) --> 20250917`
-- Linux-Headers: `6.0.0 --> 6.17.3`
+- Linux: `6.0.0 --> 6.17.5`
+- Linux-API-Headers: `6.0.0 --> 6.17.4`
+- Linux-Firmware: `(new package) --> 20251021`
+- Linux-Headers: `6.0.0 --> 6.17.4`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 21.1.2`
-- LLVM: `14.0.6 --> 21.1.2`
+- LLD: `14.0.6 --> 21.1.4`
+- LLVM: `14.0.6 --> 21.1.4`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -555,7 +555,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.4`
-- OpenMP: `(new package) --> 21.1.2`
+- OpenMP: `(new package) --> 21.1.4`
 - OpenSSH: `9.0p1 --> 10.2p1`
 - OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
@@ -588,7 +588,7 @@ Upgraded software (core):
 - pkgconf: `(new package) --> 2.5.1`
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.2`
-- pip: `(new package) --> 25.2`
+- pip: `(new package) --> 25.3`
 - PipeWire: `0.3.59 --> 1.4.9`
 - Pixman: `0.40.0 --> 0.46.4`
 - pluggy: `(new package) --> 1.6.0`

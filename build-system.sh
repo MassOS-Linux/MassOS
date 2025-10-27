@@ -54,7 +54,7 @@ tar -xf ../../sources/bindgen-cli-x86_64-unknown-linux-gnu.tar.xz -C /root/mbs/e
 install -Dm755 ../../sources/cbindgen-ubuntu22.04 /root/mbs/extras/rust/bin/cbindgen
 popd
 rm -rf rust-1.89.0-x86_64-unknown-linux-gnu
-tar -xf ../sources/go1.24.2.linux-amd64.tar.gz -C /root/mbs/extras
+tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
 install -dm755 /root/mbs/extras/gyp
 tar -xf ../sources/gyp-1615ec.tar.gz -C /root/mbs/extras/gyp --strip-components=1
 # Bison (circular deps; rebuilt later).
@@ -144,7 +144,7 @@ echo "rootsbindir=/usr/bin" > configparms
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 sed -i '/test-installation/s@$(PERL)@echo not running@' ../Makefile
-make install
+make -j1 install
 sed -i '/RTLDLIST=/s@/usr@@g' /usr/bin/ldd
 sed -e '/#/d' -e '/SUPPORTED-LOCALES/d' -e 's|\\||g' -e 's|/| |g' -e 's|^|#|g' -e 's|#en_US.UTF-8|en_US.UTF-8|' ../localedata/SUPPORTED >> /etc/locales
 mklocales
@@ -450,7 +450,7 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 mkdir -p build; pushd build
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure LD=ld --prefix=/usr --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --enable-linker-build-id --disable-fixincludes --disable-multilib
 make
-make install
+make -j1 install
 ln -sfr /usr/bin/cpp /usr/lib
 ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.so" /usr/lib/bfd-plugins/
 ln -sf gcc.1 /usr/share/man/man1/cc.1
@@ -982,13 +982,13 @@ install -t /usr/share/licenses/setuptools -Dm644 LICENSE
 popd
 rm -rf setuptools-80.9.0
 # pip.
-tar -xf ../sources/pip-25.2.tar.gz
-pushd pip-25.2
+tar -xf ../sources/pip-25.3.tar.gz
+pushd pip-25.3
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist pip --upgrade
 install -t /usr/share/licenses/pip -Dm644 LICENSE.txt
 popd
-rm -rf pip-25.2
+rm -rf pip-25.3
 # pyproject-hooks.
 tar -xf ../sources/pyproject_hooks-1.2.0.tar.gz
 pushd pyproject_hooks-1.2.0
@@ -1006,13 +1006,13 @@ install -t /usr/share/licenses/installer -Dm644 LICENSE
 popd
 rm -rf installer-0.7.0
 # build.
-tar -xf ../sources/build-1.2.2.post1.tar.gz
-pushd build-1.2.2.post1
+tar -xf ../sources/build-1.3.0.tar.gz
+pushd build-1.3.0
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist build
 install -t /usr/share/licenses/build -Dm644 LICENSE
 popd
-rm -rf build-1.2.2.post1
+rm -rf build-1.3.0
 # Sphinx (required to build man pages of some packages).
 mkdir -p /root/mbs/extras/sphinx
 tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20251019-x86_64-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
@@ -3777,8 +3777,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-21.1.2.src.tar.xz
-pushd llvm-project-21.1.2.src
+tar -xf ../sources/llvm-project-21.1.4.src.tar.xz
+pushd llvm-project-21.1.4.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3796,7 +3796,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-21.1.2.src
+rm -rf llvm-project-21.1.4.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -3943,15 +3943,15 @@ gzip -cd unifont-17.0.01/font/precompiled/unifont-17.0.01.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-17.0.01/COPYING
 rm -rf unifont-17.0.01
 # GRUB.
-tar -xf ../sources/grub-2.12-418-g6b5c671d3.tar.xz
-pushd grub-2.12-418-g6b5c671d3
+tar -xf ../sources/grub-2.12-470-g8271bcc13.tar.xz
+pushd grub-2.12-470-g8271bcc13
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-418-g6b5c671d3" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-470-g8271bcc13" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-418-g6b5c671d3" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-470-g8271bcc13" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3961,42 +3961,21 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,5,Free Software Foundation,grub,2.12-418-g6b5c671d3,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-418-g6b5c671d3,https://massos.org
+grub,5,Free Software Foundation,grub,2.12-470-g8271bcc13,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.12-470-g8271bcc13,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
-## The basic initialization config is used by all images.
-## For normal/removable, we use cmdpath to reliably find the next-stage config.
-## But we fallback to rudimentary search if buggy firmwares don't support it.
-## The MassOS Live CD boot process won't support cmdpath, but doesn't need to.
+## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
 cat > grub.cfg << "END"
-insmod part_msdos
-insmod part_gpt
+set gfxpayload=keep
 insmod linux
 insmod chain
-insmod iso9660
-insmod ext2
-insmod btrfs
-insmod fat
-insmod ntfs
-insmod exfat
-insmod luks
-insmod luks2
 insmod usbms
 insmod usb_keyboard
 insmod font
 insmod gzio
-set gfxpayload=keep
-if [ x$feature_all_video_module = xy ]; then
-  insmod all_video
-else
-  insmod efi_gop
-  insmod efi_uga
-  insmod ieee1275_fb
-  insmod vbe
-  insmod vga
-  insmod video_bochs
-fi
+insmod all_video
+insmod png
 if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
   insmod gfxterm
   set gfxmode=auto
@@ -4027,11 +4006,11 @@ END
 mkdir -p /boot/grub
 install -dm755 /usr/lib/grub/x86_64-efi-signed
 cat grub{,-normal}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 cat grub{,-removable}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/gcdx64.efi --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/gcdx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 cat grub{,-livecd}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/glcdx64.efi --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/glcdx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 rm -f /boot/grub/grub.cfg
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/grubx64.efi
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/gcdx64.efi
@@ -4040,7 +4019,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-418-g6b5c671d3
+rm -rf grub-2.12-470-g8271bcc13
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -5028,14 +5007,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-21.1.1
 # libclc.
-tar -xf ../sources/libclc-21.1.2.src.tar.xz
-pushd libclc-21.1.2.src
+tar -xf ../sources/libclc-21.1.4.src.tar.xz
+pushd libclc-21.1.4.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-21.1.2.src
+rm -rf libclc-21.1.4.src
 # glslang.
 tar -xf ../sources/glslang-16.0.0.tar.gz
 pushd glslang-16.0.0
@@ -6326,15 +6305,15 @@ install -t /usr/share/licenses/djvulibre -Dm644 COPYING COPYRIGHT
 popd
 rm -rf djvulibre-3.5.28
 # libraw.
-tar -xf ../sources/LibRaw-0.21.3.tar.gz
-pushd LibRaw-0.21.3
+tar -xf ../sources/LibRaw-0.21.4.tar.gz
+pushd LibRaw-0.21.4
 autoreconf -fi
 ./configure --prefix=/usr --enable-jasper --enable-jpeg --enable-lcms --disable-static
 make
 make install
 install -t /usr/share/licenses/libraw -Dm644 COPYRIGHT LICENSE.LGPL
 popd
-rm -rf LibRaw-0.21.3
+rm -rf LibRaw-0.21.4
 # libogg.
 tar -xf ../sources/libogg-1.3.6.tar.xz
 pushd libogg-1.3.6
@@ -8534,19 +8513,17 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17.3.tar.xz
-pushd linux-6.17.3
-# TODO: Re-add secureboot patch once it is fixed (MOK-signed modules).
-# TODO: The MassOS Project will switch to a new signing key once fixed.
-# TODO: Therefore all new "hardened" builds with use the new signing key.
-#patch -Np1 -i ../../patches/linux-6.17.0-uefisecureboot.patch
+tar -xf ../sources/linux-6.17.5.tar.xz
+pushd linux-6.17.5
+# TODO: Ensure this patch supports modules signed by keys in MOKList.
+patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.3,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.3,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.5,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.5,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8601,7 +8578,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.3
+rm -rf linux-6.17.5
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.95.05.tar.gz
 pushd open-gpu-kernel-modules-580.95.05
@@ -8618,8 +8595,8 @@ ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
 rm -rf open-gpu-kernel-modules-580.95.05
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20250917.tar.xz
-pushd linux-firmware-20250917
+tar -xf ../sources/linux-firmware-20251021.tar.xz
+pushd linux-firmware-20251021
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -8627,7 +8604,7 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20250917
+rm -rf linux-firmware-20251021
 # Intel-Microcode.
 tar -xf ../sources/intel-microcode-20250812.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
@@ -8646,8 +8623,8 @@ rm -rf sof-bin-2025.05
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.11.5" > /usr/share/massos/.osinstallguiver
-echo "e1b8a1ca8c73c44d8709c0cb12917d2cff4e67a6e8074fef18d38b7aa7ceeab1" > /usr/share/massos/.osinstallguisum
+echo "0.11.6" > /usr/share/massos/.osinstallguiver
+echo "018e8a8936fff2c8b9c4aaf0ab8e23c095f14c40d415cd39e6bc876e0e69dd24" > /usr/share/massos/.osinstallguisum
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
@@ -8661,10 +8638,9 @@ cat > /usr/share/massos/snapdversion << "END"
 # to know which version of snapd to install.
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
-version: 2.71
-
-# Whether or not snapd is installed ('massos-snapd' sets this automatically).
-installed: no
+# SHA256 checksum is for the source file named 'snapd_<VERSION>.vendor.tar.xz'.
+version: 2.72
+checksum: 53d74e663527bae667a254da8a029aa4b0b8f559ca515d214da8dbb29dc6ccc7
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.

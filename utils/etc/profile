@@ -37,12 +37,8 @@ else
 fi
 export PS1
 
-# Set a permissive umask for users and a restrictive one for system accounts.
-if [ $EUID -ge 1000 ]; then
-  umask 002
-else
-  umask 022
-fi
+# Set up an appropriate umask for newly created files and folders.
+umask 0022
 
 # Allow ls, grep and diff to provide colored output.
 if [ -f "/etc/dircolors" ]; then
