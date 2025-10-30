@@ -64,7 +64,7 @@ Upgraded software (core):
 - alsa-oss: `(new package) --> 1.1.8`
 - alsa-utils: `(new package) --> 1.2.14`
 - AMF-Headers: `(new package) --> 1.4.36.0`
-- AppArmor: `3.1.1 --> 4.1.0`
+- AppArmor: `3.1.1 --> 4.1.2`
 - AppStream: `0.15.5 --> 1.0.6`
 - appstream-glib: `0.8.0 --> 0.8.3`
 - aria2: `(new package) --> 1.37.0`
@@ -223,7 +223,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 14.0.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.12-470-g8271bcc13`
+- GRUB: `2.06 --> 2.14-rc1`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 49.1`
 - gspell: `1.12.0 --> 1.14.0`
@@ -476,7 +476,7 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.5`
+- Linux: `6.0.0 --> 6.17.6`
 - Linux-API-Headers: `6.0.0 --> 6.17.4`
 - Linux-Firmware: `(new package) --> 20251021`
 - Linux-Headers: `6.0.0 --> 6.17.4`
@@ -524,7 +524,7 @@ Upgraded software (core):
 - multipath-tools: `(new package) --> 0.11.1`
 - Nano: `6.4 --> 8.6`
 - NASM: `2.15.05 --> 3.01`
-- Ncurses: `6.3 --> 6.5-20250809`
+- Ncurses: `6.3 --> 6.5-20251025`
 - Net-SNMP: `5.9.3 --> 5.9.4`
 - Nettle: `3.8.1 --> 3.10.2`
 - network-manager-applet: `1.28.0 --> 1.36.0`

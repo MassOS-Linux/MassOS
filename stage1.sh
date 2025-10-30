@@ -32,6 +32,7 @@ fi
 # Starting message.
 echo "Starting Stage 1 Build..."
 # Setup the environment.
+umask 0022
 LC_ALL=C
 MASSOS="$PWD"/massos-rootfs
 PATH="$MASSOS"/root/mbs/stage1/bin:$PATH
@@ -88,15 +89,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17.5.tar.xz
-pushd linux-6.17.5
+tar -xf ../sources/linux-6.17.6.tar.xz
+pushd linux-6.17.6
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.5
+rm -rf linux-6.17.6
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -162,7 +163,7 @@ rm -rf "$MASSOS"/usr/share/{info,man,doc}/*
 cp -r utils/etc/. "$MASSOS"/etc
 # Rename lsb-release and os-release to /usr/lib, and then create symlinks.
 mv "$MASSOS"/etc/{lsb,os}-release "$MASSOS"/usr/lib
-cp utils/massos-release "$MASSOS"/usr/lib
+install -t "$MASSOS"/usr/lib -Dm644 utils/massos-release
 ln -sfr "$MASSOS"/usr/lib/massos-release "$MASSOS"/etc/massos-release
 ln -sfr "$MASSOS"/usr/lib/os-release "$MASSOS"/etc/os-release
 ln -sfr "$MASSOS"/usr/lib/lsb-release "$MASSOS"/etc/lsb-release
@@ -204,6 +205,12 @@ echo "root:x:0:0:Super User:/root:/usr/bin/bash" > "$MASSOS"/etc/passwd
 sed -i "s|experimental|experimental-$(date "+%Y%m%d")|g" "$MASSOS"/usr/lib/massos-release
 sed -i "s|experimental|experimental-$(date "+%Y%m%d")|g" "$MASSOS"/usr/lib/os-release
 sed -i "s|experimental|experimental-$(date "+%Y%m%d")|g" "$MASSOS"/usr/lib/lsb-release
+# Files need 0644 and directories need 0755, under /etc and /root.
+# Run chmod manually in stage 2 to override these defaults.
+find "$MASSOS"/etc -mindepth 1 -type f -exec chmod 0644 {} ';'
+find "$MASSOS"/etc -mindepth 1 -type d -exec chmod 0755 {} ';'
+find "$MASSOS"/root -mindepth 1 -type f ! -path "$MASSOS"/root/mbs/\* -exec chmod 0644 {} ';'
+find "$MASSOS"/root -mindepth 1 -type d ! -path "$MASSOS"/root/mbs/\* -exec chmod 0755 {} ';'
 # Finishing message.
 echo -e "\nThe Stage 1 bootstrap system was built successfully."
 echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."

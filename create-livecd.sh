@@ -27,6 +27,8 @@ fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
 SCRIPT_COMPAT=2
+# Set up default umask, in case host umask differs.
+umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
 export PATH="$PATH:$PWD/utils/programs"
 # Ensure dependencies are present.
@@ -85,7 +87,7 @@ echo "3f6d50a57f3ed47d8234fd0ab4492634eb7c9aaf7dd902f33d3ac33564fd631d iso-workd
 tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --strip-components=1
 # Extract rootfs.
 echo "Extracting rootfs..."
-tar -xpf "$1" -C iso-workdir/massos-rootfs
+bsdtar -xpf "$1" -C iso-workdir/massos-rootfs
 ver="$(cat iso-workdir/massos-rootfs/etc/massos-release)"
 # Prepare the live system.
 echo "Preparing the live system..."

@@ -9,7 +9,7 @@ https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.14.tar.bz2
 https://www.alsa-project.org/files/pub/oss-lib/alsa-oss-1.1.8.tar.bz2
 https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.14.tar.bz2
 https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.4.36/AMF-headers-v1.4.36.tar.gz
-https://launchpad.net/apparmor/4.1/4.1.0/+download/apparmor-4.1.0.tar.gz
+https://gitlab.com/apparmor/apparmor/-/archive/v4.1.2/apparmor-v4.1.2.tar.bz2
 https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.1.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_8_3.tar.gz
 https://github.com/aria2/aria2/releases/download/release-1.37.0/aria2-1.37.0.tar.xz
@@ -207,7 +207,7 @@ https://github.com/silnrsi/graphite/archive/93e20f92/graphite2-1.3.14-101-g93e20
 https://gitlab.com/graphviz/graphviz/-/archive/14.0.1/graphviz-14.0.1.tar.bz2
 https://ftp.nluug.nl/gnu/grep/grep-3.12.tar.xz
 https://ftp.nluug.nl/gnu/groff/groff-1.23.0.tar.gz
-https://dmassey.net/files/dev/grub/grub-2.12-470-g8271bcc13.tar.xz
+https://dmassey.net/files/dev/grub/grub-2.14~rc1.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/db13f63/grub-theme-distro-massos-002.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/49.1/gsettings-desktop-schemas-49.1.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.0/gspell-1.14.0.tar.gz
@@ -480,7 +480,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.5.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.6.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251021.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -534,7 +534,7 @@ https://ftp.nluug.nl/gnu/mtools/mtools-4.0.48.tar.bz2
 https://github.com/opensvc/multipath-tools/archive/0.11.1/multipath-tools-0.11.1.tar.gz
 https://nano-editor.org/dist/v8/nano-8.6.tar.xz
 https://www.nasm.us/pub/nasm/releasebuilds/3.01/nasm-3.01.tar.xz
-https://invisible-mirror.net/archives/ncurses/current/ncurses-6.5-20250809.tgz
+https://invisible-mirror.net/archives/ncurses/current/ncurses-6.5-20251025.tgz
 https://github.com/net-snmp/net-snmp/archive/v5.9.4/net-snmp-5.9.4.tar.gz
 https://freefr.dl.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz
 https://salsa.debian.org/debian/netcat-openbsd/-/archive/upstream/1.229/netcat-openbsd-upstream-1.229.tar.bz2

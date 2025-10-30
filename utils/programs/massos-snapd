@@ -9,7 +9,7 @@
 set -e
 
 # Set the software version.
-ver="0.0.4"
+ver="0.0.5"
 
 # Version of Go. Shouldn't really need to be updated frequently.
 ver_go="1.25.3"
@@ -195,6 +195,7 @@ operation_install() {
   strip --strip-all /usr/lib/snapd/* 2>/dev/null || true
   # Enable Snapd systemd services.
   msg "Enabling Snapd systemd services..."
+  setcap -q - /usr/lib/snapd/snap-confine < /usr/lib/snapd/snap-confine.caps
   update-desktop-database
   systemctl daemon-reload
   systemctl enable snapd

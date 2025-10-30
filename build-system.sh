@@ -66,8 +66,8 @@ make install
 popd
 rm -rf bison-3.8.2
 # Ncurses (circular deps; rebuilt later).
-tar -xf ../sources/ncurses-6.5-20250809.tgz
-pushd ncurses-6.5-20250809
+tar -xf ../sources/ncurses-6.5-20251025.tgz
+pushd ncurses-6.5-20251025
 mkdir -p build; pushd build
 ../configure
 make -C include
@@ -79,7 +79,7 @@ make TIC_PATH="$PWD"/build/progs/tic install
 ln -sf libncursesw.so /usr/lib/libncurses.so
 sed -i 's/^#if.*XOPEN.*$/#if 1/' /usr/include/curses.h
 popd
-rm -rf ncurses-6.5-20250809
+rm -rf ncurses-6.5-20251025
 # Perl (circular deps; rebuilt later).
 tar -xf ../sources/perl-5.40.2.tar.xz
 pushd perl-5.40.2
@@ -470,8 +470,8 @@ install -t /usr/share/licenses/unifdef -Dm644 COPYING
 popd
 rm -rf unifdef-2.12
 # Ncurses.
-tar -xf ../sources/ncurses-6.5-20250809.tgz
-pushd ncurses-6.5-20250809
+tar -xf ../sources/ncurses-6.5-20251025.tgz
+pushd ncurses-6.5-20251025
 mkdir -p build; pushd build
 ../configure --prefix=/usr --mandir=/usr/share/man --enable-pc-files --with-shared --with-cxx-shared --without-debug --without-normal --with-pkg-config-libdir=/usr/lib/pkgconfig
 make
@@ -489,7 +489,7 @@ ln -sf libncursesw.so /usr/lib/libtinfo.so
 ldconfig
 install -t /usr/share/licenses/ncurses -Dm644 ../COPYING
 popd; popd
-rm -rf ncurses-6.5-20250809
+rm -rf ncurses-6.5-20251025
 # libedit.
 tar -xf ../sources/libedit-20250104-3.1.tar.gz
 pushd libedit-20250104-3.1
@@ -558,6 +558,7 @@ rm -rf grep-3.12
 # Bash.
 tar -xf ../sources/bash-5.3.tar.gz
 pushd bash-5.3
+patch -Np1 -i ../../patches/bash-5.3-upstreamfixes.patch
 ./configure --prefix=/usr --without-bash-malloc --with-installed-readline
 make
 make install
@@ -3490,12 +3491,13 @@ install -t /usr/share/licenses/audit -Dm644 COPYING COPYING.LIB
 popd
 rm -rf audit-userspace-4.0.3
 # AppArmor.
-tar -xf ../sources/apparmor-4.1.0.tar.gz
-pushd apparmor-4.1.0
+tar -xf ../sources/apparmor-v4.1.2.tar.bz2
+pushd apparmor-v4.1.2
 pushd libraries/libapparmor
+./autogen.sh
 ./configure --prefix=/usr --sbindir=/usr/bin --with-perl --with-python --with-ruby
-make
 popd
+make -C libraries/libapparmor
 make -C changehat/pam_apparmor
 make -C binutils
 make -C parser
@@ -3515,7 +3517,7 @@ sed -i 's|ADDITIONAL_PROFILE_DIR=|ADDITIONAL_PROFILE_DIR=/var/lib/snapd/apparmor
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
 popd
-rm -rf apparmor-4.1.0
+rm -rf apparmor-v4.1.2
 # Linux-PAM (rebuild with newer version, and to support Audit).
 tar -xf ../sources/Linux-PAM-1.7.1.tar.xz
 pushd Linux-PAM-1.7.1
@@ -3943,15 +3945,15 @@ gzip -cd unifont-17.0.01/font/precompiled/unifont-17.0.01.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-17.0.01/COPYING
 rm -rf unifont-17.0.01
 # GRUB.
-tar -xf ../sources/grub-2.12-470-g8271bcc13.tar.xz
-pushd grub-2.12-470-g8271bcc13
+tar -xf ../sources/grub-2.14~rc1.tar.xz
+pushd grub-2.14~rc1
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-470-g8271bcc13" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure PACKAGE_VERSION="2.12-470-g8271bcc13" --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 make -C build-pc
 make -C build-efi
@@ -3961,8 +3963,8 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,5,Free Software Foundation,grub,2.12-470-g8271bcc13,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.12-470-g8271bcc13,https://massos.org
+grub,5,Free Software Foundation,grub,2.14-rc1,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.14-rc1,https://massos.org
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
@@ -4019,7 +4021,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.12-470-g8271bcc13
+rm -rf grub-2.14~rc1
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -8513,8 +8515,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17.5.tar.xz
-pushd linux-6.17.5
+tar -xf ../sources/linux-6.17.6.tar.xz
+pushd linux-6.17.6
 # TODO: Ensure this patch supports modules signed by keys in MOKList.
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
@@ -8522,8 +8524,8 @@ make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.5,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.5,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.6,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.6,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8578,7 +8580,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.5
+rm -rf linux-6.17.6
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-580.95.05.tar.gz
 pushd open-gpu-kernel-modules-580.95.05
