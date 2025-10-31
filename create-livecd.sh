@@ -87,7 +87,7 @@ echo "3f6d50a57f3ed47d8234fd0ab4492634eb7c9aaf7dd902f33d3ac33564fd631d iso-workd
 tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --strip-components=1
 # Extract rootfs.
 echo "Extracting rootfs..."
-bsdtar -xpf "$1" -C iso-workdir/massos-rootfs
+tar -xpf "$1" -C iso-workdir/massos-rootfs
 ver="$(cat iso-workdir/massos-rootfs/etc/massos-release)"
 # Prepare the live system.
 echo "Preparing the live system..."

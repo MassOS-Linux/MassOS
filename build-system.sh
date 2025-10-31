@@ -8222,21 +8222,21 @@ cat > /etc/xdg/autostart/xdg-desktop-portal-gtk.desktop << "END"
 [Desktop Entry]
 Type=Application
 Name=Portal service (GTK/GNOME implementation)
-Exec=/bin/bash -c "dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY; systemctl start --user xdg-desktop-portal-gtk.service"
+Exec=/usr/bin/bash -c "dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY; systemctl start --user xdg-desktop-portal-gtk.service"
 END
 install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 popd
 rm -rf xdg-desktop-portal-gtk-1.15.3
 # WebKitGTK.
-tar -xf ../sources/webkitgtk-2.48.6.tar.xz
-pushd webkitgtk-2.48.6
+tar -xf ../sources/webkitgtk-2.50.1.tar.xz
+pushd webkitgtk-2.50.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_RPATH=ON -DPORT=GTK -DLIB_INSTALL_DIR=/usr/lib -DENABLE_BUBBLEWRAP_SANDBOX=ON -DENABLE_GAMEPAD=ON -DENABLE_MINIBROWSER=ON -DENABLE_SPEECH_SYNTHESIS=OFF -DUSE_AVIF=ON -DUSE_GTK4=OFF -DUSE_LIBBACKTRACE=OFF -DUSE_LIBHYPHEN=OFF -DUSE_WOFF2=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -dm755 /usr/share/licenses/webkitgtk
 while IFS= read -r file; do echo "### $file ###"; cat "$file"; done <<< "$(find Source -name 'COPYING*' -o -name 'LICENSE*')" > /usr/share/licenses/webkitgtk/LICENSE
 popd
-rm -rf webkitgtk-2.48.6
+rm -rf webkitgtk-2.50.1
 # Cogl.
 tar -xf ../sources/cogl-1.22.8.tar.xz
 pushd cogl-1.22.8
@@ -8468,8 +8468,8 @@ install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
 popd
 rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-10.1.1.tar.xz
-pushd qemu-10.1.1
+tar -xf ../sources/qemu-10.1.2.tar.xz
+pushd qemu-10.1.2
 patch -Np1 -i ../../patches/qemu-9.2.3-libnfs6fix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list=x86_64-linux-user,x86_64-softmmu
 make
@@ -8489,7 +8489,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-10.1.1
+rm -rf qemu-10.1.2
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -8615,12 +8615,12 @@ install -t /usr/share/licenses/intel-microcode -Dm644 license
 popd
 rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
 # SOF-Firmware.
-tar -xf ../sources/sof-bin-2025.05.tar.gz
-pushd sof-bin-2025.05
+tar -xf ../sources/sof-bin-2025.05.1.tar.gz
+pushd sof-bin-2025.05.1
 cp -at /usr/lib/firmware/intel sof*
 install -t /usr/share/licenses/sof-firmware -Dm644 LICENCE.Intel LICENCE.NXP Notice.NXP
 popd
-rm -rf sof-bin-2025.05
+rm -rf sof-bin-2025.05.1
 # MassOS release detection utility.
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release

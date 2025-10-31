@@ -634,7 +634,7 @@ https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distuti
 https://github.com/stub42/pytz/releases/download/release_2025.2/pytz-2025.2.tar.gz
 https://files.pythonhosted.org/packages/source/p/pyxdg/pyxdg-0.28.tar.gz
 https://files.pythonhosted.org/packages/source/P/PyYAML/pyyaml-6.0.3.tar.gz
-https://download.qemu.org/qemu-10.1.1.tar.xz
+https://download.qemu.org/qemu-10.1.2.tar.xz
 https://github.com/qpdf/qpdf/releases/download/v12.2.0/qpdf-12.2.0.tar.gz
 https://github.com/fukuchi/libqrencode/archive/v4.1.1/qrencode-4.1.1.tar.gz
 https://github.com/xiph/rav1e/archive/v0.8.1/rav1e-0.8.1.tar.gz
@@ -687,7 +687,7 @@ https://github.com/leohemsted/smartypants.py/archive/v2.0.2/smartypants.py-2.0.2
 https://xorg.freedesktop.org/archive/individual/app/smproxy-1.0.8.tar.xz
 https://sndio.org/sndio-1.10.0.tar.gz
 https://github.com/snowballstem/snowball/archive/v2.2.0/snowball-2.2.0.tar.gz
-https://github.com/thesofproject/sof-bin/releases/download/v2025.05/sof-bin-2025.05.tar.gz
+https://github.com/thesofproject/sof-bin/releases/download/v2025.05.1/sof-bin-2025.05.1.tar.gz
 https://people.freedesktop.org/~mccann/dist/sound-theme-freedesktop-0.8.tar.bz2
 https://www.surina.net/soundtouch/soundtouch-2.4.0.tar.gz
 https://github.com/brailcom/speechd/releases/download/0.12.1/speech-dispatcher-0.12.1.tar.gz
@@ -757,7 +757,7 @@ https://github.com/KhronosGroup/Vulkan-Tools/archive/vulkan-sdk-1.4.328.1/Vulkan
 https://github.com/dbry/WavPack/releases/download/5.8.1/wavpack-5.8.1.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.24.0/downloads/wayland-1.24.0.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.45/downloads/wayland-protocols-1.45.tar.xz
-https://webkitgtk.org/releases/webkitgtk-2.48.6.tar.xz
+https://webkitgtk.org/releases/webkitgtk-2.50.1.tar.xz
 https://github.com/aruiz/webp-pixbuf-loader/archive/0.2.7/webp-pixbuf-loader-0.2.7.tar.gz
 https://ftp.nluug.nl/gnu/wget/wget-1.25.0.tar.gz
 https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.46.1.tar.gz

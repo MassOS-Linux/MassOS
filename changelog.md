@@ -13,6 +13,7 @@ Changes:
 - Added IPXE, Memtest86+ and UEFI EDK2 Shell to the Live CD as additional tools.
 - Migrated to merged bin-sbin filesystem structure, as required by future systemd versions (`sbin` directories are now symlinks to their `bin` counterpart).
 - Migrated to systemd-sysusers for system user management where possible.
+- Added a new utility, `massos-snapd`, for installing snapd and managing the snapd installation on a MassOS system.
 - Changed minimum supported kernel version in Glibc from 3.2 to 5.10, to improve optimisation.
 - Migrated Python modules away from Python EGGs, due to deprecation by pip (builds now use `build` and `installer` modules instead of `setup.py`).
 - Switched default tar back to GNU tar (bsdtar is still present), and removed `set-default-tar` utility from the system.
@@ -620,7 +621,7 @@ Upgraded software (core):
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.3`
-- qemu-guest-agent: `(new package) --> 10.1.1`
+- qemu-guest-agent: `(new package) --> 10.1.2`
 - Qpdf: `11.1.1 --> 12.2.0`
 - rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
@@ -663,7 +664,7 @@ Upgraded software (core):
 - smbclient: `4.19.3 --> 4.22.3`
 - smproxy: `1.0.6 --> 1.0.8`
 - sndio: `(new package) --> 1.10.0`
-- SOF-Firmware: `(new package) --> 2025.05`
+- SOF-Firmware: `(new package) --> 2025.05.1`
 - SoundTouch: `2.3.1 --> 2.4.0`
 - speech-dispatcher: `(new package) --> 0.12.1`
 - spice-protocol: `(new package) --> 0.14.4`
@@ -722,7 +723,7 @@ Upgraded software (core):
 - wavpack: `5.5.0 --> 5.8.1`
 - Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.45`
-- WebKitGTK: `2.38.0 --> 2.48.6`
+- WebKitGTK: `2.38.0 --> 2.50.1`
 - webp-pixbuf-loader: `0.0.6 --> 0.2.7`
 - Wget: `1.21.3 --> 1.25.0`
 - wheel: `(new package) --> 0.46.1`
@@ -864,7 +865,7 @@ Upgraded software (Xfce):
 
 Upgraded software (extras - **NOT** installed by default):
 
-- Snapd: `(new package) --> 2.71`
+- Snapd: `(new package) --> 2.72`
 
 # MassOS 2022.10
 Changes:

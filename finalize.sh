@@ -18,10 +18,15 @@ rm -rf /root/.{cache,cargo,cmake}
 rm -rf /root/{,.config/}go
 # Remove Debian stuff.
 # TODO: Find and fix the package(s) causing files to be installed here.
-if [ -d /etc/kernel ]; then
+if [ -e /etc/kernel ]; then
   echo "WARNING: Removing /etc/kernel." >&2
   echo "WARNING: Ensure no MassOS packages install files here." >&2
   rm -rfv /etc/kernel >&2
+fi
+if [ -e /etc/init ]; then
+  echo "WARNING: Removing /etc/init." >&2
+  echo "WARNING: Ensure no MassOS packages install files here." >&2
+  rm -rfv /etc/init >&2
 fi
 # Move any misplaced files.
 # Emit warnings to remind us to fix the offending packages.

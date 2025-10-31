@@ -546,16 +546,15 @@ rm -rf massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
 # LightDM.
 tar -xf ../sources/lightdm-1.32.0.tar.xz
 pushd lightdm-1.32.0
+patch -Np1 -i ../../patches/lightdm-1.32.0-xsession.patch
 patch -Np1 -i ../../patches/lightdm-1.32.0-fixmemoryleak.patch
 echo 'u lightdm - "LightDM Daemon" /var/lib/lightdm' > /usr/lib/sysusers.d/lightdm.conf
 systemd-sysusers
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
 make
 make install
-install -t /usr/bin -Dm755 tests/src/lightdm-session
-sed -i '1 s/sh/bash --login/' /usr/bin/lightdm-session
-sed -i 's/#user-session=default/user-session=xfce/' /etc/lightdm/lightdm.conf
-rm -rf /etc/init
+install -t /etc/lightdm -Dm755 Xsession
+sed -e 's|#user-session=default|user-session=xfce|' -e 's|#session-wrapper=lightdm-session|session-wrapper=/etc/lightdm/Xsession|' -i /etc/lightdm/lightdm.conf
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm
 install -dm755 -o lightdm -g lightdm /var/lib/lightdm-data
 install -dm755 -o lightdm -g lightdm /var/cache/lightdm
