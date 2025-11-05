@@ -89,15 +89,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17.6.tar.xz
-pushd linux-6.17.6
+tar -xf ../sources/linux-6.17.7.tar.xz
+pushd linux-6.17.7
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.6
+rm -rf linux-6.17.7
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -150,6 +150,7 @@ make -j1 DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 popd; popd
 rm -rf gcc-15.2.0
+# Install upgrade-toolset utilities, needed for bootstrapping.
 tar -xf ../sources/upgrade-toolset-20250728-x86_64.tar.xz -C "$MASSOS"/usr/bin --strip-components=1
 rm -f "$MASSOS"/usr/bin/LICENSE*
 # Change back to the start directory (should be MassOS source tree top-level).

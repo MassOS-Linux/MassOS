@@ -52,7 +52,18 @@ if ! /tmp/mbstestcompileapp-c || ! /tmp/mbstestcompileapp-cpp; then
 fi
 rm -f /tmp/mbstestcompile{.,app-}{,c{,pp}}
 
+# Ensure required programs are present.
+# TODO: See if upgrade-toolset can provide them?
+if ! gawk --version &>/dev/null; then
+  bad "gawk is not present on the system."
+fi
+if ! bison --version &>/dev/null || ! yacc --version &>/dev/null; then
+  bad "bison/yacc is not present on the system."
+fi
+
 # TODO: Add more checks in the near future. This shall suffice for now.
 
 # System appears to be acceptable.
-echo -e "\e[1;32mYour system appears to be suitable for building MassOS.\e[0m"
+echo -e "\e[1;32mYour environment appears suitable for building MassOS.\e[0m"
+echo -e "\e[1;32mBe sure to also check the minimum hardware requirements:\e[0m"
+echo -e "\e[1;32m<https://github.com/MassOS-Linux/MassOS/wiki/Building-MassOS>\e[0m"

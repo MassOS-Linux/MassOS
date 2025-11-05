@@ -45,15 +45,15 @@ chmod 0750 /root
 mkdir -p /usr/lib/locale
 mklocales
 # Install Rust, Go and GYP to temporary directories for building some packages.
-tar -xf ../sources/rust-1.89.0-x86_64-unknown-linux-gnu.tar.gz
-pushd rust-1.89.0-x86_64-unknown-linux-gnu
+tar -xf ../sources/rust-1.91.0-x86_64-unknown-linux-gnu.tar.gz
+pushd rust-1.91.0-x86_64-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
-tar -xf ../../sources/rust-src-1.89.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
+tar -xf ../../sources/rust-src-1.91.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
 tar -xf ../../sources/cargo-c-x86_64-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
 tar -xf ../../sources/bindgen-cli-x86_64-unknown-linux-gnu.tar.xz -C /root/mbs/extras/rust/bin --strip-components=1 bindgen-cli-x86_64-unknown-linux-gnu/bindgen
 install -Dm755 ../../sources/cbindgen-ubuntu22.04 /root/mbs/extras/rust/bin/cbindgen
 popd
-rm -rf rust-1.89.0-x86_64-unknown-linux-gnu
+rm -rf rust-1.91.0-x86_64-unknown-linux-gnu
 tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
 install -dm755 /root/mbs/extras/gyp
 tar -xf ../sources/gyp-1615ec.tar.gz -C /root/mbs/extras/gyp --strip-components=1
@@ -429,7 +429,7 @@ rm -rf libcap-2.76
 # Shadow (initial build; will be rebuilt later to support AUDIT).
 tar -xf ../sources/shadow-4.18.0.tar.xz
 pushd shadow-4.18.0
-patch -Np1 -i ../../patches/shadow-4.17.2-MassOS.patch
+patch -Np1 -i ../../patches/shadow-4.18.0-MassOS.patch
 touch /usr/bin/passwd
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-static --with-bcrypt --with-group-name-max-length=32 --with-libcrack --with-yescrypt --without-libbsd
 make
@@ -2474,41 +2474,6 @@ make install
 install -t /usr/share/licenses/dosfstools -Dm644 COPYING
 popd
 rm -rf dosfstools-4.2
-# dracut.
-tar -xf ../sources/dracut-ng-108-206-g05692b89.tar.gz
-pushd dracut-ng-05692b89bf29e3aa20292cc4d41902a7430b9659
-sed -i 's/108/108-206-g05692b89/' dracut-version.sh
-./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio --disable-asciidoctor
-make
-make install
-cat > /etc/dracut.conf.d/massos.conf << "END"
-# Default dracut configuration file for MassOS.
-
-# Compression to use for the initramfs.
-# Zstd is faster than XZ, and only increases the initramfs size by ~3MiB.
-compress="zstd"
-
-# Make the initramfs reproducible.
-# Note that this is not supported if you use bsdcpio as your cpio program.
-reproducible="yes"
-
-# A hostonly initramfs will only include drivers for the system it was made on.
-# This reduces the size of the initramfs, but also impacts portability.
-# You may not be able to boot the OS if you move the drive to another system.
-# The hostonly mode is also incompatible with the live CD modules added below.
-hostonly="no"
-
-# These modules are required to support live CD booting.
-add_dracutmodules+=" dmsquash-live overlayfs "
-
-# These modules are unneeded for booting MassOS and would bloat the initramfs.
-# Some of them also have dependencies outside the scope of MassOS.
-# Remove them from the exclude list only if you know what you are doing.
-omit_dracutmodules+=" biosdevname cifs connman dash dbus-broker fcoe fcoe-uefi hwdb iscsi kernel-modules-extra kernel-network-modules lunmask memstrack mksh multipath nbd network network-legacy network-manager nfs nvdimm nvmf qemu qemu-net rngd usrmount virtiofs "
-END
-install -t /usr/share/licenses/dracut -Dm644 COPYING
-popd
-rm -rf dracut-ng-05692b89bf29e3aa20292cc4d41902a7430b9659
 # LZO.
 tar -xf ../sources/lzo-2.10.tar.gz
 pushd lzo-2.10
@@ -3477,6 +3442,14 @@ make install
 install -t /usr/share/licenses/ruby -Dm644 COPYING
 popd
 rm -rf ruby-3.4.7
+# asciidoctor.
+tar -xf ../sources/asciidoctor-2.0.26.tar.gz
+pushd asciidoctor-2.0.26
+gem build asciidoctor.gemspec
+gem install asciidoctor-2.0.26.gem
+install -t /usr/share/licenses/asciidoctor -Dm644 LICENSE
+popd
+rm -rf asciidoctor-2.0.26
 # Audit.
 tar -xf ../sources/audit-userspace-4.0.3.tar.gz
 pushd audit-userspace-4.0.3
@@ -3531,7 +3504,7 @@ rm -rf Linux-PAM-1.7.1
 # Shadow (rebuild to support Audit).
 tar -xf ../sources/shadow-4.18.0.tar.xz
 pushd shadow-4.18.0
-patch -Np1 -i ../../patches/shadow-4.17.2-MassOS.patch
+patch -Np1 -i ../../patches/shadow-4.18.0-MassOS.patch
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-static --with-audit --with-bcrypt --with-group-name-max-length=32 --with-libcrack --with-yescrypt --without-libbsd
 make
 make exec_prefix=/usr pamdir= install
@@ -3554,6 +3527,40 @@ sed -i '55i##' /etc/sudoers
 install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 popd
 rm -rf sudo-1.9.17p2
+# dracut.
+tar -xf ../sources/dracut-ng-109.tar.gz
+pushd dracut-ng-109
+./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio
+make
+make install
+cat > /etc/dracut.conf.d/massos.conf << "END"
+# Default dracut configuration file for MassOS.
+
+# Compression to use for the initramfs.
+# Zstd is faster than XZ, and only increases the initramfs size by ~3MiB.
+compress="zstd"
+
+# Make the initramfs reproducible.
+# Note that this is not supported if you use bsdcpio as your cpio program.
+reproducible="yes"
+
+# A hostonly initramfs will only include drivers for the system it was made on.
+# This reduces the size of the initramfs, but also impacts portability.
+# You may not be able to boot the OS if you move the drive to another system.
+# The hostonly mode is also incompatible with the live CD modules added below.
+hostonly="no"
+
+# These modules are required to support live CD booting.
+add_dracutmodules+=" dmsquash-live overlayfs "
+
+# These modules are unneeded for booting MassOS and would bloat the initramfs.
+# Some of them also have dependencies outside the scope of MassOS.
+# Remove them from the exclude list only if you know what you are doing.
+omit_dracutmodules+=" biosdevname cifs connman dash dbus-broker fcoe fcoe-uefi hwdb iscsi kernel-modules-extra kernel-network-modules lunmask memstrack mksh multipath nbd network network-legacy network-manager nfs nvdimm nvmf qemu qemu-net rngd usrmount virtiofs "
+END
+install -t /usr/share/licenses/dracut -Dm644 COPYING
+popd
+rm -rf dracut-ng-109
 # Fcron.
 tar -xf ../sources/fcron-ver3_3_1.tar.gz
 pushd fcron-ver3_3_1
@@ -3631,6 +3638,24 @@ make perllibdir=/usr/lib/perl5/5.40/vendor_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 popd
 rm -rf git-2.51.1
+# Botan.
+tar -xf ../sources/Botan-3.9.0.tar.xz
+pushd Botan-3.9.0
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ./configure.py --prefix=/usr --optimize-for-size --disable-static-library --build-tool=ninja --distribution-info=MassOS --with-boost --with-bzip --with-lzma --with-sqlite3 --with-tpm2 --with-zlib --without-pdf --without-sphinx --with-os-feature=getrandom
+ninja
+ninja install
+install -t /usr/share/licenses/botan -Dm644 license.txt
+popd
+rm -rf Botan-3.9.0
+# rnp.
+tar -xf ../sources/rnp-v0.18.0.tar.gz
+pushd rnp-v0.18.0
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DDOWNLOAD_GTEST=OFF -DENABLE_COVERAGE=OFF -DENABLE_FUZZERS=OFF -DENABLE_SANITIZERS=OFF -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/rnp -Dm644 LICENSE.md
+popd
+rm -rf rnp-v0.18.0
 # snowball.
 tar -xf ../sources/snowball-2.2.0.tar.gz
 pushd snowball-2.2.0
@@ -3779,8 +3804,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-21.1.4.src.tar.xz
-pushd llvm-project-21.1.4.src
+tar -xf ../sources/llvm-project-21.1.5.src.tar.xz
+pushd llvm-project-21.1.5.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3798,7 +3823,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-21.1.4.src
+rm -rf llvm-project-21.1.5.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -5009,14 +5034,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-21.1.1
 # libclc.
-tar -xf ../sources/libclc-21.1.4.src.tar.xz
-pushd libclc-21.1.4.src
+tar -xf ../sources/libclc-21.1.5.src.tar.xz
+pushd libclc-21.1.5.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-21.1.4.src
+rm -rf libclc-21.1.5.src
 # glslang.
 tar -xf ../sources/glslang-16.0.0.tar.gz
 pushd glslang-16.0.0
@@ -5695,8 +5720,8 @@ install -t /usr/share/licenses/mtools -Dm644 COPYING
 popd
 rm -rf mtools-4.0.48
 # bcachefs-tools.
-tar -xf ../sources/bcachefs-tools-1.31.7.tar.gz
-pushd bcachefs-tools-1.31.7
+tar -xf ../sources/bcachefs-tools-1.31.13.tar.gz
+pushd bcachefs-tools-1.31.13
 ## Initramfs scripts are inappropriate for dracut - throw them away.
 ## bcachefs will be built as an external module once Linux 6.18 releases.
 make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash DKMSDIR=/tmp/.mbs_trash
@@ -5706,7 +5731,7 @@ bcachefs completions zsh > /usr/share/zsh/site-functions/_bcachefs
 bcachefs completions fish > /usr/share/fish/vendor_completions.d/bcachefs.fish
 install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.31.7
+rm -rf bcachefs-tools-1.31.13
 # Polkit.
 tar -xf ../sources/polkit-126.tar.gz
 pushd polkit-126
@@ -8515,8 +8540,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.17.6.tar.xz
-pushd linux-6.17.6
+tar -xf ../sources/linux-6.17.7.tar.xz
+pushd linux-6.17.7
 # TODO: Ensure this patch supports modules signed by keys in MOKList.
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
@@ -8524,8 +8549,8 @@ make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel,linux,6.17.6,https://kernel.org
-linux.massos,1,MassOS,linux,6.17.6,https://massos.org
+linux,1,The Linux Kernel,linux,6.17.7,https://kernel.org
+linux.massos,1,MassOS,linux,6.17.7,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8580,10 +8605,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.6
+rm -rf linux-6.17.7
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-580.95.05.tar.gz
-pushd open-gpu-kernel-modules-580.95.05
+tar -xf ../sources/open-gpu-kernel-modules-580.105.08.tar.gz
+pushd open-gpu-kernel-modules-580.105.08
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -8595,7 +8620,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-580.95.05
+rm -rf open-gpu-kernel-modules-580.105.08
 # Linux-Firmware.
 tar -xf ../sources/linux-firmware-20251021.tar.xz
 pushd linux-firmware-20251021

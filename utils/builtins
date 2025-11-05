@@ -14,6 +14,7 @@ appstream
 appstream-glib
 aria2
 asciidoc
+asciidoctor
 aspell
 aspell-en
 at-spi2-atk
@@ -35,6 +36,7 @@ binutils
 bison
 bluez
 boost
+botan
 bpftool
 brotli
 bsd-games
@@ -653,6 +655,7 @@ reiserfsprogs
 requests
 rest
 rhash
+rnp
 rpcsvc-proto
 rrdtool
 rsync

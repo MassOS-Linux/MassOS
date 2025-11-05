@@ -70,6 +70,7 @@ Upgraded software (core):
 - appstream-glib: `0.8.0 --> 0.8.3`
 - aria2: `(new package) --> 1.37.0`
 - Asciidoc: `10.2.0 --> 10.2.1`
+- asciidoctor: `(new package) --> 2.0.26`
 - Aspell: `0.60.8 --> 0.60.8.1`
 - at-spi2-core: `2.46.0 --> 2.58.1`
 - Atkmm: `2.28.3 --> 2.28.4`
@@ -81,11 +82,12 @@ Upgraded software (core):
 - Bash: `5.2 --> 5.3`
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
-- bcachefs-tools: `(new package) --> 1.31.7`
+- bcachefs-tools: `(new package) --> 1.31.13`
 - BIND-Utils: `9.18.6 --> 9.20.13`
 - Binutils: `2.39 --> 2.45`
 - BlueZ: `5.65 --> 5.84`
 - Boost: `1.80.0 --> 1.89.0`
+- Botan: `(new package) --> 3.9.0`
 - bpftool: `7.0.0 --> 7.6.0`
 - brotli: `1.0.9 --> 1.1.0`
 - bsd-games: `3.2 --> 3.3`
@@ -103,9 +105,9 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.1`
-- Clang: `14.0.6 --> 21.1.4`
+- Clang: `14.0.6 --> 21.1.5`
 - CMake: `3.24.2 --> 4.1.2`
-- compiler-rt: `15.0.3 --> 21.1.4`
+- compiler-rt: `15.0.3 --> 21.1.5`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -141,7 +143,7 @@ Upgraded software (core):
 - dos2unix: `0.4.2 --> 0.5.3`
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.0`
-- dracut: `056 --> 108-206-g05692b89`
+- dracut: `056 --> 109`
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
@@ -323,11 +325,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 21.1.4`
+- libclc: `(new package) --> 21.1.5`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 21.1.4`
-- libc++abi: `(new package) --> 21.1.4`
+- libc++: `(new package) --> 21.1.5`
+- libc++abi: `(new package) --> 21.1.5`
 - libde265: `1.0.8 --> 1.0.15`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -477,13 +479,13 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.17.6`
-- Linux-API-Headers: `6.0.0 --> 6.17.4`
+- Linux: `6.0.0 --> 6.17.7`
+- Linux-API-Headers: `6.0.0 --> 6.17.7`
 - Linux-Firmware: `(new package) --> 20251021`
-- Linux-Headers: `6.0.0 --> 6.17.4`
+- Linux-Headers: `6.0.0 --> 6.17.7`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 21.1.4`
-- LLVM: `14.0.6 --> 21.1.4`
+- LLD: `14.0.6 --> 21.1.5`
+- LLVM: `14.0.6 --> 21.1.5`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -547,7 +549,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 580.95.05`
+- nvidia-modules-open: `(new package) --> 580.105.08`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.15`
@@ -556,7 +558,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.4`
-- OpenMP: `(new package) --> 21.1.4`
+- OpenMP: `(new package) --> 21.1.5`
 - OpenSSH: `9.0p1 --> 10.2p1`
 - OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
@@ -629,6 +631,7 @@ Upgraded software (core):
 - reiserfsprogs: `(new package) --> 3.6.27`
 - requests: `2.28.1 --> 2.32.5`
 - rhash: `1.4.2 --> 1.4.5`
+- rnp: `(new package) --> 0.18.0`
 - rpcsvc-proto: `1.4.3 --> 1.4.4`
 - rrdtool: `1.8.0 --> 1.9.0`
 - rsync: `3.2.6 --> 3.4.1`
@@ -813,7 +816,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 144.0`
+- Firefox: `105.0.1 --> 144.0.2`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
