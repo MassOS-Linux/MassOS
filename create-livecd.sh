@@ -88,6 +88,7 @@ tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --st
 # Extract rootfs.
 echo "Extracting rootfs..."
 tar -xpf "$1" -C iso-workdir/massos-rootfs
+sync
 ver="$(cat iso-workdir/massos-rootfs/etc/massos-release)"
 # Prepare the live system.
 echo "Preparing the live system..."
@@ -116,6 +117,7 @@ install -Dm644 livecd-data/trust-osinstallgui.desktop iso-workdir/massos-rootfs/
 chroot iso-workdir/massos-rootfs /usr/bin/chown -R massos:massos /home/massos/.config/autostart
 # Set up desktop-specific autologin configuration.
 . livecd-data/autologin/autologin.sh
+sync
 # Set ISO file name for bootloader configs, now we know version and variant.
 isoname="massos-$ver-livecd-x86_64-$variant.iso"
 # Create squashfs image.
@@ -123,6 +125,7 @@ echo "Creating squashfs image..."
 cd iso-workdir/massos-rootfs
 mksquashfs ./* ../iso-root/LiveOS/squashfs.img -comp zstd -Xcompression-level 22 -quiet
 cd ../..
+sync
 # Install kernel and generate initramfs.
 echo "Installing kernel..."
 cp iso-workdir/massos-rootfs/boot/vmlinuz-* iso-workdir/iso-root/vmlinuz
@@ -184,6 +187,7 @@ cp livecd-data/autorun.inf iso-workdir/iso-root/autorun.inf
 cp livecd-data/README.txt iso-workdir/iso-root/README.txt
 for l in LICENSE CC-BY-SA-4.0 GPL-3.0; do cp "$l" iso-workdir/iso-root/"$l".txt; done
 touch iso-workdir/iso-root/THIS_IS_THE_MASSOS_LIVECD
+sync
 # Create the ISO image.
 # Note that the volume label should not be more than 11 characters.
 # Because label gets truncated if on a FAT32 volume (i.e. Rufus with ISO mode).
@@ -193,6 +197,7 @@ xorrisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -al
 # Clean up.
 echo "Cleaning up..."
 rm -rf iso-workdir
+sync
 # Finishing message.
 echo "All done! Output image written to $isoname."
 # Generate Blake-2 checksum.

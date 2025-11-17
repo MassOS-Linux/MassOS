@@ -1,0 +1,6 @@
+boot/efi
+var/cache/fontconfig
+var/cache/ldconfig
+var/lib/flatpak
+var/spool/cups/tmp
+var/spool/fcron

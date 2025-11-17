@@ -182,6 +182,7 @@ glibc
 glibmm
 glslang
 glu
+glycin
 gmp
 gnome-keyring
 gnome-online-accounts
@@ -284,6 +285,7 @@ laptop-detect
 lark
 lcms2
 ldac
+ldb
 legacy-cgi
 less
 libadwaita
@@ -444,6 +446,7 @@ libvdpau
 libvorbis
 libvpx
 libwacom
+libwbclient
 libwebp
 libwnck
 libwpe
@@ -723,7 +726,9 @@ taglib
 talloc
 tar
 tcl
+tdb
 termcolor
+tevent
 texinfo
 tk
 tinysparql

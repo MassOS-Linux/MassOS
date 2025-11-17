@@ -57,7 +57,7 @@ find /usr/{lib,libexec} -name \*.la -delete
 # TODO: Determine the offending package(s) and fix them in the build system.
 rm -rf /usr/bin/__pycache__
 # Remove any temporary files.
-rm -rf /tmp/*
+rm -rf /tmp/* /tmp/.*
 # As a finishing touch, run ldconfig and other misc commands.
 ldconfig
 glib-compile-schemas /usr/share/glib-2.0/schemas

@@ -34,7 +34,7 @@ menuentry "Boot from network (iPXE)" {
   chainloader /EFI/tools/ipxe.efi
 }
 
-menuentry "Import Secure Boot keys/hashes (MokManager)" {
+menuentry "Import Secure Boot keys (MokManager)" {
   chainloader /EFI/BOOT/mmx64.efi
 }
 

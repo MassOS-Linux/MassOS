@@ -1,0 +1,771 @@
+diff '--color=auto' -apruN a/libsoup/auth/soup-auth-digest.c b/libsoup/auth/soup-auth-digest.c
+--- a/libsoup/auth/soup-auth-digest.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/auth/soup-auth-digest.c	2025-11-14 21:28:50.788902616 +0000
+@@ -220,7 +220,7 @@ soup_auth_digest_get_protection_space (S
+ 			if (uri &&
+                             g_strcmp0 (g_uri_get_scheme (uri), g_uri_get_scheme (source_uri)) == 0 &&
+ 			    g_uri_get_port (uri) == g_uri_get_port (source_uri) &&
+-			    !strcmp (g_uri_get_host (uri), g_uri_get_host (source_uri)))
++			    !g_strcmp0 (g_uri_get_host (uri), g_uri_get_host (source_uri)))
+ 				dir = g_strdup (g_uri_get_path (uri));
+ 			else
+ 				dir = NULL;
+diff '--color=auto' -apruN a/libsoup/server/http2/soup-server-message-io-http2.c b/libsoup/server/http2/soup-server-message-io-http2.c
+--- a/libsoup/server/http2/soup-server-message-io-http2.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/server/http2/soup-server-message-io-http2.c	2025-11-14 21:28:50.789070288 +0000
+@@ -771,9 +771,18 @@ on_frame_recv_callback (nghttp2_session
+                 char *uri_string;
+                 GUri *uri;
+ 
+-                uri_string = g_strdup_printf ("%s://%s%s", msg_io->scheme, msg_io->authority, msg_io->path);
++                if (msg_io->authority == NULL) {
++                        io->in_callback--;
++                        return NGHTTP2_ERR_TEMPORAL_CALLBACK_FAILURE;
++                }
++                /* RFC 5740: the CONNECT has unset the "scheme" and "path", but the GUri requires the scheme, thus let it be "(null)" */
++                uri_string = g_strdup_printf ("%s://%s%s", msg_io->scheme, msg_io->authority, msg_io->path == NULL ? "" : msg_io->path);
+                 uri = g_uri_parse (uri_string, SOUP_HTTP_URI_FLAGS, NULL);
+                 g_free (uri_string);
++                if (uri == NULL) {
++                        io->in_callback--;
++                        return NGHTTP2_ERR_TEMPORAL_CALLBACK_FAILURE;
++                }
+                 soup_server_message_set_uri (msg_io->msg, uri);
+                 g_uri_unref (uri);
+ 
+diff '--color=auto' -apruN a/libsoup/soup-date-utils.c b/libsoup/soup-date-utils.c
+--- a/libsoup/soup-date-utils.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-date-utils.c	2025-11-14 21:28:50.789172000 +0000
+@@ -40,7 +40,7 @@ soup_date_time_is_past (GDateTime *date)
+         g_return_val_if_fail (date != NULL, TRUE);
+ 
+ 	/* optimization */
+-	if (g_date_time_get_year (date) < 2020)
++	if (g_date_time_get_year (date) < 2025)
+ 		return TRUE;
+ 
+ 	return g_date_time_to_unix (date) < time (NULL);
+@@ -129,7 +129,7 @@ parse_day (int *day, const char **date_s
+ 	while (*end == ' ' || *end == '-')
+ 		end++;
+ 	*date_string = end;
+-	return TRUE;
++	return *day >= 1 && *day <= 31;
+ }
+ 
+ static inline gboolean
+@@ -169,7 +169,7 @@ parse_year (int *year, const char **date
+ 	while (*end == ' ' || *end == '-')
+ 		end++;
+ 	*date_string = end;
+-	return TRUE;
++	return *year > 0 && *year < 9999;
+ }
+ 
+ static inline gboolean
+@@ -193,7 +193,7 @@ parse_time (int *hour, int *minute, int
+ 	while (*p == ' ')
+ 		p++;
+ 	*date_string = p;
+-	return TRUE;
++	return *hour >= 0 && *hour < 24 && *minute >= 0 && *minute < 60 && *second >= 0 && *second < 60;
+ }
+ 
+ static inline gboolean
+@@ -209,20 +209,25 @@ parse_timezone (GTimeZone **timezone, co
+ 		gulong val;
+ 		int sign = (**date_string == '+') ? 1 : -1;
+ 		val = strtoul (*date_string + 1, (char **)date_string, 10);
+-		if (**date_string == ':')
+-			val = 60 * val + strtoul (*date_string + 1, (char **)date_string, 10);
+-		else
++		if (val > 9999)
++			return FALSE;
++		if (**date_string == ':') {
++			gulong val2 = strtoul (*date_string + 1, (char **)date_string, 10);
++			if (val > 99 || val2 > 99)
++				return FALSE;
++			val = 60 * val + val2;
++		} else
+ 			val =  60 * (val / 100) + (val % 100);
+ 		offset_minutes = sign * val;
+-                utc = (sign == -1) && !val;
++		utc = (sign == -1) && !val;
+ 	} else if (**date_string == 'Z') {
+ 		offset_minutes = 0;
+-                utc = TRUE;
++		utc = TRUE;
+ 		(*date_string)++;
+ 	} else if (!strcmp (*date_string, "GMT") ||
+ 		   !strcmp (*date_string, "UTC")) {
+ 		offset_minutes = 0;
+-                utc = TRUE;
++		utc = TRUE;
+ 		(*date_string) += 3;
+ 	} else if (strchr ("ECMP", **date_string) &&
+ 		   ((*date_string)[1] == 'D' || (*date_string)[1] == 'S') &&
+@@ -264,7 +269,8 @@ parse_textual_date (const char *date_str
+ 		if (!parse_month (&month, &date_string) ||
+ 		    !parse_day (&day, &date_string) ||
+ 		    !parse_time (&hour, &minute, &second, &date_string) ||
+-		    !parse_year (&year, &date_string))
++		    !parse_year (&year, &date_string) ||
++		    !g_date_valid_dmy (day, month, year))
+ 			return NULL;
+ 
+ 		/* There shouldn't be a timezone, but check anyway */
+@@ -276,7 +282,8 @@ parse_textual_date (const char *date_str
+ 		if (!parse_day (&day, &date_string) ||
+ 		    !parse_month (&month, &date_string) ||
+ 		    !parse_year (&year, &date_string) ||
+-		    !parse_time (&hour, &minute, &second, &date_string))
++		    !parse_time (&hour, &minute, &second, &date_string) ||
++		    !g_date_valid_dmy (day, month, year))
+ 			return NULL;
+ 
+ 		/* This time there *should* be a timezone, but we
+diff '--color=auto' -apruN a/libsoup/soup-form.c b/libsoup/soup-form.c
+--- a/libsoup/soup-form.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-form.c	2025-11-14 21:28:50.789239871 +0000
+@@ -168,12 +168,18 @@ soup_form_decode_multipart (SoupMultipar
+ 		}
+ 
+ 		if (file_control_name && !strcmp (name, file_control_name)) {
+-			if (filename)
++			if (filename) {
++				g_free (*filename);
+ 				*filename = g_strdup (g_hash_table_lookup (params, "filename"));
+-			if (content_type)
++			}
++			if (content_type) {
++				g_free (*content_type);
+ 				*content_type = g_strdup (soup_message_headers_get_content_type (part_headers, NULL));
+-			if (file)
++			}
++			if (file) {
++				g_clear_pointer (file, g_bytes_unref);
+ 				*file = g_bytes_ref (part_body);
++			}
+ 		} else {
+ 			g_hash_table_insert (form_data_set,
+ 					     g_strdup (name),
+diff '--color=auto' -apruN a/libsoup/soup-init.c b/libsoup/soup-init.c
+--- a/libsoup/soup-init.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-init.c	2025-11-14 21:28:50.789292652 +0000
+@@ -10,7 +10,6 @@
+ #endif
+ 
+ #include <glib/gi18n-lib.h>
+-#include <gmodule.h>
+ #include "gconstructor.h"
+ 
+ #ifdef G_OS_WIN32
+@@ -18,21 +17,28 @@
+ #include <windows.h>
+ 
+ HMODULE soup_dll;
++#else
++#include <dlfcn.h>
+ #endif
+ 
+ static gboolean
+ soup2_is_loaded (void)
+ {
+-    GModule *module = g_module_open (NULL, 0);
+-    gpointer func;
+-    gboolean result = FALSE;
++	gboolean result = FALSE;
+ 
+-    if (g_module_symbol (module, "soup_uri_new", &func))
+-        result = TRUE;
+-
+-    g_module_close (module);
+-
+-    return result;
++	/* Skip on PE/COFF, as it doesn't have a flat symbol namespace */
++#ifndef G_OS_WIN32
++	gpointer handle;
++	gpointer func;
++
++	handle = dlopen (NULL, RTLD_LAZY | RTLD_GLOBAL);
++	if (handle != NULL) {
++		func = dlsym (handle, "soup_uri_new");
++		result = (func != NULL);
++		dlclose (handle);
++	}
++#endif
++	return result;
+ }
+ 
+ static void
+diff '--color=auto' -apruN a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
+--- a/libsoup/soup-message-headers.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-message-headers.c	2025-11-14 21:28:50.789364393 +0000
+@@ -1244,6 +1244,7 @@ soup_message_headers_get_ranges_internal
+ 			if (cur->start <= prev->end) {
+ 				prev->end = MAX (prev->end, cur->end);
+ 				g_array_remove_index (array, i);
++				i--;
+ 			}
+ 		}
+ 	}
+diff '--color=auto' -apruN a/libsoup/soup-multipart.c b/libsoup/soup-multipart.c
+--- a/libsoup/soup-multipart.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-multipart.c	2025-11-14 21:28:50.789463025 +0000
+@@ -104,7 +104,7 @@ find_boundary (const char *start, const
+ 			continue;
+ 
+ 		/* Check that it's at start of line */
+-		if (!(b == start || (b[-1] == '\n' && b[-2] == '\r')))
++		if (!(b == start || (b - start >= 2 && b[-1] == '\n' && b[-2] == '\r')))
+ 			continue;
+ 
+ 		/* Check for "--" or "\r\n" after boundary */
+@@ -173,7 +173,7 @@ soup_multipart_new_from_message (SoupMes
+ 			return NULL;
+ 		}
+ 
+-		split = strstr (start, "\r\n\r\n");
++		split = g_strstr_len (start, body_end - start, "\r\n\r\n");
+ 		if (!split || split > end) {
+ 			soup_multipart_free (multipart);
+ 			return NULL;
+@@ -204,7 +204,7 @@ soup_multipart_new_from_message (SoupMes
+ 		 */
+ 		part_body = g_bytes_new_from_bytes (body, // FIXME
+ 						    split - body_data,
+-						    end - 2 - split);
++						    end - 2 >= split ? end - 2 - split : 0);
+ 		g_ptr_array_add (multipart->bodies, part_body);
+ 
+ 		start = end;
+diff '--color=auto' -apruN a/libsoup/soup-session.c b/libsoup/soup-session.c
+--- a/libsoup/soup-session.c	2025-03-21 18:30:16.000000000 +0000
++++ b/libsoup/soup-session.c	2025-11-14 21:28:50.789597877 +0000
+@@ -2880,8 +2880,10 @@ run_until_read_done (SoupMessage
+ 		if (soup_message_io_in_progress (msg))
+ 			soup_message_io_finished (msg);
+ 		item->paused = FALSE;
+-		item->state = SOUP_MESSAGE_FINISHING;
+-		soup_session_process_queue_item (item->session, item, FALSE);
++		if (item->state != SOUP_MESSAGE_FINISHED) {
++			item->state = SOUP_MESSAGE_FINISHING;
++			soup_session_process_queue_item (item->session, item, FALSE);
++		}
+ 	}
+ 	async_send_request_return_result (item, NULL, error);
+         soup_message_queue_item_unref (item);
+diff '--color=auto' -apruN a/meson.build b/meson.build
+--- a/meson.build	2025-03-21 18:30:16.000000000 +0000
++++ b/meson.build	2025-11-14 21:28:50.789752450 +0000
+@@ -357,6 +357,10 @@ configinc = include_directories('.')
+ 
+ prefix = get_option('prefix')
+ 
++if get_option('b_sanitize') != 'none'
++  cdata.set_quoted('B_SANITIZE_OPTION', get_option('b_sanitize'))
++endif
++
+ cdata.set_quoted('PACKAGE_VERSION', soup_version)
+ cdata.set_quoted('LOCALEDIR', join_paths(prefix, get_option('localedir')))
+ cdata.set_quoted('GETTEXT_PACKAGE', libsoup_api_name)
+diff '--color=auto' -apruN a/tests/cookies-test.c b/tests/cookies-test.c
+--- a/tests/cookies-test.c	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/cookies-test.c	2025-11-14 21:28:50.789825431 +0000
+@@ -461,6 +461,16 @@ do_cookies_parsing_max_age_long_overflow
+ }
+ 
+ static void
++do_cookies_parsing_int32_overflow (void)
++{
++	SoupCookie *cookie = soup_cookie_parse ("Age=1;expires=3Mar9    999:9:9+ 999999999-age=main=gne=", NULL);
++	g_test_bug ("https://gitlab.gnome.org/GNOME/libsoup/-/issues/448");
++	g_assert_nonnull (cookie);
++	g_assert_null (soup_cookie_get_expires (cookie));
++	soup_cookie_free (cookie);
++}
++
++static void
+ do_cookies_equal_nullpath (void)
+ {
+ 	SoupCookie *cookie1, *cookie2;
+@@ -718,6 +728,7 @@ main (int argc, char **argv)
+ 	g_test_add_func ("/cookies/parsing/no-path-null-origin", do_cookies_parsing_nopath_nullorigin);
+ 	g_test_add_func ("/cookies/parsing/max-age-int32-overflow", do_cookies_parsing_max_age_int32_overflow);
+ 	g_test_add_func ("/cookies/parsing/max-age-long-overflow", do_cookies_parsing_max_age_long_overflow);
++	g_test_add_func ("/cookies/parsing/int32-overflow", do_cookies_parsing_int32_overflow);
+ 	g_test_add_func ("/cookies/parsing/equal-nullpath", do_cookies_equal_nullpath);
+ 	g_test_add_func ("/cookies/parsing/control-characters", do_cookies_parsing_control_characters);
+         g_test_add_func ("/cookies/parsing/name-value-max-size", do_cookies_parsing_name_value_max_size);
+diff '--color=auto' -apruN a/tests/date-test.c b/tests/date-test.c
+--- a/tests/date-test.c	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/date-test.c	2025-11-14 21:28:50.789900942 +0000
+@@ -92,6 +92,11 @@ static const OkDate ok_dates[] = {
+ 	{ "Sat, 06 Nov 2004 08:09:07", NULL },
+ 	{ "06 Nov 2004 08:09:07 GMT", NULL },
+ 	{ "SAT, 06 NOV 2004 08:09:07 +1000", "644048" },
++	{ "Sat, 06-Nov-2004 08:09:07 -10000", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
++	{ "Sat, 06-Nov-2004 08:09:07 +01:30", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
++	{ "Sat, 06-Nov-2004 08:09:07 +0:180", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
++	{ "Sat, 06-Nov-2004 08:09:07 +100:100", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
++	{ "Sat, 06-Nov-2004 08:09:07 Z", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
+ 
+ 	/* rfc850-date, and broken variants */
+ 	{ "Saturday, 06-Nov-04 08:09:07 GMT", NULL },
+@@ -109,6 +114,8 @@ static const OkDate ok_dates[] = {
+ 	{ "Sat Nov 06 08:09:07 2004", NULL },
+ 	{ "Sat Nov 6 08:09:07 2004", NULL },
+ 	{ "Sat Nov  6 08:09:07 2004 GMT", NULL },
++	{ "Sat Nov 6 08:09:07 2004 NoZone", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
++	{ "Sat Nov 6 08:09:07 2004 UTC", "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" },
+ 
+ 	/* Netscape cookie spec date, and broken variants */
+ 	{ "Sat, 06-Nov-2004 08:09:07 GMT", NULL },
+@@ -182,7 +189,23 @@ static const BadDate bad_dates[] = {
+ 	{ "Sat Nov  6 08::07 2004", NULL },
+ 	{ "Sat Nov  6 08:09: 2004", NULL },
+ 	{ "Sat Nov  6 08:09:07", NULL },
+-	{ "Sat Nov  6 08:09:07 GMT 2004", NULL }
++	{ "Sat Nov  6 08:09:07 GMT 2004", NULL },
++
++	/* range constraints added "https://gitlab.gnome.org/GNOME/libsoup/-/issues/448" */
++	{ "Sat, 00-Nov-2004 08:09:07 GMT", NULL },
++	{ "Sat, 32-Nov-2004 08:09:07 GMT", NULL },
++	{ "Sat, 06-Nov-0 08:09:07 GMT", NULL },
++	{ "Sat, 06-Nov-9999 08:09:07 GMT", NULL },
++	{ "Sat, 06-Nov-2004 0-1:09:07 GMT", NULL },
++	{ "(Sat), Nov  6 -1:09:07 2004", NULL },
++	{ "Sat, 06-Nov-2004 24:09:07 GMT", NULL },
++	{ "Sat, 06-Nov-2004 08:-1:07 GMT", NULL },
++	{ "Sat, 06-Nov-2004 08:60:07 GMT", NULL },
++	{ "Sat, 06-Nov-2004 08:09:-10 GMT", NULL },
++	{ "Sat, 06-Nov-2004 08:09:60 GMT", NULL },
++	{ "Sat, 06-Nov-71 08:09:99 UTC", NULL },
++	{ "Sat, 31-Feb-2004 08:09:07 UTC", NULL },
++	{ "2004-11-06T08:09:07Z", NULL }
+ };
+ 
+ static void
+@@ -198,12 +221,12 @@ check_bad (gconstpointer data)
+ 	soup_test_assert (date == NULL,
+ 			  "date parsing succeeded for '%s': %d %d %d - %d %d %d",
+ 			  bad->date,
+-                          g_date_time_get_year (date),
+-                          g_date_time_get_month (date),
+-                          g_date_time_get_day_of_month (date),
+-                          g_date_time_get_hour (date),
+-                          g_date_time_get_minute (date),
+-                          g_date_time_get_second (date));
++			  g_date_time_get_year (date),
++			  g_date_time_get_month (date),
++			  g_date_time_get_day_of_month (date),
++			  g_date_time_get_hour (date),
++			  g_date_time_get_minute (date),
++			  g_date_time_get_second (date));
+ 	g_clear_pointer (&date, g_date_time_unref);
+ }
+ 
+diff '--color=auto' -apruN a/tests/forms-test.c b/tests/forms-test.c
+--- a/tests/forms-test.c	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/forms-test.c	2025-11-14 21:28:50.789964503 +0000
+@@ -485,6 +485,46 @@ md5_callback (SoupServer        *server,
+ 		soup_server_message_set_status (msg, SOUP_STATUS_METHOD_NOT_ALLOWED, NULL);
+ }
+ 
++static void
++do_form_decode_multipart_test (void)
++{
++	SoupMultipart *multipart = soup_multipart_new ("multipart/form-data");
++	const char *file_control_name = "uploaded_file";
++	char *content_type = NULL;
++	char *filename = NULL;
++	GBytes *file = NULL;
++	GHashTable *result;
++	int part;
++
++	for (part = 0; part < 2; part++) {
++		SoupMessageHeaders *headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
++		GHashTable *params = g_hash_table_new_full (g_str_hash, g_str_equal, g_free, g_free);
++		GBytes *body = g_bytes_new (NULL, 0);
++
++		g_hash_table_insert (params, g_strdup ("name"), g_strdup (file_control_name));
++		g_hash_table_insert (params, g_strdup ("filename"), g_strdup (file_control_name));
++		soup_message_headers_set_content_disposition (headers, "form-data", params);
++		soup_message_headers_set_content_type (headers, "text/x-form", NULL);
++		soup_multipart_append_part (multipart, headers, body);
++
++		soup_message_headers_unref (headers);
++		g_hash_table_destroy (params);
++		g_bytes_unref (body);
++	}
++
++	/* this would leak memory of the output variables, due to two parts having the same 'file_control_name' */
++	result = soup_form_decode_multipart (multipart, file_control_name, &filename, &content_type, &file);
++	g_assert_nonnull (result);
++	g_assert_cmpstr (content_type, ==, "text/x-form");
++	g_assert_cmpstr (filename, ==, file_control_name);
++	g_assert_nonnull (file);
++
++	g_hash_table_destroy (result);
++	g_free (content_type);
++	g_free (filename);
++	g_bytes_unref (file);
++}
++
+ static gboolean run_tests = TRUE;
+ 
+ static GOptionEntry no_test_entry[] = {
+@@ -525,6 +565,7 @@ main (int argc, char **argv)
+ 		g_uri_unref (uri);
+ 
+ 		g_test_add_func ("/forms/decode", do_form_decode_test);
++		g_test_add_func ("/forms/decodemultipart", do_form_decode_multipart_test);
+ 
+ 		ret = g_test_run ();
+ 	} else {
+diff '--color=auto' -apruN a/tests/http2-test.c b/tests/http2-test.c
+--- a/tests/http2-test.c	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/http2-test.c	2025-11-14 21:28:50.790099065 +0000
+@@ -1241,6 +1241,30 @@ do_connection_closed_test (Test *test, g
+         g_uri_unref (uri);
+ }
+ 
++static void
++do_broken_pseudo_header_test (Test *test, gconstpointer data)
++{
++	char *path;
++	SoupMessage *msg;
++	GUri *uri;
++	GBytes *body = NULL;
++	GError *error = NULL;
++
++	uri = g_uri_parse_relative (base_uri, "/ag", SOUP_HTTP_URI_FLAGS, NULL);
++
++	/* an ugly cheat to construct a broken URI, which can be sent from other libs */
++	path = (char *) g_uri_get_path (uri);
++	path[1] = '%';
++
++	msg = soup_message_new_from_uri (SOUP_METHOD_GET, uri);
++	body = soup_test_session_async_send (test->session, msg, NULL, &error);
++	g_assert_error (error, G_IO_ERROR, G_IO_ERROR_PARTIAL_INPUT);
++	g_assert_null (body);
++	g_clear_error (&error);
++	g_object_unref (msg);
++	g_uri_unref (uri);
++}
++
+ static gboolean
+ unpause_message (SoupServerMessage *msg)
+ {
+@@ -1549,6 +1573,10 @@ main (int argc, char **argv)
+                     setup_session,
+                     do_connection_closed_test,
+                     teardown_session);
++        g_test_add ("/http2/broken-pseudo-header", Test, NULL,
++                    setup_session,
++                    do_broken_pseudo_header_test,
++                    teardown_session);
+ 
+ 	ret = g_test_run ();
+ 
+diff '--color=auto' -apruN a/tests/meson.build b/tests/meson.build
+--- a/tests/meson.build	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/meson.build	2025-11-14 21:28:50.790271788 +0000
+@@ -102,6 +102,7 @@ tests = [
+   {'name': 'samesite'},
+   {'name': 'session'},
+   {'name': 'server-auth'},
++  {'name': 'server-mem-limit'},
+   {'name': 'server'},
+   {'name': 'sniffing',
+     'depends': [test_resources],
+diff '--color=auto' -apruN a/tests/multipart-test.c b/tests/multipart-test.c
+--- a/tests/multipart-test.c	2025-03-21 18:30:16.000000000 +0000
++++ b/tests/multipart-test.c	2025-11-14 21:28:50.790348120 +0000
+@@ -471,6 +471,122 @@ test_multipart (gconstpointer data)
+ 	loop = NULL;
+ }
+ 
++static void
++test_multipart_bounds_good (void)
++{
++	#define TEXT "line1\r\nline2"
++	SoupMultipart *multipart;
++	SoupMessageHeaders *headers, *set_headers = NULL;
++	GBytes *bytes, *set_bytes = NULL;
++	const char *raw_data = "--123\r\nContent-Type: text/plain;\r\n\r\n" TEXT "\r\n--123--\r\n";
++	gboolean success;
++
++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
++
++	bytes = g_bytes_new (raw_data, strlen (raw_data));
++
++	multipart = soup_multipart_new_from_message (headers, bytes);
++
++	g_assert_nonnull (multipart);
++	g_assert_cmpint (soup_multipart_get_length (multipart), ==, 1);
++	success = soup_multipart_get_part (multipart, 0, &set_headers, &set_bytes);
++	g_assert_true (success);
++	g_assert_nonnull (set_headers);
++	g_assert_nonnull (set_bytes);
++	g_assert_cmpint (strlen (TEXT), ==, g_bytes_get_size (set_bytes));
++	g_assert_cmpstr ("text/plain", ==, soup_message_headers_get_content_type (set_headers, NULL));
++	g_assert_cmpmem (TEXT, strlen (TEXT), g_bytes_get_data (set_bytes, NULL), g_bytes_get_size (set_bytes));
++
++	soup_message_headers_unref (headers);
++	g_bytes_unref (bytes);
++
++	soup_multipart_free (multipart);
++
++	#undef TEXT
++}
++
++static void
++test_multipart_bounds_bad (void)
++{
++	SoupMultipart *multipart;
++	SoupMessageHeaders *headers;
++	GBytes *bytes;
++	const char *raw_data = "--123\r\nContent-Type: text/plain;\r\nline1\r\nline2\r\n--123--\r\n";
++
++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
++
++	bytes = g_bytes_new (raw_data, strlen (raw_data));
++
++	/* it did read out of raw_data/bytes bounds */
++	multipart = soup_multipart_new_from_message (headers, bytes);
++	g_assert_null (multipart);
++
++	soup_message_headers_unref (headers);
++	g_bytes_unref (bytes);
++}
++
++static void
++test_multipart_bounds_bad_2 (void)
++{
++	SoupMultipart *multipart;
++	SoupMessageHeaders *headers;
++	GBytes *bytes;
++	const char *raw_data = "\n--123\r\nline\r\n--123--\r";
++
++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
++	soup_message_headers_append (headers, "Content-Type", "multipart/mixed; boundary=\"123\"");
++
++	bytes = g_bytes_new (raw_data, strlen (raw_data));
++
++	multipart = soup_multipart_new_from_message (headers, bytes);
++	g_assert_nonnull (multipart);
++
++	soup_multipart_free (multipart);
++	soup_message_headers_unref (headers);
++	g_bytes_unref (bytes);
++}
++
++static void
++test_multipart_too_large (void)
++{
++	const char *raw_body =
++		"-------------------\r\n"
++		"-\n"
++		"Cont\"\r\n"
++		"Content-Tynt----e:n\x8erQK\r\n"
++		"Content-Disposition:   name=  form-; name=\"file\"; filename=\"ype:i/  -d; ----\xae\r\n"
++		"Content-Typimag\x01/png--\\\n"
++		"\r\n"
++		"---:\n\r\n"
++		"\r\n"
++		"-------------------------------------\r\n"
++		"---------\r\n"
++		"----------------------";
++	GBytes *body;
++	GHashTable *params;
++	SoupMessageHeaders *headers;
++	SoupMultipart *multipart;
++
++	params = g_hash_table_new (g_str_hash, g_str_equal);
++	g_hash_table_insert (params, (gpointer) "boundary", (gpointer) "-----------------");
++	headers = soup_message_headers_new (SOUP_MESSAGE_HEADERS_MULTIPART);
++	soup_message_headers_set_content_type (headers, "multipart/form-data", params);
++	g_hash_table_unref (params);
++
++	body = g_bytes_new_static (raw_body, strlen (raw_body));
++	multipart = soup_multipart_new_from_message (headers, body);
++	soup_message_headers_unref (headers);
++	g_bytes_unref (body);
++
++	g_assert_nonnull (multipart);
++	g_assert_cmpint (soup_multipart_get_length (multipart), ==, 1);
++	g_assert_true (soup_multipart_get_part (multipart, 0, &headers, &body));
++	g_assert_cmpint (g_bytes_get_size (body), ==, 0);
++	soup_multipart_free (multipart);
++}
++
+ int
+ main (int argc, char **argv)
+ {
+@@ -498,6 +614,10 @@ main (int argc, char **argv)
+ 	g_test_add_data_func ("/multipart/sync", GINT_TO_POINTER (SYNC_MULTIPART), test_multipart);
+ 	g_test_add_data_func ("/multipart/async", GINT_TO_POINTER (ASYNC_MULTIPART), test_multipart);
+ 	g_test_add_data_func ("/multipart/async-small-reads", GINT_TO_POINTER (ASYNC_MULTIPART_SMALL_READS), test_multipart);
++	g_test_add_func ("/multipart/bounds-good", test_multipart_bounds_good);
++	g_test_add_func ("/multipart/bounds-bad", test_multipart_bounds_bad);
++	g_test_add_func ("/multipart/bounds-bad-2", test_multipart_bounds_bad_2);
++	g_test_add_func ("/multipart/too-large", test_multipart_too_large);
+ 
+ 	ret = g_test_run ();
+ 
+diff '--color=auto' -apruN a/tests/server-mem-limit-test.c b/tests/server-mem-limit-test.c
+--- a/tests/server-mem-limit-test.c	1970-01-01 01:00:00.000000000 +0100
++++ b/tests/server-mem-limit-test.c	2025-11-14 21:28:50.790411551 +0000
+@@ -0,0 +1,149 @@
++/* -*- Mode: C; tab-width: 8; indent-tabs-mode: nil; c-basic-offset: 8 -*- */
++/*
++ * Copyright (C) 2025 Red Hat <www.redhat.com>
++ */
++
++#include "test-utils.h"
++
++#include <sys/resource.h>
++
++/*
++ This test limits memory usage to trigger too large buffer allocation crash.
++ As restoring the limits back to what it was does not always work, it's split
++ out of the server-test.c test with copied minimal server code.
++ */
++
++typedef struct {
++	SoupServer *server;
++	GUri *base_uri, *ssl_base_uri;
++	GSList *handlers;
++} ServerData;
++
++static void
++server_setup_nohandler (ServerData *sd, gconstpointer test_data)
++{
++	sd->server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD);
++	sd->base_uri = soup_test_server_get_uri (sd->server, "http", NULL);
++	if (tls_available)
++		sd->ssl_base_uri = soup_test_server_get_uri (sd->server, "https", NULL);
++}
++
++static void
++server_add_handler (ServerData         *sd,
++		    const char         *path,
++		    SoupServerCallback  callback,
++		    gpointer            user_data,
++		    GDestroyNotify      destroy)
++{
++	soup_server_add_handler (sd->server, path, callback, user_data, destroy);
++	sd->handlers = g_slist_prepend (sd->handlers, g_strdup (path));
++}
++
++static void
++server_setup (ServerData *sd, gconstpointer test_data)
++{
++	server_setup_nohandler (sd, test_data);
++}
++
++static void
++server_teardown (ServerData *sd, gconstpointer test_data)
++{
++	GSList *iter;
++
++	for (iter = sd->handlers; iter; iter = iter->next)
++		soup_server_remove_handler (sd->server, iter->data);
++	g_slist_free_full (sd->handlers, g_free);
++
++	g_clear_pointer (&sd->server, soup_test_server_quit_unref);
++	g_clear_pointer (&sd->base_uri, g_uri_unref);
++	g_clear_pointer (&sd->ssl_base_uri, g_uri_unref);
++}
++
++static void
++server_file_callback (SoupServer        *server,
++		      SoupServerMessage *msg,
++		      const char        *path,
++		      GHashTable        *query,
++		      gpointer           data)
++{
++	void *mem;
++
++	g_assert_cmpstr (path, ==, "/file");
++	g_assert_cmpstr (soup_server_message_get_method (msg), ==, SOUP_METHOD_GET);
++
++	mem = g_malloc0 (sizeof (char) * 1024 * 1024);
++	/* fedora-scan CI claims a warning about possibly leaked `mem` variable, thus use
++	   the copy and free it explicitly, to workaround the false positive; the g_steal_pointer()
++	   did not help for the malloc-ed memory */
++	soup_server_message_set_response (msg, "application/octet-stream", SOUP_MEMORY_COPY, mem, sizeof (char) * 1024 *1024);
++	soup_server_message_set_status (msg, SOUP_STATUS_OK, NULL);
++	g_free (mem);
++}
++
++static void
++do_ranges_overlaps_test (ServerData *sd, gconstpointer test_data)
++{
++	SoupSession *session;
++	SoupMessage *msg;
++	GString *range;
++	GUri *uri;
++	const char *chunk = ",0,0,0,0,0,0,0,0,0,0,0";
++
++	g_test_bug ("428");
++
++	#ifdef G_OS_WIN32
++	g_test_skip ("Cannot run under windows");
++	return;
++	#endif
++
++	range = g_string_sized_new (99 * 1024);
++	g_string_append (range, "bytes=1024");
++	while (range->len < 99 * 1024)
++		g_string_append (range, chunk);
++
++	session = soup_test_session_new (NULL);
++	server_add_handler (sd, "/file", server_file_callback, NULL, NULL);
++
++	uri = g_uri_parse_relative (sd->base_uri, "/file", SOUP_HTTP_URI_FLAGS, NULL);
++
++	msg = soup_message_new_from_uri ("GET", uri);
++	soup_message_headers_append (soup_message_get_request_headers (msg), "Range", range->str);
++
++	soup_test_session_send_message (session, msg);
++
++	soup_test_assert_message_status (msg, SOUP_STATUS_PARTIAL_CONTENT);
++
++	g_object_unref (msg);
++
++	g_string_free (range, TRUE);
++	g_uri_unref (uri);
++
++	soup_test_session_abort_unref (session);
++}
++
++int
++main (int argc, char **argv)
++{
++	int ret;
++
++	/* a build with an address sanitizer may crash on mmap() with the limit,
++	   thus skip the limit set in such case, even it may not necessarily
++	   trigger the bug if it regresses */
++	#if !defined(G_OS_WIN32) && !defined(B_SANITIZE_OPTION)
++	struct rlimit new_rlimit = { 1024UL * 1024UL * 1024UL * 2UL, 1024UL * 1024UL * 1024UL * 2UL };
++	/* limit memory usage, to trigger too large memory allocation abort */
++	g_assert_cmpint (setrlimit (RLIMIT_DATA, &new_rlimit), ==, 0);
++	#else
++	g_message ("server-mem-limit-test: Running without memory limit");
++	#endif
++
++	test_init (argc, argv, NULL);
++
++	g_test_add ("/server-mem/range-overlaps", ServerData, NULL,
++		    server_setup, do_ranges_overlaps_test, server_teardown);
++
++	ret = g_test_run ();
++
++	test_cleanup ();
++	return ret;
++}

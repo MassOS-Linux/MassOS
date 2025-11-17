@@ -22,6 +22,8 @@ pushd icons-8.1.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dvolume_icons=false
 ninja -C build
 ninja -C build install
+gtk-update-icon-cache -q -t -f /usr/share/icons/elementary
+gtk4-update-icon-cache -q -t -f /usr/share/icons/elementary
 install -t /usr/share/licenses/elementary-icon-theme -Dm644 COPYING
 popd
 rm -rf icons-8.1.0
@@ -574,7 +576,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-144.0.2.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-145.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

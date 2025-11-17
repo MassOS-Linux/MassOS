@@ -1,6 +1,6 @@
 favorites=xfce4-web-browser.desktop,xfce4-mail-reader.desktop,xfce4-file-manager.desktop,xfce4-terminal-emulator.desktop,org.gnome.Software.desktop
 recent=
-button-icon=/usr/share/massos/massos-logo-notext.png
+button-icon=/usr/share/massos/massos-logo-circlecropped-notext.png
 button-single-row=false
 show-button-title=true
 show-button-icon=true

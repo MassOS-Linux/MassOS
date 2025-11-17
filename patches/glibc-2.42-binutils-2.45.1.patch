@@ -1,0 +1,100 @@
+diff '--color=auto' -apruN a/sysdeps/i386/Makefile b/sysdeps/i386/Makefile
+--- a/sysdeps/i386/Makefile	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/i386/Makefile	2025-11-14 12:50:27.737302423 +0000
+@@ -60,6 +60,15 @@ $(objpfx)tst-ld-sse-use.out: ../sysdeps/
+ 	@echo "Checking ld.so for SSE register use.  This will take a few seconds..."
+ 	$(BASH) $< $(objpfx) '$(NM)' '$(OBJDUMP)' '$(READELF)' > $@; \
+ 	$(evaluate-test)
++
++tests-special += $(objpfx)check-gnu-tls.out
++
++$(objpfx)check-gnu-tls.out: $(common-objpfx)libc.so
++	LC_ALL=C $(READELF) -V -W $< \
++		| sed -ne '/.gnu.version_d/, /.gnu.version_r/ p' \
++		| grep GLIBC_ABI_GNU_TLS > $@; \
++	$(evaluate-test)
++generated += check-gnu-tls.out
+ else
+ CFLAGS-.os += $(if $(filter rtld-%.os,$(@F)), $(rtld-CFLAGS))
+ endif
+diff '--color=auto' -apruN a/sysdeps/i386/Versions b/sysdeps/i386/Versions
+--- a/sysdeps/i386/Versions	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/i386/Versions	2025-11-14 12:50:27.737401314 +0000
+@@ -28,6 +28,11 @@ libc {
+   GLIBC_2.13 {
+     __fentry__;
+   }
++  GLIBC_ABI_GNU_TLS {
++    # This symbol is used only for empty version map and will be removed
++    # by scripts/versions.awk.
++    __placeholder_only_for_empty_version_map;
++  }
+ }
+ libm {
+   GLIBC_2.1 {
+diff '--color=auto' -apruN a/sysdeps/x86/Makefile b/sysdeps/x86/Makefile
+--- a/sysdeps/x86/Makefile	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/x86/Makefile	2025-11-14 12:50:32.666203664 +0000
+@@ -135,6 +135,15 @@ LDFLAGS-tst-tls23 += -rdynamic
+ tst-tls23-mod.so-no-z-defs = yes
+ 
+ $(objpfx)tst-tls23-mod.so: $(libsupport)
++
++tests-special += $(objpfx)check-gnu2-tls.out
++
++$(objpfx)check-gnu2-tls.out: $(common-objpfx)libc.so
++	LC_ALL=C $(READELF) -V -W $< \
++		| sed -ne '/.gnu.version_d/, /.gnu.version_r/ p' \
++		| grep GLIBC_ABI_GNU2_TLS > $@; \
++	$(evaluate-test)
++generated += check-gnu2-tls.out
+ endif
+ 
+ ifeq ($(subdir),gmon)
+diff '--color=auto' -apruN a/sysdeps/x86/Versions b/sysdeps/x86/Versions
+--- a/sysdeps/x86/Versions	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/x86/Versions	2025-11-14 12:50:32.666311746 +0000
+@@ -7,4 +7,9 @@ libc {
+   GLIBC_2.33 {
+     __x86_get_cpuid_feature_leaf;
+   }
++  GLIBC_ABI_GNU2_TLS {
++    # This symbol is used only for empty version map and will be removed
++    # by scripts/versions.awk.
++    __placeholder_only_for_empty_version_map;
++  }
+ }
+diff '--color=auto' -apruN a/sysdeps/x86_64/Makefile b/sysdeps/x86_64/Makefile
+--- a/sysdeps/x86_64/Makefile	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/x86_64/Makefile	2025-11-14 12:50:32.666400438 +0000
+@@ -212,6 +212,15 @@ LDFLAGS-tst-plt-rewrite2 = -Wl,-z,now
+ LDFLAGS-tst-plt-rewritemod2.so = -Wl,-z,now,-z,undefs
+ tst-plt-rewrite2-ENV = GLIBC_TUNABLES=glibc.cpu.plt_rewrite=2
+ $(objpfx)tst-plt-rewrite2: $(objpfx)tst-plt-rewritemod2.so
++
++tests-special += $(objpfx)check-dt-x86-64-plt.out
++
++$(objpfx)check-dt-x86-64-plt.out: $(common-objpfx)libc.so
++	LC_ALL=C $(READELF) -V -W $< \
++		| sed -ne '/.gnu.version_d/, /.gnu.version_r/ p' \
++		| grep GLIBC_ABI_DT_X86_64_PLT > $@; \
++	$(evaluate-test)
++generated += check-dt-x86-64-plt.out
+ endif
+ 
+ test-internal-extras += tst-gnu2-tls2mod1
+diff '--color=auto' -apruN a/sysdeps/x86_64/Versions b/sysdeps/x86_64/Versions
+--- a/sysdeps/x86_64/Versions	2025-07-28 19:22:55.000000000 +0100
++++ b/sysdeps/x86_64/Versions	2025-11-14 12:50:32.666482229 +0000
+@@ -5,6 +5,11 @@ libc {
+   GLIBC_2.13 {
+     __fentry__;
+   }
++  GLIBC_ABI_DT_X86_64_PLT {
++    # This symbol is used only for empty version map and will be removed
++    # by scripts/versions.awk.
++    __placeholder_only_for_empty_version_map;
++  }
+ }
+ libm {
+   GLIBC_2.1 {

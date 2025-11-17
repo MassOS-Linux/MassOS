@@ -57,6 +57,7 @@ if [ $STATUS -ne 0 ]; then
 fi
 set -e
 popd
+sync
 # Put Stage 3 files into the system.
 echo "Starting Stage 3 build for '$1'..."
 mkdir -p "$MASSOS"/root/mbs/{extras,work}
@@ -94,8 +95,10 @@ utils/programs/mass-chroot "$MASSOS" /root/mbs/build-stage3.sh
 echo "Finalizing the build..."
 cp finalize.sh "$MASSOS"/root/mbs
 utils/programs/mass-chroot "$MASSOS" /root/mbs/finalize.sh
-# Install preupgrade and postupgrade.
-cp utils/{pre,post}upgrade{,_ng} "$MASSOS"/tmp
+# Mark the stage 3 variant.
+echo "$1" > "$MASSOS"/usr/share/massos/.variant
+# Install preupgrade, postupgrade and upgrade-exclude.
+cp utils/{{pre,post}upgrade{,_ng},upgrade-exclude} "$MASSOS"/tmp
 # Install Live CD cleanup script for osinstallgui.
 install -t "$MASSOS"/tmp -m755 utils/livecd-cleanup.sh
 # Strip executables and libraries to free up space.
@@ -107,14 +110,16 @@ find "$MASSOS"/usr/{bin,lib,libexec,sbin} -type f ! -name \*.a ! -name \*.o ! -n
 find "$MASSOS"/usr/lib -type f \( -name \*.a -o -name \*.o -o -name \*.mod -o -name \*.module \) -exec strip --strip-debug {} ';' &>/dev/null || true
 echo "Done!"
 # Generate list of distribution-provided files, for 'upgrade-massos' utility.
-find "$MASSOS"/{boot,etc,usr,var} -type d,f,l -printf "%y:%p\n" | sed "s|$MASSOS||" > "$MASSOS"/usr/share/massos/.distfiles
+find "$MASSOS"/{boot,etc,usr,var} -type d,f,l -printf "%y:%p\n" | sed "s|$MASSOS||" | sort > "$MASSOS"/usr/share/massos/.distfiles
 # Finish the MassOS system.
+sync
 outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-x86_64-$1.tar"
-printf "Creating %s..." "$outfile"
+printf "Creating %s... " "$outfile"
 cd "$MASSOS"
 tar -cpf ../"$outfile" *
 cd ..
 echo "Done!"
+sync
 echo "Compressing $outfile with ZSTD (using $(nproc) threads)... "
 zstd --ultra -22 -T$(nproc) --rm "$outfile"
 echo "Successfully created $outfile.zst."
@@ -124,6 +129,7 @@ echo "Wrote Blake-2 checksum to $outfile.zst.b2."
 chown -v "$(stat -c "%U:%G" .)" "$outfile.zst" "$outfile.zst.b2" || true
 # Clean up.
 rm -rf "$MASSOS"
+sync
 # Finishing message.
 echo
 echo "We know it took time, but the build has finally finished successfully!"
@@ -131,5 +137,5 @@ echo "If you want to create a Live ISO file for your build, use the script"
 echo "'./create-livecd.sh'."
 # Send a notification to the system if supported.
 if notify-send --version &>/dev/null; then
-  notify-send -i "$PWD"/logo/massos-logo.png "MassOS Build System" "The Stage 3 build has finished successfully." &>/dev/null || true
+  notify-send -i "$PWD"/logo/massos-logo-circlecropped.png "MassOS Build System" "The Stage 3 build has finished successfully." &>/dev/null || true
 fi

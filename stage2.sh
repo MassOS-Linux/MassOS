@@ -29,6 +29,8 @@ mknod -m 600 "$MASSOS"/dev/console c 5 1
 mknod -m 666 "$MASSOS"/dev/null c 1 3
 # Chroot into the MassOS environment and start the stage 2 build.
 utils/programs/mass-chroot "$MASSOS" /root/mbs/build-system.sh
+# Sync here for redundancy purposes.
+sync
 # Finishing message.
 echo
 echo "Stage 2 build completed successfully."
@@ -36,5 +38,5 @@ echo "You must now run stage3.sh and pass a supported desktop environment as"
 echo "an argument. See 'stage3/README' for more information."
 # Send a notification to the system if supported.
 if notify-send --version &>/dev/null; then
-  notify-send -i "$PWD"/logo/massos-logo.png "MassOS Build System" "The Stage 2 build has finished successfully." &>/dev/null || true
+  notify-send -i "$PWD"/logo/massos-logo-circlecropped.png "MassOS Build System" "The Stage 2 build has finished successfully." &>/dev/null || true
 fi

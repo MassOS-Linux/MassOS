@@ -64,14 +64,14 @@ cp -r patches "$MASSOS"/root/mbs
 # Change to the working directory.
 pushd "$MASSOS"/root/mbs/work
 # Binutils (build 1).
-tar -xf ../sources/binutils-2.45.tar.xz
-pushd binutils-2.45
+tar -xf ../sources/binutils-2.45.1.tar.xz
+pushd binutils-2.45.1
 mkdir -p build; pushd build
-../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.45" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.45.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 install
 popd; popd
-rm -rf binutils-2.45
+rm -rf binutils-2.45.1
 # GCC (build 1).
 tar -xf ../sources/gcc-15.2.0.tar.xz
 pushd gcc-15.2.0
@@ -89,19 +89,20 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.17.7.tar.xz
-pushd linux-6.17.7
+tar -xf ../sources/linux-6.17.8.tar.xz
+pushd linux-6.17.8
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.17.7
+rm -rf linux-6.17.8
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
+patch -Np1 -i ../../patches/glibc-2.42-binutils-2.45.1.patch
 patch -Np1 -i ../../patches/glibc-2.42-runtimefix.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
@@ -123,16 +124,16 @@ rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
 rm -rf gcc-15.2.0
 # Binutils (build 2).
-tar -xf ../sources/binutils-2.45.tar.xz
-pushd binutils-2.45
+tar -xf ../sources/binutils-2.45.1.tar.xz
+pushd binutils-2.45.1
 sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
-../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.45" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.45.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
-rm -rf binutils-2.45
+rm -rf binutils-2.45.1
 # GCC (build 2).
 tar -xf ../sources/gcc-15.2.0.tar.xz
 pushd gcc-15.2.0
@@ -212,10 +213,12 @@ find "$MASSOS"/etc -mindepth 1 -type f -exec chmod 0644 {} ';'
 find "$MASSOS"/etc -mindepth 1 -type d -exec chmod 0755 {} ';'
 find "$MASSOS"/root -mindepth 1 -type f ! -path "$MASSOS"/root/mbs/\* -exec chmod 0644 {} ';'
 find "$MASSOS"/root -mindepth 1 -type d ! -path "$MASSOS"/root/mbs/\* -exec chmod 0755 {} ';'
+# Sync for redundancy purposes.
+sync
 # Finishing message.
 echo -e "\nThe Stage 1 bootstrap system was built successfully."
 echo "To build the full MassOS system, now run './stage2.sh' AS ROOT."
 # Send a notification to the system if supported.
 if notify-send --version &>/dev/null; then
-  notify-send -i "$PWD"/logo/massos-logo.png "MassOS Build System" "The Stage 1 build has finished successfully." &>/dev/null || true
+  notify-send -i "$PWD"/logo/massos-logo-circlecropped.png "MassOS Build System" "The Stage 1 build has finished successfully." &>/dev/null || true
 fi

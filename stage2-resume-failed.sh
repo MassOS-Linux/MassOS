@@ -26,6 +26,8 @@ if [ ! -e "$MASSOS"/root/mbs/build-system.sh ]; then
 fi
 # Chroot into the MassOS environment and continue the build.
 utils/programs/mass-chroot "$MASSOS" /root/mbs/build-system.sh
+# Sync here for redundancy purposes.
+sync
 # Finishing message.
 echo
 echo "Stage 2 build completed successfully."
@@ -33,5 +35,5 @@ echo "You must now run stage3.sh and pass a supported desktop environment as"
 echo "an argument. See 'stage3/README' for more information."
 # Send a notification to the system if supported.
 if notify-send --version &>/dev/null; then
-  notify-send -i "$PWD"/logo/massos-logo.png "MassOS Build System" "The Stage 2 build has finished successfully." &>/dev/null || true
+  notify-send -i "$PWD"/logo/massos-logo-circlecropped.png "MassOS Build System" "The Stage 2 build has finished successfully." &>/dev/null || true
 fi
