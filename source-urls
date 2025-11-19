@@ -255,7 +255,7 @@ https://github.com/benhoyt/inih/archive/r62/inih-r62.tar.gz
 https://files.pythonhosted.org/packages/source/i/installer/installer-0.7.0.tar.gz
 https://github.com/intel/gmmlib/archive/intel-gmmlib-22.8.2.tar.gz
 https://github.com/intel/media-driver/archive/intel-media-25.3.4.tar.gz
-https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/microcode-20250812/intel-microcode-20250812.tar.gz
+https://github.com/intel/Intel-Linux-Processor-Microcode-Data-Files/archive/microcode-20251111/intel-microcode-20251111.tar.gz
 https://github.com/intel/intel-vaapi-driver/releases/download/2.4.1/intel-vaapi-driver-2.4.1.tar.bz2
 https://launchpad.net/intltool/trunk/0.51.0/+download/intltool-0.51.0.tar.gz
 https://cpan.metacpan.org/authors/id/T/TO/TODDR/IO-Tty-1.20.tar.gz
@@ -484,7 +484,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.17.8.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251021.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251111.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-21.1.5/llvm-project-21.1.5.src.tar.xz
@@ -765,7 +765,6 @@ https://github.com/dbry/WavPack/releases/download/5.8.1/wavpack-5.8.1.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.24.0/downloads/wayland-1.24.0.tar.xz
 https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.45/downloads/wayland-protocols-1.45.tar.xz
 https://webkitgtk.org/releases/webkitgtk-2.50.1.tar.xz
-https://github.com/aruiz/webp-pixbuf-loader/archive/0.2.7/webp-pixbuf-loader-0.2.7.tar.gz
 https://ftp.nluug.nl/gnu/wget/wget-1.25.0.tar.gz
 https://files.pythonhosted.org/packages/source/w/wheel/wheel-0.46.1.tar.gz
 https://ftp.nluug.nl/gnu/which/which-2.23.tar.gz

@@ -6199,15 +6199,6 @@ make install
 install -t /usr/share/licenses/gnome-themes-extra -Dm644 LICENSE
 popd
 rm -rf gnome-themes-extra-3.28
-# webp-pixbuf-loader.
-tar -xf ../sources/webp-pixbuf-loader-0.2.7.tar.gz
-pushd webp-pixbuf-loader-0.2.7
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/webp-pixbuf-loader -Dm644 LICENSE.LGPL-2
-popd
-rm -rf webp-pixbuf-loader-0.2.7
 # gtk-layer-shell.
 tar -xf ../sources/gtk-layer-shell-0.9.1.tar.gz
 pushd gtk-layer-shell-0.9.1
@@ -8664,8 +8655,8 @@ ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
 rm -rf open-gpu-kernel-modules-580.105.08
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20251021.tar.xz
-pushd linux-firmware-20251021
+tar -xf ../sources/linux-firmware-20251111.tar.xz
+pushd linux-firmware-20251111
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -8673,14 +8664,14 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20251021
+rm -rf linux-firmware-20251111
 # Intel-Microcode.
-tar -xf ../sources/intel-microcode-20250812.tar.gz
-pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
+tar -xf ../sources/intel-microcode-20251111.tar.gz
+pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20251111
 install -t /usr/lib/firmware/intel-ucode -Dm644 intel-ucode{,-with-caveats}/*
 install -t /usr/share/licenses/intel-microcode -Dm644 license
 popd
-rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20250812
+rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20251111
 # SOF-Firmware.
 tar -xf ../sources/sof-bin-2025.05.1.tar.gz
 pushd sof-bin-2025.05.1

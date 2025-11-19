@@ -32,6 +32,7 @@ Changes:
 - Added zsh and fish, both of which can optionally be used for the shell instead of the default Bash.
 - Added libaom and SVT-AV1 packages for improved AV1 video codec support.
 - Added AMF and NVDEC/NVENC support to FFmpeg for improved hardware acceleration support.
+- Switched to the glycin loader in GDK-Pixbuf. Removed webp-pixbuf-loader as glycin includes native WebP support.
 - Replaced UFW with firewalld.
 - Replaced GNU Netcat with OpenBSD Netcat, due to it being more up-to-date and supporting IPv6.
 - Reaplced full OpenLDAP package with only libldap.
@@ -278,7 +279,7 @@ Upgraded software (core):
 - installer: `(new package) --> 0.7.0`
 - intel-gmmlib: `(new package) --> 22.8.2`
 - intel-media-driver: `(new package) --> 25.3.4`
-- Intel-Microcode: `(new package) --> 20250812`
+- Intel-Microcode: `(new package) --> 20251111`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
 - ipp-usb: `(new package) --> 0.9.30`
@@ -484,7 +485,7 @@ Upgraded software (core):
 - libzip: `1.9.2 --> 1.11.4`
 - Linux: `6.0.0 --> 6.17.8`
 - Linux-API-Headers: `6.0.0 --> 6.17.8`
-- Linux-Firmware: `(new package) --> 20251021`
+- Linux-Firmware: `(new package) --> 20251111`
 - Linux-Headers: `6.0.0 --> 6.17.8`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.5`
@@ -733,7 +734,7 @@ Upgraded software (core):
 - Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.45`
 - WebKitGTK: `2.38.0 --> 2.50.1`
-- webp-pixbuf-loader: `0.0.6 --> 0.2.7`
+- webp-pixbuf-loader: `0.0.6 --> (removed)`
 - Wget: `1.21.3 --> 1.25.0`
 - wheel: `(new package) --> 0.46.1`
 - Which: `2.21 --> 2.23`
