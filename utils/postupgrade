@@ -16,3 +16,6 @@ update-mime-database /usr/share/mime
 fc-cache
 dconf update
 systemd-sysusers
+
+# Regenerate CA certificate store data if it is outdated.
+make-ca -C /usr/share/massos/certs/certdata.txt

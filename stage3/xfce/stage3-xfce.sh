@@ -550,6 +550,7 @@ tar -xf ../sources/lightdm-1.32.0.tar.xz
 pushd lightdm-1.32.0
 patch -Np1 -i ../../patches/lightdm-1.32.0-xsession.patch
 patch -Np1 -i ../../patches/lightdm-1.32.0-fixmemoryleak.patch
+sed -i 's|initdir = ${sysconfdir}/init|initdir = /tmp/.mbs_trash/init|' data/Makefile.in
 echo 'u lightdm - "LightDM Daemon" /var/lib/lightdm' > /usr/lib/sysusers.d/lightdm.conf
 systemd-sysusers
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
@@ -576,7 +577,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-145.0.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-145.0.2.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

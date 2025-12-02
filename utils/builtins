@@ -30,6 +30,7 @@ avahi
 bash
 bash-completion
 bc
+bcachefs-module
 bcachefs-tools
 bind-utils
 binutils

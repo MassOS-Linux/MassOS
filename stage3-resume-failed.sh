@@ -54,7 +54,7 @@ utils/programs/mass-chroot "$MASSOS" /root/mbs/finalize.sh
 # Mark the stage 3 variant.
 echo "$1" > "$MASSOS"/usr/share/massos/.variant
 # Install preupgrade, postupgrade and upgrade-exclude.
-cp utils/{{pre,post}upgrade{,_ng},upgrade-exclude} "$MASSOS"/tmp
+cp utils/{{pre,post}upgrade{,_ng},etc-force-replace,upgrade-exclude} "$MASSOS"/tmp
 # Install Live CD cleanup script for osinstallgui.
 install -t "$MASSOS"/tmp -m755 utils/livecd-cleanup.sh
 # Strip executables and libraries to free up space.

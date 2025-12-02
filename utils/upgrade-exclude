@@ -1,4 +1,6 @@
 boot/efi
+etc/ssl/certdata.txt
+etc/ssl/certs
 var/cache/fontconfig
 var/cache/ldconfig
 var/lib/flatpak
