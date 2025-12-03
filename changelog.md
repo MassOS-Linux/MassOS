@@ -149,7 +149,7 @@ Upgraded software (core):
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
-- Ed: `1.18 --> 1.22.2`
+- Ed: `1.18 --> 1.22.3`
 - editables: `(new package) --> 0.5`
 - EDK2-Shell: `(new package) --> 202511`
 - efitools: `(new package) --> 1.9.2`
@@ -225,8 +225,8 @@ Upgraded software (core):
 - gpgmepp: `(new package) --> 2.0.0`
 - gpgmepy: `(new package) --> 2.0.0`
 - gptfdisk: `1.0.9 --> 1.0.10`
-- Graphite2: `1.3.14 --> 1.3.14-101-g93e20f92`
-- Graphviz: `6.0.1 --> 14.0.4`
+- Graphite2: `1.3.14 --> 1.3.14-121-g142e1bda`
+- Graphviz: `6.0.1 --> 14.0.5`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
 - GRUB: `2.06 --> 2.14-rc1`
@@ -313,7 +313,7 @@ Upgraded software (core):
 - libadwaita: `(new package) --> 1.8.2`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.13.1`
-- libarchive: `3.6.1 --> 3.8.3`
+- libarchive: `3.6.1 --> 3.8.4`
 - libass: `0.16.0 --> 0.17.4`
 - libassuan: `2.5.5 --> 3.0.2`
 - libavif: `0.10.1 --> 1.3.0`
@@ -341,7 +341,7 @@ Upgraded software (core):
 - libdovi: `(new package) --> 2.3.0`
 - libdrm: `2.4.113 --> 2.4.129`
 - libedit: `20210910-3.1 --> 20250104-3.1`
-- libevdev: `1.13.0 --> 1.13.5`
+- libevdev: `1.13.0 --> 1.13.6`
 - libexif: `0.6.23 --> 0.6.25`
 - libffi: `3.4.3 --> 3.5.2`
 - libfido2: `1.12.0 --> 1.15.0`
@@ -363,8 +363,9 @@ Upgraded software (core):
 - libical: `3.0.14 --> 3.0.20`
 - libICE: `1.0.10 --> 1.1.2`
 - libidn2: `2.3.3 --> 2.3.8`
-- libimobiledevice: `1.3.0 --> 1.3.0-303-gc269d7e`
-- libimobiledevice-glue: `(new package) --> 1.3.1`
+- libieee1284: `(new package) --> 0.2.11-15-g882a598`
+- libimobiledevice: `1.3.0 --> 1.4.0`
+- libimobiledevice-glue: `(new package) --> 1.3.2`
 - libindicator: `(new package) --> 12.10.1`
 - libinput: `1.21.0 --> 1.30.0`
 - libisoburn: `1.5.4 --> 1.5.6`
@@ -554,7 +555,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 580.105.08`
+- nvidia-modules-open: `(new package) --> 590.44.01`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.16`
@@ -603,7 +604,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 126`
-- Poppler: `22.09.0 --> 25.11.0`
+- Poppler: `22.09.0 --> 25.12.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -679,7 +680,7 @@ Upgraded software (core):
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
 - SPIRV-Headers: `1.3.216.0 --> 1.4.328.1`
-- SPIRV-LLVM-Translator: `(new package) --> 21.1.1`
+- SPIRV-LLVM-Translator: `(new package) --> 21.1.3`
 - SPIRV-Tools: `2022.2 --> 1.4.328.1`
 - SQLite: `3.39.3 --> 3.51.1`
 - squashfs-tools: `4.5.1 --> 4.7`

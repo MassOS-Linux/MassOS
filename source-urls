@@ -118,7 +118,7 @@ https://github.com/dracut-ng/dracut-ng/archive/109/dracut-ng-109.tar.gz
 https://duktape.org/duktape-2.7.0.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.3/e2fsprogs-1.47.3.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.2/EasyRSA-3.2.2.tgz
-https://ftp.nluug.nl/gnu/ed/ed-1.22.2.tar.lz
+https://ftp.nluug.nl/gnu/ed/ed-1.22.3.tar.lz
 https://files.pythonhosted.org/packages/source/e/editables/editables-0.5.tar.gz
 https://github.com/DanielMYT/edk2-source-tarballs/releases/download/edk2-stable202511/edk2-stable202511.tar.xz
 https://github.com/rhboot/efibootmgr/releases/download/18/efibootmgr-18.tar.bz2
@@ -206,8 +206,8 @@ https://www.gnupg.org/ftp/gcrypt/gpgmepy/gpgmepy-2.0.0.tar.bz2
 https://github.com/telmich/gpm/archive/e82d1a6/gpm-1.20.7-38-ge82d1a6.tar.gz
 https://freefr.dl.sourceforge.net/project/gptfdisk/gptfdisk/1.0.10/gptfdisk-1.0.10.tar.gz
 https://github.com/ebassi/graphene/archive/1.10.8/graphene-1.10.8.tar.gz
-https://github.com/silnrsi/graphite/archive/93e20f92/graphite2-1.3.14-101-g93e20f92.tar.gz
-https://gitlab.com/graphviz/graphviz/-/archive/14.0.4/graphviz-14.0.4.tar.bz2
+https://github.com/silnrsi/graphite/archive/142e1bda/graphite2-1.3.14-121-g142e1bda.tar.gz
+https://gitlab.com/graphviz/graphviz/-/archive/14.0.5/graphviz-14.0.5.tar.bz2
 https://ftp.nluug.nl/gnu/grep/grep-3.12.tar.xz
 https://ftp.nluug.nl/gnu/groff/groff-1.23.0.tar.gz
 https://dmassey.net/files/dev/grub/grub-2.14~rc1.tar.xz
@@ -296,7 +296,7 @@ https://github.com/GNOME/libadwaita/archive/1.8.2/libadwaita-1.8.2.tar.gz
 https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
 https://gitlab.xiph.org/xiph/libao/-/archive/1.2.2/libao-1.2.2.tar.bz2
 https://storage.googleapis.com/aom-releases/libaom-3.13.1.tar.gz
-https://github.com/libarchive/libarchive/releases/download/v3.8.3/libarchive-3.8.3.tar.xz
+https://github.com/libarchive/libarchive/releases/download/v3.8.4/libarchive-3.8.4.tar.xz
 https://github.com/libass/libass/releases/download/0.17.4/libass-0.17.4.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-3.0.2.tar.bz2
 https://deb.debian.org/debian/pool/main/liba/libatasmart/libatasmart_0.19.orig.tar.xz
@@ -331,7 +331,7 @@ https://code.videolan.org/videolan/libdvdread/-/archive/6.1.3/libdvdread-6.1.3.t
 https://thrysoee.dk/editline/libedit-20250104-3.1.tar.gz
 https://github.com/anholt/libepoxy/archive/1.5.10/libepoxy-1.5.10.tar.gz
 https://github.com/dinhvh/libetpan/archive/1.9.4/libetpan-1.9.4.tar.gz
-https://www.freedesktop.org/software/libevdev/libevdev-1.13.5.tar.xz
+https://www.freedesktop.org/software/libevdev/libevdev-1.13.6.tar.xz
 https://github.com/libevent/libevent/releases/download/release-2.1.12-stable/libevent-2.1.12-stable.tar.gz
 https://github.com/libexif/libexif/releases/download/v0.6.25/libexif-0.6.25.tar.bz2
 https://github.com/libffi/libffi/releases/download/v3.5.2/libffi-3.5.2.tar.gz
@@ -357,9 +357,9 @@ https://github.com/libical/libical/releases/download/v3.0.20/libical-3.0.20.tar.
 https://xorg.freedesktop.org/archive/individual/lib/libICE-1.1.2.tar.xz
 https://ftp.nluug.nl/gnu/libidn/libidn2-2.3.8.tar.gz
 https://cdn.kernel.org/pub/linux/libs/ieee1394/libiec61883-1.2.0.tar.xz
-https://github.com/twaugh/libieee1284/archive/0663326/libieee1284-0.2.11-12-g0663326.tar.gz
-https://github.com/libimobiledevice/libimobiledevice/archive/c269d7e/libimobiledevice-1.3.0-303-gc269d7e.tar.gz
-https://github.com/libimobiledevice/libimobiledevice-glue/releases/download/1.3.1/libimobiledevice-glue-1.3.1.tar.bz2
+https://github.com/twaugh/libieee1284/archive/882a598/libieee1284-0.2.11-15-g882a598.tar.gz
+https://github.com/libimobiledevice/libimobiledevice/releases/download/1.4.0/libimobiledevice-1.4.0.tar.bz2
+https://github.com/libimobiledevice/libimobiledevice-glue/releases/download/1.3.2/libimobiledevice-glue-1.3.2.tar.bz2
 https://launchpad.net/libindicator/12.10/12.10.1/+download/libindicator-12.10.1.tar.gz
 https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.30.0/libinput-1.30.0.tar.bz2
 https://files.libburnia-project.org/releases/libisoburn-1.5.6.tar.gz
@@ -563,7 +563,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/580.105.08/open-gpu-kernel-modules-580.105.08.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/590.44.01/open-gpu-kernel-modules-590.44.01.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-13.0.5/open-vm-tools-stable-13.0.5.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
@@ -609,7 +609,7 @@ https://gitlab.freedesktop.org/plymouth/plymouth/-/archive/4a3c171d/plymouth-24.
 https://github.com/python-poetry/poetry-core/releases/download/2.1.2/poetry_core-2.1.2.tar.gz
 https://github.com/polkit-org/polkit/archive/126/polkit-126.tar.gz
 https://download.gnome.org/sources/polkit-gnome/0.105/polkit-gnome-0.105.tar.xz
-https://poppler.freedesktop.org/poppler-25.11.0.tar.xz
+https://poppler.freedesktop.org/poppler-25.12.0.tar.xz
 https://poppler.freedesktop.org/poppler-data-0.4.12.tar.gz
 https://github.com/rpm-software-management/popt/archive/popt-1.19-release/popt-popt-1.19-release.tar.gz
 https://gitlab.freedesktop.org/upower/power-profiles-daemon/-/archive/0.30/power-profiles-daemon-0.30.tar.bz2
@@ -702,7 +702,7 @@ https://github.com/MassOS-Linux/sphinx-venv/releases/download/py3.14-20251019/sp
 https://gitlab.freedesktop.org/spice/spice-protocol/-/archive/v0.14.4/spice-protocol-v0.14.4.tar.bz2
 https://www.spice-space.org/download/releases/spice-vdagent-0.22.1.tar.bz2
 https://github.com/KhronosGroup/SPIRV-Headers/archive/vulkan-sdk-1.4.328.1/SPIRV-Headers-vulkan-sdk-1.4.328.1.tar.gz
-https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v21.1.1/SPIRV-LLVM-Translator-21.1.1.tar.gz
+https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v21.1.3/SPIRV-LLVM-Translator-21.1.3.tar.gz
 https://github.com/KhronosGroup/SPIRV-Tools/archive/vulkan-sdk-1.4.328.1/SPIRV-Tools-vulkan-sdk-1.4.328.1.tar.gz
 https://sqlite.org/2025/sqlite-autoconf-3510100.tar.gz
 https://freefr.dl.sourceforge.net/project/squashfs/squashfs/squashfs4.7/squashfs4.7.tar.gz

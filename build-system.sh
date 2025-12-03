@@ -1460,14 +1460,14 @@ install -t /usr/share/licenses/make -Dm644 COPYING
 popd
 rm -rf make-4.4.1
 # Ed.
-tar -xf ../sources/ed-1.22.2.tar.lz
-pushd ed-1.22.2
+tar -xf ../sources/ed-1.22.3.tar.lz
+pushd ed-1.22.3
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/ed -Dm644 COPYING
 popd
-rm -rf ed-1.22.2
+rm -rf ed-1.22.3
 # Patch.
 tar -xf ../sources/patch-2.8.tar.xz
 pushd patch-2.8
@@ -1986,14 +1986,14 @@ install -t /usr/share/licenses/libxml2 -Dm644 Copyright
 popd
 rm -rf libxml2-2.15.1
 # libarchive.
-tar -xf ../sources/libarchive-3.8.3.tar.xz
-pushd libarchive-3.8.3
+tar -xf ../sources/libarchive-3.8.4.tar.xz
+pushd libarchive-3.8.4
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libarchive -Dm644 COPYING
 popd
-rm -rf libarchive-3.8.3
+rm -rf libarchive-3.8.4
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 pushd docbook-xml-4.5
@@ -3061,16 +3061,16 @@ install -t /usr/share/licenses/libmtp -Dm644 COPYING
 popd
 rm -rf libmtp-1.1.22
 # libieee1284.
-tar -xf ../sources/libieee1284-0.2.11-12-g0663326.tar.gz
-pushd libieee1284-0663326cbcfdf2a59f9492ddaff72ec5d1b248eb
-patch -Np1 -i ../../patches/libieee1284-0.2.11-python3.patch
+tar -xf ../sources/libieee1284-0.2.11-15-g882a598.tar.gz
+pushd libieee1284-882a59871bd4c4fca58d01ba9fe87f15738a0d15
+sed -i 's/0.2.11/0.2.11-15-g882a598/' configure.in
 ./bootstrap
 ./configure --prefix=/usr --mandir=/usr/share/man --disable-static --with-python
 make -j1
 make -j1 install
 install -t /usr/share/licenses/libieee1284 -Dm644 COPYING
 popd
-rm -rf libieee1284-0663326cbcfdf2a59f9492ddaff72ec5d1b248eb
+rm -rf libieee1284-882a59871bd4c4fca58d01ba9fe87f15738a0d15
 # libunistring.
 tar -xf ../sources/libunistring-1.4.1.tar.xz
 pushd libunistring-1.4.1
@@ -3920,15 +3920,14 @@ install -t /usr/share/licenses/freetype -Dm644 LICENSE.TXT docs/GPLv2.TXT
 popd
 rm -rf freetype-2.14.1
 # Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
-tar -xf ../sources/graphite2-1.3.14-101-g93e20f92.tar.gz
-pushd graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
-sed -i '9i#include <stdint.h>' tests/featuremap/featuremaptest.cpp
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev -G Ninja -B build
+tar -xf ../sources/graphite2-1.3.14-121-g142e1bda.tar.gz
+pushd graphite-142e1bda3439d2bd376bcac9c2b247c9532bacde
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_TESTING=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/graphite2 -Dm644 COPYING LICENSE
 popd
-rm -rf graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
+rm -rf graphite-142e1bda3439d2bd376bcac9c2b247c9532bacde
 # HarfBuzz.
 tar -xf ../sources/harfbuzz-12.2.0.tar.xz
 pushd harfbuzz-12.2.0
@@ -3947,15 +3946,14 @@ make
 make install
 popd
 rm -rf freetype-2.14.1
-# Graphite2 (rebuild to support HarfBuzz).
-tar -xf ../sources/graphite2-1.3.14-101-g93e20f92.tar.gz
-pushd graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
-sed -i '9i#include <stdint.h>' tests/featuremap/featuremaptest.cpp
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -Wno-dev -G Ninja -B build
+# Graphite2 (circular dependency; will be rebuilt later to support HarfBuzz).
+tar -xf ../sources/graphite2-1.3.14-121-g142e1bda.tar.gz
+pushd graphite-142e1bda3439d2bd376bcac9c2b247c9532bacde
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_TESTING=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 popd
-rm -rf graphite-93e20f92f7c29911d50b0ec2d70fc71d3f43c429
+rm -rf graphite-142e1bda3439d2bd376bcac9c2b247c9532bacde
 # Woff2.
 tar -xf ../sources/woff2-1.0.2.tar.gz
 pushd woff2-1.0.2
@@ -3993,8 +3991,10 @@ rm -rf unifont-17.0.01
 # GRUB.
 tar -xf ../sources/grub-2.14~rc1.tar.xz
 pushd grub-2.14~rc1
-patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
+patch -Np1 -i ../../patches/grub-2.12-uefisecureboot.patch
+patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
+autoreconf -fi
 mkdir -p build-pc; pushd build-pc
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
@@ -4011,6 +4011,7 @@ cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,5,Free Software Foundation,grub,2.14-rc1,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.14-rc1,https://massos.org
+grub.peimage,2,Canonical,grub,2.14-rc1,https://git.launchpad.net/ubuntu/+source/grub2/
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
@@ -4018,6 +4019,7 @@ cat > grub.cfg << "END"
 set gfxpayload=keep
 insmod linux
 insmod chain
+insmod peimage
 insmod usbms
 insmod usb_keyboard
 insmod font
@@ -4159,14 +4161,14 @@ install -t /usr/share/licenses/libqmi -Dm644 COPYING COPYING.LIB
 popd
 rm -rf libqmi-1.36.0
 # libevdev.
-tar -xf ../sources/libevdev-1.13.5.tar.xz
-pushd libevdev-1.13.5
+tar -xf ../sources/libevdev-1.13.6.tar.xz
+pushd libevdev-1.13.6
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var -Ddocumentation=disabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libevdev -Dm644 COPYING
 popd
-rm -rf libevdev-1.13.5
+rm -rf libevdev-1.13.6
 # evtest.
 tar -xf ../sources/evtest-evtest-1.35.tar.gz
 pushd evtest-evtest-1.35
@@ -5055,14 +5057,14 @@ install -t /usr/share/licenses/spirv-tools -Dm644 LICENSE
 popd
 rm -rf SPIRV-Tools-vulkan-sdk-1.4.328.1
 # SPIRV-LLVM-Translator.
-tar -xf ../sources/SPIRV-LLVM-Translator-21.1.1.tar.gz
-pushd SPIRV-LLVM-Translator-21.1.1
+tar -xf ../sources/SPIRV-LLVM-Translator-21.1.3.tar.gz
+pushd SPIRV-LLVM-Translator-21.1.3
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_SKIP_INSTALL_RPATH=ON -DBUILD_SHARED_LIBS=ON -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
-rm -rf SPIRV-LLVM-Translator-21.1.1
+rm -rf SPIRV-LLVM-Translator-21.1.3
 # libclc.
 tar -xf ../sources/libclc-21.1.7.src.tar.xz
 pushd libclc-21.1.7.src
@@ -5993,8 +5995,8 @@ install -t /usr/share/licenses/jp2a -Dm644 COPYING LICENSES
 popd
 rm -rf jp2a-1.3.2
 # Graphviz.
-tar -xf ../sources/graphviz-14.0.4.tar.bz2
-pushd graphviz-14.0.4
+tar -xf ../sources/graphviz-14.0.5.tar.bz2
+pushd graphviz-14.0.5
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
@@ -6003,7 +6005,7 @@ make
 make -j1 install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 popd
-rm -rf graphviz-14.0.4
+rm -rf graphviz-14.0.5
 # Vala.
 tar -xf ../sources/vala-0.56.18.tar.xz
 pushd vala-0.56.18
@@ -6871,14 +6873,14 @@ install -t /usr/share/licenses/gnome-keyring -Dm644 COPYING COPYING.LIB
 popd
 rm -rf gnome-keyring-48.0
 # Poppler.
-tar -xf ../sources/poppler-25.11.0.tar.xz
-pushd poppler-25.11.0
+tar -xf ../sources/poppler-25.12.0.tar.xz
+pushd poppler-25.12.0
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/poppler -Dm644 COPYING{,3}
 popd
-rm -rf poppler-25.11.0
+rm -rf poppler-25.12.0
 # poppler-data.
 tar -xf ../sources/poppler-data-0.4.12.tar.gz
 pushd poppler-data-0.4.12
@@ -7141,14 +7143,14 @@ install -t /usr/share/licenses/libplist -Dm644 COPYING COPYING.LESSER
 popd
 rm -rf libplist-2.7.0
 # libimobiledevice-glue.
-tar -xf ../sources/libimobiledevice-glue-1.3.1.tar.bz2
-pushd libimobiledevice-glue-1.3.1
+tar -xf ../sources/libimobiledevice-glue-1.3.2.tar.bz2
+pushd libimobiledevice-glue-1.3.2
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
 install -t /usr/share/licenses/libimobiledevice-glue -Dm644 COPYING
 popd
-rm -rf libimobiledevice-glue-1.3.1
+rm -rf libimobiledevice-glue-1.3.2
 # libusbmuxd.
 tar -xf ../sources/libusbmuxd-2.1.0.tar.bz2
 pushd libusbmuxd-2.1.0
@@ -7168,15 +7170,14 @@ install -t /usr/share/licenses/libtatsu -Dm644 COPYING
 popd
 rm -rf libtatsu-1.0.5
 # libimobiledevice.
-tar -xf ../sources/libimobiledevice-1.3.0-303-gc269d7e.tar.gz
-pushd libimobiledevice-c269d7e3a7c28ac33d05d5c3de6a8682f480abd0
-echo "1.3.0-303-gc269d7e" > .tarball-version
-./autogen.sh --prefix=/usr --disable-static
+tar -xf ../sources/libimobiledevice-1.4.0.tar.bz2
+pushd libimobiledevice-1.4.0
+./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libimobiledevice -Dm644 COPYING COPYING.LESSER
 popd
-rm -rf libimobiledevice-c269d7e3a7c28ac33d05d5c3de6a8682f480abd0
+rm -rf libimobiledevice-1.4.0
 # ytnef.
 tar -xf ../sources/ytnef-2.1.2.tar.gz
 pushd ytnef-2.1.2
@@ -8642,10 +8643,9 @@ install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/
 popd
 rm -rf linux-6.18.0
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-580.105.08.tar.gz
-pushd open-gpu-kernel-modules-580.105.08
+tar -xf ../sources/open-gpu-kernel-modules-590.44.01.tar.gz
+pushd open-gpu-kernel-modules-590.44.01
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
-patch -Np1 -i ../../patches/nvidia-modules-open-580.105.08-linux618.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
 find kernel-open -name \*.ko -exec kmodsign sha512 ../../extras/secureboot/db.key ../../extras/secureboot/db.der {} ';'
@@ -8656,7 +8656,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-580.105.08
+rm -rf open-gpu-kernel-modules-590.44.01
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.32.1.tar.gz
 pushd bcachefs-tools-1.32.1
