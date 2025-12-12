@@ -26,7 +26,7 @@ if test $EUID -ne 0; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=2
+SCRIPT_COMPAT=3
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
@@ -161,7 +161,7 @@ cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.bin iso-workdir/iso-root
 cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.efi.signed iso-workdir/iso-root/EFI/tools/memtest64.efi
 cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi.signed iso-workdir/iso-root/EFI/tools/ipxe.efi
 cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
-cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellx64.efi.signed iso-workdir/iso-root/EFI/tools/shellx64.efi
+cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
 cp iso-workdir/massos-rootfs/usr/share/licenses/ipxe/COPYING.GPLv2 iso-workdir/iso-root/LICENSES/IPXE.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/iso-root/LICENSES/Memtest86+.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt

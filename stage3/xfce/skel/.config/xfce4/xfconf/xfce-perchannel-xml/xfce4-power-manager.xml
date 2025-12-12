@@ -5,5 +5,7 @@
     <property name="show-tray-icon" type="bool" value="false"/>
     <property name="profile-on-battery" type="string" value="balanced"/>
     <property name="profile-on-ac" type="string" value="performance"/>
+    <property name="power-button-action" type="uint" value="3"/>
+    <property name="sleep-button-action" type="uint" value="1"/>
   </property>
 </channel>

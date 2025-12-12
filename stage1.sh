@@ -89,15 +89,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.18.tar.xz
-pushd linux-6.18
+tar -xf ../sources/linux-6.18.1.tar.xz
+pushd linux-6.18.1
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18
+rm -rf linux-6.18.1
 # Glibc.
 tar -xf ../sources/glibc-2.42.tar.xz
 pushd glibc-2.42
@@ -154,6 +154,7 @@ rm -rf gcc-15.2.0
 # Install upgrade-toolset utilities, needed for bootstrapping.
 tar -xf ../sources/upgrade-toolset-20250728-x86_64.tar.xz -C "$MASSOS"/usr/bin --strip-components=1
 rm -f "$MASSOS"/usr/bin/LICENSE*
+rm -f "$MASSOS"/usr/bin/{ch,run}con
 # Change back to the start directory (should be MassOS source tree top-level).
 popd
 # Remove bootstrap toolchain directory now it is no longer needed.
@@ -170,7 +171,7 @@ ln -sfr "$MASSOS"/usr/lib/massos-release "$MASSOS"/etc/massos-release
 ln -sfr "$MASSOS"/usr/lib/os-release "$MASSOS"/etc/os-release
 ln -sfr "$MASSOS"/usr/lib/lsb-release "$MASSOS"/etc/lsb-release
 # Install MassOS system utilities.
-install -t "$MASSOS"/usr/bin -Dm755 utils/programs/{adduser,mass-chroot,massos-snapd,mbs,mkinitramfs,mklocales,{un,}zman}
+install -t "$MASSOS"/usr/bin -Dm755 utils/programs/{mass-chroot,massos-snapd,mbs,mkinitramfs,mklocales,{un,}zman}
 # Install man pages for MassOS system utilities.
 install -t "$MASSOS"/usr/share/man/man1 -Dm644 utils/man/man1/*.1
 install -t "$MASSOS"/usr/share/man/man8 -Dm644 utils/man/man8/*.8

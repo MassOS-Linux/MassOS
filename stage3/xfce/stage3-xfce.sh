@@ -577,7 +577,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-145.0.2.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-146.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

@@ -62,7 +62,7 @@ openssl req -new -x509 -newkey rsa:2048 -nodes -keyout db.key -out db.crt -days 
 openssl x509 -in db.crt -outform DER -out db.der
 
 # Create .esl and .auth files.
-cert-to-efi-sig-list -g "$(uuidgen)" db.crt db.esl
+cert-to-efi-sig-list -g "$(cat /proc/sys/kernel/random/uuid)" db.crt db.esl
 sign-efi-sig-list -k db.key -c db.crt db db.esl db.auth
 
 echo "" >&2

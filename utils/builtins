@@ -7,6 +7,7 @@ acpid
 adwaita-icon-theme
 alsa-lib
 alsa-oss
+alsa-ucm-conf
 alsa-utils
 amf-headers
 apparmor
@@ -35,6 +36,7 @@ bcachefs-tools
 bind-utils
 binutils
 bison
+blueprint-compiler
 bluez
 boost
 botan

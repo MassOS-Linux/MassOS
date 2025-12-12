@@ -14,7 +14,7 @@ fi
 # Set up basic environment variables, still necessary here unfortunately.
 . /root/mbs/build.env
 # Remove leftover junk in /root.
-rm -rf /root/.{cache,cargo,cmake}
+rm -rf /root/.{cache,cargo,cmake,local,parallel}
 rm -rf /root/{,.config/}go
 # Remove Debian stuff.
 # TODO: Find and fix the package(s) causing files to be installed here.

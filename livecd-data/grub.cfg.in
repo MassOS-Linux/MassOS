@@ -1,3 +1,9 @@
+# DO NOT EDIT/MODIFY THIS FILE! IT MAY MAKE THIS INSTALLATION MEDIA UNBOOTABLE!
+# This is the second-stage GRUB configuration file for MassOS Live CD (UEFI).
+# It is called by the first-stage stub configuration in the signed GRUB image.
+# The first-stage configuration will have already loaded any necessary modules.
+# See the file 'keys/README.md' in the MassOS repository for more information.
+
 background_image /splash2.png
 
 set timeout=20
@@ -38,10 +44,17 @@ menuentry "Import Secure Boot keys (MokManager)" {
   chainloader /EFI/BOOT/mmx64.efi
 }
 
-menuentry "UEFI EDK2 Shell" {
-  chainloader /EFI/tools/shellx64.efi
-}
+# The UEFI EDK2 Shell is not signed for secure boot and contains no SBAT data.
+# This is because it is considered a debug tool, and it can bypass secure boot.
+# So the menuentry should only show is secure boot is disabled.
+if test "$lockdown" != "y"; then
+  menuentry "UEFI EDK2 Shell" {
+    chainloader /EFI/tools/shellx64.efi
+  }
+fi
 
+# Some older UEFI firmwares do not expose a firmware settings option.
+# If this is the case, the menuentry should not be shown on such devices.
 if fwsetup --is-supported; then
   menuentry "UEFI Firmware Settings" {
     fwsetup
