@@ -110,9 +110,9 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.4`
-- Clang: `14.0.6 --> 21.1.7`
+- Clang: `14.0.6 --> 21.1.8`
 - CMake: `3.24.2 --> 4.2.1`
-- compiler-rt: `15.0.3 --> 21.1.7`
+- compiler-rt: `15.0.3 --> 21.1.8`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -332,11 +332,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 21.1.7`
+- libclc: `(new package) --> 21.1.8`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 21.1.7`
-- libc++abi: `(new package) --> 21.1.7`
+- libc++: `(new package) --> 21.1.8`
+- libc++abi: `(new package) --> 21.1.8`
 - libde265: `1.0.8 --> 1.0.16`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -493,8 +493,8 @@ Upgraded software (core):
 - Linux-Firmware: `(new package) --> 20251125`
 - Linux-Headers: `6.0.0 --> 6.18.1`
 - Linux-PAM: `1.5.2 --> 1.7.1`
-- LLD: `14.0.6 --> 21.1.7`
-- LLVM: `14.0.6 --> 21.1.7`
+- LLD: `14.0.6 --> 21.1.8`
+- LLVM: `14.0.6 --> 21.1.8`
 - LMDB: `0.9.29 --> 0.9.33`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -567,7 +567,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.4`
-- OpenMP: `(new package) --> 21.1.7`
+- OpenMP: `(new package) --> 21.1.8`
 - OpenSSH: `9.0p1 --> 10.2p1`
 - OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
@@ -626,7 +626,7 @@ Upgraded software (core):
 - PyParsing: `3.0.7 --> 3.2.5`
 - pyproject-hooks: `(new package) --> 1.2.0`
 - pyproject-metadata: `(new package) --> 0.9.1`
-- Python: `3.10.7 --> 3.14.1`
+- Python: `3.10.7 --> 3.14.2`
 - python-certifi: `2022.06.15 --> 2025.11.12`
 - python-dbusmock: `0.28.4 --> 0.37.1`
 - pytz: `(new package) --> 2025.2`
@@ -688,7 +688,7 @@ Upgraded software (core):
 - SQLite: `3.39.3 --> 3.51.1`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
-- strace: `5.19 --> 6.17.0.134.05fc3`
+- strace: `5.19 --> 6.18`
 - Sudo: `1.9.11p3 --> 1.9.17p2`
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.4.1`
@@ -881,7 +881,7 @@ Upgraded software (Xfce):
 
 Upgraded software (extras - **NOT** installed by default):
 
-- Snapd: `(new package) --> 2.72`
+- Snapd: `(new package) --> 2.73`
 
 # MassOS 2022.10
 Changes:

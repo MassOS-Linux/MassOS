@@ -28,6 +28,12 @@ GRUB_ENABLE_CRYPTODISK="y"
 # If not set to "menu", the GRUB menu can be accessed by pressing [ESC].
 GRUB_TIMEOUT_STYLE="menu"
 
+# Uncomment if you want to force loading of "all_video" even in UEFI mode.
+# This was the default behaviour prior to GRUB 2.14, but is not recommended.
+# UEFI systems shouldn't need video drivers other than "efi_gop" and "efi_uga".
+# This option is ignored, and has no effect, on Legacy BIOS (i386-pc) systems.
+#GRUB_FORCE_EFI_ALL_VIDEO="1"
+
 # Uncomment to use the basic console.
 GRUB_TERMINAL_INPUT="console"
 

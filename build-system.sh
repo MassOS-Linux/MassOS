@@ -89,13 +89,13 @@ make install
 popd
 rm -rf perl-5.40.2
 # Python (circular deps; rebuilt later).
-tar -xf ../sources/Python-3.14.1.tar.xz
-pushd Python-3.14.1
+tar -xf ../sources/Python-3.14.2.tar.xz
+pushd Python-3.14.2
 ./configure --prefix=/usr --enable-shared --without-ensurepip --without-static-libpython --disable-test-modules
 make
 make install
 popd
-rm -rf Python-3.14.1
+rm -rf Python-3.14.2
 # Texinfo (circular deps; rebuilt later).
 tar -xf ../sources/texinfo-7.2.tar.xz
 pushd texinfo-7.2
@@ -870,14 +870,14 @@ install -t /usr/share/licenses/patchelf -Dm644 COPYING
 popd
 rm -rf patchelf-0.18.0
 # strace.
-tar -xf ../sources/strace-6.17.0.134.05fc3.tar.xz
-pushd strace-6.17.0.134.05fc3
+tar -xf ../sources/strace-6.18.tar.xz
+pushd strace-6.18
 ./configure --prefix=/usr --with-libdw
 make
 make install
 install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
 popd
-rm -rf strace-6.17.0.134.05fc3
+rm -rf strace-6.18
 # libffi.
 tar -xf ../sources/libffi-3.5.2.tar.gz
 pushd libffi-3.5.2
@@ -938,8 +938,8 @@ install -t /usr/share/licenses/kmod -Dm644 COPYING
 popd
 rm -rf kmod-34.2
 # Python (initial build; will be rebuilt later to support SQLite and Tk).
-tar -xf ../sources/Python-3.14.1.tar.xz
-pushd Python-3.14.1
+tar -xf ../sources/Python-3.14.2.tar.xz
+pushd Python-3.14.2
 ./configure --prefix=/usr --enable-shared --enable-optimizations --with-system-expat --with-system-libmpdec --with-ensurepip --without-static-libpython --disable-test-modules
 make
 make install
@@ -950,7 +950,7 @@ ln -sf python3-config /usr/bin/python-config
 ln -sf pip3 /usr/bin/pip
 install -t /usr/share/licenses/python -Dm644 LICENSE
 popd
-rm -rf Python-3.14.1
+rm -rf Python-3.14.2
 # flit-core.
 tar -xf ../sources/flit_core-3.12.0.tar.gz
 pushd flit_core-3.12.0
@@ -3826,8 +3826,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-21.1.7.src.tar.xz
-pushd llvm-project-21.1.7.src
+tar -xf ../sources/llvm-project-21.1.8.src.tar.xz
+pushd llvm-project-21.1.8.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3845,7 +3845,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-21.1.7.src
+rm -rf llvm-project-21.1.8.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -3990,8 +3990,8 @@ gzip -cd unifont-17.0.03/font/precompiled/unifont-17.0.03.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-17.0.03/COPYING
 rm -rf unifont-17.0.03
 # GRUB.
-tar -xf ../sources/grub-2.14~rc1.tar.xz
-pushd grub-2.14~rc1
+tar -xf ../sources/grub-2.14-rc1-54-g29f3131a3.tar.xz
+pushd grub-2.14-rc1-54-g29f3131a3
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot-installsigned.patch
 patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
@@ -4010,9 +4010,9 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,5,Free Software Foundation,grub,2.14-rc1,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.14-rc1,https://massos.org
-grub.peimage,2,Canonical,grub,2.14-rc1,https://git.launchpad.net/ubuntu/+source/grub2/
+grub,5,Free Software Foundation,grub,2.14-rc1-54-g29f3131a3,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.14-rc1-54-g29f3131a3,https://massos.org
+grub.peimage,2,Canonical,grub,2.14-rc1-54-g29f3131a3,https://git.launchpad.net/ubuntu/+source/grub2/
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
@@ -4025,7 +4025,8 @@ insmod usbms
 insmod usb_keyboard
 insmod font
 insmod gzio
-insmod all_video
+insmod efi_gop
+insmod efi_uga
 insmod png
 if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
   insmod gfxterm
@@ -4070,7 +4071,7 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.14~rc1
+rm -rf grub-2.14-rc1-54-g29f3131a3
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
@@ -5067,14 +5068,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-21.1.3
 # libclc.
-tar -xf ../sources/libclc-21.1.7.src.tar.xz
-pushd libclc-21.1.7.src
+tar -xf ../sources/libclc-21.1.8.src.tar.xz
+pushd libclc-21.1.8.src
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf libclc-21.1.7.src
+rm -rf libclc-21.1.8.src
 # glslang.
 tar -xf ../sources/glslang-16.1.0.tar.gz
 pushd glslang-16.1.0
@@ -7296,13 +7297,13 @@ install -t /usr/share/licenses/tk -Dm644 license.terms
 popd
 rm -rf tk8.6.17
 # Python (rebuild to support SQLite and Tk).
-tar -xf ../sources/Python-3.14.1.tar.xz
-pushd Python-3.14.1
+tar -xf ../sources/Python-3.14.2.tar.xz
+pushd Python-3.14.2
 ./configure --prefix=/usr --enable-shared --enable-optimizations --with-system-expat --with-system-libmpdec --without-ensurepip --without-static-libpython --disable-test-modules
 make
 make install
 popd
-rm -rf Python-3.14.1
+rm -rf Python-3.14.2
 # dnspython.
 tar -xf ../sources/dnspython-2.7.0.tar.gz
 pushd dnspython-2.7.0
@@ -8991,8 +8992,8 @@ cat > /usr/share/massos/snapdversion << "END"
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
 # SHA256 checksum is for the source file named 'snapd_<VERSION>.vendor.tar.xz'.
-version: 2.72
-checksum: 53d74e663527bae667a254da8a029aa4b0b8f559ca515d214da8dbb29dc6ccc7
+version: 2.73
+checksum: c47fe0c00df5e153b312b5f6dabec49158c8c872ed1eae5e342229bb229a5d85
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
