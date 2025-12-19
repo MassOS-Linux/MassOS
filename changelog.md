@@ -172,7 +172,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.1.0`
-- fastfetch: `(new package) --> 2.55.1`
+- fastfetch: `(new package) --> 2.56.1`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0.1`
 - File: `5.43 --> 5.46`
@@ -488,10 +488,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.1`
-- Linux-API-Headers: `6.0.0 --> 6.18.1`
+- Linux: `6.0.0 --> 6.18.2`
+- Linux-API-Headers: `6.0.0 --> 6.18.2`
 - Linux-Firmware: `(new package) --> 20251125`
-- Linux-Headers: `6.0.0 --> 6.18.1`
+- Linux-Headers: `6.0.0 --> 6.18.2`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -558,7 +558,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 590.44.01`
+- nvidia-modules-open: `(new package) --> 590.48.01`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.16`
@@ -693,7 +693,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 3.0.2`
 - SWIG: `4.0.2 --> 4.4.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 258.2`
+- systemd: `251.5 --> 259`
 - Taglib: `1.12 --> 2.1.1`
 - talloc: `(new package) --> 2.4.3`
 - tar: `1.34 --> 1.35`
@@ -812,7 +812,7 @@ Upgraded software (core):
 - xxhash: `0.8.1 --> 0.8.3`
 - xz: `5.2.7 --> 5.8.1`
 - yad: `(new package) --> 14.1`
-- yq: `(new package) --> 4.49.2`
+- yq: `(new package) --> 4.50.1`
 - ytnef: `2.0 --> 2.1.2`
 - yyjson: `(new package) --> 0.12.0`
 - zipp: `3.7.0 --> 3.21.0`
@@ -829,7 +829,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 146.0`
+- Firefox: `105.0.1 --> 146.0.1`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

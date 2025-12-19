@@ -141,7 +141,7 @@ https://github.com/knik0/faac/archive/faac-1.31.1/faac-1.31.1.tar.gz
 https://github.com/knik0/faad2/archive/2.11.2/faad2-2.11.2.tar.gz
 https://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.37.1.1/fakeroot-upstream-1.37.1.1.tar.bz2
 https://github.com/fastfloat/fast_float/archive/v8.1.0/fast_float-8.1.0.tar.gz
-https://github.com/fastfetch-cli/fastfetch/archive/2.55.1/fastfetch-2.55.1.tar.gz
+https://github.com/fastfetch-cli/fastfetch/archive/2.56.1/fastfetch-2.56.1.tar.gz
 https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2.21.1.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_3_1/fcron-ver3_3_1.tar.gz
 https://ffmpeg.org/releases/ffmpeg-8.0.1.tar.xz
@@ -485,7 +485,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.1.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.2.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251125.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -565,7 +565,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/590.44.01/open-gpu-kernel-modules-590.44.01.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/590.48.01/open-gpu-kernel-modules-590.48.01.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-13.0.5/open-vm-tools-stable-13.0.5.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
@@ -717,7 +717,7 @@ https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v3.0.2/SVT-AV1-v3.0.2.tar.bz2
 https://github.com/swig/swig/archive/v4.4.1/swig-4.4.1.tar.gz
 https://github.com/GNOME/sysprof/archive/49.0/sysprof-49.0.tar.gz
 https://github.com/OpenPrinting/system-config-printer/releases/download/v1.5.18/system-config-printer-1.5.18.tar.xz
-https://github.com/systemd/systemd/archive/v258.2/systemd-258.2.tar.gz
+https://github.com/systemd/systemd/archive/v259/systemd-259.tar.gz
 https://taglib.org/releases/taglib-2.1.1.tar.gz
 https://www.samba.org/ftp/talloc/talloc-2.4.3.tar.gz
 https://ftp.nluug.nl/gnu/tar/tar-1.35.tar.xz
@@ -846,7 +846,7 @@ https://github.com/Cyan4973/xxHash/archive/v0.8.3/xxHash-0.8.3.tar.gz
 https://freefr.dl.sourceforge.net/project/lzmautils/xz-5.8.1.tar.xz
 https://github.com/v1cont/yad/releases/download/v14.1/yad-14.1.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
-https://github.com/mikefarah/yq/archive/v4.49.2/yq-4.49.2.tar.gz
+https://github.com/mikefarah/yq/archive/v4.50.1/yq-4.50.1.tar.gz
 https://github.com/Yeraze/ytnef/archive/v2.1.2/ytnef-2.1.2.tar.gz
 https://github.com/ibireme/yyjson/archive/0.12.0/yyjson-0.12.0.tar.gz
 https://freefr.dl.sourceforge.net/project/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz

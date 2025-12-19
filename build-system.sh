@@ -2358,8 +2358,8 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.402
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-258.2.tar.gz
-pushd systemd-258.2
+tar -xf ../sources/systemd-259.tar.gz
+pushd systemd-259
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -2398,7 +2398,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-258.2
+rm -rf systemd-259
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5581,8 +5581,8 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-258.2.tar.gz
-pushd systemd-258.2
+tar -xf ../sources/systemd-259.tar.gz
+pushd systemd-259
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -5600,7 +5600,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-258.2
+rm -rf systemd-259
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5860,8 +5860,8 @@ install -t /usr/share/licenses/fish -Dm644 COPYING doc_src/license.rst
 popd
 rm -rf fish-4.0.2
 # yq.
-tar -xf ../sources/yq-4.49.2.tar.gz
-pushd yq-4.49.2
+tar -xf ../sources/yq-4.50.1.tar.gz
+pushd yq-4.50.1
 go build -trimpath -buildmode=pie -ldflags="-linkmode=external"
 install -t /usr/bin -Dm755 yq
 install -dm755 /usr/share/bash-completion/completions
@@ -5872,7 +5872,7 @@ yq completion zsh > /usr/share/zsh/site-functions/_yq
 yq completion fish > /usr/share/fish/vendor_completions.d/yq.fish
 install -t /usr/share/licenses/yq -Dm644 LICENSE
 popd
-rm -rf yq-4.49.2
+rm -rf yq-4.50.1
 # parallel.
 tar -xf ../sources/parallel-20250322.tar.bz2
 pushd parallel-20250322
@@ -5928,14 +5928,14 @@ ln -sf hyfetch /usr/share/licenses/neofetch
 popd
 rm -rf hyfetch-2.0.5
 # fastfetch.
-tar -xf ../sources/fastfetch-2.55.1.tar.gz
-pushd fastfetch-2.55.1
+tar -xf ../sources/fastfetch-2.56.1.tar.gz
+pushd fastfetch-2.56.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.55.1
+rm -rf fastfetch-2.56.1
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -8852,8 +8852,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.18.1.tar.xz
-pushd linux-6.18.1
+tar -xf ../sources/linux-6.18.2.tar.xz
+pushd linux-6.18.2
 # TODO: Ensure this patch supports modules signed by keys in MOKList.
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
@@ -8861,8 +8861,8 @@ make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.18.1,https://kernel.org
-linux.massos,1,MassOS,linux,6.18.1,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.18.2,https://kernel.org
+linux.massos,1,MassOS,linux,6.18.2,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8917,10 +8917,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.1
+rm -rf linux-6.18.2
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-590.44.01.tar.gz
-pushd open-gpu-kernel-modules-590.44.01
+tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
+pushd open-gpu-kernel-modules-590.48.01
 patch -Np1 -i ../../patches/nvidia-modules-open-575.51.02-fixes.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -8932,7 +8932,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-590.44.01
+rm -rf open-gpu-kernel-modules-590.48.01
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.33.0.tar.gz
 pushd bcachefs-tools-1.33.0
