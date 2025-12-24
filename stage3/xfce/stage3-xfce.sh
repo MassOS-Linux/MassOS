@@ -217,17 +217,18 @@ install -t /usr/share/licenses/xfwm4 -Dm644 COPYING
 popd
 rm -rf xfwm4-4.20.0
 # LabWC.
-tar -xf ../sources/labwc-0.8.3.tar.gz
-pushd labwc-0.8.3
+tar -xf ../sources/labwc-0.9.3.tar.gz
+pushd labwc-0.9.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
-rm -rf labwc-0.8.3
+rm -rf labwc-0.9.3
 # xfce4-session.
 tar -xf ../sources/xfce4-session-4.20.3.tar.bz2
 pushd xfce4-session-4.20.3
+patch -Np1 -i ../../patches/xfce4-session-4.20.3-labwcconfig.patch
 ./configure --prefix=/usr --sysconfdir=/etc --enable-wayland --enable-x11
 make
 make install
@@ -434,14 +435,14 @@ install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
 rm -rf mousepad-0.6.5
 # GNOME-Calculator.
-tar -xf ../sources/gnome-calculator-49.1.tar.bz2
-pushd gnome-calculator-49.1
+tar -xf ../sources/gnome-calculator-49.2.tar.bz2
+pushd gnome-calculator-49.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddoc=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
-rm -rf gnome-calculator-49.1
+rm -rf gnome-calculator-49.2
 # GParted.
 tar -xf ../sources/gparted-GPARTED_1_7_0.tar.bz2
 pushd gparted-GPARTED_1_7_0
@@ -487,14 +488,14 @@ install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
 rm -rf evince-48.1
 # simple-scan.
-tar -xf ../sources/simple-scan-49.0.1.tar.bz2
-pushd simple-scan-49.0.1
+tar -xf ../sources/simple-scan-49.1.tar.bz2
+pushd simple-scan-49.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/simple-scan -Dm644 COPYING
 popd
-rm -rf simple-scan-49.0.1
+rm -rf simple-scan-49.1
 # Baobab.
 tar -xf ../sources/baobab-49.0.tar.bz2
 pushd baobab-49.0
@@ -514,15 +515,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-49.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-49.1.tar.bz2
-pushd gnome-software-49.1
+tar -xf ../sources/gnome-software-49.2.tar.bz2
+pushd gnome-software-49.2
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-49.1
+rm -rf gnome-software-49.2
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-002.tar.gz
 pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
