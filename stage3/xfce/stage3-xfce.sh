@@ -81,14 +81,14 @@ install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 popd
 rm -rf libxfce4util-4.20.1
 # libxfce4windowing.
-tar -xf ../sources/libxfce4windowing-4.20.4.tar.bz2
-pushd libxfce4windowing-4.20.4
+tar -xf ../sources/libxfce4windowing-4.20.5.tar.bz2
+pushd libxfce4windowing-4.20.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled -Dx11=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxfce4windowing -Dm644 COPYING
 popd
-rm -rf libxfce4windowing-4.20.4
+rm -rf libxfce4windowing-4.20.5
 # xfconf.
 tar -xf ../sources/xfconf-4.20.0.tar.bz2
 pushd xfconf-4.20.0
@@ -171,14 +171,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 popd
 rm -rf xfce4-appfinder-4.20.0
 # xfce4-panel.
-tar -xf ../sources/xfce4-panel-4.20.5.tar.bz2
-pushd xfce4-panel-4.20.5
+tar -xf ../sources/xfce4-panel-4.20.6.tar.bz2
+pushd xfce4-panel-4.20.6
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gio-unix --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
-rm -rf xfce4-panel-4.20.5
+rm -rf xfce4-panel-4.20.6
 # xfce4-power-manager.
 tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
 pushd xfce4-power-manager-4.20.0
@@ -189,14 +189,14 @@ install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
 popd
 rm -rf xfce4-power-manager-4.20.0
 # xfce4-settings.
-tar -xf ../sources/xfce4-settings-4.20.2.tar.bz2
-pushd xfce4-settings-4.20.2
+tar -xf ../sources/xfce4-settings-4.20.3.tar.bz2
+pushd xfce4-settings-4.20.3
 ./configure --prefix=/usr --sysconfdir=/etc --enable-libxklavier --enable-libnotify --enable-pluggable-dialogs --enable-sound-settings --enable-wayland --enable-x11 --enable-xcursor --enable-xrandr
 make
 make install
 install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
-rm -rf xfce4-settings-4.20.2
+rm -rf xfce4-settings-4.20.3
 # xfdesktop.
 tar -xf ../sources/xfdesktop-4.20.1.tar.bz2
 pushd xfdesktop-4.20.1
@@ -216,6 +216,15 @@ sed -i 's/Default/Arc-Dark/' /usr/share/xfwm4/defaults
 install -t /usr/share/licenses/xfwm4 -Dm644 COPYING
 popd
 rm -rf xfwm4-4.20.0
+# libwlembed (dependency of xfce4-screensaver when Wayland support is enabled).
+tar -xf ../sources/libwlembed-0.0.0-299-g4d37dc9.tar.bz2
+pushd libwlembed-4d37dc9-4d37dc9da9a1f699b86d4e6b05f4619b8eee4ee8
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/libwlembed -Dm644 LICENSE
+popd
+rm -rf libwlembed-4d37dc9-4d37dc9da9a1f699b86d4e6b05f4619b8eee4ee8
 # LabWC.
 tar -xf ../sources/labwc-0.9.3.tar.gz
 pushd labwc-0.9.3
@@ -399,14 +408,14 @@ install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 COPYING
 popd
 rm -rf xfce4-whiskermenu-plugin-2.10.0
 # xfce4-screensaver.
-tar -xf ../sources/xfce4-screensaver-4.18.4.tar.bz2
-pushd xfce4-screensaver-4.18.4
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static --disable-debug
-make
-make install
-install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING
+tar -xf ../sources/xfce4-screensaver-4.20.1.tar.xz
+pushd xfce4-screensaver-4.20.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING{,.LGPL,.LIB}
 popd
-rm -rf xfce4-screensaver-4.18.4
+rm -rf xfce4-screensaver-4.20.1
 # xarchiver.
 tar -xf ../sources/xarchiver-0.5.4.26.tar.gz
 pushd xarchiver-0.5.4.26
