@@ -2349,14 +2349,14 @@ install -t /usr/share/licenses/efitools -Dm644 COPYING
 popd
 rm -rf efitools-1.9.2
 # hwdata.
-tar -xf ../sources/hwdata-0.402.tar.gz
-pushd hwdata-0.402
+tar -xf ../sources/hwdata-0.403.tar.gz
+pushd hwdata-0.403
 ./configure --prefix=/usr --disable-blacklist
 make
 make install
 install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
-rm -rf hwdata-0.402
+rm -rf hwdata-0.403
 # systemd (initial build; will be rebuilt later to support more features).
 tar -xf ../sources/systemd-259.tar.gz
 pushd systemd-259
@@ -3995,6 +3995,7 @@ pushd grub-2.14-rc1-70-g25b7f6b93
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot-installsigned.patch
 patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
+patch -Np1 -i ../../patches/grub-2.14-rc1-70-g25b7f6b93-revertupstream.patch
 autoreconf -fi
 mkdir -p build-pc; pushd build-pc
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
@@ -4020,6 +4021,7 @@ cat > grub.cfg << "END"
 insmod linux
 insmod chain
 insmod peimage
+insmod bli
 insmod usbms
 insmod usb_keyboard
 insmod font

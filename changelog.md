@@ -272,7 +272,7 @@ Upgraded software (core):
 - highway: `(new package) --> 1.3.0`
 - HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.402`
+- hwdata: `0.363 --> 0.403`
 - hyfetch: `(new package) --> 2.0.5`
 - iana-etc: `20220922 --> 20251215`
 - iceauth: `1.0.9 --> 1.0.10`
