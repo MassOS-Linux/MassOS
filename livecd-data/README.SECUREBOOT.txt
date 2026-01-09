@@ -7,8 +7,9 @@ certificates that correspond to the keys used for signing can be found under
 the 'secureboot/' directory of this Live CD.
 
 For official builds of MassOS published by the MassOS developers, this will be
-the official MassOS signing key, named the following:
+the official MassOS signing key, named one of the following:
 
+  MassOS Project Secure Boot Signing 2026
   MassOS Project Official SB Signing 2025
 
 For unofficial builds made and published by others, the key will be their own
@@ -22,8 +23,11 @@ firmware if you want to be able to boot on a secure boot enabled system.
 Although multiple files are included in the 'secureboot/' directory, most are
 only there for redundancy purposes. Importing a secure boot certificate into a
 UEFI firmware is almost always done using the `db.auth` file, which is a signed
-list of trusted signatures. See the following page on the MassOS wiki for more
-information, as well as detailed instructions on how to do this:
+list of trusted signatures. Alternatively, you can use the file `db.der` (also
+named as `ENROLLME.cer`) to enroll into MokManager for use with shim. The
+latter is now the default method recommended for MassOS. See the following page
+on the MassOS wiki for more information, as well as detailed instructions on
+how to do this:
 
   https://github.com/MassOS-Linux/MassOS/wiki/UEFI-Secure-Boot
 
@@ -35,6 +39,15 @@ it comes to certain features like third party out-of-tree kernel modules, which
 won't be signed for secure boot like the in-tree kernel modules. But the secure
 boot support is, again, primary designed for people who can't (or don't want
 to) disable secure boot, because they need it enabled for some specific reason.
+
+Please be aware that certain hardening (or "lockdown") mechanisms are enabled
+under UEFI secure boot. This includes the limitation that GRUB cannot load
+themes that aren't built into the GRUB image itself (i.e., any custom theme),
+as well as the requirement for all out-of-tree Linux kernel modules to be
+signed with a MOK (Machine Owner Key) that is enrolled into shim's database.
+The MassOS documentation contains detailed information about this:
+
+  https://github.com/MassOS-Linux/MassOS/wiki/UEFI-Secure-Boot
 
 === NOTE ON LICENSING ===
 

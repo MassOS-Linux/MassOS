@@ -1848,14 +1848,14 @@ install -t /usr/share/licenses/icu -Dm644 ../LICENSE
 popd
 rm -rf icu
 # Boost.
-tar -xf ../sources/boost-1.89.0-b2-nodocs.tar.xz
-pushd boost-1.89.0
+tar -xf ../sources/boost-1.90.0-b2-nodocs.tar.xz
+pushd boost-1.90.0
 ./bootstrap.sh --prefix=/usr --with-icu
 ./b2 stage -j$(nproc) threading=multi link=shared
 ./b2 install threading=multi link=shared
 install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 popd
-rm -rf boost-1.89.0
+rm -rf boost-1.90.0
 # libgpg-error.
 tar -xf ../sources/libgpg-error-1.58.tar.bz2
 pushd libgpg-error-1.58
@@ -1986,14 +1986,14 @@ install -t /usr/share/licenses/libxml2 -Dm644 Copyright
 popd
 rm -rf libxml2-2.15.1
 # libarchive.
-tar -xf ../sources/libarchive-3.8.4.tar.xz
-pushd libarchive-3.8.4
+tar -xf ../sources/libarchive-3.8.5.tar.xz
+pushd libarchive-3.8.5
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libarchive -Dm644 COPYING
 popd
-rm -rf libarchive-3.8.4
+rm -rf libarchive-3.8.5
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 pushd docbook-xml-4.5
@@ -2551,14 +2551,14 @@ install -t /usr/share/licenses/acpid -Dm644 COPYING
 popd
 rm -rf acpid-2.0.34
 # libtasn1.
-tar -xf ../sources/libtasn1-4.20.0.tar.gz
-pushd libtasn1-4.20.0
+tar -xf ../sources/libtasn1-4.21.0.tar.gz
+pushd libtasn1-4.21.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libtasn1 -Dm644 COPYING
 popd
-rm -rf libtasn1-4.20.0
+rm -rf libtasn1-4.21.0
 # p11-kit.
 tar -xf ../sources/p11-kit-0.25.10.tar.xz
 pushd p11-kit-0.25.10
@@ -2859,15 +2859,14 @@ install -t /usr/share/licenses/libnghttp3 -Dm644 COPYING
 popd
 rm -rf nghttp3-1.12.0
 # curl (initial build for circular deps - rebuilt later for far more features).
-tar -xf ../sources/curl-8.17.0.tar.xz
-pushd curl-8.17.0
-patch -Np1 -i ../../patches/curl-8.17.0-securityfix.patch
+tar -xf ../sources/curl-8.18.0.tar.xz
+pushd curl-8.18.0
 ./configure --prefix=/usr --disable-static --disable-threaded-resolver --without-libpsl --with-openssl --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 popd
-rm -rf curl-8.17.0
+rm -rf curl-8.18.0
 # jsoncpp.
 tar -xf ../sources/jsoncpp-1.9.6.tar.gz
 pushd jsoncpp-1.9.6
@@ -2935,6 +2934,15 @@ ninja -C build install
 install -t /usr/share/licenses/fast-float -Dm644 LICENSE-{APACHE,BOOST,MIT}
 popd
 rm -rf fast_float-8.2.2
+# simdutf.
+tar -xf ../sources/simdutf-7.7.1.tar.gz
+pushd simdutf-7.7.1
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_SHARED_LIBS=ON -DSIMDUTF_TESTS=OFF -Wno-dev -G Ninja -B build
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/simdutf -Dm644 LICENSE-{APACHE,MIT}
+popd
+rm -rf simdutf-7.7.1
 # yyjson.
 tar -xf ../sources/yyjson-0.12.0.tar.gz
 pushd yyjson-0.12.0
@@ -3276,13 +3284,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 popd
 rm -rf rtmpdump-6f6bb1353fc84f4cc37138baa99f586750028a01
 # curl (rebuild to support more features).
-tar -xf ../sources/curl-8.17.0.tar.xz
-pushd curl-8.17.0
+tar -xf ../sources/curl-8.18.0.tar.xz
+pushd curl-8.18.0
 ./configure --prefix=/usr --disable-static --disable-threaded-resolver --enable-ares --enable-httpsrr --with-openssl --with-libssh2 --with-gssapi --with-nghttp3 --with-openssl-quic --with-ca-path=/etc/ssl/certs
 make
 make install
 popd
-rm -rf curl-8.17.0
+rm -rf curl-8.18.0
 # libnl.
 tar -xf ../sources/libnl-3.11.0.tar.gz
 pushd libnl-3.11.0
@@ -8197,14 +8205,14 @@ install -t /usr/share/licenses/svt-av1 -Dm644 {LICENSE{,-BSD2},PATENTS}.md
 popd
 rm -rf SVT-AV1-v3.0.2
 # dav1d.
-tar -xf ../sources/dav1d-1.5.2.tar.bz2
-pushd dav1d-1.5.2
+tar -xf ../sources/dav1d-1.5.3.tar.bz2
+pushd dav1d-1.5.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Denable_tests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/dav1d -Dm644 COPYING
 popd
-rm -rf dav1d-1.5.2
+rm -rf dav1d-1.5.3
 # rav1e.
 tar -xf ../sources/rav1e-0.8.1.tar.gz
 pushd rav1e-0.8.1
@@ -8509,14 +8517,14 @@ install -t /usr/share/licenses/gdk-pixbuf -Dm644 COPYING
 popd
 rm -rf gdk-pixbuf-2.44.4
 # libadwaita.
-tar -xf ../sources/libadwaita-1.8.2.tar.gz
-pushd libadwaita-1.8.2
+tar -xf ../sources/libadwaita-1.8.3.tar.gz
+pushd libadwaita-1.8.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libadwaita -Dm644 COPYING
 popd
-rm -rf libadwaita-1.8.2
+rm -rf libadwaita-1.8.3
 # gst-plugin-gtk4 / gst-plugin-dav1d / gst-plugin-rav1e (from gst-plugins-rs).
 tar -xf ../sources/gst-plugins-rs-0.14.3.tar.bz2
 pushd gst-plugins-rs-0.14.3
@@ -8633,14 +8641,14 @@ install -t /usr/share/licenses/gspell -Dm644 LICENSES/LGPL-2.1-or-later.txt
 popd
 rm -rf gspell-1.14.2
 # gnome-online-accounts.
-tar -xf ../sources/gnome-online-accounts-3.54.5.tar.gz
-pushd gnome-online-accounts-3.54.5
+tar -xf ../sources/gnome-online-accounts-3.56.3.tar.gz
+pushd gnome-online-accounts-3.56.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dfedora=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-online-accounts -Dm644 COPYING
 popd
-rm -rf gnome-online-accounts-3.54.5
+rm -rf gnome-online-accounts-3.56.3
 # libgdata.
 tar -xf ../sources/libgdata-0.18.1.tar.gz
 pushd libgdata-0.18.1
@@ -8651,8 +8659,8 @@ install -t /usr/share/licenses/libgdata -Dm644 COPYING
 popd
 rm -rf libgdata-0.18.1
 # VTE / VTE4.
-tar -xf ../sources/vte-0.80.3.tar.gz
-pushd vte-0.80.3
+tar -xf ../sources/vte-0.82.3.tar.gz
+pushd vte-0.82.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
@@ -8661,7 +8669,7 @@ rm -f /usr/share/applications/org.gnome.Vte.App.Gtk{3,4}.desktop
 install -t /usr/share/licenses/vte -Dm644 COPYING.{CC-BY-4-0,GPL3,LGPL3,XTERM}
 install -t /usr/share/licenses/vte4 -Dm644 COPYING.{CC-BY-4-0,GPL3,LGPL3,XTERM}
 popd
-rm -rf vte-0.80.3
+rm -rf vte-0.82.3
 # gtksourceview3.
 tar -xf ../sources/gtksourceview-3.24.11-28-g73e57b5.tar.gz
 pushd gtksourceview-73e57b5787ac60776c57032e05a4cc32207f9cf6
@@ -8855,8 +8863,8 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.18.3.tar.xz
-pushd linux-6.18.3
+tar -xf ../sources/linux-6.18.4.tar.xz
+pushd linux-6.18.4
 # TODO: Ensure this patch supports modules signed by keys in MOKList.
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
@@ -8864,8 +8872,8 @@ make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.18.3,https://kernel.org
-linux.massos,1,MassOS,linux,6.18.3,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.18.4,https://kernel.org
+linux.massos,1,MassOS,linux,6.18.4,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8920,7 +8928,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.3
+rm -rf linux-6.18.4
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01
@@ -8979,8 +8987,8 @@ rm -rf sof-bin-2025.05.1
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.11.7" > /usr/share/massos/.osinstallguiver
-echo "30bf9ae6351e2b8eb081c62d68925b199b180c666478116e9bee44eb229e009e" > /usr/share/massos/.osinstallguisum
+echo "0.12.1" > /usr/share/massos/.osinstallguiver
+echo "a0650b3bcd87f846d59b70efe05235597dc201feffe6be34936524e133468b0e" > /usr/share/massos/.osinstallguisum
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
@@ -9000,7 +9008,7 @@ checksum: c47fe0c00df5e153b312b5f6dabec49158c8c872ed1eae5e342229bb229a5d85
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 3 > /usr/share/massos/.rootfs_compat
+echo 4 > /usr/share/massos/.rootfs_compat
 # Clean up the entire mbs directory and self-destruct.
 popd
 rm -rf /root/mbs

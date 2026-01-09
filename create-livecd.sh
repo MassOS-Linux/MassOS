@@ -26,7 +26,7 @@ if test $EUID -ne 0; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=3
+SCRIPT_COMPAT=4
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.

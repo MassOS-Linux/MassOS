@@ -91,7 +91,7 @@ Upgraded software (core):
 - Binutils: `2.39 --> 2.45.1`
 - blueprint-compiler: `(new package) --> 0.18.0`
 - BlueZ: `5.65 --> 5.85`
-- Boost: `1.80.0 --> 1.89.0`
+- Boost: `1.80.0 --> 1.90.0`
 - Botan: `(new package) --> 3.9.0`
 - bpftool: `7.0.0 --> 7.6.0`
 - brotli: `1.0.9 --> 1.2.0`
@@ -127,10 +127,10 @@ Upgraded software (core):
 - cups-filters: `1.28.16 --> 2.0.1`
 - cups-pdf: `(new package) --> 3.0.2`
 - cups-pk-helper: `(new package) --> 0.2.7`
-- curl: `7.85.0 --> 8.17.0`
+- curl: `7.85.0 --> 8.18.0`
 - Cython: `0.29.25 --> 3.2.4`
 - D-Bus: `1.14.2 --> 1.16.2`
-- dav1d: `1.0.0 --> 1.5.2`
+- dav1d: `1.0.0 --> 1.5.3`
 - dbus-glib: `0.112 --> 0.114`
 - dbus-python: `1.3.2 --> 1.4.0`
 - dconf: `(new package) --> 0.40.0`
@@ -219,7 +219,7 @@ Upgraded software (core):
 - glycin: `(new package) --> 2.0.7`
 - GMP: `6.2.1 --> 6.3.0`
 - gnome-keyring: `42.1 --> 48.0`
-- gnome-online-accounts: `3.46.0 --> 3.54.5`
+- gnome-online-accounts: `3.46.0 --> 3.56.3`
 - GNU-EFI: `3.0.15 --> 3.0.18`
 - GNUPG: `2.3.7 --> 2.5.16`
 - GNUTLS: `3.7.8 --> 3.8.11`
@@ -314,10 +314,10 @@ Upgraded software (core):
 - ldb: `(new package) --> 4.23.3`
 - legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 685`
-- libadwaita: `(new package) --> 1.8.2`
+- libadwaita: `(new package) --> 1.8.3`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.13.1`
-- libarchive: `3.6.1 --> 3.8.4`
+- libarchive: `3.6.1 --> 3.8.5`
 - libass: `0.16.0 --> 0.17.4`
 - libassuan: `2.5.5 --> 3.0.2`
 - libavif: `0.10.1 --> 1.3.0`
@@ -431,7 +431,7 @@ Upgraded software (core):
 - libsoup3: `3.2.0 --> 3.6.5`
 - libssh2: `1.10.0 --> 1.11.1`
 - libsysprof-capture: `3.46.0 --> 49.0`
-- libtasn1: `4.19.0 --> 4.20.0`
+- libtasn1: `4.19.0 --> 4.21.0`
 - libtatsu: `(new package) --> 1.0.5`
 - libtheora: `1.1.1 --> 1.2.0`
 - libtiff: `4.4.0 --> 4.7.1`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.3`
-- Linux-API-Headers: `6.0.0 --> 6.18.3`
+- Linux: `6.0.0 --> 6.18.4`
+- Linux-API-Headers: `6.0.0 --> 6.18.4`
 - Linux-Firmware: `(new package) --> 20251125`
-- Linux-Headers: `6.0.0 --> 6.18.3`
+- Linux-Headers: `6.0.0 --> 6.18.4`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -671,6 +671,7 @@ Upgraded software (core):
 - Shadow: `4.12.3 --> 4.18.0`
 - shared-mime-info: `2.2 --> 2.4`
 - shim: `(new package) --> 15.8`
+- simdutf: `(new package) --> 7.7.1`
 - six: `1.16.0 --> 1.17.0`
 - sl: `5.02 --> 5.05`
 - smartmontools: `(new package) --> 7.5`
@@ -731,8 +732,8 @@ Upgraded software (core):
 - Vim: `9.0.0600 --> 9.1.2050`
 - virglrenderer: `(new package) --> 1.1.1`
 - virtiofsd: `(new package) --> 1.13.1`
-- VTE: `0.70.0 --> 0.80.3`
-- VTE4: `(new package) --> 0.80.3`
+- VTE: `0.70.0 --> 0.82.3`
+- VTE4: `(new package) --> 0.82.3`
 - Vulkan-Headers: `1.3.230 --> 1.4.335.0`
 - Vulkan-Loader: `1.3.230 --> 1.4.335.0`
 - Vulkan-Tools: `1.3.230 --> 1.4.335.0`

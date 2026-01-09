@@ -5,6 +5,8 @@ The `generate-sb-keys.sh` script in the top-level of the MassOS source repositor
 
 The files in this directory that the MassOS build system expects to use will be added to `.gitignore` in the top-level of the MassOS source repository, since it would be a pretty bad move if you accidentally published your private key to the world wide web. **ANY OTHER FILES HERE WON'T**, so be aware of this.
 
+**IMPORTANT NOTE:** Do NOT, under any circumstance, use the pregenerated key found inside the 'secureboot.EXAMPLE/' subdirectory. This key exists only to demonstrate the correct layout of the secure boot certificates. The private key is compromised, do not use it for any reason, and do NOT trust any builds signed by it.
+
 # Information about secure boot key/cert files
 Here is a brief explanation of the five `db.*` files that will be placed in the `secureboot/` subdirectory after running the aforementioned key set generation script:
 

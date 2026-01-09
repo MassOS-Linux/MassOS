@@ -1,0 +1,55 @@
+#!/usr/bin/env python3
+
+# Queries the latest version of a given package from Repology.
+# Originally written as a helper script for MassOS developers and maintainers.
+# Assumed to be a trivial script and therefore not subject to copyright.
+
+# You are responsible for obeying the rate-limits/ToS when using this script.
+# The author(s) will not be held accountable for your use of the Repology API.
+# Neither this script nor its authors are in any way affiliated with Repology.
+# You can check current rate-limits and ToS at <https://repology.org/api>.
+
+import json
+import requests
+import sys
+
+# The Repology API demands that a valid User-Agent is used.
+# The best practise is to use one specific to this script.
+# But if it causes failures, you can try using a generic browser UA instead.
+# To do so, comment out the first UA and uncomment the second UA.
+# Be warned that using the latter UA may violate Repology's terms of service.
+ua = "repology-get/1.0 (python-requests " + str(requests.__version__) + "; Python " + str(sys.version_info.major) + "." + str(sys.version_info.minor) + "." + str(sys.version_info.micro) + ")"
+#ua = "Mozilla/5.0 (X11; Linux x86_64; rv:133.0) Gecko/20100101 Firefox/133.0"
+
+def failure(msg):
+  print("\033[31m" + str(msg) + "\033[0m", file=sys.stderr)
+  sys.exit(1)
+
+if len(sys.argv) <= 1:
+  failure("Usage: " + sys.argv[0] + " <package-name>")
+
+print(sys.argv[1], end=": ")
+
+try:
+  req = requests.get(
+    f"https://repology.org/api/v1/project/{sys.argv[1]}",
+    headers={
+      "User-Agent": ua
+    }
+  )
+  js = req.json()
+except requests.exceptions.Timeout:
+  failure("The connection timed out.")
+except json.decoder.JSONDecodeError:
+  failure("Invalid data received from the server.")
+except requests.exceptions.ConnectionError:
+  failure("An unknown connection error occurred.")
+except:
+  failure("An unknown error occurred")
+
+sorted = []
+for i in js:
+  if i["status"] == "newest" and i.get("srcname") == sys.argv[1]:
+    sorted.append(i)
+
+print(sorted[0]["version"] if sorted != [] else "Package not found")

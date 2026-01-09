@@ -38,7 +38,7 @@ https://ftp.nluug.nl/gnu/binutils/binutils-with-gold-2.44.tar.xz
 https://ftp.nluug.nl/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/GNOME/blueprint-compiler/archive/0.18.0/blueprint-compiler-0.18.0.tar.gz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.85.tar.xz
-https://github.com/boostorg/boost/releases/download/boost-1.89.0/boost-1.89.0-b2-nodocs.tar.xz
+https://github.com/boostorg/boost/releases/download/boost-1.90.0/boost-1.90.0-b2-nodocs.tar.xz
 https://botan.randombit.net/releases/Botan-3.9.0.tar.xz
 https://github.com/libbpf/bpftool/archive/v7.6.0/bpftool-7.6.0.tar.gz
 https://github.com/google/brotli/archive/v1.2.0/brotli-1.2.0.tar.gz
@@ -81,10 +81,10 @@ https://github.com/OpenPrinting/cups-browsed/releases/download/2.1.1/cups-browse
 https://github.com/OpenPrinting/cups-filters/releases/download/2.0.1/cups-filters-2.0.1.tar.xz
 https://www.cups-pdf.de/src/cups-pdf_3.0.2.tar.gz
 https://www.freedesktop.org/software/cups-pk-helper/releases/cups-pk-helper-0.2.7.tar.xz
-https://curl.se/download/curl-8.17.0.tar.xz
+https://curl.se/download/curl-8.18.0.tar.xz
 https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
 https://github.com/cython/cython/releases/download/3.2.4/cython-3.2.4.tar.gz
-https://code.videolan.org/videolan/dav1d/-/archive/1.5.2/dav1d-1.5.2.tar.bz2
+https://code.videolan.org/videolan/dav1d/-/archive/1.5.3/dav1d-1.5.3.tar.bz2
 https://github.com/GNOME/dconf/archive/0.40.0/dconf-0.40.0.tar.gz
 https://github.com/GNOME/dconf-editor/archive/45.0.1/dconf-editor-45.0.1.tar.gz
 https://dbus.freedesktop.org/releases/dbus/dbus-1.16.2.tar.xz
@@ -194,7 +194,7 @@ https://archive.mesa3d.org/glu/glu-9.0.3.tar.xz
 https://github.com/GNOME/glycin/archive/2.0.7/glycin-2.0.7.tar.gz
 https://ftp.nluug.nl/gnu/gmp/gmp-6.3.0.tar.xz
 https://github.com/GNOME/gnome-keyring/archive/48.0/gnome-keyring-48.0.tar.gz
-https://github.com/GNOME/gnome-online-accounts/archive/3.54.5/gnome-online-accounts-3.54.5.tar.gz
+https://github.com/GNOME/gnome-online-accounts/archive/3.56.3/gnome-online-accounts-3.56.3.tar.gz
 https://download.gnome.org/sources/gnome-themes-extra/3.28/gnome-themes-extra-3.28.tar.xz
 https://freefr.dl.sourceforge.net/project/gnu-efi/gnu-efi-3.0.18.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.16.tar.bz2
@@ -294,11 +294,11 @@ https://github.com/mm2/Little-CMS/releases/download/lcms2.17/lcms2-2.17.tar.gz
 https://github.com/EHfive/ldacBT/releases/download/v2.0.2.3/ldacBT-2.0.2.3.tar.gz
 https://github.com/jackrosenthal/legacy-cgi/archive/v2.6.3/legacy-cgi-2.6.3.tar.gz
 https://www.greenwoodsoftware.com/less/less-685.tar.gz
-https://github.com/GNOME/libadwaita/archive/1.8.2/libadwaita-1.8.2.tar.gz
+https://github.com/GNOME/libadwaita/archive/1.8.3/libadwaita-1.8.3.tar.gz
 https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
 https://gitlab.xiph.org/xiph/libao/-/archive/1.2.2/libao-1.2.2.tar.bz2
 https://storage.googleapis.com/aom-releases/libaom-3.13.1.tar.gz
-https://github.com/libarchive/libarchive/releases/download/v3.8.4/libarchive-3.8.4.tar.xz
+https://github.com/libarchive/libarchive/releases/download/v3.8.5/libarchive-3.8.5.tar.xz
 https://github.com/libass/libass/releases/download/0.17.4/libass-0.17.4.tar.xz
 https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-3.0.2.tar.bz2
 https://deb.debian.org/debian/pool/main/liba/libatasmart/libatasmart_0.19.orig.tar.xz
@@ -425,7 +425,7 @@ https://github.com/jedisct1/libsodium/releases/download/1.0.20-RELEASE/libsodium
 https://github.com/GNOME/libsoup/archive/2.74.3/libsoup-2.74.3.tar.gz
 https://github.com/GNOME/libsoup/archive/3.6.5/libsoup-3.6.5.tar.gz
 https://libssh2.org/download/libssh2-1.11.1.tar.xz
-https://ftp.nluug.nl/gnu/libtasn1/libtasn1-4.20.0.tar.gz
+https://ftp.nluug.nl/gnu/libtasn1/libtasn1-4.21.0.tar.gz
 https://github.com/libimobiledevice/libtatsu/releases/download/1.0.5/libtatsu-1.0.5.tar.bz2
 https://ftp.osuosl.org/pub/xiph/releases/theora/libtheora-1.2.0.tar.xz
 https://gitlab.com/libtiff/libtiff/-/archive/v4.7.1/libtiff-v4.7.1.tar.bz2
@@ -485,7 +485,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.3.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.4.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20251125.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -685,6 +685,7 @@ https://github.com/shadow-maint/shadow/releases/download/4.19.0/shadow-4.19.0.ta
 https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.4/shared-mime-info-2.4.tar.gz
 https://ftp.nluug.nl/gnu/sharutils/sharutils-4.15.2.tar.xz
 https://dmassey.net/files/dev/shim-signed/shim-signed-15.8-ubuntu-1.59.tar.xz
+https://github.com/simdutf/simdutf/archive/v7.7.1/simdutf-7.7.1.tar.gz
 https://files.pythonhosted.org/packages/source/s/six/six-1.17.0.tar.gz
 https://github.com/webmproject/sjpeg/archive/e5ab130/sjpeg-e5ab130.tar.gz
 https://github.com/eyJhb/sl/archive/5.05/sl-5.05.tar.gz
@@ -759,7 +760,7 @@ https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/1.1.1/virglrenderer
 https://gitlab.com/virtio-fs/virtiofsd/-/archive/v1.13.1/virtiofsd-v1.13.1.tar.bz2
 https://github.com/vicgeralds/vitetris/archive/v0.59.1/vitetris-0.59.1.tar.gz
 https://github.com/felixonmars/volume_key/archive/volume_key-0.3.12.tar.gz
-https://github.com/GNOME/vte/archive/0.80.3/vte-0.80.3.tar.gz
+https://github.com/GNOME/vte/archive/0.82.3/vte-0.82.3.tar.gz
 https://github.com/KhronosGroup/Vulkan-Headers/archive/vulkan-sdk-1.4.335.0/Vulkan-Headers-vulkan-sdk-1.4.335.0.tar.gz
 https://github.com/KhronosGroup/Vulkan-Loader/archive/vulkan-sdk-1.4.335.0/Vulkan-Loader-vulkan-sdk-1.4.335.0.tar.gz
 https://github.com/KhronosGroup/Vulkan-Tools/archive/vulkan-sdk-1.4.335.0/Vulkan-Tools-vulkan-sdk-1.4.335.0.tar.gz
