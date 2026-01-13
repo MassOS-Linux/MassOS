@@ -66,8 +66,8 @@ make install
 popd
 rm -rf bison-3.8.2
 # Ncurses (circular deps; rebuilt later).
-tar -xf ../sources/ncurses-6.5-20251129.tgz
-pushd ncurses-6.5-20251129
+tar -xf ../sources/ncurses-6.6.tar.gz
+pushd ncurses-6.6
 mkdir -p build; pushd build
 ../configure
 make -C include
@@ -79,7 +79,7 @@ make TIC_PATH="$PWD"/build/progs/tic install
 ln -sf libncursesw.so /usr/lib/libncurses.so
 sed -i 's/^#if.*XOPEN.*$/#if 1/' /usr/include/curses.h
 popd
-rm -rf ncurses-6.5-20251129
+rm -rf ncurses-6.6
 # Perl (circular deps; rebuilt later).
 tar -xf ../sources/perl-5.40.2.tar.xz
 pushd perl-5.40.2
@@ -471,14 +471,14 @@ install -t /usr/share/licenses/unifdef -Dm644 COPYING
 popd
 rm -rf unifdef-2.12
 # Ncurses.
-tar -xf ../sources/ncurses-6.5-20251129.tgz
-pushd ncurses-6.5-20251129
+tar -xf ../sources/ncurses-6.6.tar.gz
+pushd ncurses-6.6
 mkdir -p build; pushd build
 ../configure --prefix=/usr --mandir=/usr/share/man --enable-pc-files --with-shared --with-cxx-shared --without-debug --without-normal --with-pkg-config-libdir=/usr/lib/pkgconfig
 make
 make DESTDIR=$PWD/temp install
-install -t /usr/lib -Dm755 temp/usr/lib/libncursesw.so.6.5
-rm -f temp/usr/lib/libncursesw.so.6.5
+install -t /usr/lib -Dm755 temp/usr/lib/libncursesw.so.6.6
+rm -f temp/usr/lib/libncursesw.so.6.6
 sed -i 's/^#if.*XOPEN.*$/#if 1/' temp/usr/include/curses.h
 cp -a temp/* /
 for lib in ncurses form panel menu; do
@@ -490,7 +490,7 @@ ln -sf libncursesw.so /usr/lib/libtinfo.so
 ldconfig
 install -t /usr/share/licenses/ncurses -Dm644 ../COPYING
 popd; popd
-rm -rf ncurses-6.5-20251129
+rm -rf ncurses-6.6
 # libedit.
 tar -xf ../sources/libedit-20250104-3.1.tar.gz
 pushd libedit-20250104-3.1
@@ -1008,13 +1008,13 @@ install -t /usr/share/licenses/installer -Dm644 LICENSE
 popd
 rm -rf installer-0.7.0
 # build.
-tar -xf ../sources/build-1.3.0.tar.gz
-pushd build-1.3.0
+tar -xf ../sources/build-1.4.0.tar.gz
+pushd build-1.4.0
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist build
 install -t /usr/share/licenses/build -Dm644 LICENSE
 popd
-rm -rf build-1.3.0
+rm -rf build-1.4.0
 # Sphinx (required to build man pages of some packages).
 mkdir -p /root/mbs/extras/sphinx
 tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20251205-x86_64-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
@@ -1460,14 +1460,14 @@ install -t /usr/share/licenses/make -Dm644 COPYING
 popd
 rm -rf make-4.4.1
 # Ed.
-tar -xf ../sources/ed-1.22.3.tar.lz
-pushd ed-1.22.3
+tar -xf ../sources/ed-1.22.4.tar.lz
+pushd ed-1.22.4
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/ed -Dm644 COPYING
 popd
-rm -rf ed-1.22.3
+rm -rf ed-1.22.4
 # Patch.
 tar -xf ../sources/patch-2.8.tar.xz
 pushd patch-2.8
@@ -1839,7 +1839,7 @@ install -t /usr/share/licenses/jq -Dm644 COPYING
 popd
 rm -rf jq-1.8.0
 # ICU.
-tar -xf ../sources/icu4c-78.1-sources.tgz
+tar -xf ../sources/icu4c-78.2-sources.tgz
 pushd icu/source
 ./configure --prefix=/usr
 make
@@ -2580,7 +2580,7 @@ tar -xf ../sources/make-ca-1.16.1.tar.gz
 pushd make-ca-1.16.1
 make SBINDIR=/usr/bin install
 mkdir -p /etc/ssl/local
-tar -xf ../../sources/nss-3_119_1.tar.gz nss-3_119_1/nss/lib/ckfw/builtins/certdata.txt --strip-components=5
+tar -xf ../../sources/nss-3.120.tar.gz nss-3.120/nss/lib/ckfw/builtins/certdata.txt --strip-components=5
 install -t /usr/share/massos/certs -Dm644 certdata.txt
 make-ca -fC /usr/share/massos/certs/certdata.txt
 systemctl enable update-pki.timer
@@ -3641,8 +3641,8 @@ install -t /usr/share/licenses/nspr -Dm644 LICENSE
 popd
 rm -rf nspr-4.37
 # NSS.
-tar -xf ../sources/nss-3_119_1.tar.gz
-pushd nss-3_119_1/nss
+tar -xf ../sources/nss-3.120.tar.gz
+pushd nss-3.120/nss
 sed -i "s|'disable_werror%': 0|'disable_werror%': 1|" coreconf/config.gypi
 ./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
 install -t /usr/lib -Dm755 ../dist/Release/lib/*.so
@@ -3651,13 +3651,13 @@ install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver
 install -t /usr/share/man/man1 -Dm644 doc/nroff/{*util,signtool,signver,ssltap}.1
 install -dm755 /usr/include/nss
 cp -r ../dist/{public,private}/nss/* /usr/include/nss
-sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.119.1|g" > /usr/lib/pkgconfig/nss.pc
+sed pkg/pkg-config/nss.pc.in -e 's|%prefix%|/usr|g' -e 's|%libdir%|${prefix}/lib|g' -e 's|%exec_prefix%|${prefix}|g' -e 's|%includedir%|${prefix}/include/nss|g' -e "s|%NSPR_VERSION%|$(pkg-config --modversion nspr)|g" -e "s|%NSS_VERSION%|3.120.0|g" > /usr/lib/pkgconfig/nss.pc
 sed pkg/pkg-config/nss-config.in -e 's|@prefix@|/usr|g' -e "s|@MOD_MAJOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f1)|g" -e "s|@MOD_MINOR_VERSION@|$(pkg-config --modversion nss | cut -d. -f2)|g" -e "s|@MOD_PATCH_VERSION@|$(pkg-config --modversion nss | cut -d. -f3)|g" > /usr/bin/nss-config
 chmod 755 /usr/bin/nss-config
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/nss -Dm644 COPYING
 popd
-rm -rf nss-3_119_1
+rm -rf nss-3.120
 # Git.
 tar -xf ../sources/git-2.52.0.tar.xz
 pushd git-2.52.0
@@ -4338,14 +4338,14 @@ install -t /usr/share/licenses/nasm -Dm644 LICENSE
 popd
 rm -rf nasm-3.01
 # libjpeg-turbo.
-tar -xf ../sources/libjpeg-turbo-3.1.0.tar.gz
-pushd libjpeg-turbo-3.1.0
+tar -xf ../sources/libjpeg-turbo-3.1.3.tar.gz
+pushd libjpeg-turbo-3.1.3
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -DCMAKE_SKIP_INSTALL_RPATH=TRUE -DENABLE_STATIC=FALSE -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libjpeg-turbo -Dm644 LICENSE.md README.ijg
 popd
-rm -rf libjpeg-turbo-3.1.0
+rm -rf libjpeg-turbo-3.1.3
 # libgphoto2
 tar -xf ../sources/libgphoto2-2.5.31.tar.xz
 pushd libgphoto2-2.5.31
@@ -4365,8 +4365,8 @@ install -t /usr/share/licenses/pixman -Dm644 COPYING
 popd
 rm -rf pixman-pixman-0.46.4
 # Qpdf.
-tar -xf ../sources/qpdf-12.2.0.tar.gz
-pushd qpdf-12.2.0
+tar -xf ../sources/qpdf-12.3.0.tar.gz
+pushd qpdf-12.3.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_STATIC_LIBS=OFF -DINSTALL_EXAMPLES=OFF -DREQUIRE_CRYPTO_GNUTLS=OFF -DREQUIRE_CRYPTO_OPENSSL=ON -DUSE_IMPLICIT_CRYPTO=OFF -DDEFAULT_CRYPTO=openssl -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
@@ -4374,7 +4374,7 @@ install -t /usr/share/bash-completion/completions -Dm644 completions/bash/qpdf
 install -t /usr/share/zsh/site-functions -Dm644 completions/zsh/_qpdf
 install -t /usr/share/licenses/qpdf -Dm644 Artistic-2.0 LICENSE.txt NOTICE.md
 popd
-rm -rf qpdf-12.2.0
+rm -rf qpdf-12.3.0
 # qrencode.
 tar -xf ../sources/qrencode-4.1.1.tar.gz
 pushd libqrencode-4.1.1
@@ -5630,21 +5630,21 @@ install -t /usr/share/licenses/dbus-glib -Dm644 COPYING
 popd
 rm -rf dbus-glib-0.114
 # alsa-lib.
-tar -xf ../sources/alsa-lib-1.2.15.1.tar.bz2
-pushd alsa-lib-1.2.15.1
+tar -xf ../sources/alsa-lib-1.2.15.2.tar.bz2
+pushd alsa-lib-1.2.15.2
 ./configure --prefix=/usr --without-debug
 make
 make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 popd
-rm -rf alsa-lib-1.2.15.1
+rm -rf alsa-lib-1.2.15.2
 # alsa-ucm-conf.
-tar -xf ../sources/alsa-ucm-conf-1.2.15.1.tar.bz2
-pushd alsa-ucm-conf-1.2.15.1
+tar -xf ../sources/alsa-ucm-conf-1.2.15.2.tar.bz2
+pushd alsa-ucm-conf-1.2.15.2
 cp -r ucm{,2} /usr/share/alsa
 install -t /usr/share/licenses/alsa-ucm-conf -Dm644 LICENSE
 popd
-rm -rf alsa-ucm-conf-1.2.15.1
+rm -rf alsa-ucm-conf-1.2.15.2
 # alsa-oss.
 tar -xf ../sources/alsa-oss-1.1.8.tar.bz2
 pushd alsa-oss-1.1.8
@@ -5938,14 +5938,14 @@ ln -sf hyfetch /usr/share/licenses/neofetch
 popd
 rm -rf hyfetch-2.0.5
 # fastfetch.
-tar -xf ../sources/fastfetch-2.56.1.tar.gz
-pushd fastfetch-2.56.1
+tar -xf ../sources/fastfetch-2.57.0.tar.gz
+pushd fastfetch-2.57.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.56.1
+rm -rf fastfetch-2.57.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -6128,14 +6128,14 @@ install -t /usr/share/licenses/libtiff -Dm644 LICENSE.md
 popd
 rm -rf libtiff-v4.7.1
 # lcms2.
-tar -xf ../sources/lcms2-2.17.tar.gz
-pushd lcms2-2.17
+tar -xf ../sources/lcms2-2.18.tar.gz
+pushd lcms2-2.18
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/lcms2 -Dm644 LICENSE
 popd
-rm -rf lcms2-2.17
+rm -rf lcms2-2.18
 # JasPer.
 tar -xf ../sources/jasper-4.2.8.tar.gz
 pushd jasper-4.2.8
@@ -6736,14 +6736,14 @@ install -t /usr/share/licenses/libsamplerate -Dm644 COPYING
 popd
 rm -rf libsamplerate-0.2.2
 # alsa-utils.
-tar -xf ../sources/alsa-utils-1.2.15.1.tar.bz2
-pushd alsa-utils-1.2.15.1
+tar -xf ../sources/alsa-utils-1.2.15.2.tar.bz2
+pushd alsa-utils-1.2.15.2
 ./configure --prefix=/usr --sbindir=/usr/bin --disable-alsaconf --with-systemdsystemunitdir=/usr/lib/systemd/system --with-udev-rules-dir=/usr/lib/udev/rules.d
 make
 make install
 install -t /usr/share/licenses/alsa-utils -Dm644 COPYING
 popd
-rm -rf alsa-utils-1.2.15.1
+rm -rf alsa-utils-1.2.15.2
 # JACK2.
 tar -xf ../sources/jack2-1.9.22.tar.gz
 pushd jack2-1.9.22
@@ -7160,14 +7160,14 @@ install -t /usr/share/licenses/gnome-keyring -Dm644 COPYING COPYING.LIB
 popd
 rm -rf gnome-keyring-48.0
 # Poppler.
-tar -xf ../sources/poppler-25.12.0.tar.xz
-pushd poppler-25.12.0
+tar -xf ../sources/poppler-26.01.0.tar.xz
+pushd poppler-26.01.0
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/poppler -Dm644 COPYING{,3}
 popd
-rm -rf poppler-25.12.0
+rm -rf poppler-26.01.0
 # poppler-data.
 tar -xf ../sources/poppler-data-0.4.12.tar.gz
 pushd poppler-data-0.4.12
@@ -7598,14 +7598,14 @@ install -t /usr/share/licenses/libnma-gtk4 -Dm644 COPYING{,.LGPL}
 popd
 rm -rf libnma-1.10.6
 # libnotify.
-tar -xf ../sources/libnotify-0.8.7.tar.gz
-pushd libnotify-0.8.7
+tar -xf ../sources/libnotify-0.8.8.tar.gz
+pushd libnotify-0.8.8
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dman=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libnotify -Dm644 COPYING
 popd
-rm -rf libnotify-0.8.7
+rm -rf libnotify-0.8.8
 # startup-notification.
 tar -xf ../sources/startup-notification-0.12.tar.gz
 pushd startup-notification-0.12
@@ -8863,17 +8863,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.18.4.tar.xz
-pushd linux-6.18.4
-# TODO: Ensure this patch supports modules signed by keys in MOKList.
+tar -xf ../sources/linux-6.18.5.tar.xz
+pushd linux-6.18.5
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.18.4,https://kernel.org
-linux.massos,1,MassOS,linux,6.18.4,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.18.5,https://kernel.org
+linux.massos,1,MassOS,linux,6.18.5,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8928,7 +8927,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.4
+rm -rf linux-6.18.5
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01
@@ -8959,8 +8958,8 @@ install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
 rm -rf bcachefs-tools-1.33.0
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20251125.tar.xz
-pushd linux-firmware-20251125
+tar -xf ../sources/linux-firmware-20260110.tar.xz
+pushd linux-firmware-20260110
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -8968,7 +8967,7 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20251125
+rm -rf linux-firmware-20260110
 # Intel-Microcode.
 tar -xf ../sources/intel-microcode-20251111.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20251111
@@ -8987,8 +8986,31 @@ rm -rf sof-bin-2025.05.1
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.12.1" > /usr/share/massos/.osinstallguiver
-echo "a0650b3bcd87f846d59b70efe05235597dc201feffe6be34936524e133468b0e" > /usr/share/massos/.osinstallguisum
+echo "0.13.1" > /usr/share/massos/.osinstallguiver
+echo "0efa882415cfcd223486f0d46c74b7db5862df949253d3f5834d87591fdcbffe" > /usr/share/massos/.osinstallguisum
+# Set up the osinstallgui configuration file.
+cat > /usr/share/massos/.osinstallguicfg << "END"
+OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"
+OSINSTALLGUI_ROOTFS_ALT="/run/initramfs/live/LiveOS/squashfs.img"
+OSINSTALLGUI_CLEANUP_CMD="/tmp/livecd-cleanup.sh"
+OSINSTALLGUI_INITRAMFS_CMD="/usr/bin/mkinitramfs"
+OSINSTALLGUI_ALLOW_BTRFS=1
+OSINSTALLGUI_ALLOW_LUKS=1
+OSINSTALLGUI_LUKS_MAPPER_NAME="cryptroot"
+OSINSTALLGUI_LUKS_ARGON2=1
+OSINSTALLGUI_ALWAYS_OFFER_FULLPORT=0
+OSINSTALLGUI_LOCALES_CMD="/usr/bin/mklocales"
+OSINSTALLGUI_LOCALES_FILE="/etc/locales"
+OSINSTALLGUI_KEYMAPS_SYSTEMD=1
+OSINSTALLGUI_KEYMAPS_LOCATION="/usr/share/keymaps"
+OSINSTALLGUI_ROOTPW=1
+OSINSTALLGUI_ADMIN_GROUP="wheel,lpadmin"
+OSINSTALLGUI_USER_SHELL="/usr/bin/bash"
+OSINSTALLGUI_USER_PWSCORE=0
+OSINSTALLGUI_GRUB_EXTRA_ARGS_LEGACY=""
+OSINSTALLGUI_GRUB_EXTRA_ARGS_UEFIIN=""
+OSINSTALLGUI_GRUB_EXTRA_ARGS_UEFIRM=""
+END
 # snapd version, for use with the snapd installation program (massos-snapd).
 cat > /usr/share/massos/snapdversion << "END"
 # DO NOT EDIT THIS FILE!
@@ -9008,7 +9030,7 @@ checksum: c47fe0c00df5e153b312b5f6dabec49158c8c872ed1eae5e342229bb229a5d85
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 4 > /usr/share/massos/.rootfs_compat
+echo 5 > /usr/share/massos/.rootfs_compat
 # Clean up the entire mbs directory and self-destruct.
 popd
 rm -rf /root/mbs

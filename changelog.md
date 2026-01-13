@@ -63,10 +63,10 @@ Upgraded software (core):
 - Acl: `2.3.1 --> 2.3.2`
 - acpid: `(new package) --> 2.0.34`
 - adwaita-icon-theme: `43 --> 49.0`
-- alsa-lib: `1.2.7.2 --> 1.2.15.1`
+- alsa-lib: `1.2.7.2 --> 1.2.15.2`
 - alsa-oss: `(new package) --> 1.1.8`
-- alsa-ucm-conf: `(new package) --> 1.2.15.1`
-- alsa-utils: `(new package) --> 1.2.15.1`
+- alsa-ucm-conf: `(new package) --> 1.2.15.2`
+- alsa-utils: `(new package) --> 1.2.15.2`
 - AMF-Headers: `(new package) --> 1.4.36.0`
 - AppArmor: `3.1.1 --> 4.1.2`
 - AppStream: `0.15.5 --> 1.0.6`
@@ -98,7 +98,7 @@ Upgraded software (core):
 - bsd-games: `3.2 --> 3.3`
 - btrfs-progs: `5.19.1 --> 6.17.1`
 - Bubblewrap: `0.6.2 --> 0.11.0`
-- build: `(new package) --> 1.3.0`
+- build: `(new package) --> 1.4.0`
 - Busybox: `1.35.0 --> 1.37.0`
 - c-ares: `1.18.1 --> 1.34.6`
 - cabextract: `(new package) --> 1.11`
@@ -152,7 +152,7 @@ Upgraded software (core):
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
-- Ed: `1.18 --> 1.22.3`
+- Ed: `1.18 --> 1.22.4`
 - editables: `(new package) --> 0.5`
 - EDK2-Shell: `(new package) --> 202511`
 - efitools: `(new package) --> 1.9.2`
@@ -172,7 +172,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.2.2`
-- fastfetch: `(new package) --> 2.56.1`
+- fastfetch: `(new package) --> 2.57.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0.1`
 - File: `5.43 --> 5.46`
@@ -276,7 +276,7 @@ Upgraded software (core):
 - hyfetch: `(new package) --> 2.0.5`
 - iana-etc: `20220922 --> 20251215`
 - iceauth: `1.0.9 --> 1.0.10`
-- ICU: `71.1 --> 78.1`
+- ICU: `71.1 --> 78.2`
 - idna: `3.4 --> 3.11`
 - importlib-metadata: `4.10.1 --> 8.6.1`
 - Inetutils: `2.3 --> 2.7`
@@ -310,7 +310,7 @@ Upgraded software (core):
 - kmod: `30 --> 34.2`
 - krb5: `1.20 --> 1.22.1`
 - lark: `(new package) --> 1.2.2`
-- lcms2: `2.13.1 --> 2.17`
+- lcms2: `2.13.1 --> 2.18`
 - ldb: `(new package) --> 4.23.3`
 - legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 685`
@@ -375,7 +375,7 @@ Upgraded software (core):
 - libisoburn: `1.5.4 --> 1.5.6`
 - libisofs: `1.5.4 --> 1.5.6`
 - libjcat: `0.1.11 --> 0.2.3`
-- libjpeg-turbo: `2.1.3 --> 3.1.0`
+- libjpeg-turbo: `2.1.3 --> 3.1.3`
 - libjxl: `(new package) --> 1.2.0`
 - libksba: `1.6.1 --> 1.6.7`
 - liblc3: `(new package) --> 1.1.3`
@@ -395,7 +395,7 @@ Upgraded software (core):
 - libnl: `3.7.0 --> 3.11.0`
 - libnma: `1.10.2 --> 1.10.6`
 - libnma-gtk4: `(new package) --> 1.10.6`
-- libnotify: `0.8.1 --> 0.8.7`
+- libnotify: `0.8.1 --> 0.8.8`
 - libnvme: `(new package) --> 1.16.1`
 - libnsl: `2.0.0 --> 2.0.1`
 - libogg: `1.3.5 --> 1.3.6`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.4`
-- Linux-API-Headers: `6.0.0 --> 6.18.4`
-- Linux-Firmware: `(new package) --> 20251125`
-- Linux-Headers: `6.0.0 --> 6.18.4`
+- Linux: `6.0.0 --> 6.18.5`
+- Linux-API-Headers: `6.0.0 --> 6.18.5`
+- Linux-Firmware: `(new package) --> 20260110`
+- Linux-Headers: `6.0.0 --> 6.18.5`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -537,7 +537,7 @@ Upgraded software (core):
 - multipath-tools: `(new package) --> 0.11.1`
 - Nano: `6.4 --> 8.6`
 - NASM: `2.15.05 --> 3.01`
-- Ncurses: `6.3 --> 6.5-20251129`
+- Ncurses: `6.3 --> 6.6`
 - Net-SNMP: `5.9.3 --> 5.9.4`
 - Nettle: `3.8.1 --> 3.10.2`
 - network-manager-applet: `1.28.0 --> 1.36.0`
@@ -608,7 +608,7 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 127`
-- Poppler: `22.09.0 --> 25.12.0`
+- Poppler: `22.09.0 --> 26.01.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
@@ -634,7 +634,7 @@ Upgraded software (core):
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.3`
 - qemu-guest-agent: `(new package) --> 10.1.3`
-- Qpdf: `11.1.1 --> 12.2.0`
+- Qpdf: `11.1.1 --> 12.3.0`
 - rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
 - Readline: `8.2 --> 8.3`
@@ -831,7 +831,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 146.0.1`
+- Firefox: `105.0.1 --> 147.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

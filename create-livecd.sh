@@ -26,7 +26,7 @@ if test $EUID -ne 0; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=4
+SCRIPT_COMPAT=5
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
@@ -108,8 +108,8 @@ END
 echo "Installing osinstallgui..."
 make -C iso-workdir/osinstallgui
 make -C iso-workdir/osinstallgui DESTDIR="$PWD"/iso-workdir/massos-rootfs install
-install -t iso-workdir/massos-rootfs/usr/share/osinstallgui -Dm644 livecd-data/osinstallgui.conf
-sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|<name-of-live-user>|massos|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
+cp iso-workdir/massos-rootfs/usr/share/massos/.osinstallguicfg iso-workdir/massos-rootfs/usr/share/osinstallgui/osinstallgui.conf
+sed -e "s|<Your Distro Name Here>|MassOS $ver|g" -e "s|</path/to/your/distro/logo>|/usr/share/massos/massos-logo.png|g" iso-workdir/osinstallgui/osinstallgui.desktop.example.unprivileged > iso-workdir/massos-rootfs/usr/share/applications/osinstallgui.desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -dm755 /home/massos/Desktop
 chroot iso-workdir/massos-rootfs /usr/bin/install -o massos -g massos -m755 /usr/share/applications/osinstallgui.desktop /home/massos/Desktop/osinstallgui.desktop
 # Ensure the installer desktop icon is not untrusted on Xfce.
