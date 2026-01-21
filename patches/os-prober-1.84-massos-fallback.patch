@@ -1,0 +1,12 @@
+--- a/os-probes/mounted/common/90linux-distro
++++ b/os-probes/mounted/common/90linux-distro
+@@ -143,6 +143,9 @@ if (ls "$dir"/lib*/ld*.so* && [ -d "$dir
+ 	elif [ -e "$dir/etc/exherbo-release" ]; then
+ 		short="Exherbo"
+ 		long="Exherbo Linux"
++	elif [ -e "$dir/etc/massos-release" ]; then
++		short="MassOS"
++		long="$(printf "MassOS (%s)\n" "$(cat "$dir/etc/massos-release")")"
+ 	else
+ 		short="Linux"
+ 		long="unknown Linux distribution"

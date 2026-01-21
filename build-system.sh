@@ -778,14 +778,14 @@ install -t /usr/share/licenses/automake -Dm644 COPYING
 popd
 rm -rf automake-1.18.1
 # autoconf-archive.
-tar -xf ../sources/autoconf-archive-2023.02.20.tar.xz
-pushd autoconf-archive-2023.02.20
+tar -xf ../sources/autoconf-archive-2024.10.16.tar.xz
+pushd autoconf-archive-2024.10.16
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/autoconf-archive -Dm644 COPYING{,.EXCEPTION}
 popd
-rm -rf autoconf-archive-2023.02.20
+rm -rf autoconf-archive-2024.10.16
 # dotconf.
 tar -xf ../sources/dotconf-1.4.1.tar.gz
 pushd dotconf-1.4.1
@@ -909,15 +909,15 @@ install -t /usr/share/licenses/easy-rsa -Dm644 COPYING.md gpl-2.0.txt
 popd
 rm -rf EasyRSA-3.2.2
 # mpdecimal.
-tar -xf ../sources/mpdecimal-4.0.0.tar.gz
-pushd mpdecimal-4.0.0
+tar -xf ../sources/mpdecimal-4.0.1.tar.gz
+pushd mpdecimal-4.0.1
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/libmpdec{,++}.a
 install -t /usr/share/licenses/mpdecimal -Dm644 COPYRIGHT.txt
 popd
-rm -rf mpdecimal-4.0.0
+rm -rf mpdecimal-4.0.1
 # scdoc.
 tar -xf ../sources/scdoc-1.11.0.tar.gz
 pushd scdoc-1.11.0
@@ -1017,7 +1017,7 @@ popd
 rm -rf build-1.4.0
 # Sphinx (required to build man pages of some packages).
 mkdir -p /root/mbs/extras/sphinx
-tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20251205-x86_64-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
+tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20260119-x86_64-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
 # Ninja.
 tar -xf ../sources/ninja-1.13.2.tar.gz
 pushd ninja-1.13.2
@@ -3033,13 +3033,13 @@ install -t /usr/share/licenses/tcl -Dm644 ../license.terms
 popd
 rm -rf tcl8.6.17
 # SQLite.
-tar -xf ../sources/sqlite-autoconf-3510100.tar.gz
-pushd sqlite-autoconf-3510100
+tar -xf ../sources/sqlite-autoconf-3510200.tar.gz
+pushd sqlite-autoconf-3510200
 CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_STMTVTAB=1 -DSQLITE_ENABLE_STAT4=1 -DSQLITE_ENABLE_MATH_FUNCTIONS=1" ./configure --prefix=/usr --disable-static --fts4 --fts5 --rtree --icu-collations --with-icu-ldflags="-licui18n -licuuc -licudata"
 make
 make install
 pushd tea
-./configure --prefix=/usr --with-system-sqlite --override-sqlite-version=3.51.1
+./configure --prefix=/usr --with-system-sqlite --override-sqlite-version=3.51.2
 popd
 make -C tea
 make -C tea install
@@ -3049,7 +3049,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See <https://www.sqlite.org/copyright.html> for more information.
 END
 popd
-rm -rf sqlite-autoconf-3510100
+rm -rf sqlite-autoconf-3510200
 # libusb.
 tar -xf ../sources/libusb-1.0.28.tar.bz2
 pushd libusb-1.0.28
@@ -3462,15 +3462,15 @@ install -t /usr/share/licenses/aria2 -Dm644 COPYING
 popd
 rm -rf aria2-1.37.0
 # Ruby.
-tar -xf ../sources/ruby-4.0.0.tar.xz
-pushd ruby-4.0.0
+tar -xf ../sources/ruby-4.0.1.tar.xz
+pushd ruby-4.0.1
 ./configure --prefix=/usr --enable-shared --without-baseruby --without-valgrind ac_cv_func_qsort_r=no
 make
 make capi
 make install
 install -t /usr/share/licenses/ruby -Dm644 COPYING
 popd
-rm -rf ruby-4.0.0
+rm -rf ruby-4.0.1
 # asciidoctor.
 tar -xf ../sources/asciidoctor-2.0.26.tar.gz
 pushd asciidoctor-2.0.26
@@ -3909,15 +3909,15 @@ install -t /usr/share/licenses/efibootmgr -Dm644 COPYING
 popd
 rm -rf efibootmgr-18
 # libpng.
-tar -xf ../sources/libpng-1.6.52.tar.xz
-pushd libpng-1.6.52
-patch -Np1 -i ../../patches/libpng-1.6.51-apng.patch
+tar -xf ../sources/libpng-1.6.54.tar.xz
+pushd libpng-1.6.54
+patch -Np1 -i ../../patches/libpng-1.6.54-apng.patch
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libpng -Dm644 LICENSE
 popd
-rm -rf libpng-1.6.52
+rm -rf libpng-1.6.54
 # FreeType (circular dependency; will be rebuilt later to support HarfBuzz).
 tar -xf ../sources/freetype-2.14.1.tar.xz
 pushd freetype-2.14.1
@@ -3998,12 +3998,12 @@ gzip -cd unifont-17.0.03/font/precompiled/unifont-17.0.03.pcf.gz > /usr/share/fo
 install -t /usr/share/licenses/unifont -Dm644 unifont-17.0.03/COPYING
 rm -rf unifont-17.0.03
 # GRUB.
-tar -xf ../sources/grub-2.14-rc1-70-g25b7f6b93.tar.xz
-pushd grub-2.14-rc1-70-g25b7f6b93
+tar -xf ../sources/grub-2.14.tar.xz
+pushd grub-2.14
+patch -Np1 -i ../../patches/grub-2.14-reverts.patch
 patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot-installsigned.patch
 patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
-patch -Np1 -i ../../patches/grub-2.14-rc1-70-g25b7f6b93-revertupstream.patch
 autoreconf -fi
 mkdir -p build-pc; pushd build-pc
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
@@ -4019,9 +4019,9 @@ sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_lin
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-grub,5,Free Software Foundation,grub,2.14-rc1-70-g25b7f6b93,https://gnu.org/software/grub/
-grub.massos,1,MassOS,grub,2.14-rc1-70-g25b7f6b93,https://massos.org
-grub.peimage,2,Canonical,grub,2.14-rc1-70-g25b7f6b93,https://git.launchpad.net/ubuntu/+source/grub2/
+grub,5,Free Software Foundation,grub,2.14,https://gnu.org/software/grub/
+grub.massos,1,MassOS,grub,2.14,https://massos.org
+grub.peimage,2,Canonical,grub,2.14,https://git.launchpad.net/ubuntu/+source/grub2/
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
@@ -4081,14 +4081,15 @@ rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
-rm -rf grub-2.14-rc1-70-g25b7f6b93
+rm -rf grub-2.14
 # grub-theme-distro-massos.
 install -dm755 /usr/share/grub/themes/distro-massos
 tar -xf ../sources/grub-theme-distro-massos-002.tar.gz -C /usr/share/grub/themes/distro-massos --strip-components=1
 install -t /usr/share/licenses/grub-theme-distro-massos -Dm644 /usr/share/grub/themes/distro-massos/LICENSE
 # os-prober.
-tar -xf ../sources/os-prober_1.83.tar.xz
-pushd work
+tar -xf ../sources/os-prober_1.84.tar.xz
+pushd os-prober-1.84
+patch -Np1 -i ../../patches/os-prober-1.84-massos-fallback.patch
 gcc $CFLAGS newns.c -o newns $LDFLAGS
 install -t /usr/bin -Dm755 os-prober linux-boot-prober
 install -t /usr/lib/os-prober -Dm755 newns
@@ -4099,7 +4100,7 @@ install -dm755 /var/lib/os-prober
 install -t /usr/share/licenses/os-prober -Dm644 debian/copyright
 install -t /usr/share/licenses/os-prober /usr/share/licenses/systemd/LICENSE.GPL2
 popd
-rm -rf work
+rm -rf os-prober-1.84
 # libatasmart.
 tar -xf ../sources/libatasmart_0.19.orig.tar.xz
 pushd libatasmart-0.19
@@ -5630,21 +5631,21 @@ install -t /usr/share/licenses/dbus-glib -Dm644 COPYING
 popd
 rm -rf dbus-glib-0.114
 # alsa-lib.
-tar -xf ../sources/alsa-lib-1.2.15.2.tar.bz2
-pushd alsa-lib-1.2.15.2
+tar -xf ../sources/alsa-lib-1.2.15.3.tar.bz2
+pushd alsa-lib-1.2.15.3
 ./configure --prefix=/usr --without-debug
 make
 make install
 install -t /usr/share/licenses/alsa-lib -Dm644 COPYING
 popd
-rm -rf alsa-lib-1.2.15.2
+rm -rf alsa-lib-1.2.15.3
 # alsa-ucm-conf.
-tar -xf ../sources/alsa-ucm-conf-1.2.15.2.tar.bz2
-pushd alsa-ucm-conf-1.2.15.2
+tar -xf ../sources/alsa-ucm-conf-1.2.15.3.tar.bz2
+pushd alsa-ucm-conf-1.2.15.3
 cp -r ucm{,2} /usr/share/alsa
 install -t /usr/share/licenses/alsa-ucm-conf -Dm644 LICENSE
 popd
-rm -rf alsa-ucm-conf-1.2.15.2
+rm -rf alsa-ucm-conf-1.2.15.3
 # alsa-oss.
 tar -xf ../sources/alsa-oss-1.1.8.tar.bz2
 pushd alsa-oss-1.1.8
@@ -6644,15 +6645,15 @@ install -t /usr/share/licenses/djvulibre -Dm644 COPYING COPYRIGHT
 popd
 rm -rf djvulibre-3.5.28
 # libraw.
-tar -xf ../sources/LibRaw-0.21.5.tar.gz
-pushd LibRaw-0.21.5
+tar -xf ../sources/LibRaw-0.22.0.tar.gz
+pushd LibRaw-0.22.0
 autoreconf -fi
 ./configure --prefix=/usr --enable-jasper --enable-jpeg --enable-lcms --disable-static
 make
 make install
 install -t /usr/share/licenses/libraw -Dm644 COPYRIGHT LICENSE.LGPL
 popd
-rm -rf LibRaw-0.21.5
+rm -rf LibRaw-0.22.0
 # libogg.
 tar -xf ../sources/libogg-1.3.6.tar.xz
 pushd libogg-1.3.6
@@ -6699,14 +6700,14 @@ install -t /usr/share/licenses/speexdsp -Dm644 COPYING
 popd
 rm -rf speexdsp-1.2.1
 # Opus.
-tar -xf ../sources/opus-1.6.tar.gz
-pushd opus-1.6
+tar -xf ../sources/opus-1.6.1.tar.gz
+pushd opus-1.6.1
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/opus -Dm644 COPYING
 popd
-rm -rf opus-1.6
+rm -rf opus-1.6.1
 # FLAC.
 tar -xf ../sources/flac-1.5.0.tar.xz
 pushd flac-1.5.0
@@ -7733,14 +7734,14 @@ install -t /usr/share/licenses/libostree -Dm644 COPYING
 popd
 rm -rf libostree-2025.2
 # libfyaml.
-tar -xf ../sources/libfyaml-0.9.tar.gz
-pushd libfyaml-0.9
+tar -xf ../sources/libfyaml-0.9.3.tar.gz
+pushd libfyaml-0.9.3
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libfyaml -Dm644 LICENSE
 popd
-rm -rf libfyaml-0.9
+rm -rf libfyaml-0.9.3
 # libxmlb.
 tar -xf ../sources/libxmlb-0.3.24.tar.xz
 pushd libxmlb-0.3.24
@@ -8313,14 +8314,14 @@ install -t /usr/share/licenses/libyuv -Dm644 LICENSE PATENTS
 popd
 rm -rf libyuv-1b1c058787474b1a54cd7c0d7cee38db9e0816c6
 # libheif.
-tar -xf ../sources/libheif-1.21.1.tar.gz
-pushd libheif-1.21.1
+tar -xf ../sources/libheif-1.21.2.tar.gz
+pushd libheif-1.21.2
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_TESTING=OFF -DWITH_AOM_DECODER=ON -DWITH_AOM_ENCODER=ON -DWITH_DAV1D=ON -DWITH_JPEG_DECODER=ON -DWITH_JPEG_ENCODER=ON -DWITH_LIBDE265=ON -DWITH_OpenJPEG_DECODER=ON -DWITH_OpenJPEG_ENCODER=ON -DWITH_RAV1E=ON -DWITH_SvtEnc=ON -DWITH_X265=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libheif -Dm644 COPYING
 popd
-rm -rf libheif-1.21.1
+rm -rf libheif-1.21.2
 # libavif.
 tar -xf ../sources/libavif-1.3.0.tar.gz
 pushd libavif-1.3.0
@@ -8466,8 +8467,8 @@ install -t /usr/share/licenses/nvidia-vaapi-driver -Dm644 COPYING
 popd
 rm -rf nvidia-vaapi-driver-0.0.13
 # PipeWire + WirePlumber.
-tar -xf ../sources/pipewire-1.4.9.tar.bz2
-pushd pipewire-1.4.9
+tar -xf ../sources/pipewire-1.4.10.tar.bz2
+pushd pipewire-1.4.10
 mkdir -p subprojects/wireplumber
 tar -xf ../../sources/wireplumber-0.5.11.tar.bz2 -C subprojects/wireplumber --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbluez5-backend-native-mm=enabled -Dexamples=disabled -Dffmpeg=enabled -Dpw-cat-ffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false
@@ -8479,7 +8480,7 @@ echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 subprojects/wireplumber/LICENSE
 popd
-rm -rf pipewire-1.4.9
+rm -rf pipewire-1.4.10
 # SDL3 (rebuild for PipeWire support).
 tar -xf ../sources/SDL3-3.4.0.tar.gz
 pushd SDL3-3.4.0
@@ -8863,16 +8864,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.18.5.tar.xz
-pushd linux-6.18.5
+tar -xf ../sources/linux-6.18.6.tar.xz
+pushd linux-6.18.6
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.18.5,https://kernel.org
-linux.massos,1,MassOS,linux,6.18.5,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.18.6,https://kernel.org
+linux.massos,1,MassOS,linux,6.18.6,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8927,7 +8928,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.5
+rm -rf linux-6.18.6
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01
@@ -8986,8 +8987,8 @@ rm -rf sof-bin-2025.05.1
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.13.1" > /usr/share/massos/.osinstallguiver
-echo "0efa882415cfcd223486f0d46c74b7db5862df949253d3f5834d87591fdcbffe" > /usr/share/massos/.osinstallguisum
+echo "0.13.3" > /usr/share/massos/.osinstallguiver
+echo "1c8423ac843c97a0a86c990fc06d2bbe05c61a02f59a27b4d73c2dfd9d94559e" > /usr/share/massos/.osinstallguisum
 # Set up the osinstallgui configuration file.
 cat > /usr/share/massos/.osinstallguicfg << "END"
 OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"

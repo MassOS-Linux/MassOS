@@ -63,9 +63,9 @@ Upgraded software (core):
 - Acl: `2.3.1 --> 2.3.2`
 - acpid: `(new package) --> 2.0.34`
 - adwaita-icon-theme: `43 --> 49.0`
-- alsa-lib: `1.2.7.2 --> 1.2.15.2`
+- alsa-lib: `1.2.7.2 --> 1.2.15.3`
 - alsa-oss: `(new package) --> 1.1.8`
-- alsa-ucm-conf: `(new package) --> 1.2.15.2`
+- alsa-ucm-conf: `(new package) --> 1.2.15.3`
 - alsa-utils: `(new package) --> 1.2.15.2`
 - AMF-Headers: `(new package) --> 1.4.36.0`
 - AppArmor: `3.1.1 --> 4.1.2`
@@ -81,7 +81,7 @@ Upgraded software (core):
 - Audit: `3.0.9 --> 4.0.3`
 - Autoconf: `2.71 --> 2.72`
 - Automake: `1.16.5 --> 1.18.1`
-- autoconf-archive: `2021.02.19 --> 2023.02.20`
+- autoconf-archive: `2021.02.19 --> 2024.10.16`
 - Bash: `5.2 --> 5.3`
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
@@ -233,7 +233,7 @@ Upgraded software (core):
 - Graphviz: `6.0.1 --> 14.1.1`
 - Grep: `3.8 --> 3.12`
 - Groff: `1.22.4 --> 1.23.0`
-- GRUB: `2.06 --> 2.14-rc1-70-g25b7f6b93`
+- GRUB: `2.06 --> 2.14`
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 49.1`
 - gspell: `1.12.0 --> 1.14.2`
@@ -353,7 +353,7 @@ Upgraded software (core):
 - libfreeaptx: `(new package) --> 0.2.2`
 - libFS: `1.0.9 --> 1.0.10`
 - libftdi: `(new package) --> 1.5`
-- libfyaml: `(new package) --> 0.9`
+- libfyaml: `(new package) --> 0.9.3`
 - libgcrypt: `1.10.1 --> 1.11.2`
 - libgee: `0.20.6 --> 0.20.8`
 - libglade: `2.6.4 --> (removed)`
@@ -363,7 +363,7 @@ Upgraded software (core):
 - libgudev: `237 --> 238`
 - libgusb: `0.4.0 --> 0.4.9`
 - libhandy: `1.8.0 --> 1.8.3`
-- libheif: `1.13.0 --> 1.21.1`
+- libheif: `1.13.0 --> 1.21.2`
 - libical: `3.0.14 --> 3.0.20`
 - libICE: `1.0.10 --> 1.1.2`
 - libidn2: `2.3.3 --> 2.3.8`
@@ -416,7 +416,7 @@ Upgraded software (core):
 - libpwquality: `1.4.4 --> 1.4.5`
 - libqmi: `1.30.8 --> 1.38.0`
 - libqrtr-glib: `(new package) --> 1.2.2`
-- libraw: `0.20.2 --> 0.21.5`
+- libraw: `0.20.2 --> 0.22.0`
 - librsvg: `2.54.5 --> 2.61.3`
 - libsass: `3.6.5 --> 3.6.6`
 - libseccomp: `2.5.4 --> 2.6.0`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.5`
-- Linux-API-Headers: `6.0.0 --> 6.18.5`
+- Linux: `6.0.0 --> 6.18.6`
+- Linux-API-Headers: `6.0.0 --> 6.18.6`
 - Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.18.5`
+- Linux-Headers: `6.0.0 --> 6.18.6`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -529,7 +529,7 @@ Upgraded software (core):
 - mokutil: `(new package) --> 0.7.2`
 - moreutils: `0.67 --> 0.69`
 - MPC: `1.2.1 --> 1.3.1`
-- mpdecimal: `2.5.1 --> 4.0.0`
+- mpdecimal: `2.5.1 --> 4.0.1`
 - mpg123: `1.30.1 --> 1.33.4`
 - msgraph: `(new package) --> 0.3.3`
 - mtdev: `1.1.6 --> 1.1.7`
@@ -572,9 +572,9 @@ Upgraded software (core):
 - OpenSSH: `9.0p1 --> 10.2p1`
 - OpenSSL: `3.0.5 --> 3.6.0`
 - OpenVPN: `2.5.7 --> 2.7-alpha2`
-- Opus: `1.3.1 --> 1.6`
+- Opus: `1.3.1 --> 1.6.1`
 - ORC: `0.4.32 --> 0.4.41`
-- os-prober: `1.79 --> 1.83`
+- os-prober: `1.79 --> 1.84`
 - osm-gps-map: `(new package) --> 1.2.0`
 - ostree: `2022.5 --> 2025.2`
 - p11-kit: `0.24.1 --> 0.25.10`
@@ -602,7 +602,7 @@ Upgraded software (core):
 - pigz: `2.6 --> 2.8`
 - pinentry: `1.2.1 --> 1.3.2`
 - pip: `(new package) --> 25.3`
-- PipeWire: `0.3.59 --> 1.4.9`
+- PipeWire: `0.3.59 --> 1.4.10`
 - Pixman: `0.40.0 --> 0.46.4`
 - pluggy: `(new package) --> 1.6.0`
 - Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
@@ -647,7 +647,7 @@ Upgraded software (core):
 - rrdtool: `1.8.0 --> 1.9.0`
 - rsync: `3.2.6 --> 3.4.1`
 - rtmpdump: `2.4-99-gf1b83c1 --> 2.4-105-g6f6bb13`
-- Ruby: `3.1.2 --> 4.0.0`
+- Ruby: `3.1.2 --> 4.0.1`
 - run-parts: `5.5 --> 5.23.1`
 - SANE: `1.1.1 --> 1.4.0`
 - sane-airscan: `(new package) --> 0.99.35`
@@ -687,7 +687,7 @@ Upgraded software (core):
 - SPIRV-Headers: `1.3.216.0 --> 1.4.335.0`
 - SPIRV-LLVM-Translator: `(new package) --> 21.1.3`
 - SPIRV-Tools: `2022.2 --> 1.4.335.0`
-- SQLite: `3.39.3 --> 3.51.1`
+- SQLite: `3.39.3 --> 3.51.2`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
 - strace: `5.19 --> 6.18`
@@ -831,7 +831,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 147.0`
+- Firefox: `105.0.1 --> 147.0.1`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
