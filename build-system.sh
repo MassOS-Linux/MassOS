@@ -2560,8 +2560,8 @@ install -t /usr/share/licenses/libtasn1 -Dm644 COPYING
 popd
 rm -rf libtasn1-4.21.0
 # p11-kit.
-tar -xf ../sources/p11-kit-0.25.10.tar.xz
-pushd p11-kit-0.25.10
+tar -xf ../sources/p11-kit-0.26.0.tar.xz
+pushd p11-kit-0.26.0
 sed '20,$ d' -i trust/trust-extract-compat
 cat >> trust/trust-extract-compat << "END"
 /usr/libexec/make-ca/copy-trust-modifications
@@ -2574,7 +2574,7 @@ ln -sfr /usr/libexec/p11-kit/trust-extract-compat /usr/bin/update-ca-certificate
 ln -sf ./pkcs11/p11-kit-trust.so /usr/lib/libnssckbi.so
 install -t /usr/share/licenses/p11-kit -Dm644 COPYING
 popd
-rm -rf p11-kit-0.25.10
+rm -rf p11-kit-0.26.0
 # make-ca.
 tar -xf ../sources/make-ca-1.16.1.tar.gz
 pushd make-ca-1.16.1
@@ -5939,14 +5939,14 @@ ln -sf hyfetch /usr/share/licenses/neofetch
 popd
 rm -rf hyfetch-2.0.5
 # fastfetch.
-tar -xf ../sources/fastfetch-2.57.0.tar.gz
-pushd fastfetch-2.57.0
+tar -xf ../sources/fastfetch-2.58.0.tar.gz
+pushd fastfetch-2.58.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.57.0
+rm -rf fastfetch-2.58.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -8864,16 +8864,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.5
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.18.6.tar.xz
-pushd linux-6.18.6
+tar -xf ../sources/linux-6.18.7.tar.xz
+pushd linux-6.18.7
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.18.6,https://kernel.org
-linux.massos,1,MassOS,linux,6.18.6,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.18.7,https://kernel.org
+linux.massos,1,MassOS,linux,6.18.7,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8928,7 +8928,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.6
+rm -rf linux-6.18.7
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01

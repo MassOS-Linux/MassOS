@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+# Simple script to upload a freshly produced MassOS build to an SSH server.
+# Designed for internal use by MassOS developers and maintainers.
+
+set -e
+
+VERSION="$1"
+SERVER="$2"
+USER="$3"
+UPLOADPATH="$4"
+POSTCMD="$5"
+
+if ! command -v scp &>/dev/null || ! command -v ssh &>/dev/null; then
+  echo "Error: $0 requires the OpenSSH client to be installed." >&2
+  exit 1
+fi
+
+if test -z "$VERSION" || test -z "$SERVER" || test -z "$USER"; then
+  echo "Usage: $0 <version> <server> <username> [path] [post-command]" >&2
+  echo "If path is not given, default is '/home/<username>/<version>'." >&2
+  echo "If post-command is not given, no command will run post-upload." >&2
+  echo "Note: Use SSH key auth if possible, to avoid password prompts." >&2
+  exit 1
+fi
+
+if test -z "$UPLOADPATH"; then
+  UPLOADPATH="/home/$USER/$VERSION"
+fi
+
+# Allow us to discover build artifacts.
+ARTIFACTS=()
+
+# Find rootfs and livecd images.
+while read -r f; do
+  ARTIFACTS+=("$f")
+done < <(find . -mindepth 1 -maxdepth 1 -type f \( -name "massos-$VERSION-rootfs-*-*.tar*" -o -name "massos-$VERSION-livecd-*-*.iso*" \) -exec basename {} ';' | sort)
+
+# Ensure any builds were picked up.
+if test -z "${ARTIFACTS[0]}"; then
+  echo "Error: No build artifacts found for version '$VERSION'." >&2
+  exit 1
+fi
+
+# Prepare to upload build.
+echo "Going to upload MassOS $VERSION to $SERVER (${#ARTIFACTS[@]} files)."
+echo "Will authenticate as user $USER and upload to $UPLOADPATH."
+
+# Create directory if it does not already exist.
+ssh "$USER@$SERVER" "mkdir -p '$UPLOADPATH'"
+
+# Upload build artifacts.
+scp "${ARTIFACTS[@]}" "$USER@$SERVER:$UPLOADPATH"
+
+# Run post-upload script.
+if test ! -z "$POSTCMD"; then
+  echo "Going to run post-command '$POSTCMD'." >&2
+  ssh "$USER@$SERVER" "$POSTCMD"
+fi

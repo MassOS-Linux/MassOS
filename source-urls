@@ -141,7 +141,7 @@ https://github.com/knik0/faac/archive/faac-1.31.1/faac-1.31.1.tar.gz
 https://github.com/knik0/faad2/archive/2.11.2/faad2-2.11.2.tar.gz
 https://salsa.debian.org/clint/fakeroot/-/archive/upstream/1.37.1.1/fakeroot-upstream-1.37.1.1.tar.bz2
 https://github.com/fastfloat/fast_float/archive/v8.2.2/fast_float-8.2.2.tar.gz
-https://github.com/fastfetch-cli/fastfetch/archive/2.57.0/fastfetch-2.57.0.tar.gz
+https://github.com/fastfetch-cli/fastfetch/archive/2.58.0/fastfetch-2.58.0.tar.gz
 https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2.21.1.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_3_1/fcron-ver3_3_1.tar.gz
 https://ffmpeg.org/releases/ffmpeg-8.0.1.tar.xz
@@ -485,7 +485,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.6.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.6.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.18.7.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260110.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.1/Linux-PAM-1.7.1.tar.xz
@@ -580,7 +580,7 @@ https://downloads.xiph.org/releases/opus/opus-1.6.1.tar.gz
 https://gitlab.freedesktop.org/gstreamer/orc/-/archive/0.4.41/orc-0.4.41.tar.bz2
 https://deb.debian.org/debian/pool/main/o/os-prober/os-prober_1.84.tar.xz
 https://github.com/nzjrs/osm-gps-map/releases/download/1.2.0/osm-gps-map-1.2.0.tar.gz
-https://github.com/p11-glue/p11-kit/releases/download/0.25.10/p11-kit-0.25.10.tar.xz
+https://github.com/p11-glue/p11-kit/releases/download/0.26.0/p11-kit-0.26.0.tar.xz
 https://github.com/pypa/packaging/archive/25.0/packaging-25.0.tar.gz
 https://git.kernel.org/pub/scm/devel/pahole/pahole.git/snapshot/pahole-1.29.tar.gz
 https://github.com/GNOME/pango/archive/1.57.0/pango-1.57.0.tar.gz

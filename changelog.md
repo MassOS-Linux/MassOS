@@ -172,7 +172,7 @@ Upgraded software (core):
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
 - fast-float: `(new package) --> 8.2.2`
-- fastfetch: `(new package) --> 2.57.0`
+- fastfetch: `(new package) --> 2.58.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0.1`
 - File: `5.43 --> 5.46`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.6`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.6`
-- Linux-API-Headers: `6.0.0 --> 6.18.6`
+- Linux: `6.0.0 --> 6.18.7`
+- Linux-API-Headers: `6.0.0 --> 6.18.7`
 - Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.18.6`
+- Linux-Headers: `6.0.0 --> 6.18.7`
 - Linux-PAM: `1.5.2 --> 1.7.1`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -577,7 +577,7 @@ Upgraded software (core):
 - os-prober: `1.79 --> 1.84`
 - osm-gps-map: `(new package) --> 1.2.0`
 - ostree: `2022.5 --> 2025.2`
-- p11-kit: `0.24.1 --> 0.25.10`
+- p11-kit: `0.24.1 --> 0.26.0`
 - p7zip: `17.04 --> (removed)`
 - packaging: `21.3 --> 25.0`
 - Pahole: `1.24 --> 1.29`
