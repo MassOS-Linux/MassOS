@@ -89,30 +89,28 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-6.18.7.tar.xz
-pushd linux-6.18.7
+tar -xf ../sources/linux-6.18.9.tar.xz
+pushd linux-6.18.9
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.18.7
+rm -rf linux-6.18.9
 # Glibc.
-tar -xf ../sources/glibc-2.42.tar.xz
-pushd glibc-2.42
+tar -xf ../sources/glibc-2.43.tar.xz
+pushd glibc-2.43
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
-patch -Np1 -i ../../patches/glibc-2.42-binutils-2.45.1.patch
-patch -Np1 -i ../../patches/glibc-2.42-runtimefix.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.42" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 make -j1 DESTDIR="$MASSOS" install
 ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed -i '/RTLDLIST=/s@/usr@@g' "$MASSOS"/usr/bin/ldd
 popd; popd
-rm -rf glibc-2.42
+rm -rf glibc-2.43
 # libstdc++ (from GCC - build 1).
 tar -xf ../sources/gcc-15.2.0.tar.xz
 pushd gcc-15.2.0

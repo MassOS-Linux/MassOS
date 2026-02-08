@@ -1,0 +1,12 @@
+diff '--color=auto' -apruN a/gprofng/src/collector_module.h b/gprofng/src/collector_module.h
+--- a/gprofng/src/collector_module.h	2025-11-10 00:00:00.000000000 +0000
++++ b/gprofng/src/collector_module.h	2026-02-07 18:17:36.990042184 +0000
+@@ -119,7 +119,7 @@ typedef struct CollectorUtilFuncs
+ extern CollectorUtilFuncs __collector_util_funcs;
+ extern int __collector_dlsym_guard;
+ 
+-#define CALL_UTIL(x) __collector_util_funcs.x
++#define CALL_UTIL(x) (__collector_util_funcs.x)
+ 
+ /* The following constants define the meaning of the "void *arg"
+  * argument of getFrameInfo().

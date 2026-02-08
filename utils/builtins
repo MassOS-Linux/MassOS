@@ -220,7 +220,6 @@ gst-plugins-good
 gst-plugins-ugly
 gst-python
 gstreamer
-gstreamer-vaapi
 gtk-doc
 gtk-layer-shell
 gtk3

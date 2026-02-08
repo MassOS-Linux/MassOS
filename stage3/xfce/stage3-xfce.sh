@@ -10,12 +10,6 @@ pushd /root/mbs/work
 # Set up basic environment variables, same as Stage 2.
 . ../build.env
 # === IF RESUMING A FAILED BUILD, ONLY REMOVE LINES BELOW THIS ONE.
-# Install Rust to a temporary directory to support building some packages.
-tar -xf ../sources/rust-1.91.0-x86_64-unknown-linux-gnu.tar.gz
-pushd rust-1.91.0-x86_64-unknown-linux-gnu
-./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
-popd
-rm -rf rust-1.91.0-x86_64-unknown-linux-gnu
 # elementary-icon-theme.
 tar -xf ../sources/elementary-icon-theme-8.1.0.tar.gz
 pushd icons-8.1.0
@@ -135,14 +129,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
 # Thunar.
-tar -xf ../sources/thunar-4.20.6.tar.bz2
-pushd thunar-4.20.6
+tar -xf ../sources/thunar-4.20.7.tar.bz2
+pushd thunar-4.20.7
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.6
+rm -rf thunar-4.20.7
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -453,15 +447,15 @@ install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
 rm -rf gnome-calculator-49.2
 # GParted.
-tar -xf ../sources/gparted-GPARTED_1_7_0.tar.bz2
-pushd gparted-GPARTED_1_7_0
+tar -xf ../sources/gparted-GPARTED_1_8_0.tar.bz2
+pushd gparted-GPARTED_1_8_0
 autoreconf -fi
 ./configure --prefix=/usr --disable-doc --disable-static --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
 make
 make install
 install -t /usr/share/licenses/gparted -Dm644 COPYING
 popd
-rm -rf gparted-GPARTED_1_7_0
+rm -rf gparted-GPARTED_1_8_0
 # gnome-disk-utility.
 tar -xf ../sources/gnome-disk-utility-46.1.tar.bz2
 pushd gnome-disk-utility-46.1
@@ -587,7 +581,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-147.0.1.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-147.0.3.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

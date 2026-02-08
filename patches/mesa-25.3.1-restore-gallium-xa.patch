@@ -1,0 +1,4009 @@
+This is a dirty patch which restores the gallium-xa feature, which was removed
+from upstream Mesa as of 25.2, but is required by the Xorg driver
+xf86-video-vmware (otherwise the build of the driver silently disables 3D
+acceleration support). This driver is needed when running as a guest under
+either VMware or VirtualBox (both use the VMware SVGA graphics adapter).
+
+Upstream recommends switching to modesetting, which does *work*, but is
+imperfect. Namely, the auto-resize feature of VMware doesn't work with the
+modesetting driver. Presumably a fix is needed in open-vm-tools for this. Until
+such time that a fix makes its way into open-vm-tools, the next best solution
+we could come up with for MassOS is to simply restore the gallium-xa feature,
+acknowledging that it is unmaintained and may be buggy, but the MassOS
+developers have decided that it's the best stop-gap in this case. It will be
+removed once open-vm-tools gets fixed to work with the modesetting driver.
+
+See the following upstream issue for more information:
+
+  https://gitlab.freedesktop.org/xorg/driver/xf86-video-vmware/-/issues/12
+
+This patch makes minor modifications to the code of gallium-xa, so as to allow
+the component to build under Mesa 25.3 and higher, which has introduced some
+API changes (such as certain macros being renamed).
+
+With this patch, the gallium-xa feature is still treated as deprecated and
+disabled by default. To enable it, you will need to pass the build parameter
+'-Dgallium-xa=enabled'.
+
+diff '--color=auto' -apruN a/meson.build b/meson.build
+--- a/meson.build	2025-12-04 06:02:48.000000000 +0000
++++ b/meson.build	2026-02-03 13:39:32.725127054 +0000
+@@ -711,6 +711,12 @@ if with_gallium_mediafoundation_test
+   endif
+ endif
+ 
++with_gallium_xa = get_option('gallium-xa') \
++  .require(system_has_kms_drm, error_message : 'XA state tracker can only be built on unix-like OSes.') \
++  .require(with_gallium_nouveau or with_gallium_freedreno or with_gallium_i915 or with_gallium_svga,
++           error_message : 'XA state tracker requires at least one of the following gallium drivers: nouveau, freedreno, i915, svga.') \
++  .allowed()
++
+ d3d_drivers_path = get_option('d3d-drivers-path')
+ if d3d_drivers_path == ''
+   d3d_drivers_path = join_paths(get_option('prefix'), get_option('libdir'), 'd3d')
+@@ -2380,6 +2386,10 @@ endif
+ if with_any_vk
+   video_apis += 'vulkan'
+ endif
++if with_gallium_xa
++  warning('XA will be removed in Mesa 25.2')
++  video_apis += 'xa'
++endif
+ video_summary += {'APIs': video_apis.length() != 0 ? video_apis : false}
+ summary(video_summary, section: 'Video', bool_yn: true, list_sep: ' ')
+ 
+@@ -2395,6 +2405,9 @@ if with_gallium
+   gallium_summary += {'Platforms': _platforms}
+ 
+   gallium_frontends = ['mesa']
++  if with_gallium_xa
++    gallium_frontends += 'xa'
++  endif
+   if with_gallium_va
+     gallium_frontends += 'va'
+   endif
+diff '--color=auto' -apruN a/meson.options b/meson.options
+--- a/meson.options	2025-12-04 06:02:48.000000000 +0000
++++ b/meson.options	2026-02-03 13:39:32.725798919 +0000
+@@ -138,6 +138,14 @@ option(
+ )
+ 
+ option(
++  'gallium-xa',
++  type : 'feature',
++  value : 'disabled',
++  description : 'enable gallium xa frontend.',
++  deprecated: true,
++)
++
++option(
+   'gallium-rusticl',
+   type : 'boolean',
+   value : false,
+diff '--color=auto' -apruN a/src/compiler/nir/meson.build b/src/compiler/nir/meson.build
+--- a/src/compiler/nir/meson.build	2025-12-04 06:02:48.000000000 +0000
++++ b/src/compiler/nir/meson.build	2026-02-03 13:39:32.726191873 +0000
+@@ -82,6 +82,7 @@ with_nir_headers_only = (
+   not [
+     with_gallium_va,
+     with_any_vk,
++    with_gallium_xa,
+     with_gallium_st_d3d10umd,
+     with_gallium_rusticl,
+     with_microsoft_clc,
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/.editorconfig b/src/gallium/frontends/xa/.editorconfig
+--- a/src/gallium/frontends/xa/.editorconfig	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/.editorconfig	2026-02-03 13:39:32.726638257 +0000
+@@ -0,0 +1,3 @@
++[*.{c,h}]
++indent_style = space
++indent_size = 4
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/meson.build b/src/gallium/frontends/xa/meson.build
+--- a/src/gallium/frontends/xa/meson.build	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/meson.build	2026-02-03 13:39:57.579017507 +0000
+@@ -0,0 +1,30 @@
++# Copyright © 2017 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++xa_version = ['2', '5', '0']
++
++xa_conf = configuration_data()
++xa_conf.set('XA_MAJOR', xa_version[0])
++xa_conf.set('XA_MINOR', xa_version[1])
++xa_conf.set('XA_PATCH', xa_version[2])
++
++xa_tracker_h = configure_file(
++  configuration : xa_conf,
++  input : 'xa_tracker.h.in',
++  output : 'xa_tracker.h',
++  install_dir : get_option('includedir'),
++)
++
++libxa_st = static_library(
++  'xa_st',
++  [xa_tracker_h, files(
++    'xa_composite.c', 'xa_context.c', 'xa_renderer.c', 'xa_tgsi.c',
++    'xa_tracker.c', 'xa_yuv.c',
++  )],
++  c_args : ['-pedantic'],
++  gnu_symbol_visibility : 'hidden',
++  dependencies : idep_mesautil,
++  include_directories : [inc_include, inc_src, inc_mesa, inc_gallium, inc_gallium_aux],
++)
++
++install_headers('xa_composite.h', 'xa_context.h')
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/README b/src/gallium/frontends/xa/README
+--- a/src/gallium/frontends/xa/README	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/README	2026-02-03 13:39:32.726987790 +0000
+@@ -0,0 +1,72 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++The XA gallium frontend is intended as a versioned interface to gallium for
++xorg driver writers. Initially it's mostly based on Zack Rusin's
++composite / video work for the Xorg gallium frontend.
++
++The motivation behind this gallium frontend is that the Xorg gallium frontend has
++a number of interfaces to work with:
++
++1) The Xorg sdk (versioned)
++2) Gallium3D (not versioned)
++3) KMS modesetting (versioned)
++4) Driver-private (hopefully versioned)
++
++Since Gallium3D is not versioned, the Xorg gallium frontend needs to be compiled
++with Gallium, but it's really beneficial to be able to compile xorg drivers
++standalone.
++
++Therefore the xa gallium frontend is intended to supply the following
++functionality:
++
++1) Versioning.
++2) Surface functionality (creation and copying for a basic dri2 implementation)
++3) YUV blits for textured Xv.
++4) Solid fills without ROP functionality.
++5) Copies with format conversion and - reinterpretation but without ROP
++6) Xrender- type compositing for general acceleration.
++
++
++The first user will be the vmwgfx xorg driver. When there are more users,
++we need to be able to load the appropriate gallium pipe driver, and we
++should investigate sharing the loadig mechanism with the EGL gallium frontend.
++
++IMPORTANT:
++Version compatibilities:
++While this library remains OUTSIDE any mesa release branch,
++and the major version number is still 0. Any minor bump should be viewed as
++an incompatibility event, and any user of this library should test for that
++and refuse to use the library if minor versions differ.
++As soon as the library enters a mesa release branch, if not earlier, major
++will be bumped to 1, and normal incompatibility rules (major bump)
++will be followed.
++It is allowed to add function interfaces while only bumping minor. Any
++user that uses these function interfaces must therefore use lazy symbol
++lookups and test minor for compatibility before using such a function.
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.c b/src/gallium/frontends/xa/xa_composite.c
+--- a/src/gallium/frontends/xa/xa_composite.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_composite.c	2026-02-03 13:39:32.727130426 +0000
+@@ -0,0 +1,590 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#include "xa_composite.h"
++#include "xa_context.h"
++#include "xa_priv.h"
++#include "cso_cache/cso_context.h"
++#include "util/u_sampler.h"
++#include "util/u_inlines.h"
++
++
++/*XXX also in Xrender.h but the including it here breaks compilition */
++#define XFixedToDouble(f)    (((double) (f)) / 65536.)
++
++struct xa_composite_blend {
++    unsigned op : 8;
++
++    unsigned alpha_dst : 4;
++    unsigned alpha_src : 4;
++
++    unsigned rgb_src : 8;    /**< PIPE_BLENDFACTOR_x */
++    unsigned rgb_dst : 8;    /**< PIPE_BLENDFACTOR_x */
++};
++
++#define XA_BLEND_OP_OVER 3
++static const struct xa_composite_blend xa_blends[] = {
++    { xa_op_clear,
++      0, 0, PIPE_BLENDFACTOR_ZERO, PIPE_BLENDFACTOR_ZERO},
++    { xa_op_src,
++      0, 0, PIPE_BLENDFACTOR_ONE, PIPE_BLENDFACTOR_ZERO},
++    { xa_op_dst,
++      0, 0, PIPE_BLENDFACTOR_ZERO, PIPE_BLENDFACTOR_ONE},
++    { xa_op_over,
++      0, 1, PIPE_BLENDFACTOR_ONE, PIPE_BLENDFACTOR_INV_SRC_ALPHA},
++    { xa_op_over_reverse,
++      1, 0, PIPE_BLENDFACTOR_INV_DST_ALPHA, PIPE_BLENDFACTOR_ONE},
++    { xa_op_in,
++      1, 0, PIPE_BLENDFACTOR_DST_ALPHA, PIPE_BLENDFACTOR_ZERO},
++    { xa_op_in_reverse,
++      0, 1, PIPE_BLENDFACTOR_ZERO, PIPE_BLENDFACTOR_SRC_ALPHA},
++    { xa_op_out,
++      1, 0, PIPE_BLENDFACTOR_INV_DST_ALPHA, PIPE_BLENDFACTOR_ZERO},
++    { xa_op_out_reverse,
++      0, 1, PIPE_BLENDFACTOR_ZERO, PIPE_BLENDFACTOR_INV_SRC_ALPHA},
++    { xa_op_atop,
++      1, 1, PIPE_BLENDFACTOR_DST_ALPHA, PIPE_BLENDFACTOR_INV_SRC_ALPHA},
++    { xa_op_atop_reverse,
++      1, 1, PIPE_BLENDFACTOR_INV_DST_ALPHA, PIPE_BLENDFACTOR_SRC_ALPHA},
++    { xa_op_xor,
++      1, 1, PIPE_BLENDFACTOR_INV_DST_ALPHA, PIPE_BLENDFACTOR_INV_SRC_ALPHA},
++    { xa_op_add,
++      0, 0, PIPE_BLENDFACTOR_ONE, PIPE_BLENDFACTOR_ONE},
++};
++
++/*
++ * The alpha value stored in a L8 texture is read by the
++ * hardware as color, and R8 is read as red. The source alpha value
++ * at the end of the fragment shader is stored in all color channels,
++ * so the correct approach is to blend using DST_COLOR instead of
++ * DST_ALPHA and then output any color channel (L8) or the red channel (R8).
++ */
++static unsigned
++xa_convert_blend_for_luminance(unsigned factor)
++{
++    switch(factor) {
++    case PIPE_BLENDFACTOR_DST_ALPHA:
++	return PIPE_BLENDFACTOR_DST_COLOR;
++    case PIPE_BLENDFACTOR_INV_DST_ALPHA:
++	return PIPE_BLENDFACTOR_INV_DST_COLOR;
++    default:
++	break;
++    }
++    return factor;
++}
++
++static bool
++blend_for_op(struct xa_composite_blend *blend,
++	     enum xa_composite_op op,
++	     struct xa_picture *src_pic,
++	     struct xa_picture *mask_pic,
++	     struct xa_picture *dst_pic)
++{
++    const int num_blends =
++	sizeof(xa_blends)/sizeof(struct xa_composite_blend);
++    int i;
++    bool supported = false;
++
++    /*
++     * our default in case something goes wrong
++     */
++    *blend = xa_blends[XA_BLEND_OP_OVER];
++
++    for (i = 0; i < num_blends; ++i) {
++	if (xa_blends[i].op == op) {
++	    *blend = xa_blends[i];
++	    supported = true;
++            break;
++	}
++    }
++
++    /*
++     * No component alpha yet.
++     */
++    if (mask_pic && mask_pic->component_alpha && blend->alpha_src)
++	return false;
++
++    if (!dst_pic->srf)
++	return supported;
++
++    if ((dst_pic->srf->tex->format == PIPE_FORMAT_L8_UNORM ||
++         dst_pic->srf->tex->format == PIPE_FORMAT_R8_UNORM)) {
++        blend->rgb_src = xa_convert_blend_for_luminance(blend->rgb_src);
++        blend->rgb_dst = xa_convert_blend_for_luminance(blend->rgb_dst);
++    }
++
++    /*
++     * If there's no dst alpha channel, adjust the blend op so that we'll treat
++     * it as always 1.
++     */
++
++    if (xa_format_a(dst_pic->pict_format) == 0 && blend->alpha_dst) {
++	if (blend->rgb_src == PIPE_BLENDFACTOR_DST_ALPHA)
++	    blend->rgb_src = PIPE_BLENDFACTOR_ONE;
++	else if (blend->rgb_src == PIPE_BLENDFACTOR_INV_DST_ALPHA)
++	    blend->rgb_src = PIPE_BLENDFACTOR_ZERO;
++    }
++
++    return supported;
++}
++
++
++static inline int
++xa_repeat_to_gallium(int mode)
++{
++    switch(mode) {
++    case xa_wrap_clamp_to_border:
++	return PIPE_TEX_WRAP_CLAMP_TO_BORDER;
++    case xa_wrap_repeat:
++	return PIPE_TEX_WRAP_REPEAT;
++    case xa_wrap_mirror_repeat:
++	return PIPE_TEX_WRAP_MIRROR_REPEAT;
++    case xa_wrap_clamp_to_edge:
++	return PIPE_TEX_WRAP_CLAMP_TO_EDGE;
++    default:
++	break;
++    }
++    return PIPE_TEX_WRAP_REPEAT;
++}
++
++static inline bool
++xa_filter_to_gallium(int xrender_filter, int *out_filter)
++{
++
++    switch (xrender_filter) {
++    case xa_filter_nearest:
++	*out_filter = PIPE_TEX_FILTER_NEAREST;
++	break;
++    case xa_filter_linear:
++	*out_filter = PIPE_TEX_FILTER_LINEAR;
++	break;
++    default:
++	*out_filter = PIPE_TEX_FILTER_NEAREST;
++	return false;
++    }
++    return true;
++}
++
++static int
++xa_is_filter_accelerated(struct xa_picture *pic)
++{
++    int filter;
++    if (pic && !xa_filter_to_gallium(pic->filter, &filter))
++	return 0;
++    return 1;
++}
++
++/**
++ * xa_src_pict_is_accelerated - Check whether we support acceleration
++ * of the given src_pict type
++ *
++ * \param src_pic[in]: Pointer to a union xa_source_pict to check.
++ *
++ * \returns TRUE if accelerated, FALSE otherwise.
++ */
++static bool
++xa_src_pict_is_accelerated(const union xa_source_pict *src_pic)
++{
++    if (!src_pic)
++        return true;
++
++    if (src_pic->type == xa_src_pict_solid_fill ||
++        src_pic->type == xa_src_pict_float_solid_fill)
++        return true;
++
++    return false;
++}
++
++XA_EXPORT int
++xa_composite_check_accelerated(const struct xa_composite *comp)
++{
++    struct xa_picture *src_pic = comp->src;
++    struct xa_picture *mask_pic = comp->mask;
++    struct xa_composite_blend blend;
++
++    if (!xa_is_filter_accelerated(src_pic) ||
++	!xa_is_filter_accelerated(comp->mask)) {
++	return -XA_ERR_INVAL;
++    }
++
++    if (!xa_src_pict_is_accelerated(src_pic->src_pict) ||
++        (mask_pic && !xa_src_pict_is_accelerated(mask_pic->src_pict)))
++        return -XA_ERR_INVAL;
++
++    if (!blend_for_op(&blend, comp->op, comp->src, comp->mask, comp->dst))
++	return -XA_ERR_INVAL;
++
++    /*
++     * No component alpha yet.
++     */
++    if (mask_pic && mask_pic->component_alpha && blend.alpha_src)
++	return -XA_ERR_INVAL;
++
++    return XA_ERR_NONE;
++}
++
++static int
++bind_composite_blend_state(struct xa_context *ctx,
++			   const struct xa_composite *comp)
++{
++    struct xa_composite_blend blend_opt;
++    struct pipe_blend_state blend;
++
++    if (!blend_for_op(&blend_opt, comp->op, comp->src, comp->mask, comp->dst))
++	return -XA_ERR_INVAL;
++
++    memset(&blend, 0, sizeof(struct pipe_blend_state));
++    blend.rt[0].blend_enable = 1;
++    blend.rt[0].colormask = PIPE_MASK_RGBA;
++
++    blend.rt[0].rgb_src_factor   = blend_opt.rgb_src;
++    blend.rt[0].alpha_src_factor = blend_opt.rgb_src;
++    blend.rt[0].rgb_dst_factor   = blend_opt.rgb_dst;
++    blend.rt[0].alpha_dst_factor = blend_opt.rgb_dst;
++
++    cso_set_blend(ctx->cso, &blend);
++    return XA_ERR_NONE;
++}
++
++static unsigned int
++picture_format_fixups(struct xa_picture *src_pic,
++		      int mask)
++{
++    bool set_alpha = false;
++    bool swizzle = false;
++    unsigned ret = 0;
++    struct xa_surface *src = src_pic->srf;
++    enum xa_formats src_hw_format, src_pic_format;
++    enum xa_surface_type src_hw_type, src_pic_type;
++
++    if (!src)
++	return 0;
++
++    src_hw_format = xa_surface_format(src);
++    src_pic_format = src_pic->pict_format;
++
++    set_alpha = (xa_format_type_is_color(src_hw_format) &&
++		 xa_format_a(src_pic_format) == 0);
++
++    if (set_alpha)
++	ret |= mask ? FS_MASK_SET_ALPHA : FS_SRC_SET_ALPHA;
++
++    if (src_hw_format == src_pic_format) {
++	if (src->tex->format == PIPE_FORMAT_L8_UNORM ||
++            src->tex->format == PIPE_FORMAT_R8_UNORM)
++	    return ((mask) ? FS_MASK_LUMINANCE : FS_SRC_LUMINANCE);
++
++	return ret;
++    }
++
++    src_hw_type = xa_format_type(src_hw_format);
++    src_pic_type = xa_format_type(src_pic_format);
++
++    swizzle = ((src_hw_type == xa_type_argb &&
++		src_pic_type == xa_type_abgr) ||
++	       ((src_hw_type == xa_type_abgr &&
++		 src_pic_type == xa_type_argb)));
++
++    if (!swizzle && (src_hw_type != src_pic_type))
++      return ret;
++
++    if (swizzle)
++	ret |= mask ? FS_MASK_SWIZZLE_RGB : FS_SRC_SWIZZLE_RGB;
++
++    return ret;
++}
++
++static void
++xa_src_in_mask(float src[4], const float mask[4])
++{
++	src[0] *= mask[3];
++	src[1] *= mask[3];
++	src[2] *= mask[3];
++	src[3] *= mask[3];
++}
++
++/**
++ * xa_handle_src_pict - Set up xa_context state and fragment shader
++ * input based on scr_pict type
++ *
++ * \param ctx[in, out]: Pointer to the xa context.
++ * \param src_pict[in]: Pointer to the union xa_source_pict to consider.
++ * \param is_mask[in]: Whether we're considering a mask picture.
++ *
++ * \returns TRUE if succesful, FALSE otherwise.
++ *
++ * This function computes some xa_context state used to determine whether
++ * to upload the solid color and also the solid color itself used as an input
++ * to the fragment shader.
++ */
++static bool
++xa_handle_src_pict(struct xa_context *ctx,
++                   const union xa_source_pict *src_pict,
++                   bool is_mask)
++{
++    float solid_color[4];
++
++    switch(src_pict->type) {
++    case xa_src_pict_solid_fill:
++        xa_pixel_to_float4(src_pict->solid_fill.color, solid_color);
++        break;
++    case xa_src_pict_float_solid_fill:
++        memcpy(solid_color, src_pict->float_solid_fill.color,
++               sizeof(solid_color));
++        break;
++    default:
++        return false;
++    }
++
++    if (is_mask && ctx->has_solid_src)
++        xa_src_in_mask(ctx->solid_color, solid_color);
++    else
++        memcpy(ctx->solid_color, solid_color, sizeof(solid_color));
++
++    if (is_mask)
++        ctx->has_solid_mask = true;
++    else
++        ctx->has_solid_src = true;
++
++    return true;
++}
++
++static int
++bind_shaders(struct xa_context *ctx, const struct xa_composite *comp)
++{
++    unsigned vs_traits = 0, fs_traits = 0;
++    struct xa_shader shader;
++    struct xa_picture *src_pic = comp->src;
++    struct xa_picture *mask_pic = comp->mask;
++    struct xa_picture *dst_pic = comp->dst;
++
++    ctx->has_solid_src = false;
++    ctx->has_solid_mask = false;
++
++    if (dst_pic && xa_format_type(dst_pic->pict_format) !=
++        xa_format_type(xa_surface_format(dst_pic->srf)))
++       return -XA_ERR_INVAL;
++
++    if (src_pic) {
++	if (src_pic->wrap == xa_wrap_clamp_to_border && src_pic->has_transform)
++	    fs_traits |= FS_SRC_REPEAT_NONE;
++
++        fs_traits |= FS_COMPOSITE;
++        vs_traits |= VS_COMPOSITE;
++
++	if (src_pic->src_pict) {
++            if (!xa_handle_src_pict(ctx, src_pic->src_pict, false))
++                return -XA_ERR_INVAL;
++            fs_traits |= FS_SRC_SRC;
++            vs_traits |= VS_SRC_SRC;
++	} else
++           fs_traits |= picture_format_fixups(src_pic, 0);
++    }
++
++    if (mask_pic) {
++	vs_traits |= VS_MASK;
++	fs_traits |= FS_MASK;
++        if (mask_pic->component_alpha)
++           fs_traits |= FS_CA;
++        if (mask_pic->src_pict) {
++            if (!xa_handle_src_pict(ctx, mask_pic->src_pict, true))
++                return -XA_ERR_INVAL;
++
++            if (ctx->has_solid_src) {
++                vs_traits &= ~VS_MASK;
++                fs_traits &= ~FS_MASK;
++            } else {
++                vs_traits |= VS_MASK_SRC;
++                fs_traits |= FS_MASK_SRC;
++            }
++        } else {
++            if (mask_pic->wrap == xa_wrap_clamp_to_border &&
++                mask_pic->has_transform)
++                fs_traits |= FS_MASK_REPEAT_NONE;
++
++            fs_traits |= picture_format_fixups(mask_pic, 1);
++        }
++    }
++
++    if (ctx->srf.format == PIPE_FORMAT_L8_UNORM ||
++        ctx->srf.format == PIPE_FORMAT_R8_UNORM)
++	fs_traits |= FS_DST_LUMINANCE;
++
++    shader = xa_shaders_get(ctx->shaders, vs_traits, fs_traits);
++    cso_set_vertex_shader_handle(ctx->cso, shader.vs);
++    cso_set_fragment_shader_handle(ctx->cso, shader.fs);
++    return XA_ERR_NONE;
++}
++
++static void
++bind_samplers(struct xa_context *ctx,
++	      const struct xa_composite *comp)
++{
++    struct pipe_sampler_state *samplers[PIPE_MAX_SAMPLERS];
++    struct pipe_sampler_state src_sampler, mask_sampler;
++    struct pipe_sampler_view view_templ;
++    struct pipe_sampler_view *src_view;
++    struct pipe_context *pipe = ctx->pipe;
++    struct xa_picture *src_pic = comp->src;
++    struct xa_picture *mask_pic = comp->mask;
++    int num_samplers = 0;
++
++    xa_ctx_sampler_views_destroy(ctx);
++    memset(&src_sampler, 0, sizeof(struct pipe_sampler_state));
++    memset(&mask_sampler, 0, sizeof(struct pipe_sampler_state));
++
++    if (src_pic && !ctx->has_solid_src) {
++	unsigned src_wrap = xa_repeat_to_gallium(src_pic->wrap);
++	int filter;
++
++	(void) xa_filter_to_gallium(src_pic->filter, &filter);
++
++	src_sampler.wrap_s = src_wrap;
++	src_sampler.wrap_t = src_wrap;
++	src_sampler.min_img_filter = filter;
++	src_sampler.mag_img_filter = filter;
++	src_sampler.min_mip_filter = PIPE_TEX_MIPFILTER_NEAREST;
++	samplers[0] = &src_sampler;
++	u_sampler_view_default_template(&view_templ,
++					src_pic->srf->tex,+					src_pic->srf->tex->format);
++	src_view = pipe->create_sampler_view(pipe, src_pic->srf->tex,
++					     &view_templ);
++	ctx->bound_sampler_views[0] = src_view;
++	num_samplers++;
++    }
++
++    if (mask_pic && !ctx->has_solid_mask) {
++        unsigned mask_wrap = xa_repeat_to_gallium(mask_pic->wrap);
++	int filter;
++
++	(void) xa_filter_to_gallium(mask_pic->filter, &filter);
++
++	mask_sampler.wrap_s = mask_wrap;
++	mask_sampler.wrap_t = mask_wrap;
++	mask_sampler.min_img_filter = filter;
++	mask_sampler.mag_img_filter = filter;
++	src_sampler.min_mip_filter = PIPE_TEX_MIPFILTER_NEAREST;
++        samplers[num_samplers] = &mask_sampler;
++	u_sampler_view_default_template(&view_templ,
++					mask_pic->srf->tex,
++					mask_pic->srf->tex->format);
++	src_view = pipe->create_sampler_view(pipe, mask_pic->srf->tex,
++					     &view_templ);
++        ctx->bound_sampler_views[num_samplers] = src_view;
++        num_samplers++;
++    }
++
++    cso_set_samplers(ctx->cso, MESA_SHADER_FRAGMENT, num_samplers,
++		     (const struct pipe_sampler_state **)samplers);
++    pipe->set_sampler_views(pipe, MESA_SHADER_FRAGMENT, 0, num_samplers, 0,
++                            ctx->bound_sampler_views);
++    ctx->num_bound_samplers = num_samplers;
++}
++
++XA_EXPORT int
++xa_composite_prepare(struct xa_context *ctx,
++		     const struct xa_composite *comp)
++{
++    struct xa_surface *dst_srf = comp->dst->srf;
++    int ret;
++
++    ret = xa_ctx_srf_create(ctx, dst_srf);
++    if (ret != XA_ERR_NONE)
++	return ret;
++
++    ctx->dst = dst_srf;
++    renderer_bind_destination(ctx);
++
++    ret = bind_composite_blend_state(ctx, comp);
++    if (ret != XA_ERR_NONE)
++	return ret;
++    ret = bind_shaders(ctx, comp);
++    if (ret != XA_ERR_NONE)
++	return ret;
++    bind_samplers(ctx, comp);
++
++    if (ctx->num_bound_samplers == 0 ) { /* solid fill */
++	renderer_begin_solid(ctx);
++    } else {
++	renderer_begin_textures(ctx);
++	ctx->comp = comp;
++    }
++
++    xa_ctx_srf_destroy(ctx);
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT void
++xa_composite_rect(struct xa_context *ctx,
++		  int srcX, int srcY, int maskX, int maskY,
++		  int dstX, int dstY, int width, int height)
++{
++    if (ctx->num_bound_samplers == 0 ) { /* solid fill */
++	xa_scissor_update(ctx, dstX, dstY, dstX + width, dstY + height);
++	renderer_solid(ctx, dstX, dstY, dstX + width, dstY + height);
++    } else {
++	const struct xa_composite *comp = ctx->comp;
++	int pos[6] = {srcX, srcY, maskX, maskY, dstX, dstY};
++	const float *src_matrix = NULL;
++	const float *mask_matrix = NULL;
++
++	xa_scissor_update(ctx, dstX, dstY, dstX + width, dstY + height);
++
++	if (comp->src->has_transform)
++	    src_matrix = comp->src->transform;
++	if (comp->mask && comp->mask->has_transform)
++	    mask_matrix = comp->mask->transform;
++
++	renderer_texture(ctx, pos, width, height,
++			 src_matrix, mask_matrix);
++    }
++}
++
++XA_EXPORT void
++xa_composite_done(struct xa_context *ctx)
++{
++    renderer_draw_flush(ctx);
++
++    ctx->comp = NULL;
++    ctx->has_solid_src = false;
++    ctx->has_solid_mask = false;
++    xa_ctx_sampler_views_destroy(ctx);
++}
++
++static const struct xa_composite_allocation a = {
++    .xa_composite_size = sizeof(struct xa_composite),
++    .xa_picture_size = sizeof(struct xa_picture),
++    .xa_source_pict_size = sizeof(union xa_source_pict),
++};
++
++XA_EXPORT const struct xa_composite_allocation *
++xa_composite_allocation(void)
++{
++    return &a;
++}
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.h b/src/gallium/frontends/xa/xa_composite.h
+--- a/src/gallium/frontends/xa/xa_composite.h	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_composite.h	2026-02-03 13:39:32.727415379 +0000
+@@ -0,0 +1,156 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#ifndef _XA_COMPOSITE_H_
++#define _XA_COMPOSITE_H_
++
++#include "xa_tracker.h"
++#include "xa_context.h"
++
++/*
++ * Supported composite ops.
++ */
++enum xa_composite_op {
++    xa_op_clear,
++    xa_op_src,
++    xa_op_dst,
++    xa_op_over,
++    xa_op_over_reverse,
++    xa_op_in,
++    xa_op_in_reverse,
++    xa_op_out,
++    xa_op_out_reverse,
++    xa_op_atop,
++    xa_op_atop_reverse,
++    xa_op_xor,
++    xa_op_add
++};
++
++/*
++ * Supported filters.
++ */
++enum xa_composite_filter {
++    xa_filter_nearest,
++    xa_filter_linear
++};
++
++/*
++ * Supported clamp methods.
++ */
++enum xa_composite_wrap {
++    xa_wrap_clamp_to_border,
++    xa_wrap_repeat,
++    xa_wrap_mirror_repeat,
++    xa_wrap_clamp_to_edge
++};
++
++/*
++ * Src picture types.
++ */
++enum xa_composite_src_pict_type {
++    xa_src_pict_solid_fill,
++    xa_src_pict_float_solid_fill
++};
++
++
++/*
++ * struct xa_pict_solid_fill - Description of a solid_fill picture
++ * Deprecated. Use struct xa_pict_float_solid_fill instead.
++ */
++struct xa_pict_solid_fill {
++    enum xa_composite_src_pict_type type;
++    unsigned int class;
++    uint32_t color;
++};
++
++/*
++ * struct xa_pict_solid_fill - Description of a solid_fill picture
++ * with color channels represented by floats.
++ */
++struct xa_pict_float_solid_fill {
++    enum xa_composite_src_pict_type type;
++    float color[4]; /* R, G, B, A */
++};
++
++union xa_source_pict {
++    enum xa_composite_src_pict_type type;
++    struct xa_pict_solid_fill solid_fill;
++    struct xa_pict_float_solid_fill float_solid_fill;
++};
++
++struct xa_picture {
++    enum xa_formats pict_format;
++    struct xa_surface *srf;
++    struct xa_surface *alpha_map;
++    float transform[9];
++    int has_transform;
++    int component_alpha;
++    enum xa_composite_wrap wrap;
++    enum xa_composite_filter filter;
++    union xa_source_pict *src_pict;
++};
++
++struct xa_composite {
++    struct xa_picture *src, *mask, *dst;
++    int op;
++    int no_solid;
++};
++
++struct xa_composite_allocation {
++    unsigned int xa_composite_size;
++    unsigned int xa_picture_size;
++    unsigned int xa_source_pict_size;
++};
++
++/*
++ * Get allocation sizes for minor bump compatibility.
++ */
++
++extern const struct xa_composite_allocation *
++xa_composite_allocation(void);
++
++/*
++ * This function checks most things except the format of the hardware
++ * surfaces, since they are generally not available at the time this
++ * function is called. Returns usual XA error codes.
++ */
++extern int
++xa_composite_check_accelerated(const struct xa_composite *comp);
++
++extern int
++xa_composite_prepare(struct xa_context *ctx, const struct xa_composite *comp);
++
++extern void
++xa_composite_rect(struct xa_context *ctx,
++		  int srcX, int srcY, int maskX, int maskY,
++		  int dstX, int dstY, int width, int height);
++extern void
++xa_composite_done(struct xa_context *ctx);
++
++#endif
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.c b/src/gallium/frontends/xa/xa_context.c
+--- a/src/gallium/frontends/xa/xa_context.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_context.c	2026-02-03 13:39:32.727570038 +0000
+@@ -0,0 +1,411 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++#include "xa_context.h"
++#include "xa_priv.h"
++#include "cso_cache/cso_context.h"
++#include "util/u_inlines.h"
++#include "util/u_rect.h"
++#include "util/u_surface.h"
++#include "pipe/p_context.h"
++
++XA_EXPORT void
++xa_context_flush(struct xa_context *ctx)
++{
++    if (ctx->last_fence) {
++        struct pipe_screen *screen = ctx->xa->screen;
++        screen->fence_reference(screen, &ctx->last_fence, NULL);
++    }
++    ctx->pipe->flush(ctx->pipe, &ctx->last_fence, 0);
++}
++
++XA_EXPORT struct xa_context *
++xa_context_default(struct xa_tracker *xa)
++{
++    return xa->default_ctx;
++}
++
++XA_EXPORT struct xa_context *
++xa_context_create(struct xa_tracker *xa)
++{
++    struct xa_context *ctx = calloc(1, sizeof(*ctx));
++
++    ctx->xa = xa;
++    ctx->pipe = xa->screen->context_create(xa->screen, NULL, 0);
++    ctx->cso = cso_create_context(ctx->pipe, 0);
++    ctx->shaders = xa_shaders_create(ctx);
++    renderer_init_state(ctx);
++
++    return ctx;
++}
++
++XA_EXPORT void
++xa_context_destroy(struct xa_context *r)
++{
++    struct pipe_resource **vsbuf = &r->vs_const_buffer;
++    struct pipe_resource **fsbuf = &r->fs_const_buffer;
++
++    if (*vsbuf)
++	pipe_resource_reference(vsbuf, NULL);
++
++    if (*fsbuf)
++	pipe_resource_reference(fsbuf, NULL);
++
++    if (r->shaders) {
++	xa_shaders_destroy(r->shaders);
++	r->shaders = NULL;
++    }
++
++    xa_ctx_sampler_views_destroy(r);
++
++    if (r->cso) {
++	cso_destroy_context(r->cso);
++	r->cso = NULL;
++    }
++
++    r->pipe->destroy(r->pipe);
++    free(r);
++}
++
++XA_EXPORT int
++xa_surface_dma(struct xa_context *ctx,
++	       struct xa_surface *srf,
++	       void *data,
++	       unsigned int pitch,
++	       int to_surface, struct xa_box *boxes, unsigned int num_boxes)
++{
++    struct pipe_transfer *transfer;
++    void *map;
++    int w, h, i;
++    enum pipe_map_flags transfer_direction;
++    struct pipe_context *pipe = ctx->pipe;
++
++    transfer_direction = (to_surface ? PIPE_MAP_WRITE :
++			  PIPE_MAP_READ);
++
++    for (i = 0; i < num_boxes; ++i, ++boxes) {
++	w = boxes->x2 - boxes->x1;
++	h = boxes->y2 - boxes->y1;
++
++	map = pipe_texture_map(pipe, srf->tex, 0, 0,
++                                transfer_direction, boxes->x1, boxes->y1,
++                                w, h, &transfer);
++	if (!map)
++	    return -XA_ERR_NORES;
++
++	if (to_surface) {
++	    util_copy_rect(map, srf->tex->format, transfer->stride,
++			   0, 0, w, h, data, pitch, boxes->x1, boxes->y1);
++	} else {
++	    util_copy_rect(data, srf->tex->format, pitch,
++			   boxes->x1, boxes->y1, w, h, map, transfer->stride, 0,
++			   0);
++	}
++	pipe->texture_unmap(pipe, transfer);
++    }
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT void *
++xa_surface_map(struct xa_context *ctx,
++	       struct xa_surface *srf, unsigned int usage)
++{
++    void *map;
++    unsigned int gallium_usage = 0;
++    struct pipe_context *pipe = ctx->pipe;
++
++    /*
++     * A surface may only have a single map.
++     */
++    if (srf->transfer)
++	return NULL;
++
++    if (usage & XA_MAP_READ)
++	gallium_usage |= PIPE_MAP_READ;
++    if (usage & XA_MAP_WRITE)
++	gallium_usage |= PIPE_MAP_WRITE;
++    if (usage & XA_MAP_MAP_DIRECTLY)
++	gallium_usage |= PIPE_MAP_DIRECTLY;
++    if (usage & XA_MAP_UNSYNCHRONIZED)
++	gallium_usage |= PIPE_MAP_UNSYNCHRONIZED;
++    if (usage & XA_MAP_DONTBLOCK)
++	gallium_usage |= PIPE_MAP_DONTBLOCK;
++    if (usage & XA_MAP_DISCARD_WHOLE_RESOURCE)
++	gallium_usage |= PIPE_MAP_DISCARD_WHOLE_RESOURCE;
++
++    if (!(gallium_usage & (PIPE_MAP_READ_WRITE)))
++	return NULL;
++
++    map = pipe_texture_map(pipe, srf->tex, 0, 0,
++                            gallium_usage, 0, 0,
++                            srf->tex->width0, srf->tex->height0,
++                            &srf->transfer);
++    if (!map)
++	return NULL;
++
++    srf->mapping_pipe = pipe;
++    return map;
++}
++
++XA_EXPORT void
++xa_surface_unmap(struct xa_surface *srf)
++{
++    if (srf->transfer) {
++	struct pipe_context *pipe = srf->mapping_pipe;
++
++	pipe->texture_unmap(pipe, srf->transfer);
++	srf->transfer = NULL;
++    }
++}
++
++int
++xa_ctx_srf_create(struct xa_context *ctx, struct xa_surface *dst)
++{
++    struct pipe_screen *screen = ctx->pipe->screen;
++
++    /*
++     * Cache surfaces unless we change render target
++     */
++    if (ctx->srf.texture == dst->tex)
++        return XA_ERR_NONE;
++
++    if (!screen->is_format_supported(screen,  dst->tex->format,
++				     PIPE_TEXTURE_2D, 0, 0,
++				     PIPE_BIND_RENDER_TARGET))
++	return -XA_ERR_INVAL;
++
++    u_surface_default_template(&ctx->srf, dst->tex);
++
++    return XA_ERR_NONE;
++}
++
++void
++xa_ctx_srf_destroy(struct xa_context *ctx)
++{
++    /*
++     * Cache surfaces unless we change render target.
++     * Final destruction on context destroy.
++     */
++}
++
++XA_EXPORT int
++xa_copy_prepare(struct xa_context *ctx,
++		struct xa_surface *dst, struct xa_surface *src)
++{
++    if (src == dst)
++	return -XA_ERR_INVAL;
++
++    if (src->tex->format != dst->tex->format) {
++	int ret = xa_ctx_srf_create(ctx, dst);
++	if (ret != XA_ERR_NONE)
++	    return ret;
++	renderer_copy_prepare(ctx, src->tex,
++			      src->fdesc.xa_format,
++			      dst->fdesc.xa_format);
++	ctx->simple_copy = 0;
++    } else
++	ctx->simple_copy = 1;
++
++    ctx->src = src;
++    ctx->dst = dst;
++    xa_ctx_srf_destroy(ctx);
++
++    return 0;
++}
++
++XA_EXPORT void
++xa_copy(struct xa_context *ctx,
++	int dx, int dy, int sx, int sy, int width, int height)
++{
++    struct pipe_box src_box;
++
++    xa_scissor_update(ctx, dx, dy, dx + width, dy + height);
++
++    if (ctx->simple_copy) {
++	u_box_2d(sx, sy, width, height, &src_box);
++	ctx->pipe->resource_copy_region(ctx->pipe,
++					ctx->dst->tex, 0, dx, dy, 0,
++					ctx->src->tex,
++					0, &src_box);
++    } else
++	renderer_copy(ctx, dx, dy, sx, sy, width, height,
++		      (float) ctx->src->tex->width0,
++		      (float) ctx->src->tex->height0);
++}
++
++XA_EXPORT void
++xa_copy_done(struct xa_context *ctx)
++{
++    if (!ctx->simple_copy) {
++	renderer_draw_flush(ctx);
++    }
++}
++
++static void
++bind_solid_blend_state(struct xa_context *ctx)
++{
++    struct pipe_blend_state blend;
++
++    memset(&blend, 0, sizeof(struct pipe_blend_state));
++    blend.rt[0].blend_enable = 0;
++    blend.rt[0].colormask = PIPE_MASK_RGBA;
++
++    blend.rt[0].rgb_src_factor   = PIPE_BLENDFACTOR_ONE;
++    blend.rt[0].alpha_src_factor = PIPE_BLENDFACTOR_ONE;
++    blend.rt[0].rgb_dst_factor   = PIPE_BLENDFACTOR_ZERO;
++    blend.rt[0].alpha_dst_factor = PIPE_BLENDFACTOR_ZERO;
++
++    cso_set_blend(ctx->cso, &blend);
++}
++
++XA_EXPORT int
++xa_solid_prepare(struct xa_context *ctx, struct xa_surface *dst,
++		 uint32_t fg)
++{
++    unsigned vs_traits, fs_traits;
++    struct xa_shader shader;
++    int ret;
++
++    ret = xa_ctx_srf_create(ctx, dst);
++    if (ret != XA_ERR_NONE)
++	return ret;
++
++    if (ctx->srf.format == PIPE_FORMAT_L8_UNORM)
++	xa_pixel_to_float4_a8(fg, ctx->solid_color);
++    else
++	xa_pixel_to_float4(fg, ctx->solid_color);
++    ctx->has_solid_src = 1;
++
++    ctx->dst = dst;
++
++#if 0
++    debug_printf("Color Pixel=(%d, %d, %d, %d), RGBA=(%f, %f, %f, %f)\n",
++		 (fg >> 24) & 0xff, (fg >> 16) & 0xff,
++		 (fg >> 8) & 0xff,  (fg >> 0) & 0xff,
++		 exa->solid_color[0], exa->solid_color[1],
++		 exa->solid_color[2], exa->solid_color[3]);
++#endif
++
++    vs_traits = VS_SRC_SRC | VS_COMPOSITE;
++    fs_traits = FS_SRC_SRC | VS_COMPOSITE;
++
++    renderer_bind_destination(ctx);
++    bind_solid_blend_state(ctx);
++    cso_set_samplers(ctx->cso, MESA_SHADER_FRAGMENT, 0, NULL);
++    ctx->pipe->set_sampler_views(ctx->pipe, MESA_SHADER_FRAGMENT, 0, 0,
++                                 XA_MAX_SAMPLERS, NULL);
++
++    shader = xa_shaders_get(ctx->shaders, vs_traits, fs_traits);
++    cso_set_vertex_shader_handle(ctx->cso, shader.vs);
++    cso_set_fragment_shader_handle(ctx->cso, shader.fs);
++
++    renderer_begin_solid(ctx);
++
++    xa_ctx_srf_destroy(ctx);
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT void
++xa_solid(struct xa_context *ctx, int x, int y, int width, int height)
++{
++    xa_scissor_update(ctx, x, y, x + width, y + height);
++    renderer_solid(ctx, x, y, x + width, y + height);
++}
++
++XA_EXPORT void
++xa_solid_done(struct xa_context *ctx)
++{
++    renderer_draw_flush(ctx);
++    ctx->comp = NULL;
++    ctx->has_solid_src = false;
++    ctx->num_bound_samplers = 0;
++}
++
++XA_EXPORT struct xa_fence *
++xa_fence_get(struct xa_context *ctx)
++{
++    struct xa_fence *fence = calloc(1, sizeof(*fence));
++    struct pipe_screen *screen = ctx->xa->screen;
++
++    if (!fence)
++	return NULL;
++
++    fence->xa = ctx->xa;
++
++    if (ctx->last_fence == NULL)
++	fence->pipe_fence = NULL;
++    else
++	screen->fence_reference(screen, &fence->pipe_fence, ctx->last_fence);
++
++    return fence;
++}
++
++XA_EXPORT int
++xa_fence_wait(struct xa_fence *fence, uint64_t timeout)
++{
++    if (!fence)
++	return XA_ERR_NONE;
++
++    if (fence->pipe_fence) {
++	struct pipe_screen *screen = fence->xa->screen;
++	bool timed_out;
++
++	timed_out = !screen->fence_finish(screen, NULL, fence->pipe_fence, timeout);
++	if (timed_out)
++	    return -XA_ERR_BUSY;
++
++	screen->fence_reference(screen, &fence->pipe_fence, NULL);
++    }
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT void
++xa_fence_destroy(struct xa_fence *fence)
++{
++    if (!fence)
++	return;
++
++    if (fence->pipe_fence) {
++	struct pipe_screen *screen = fence->xa->screen;
++
++	screen->fence_reference(screen, &fence->pipe_fence, NULL);
++    }
++
++    free(fence);
++}
++
++void
++xa_ctx_sampler_views_destroy(struct xa_context *ctx)
++{
++    int i;
++
++    for (i = 0; i < ctx->num_bound_samplers; ++i)
++	    ctx->pipe->sampler_view_release(ctx->pipe, ctx->bound_sampler_views[i]);
++    memset(ctx->bound_sampler_views, 0, sizeof(ctx->bound_sampler_views));
++    ctx->num_bound_samplers = 0;
++}
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.h b/src/gallium/frontends/xa/xa_context.h
+--- a/src/gallium/frontends/xa/xa_context.h	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_context.h	2026-02-03 13:39:32.727765573 +0000
+@@ -0,0 +1,101 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#ifndef _XA_CONTEXT_H_
++#define _XA_CONTEXT_H_
++#include "xa_tracker.h"
++#include <stdint.h>
++
++struct xa_context;
++
++extern struct xa_context *xa_context_default(struct xa_tracker *xa);
++
++extern struct xa_context *xa_context_create(struct xa_tracker *xa);
++
++extern void xa_context_destroy(struct xa_context *r);
++
++extern void xa_context_flush(struct xa_context *ctx);
++
++/**
++ * xa_yuv_planar_blit - 2D blit with color conversion and scaling.
++ *
++ * Performs a scaled blit with color conversion according to
++ * (R,G,B,A)^T = (CM)^T (Y,U,V,1)^T, where @conversion_matrix or CM in the
++ * formula is a four by four coefficient matrix. The input variable
++ * @yuv is an array of three xa_yuv_component surfaces.
++ */
++extern int xa_yuv_planar_blit(struct xa_context *r,
++			      int src_x,
++			      int src_y,
++			      int src_w,
++			      int src_h,
++			      int dst_x,
++			      int dst_y,
++			      int dst_w,
++			      int dst_h,
++			      struct xa_box *box,
++			      unsigned int num_boxes,
++			      const float conversion_matrix[],
++			      struct xa_surface *dst, struct xa_surface *yuv[]);
++
++extern int xa_copy_prepare(struct xa_context *ctx,
++			   struct xa_surface *dst, struct xa_surface *src);
++
++extern void xa_copy(struct xa_context *ctx,
++		    int dx, int dy, int sx, int sy, int width, int height);
++
++extern void xa_copy_done(struct xa_context *ctx);
++
++extern int xa_surface_dma(struct xa_context *ctx,
++			  struct xa_surface *srf,
++			  void *data,
++			  unsigned int byte_pitch,
++			  int to_surface, struct xa_box *boxes,
++			  unsigned int num_boxes);
++
++extern void *xa_surface_map(struct xa_context *ctx,
++			    struct xa_surface *srf, unsigned int usage);
++
++extern void xa_surface_unmap(struct xa_surface *srf);
++
++extern int
++xa_solid_prepare(struct xa_context *ctx, struct xa_surface *dst,
++		 uint32_t fg);
++extern void
++xa_solid(struct xa_context *ctx, int x, int y, int width, int height);
++
++extern void
++xa_solid_done(struct xa_context *ctx);
++
++extern struct xa_fence *xa_fence_get(struct xa_context *ctx);
++
++extern int xa_fence_wait(struct xa_fence *fence, uint64_t timeout);
++
++extern void xa_fence_destroy(struct xa_fence *fence);
++#endif
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa-indent.sh b/src/gallium/frontends/xa/xa-indent.sh
+--- a/src/gallium/frontends/xa/xa-indent.sh	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa-indent.sh	2026-02-03 13:39:32.727921805 +0000
+@@ -0,0 +1,3 @@
++#!/bin/sh
++indent --linux-style -i4 -ip4 -bad -bap -psl $*
++
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_priv.h b/src/gallium/frontends/xa/xa_priv.h
+--- a/src/gallium/frontends/xa/xa_priv.h	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_priv.h	2026-02-03 13:39:32.728065142 +0000
+@@ -0,0 +1,287 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#ifndef _XA_PRIV_H_
++#define _XA_PRIV_H_
++
++#include "xa_tracker.h"
++#include "xa_context.h"
++#include "xa_composite.h"
++
++#include "pipe/p_screen.h"
++#include "pipe/p_context.h"
++#include "pipe/p_state.h"
++
++#include "util/u_math.h"
++
++#if defined(__GNUC__)
++#define XA_EXPORT __attribute__ ((visibility("default")))
++#else
++#define XA_EXPORT
++#endif
++
++#define XA_VB_SIZE (100 * 4 * 3 * 4)
++#define XA_LAST_SURFACE_TYPE (xa_type_yuv_component + 1)
++#define XA_MAX_SAMPLERS 3
++
++struct xa_fence {
++    struct pipe_fence_handle *pipe_fence;
++    struct xa_tracker *xa;
++};
++
++struct xa_format_descriptor {
++    enum pipe_format format;
++    enum xa_formats xa_format;
++};
++
++struct xa_surface {
++    int refcount;
++    struct pipe_resource template;
++    struct xa_tracker *xa;
++    struct pipe_resource *tex;
++    struct pipe_transfer *transfer;
++    unsigned int flags;
++    struct xa_format_descriptor fdesc;
++    struct pipe_context *mapping_pipe;
++};
++
++struct xa_tracker {
++    enum xa_formats *supported_formats;
++    unsigned int format_map[XA_LAST_SURFACE_TYPE][2];
++    struct pipe_loader_device *dev;
++    struct pipe_screen *screen;
++    struct xa_context *default_ctx;
++};
++
++struct xa_context {
++    struct xa_tracker *xa;
++    struct pipe_context *pipe;
++
++    struct cso_context *cso;
++    struct xa_shaders *shaders;
++
++    struct pipe_resource *vs_const_buffer;
++    struct pipe_resource *fs_const_buffer;
++
++    float buffer[XA_VB_SIZE];
++    unsigned int buffer_size;
++    struct pipe_vertex_element velems[3];
++
++    /* number of attributes per vertex for the current
++     * draw operation */
++    unsigned int attrs_per_vertex;
++
++    unsigned int fb_width;
++    unsigned int fb_height;
++
++    struct pipe_fence_handle *last_fence;
++    struct xa_surface *src;
++    struct xa_surface *dst;
++    struct pipe_surface srf;
++
++    /* destination scissor state.. we scissor out untouched parts
++     * of the dst for the benefit of tilers:
++     */
++    struct pipe_scissor_state scissor;
++    int scissor_valid;
++
++    int simple_copy;
++
++    int has_solid_src;
++    int has_solid_mask;
++    float solid_color[4];
++
++    unsigned int num_bound_samplers;
++    struct pipe_sampler_view *bound_sampler_views[XA_MAX_SAMPLERS];
++    const struct xa_composite *comp;
++};
++
++static inline void
++xa_scissor_reset(struct xa_context *ctx)
++{
++    ctx->scissor.maxx = 0;
++    ctx->scissor.maxy = 0;
++    ctx->scissor.minx = ~0;
++    ctx->scissor.miny = ~0;
++    ctx->scissor_valid = false;
++}
++
++static inline void
++xa_scissor_update(struct xa_context *ctx, unsigned minx, unsigned miny,
++		unsigned maxx, unsigned maxy)
++{
++    ctx->scissor.maxx = MAX2(ctx->scissor.maxx, maxx);
++    ctx->scissor.maxy = MAX2(ctx->scissor.maxy, maxy);
++    ctx->scissor.minx = MIN2(ctx->scissor.minx, minx);
++    ctx->scissor.miny = MIN2(ctx->scissor.miny, miny);
++    ctx->scissor_valid = true;
++}
++
++enum xa_vs_traits {
++    VS_COMPOSITE = 1 << 0,
++    VS_MASK = 1 << 1,
++    VS_SRC_SRC = 1 << 2,
++    VS_MASK_SRC = 1 << 3,
++    VS_YUV = 1 << 4,
++};
++
++enum xa_fs_traits {
++    FS_COMPOSITE = 1 << 0,
++    FS_MASK = 1 << 1,
++    FS_SRC_SRC = 1 << 2,
++    FS_MASK_SRC = 1 << 3,
++    FS_YUV = 1 << 4,
++    FS_SRC_REPEAT_NONE = 1 << 5,
++    FS_MASK_REPEAT_NONE = 1 << 6,
++    FS_SRC_SWIZZLE_RGB = 1 << 7,
++    FS_MASK_SWIZZLE_RGB = 1 << 8,
++    FS_SRC_SET_ALPHA = 1 << 9,
++    FS_MASK_SET_ALPHA = 1 << 10,
++    FS_SRC_LUMINANCE = 1 << 11,
++    FS_MASK_LUMINANCE = 1 << 12,
++    FS_DST_LUMINANCE = 1 << 13,
++    FS_CA = 1 << 14,
++};
++
++struct xa_shader {
++    void *fs;
++    void *vs;
++};
++
++struct xa_shaders;
++
++/*
++ * Inline utilities
++ */
++
++static inline int
++xa_min(int a, int b)
++{
++    return ((a <= b) ? a : b);
++}
++
++static inline void
++xa_pixel_to_float4(uint32_t pixel, float *color)
++{
++    uint32_t	    r, g, b, a;
++
++    a = (pixel >> 24) & 0xff;
++    r = (pixel >> 16) & 0xff;
++    g = (pixel >>  8) & 0xff;
++    b = (pixel >>  0) & 0xff;
++    color[0] = ((float)r) / 255.;
++    color[1] = ((float)g) / 255.;
++    color[2] = ((float)b) / 255.;
++    color[3] = ((float)a) / 255.;
++}
++
++static inline void
++xa_pixel_to_float4_a8(uint32_t pixel, float *color)
++{
++    uint32_t a;
++
++    a = (pixel >> 24) & 0xff;
++    color[0] = ((float)a) / 255.;
++    color[1] = ((float)a) / 255.;
++    color[2] = ((float)a) / 255.;
++    color[3] = ((float)a) / 255.;
++}
++
++/*
++ * xa_tgsi.c
++ */
++
++extern struct xa_shaders *xa_shaders_create(struct xa_context *);
++
++void xa_shaders_destroy(struct xa_shaders *shaders);
++
++struct xa_shader xa_shaders_get(struct xa_shaders *shaders,
++				unsigned vs_traits, unsigned fs_traits);
++
++/*
++ * xa_context.c
++ */
++extern void
++xa_context_flush(struct xa_context *ctx);
++
++extern int
++xa_ctx_srf_create(struct xa_context *ctx, struct xa_surface *dst);
++
++extern void
++xa_ctx_srf_destroy(struct xa_context *ctx);
++
++extern void
++xa_ctx_sampler_views_destroy(struct xa_context *ctx);
++
++/*
++ * xa_renderer.c
++ */
++void renderer_set_constants(struct xa_context *r,
++			    int shader_type, const float *params,
++			    int param_bytes);
++
++void renderer_draw_yuv(struct xa_context *r,
++		       float src_x,
++		       float src_y,
++		       float src_w,
++		       float src_h,
++		       int dst_x,
++		       int dst_y, int dst_w, int dst_h,
++		       struct xa_surface *srf[]);
++
++void renderer_bind_destination(struct xa_context *r);
++
++void renderer_init_state(struct xa_context *r);
++void renderer_copy_prepare(struct xa_context *r,
++			   struct pipe_resource *src_texture,
++			   const enum xa_formats src_xa_format,
++			   const enum xa_formats dst_xa_format);
++
++void renderer_copy(struct xa_context *r, int dx,
++		   int dy,
++		   int sx,
++		   int sy,
++		   int width, int height, float src_width, float src_height);
++
++void renderer_draw_flush(struct xa_context *r);
++
++void renderer_begin_solid(struct xa_context *r);
++void renderer_solid(struct xa_context *r,
++		    int x0, int y0, int x1, int y1);
++void
++renderer_begin_textures(struct xa_context *r);
++
++void
++renderer_texture(struct xa_context *r,
++		 int *pos,
++		 int width, int height,
++		 const float *src_matrix,
++		 const float *mask_matrix);
++
++#endif
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_renderer.c b/src/gallium/frontends/xa/xa_renderer.c
+--- a/src/gallium/frontends/xa/xa_renderer.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_renderer.c	2026-02-03 13:39:32.728235230 +0000
+@@ -0,0 +1,638 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ */
++
++#include "xa_context.h"
++#include "xa_priv.h"
++#include <math.h>
++#include "cso_cache/cso_context.h"
++#include "util/u_inlines.h"
++#include "util/u_sampler.h"
++#include "util/u_draw_quad.h"
++
++#define floatsEqual(x, y) (fabsf(x - y) <= 0.00001f * MIN2(fabsf(x), fabsf(y)))
++#define floatIsZero(x) (floatsEqual((x) + 1.0f, 1.0f))
++
++#define NUM_COMPONENTS 4
++
++void
++
++
++renderer_set_constants(struct xa_context *r,
++		       int shader_type, const float *params, int param_bytes);
++
++static inline bool
++is_affine(const float *matrix)
++{
++    return floatIsZero(matrix[2]) && floatIsZero(matrix[5])
++	&& floatsEqual(matrix[8], 1.0f);
++}
++
++static inline void
++map_point(const float *mat, float x, float y, float *out_x, float *out_y)
++{
++    if (!mat) {
++	*out_x = x;
++	*out_y = y;
++	return;
++    }
++
++    *out_x = mat[0] * x + mat[3] * y + mat[6];
++    *out_y = mat[1] * x + mat[4] * y + mat[7];
++    if (!is_affine(mat)) {
++	float w = 1 / (mat[2] * x + mat[5] * y + mat[8]);
++
++	*out_x *= w;
++	*out_y *= w;
++    }
++}
++
++static inline void
++renderer_draw(struct xa_context *r)
++{
++    int num_verts = r->buffer_size / (r->attrs_per_vertex * NUM_COMPONENTS);
++
++    if (!r->buffer_size)
++	return;
++
++    if (!r->scissor_valid) {
++	r->scissor.minx = 0;
++	r->scissor.miny = 0;
++	r->scissor.maxx = r->dst->tex->width0;
++	r->scissor.maxy = r->dst->tex->height0;
++    }
++
++    r->pipe->set_scissor_states(r->pipe, 0, 1, &r->scissor);
++
++    struct cso_velems_state velems;
++    velems.count = r->attrs_per_vertex;
++    memcpy(velems.velems, r->velems, sizeof(r->velems[0]) * velems.count);
++    for (unsigned i = 0; i < velems.count; i++)
++        velems.velems[i].src_stride = velems.count * 4 * sizeof(float);
++
++    cso_set_vertex_elements(r->cso, &velems);
++    util_draw_user_vertex_buffer(r->cso, r->buffer, MESA_PRIM_QUADS,
++                                 num_verts,	/* verts */
++                                 r->attrs_per_vertex);	/* attribs/vert */
++    r->buffer_size = 0;
++
++    xa_scissor_reset(r);
++}
++
++static inline void
++renderer_draw_conditional(struct xa_context *r, int next_batch)
++{
++    if (r->buffer_size + next_batch >= XA_VB_SIZE ||
++	(next_batch == 0 && r->buffer_size)) {
++	renderer_draw(r);
++    }
++}
++
++void
++renderer_init_state(struct xa_context *r)
++{
++    struct pipe_depth_stencil_alpha_state dsa;
++    struct pipe_rasterizer_state raster;
++    unsigned i;
++
++    /* set common initial clip state */
++    memset(&dsa, 0, sizeof(struct pipe_depth_stencil_alpha_state));
++    cso_set_depth_stencil_alpha(r->cso, &dsa);
++
++    /* XXX: move to renderer_init_state? */
++    memset(&raster, 0, sizeof(struct pipe_rasterizer_state));
++    raster.half_pixel_center = 1;
++    raster.bottom_edge_rule = 1;
++    raster.depth_clip_near = 1;
++    raster.depth_clip_far = 1;
++    raster.scissor = 1;
++    cso_set_rasterizer(r->cso, &raster);
++
++    /* vertex elements state */
++    memset(&r->velems[0], 0, sizeof(r->velems[0]) * 3);
++    for (i = 0; i < 3; i++) {
++	r->velems[i].src_offset = i * 4 * sizeof(float);
++	r->velems[i].instance_divisor = 0;
++	r->velems[i].vertex_buffer_index = 0;
++	r->velems[i].src_format = PIPE_FORMAT_R32G32B32A32_FLOAT;
++    }
++}
++
++static inline void
++add_vertex_none(struct xa_context *r, float x, float y)
++{
++    float *vertex = r->buffer + r->buffer_size;
++
++    vertex[0] = x;
++    vertex[1] = y;
++    vertex[2] = 0.f;		/*z */
++    vertex[3] = 1.f;		/*w */
++
++    r->buffer_size += 4;
++}
++
++static inline void
++add_vertex_1tex(struct xa_context *r, float x, float y, float s, float t)
++{
++    float *vertex = r->buffer + r->buffer_size;
++
++    vertex[0] = x;
++    vertex[1] = y;
++    vertex[2] = 0.f;		/*z */
++    vertex[3] = 1.f;		/*w */
++
++    vertex[4] = s;		/*s */
++    vertex[5] = t;		/*t */
++    vertex[6] = 0.f;		/*r */
++    vertex[7] = 1.f;		/*q */
++
++    r->buffer_size += 8;
++}
++
++static inline void
++add_vertex_2tex(struct xa_context *r,
++		float x, float y, float s0, float t0, float s1, float t1)
++{
++    float *vertex = r->buffer + r->buffer_size;
++
++    vertex[0] = x;
++    vertex[1] = y;
++    vertex[2] = 0.f;		/*z */
++    vertex[3] = 1.f;		/*w */
++
++    vertex[4] = s0;		/*s */
++    vertex[5] = t0;		/*t */
++    vertex[6] = 0.f;		/*r */
++    vertex[7] = 1.f;		/*q */
++
++    vertex[8] = s1;		/*s */
++    vertex[9] = t1;		/*t */
++    vertex[10] = 0.f;		/*r */
++    vertex[11] = 1.f;		/*q */
++
++    r->buffer_size += 12;
++}
++
++static void
++compute_src_coords(float sx, float sy, const struct pipe_resource *src,
++                   const float *src_matrix,
++                   float width, float height,
++                   float tc0[2], float tc1[2], float tc2[2], float tc3[2])
++{
++    tc0[0] = sx;
++    tc0[1] = sy;
++    tc1[0] = sx + width;
++    tc1[1] = sy;
++    tc2[0] = sx + width;
++    tc2[1] = sy + height;
++    tc3[0] = sx;
++    tc3[1] = sy + height;
++
++    if (src_matrix) {
++	map_point(src_matrix, tc0[0], tc0[1], &tc0[0], &tc0[1]);
++	map_point(src_matrix, tc1[0], tc1[1], &tc1[0], &tc1[1]);
++	map_point(src_matrix, tc2[0], tc2[1], &tc2[0], &tc2[1]);
++	map_point(src_matrix, tc3[0], tc3[1], &tc3[0], &tc3[1]);
++    }
++
++    tc0[0] /= src->width0;
++    tc1[0] /= src->width0;
++    tc2[0] /= src->width0;
++    tc3[0] /= src->width0;
++    tc0[1] /= src->height0;
++    tc1[1] /= src->height0;
++    tc2[1] /= src->height0;
++    tc3[1] /= src->height0;
++}
++
++static void
++add_vertex_data1(struct xa_context *r,
++                 float srcX, float srcY,  float dstX, float dstY,
++                 float width, float height,
++                 const struct pipe_resource *src, const float *src_matrix)
++{
++    float tc0[2], tc1[2], tc2[2], tc3[2];
++
++    compute_src_coords(srcX, srcY, src, src_matrix, width, height,
++                       tc0, tc1, tc2, tc3);
++    /* 1st vertex */
++    add_vertex_1tex(r, dstX, dstY, tc0[0], tc0[1]);
++    /* 2nd vertex */
++    add_vertex_1tex(r, dstX + width, dstY, tc1[0], tc1[1]);
++    /* 3rd vertex */
++    add_vertex_1tex(r, dstX + width, dstY + height, tc2[0], tc2[1]);
++    /* 4th vertex */
++    add_vertex_1tex(r, dstX, dstY + height, tc3[0], tc3[1]);
++}
++
++static void
++add_vertex_data2(struct xa_context *r,
++                 float srcX, float srcY, float maskX, float maskY,
++                 float dstX, float dstY, float width, float height,
++                 struct pipe_resource *src,
++                 struct pipe_resource *mask,
++                 const float *src_matrix, const float *mask_matrix)
++{
++    float spt0[2], spt1[2], spt2[2], spt3[2];
++    float mpt0[2], mpt1[2], mpt2[2], mpt3[2];
++
++    compute_src_coords(srcX, srcY, src, src_matrix, width, height,
++                       spt0, spt1, spt2, spt3);
++    compute_src_coords(maskX, maskY, mask, mask_matrix, width, height,
++                       mpt0, mpt1, mpt2, mpt3);
++
++    /* 1st vertex */
++    add_vertex_2tex(r, dstX, dstY,
++		    spt0[0], spt0[1], mpt0[0], mpt0[1]);
++    /* 2nd vertex */
++    add_vertex_2tex(r, dstX + width, dstY,
++		    spt1[0], spt1[1], mpt1[0], mpt1[1]);
++    /* 3rd vertex */
++    add_vertex_2tex(r, dstX + width, dstY + height,
++		    spt2[0], spt2[1], mpt2[0], mpt2[1]);
++    /* 4th vertex */
++    add_vertex_2tex(r, dstX, dstY + height,
++		    spt3[0], spt3[1], mpt3[0], mpt3[1]);
++}
++
++static void
++setup_vertex_data_yuv(struct xa_context *r,
++		      float srcX,
++		      float srcY,
++		      float srcW,
++		      float srcH,
++		      float dstX,
++		      float dstY,
++		      float dstW, float dstH, struct xa_surface *srf[])
++{
++    float s0, t0, s1, t1;
++    float spt0[2], spt1[2];
++    struct pipe_resource *tex;
++
++    spt0[0] = srcX;
++    spt0[1] = srcY;
++    spt1[0] = srcX + srcW;
++    spt1[1] = srcY + srcH;
++
++    tex = srf[0]->tex;
++    s0 = spt0[0] / tex->width0;
++    t0 = spt0[1] / tex->height0;
++    s1 = spt1[0] / tex->width0;
++    t1 = spt1[1] / tex->height0;
++
++    /* 1st vertex */
++    add_vertex_1tex(r, dstX, dstY, s0, t0);
++    /* 2nd vertex */
++    add_vertex_1tex(r, dstX + dstW, dstY, s1, t0);
++    /* 3rd vertex */
++    add_vertex_1tex(r, dstX + dstW, dstY + dstH, s1, t1);
++    /* 4th vertex */
++    add_vertex_1tex(r, dstX, dstY + dstH, s0, t1);
++}
++
++/* Set up framebuffer, viewport and vertex shader constant buffer
++ * state for a particular destinaton surface.  In all our rendering,
++ * these concepts are linked.
++ */
++void
++renderer_bind_destination(struct xa_context *r)
++{
++    uint16_t width, height;
++    pipe_surface_size(&r->srf, &width, &height);
++
++    struct pipe_framebuffer_state fb = {0};
++    struct pipe_viewport_state viewport;
++
++    xa_scissor_reset(r);
++
++    /* Framebuffer uses actual surface width/height
++     */
++    pipe_surface_size(&r->srf, &fb.width, &fb.height);
++    fb.nr_cbufs = 1;
++    fb.cbufs[0] = r->srf;
++
++    /* Viewport just touches the bit we're interested in:
++     */
++    viewport.scale[0] = width / 2.f;
++    viewport.scale[1] = height / 2.f;
++    viewport.scale[2] = 1.0;
++    viewport.translate[0] = width / 2.f;
++    viewport.translate[1] = height / 2.f;
++    viewport.translate[2] = 0.0;
++    viewport.swizzle_x = PIPE_VIEWPORT_SWIZZLE_POSITIVE_X;
++    viewport.swizzle_y = PIPE_VIEWPORT_SWIZZLE_POSITIVE_Y;
++    viewport.swizzle_z = PIPE_VIEWPORT_SWIZZLE_POSITIVE_Z;
++    viewport.swizzle_w = PIPE_VIEWPORT_SWIZZLE_POSITIVE_W;
++
++    /* Constant buffer set up to match viewport dimensions:
++     */
++    if (r->fb_width != width || r->fb_height != height) {
++	float vs_consts[8] = {
++	    2.f / width, 2.f / height, 1, 1,
++	    -1, -1, 0, 0
++	};
++
++	r->fb_width = width;
++	r->fb_height = height;
++
++	renderer_set_constants(r, MESA_SHADER_VERTEX,
++			       vs_consts, sizeof vs_consts);
++    }
++
++    cso_set_framebuffer(r->cso, &fb);
++    cso_set_viewport(r->cso, &viewport);
++}
++
++void
++renderer_set_constants(struct xa_context *r,
++		       int shader_type, const float *params, int param_bytes)
++{
++    struct pipe_resource **cbuf =
++	(shader_type == MESA_SHADER_VERTEX) ? &r->vs_const_buffer :
++	&r->fs_const_buffer;
++
++    pipe_resource_reference(cbuf, NULL);
++    *cbuf = pipe_buffer_create_const0(r->pipe->screen,
++                                      PIPE_BIND_CONSTANT_BUFFER,
++                                      PIPE_USAGE_DEFAULT,
++                                      param_bytes);
++
++    if (*cbuf) {
++	pipe_buffer_write(r->pipe, *cbuf, 0, param_bytes, params);
++    }
++    pipe_set_constant_buffer(r->pipe, shader_type, 0, *cbuf);
++}
++
++void
++renderer_copy_prepare(struct xa_context *r,
++		      struct pipe_resource *src_texture,
++		      const enum xa_formats src_xa_format,
++		      const enum xa_formats dst_xa_format)
++{
++    struct pipe_context *pipe = r->pipe;
++    struct pipe_screen *screen = pipe->screen;
++    struct xa_shader shader;
++    uint32_t fs_traits = FS_COMPOSITE;
++
++    assert(screen->is_format_supported(screen, r->srf.format,
++				       PIPE_TEXTURE_2D, 0, 0,
++				       PIPE_BIND_RENDER_TARGET));
++    (void)screen;
++
++    renderer_bind_destination(r);
++
++    /* set misc state we care about */
++    {
++	struct pipe_blend_state blend;
++
++	memset(&blend, 0, sizeof(blend));
++	blend.rt[0].rgb_src_factor = PIPE_BLENDFACTOR_ONE;
++	blend.rt[0].alpha_src_factor = PIPE_BLENDFACTOR_ONE;
++	blend.rt[0].rgb_dst_factor = PIPE_BLENDFACTOR_ZERO;
++	blend.rt[0].alpha_dst_factor = PIPE_BLENDFACTOR_ZERO;
++	blend.rt[0].colormask = PIPE_MASK_RGBA;
++	cso_set_blend(r->cso, &blend);
++    }
++
++    /* sampler */
++    {
++	struct pipe_sampler_state sampler;
++        const struct pipe_sampler_state *p_sampler = &sampler;
++
++	memset(&sampler, 0, sizeof(sampler));
++	sampler.wrap_s = PIPE_TEX_WRAP_CLAMP_TO_EDGE;
++	sampler.wrap_t = PIPE_TEX_WRAP_CLAMP_TO_EDGE;
++	sampler.wrap_r = PIPE_TEX_WRAP_CLAMP_TO_EDGE;
++	sampler.min_mip_filter = PIPE_TEX_MIPFILTER_NONE;
++	sampler.min_img_filter = PIPE_TEX_FILTER_NEAREST;
++	sampler.mag_img_filter = PIPE_TEX_FILTER_NEAREST;
++        cso_set_samplers(r->cso, MESA_SHADER_FRAGMENT, 1, &p_sampler);
++        r->num_bound_samplers = 1;
++    }
++
++    /* texture/sampler view */
++    {
++	struct pipe_sampler_view templ;
++	struct pipe_sampler_view *src_view;
++
++	u_sampler_view_default_template(&templ,
++					src_texture, src_texture->format);
++	src_view = pipe->create_sampler_view(pipe, src_texture, &templ);
++	pipe->set_sampler_views(pipe, MESA_SHADER_FRAGMENT, 0, 1, 0, &src_view);
++	pipe->sampler_view_release(pipe, src_view);
++    }
++
++    /* shaders */
++    if (src_texture->format == PIPE_FORMAT_L8_UNORM ||
++        src_texture->format == PIPE_FORMAT_R8_UNORM)
++	fs_traits |= FS_SRC_LUMINANCE;
++    if (r->srf.format == PIPE_FORMAT_L8_UNORM ||
++        r->srf.format == PIPE_FORMAT_R8_UNORM)
++	fs_traits |= FS_DST_LUMINANCE;
++    if (xa_format_a(dst_xa_format) != 0 &&
++	xa_format_a(src_xa_format) == 0)
++	fs_traits |= FS_SRC_SET_ALPHA;
++
++    shader = xa_shaders_get(r->shaders, VS_COMPOSITE, fs_traits);
++    cso_set_vertex_shader_handle(r->cso, shader.vs);
++    cso_set_fragment_shader_handle(r->cso, shader.fs);
++
++    r->buffer_size = 0;
++    r->attrs_per_vertex = 2;
++}
++
++void
++renderer_copy(struct xa_context *r,
++	      int dx,
++	      int dy,
++	      int sx,
++	      int sy,
++	      int width, int height, float src_width, float src_height)
++{
++    float s0, t0, s1, t1;
++    float x0, y0, x1, y1;
++
++    /* XXX: could put the texcoord scaling calculation into the vertex
++     * shader.
++     */
++    s0 = sx / src_width;
++    s1 = (sx + width) / src_width;
++    t0 = sy / src_height;
++    t1 = (sy + height) / src_height;
++
++    x0 = dx;
++    x1 = dx + width;
++    y0 = dy;
++    y1 = dy + height;
++
++    /* draw quad */
++    renderer_draw_conditional(r, 4 * 8);
++    add_vertex_1tex(r, x0, y0, s0, t0);
++    add_vertex_1tex(r, x1, y0, s1, t0);
++    add_vertex_1tex(r, x1, y1, s1, t1);
++    add_vertex_1tex(r, x0, y1, s0, t1);
++}
++
++void
++renderer_draw_yuv(struct xa_context *r,
++		  float src_x,
++		  float src_y,
++		  float src_w,
++		  float src_h,
++		  int dst_x,
++		  int dst_y, int dst_w, int dst_h, struct xa_surface *srf[])
++{
++   const int num_attribs = 2;	/*pos + tex coord */
++
++   setup_vertex_data_yuv(r,
++                         src_x, src_y, src_w, src_h,
++                         dst_x, dst_y, dst_w, dst_h, srf);
++
++   if (!r->scissor_valid) {
++       r->scissor.minx = 0;
++       r->scissor.miny = 0;
++       r->scissor.maxx = r->dst->tex->width0;
++       r->scissor.maxy = r->dst->tex->height0;
++   }
++
++   r->pipe->set_scissor_states(r->pipe, 0, 1, &r->scissor);
++
++   struct cso_velems_state velems;
++   velems.count = num_attribs;
++   memcpy(velems.velems, r->velems, sizeof(r->velems[0]) * velems.count);
++   for (unsigned i = 0; i < velems.count; i++)
++       velems.velems[i].src_stride = velems.count * 4 * sizeof(float);
++
++   cso_set_vertex_elements(r->cso, &velems);
++   util_draw_user_vertex_buffer(r->cso, r->buffer, MESA_PRIM_QUADS,
++                                4,	/* verts */
++                                num_attribs);	/* attribs/vert */
++   r->buffer_size = 0;
++
++   xa_scissor_reset(r);
++}
++
++void
++renderer_begin_solid(struct xa_context *r)
++{
++    r->buffer_size = 0;
++    r->attrs_per_vertex = 1;
++    renderer_set_constants(r, MESA_SHADER_FRAGMENT, r->solid_color,
++                           4 * sizeof(float));
++}
++
++void
++renderer_solid(struct xa_context *r,
++	       int x0, int y0, int x1, int y1)
++{
++    /*
++     * debug_printf("solid rect[(%d, %d), (%d, %d)], rgba[%f, %f, %f, %f]\n",
++     * x0, y0, x1, y1, color[0], color[1], color[2], color[3]); */
++
++    renderer_draw_conditional(r, 4 * 4);
++
++    /* 1st vertex */
++    add_vertex_none(r, x0, y0);
++    /* 2nd vertex */
++    add_vertex_none(r, x1, y0);
++    /* 3rd vertex */
++    add_vertex_none(r, x1, y1);
++    /* 4th vertex */
++    add_vertex_none(r, x0, y1);
++}
++
++void
++renderer_draw_flush(struct xa_context *r)
++{
++    renderer_draw_conditional(r, 0);
++}
++
++void
++renderer_begin_textures(struct xa_context *r)
++{
++    r->attrs_per_vertex = 1 + r->num_bound_samplers;
++    r->buffer_size = 0;
++    if (r->has_solid_src || r->has_solid_mask)
++       renderer_set_constants(r, MESA_SHADER_FRAGMENT, r->solid_color,
++                              4 * sizeof(float));
++}
++
++void
++renderer_texture(struct xa_context *r,
++		 int *pos,
++		 int width, int height,
++		 const float *src_matrix,
++		 const float *mask_matrix)
++{
++    struct pipe_sampler_view **sampler_view = r->bound_sampler_views;
++
++#if 0
++    if (src_matrix) {
++	debug_printf("src_matrix = \n");
++	debug_printf("%f, %f, %f\n", src_matrix[0], src_matrix[1], src_matrix[2]);
++	debug_printf("%f, %f, %f\n", src_matrix[3], src_matrix[4], src_matrix[5]);
++	debug_printf("%f, %f, %f\n", src_matrix[6], src_matrix[7], src_matrix[8]);
++    }
++    if (mask_matrix) {
++	debug_printf("mask_matrix = \n");
++	debug_printf("%f, %f, %f\n", mask_matrix[0], mask_matrix[1], mask_matrix[2]);
++	debug_printf("%f, %f, %f\n", mask_matrix[3], mask_matrix[4], mask_matrix[5]);
++	debug_printf("%f, %f, %f\n", mask_matrix[6], mask_matrix[7], mask_matrix[8]);
++    }
++#endif
++
++    switch(r->attrs_per_vertex) {
++    case 2:
++	renderer_draw_conditional(r, 4 * 8);
++        if (!r->has_solid_src) {
++           add_vertex_data1(r,
++                            pos[0], pos[1], /* src */
++                            pos[4], pos[5], /* dst */
++                            width, height,
++                            sampler_view[0]->texture, src_matrix);
++        } else {
++           add_vertex_data1(r,
++                            pos[2], pos[3], /* mask */
++                            pos[4], pos[5], /* dst */
++                            width, height,
++                            sampler_view[0]->texture, mask_matrix);
++        }
++	break;
++    case 3:
++	renderer_draw_conditional(r, 4 * 12);
++	add_vertex_data2(r,
++			 pos[0], pos[1], /* src */
++			 pos[2], pos[3], /* mask */
++			 pos[4], pos[5], /* dst */
++			 width, height,
++			 sampler_view[0]->texture, sampler_view[1]->texture,
++			 src_matrix, mask_matrix);
++	break;
++    default:
++	break;
++    }
++}
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tgsi.c b/src/gallium/frontends/xa/xa_tgsi.c
+--- a/src/gallium/frontends/xa/xa_tgsi.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_tgsi.c	2026-02-03 13:39:32.728475499 +0000
+@@ -0,0 +1,500 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ */
++#include "xa_priv.h"
++
++#include "util/format/u_formats.h"
++#include "pipe/p_context.h"
++#include "pipe/p_state.h"
++#include "pipe/p_shader_tokens.h"
++
++#include "util/u_memory.h"
++
++#include "tgsi/tgsi_ureg.h"
++
++#include "cso_cache/cso_context.h"
++#include "cso_cache/cso_hash.h"
++
++/* Vertex shader:
++ * IN[0]    = vertex pos
++ * IN[1]    = src tex coord | solid fill color
++ * IN[2]    = mask tex coord
++ * IN[3]    = dst tex coord
++ * CONST[0] = (2/dst_width, 2/dst_height, 1, 1)
++ * CONST[1] = (-1, -1, 0, 0)
++ *
++ * OUT[0]   = vertex pos
++ * OUT[1]   = src tex coord
++ * OUT[2]   = mask tex coord
++ * OUT[3]   = dst tex coord
++ */
++
++/* Fragment shader. Samplers are allocated when needed.
++ * SAMP[0]  = sampler for first texture (src or mask if src is solid)
++ * SAMP[1]  = sampler for second texture (mask or none)
++ * IN[0]    = first texture coordinates if present
++ * IN[1]    = second texture coordinates if present
++ * CONST[0] = Solid color (src if src solid or mask if mask solid
++ *            or src in mask if both solid).
++ *
++ * OUT[0] = color
++ */
++
++static void
++print_fs_traits(int fs_traits)
++{
++    const char *strings[] = {
++	"FS_COMPOSITE",		/* = 1 << 0, */
++	"FS_MASK",		/* = 1 << 1, */
++	"FS_SRC_SRC",	        /* = 1 << 2, */
++	"FS_MASK_SRC",	        /* = 1 << 3, */
++	"FS_YUV",	        /* = 1 << 4, */
++	"FS_SRC_REPEAT_NONE",	/* = 1 << 5, */
++	"FS_MASK_REPEAT_NONE",	/* = 1 << 6, */
++	"FS_SRC_SWIZZLE_RGB",	/* = 1 << 7, */
++	"FS_MASK_SWIZZLE_RGB",	/* = 1 << 8, */
++	"FS_SRC_SET_ALPHA",	/* = 1 << 9, */
++	"FS_MASK_SET_ALPHA",	/* = 1 << 10, */
++	"FS_SRC_LUMINANCE",	/* = 1 << 11, */
++	"FS_MASK_LUMINANCE",	/* = 1 << 12, */
++	"FS_DST_LUMINANCE",     /* = 1 << 13, */
++        "FS_CA",                /* = 1 << 14, */
++    };
++    int i, k;
++
++    debug_printf("%s: ", __func__);
++
++    for (i = 0, k = 1; k < (1 << 16); i++, k <<= 1) {
++	if (fs_traits & k)
++	    debug_printf("%s, ", strings[i]);
++    }
++
++    debug_printf("\n");
++}
++
++struct xa_shaders {
++    struct xa_context *r;
++
++    struct cso_hash vs_hash;
++    struct cso_hash fs_hash;
++};
++
++static inline void
++src_in_mask(struct ureg_program *ureg,
++	    struct ureg_dst dst,
++	    struct ureg_src src,
++	    struct ureg_src mask,
++	    unsigned mask_luminance, bool component_alpha)
++{
++    if (mask_luminance)
++        if (component_alpha) {
++            ureg_MOV(ureg, dst, src);
++            ureg_MUL(ureg, ureg_writemask(dst, TGSI_WRITEMASK_W),
++                     src, ureg_scalar(mask, TGSI_SWIZZLE_X));
++        } else {
++            ureg_MUL(ureg, dst, src, ureg_scalar(mask, TGSI_SWIZZLE_X));
++        }
++    else if (!component_alpha)
++        ureg_MUL(ureg, dst, src, ureg_scalar(mask, TGSI_SWIZZLE_W));
++    else
++        ureg_MUL(ureg, dst, src, mask);
++}
++
++static struct ureg_src
++vs_normalize_coords(struct ureg_program *ureg,
++		    struct ureg_src coords,
++		    struct ureg_src const0, struct ureg_src const1)
++{
++    struct ureg_dst tmp = ureg_DECL_temporary(ureg);
++    struct ureg_src ret;
++
++    ureg_MAD(ureg, tmp, coords, const0, const1);
++    ret = ureg_src(tmp);
++    ureg_release_temporary(ureg, tmp);
++    return ret;
++}
++
++static void *
++create_vs(struct pipe_context *pipe, unsigned vs_traits)
++{
++    struct ureg_program *ureg;
++    struct ureg_src src;
++    struct ureg_dst dst;
++    struct ureg_src const0, const1;
++    bool is_composite = (vs_traits & VS_COMPOSITE) != 0;
++    bool has_mask = (vs_traits & VS_MASK) != 0;
++    bool is_yuv = (vs_traits & VS_YUV) != 0;
++    bool is_src_src = (vs_traits & VS_SRC_SRC) != 0;
++    bool is_mask_src = (vs_traits & VS_MASK_SRC) != 0;
++    unsigned input_slot = 0;
++
++    ureg = ureg_create(MESA_SHADER_VERTEX);
++    if (ureg == NULL)
++	return NULL;
++
++    const0 = ureg_DECL_constant(ureg, 0);
++    const1 = ureg_DECL_constant(ureg, 1);
++
++    /* it has to be either a fill or a composite op */
++    src = ureg_DECL_vs_input(ureg, input_slot++);
++    dst = ureg_DECL_output(ureg, TGSI_SEMANTIC_POSITION, 0);
++    src = vs_normalize_coords(ureg, src, const0, const1);
++    ureg_MOV(ureg, dst, src);
++
++    if (is_yuv) {
++	src = ureg_DECL_vs_input(ureg, input_slot++);
++	dst = ureg_DECL_output(ureg, TGSI_SEMANTIC_GENERIC, 0);
++	ureg_MOV(ureg, dst, src);
++    }
++
++    if (is_composite) {
++        if (!is_src_src || (has_mask && !is_mask_src)) {
++            src = ureg_DECL_vs_input(ureg, input_slot++);
++            dst = ureg_DECL_output(ureg, TGSI_SEMANTIC_GENERIC, 0);
++            ureg_MOV(ureg, dst, src);
++        }
++
++        if (!is_src_src && (has_mask && !is_mask_src)) {
++            src = ureg_DECL_vs_input(ureg, input_slot++);
++            dst = ureg_DECL_output(ureg, TGSI_SEMANTIC_GENERIC, 1);
++            ureg_MOV(ureg, dst, src);
++        }
++    }
++
++    ureg_END(ureg);
++
++    return ureg_create_shader_and_destroy(ureg, pipe);
++}
++
++static void *
++create_yuv_shader(struct pipe_context *pipe, struct ureg_program *ureg)
++{
++    struct ureg_src y_sampler, u_sampler, v_sampler;
++    struct ureg_src pos;
++    struct ureg_src matrow0, matrow1, matrow2, matrow3;
++    struct ureg_dst y, u, v, rgb;
++    struct ureg_dst out = ureg_DECL_output(ureg,
++					   TGSI_SEMANTIC_COLOR,
++					   0);
++
++    pos = ureg_DECL_fs_input(ureg,
++			     TGSI_SEMANTIC_GENERIC, 0,
++			     TGSI_INTERPOLATE_PERSPECTIVE);
++
++    rgb = ureg_DECL_temporary(ureg);
++    y = ureg_DECL_temporary(ureg);
++    u = ureg_DECL_temporary(ureg);
++    v = ureg_DECL_temporary(ureg);
++
++    y_sampler = ureg_DECL_sampler(ureg, 0);
++    u_sampler = ureg_DECL_sampler(ureg, 1);
++    v_sampler = ureg_DECL_sampler(ureg, 2);
++
++    ureg_DECL_sampler_view(ureg, 0, TGSI_TEXTURE_2D,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT);
++    ureg_DECL_sampler_view(ureg, 1, TGSI_TEXTURE_2D,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT);
++    ureg_DECL_sampler_view(ureg, 2, TGSI_TEXTURE_2D,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT,
++                           TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT);
++
++    matrow0 = ureg_DECL_constant(ureg, 0);
++    matrow1 = ureg_DECL_constant(ureg, 1);
++    matrow2 = ureg_DECL_constant(ureg, 2);
++    matrow3 = ureg_DECL_constant(ureg, 3);
++
++    ureg_TEX(ureg, y, TGSI_TEXTURE_2D, pos, y_sampler);
++    ureg_TEX(ureg, u, TGSI_TEXTURE_2D, pos, u_sampler);
++    ureg_TEX(ureg, v, TGSI_TEXTURE_2D, pos, v_sampler);
++
++    ureg_MOV(ureg, rgb, matrow3);
++    ureg_MAD(ureg, rgb,
++	     ureg_scalar(ureg_src(y), TGSI_SWIZZLE_X), matrow0, ureg_src(rgb));
++    ureg_MAD(ureg, rgb,
++	     ureg_scalar(ureg_src(u), TGSI_SWIZZLE_X), matrow1, ureg_src(rgb));
++    ureg_MAD(ureg, rgb,
++	     ureg_scalar(ureg_src(v), TGSI_SWIZZLE_X), matrow2, ureg_src(rgb));
++
++    ureg_MOV(ureg, out, ureg_src(rgb));
++
++    ureg_release_temporary(ureg, rgb);
++    ureg_release_temporary(ureg, y);
++    ureg_release_temporary(ureg, u);
++    ureg_release_temporary(ureg, v);
++
++    ureg_END(ureg);
++
++    return ureg_create_shader_and_destroy(ureg, pipe);
++}
++
++static inline void
++xrender_tex(struct ureg_program *ureg,
++	    struct ureg_dst dst,
++	    struct ureg_src coords,
++	    struct ureg_src sampler,
++	    const struct ureg_src *imm0,
++	    bool repeat_none, bool swizzle, bool set_alpha)
++{
++    if (repeat_none) {
++	struct ureg_dst tmp0 = ureg_DECL_temporary(ureg);
++	struct ureg_dst tmp1 = ureg_DECL_temporary(ureg);
++
++	ureg_SGT(ureg, tmp1, ureg_swizzle(coords,
++					  TGSI_SWIZZLE_X,
++					  TGSI_SWIZZLE_Y,
++					  TGSI_SWIZZLE_X,
++					  TGSI_SWIZZLE_Y), ureg_scalar(*imm0,
++								       TGSI_SWIZZLE_X));
++	ureg_SLT(ureg, tmp0,
++		 ureg_swizzle(coords, TGSI_SWIZZLE_X, TGSI_SWIZZLE_Y,
++			      TGSI_SWIZZLE_X, TGSI_SWIZZLE_Y), ureg_scalar(*imm0,
++									   TGSI_SWIZZLE_W));
++	ureg_MIN(ureg, tmp0, ureg_src(tmp0), ureg_src(tmp1));
++	ureg_MIN(ureg, tmp0, ureg_scalar(ureg_src(tmp0), TGSI_SWIZZLE_X),
++		 ureg_scalar(ureg_src(tmp0), TGSI_SWIZZLE_Y));
++	ureg_TEX(ureg, tmp1, TGSI_TEXTURE_2D, coords, sampler);
++	if (swizzle)
++	    ureg_MOV(ureg, tmp1, ureg_swizzle(ureg_src(tmp1),
++					      TGSI_SWIZZLE_Z,
++					      TGSI_SWIZZLE_Y, TGSI_SWIZZLE_X,
++					      TGSI_SWIZZLE_W));
++	if (set_alpha)
++	    ureg_MOV(ureg,
++		     ureg_writemask(tmp1, TGSI_WRITEMASK_W),
++		     ureg_scalar(*imm0, TGSI_SWIZZLE_W));
++	ureg_MUL(ureg, dst, ureg_src(tmp1), ureg_src(tmp0));
++	ureg_release_temporary(ureg, tmp0);
++	ureg_release_temporary(ureg, tmp1);
++    } else {
++	if (swizzle) {
++	    struct ureg_dst tmp = ureg_DECL_temporary(ureg);
++
++	    ureg_TEX(ureg, tmp, TGSI_TEXTURE_2D, coords, sampler);
++	    ureg_MOV(ureg, dst, ureg_swizzle(ureg_src(tmp),
++					     TGSI_SWIZZLE_Z,
++					     TGSI_SWIZZLE_Y, TGSI_SWIZZLE_X,
++					     TGSI_SWIZZLE_W));
++	    ureg_release_temporary(ureg, tmp);
++	} else {
++	    ureg_TEX(ureg, dst, TGSI_TEXTURE_2D, coords, sampler);
++	}
++	if (set_alpha)
++	    ureg_MOV(ureg,
++		     ureg_writemask(dst, TGSI_WRITEMASK_W),
++		     ureg_scalar(*imm0, TGSI_SWIZZLE_W));
++    }
++}
++
++static void
++read_input(struct ureg_program *ureg,
++           struct ureg_dst dst,
++           const struct ureg_src *imm0,
++           bool repeat_none, bool swizzle, bool set_alpha,
++           bool is_src, unsigned *cur_constant, unsigned *cur_sampler)
++{
++    struct ureg_src input, sampler;
++
++    if (is_src) {
++        input = ureg_DECL_constant(ureg, (*cur_constant)++);
++        ureg_MOV(ureg, dst, input);
++    } else {
++        sampler = ureg_DECL_sampler(ureg, *cur_sampler);
++        ureg_DECL_sampler_view(ureg, *cur_sampler, TGSI_TEXTURE_2D,
++                               TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT,
++                               TGSI_RETURN_TYPE_FLOAT, TGSI_RETURN_TYPE_FLOAT);
++        input = ureg_DECL_fs_input(ureg,
++                                   TGSI_SEMANTIC_GENERIC, (*cur_sampler)++,
++                                   TGSI_INTERPOLATE_PERSPECTIVE);
++        xrender_tex(ureg, dst, input, sampler, imm0,
++                    repeat_none, swizzle, set_alpha);
++    }
++}
++
++static void *
++create_fs(struct pipe_context *pipe, unsigned fs_traits)
++{
++    struct ureg_program *ureg;
++    struct ureg_dst src, mask;
++    struct ureg_dst out;
++    struct ureg_src imm0 = { 0 };
++    unsigned has_mask = (fs_traits & FS_MASK) != 0;
++    unsigned is_yuv = (fs_traits & FS_YUV) != 0;
++    unsigned src_repeat_none = (fs_traits & FS_SRC_REPEAT_NONE) != 0;
++    unsigned mask_repeat_none = (fs_traits & FS_MASK_REPEAT_NONE) != 0;
++    unsigned src_swizzle = (fs_traits & FS_SRC_SWIZZLE_RGB) != 0;
++    unsigned mask_swizzle = (fs_traits & FS_MASK_SWIZZLE_RGB) != 0;
++    unsigned src_set_alpha = (fs_traits & FS_SRC_SET_ALPHA) != 0;
++    unsigned mask_set_alpha = (fs_traits & FS_MASK_SET_ALPHA) != 0;
++    unsigned src_luminance = (fs_traits & FS_SRC_LUMINANCE) != 0;
++    unsigned mask_luminance = (fs_traits & FS_MASK_LUMINANCE) != 0;
++    unsigned dst_luminance = (fs_traits & FS_DST_LUMINANCE) != 0;
++    unsigned is_src_src = (fs_traits & FS_SRC_SRC) != 0;
++    unsigned is_mask_src = (fs_traits & FS_MASK_SRC) != 0;
++    bool component_alpha = (fs_traits & FS_CA) != 0;
++    unsigned cur_sampler = 0;
++    unsigned cur_constant = 0;
++
++#if 0
++    print_fs_traits(fs_traits);
++#else
++    (void)print_fs_traits;
++#endif
++
++    ureg = ureg_create(MESA_SHADER_FRAGMENT);
++    if (ureg == NULL)
++	return NULL;
++
++    if (is_yuv)
++       return create_yuv_shader(pipe, ureg);
++
++    out = ureg_DECL_output(ureg, TGSI_SEMANTIC_COLOR, 0);
++
++    if (src_repeat_none || mask_repeat_none ||
++	src_set_alpha || mask_set_alpha || src_luminance) {
++	imm0 = ureg_imm4f(ureg, 0, 0, 0, 1);
++    }
++
++    src = (has_mask || src_luminance || dst_luminance) ?
++        ureg_DECL_temporary(ureg) : out;
++
++    read_input(ureg, src, &imm0, src_repeat_none, src_swizzle,
++               src_set_alpha, is_src_src, &cur_constant, &cur_sampler);
++
++    if (src_luminance) {
++	ureg_MOV(ureg, src, ureg_scalar(ureg_src(src), TGSI_SWIZZLE_X));
++	ureg_MOV(ureg, ureg_writemask(src, TGSI_WRITEMASK_XYZ),
++		 ureg_scalar(imm0, TGSI_SWIZZLE_X));
++	if (!has_mask && !dst_luminance)
++	    ureg_MOV(ureg, out, ureg_src(src));
++    }
++
++    if (has_mask) {
++	mask = ureg_DECL_temporary(ureg);
++        read_input(ureg, mask, &imm0, mask_repeat_none,
++                   mask_swizzle, mask_set_alpha, is_mask_src, &cur_constant,
++                   &cur_sampler);
++
++	src_in_mask(ureg, (dst_luminance) ? src : out, ureg_src(src),
++		    ureg_src(mask), mask_luminance, component_alpha);
++
++	ureg_release_temporary(ureg, mask);
++    }
++
++    if (dst_luminance) {
++	/*
++	 * Make sure the alpha channel goes into the output L8 surface.
++	 */
++	ureg_MOV(ureg, out, ureg_scalar(ureg_src(src), TGSI_SWIZZLE_W));
++    }
++
++    ureg_END(ureg);
++
++    return ureg_create_shader_and_destroy(ureg, pipe);
++}
++
++struct xa_shaders *
++xa_shaders_create(struct xa_context *r)
++{
++    struct xa_shaders *sc = CALLOC_STRUCT(xa_shaders);
++
++    sc->r = r;
++    cso_hash_init(&sc->vs_hash);
++    cso_hash_init(&sc->fs_hash);
++
++    return sc;
++}
++
++static void
++cache_destroy(struct pipe_context *pipe,
++	      struct cso_hash *hash, unsigned processor)
++{
++    struct cso_hash_iter iter = cso_hash_first_node(hash);
++
++    while (!cso_hash_iter_is_null(iter)) {
++	void *shader = (void *)cso_hash_iter_data(iter);
++
++	if (processor == MESA_SHADER_FRAGMENT) {
++	    pipe->delete_fs_state(pipe, shader);
++	} else if (processor == MESA_SHADER_VERTEX) {
++	    pipe->delete_vs_state(pipe, shader);
++	}
++	iter = cso_hash_erase(hash, iter);
++    }
++    cso_hash_deinit(hash);
++}
++
++void
++xa_shaders_destroy(struct xa_shaders *sc)
++{
++    cache_destroy(sc->r->pipe, &sc->vs_hash, MESA_SHADER_VERTEX);
++    cache_destroy(sc->r->pipe, &sc->fs_hash, MESA_SHADER_FRAGMENT);
++
++    FREE(sc);
++}
++
++static inline void *
++shader_from_cache(struct pipe_context *pipe,
++		  unsigned type, struct cso_hash *hash, unsigned key)
++{
++    void *shader = NULL;
++
++    struct cso_hash_iter iter = cso_hash_find(hash, key);
++
++    if (cso_hash_iter_is_null(iter)) {
++	if (type == MESA_SHADER_VERTEX)
++	    shader = create_vs(pipe, key);
++	else
++	    shader = create_fs(pipe, key);
++	cso_hash_insert(hash, key, shader);
++    } else
++	shader = (void *)cso_hash_iter_data(iter);
++
++    return shader;
++}
++
++struct xa_shader
++xa_shaders_get(struct xa_shaders *sc, unsigned vs_traits, unsigned fs_traits)
++{
++    struct xa_shader shader = { NULL, NULL };
++    void *vs, *fs;
++
++    vs = shader_from_cache(sc->r->pipe, MESA_SHADER_VERTEX,
++			   &sc->vs_hash, vs_traits);
++    fs = shader_from_cache(sc->r->pipe, MESA_SHADER_FRAGMENT,
++			   &sc->fs_hash, fs_traits);
++
++    assert(vs && fs);
++    if (!vs || !fs)
++	return shader;
++
++    shader.vs = vs;
++    shader.fs = fs;
++
++    return shader;
++}
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.c b/src/gallium/frontends/xa/xa_tracker.c
+--- a/src/gallium/frontends/xa/xa_tracker.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_tracker.c	2026-02-03 13:39:32.728700619 +0000
+@@ -0,0 +1,578 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#include <unistd.h>
++#include "xa_tracker.h"
++#include "xa_priv.h"
++#include "pipe/p_state.h"
++#include "util/format/u_formats.h"
++#include "pipe-loader/pipe_loader.h"
++#include "frontend/drm_driver.h"
++#include "util/u_inlines.h"
++
++/*
++ * format_map [xa_surface_type][first..last in list].
++ * Needs to be updated when enum xa_formats is updated.
++ */
++
++static const enum xa_formats preferred_a[] = { xa_format_a8 };
++
++static const enum xa_formats preferred_argb[] =
++    { xa_format_a8r8g8b8, xa_format_x8r8g8b8, xa_format_r5g6b5,
++    xa_format_x1r5g5b5
++};
++static const enum xa_formats preferred_z[] =
++    { xa_format_z32, xa_format_z24, xa_format_z16 };
++static const enum xa_formats preferred_sz[] =
++    { xa_format_x8z24, xa_format_s8z24 };
++static const enum xa_formats preferred_zs[] =
++    { xa_format_z24x8, xa_format_z24s8 };
++static const enum xa_formats preferred_yuv[] = { xa_format_yuv8 };
++
++static const enum xa_formats *preferred[] =
++    { NULL, preferred_a, preferred_argb, NULL, NULL,
++    preferred_z, preferred_zs, preferred_sz, preferred_yuv
++};
++
++static const unsigned int num_preferred[] = { 0,
++    sizeof(preferred_a) / sizeof(enum xa_formats),
++    sizeof(preferred_argb) / sizeof(enum xa_formats),
++    0,
++    0,
++    sizeof(preferred_z) / sizeof(enum xa_formats),
++    sizeof(preferred_zs) / sizeof(enum xa_formats),
++    sizeof(preferred_sz) / sizeof(enum xa_formats),
++    sizeof(preferred_yuv) / sizeof(enum xa_formats)
++};
++
++static const unsigned int stype_bind[XA_LAST_SURFACE_TYPE] = { 0,
++    PIPE_BIND_SAMPLER_VIEW,
++    PIPE_BIND_SAMPLER_VIEW,
++    PIPE_BIND_SAMPLER_VIEW,
++    PIPE_BIND_SAMPLER_VIEW,
++    PIPE_BIND_DEPTH_STENCIL,
++    PIPE_BIND_DEPTH_STENCIL,
++    PIPE_BIND_DEPTH_STENCIL,
++    PIPE_BIND_SAMPLER_VIEW
++};
++
++static struct xa_format_descriptor
++xa_get_pipe_format(struct xa_tracker *xa, enum xa_formats xa_format)
++{
++    struct xa_format_descriptor fdesc;
++
++    fdesc.xa_format = xa_format;
++
++    switch (xa_format) {
++    case xa_format_a8:
++        if (xa->screen->is_format_supported(xa->screen, PIPE_FORMAT_R8_UNORM,
++                                            PIPE_TEXTURE_2D, 0, 0,
++                                            stype_bind[xa_type_a] |
++                                            PIPE_BIND_RENDER_TARGET))
++            fdesc.format = PIPE_FORMAT_R8_UNORM;
++        else
++            fdesc.format = PIPE_FORMAT_L8_UNORM;
++	break;
++    case xa_format_a8r8g8b8:
++	fdesc.format = PIPE_FORMAT_B8G8R8A8_UNORM;
++	break;
++    case xa_format_x8r8g8b8:
++	fdesc.format = PIPE_FORMAT_B8G8R8X8_UNORM;
++	break;
++    case xa_format_r5g6b5:
++	fdesc.format = PIPE_FORMAT_B5G6R5_UNORM;
++	break;
++    case xa_format_x1r5g5b5:
++	fdesc.format = PIPE_FORMAT_B5G5R5A1_UNORM;
++	break;
++    case xa_format_a4r4g4b4:
++        fdesc.format = PIPE_FORMAT_B4G4R4A4_UNORM;
++        break;
++    case xa_format_a2b10g10r10:
++        fdesc.format = PIPE_FORMAT_R10G10B10A2_UNORM;
++        break;
++    case xa_format_x2b10g10r10:
++        fdesc.format = PIPE_FORMAT_R10G10B10X2_UNORM;
++        break;
++    case xa_format_b8g8r8a8:
++        fdesc.format = PIPE_FORMAT_A8R8G8B8_UNORM;
++        break;
++    case xa_format_b8g8r8x8:
++        fdesc.format = PIPE_FORMAT_X8R8G8B8_UNORM;
++        break;
++    case xa_format_z24:
++	fdesc.format = PIPE_FORMAT_Z24X8_UNORM;
++	break;
++    case xa_format_z16:
++	fdesc.format = PIPE_FORMAT_Z16_UNORM;
++	break;
++    case xa_format_z32:
++	fdesc.format = PIPE_FORMAT_Z32_UNORM;
++	break;
++    case xa_format_x8z24:
++	fdesc.format = PIPE_FORMAT_Z24X8_UNORM;
++	break;
++    case xa_format_z24x8:
++	fdesc.format = PIPE_FORMAT_X8Z24_UNORM;
++	break;
++    case xa_format_s8z24:
++	fdesc.format = PIPE_FORMAT_Z24_UNORM_S8_UINT;
++	break;
++    case xa_format_z24s8:
++	fdesc.format = PIPE_FORMAT_S8_UINT_Z24_UNORM;
++	break;
++    case xa_format_yuv8:
++        if (xa->screen->is_format_supported(xa->screen, PIPE_FORMAT_R8_UNORM,
++                                            PIPE_TEXTURE_2D, 0, 0,
++                                            stype_bind[xa_type_yuv_component]))
++            fdesc.format = PIPE_FORMAT_R8_UNORM;
++        else
++            fdesc.format = PIPE_FORMAT_L8_UNORM;
++	break;
++    default:
++	UNREACHABLE("Unexpected format");
++	break;
++    }
++    return fdesc;
++}
++
++XA_EXPORT struct xa_tracker *
++xa_tracker_create(int drm_fd)
++{
++    struct xa_tracker *xa = calloc(1, sizeof(struct xa_tracker));
++    enum xa_surface_type stype;
++    unsigned int num_formats;
++
++    if (!xa)
++	return NULL;
++
++    if (pipe_loader_drm_probe_fd(&xa->dev, drm_fd, false))
++	xa->screen = pipe_loader_create_screen(xa->dev, false);
++
++    if (!xa->screen)
++	goto out_no_screen;
++
++    xa->default_ctx = xa_context_create(xa);
++    if (!xa->default_ctx)
++	goto out_no_pipe;
++
++    num_formats = 0;
++    for (stype = 0; stype < XA_LAST_SURFACE_TYPE; ++stype)
++	num_formats += num_preferred[stype];
++
++    num_formats += 1;
++    xa->supported_formats = calloc(num_formats, sizeof(*xa->supported_formats));
++    if (!xa->supported_formats)
++	goto out_sf_alloc_fail;
++
++    xa->supported_formats[0] = xa_format_unknown;
++    num_formats = 1;
++    memset(xa->format_map, 0, sizeof(xa->format_map));
++
++    for (stype = 0; stype < XA_LAST_SURFACE_TYPE; ++stype) {
++	unsigned int bind = stype_bind[stype];
++	enum xa_formats xa_format;
++	int i;
++
++	for (i = 0; i < num_preferred[stype]; ++i) {
++	    xa_format = preferred[stype][i];
++
++	    struct xa_format_descriptor fdesc =
++                xa_get_pipe_format(xa, xa_format);
++
++	    if (xa->screen->is_format_supported(xa->screen, fdesc.format,
++						PIPE_TEXTURE_2D, 0, 0, bind)) {
++		if (xa->format_map[stype][0] == 0)
++		    xa->format_map[stype][0] = num_formats;
++		xa->format_map[stype][1] = num_formats;
++		xa->supported_formats[num_formats++] = xa_format;
++	    }
++	}
++    }
++    return xa;
++
++ out_sf_alloc_fail:
++    xa_context_destroy(xa->default_ctx);
++ out_no_pipe:
++    xa->screen->destroy(xa->screen);
++ out_no_screen:
++    if (xa->dev)
++	pipe_loader_release(&xa->dev, 1);
++
++    free(xa);
++    return NULL;
++}
++
++XA_EXPORT void
++xa_tracker_destroy(struct xa_tracker *xa)
++{
++    free(xa->supported_formats);
++    xa_context_destroy(xa->default_ctx);
++    xa->screen->destroy(xa->screen);
++    pipe_loader_release(&xa->dev, 1);
++    /* CHECK: The XA API user preserves ownership of the original fd */
++    free(xa);
++}
++
++static int
++xa_flags_compat(unsigned int old_flags, unsigned int new_flags)
++{
++    unsigned int flag_diff = (old_flags ^ new_flags);
++
++    if (flag_diff == 0)
++	return 1;
++
++    if (flag_diff & XA_FLAG_SHARED)
++	return 0;
++    /*
++     * Don't recreate if we're dropping the render target flag.
++     */
++    if (flag_diff & XA_FLAG_RENDER_TARGET)
++	return ((new_flags & XA_FLAG_RENDER_TARGET) == 0);
++
++    /*
++     * Don't recreate if we're dropping the scanout flag.
++     */
++    if (flag_diff & XA_FLAG_SCANOUT)
++	return ((new_flags & XA_FLAG_SCANOUT) == 0);
++
++    /*
++     * Always recreate for unknown / unimplemented flags.
++     */
++    return 0;
++}
++
++static struct xa_format_descriptor
++xa_get_format_stype_depth(struct xa_tracker *xa,
++			  enum xa_surface_type stype, unsigned int depth)
++{
++    unsigned int i;
++    struct xa_format_descriptor fdesc;
++    int found = 0;
++
++    for (i = xa->format_map[stype][0]; i <= xa->format_map[stype][1]; ++i) {
++	fdesc = xa_get_pipe_format(xa, xa->supported_formats[i]);
++	if (fdesc.xa_format != xa_format_unknown &&
++	    xa_format_depth(fdesc.xa_format) == depth) {
++	    found = 1;
++	    break;
++	}
++    }
++
++    if (!found)
++	fdesc.xa_format = xa_format_unknown;
++
++    return fdesc;
++}
++
++XA_EXPORT int
++xa_format_check_supported(struct xa_tracker *xa,
++			  enum xa_formats xa_format, unsigned int flags)
++{
++    struct xa_format_descriptor fdesc = xa_get_pipe_format(xa, xa_format);
++    unsigned int bind;
++
++    if (fdesc.xa_format == xa_format_unknown)
++	return -XA_ERR_INVAL;
++
++    bind = stype_bind[xa_format_type(fdesc.xa_format)];
++    if (flags & XA_FLAG_SHARED)
++	bind |= PIPE_BIND_SHARED;
++    if (flags & XA_FLAG_RENDER_TARGET)
++	bind |= PIPE_BIND_RENDER_TARGET;
++    if (flags & XA_FLAG_SCANOUT)
++	bind |= PIPE_BIND_SCANOUT;
++
++    if (!xa->screen->is_format_supported(xa->screen, fdesc.format,
++					 PIPE_TEXTURE_2D, 0, 0, bind))
++	return -XA_ERR_INVAL;
++
++    return XA_ERR_NONE;
++}
++
++static unsigned
++handle_type(enum xa_handle_type type)
++{
++    switch (type) {
++    case xa_handle_type_kms:
++	return WINSYS_HANDLE_TYPE_KMS;
++    case xa_handle_type_fd:
++        return WINSYS_HANDLE_TYPE_FD;
++    case xa_handle_type_shared:
++    default:
++	return WINSYS_HANDLE_TYPE_SHARED;
++    }
++}
++
++static struct xa_surface *
++surface_create(struct xa_tracker *xa,
++		  int width,
++		  int height,
++		  int depth,
++		  enum xa_surface_type stype,
++		  enum xa_formats xa_format, unsigned int flags,
++		  struct winsys_handle *whandle)
++{
++    struct pipe_resource *template;
++    struct xa_surface *srf;
++    struct xa_format_descriptor fdesc;
++
++    if (xa_format == xa_format_unknown)
++	fdesc = xa_get_format_stype_depth(xa, stype, depth);
++    else
++	fdesc = xa_get_pipe_format(xa, xa_format);
++
++    if (fdesc.xa_format == xa_format_unknown)
++	return NULL;
++
++    srf = calloc(1, sizeof(*srf));
++    if (!srf)
++	return NULL;
++
++    template = &srf->template;
++    template->format = fdesc.format;
++    template->target = PIPE_TEXTURE_2D;
++    template->width0 = width;
++    template->height0 = height;
++    template->depth0 = 1;
++    template->array_size = 1;
++    template->last_level = 0;
++    template->bind = stype_bind[xa_format_type(fdesc.xa_format)];
++
++    if (flags & XA_FLAG_SHARED)
++	template->bind |= PIPE_BIND_SHARED;
++    if (flags & XA_FLAG_RENDER_TARGET)
++	template->bind |= PIPE_BIND_RENDER_TARGET;
++    if (flags & XA_FLAG_SCANOUT)
++	template->bind |= PIPE_BIND_SCANOUT;
++
++    if (whandle)
++	srf->tex = xa->screen->resource_from_handle(xa->screen, template, whandle,
++                                                    PIPE_HANDLE_USAGE_FRAMEBUFFER_WRITE);
++    else
++	srf->tex = xa->screen->resource_create(xa->screen, template);
++    if (!srf->tex)
++	goto out_no_tex;
++
++    srf->refcount = 1;
++    srf->xa = xa;
++    srf->flags = flags;
++    srf->fdesc = fdesc;
++
++    return srf;
++ out_no_tex:
++    free(srf);
++    return NULL;
++}
++
++
++XA_EXPORT struct xa_surface *
++xa_surface_create(struct xa_tracker *xa,
++		  int width,
++		  int height,
++		  int depth,
++		  enum xa_surface_type stype,
++		  enum xa_formats xa_format, unsigned int flags)
++{
++    return surface_create(xa, width, height, depth, stype, xa_format, flags, NULL);
++}
++
++
++XA_EXPORT struct xa_surface *
++xa_surface_from_handle(struct xa_tracker *xa,
++		  int width,
++		  int height,
++		  int depth,
++		  enum xa_surface_type stype,
++		  enum xa_formats xa_format, unsigned int flags,
++		  uint32_t handle, uint32_t stride)
++{
++    return xa_surface_from_handle2(xa, width, height, depth, stype, xa_format,
++                                   WINSYS_HANDLE_TYPE_SHARED, flags, handle,
++                                   stride);
++}
++
++XA_EXPORT struct xa_surface *
++xa_surface_from_handle2(struct xa_tracker *xa,
++                        int width,
++                        int height,
++                        int depth,
++                        enum xa_surface_type stype,
++                        enum xa_formats xa_format, unsigned int flags,
++                        enum xa_handle_type type,
++                        uint32_t handle, uint32_t stride)
++{
++    struct winsys_handle whandle;
++    memset(&whandle, 0, sizeof(whandle));
++    whandle.type = handle_type(type);
++    whandle.handle = handle;
++    whandle.stride = stride;
++    return surface_create(xa, width, height, depth, stype, xa_format, flags, &whandle);
++}
++
++XA_EXPORT int
++xa_surface_redefine(struct xa_surface *srf,
++		    int width,
++		    int height,
++		    int depth,
++		    enum xa_surface_type stype,
++		    enum xa_formats xa_format,
++		    unsigned int new_flags,
++		    int copy_contents)
++{
++    struct pipe_resource *template = &srf->template;
++    struct pipe_resource *texture;
++    struct pipe_box src_box;
++    struct xa_tracker *xa = srf->xa;
++    int save_width;
++    int save_height;
++    unsigned int save_format;
++    struct xa_format_descriptor fdesc;
++
++
++    if (xa_format == xa_format_unknown)
++	fdesc = xa_get_format_stype_depth(xa, stype, depth);
++    else
++	fdesc = xa_get_pipe_format(xa, xa_format);
++
++    if (width == template->width0 && height == template->height0 &&
++	template->format == fdesc.format &&
++	xa_flags_compat(srf->flags, new_flags))
++	return XA_ERR_NONE;
++
++    template->bind = stype_bind[xa_format_type(fdesc.xa_format)];
++    if (new_flags & XA_FLAG_SHARED)
++	template->bind |= PIPE_BIND_SHARED;
++    if (new_flags & XA_FLAG_RENDER_TARGET)
++	template->bind |= PIPE_BIND_RENDER_TARGET;
++    if (new_flags & XA_FLAG_SCANOUT)
++	template->bind |= PIPE_BIND_SCANOUT;
++
++    if (copy_contents) {
++	if (!xa_format_type_is_color(fdesc.xa_format) ||
++	    xa_format_type(fdesc.xa_format) == xa_type_a)
++	    return -XA_ERR_INVAL;
++
++	if (!xa->screen->is_format_supported(xa->screen, fdesc.format,
++					     PIPE_TEXTURE_2D, 0, 0,
++					     template->bind |
++					     PIPE_BIND_RENDER_TARGET))
++	    return -XA_ERR_INVAL;
++    }
++
++    save_width = template->width0;
++    save_height = template->height0;
++    save_format = template->format;
++
++    template->width0 = width;
++    template->height0 = height;
++    template->format = fdesc.format;
++
++    texture = xa->screen->resource_create(xa->screen, template);
++    if (!texture) {
++	template->width0 = save_width;
++	template->height0 = save_height;
++	template->format = save_format;
++	return -XA_ERR_NORES;
++    }
++
++    if (copy_contents) {
++	struct pipe_context *pipe = xa->default_ctx->pipe;
++
++	u_box_origin_2d(xa_min(save_width, template->width0),
++			xa_min(save_height, template->height0), &src_box);
++	pipe->resource_copy_region(pipe, texture,
++				   0, 0, 0, 0, srf->tex, 0, &src_box);
++	xa_context_flush(xa->default_ctx);
++    }
++
++    pipe_resource_reference(&srf->tex, texture);
++    pipe_resource_reference(&texture, NULL);
++    srf->fdesc = fdesc;
++    srf->flags = new_flags;
++
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT struct xa_surface*
++xa_surface_ref(struct xa_surface *srf)
++{
++    if (srf == NULL) {
++	return NULL;
++    }
++    srf->refcount++;
++    return srf;
++}
++
++XA_EXPORT void
++xa_surface_unref(struct xa_surface *srf)
++{
++    if (srf == NULL || --srf->refcount) {
++	return;
++    }
++    pipe_resource_reference(&srf->tex, NULL);
++    free(srf);
++}
++
++XA_EXPORT void
++xa_tracker_version(int *major, int *minor, int *patch)
++{
++    *major = XA_TRACKER_VERSION_MAJOR;
++    *minor = XA_TRACKER_VERSION_MINOR;
++    *patch = XA_TRACKER_VERSION_PATCH;
++}
++
++XA_EXPORT int
++xa_surface_handle(struct xa_surface *srf,
++		  enum xa_handle_type type,
++		  uint32_t * handle, unsigned int *stride)
++{
++    struct winsys_handle whandle;
++
++    struct pipe_screen *screen = srf->xa->screen;
++    bool res;
++
++    memset(&whandle, 0, sizeof(whandle));
++    whandle.type = handle_type(type);
++    res = screen->resource_get_handle(screen, srf->xa->default_ctx->pipe,
++                                      srf->tex, &whandle,
++                                      PIPE_HANDLE_USAGE_FRAMEBUFFER_WRITE);
++    if (!res)
++	return -XA_ERR_INVAL;
++
++    *handle = whandle.handle;
++    *stride = whandle.stride;
++
++    return XA_ERR_NONE;
++}
++
++XA_EXPORT enum xa_formats
++xa_surface_format(const struct xa_surface *srf)
++{
++    return srf->fdesc.xa_format;
++}
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.h.in b/src/gallium/frontends/xa/xa_tracker.h.in
+--- a/src/gallium/frontends/xa/xa_tracker.h.in	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_tracker.h.in	2026-02-03 13:39:32.728925079 +0000
+@@ -0,0 +1,217 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ * The format encoding idea is partially borrowed from libpixman, but it is not
++ * considered a "substantial part of the software", so the pixman copyright
++ * is left out for simplicity, and acknowledgment is instead given in this way.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#ifndef _XA_TRACKER_H_
++#define _XA_TRACKER_H_
++
++#include <stdint.h>
++
++#define XA_TRACKER_VERSION_MAJOR @XA_MAJOR@
++#define XA_TRACKER_VERSION_MINOR @XA_MINOR@
++#define XA_TRACKER_VERSION_PATCH @XA_PATCH@
++
++#define XA_FLAG_SHARED         (1 << 0)
++#define XA_FLAG_RENDER_TARGET  (1 << 1)
++#define XA_FLAG_SCANOUT        (1 << 2)
++
++#define XA_MAP_READ                     (1 << 0)
++#define XA_MAP_WRITE                    (1 << 1)
++#define XA_MAP_MAP_DIRECTLY             (1 << 2)
++#define XA_MAP_UNSYNCHRONIZED           (1 << 3)
++#define XA_MAP_DONTBLOCK                (1 << 4)
++#define XA_MAP_DISCARD_WHOLE_RESOURCE   (1 << 5)
++
++#define XA_ERR_NONE            0
++#define XA_ERR_NORES           1
++#define XA_ERR_INVAL           2
++#define XA_ERR_BUSY            3
++
++enum xa_surface_type {
++    xa_type_other,
++    xa_type_a,
++    xa_type_argb,
++    xa_type_abgr,
++    xa_type_bgra,
++    xa_type_z,
++    xa_type_zs,
++    xa_type_sz,
++    xa_type_yuv_component
++};
++
++/*
++ * Note that these formats should not be assumed to be binary compatible with
++ * pixman formats, but with the below macros and a format type map,
++ * conversion should be simple. Macros for now. We might replace with
++ * inline functions.
++ */
++
++#define xa_format(bpp,type,a,r,g,b)	(((bpp) << 24) |  \
++					 ((type) << 16) | \
++					 ((a) << 12) |	  \
++					 ((r) << 8) |	  \
++					 ((g) << 4) |	  \
++					 ((b)))
++/*
++ *  Non-RGBA one- and two component formats.
++ */
++
++#define xa_format_c(bpp,type,c1,c2) (((bpp) << 24) |	  \
++				     ((type) << 16) |	  \
++				     ((c1) << 8) |	  \
++				     ((c2)))
++#define xa_format_bpp(f)	(((f) >> 24)       )
++#define xa_format_type(f)	(((f) >> 16) & 0xff)
++#define xa_format_a(f)	(((f) >> 12) & 0x0f)
++#define xa_format_r(f)	(((f) >>  8) & 0x0f)
++#define xa_format_g(f)	(((f) >>  4) & 0x0f)
++#define xa_format_b(f)	(((f)      ) & 0x0f)
++#define xa_format_rgb(f)	(((f)      ) & 0xfff)
++#define xa_format_c1(f)          (((f) >> 8 ) & 0xff)
++#define xa_format_c2(f)          (((f)      ) & 0xff)
++#define xa_format_argb_depth(f)	(xa_format_a(f) +	\
++				 xa_format_r(f) +	\
++				 xa_format_g(f) +	\
++				 xa_format_b(f))
++#define xa_format_c_depth(f)    (xa_format_c1(f) + \
++				 xa_format_c2(f))
++
++static inline int
++xa_format_type_is_color(uint32_t xa_format)
++{
++    return (xa_format_type(xa_format) < xa_type_z);
++}
++
++static inline unsigned int
++xa_format_depth(uint32_t xa_format)
++{
++    return ((xa_format_type_is_color(xa_format)) ?
++	    xa_format_argb_depth(xa_format) : xa_format_c_depth(xa_format));
++}
++
++enum xa_formats {
++    xa_format_unknown = 0,
++    xa_format_a8 = xa_format(8, xa_type_a, 8, 0, 0, 0),
++
++    xa_format_a8r8g8b8 = xa_format(32, xa_type_argb, 8, 8, 8, 8),
++    xa_format_x8r8g8b8 = xa_format(32, xa_type_argb, 0, 8, 8, 8),
++    xa_format_r5g6b5 = xa_format(16, xa_type_argb, 0, 5, 6, 5),
++    xa_format_x1r5g5b5 = xa_format(16, xa_type_argb, 0, 5, 5, 5),
++    xa_format_a4r4g4b4 = xa_format(16, xa_type_argb, 4, 4, 4, 4),
++    xa_format_a2b10g10r10 = xa_format(32, xa_type_abgr, 2, 10, 10, 10),
++    xa_format_x2b10g10r10 = xa_format(32, xa_type_abgr, 0, 10, 10, 10),
++    xa_format_b8g8r8a8 = xa_format(32, xa_type_bgra, 8, 8, 8, 8),
++    xa_format_b8g8r8x8 = xa_format(32, xa_type_bgra, 0, 8, 8, 8),
++
++    xa_format_z16 = xa_format_c(16, xa_type_z, 16, 0),
++    xa_format_z32 = xa_format_c(32, xa_type_z, 32, 0),
++    xa_format_z24 = xa_format_c(32, xa_type_z, 24, 0),
++
++    xa_format_x8z24 = xa_format_c(32, xa_type_sz, 24, 0),
++    xa_format_s8z24 = xa_format_c(32, xa_type_sz, 24, 8),
++    xa_format_z24x8 = xa_format_c(32, xa_type_zs, 24, 0),
++    xa_format_z24s8 = xa_format_c(32, xa_type_zs, 24, 8),
++
++    xa_format_yuv8 = xa_format_c(8, xa_type_yuv_component, 8, 0)
++};
++
++struct xa_tracker;
++struct xa_surface;
++
++struct xa_box {
++    uint16_t x1, y1, x2, y2;
++};
++
++enum xa_handle_type {
++    xa_handle_type_shared,
++    xa_handle_type_kms,
++    xa_handle_type_fd,
++};
++
++extern void xa_tracker_version(int *major, int *minor, int *patch);
++
++extern struct xa_tracker *xa_tracker_create(int drm_fd);
++
++extern void xa_tracker_destroy(struct xa_tracker *xa);
++
++extern int xa_format_check_supported(struct xa_tracker *xa,
++				     enum xa_formats xa_format,
++				     unsigned int flags);
++
++extern struct xa_surface *xa_surface_create(struct xa_tracker *xa,
++					    int width,
++					    int height,
++					    int depth,
++					    enum xa_surface_type stype,
++					    enum xa_formats pform,
++					    unsigned int flags);
++
++extern struct xa_surface * xa_surface_from_handle(struct xa_tracker *xa,
++					    int width,
++					    int height,
++					    int depth,
++					    enum xa_surface_type stype,
++					    enum xa_formats pform,
++					    unsigned int flags,
++					    uint32_t handle, uint32_t stride);
++extern struct xa_surface *
++xa_surface_from_handle2(struct xa_tracker *xa,
++                        int width,
++                        int height,
++                        int depth,
++                        enum xa_surface_type stype,
++                        enum xa_formats xa_format,
++                        unsigned int flags,
++                        enum xa_handle_type type,
++                        uint32_t handle,
++                        uint32_t stride);
++
++enum xa_formats xa_surface_format(const struct xa_surface *srf);
++
++extern struct xa_surface *xa_surface_ref(struct xa_surface *srf);
++extern void xa_surface_unref(struct xa_surface *srf);
++
++extern int xa_surface_redefine(struct xa_surface *srf,
++			       int width,
++			       int height,
++			       int depth,
++			       enum xa_surface_type stype,
++			       enum xa_formats rgb_format,
++			       unsigned int new_flags,
++			       int copy_contents);
++
++extern int xa_surface_handle(struct xa_surface *srf,
++			     enum xa_handle_type type,
++			     uint32_t * handle,
++			     unsigned int *byte_stride);
++
++#endif
+diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_yuv.c b/src/gallium/frontends/xa/xa_yuv.c
+--- a/src/gallium/frontends/xa/xa_yuv.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/frontends/xa/xa_yuv.c	2026-02-03 13:39:32.729093223 +0000
+@@ -0,0 +1,162 @@
++/**********************************************************
++ * Copyright 2009-2011 VMware, Inc. All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person
++ * obtaining a copy of this software and associated documentation
++ * files (the "Software"), to deal in the Software without
++ * restriction, including without limitation the rights to use, copy,
++ * modify, merge, publish, distribute, sublicense, and/or sell copies
++ * of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be
++ * included in all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
++ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
++ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
++ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
++ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
++ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
++ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ *
++ *********************************************************
++ * Authors:
++ * Zack Rusin <zackr-at-vmware-dot-com>
++ * Thomas Hellstrom <thellstrom-at-vmware-dot-com>
++ */
++
++#include "xa_context.h"
++#include "xa_priv.h"
++#include "util/u_inlines.h"
++#include "util/u_sampler.h"
++#include "util/u_surface.h"
++#include "cso_cache/cso_context.h"
++
++static void
++xa_yuv_bind_blend_state(struct xa_context *r)
++{
++    struct pipe_blend_state blend;
++
++    memset(&blend, 0, sizeof(struct pipe_blend_state));
++    blend.rt[0].blend_enable = 0;
++    blend.rt[0].colormask = PIPE_MASK_RGBA;
++
++    /* porter&duff src */
++    blend.rt[0].rgb_src_factor = PIPE_BLENDFACTOR_ONE;
++    blend.rt[0].alpha_src_factor = PIPE_BLENDFACTOR_ONE;
++    blend.rt[0].rgb_dst_factor = PIPE_BLENDFACTOR_ZERO;
++    blend.rt[0].alpha_dst_factor = PIPE_BLENDFACTOR_ZERO;
++
++    cso_set_blend(r->cso, &blend);
++}
++
++static void
++xa_yuv_bind_shaders(struct xa_context *r)
++{
++    unsigned vs_traits = 0, fs_traits = 0;
++    struct xa_shader shader;
++
++    vs_traits |= VS_YUV;
++    fs_traits |= FS_YUV;
++
++    shader = xa_shaders_get(r->shaders, vs_traits, fs_traits);
++    cso_set_vertex_shader_handle(r->cso, shader.vs);
++    cso_set_fragment_shader_handle(r->cso, shader.fs);
++}
++
++static void
++xa_yuv_bind_samplers(struct xa_context *r, struct xa_surface *yuv[])
++{
++    struct pipe_sampler_state *samplers[3];
++    struct pipe_sampler_state sampler;
++    struct pipe_sampler_view view_templ;
++    unsigned int i;
++
++    memset(&sampler, 0, sizeof(struct pipe_sampler_state));
++
++    sampler.wrap_s = PIPE_TEX_WRAP_CLAMP;
++    sampler.wrap_t = PIPE_TEX_WRAP_CLAMP;
++    sampler.min_img_filter = PIPE_TEX_FILTER_LINEAR;
++    sampler.mag_img_filter = PIPE_TEX_FILTER_LINEAR;
++    sampler.min_mip_filter = PIPE_TEX_MIPFILTER_NEAREST;
++
++    for (i = 0; i < 3; ++i) {
++	samplers[i] = &sampler;
++	u_sampler_view_default_template(&view_templ, yuv[i]->tex,
++					yuv[i]->tex->format);
++
++	r->bound_sampler_views[i] =
++	    r->pipe->create_sampler_view(r->pipe, yuv[i]->tex, &view_templ);
++    }
++    r->num_bound_samplers = 3;
++    cso_set_samplers(r->cso, MESA_SHADER_FRAGMENT, 3, (const struct pipe_sampler_state **)samplers);
++    r->pipe->set_sampler_views(r->pipe, MESA_SHADER_FRAGMENT, 0, 3, 0, r->bound_sampler_views);
++}
++
++static void
++xa_yuv_fs_constants(struct xa_context *r, const float conversion_matrix[])
++{
++    const int param_bytes = 16 * sizeof(float);
++
++    renderer_set_constants(r, MESA_SHADER_FRAGMENT,
++			   conversion_matrix, param_bytes);
++}
++
++XA_EXPORT int
++xa_yuv_planar_blit(struct xa_context *r,
++		   int src_x,
++		   int src_y,
++		   int src_w,
++		   int src_h,
++		   int dst_x,
++		   int dst_y,
++		   int dst_w,
++		   int dst_h,
++		   struct xa_box *box,
++		   unsigned int num_boxes,
++		   const float conversion_matrix[],
++		   struct xa_surface *dst, struct xa_surface *yuv[])
++{
++    float scale_x;
++    float scale_y;
++    int ret;
++
++    if (dst_w == 0 || dst_h == 0)
++	return XA_ERR_NONE;
++
++    ret = xa_ctx_srf_create(r, dst);
++    if (ret != XA_ERR_NONE)
++	return -XA_ERR_NORES;
++
++    renderer_bind_destination(r);
++    xa_yuv_bind_blend_state(r);
++    xa_yuv_bind_shaders(r);
++    xa_yuv_bind_samplers(r, yuv);
++    xa_yuv_fs_constants(r, conversion_matrix);
++
++    scale_x = (float)src_w / (float)dst_w;
++    scale_y = (float)src_h / (float)dst_h;
++
++    while (num_boxes--) {
++	int x = box->x1;
++	int y = box->y1;
++	int w = box->x2 - box->x1;
++	int h = box->y2 - box->y1;
++
++        xa_scissor_update(r, x, y, box->x2, box->y2);
++	renderer_draw_yuv(r,
++			  (float)src_x + scale_x * (x - dst_x),
++			  (float)src_y + scale_y * (y - dst_y),
++			  scale_x * w, scale_y * h, x, y, w, h, yuv);
++	box++;
++    }
++
++    xa_context_flush(r);
++
++    xa_ctx_sampler_views_destroy(r);
++    xa_ctx_srf_destroy(r);
++
++    return XA_ERR_NONE;
++}
+diff '--color=auto' -apruN a/src/gallium/meson.build b/src/gallium/meson.build
+--- a/src/gallium/meson.build	2025-12-04 06:02:48.000000000 +0000
++++ b/src/gallium/meson.build	2026-02-03 13:39:32.729317041 +0000
+@@ -229,6 +229,10 @@ if with_dri
+   subdir('frontends/dri')
+   subdir('targets/dri')
+ endif
++if with_gallium_xa
++  subdir('frontends/xa')
++  subdir('targets/xa')
++endif
+ if with_platform_haiku
+   subdir('frontends/hgl')
+ endif
+diff '--color=auto' -apruN a/src/gallium/targets/xa/meson.build b/src/gallium/targets/xa/meson.build
+--- a/src/gallium/targets/xa/meson.build	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/targets/xa/meson.build	2026-02-03 13:39:44.793052537 +0000
+@@ -0,0 +1,45 @@
++# Copyright © 2017-2018 Intel Corporation
++# SPDX-License-Identifier: MIT
++
++# TODO: support non-static targets
++# Static targets are always enabled in autotools (unless you modify
++# configure.ac)
++
++xa_link_args = []
++xa_link_depends = []
++
++if with_ld_version_script
++  xa_link_args += ['-Wl,--version-script', join_paths(meson.current_source_dir(), 'xa.sym')]
++  xa_link_depends += files('xa.sym')
++endif
++
++_xa_version = '.'.join(xa_version)
++
++libxatracker = shared_library(
++  'xatracker',
++  'xa_target.c',
++  gnu_symbol_visibility : 'hidden',
++  link_args : [xa_link_args, ld_args_gc_sections],
++  include_directories : [
++    inc_include, inc_src, inc_mesa, inc_gallium, inc_gallium_aux, inc_util, inc_gallium_winsys, inc_gallium_drivers,
++  ],
++  link_whole : [libxa_st],
++  link_with : [
++    libgalliumvl_stub, libgallium, libpipe_loader_static,
++    libws_null, libwsw, libswdri, libswkmsdri,
++  ],
++  link_depends : xa_link_depends,
++  dependencies : [
++    idep_mesautil,
++    driver_nouveau, driver_i915, driver_svga, driver_freedreno,
++  ],
++  version : _xa_version,
++  install : true,
++)
++
++pkg.generate(
++  name : 'xatracker',
++  description : 'Xorg gallium3D acceleration library',
++  version : _xa_version,
++  libraries : libxatracker,
++)
+diff '--color=auto' -apruN a/src/gallium/targets/xa/xa.sym b/src/gallium/targets/xa/xa.sym
+--- a/src/gallium/targets/xa/xa.sym	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/targets/xa/xa.sym	2026-02-03 13:39:32.729780516 +0000
+@@ -0,0 +1,39 @@
++{
++	global:
++		xa_composite_allocation;
++		xa_composite_check_accelerated;
++		xa_composite_done;
++		xa_composite_prepare;
++		xa_composite_rect;
++		xa_context_create;
++		xa_context_default;
++		xa_context_destroy;
++		xa_context_flush;
++		xa_copy;
++		xa_copy_done;
++		xa_copy_prepare;
++		xa_fence_get;
++		xa_fence_wait;
++		xa_fence_destroy;
++		xa_format_check_supported;
++		xa_solid;
++		xa_solid_done;
++		xa_solid_prepare;
++		xa_surface_create;
++		xa_surface_dma;
++		xa_surface_format;
++		xa_surface_from_handle;
++		xa_surface_from_handle2;
++		xa_surface_handle;
++		xa_surface_map;
++		xa_surface_redefine;
++		xa_surface_ref;
++		xa_surface_unmap;
++		xa_surface_unref;
++		xa_tracker_create;
++		xa_tracker_destroy;
++		xa_tracker_version;
++		xa_yuv_planar_blit;
++	local:
++		*;
++};
+diff '--color=auto' -apruN a/src/gallium/targets/xa/xa_target.c b/src/gallium/targets/xa/xa_target.c
+--- a/src/gallium/targets/xa/xa_target.c	1970-01-01 01:00:00.000000000 +0100
++++ b/src/gallium/targets/xa/xa_target.c	2026-02-03 13:39:32.729909127 +0000
+@@ -0,0 +1,2 @@
++#include "target-helpers/drm_helper.h"
++#include "target-helpers/sw_helper.h"

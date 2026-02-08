@@ -60,7 +60,7 @@ popd
 sync
 # Put Stage 3 files into the system.
 echo "Starting Stage 3 build for '$1'..."
-mkdir -p "$MASSOS"/root/mbs/{extras,work}
+mkdir -p "$MASSOS"/root/mbs/work
 ## Build script, sources and patches.
 mv stage3/sources "$MASSOS"/root/mbs
 cp stage3/"$1"/stage3-"$1".sh "$MASSOS"/root/mbs/build-stage3.sh
