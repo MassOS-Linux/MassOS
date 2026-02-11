@@ -87,10 +87,10 @@ Upgraded software (core):
 - bc: `6.0.3 --> 7.0.3`
 - bcachefs-module: `(new package) --> 1.36.1`
 - bcachefs-tools: `(new package) --> 1.36.1`
-- BIND-Utils: `9.18.6 --> 9.20.17`
+- BIND-Utils: `9.18.6 --> 9.20.18`
 - Binutils: `2.39 --> 2.45.1`
 - blueprint-compiler: `(new package) --> 0.18.0`
-- BlueZ: `5.65 --> 5.85`
+- BlueZ: `5.65 --> 5.86`
 - Boost: `1.80.0 --> 1.90.0`
 - Botan: `(new package) --> 3.9.0`
 - bpftool: `7.0.0 --> 7.6.0`
@@ -171,7 +171,7 @@ Upgraded software (core):
 - FAAC: `(new package) --> 1.31.1`
 - FAAD2: `2.10.0 --> 2.11.2`
 - Fakeroot: `1.29 --> 1.37.1.1`
-- fast-float: `(new package) --> 8.2.2`
+- fast-float: `(new package) --> 8.2.3`
 - fastfetch: `(new package) --> 2.58.0`
 - fastjsonschema: `(new package) --> 2.21.1`
 - FFmpeg: `5.1.2 --> 8.0.1`
@@ -207,7 +207,7 @@ Upgraded software (core):
 - GhostScript: `10.0.0 --> 10.06.0`
 - gi-docgen: `2022.1 --> 2026.1`
 - giflib: `5.2.1 --> 5.2.2`
-- Git: `2.38.0 --> 2.52.0`
+- Git: `2.38.0 --> 2.53.0`
 - glad: `(new package) --> 2.0.8`
 - glew: `(new package) --> 2.3.1`
 - GLib: `2.74.0 --> 2.86.2`
@@ -219,10 +219,10 @@ Upgraded software (core):
 - glycin: `(new package) --> 2.0.7`
 - GMP: `6.2.1 --> 6.3.0`
 - gnome-keyring: `42.1 --> 48.0`
-- gnome-online-accounts: `3.46.0 --> 3.56.3`
+- gnome-online-accounts: `3.46.0 --> 3.56.4`
 - GNU-EFI: `3.0.15 --> 3.0.18`
 - GNUPG: `2.3.7 --> 2.5.17`
-- GNUTLS: `3.7.8 --> 3.8.11`
+- GNUTLS: `3.7.8 --> 3.8.12`
 - gobject-introspection: `1.74.0 --> 1.86.0`
 - gperf: `3.1 --> 3.3`
 - GPGME: `1.18.0 --> 2.0.1`
@@ -272,7 +272,7 @@ Upgraded software (core):
 - highway: `(new package) --> 1.3.0`
 - HPLIP: `3.22.6 --> 3.25.6`
 - htop: `3.2.1 --> 3.4.1`
-- hwdata: `0.363 --> 0.403`
+- hwdata: `0.363 --> 0.404`
 - hyfetch: `(new package) --> 2.0.5`
 - iana-etc: `20220922 --> 20260123`
 - iceauth: `1.0.9 --> 1.0.10`
@@ -284,7 +284,7 @@ Upgraded software (core):
 - installer: `(new package) --> 0.7.0`
 - intel-gmmlib: `(new package) --> 22.8.2`
 - intel-media-driver: `(new package) --> 25.3.4`
-- Intel-Microcode: `(new package) --> 20251111`
+- Intel-Microcode: `(new package) --> 20260210`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
 - ipp-usb: `(new package) --> 0.9.30`
@@ -314,7 +314,7 @@ Upgraded software (core):
 - ldb: `(new package) --> 4.23.3`
 - legacy-cgi: `(new package) --> 2.6.3`
 - Less: `608 --> 691`
-- libadwaita: `(new package) --> 1.8.3`
+- libadwaita: `(new package) --> 1.8.4`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.13.1`
 - libarchive: `3.6.1 --> 3.8.5`
@@ -349,11 +349,11 @@ Upgraded software (core):
 - libexif: `0.6.23 --> 0.6.25`
 - libffi: `3.4.3 --> 3.5.2`
 - libfido2: `1.12.0 --> 1.15.0`
-- libfontenc: `1.1.6 --> 1.1.8`
+- libfontenc: `1.1.6 --> 1.1.9`
 - libfreeaptx: `(new package) --> 0.2.2`
 - libFS: `1.0.9 --> 1.0.10`
 - libftdi: `(new package) --> 1.5`
-- libfyaml: `(new package) --> 0.9.3`
+- libfyaml: `(new package) --> 0.9.4`
 - libgcrypt: `1.10.1 --> 1.12.0`
 - libgee: `0.20.6 --> 0.20.8`
 - libglade: `2.6.4 --> (removed)`
@@ -379,7 +379,7 @@ Upgraded software (core):
 - libjxl: `(new package) --> 1.2.0`
 - libksba: `1.6.1 --> 1.6.7`
 - liblc3: `(new package) --> 1.1.3`
-- libldap: `2.6.3 --> 2.6.10`
+- libldap: `2.6.3 --> 2.6.12`
 - libmanette: `(new package) --> 0.2.11`
 - libmbim: `1.26.4 --> 1.34.0`
 - libmd: `(new package) --> 1.1.0`
@@ -406,7 +406,7 @@ Upgraded software (core):
 - libpipeline: `1.5.6 --> 1.5.8`
 - libplacebo: `(new package) --> 7.351.0`
 - libplist: `2.2.0 --> 2.7.0`
-- libpng: `1.6.38 --> 1.6.52`
+- libpng: `1.6.38 --> 1.6.55`
 - libportal: `0.6 --> 0.9.1`
 - libportal-gtk3: `0.6 --> 0.9.1`
 - libportal-gtk4: `(new package) --> 0.9.1`
@@ -447,12 +447,12 @@ Upgraded software (core):
 - libuv: `1.44.2 --> 1.51.0`
 - libva: `2.16.0 --> 2.23.0`
 - libvpx: `1.12.0 --> 1.16.0`
-- libwacom: `2.4.0 --> 2.16.0`
+- libwacom: `2.4.0 --> 2.18.0`
 - libwbclient: `(new package) --> 4.23.3`
 - libwebp: `1.2.5 --> 1.6.0`
 - libwnck: `43.0 --> 43.3`
 - libwpe: `1.14.0 --> 1.16.2`
-- libX11: `1.8.1 --> 1.8.12`
+- libX11: `1.8.1 --> 1.8.13`
 - libXau: `1.0.10 --> 1.0.12`
 - libXaw: `1.0.14 --> 1.0.16`
 - libxcb: `1.15 --> 1.17`
@@ -471,7 +471,7 @@ Upgraded software (core):
 - libXi: `1.8 --> 1.8.2`
 - libXinerama: `1.1.4 --> 1.1.6`
 - libxml2: `2.9.14 --> 2.15.1`
-- libxmlb: `0.3.6 --> 0.3.24`
+- libxmlb: `0.3.6 --> 0.3.25`
 - libXmu: `1.1.3 --> 1.3.1`
 - libXpm: `3.5.13 --> 3.5.18`
 - libXpresent: `(new package) --> 1.0.2`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.18.9`
-- Linux-API-Headers: `6.0.0 --> 6.18.9`
+- Linux: `6.0.0 --> 6.19.0`
+- Linux-API-Headers: `6.0.0 --> 6.19.0`
 - Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.18.9`
+- Linux-Headers: `6.0.0 --> 6.19.0`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -512,7 +512,7 @@ Upgraded software (core):
 - Mako: `1.2.1 --> 1.3.10`
 - Man-DB: `2.10.2 --> 2.13.1`
 - man-pages: `5.13 --> 6.16`
-- Markdown: `3.3.6 --> 3.10.1`
+- Markdown: `3.3.6 --> 3.10.2`
 - MarkupSafe: `2.1.1 --> 3.0.3`
 - maturin: `(new package) --> 1.11.5`
 - mdadm: `4.2 --> 4.4`
@@ -577,7 +577,7 @@ Upgraded software (core):
 - os-prober: `1.79 --> 1.84`
 - osm-gps-map: `(new package) --> 1.2.0`
 - ostree: `2022.5 --> 2025.2`
-- p11-kit: `0.24.1 --> 0.26.1`
+- p11-kit: `0.24.1 --> 0.26.2`
 - p7zip: `17.04 --> (removed)`
 - packaging: `21.3 --> 25.0`
 - Pahole: `1.24 --> 1.29`
@@ -608,11 +608,11 @@ Upgraded software (core):
 - Plymouth: `22.02.122 --> 24.004.60-149-g4a3c171d`
 - poetry-core: `(new package) --> 2.1.2`
 - Polkit: `121 --> 127`
-- Poppler: `22.09.0 --> 26.01.0`
+- Poppler: `22.09.0 --> 26.02.0`
 - poppler-data: `0.4.11 --> 0.4.12`
 - power-profiles-daemon: `0.12 --> 0.30`
 - ppp: `2.4.9 --> 2.5.2`
-- Procps-NG: `4.0.0 --> 4.0.5`
+- Procps-NG: `4.0.0 --> 4.0.6`
 - proot: `(new package) --> 5.4.0`
 - PSmisc: `23.5 --> 23.7`
 - PulseAudio: `16.1 --> 17.0`
@@ -627,7 +627,7 @@ Upgraded software (core):
 - PyParsing: `3.0.7 --> 3.3.2`
 - pyproject-hooks: `(new package) --> 1.2.0`
 - pyproject-metadata: `(new package) --> 0.10.0`
-- Python: `3.10.7 --> 3.14.2`
+- Python: `3.10.7 --> 3.14.3`
 - python-certifi: `2022.06.15 --> 2025.11.12`
 - python-dbusmock: `0.28.4 --> 0.38.1`
 - pytz: `(new package) --> 2025.2`
@@ -655,20 +655,20 @@ Upgraded software (core):
 - sbsigntools: `(new package) --> 0.9.5`
 - scdoc: `(new package) --> 1.11.0`
 - SDL: `1.2.15 --> (removed)`
-- sdl12-compat: `(new package) --> 1.2.72`
+- sdl12-compat: `(new package) --> 1.2.74`
 - SDL2: `2.24.0 --> (removed)`
-- sdl2-compat: `(new package) --> 2.32.62`
+- sdl2-compat: `(new package) --> 2.32.64`
 - SDL3: `(new package) --> 3.4.0`
 - seatd: `(new package) --> 0.9.1`
 - Sed: `4.8 --> 4.9`
 - semantic-version: `(new package) --> 2.10.0`
 - sessreg: `1.1.2 --> 1.1.4`
-- setuptools: `69.0.2 --> 80.10.2`
+- setuptools: `69.0.2 --> 82.0.0`
 - setuptools-rust: `(new package) --> 1.12.0`
 - setuptools-scm: `(new package) --> 9.2.2`
 - setxkbmap: `1.3.3 --> 1.3.4`
 - shaderc: `(new package) --> 2026.1`
-- Shadow: `4.12.3 --> 4.19.2`
+- Shadow: `4.12.3 --> 4.19.3`
 - shared-mime-info: `2.2 --> 2.4`
 - shim: `(new package) --> 15.8`
 - simdutf: `(new package) --> 8.0.0`
@@ -684,13 +684,13 @@ Upgraded software (core):
 - speech-dispatcher: `(new package) --> 0.12.1`
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
-- SPIRV-Headers: `1.3.216.0 --> 1.4.335.0`
-- SPIRV-LLVM-Translator: `(new package) --> 21.1.3`
-- SPIRV-Tools: `2022.2 --> 1.4.335.0`
+- SPIRV-Headers: `1.3.216.0 --> 1.4.341.0`
+- SPIRV-LLVM-Translator: `(new package) --> 21.1.4`
+- SPIRV-Tools: `2022.2 --> 1.4.341.0`
 - SQLite: `3.39.3 --> 3.51.2`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
-- strace: `5.19 --> 6.18`
+- strace: `5.19 --> 6.19`
 - Sudo: `1.9.11p3 --> 1.9.17p2`
 - SVT-AV1: `(new package) --> 4.0.1`
 - SWIG: `4.0.2 --> 4.4.1`
@@ -734,9 +734,9 @@ Upgraded software (core):
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.82.3`
 - VTE4: `(new package) --> 0.82.3`
-- Vulkan-Headers: `1.3.230 --> 1.4.335.0`
-- Vulkan-Loader: `1.3.230 --> 1.4.335.0`
-- Vulkan-Tools: `1.3.230 --> 1.4.335.0`
+- Vulkan-Headers: `1.3.230 --> 1.4.341.0`
+- Vulkan-Loader: `1.3.230 --> 1.4.341.0`
+- Vulkan-Tools: `1.3.230 --> 1.4.341.0`
 - wavpack: `5.5.0 --> 5.8.1`
 - Wayland: `1.21.0 --> 1.24.0`
 - wayland-protocols: `1.26 --> 1.47`

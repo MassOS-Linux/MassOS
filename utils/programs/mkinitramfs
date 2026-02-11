@@ -12,9 +12,9 @@ if [ $EUID -ne 0 ]; then
 fi
 # Usage function.
 usage() {
-  echo "Usage: $(basename $0) [kernel-version]"
+  echo "Usage A: $(basename $0) [kernel-version]"
   echo
-  echo "$(basename $0) generates an initramfs for you."
+  echo "$(basename $0) wraps around dracut(8) to easily generate an initramfs."
   echo
   echo "If [kernel-version] is omitted, $(basename $0) tries to generate an"
   echo "initramfs for the currently running kernel, instead of a specific one."
@@ -34,6 +34,8 @@ else
   KVER="$1"
   if [ ! -d "/lib/modules/$KVER" ]; then
     echo "Error: Specified kernel version $KVER does not exist." >&2
+    echo
+    usage >&2
     exit 1
   fi
 fi

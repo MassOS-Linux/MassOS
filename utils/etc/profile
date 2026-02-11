@@ -2,7 +2,8 @@
 # /etc/profile.d instead (the files there also take more priority than this).
 
 # Set up environment variables.
-export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+# NOTE: sbin is a symlink to bin, so sbin entries aren't needed in PATH.
+export PATH=/usr/local/bin:/usr/bin
 export PKG_CONFIG_PATH=/usr/local/share/pkgconfig:/usr/local/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/pkgconfig
 export HISTSIZE=10000
 export HISTIGNORE="&:[bf]g:exit"

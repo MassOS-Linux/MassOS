@@ -176,7 +176,7 @@ rm -rf xfce4-panel-4.20.6
 # xfce4-power-manager.
 tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
 pushd xfce4-power-manager-4.20.0
-./configure --prefix=/usr --sysconfdir=/etc --enable-polkit --enable-wayland --enable-x11
+./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --enable-polkit --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING

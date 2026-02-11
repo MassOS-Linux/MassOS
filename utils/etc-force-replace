@@ -1,4 +1,16 @@
+dircolors
 ethertypes
+grub.d/00_header
+grub.d/10_linux
+grub.d/15_ostree
+grub.d/20_linux_xen
+grub.d/25_bli
+grub.d/30_os-prober
+grub.d/30_uefi-firmware
+grub.d/35_fwupd
 protocols
 rpc
 services
+ssl/misc/CA.pl
+ssl/misc/tsget
+ssl/misc/tsget.pl
