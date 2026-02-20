@@ -57,7 +57,7 @@ Changes:
 
 Upgraded software (core):
 
-- 7zip: `(new package) --> 25.01`
+- 7zip: `(new package) --> 26.00`
 - a52dec: `0.7.4 --> 0.8.0`
 - AccountsService: `22.08.8 --> 23.13.9`
 - Acl: `2.3.1 --> 2.3.2`
@@ -147,12 +147,12 @@ Upgraded software (core):
 - docutils: `0.18.1 --> 0.22.4`
 - dos2unix: `7.4.2 --> 7.5.4`
 - dotconf: `(new package) --> 1.4.1`
-- dovi-tool: `(new package) --> 2.3.0`
+- dovi-tool: `(new package) --> 2.3.1`
 - dracut: `056 --> 109`
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.3`
 - easy-rsa: `3.1.0 --> 3.2.2`
-- Ed: `1.18 --> 1.22.4`
+- Ed: `1.18 --> 1.22.5`
 - editables: `(new package) --> 0.5`
 - EDK2-Shell: `(new package) --> 202511`
 - efitools: `(new package) --> 1.9.2`
@@ -216,7 +216,7 @@ Upgraded software (core):
 - GLibmm: `2.66.5 --> 2.66.8`
 - glslang: `11.11.0 --> 16.2.0`
 - GLU: `9.0.2 --> 9.0.3`
-- glycin: `(new package) --> 2.0.7`
+- glycin: `(new package) --> 2.0.8`
 - GMP: `6.2.1 --> 6.3.0`
 - gnome-keyring: `42.1 --> 48.0`
 - gnome-online-accounts: `3.46.0 --> 3.56.4`
@@ -274,7 +274,7 @@ Upgraded software (core):
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.404`
 - hyfetch: `(new package) --> 2.0.5`
-- iana-etc: `20220922 --> 20260123`
+- iana-etc: `20220922 --> 20260202`
 - iceauth: `1.0.9 --> 1.0.10`
 - ICU: `71.1 --> 78.2`
 - idna: `3.4 --> 3.11`
@@ -313,7 +313,7 @@ Upgraded software (core):
 - lcms2: `2.13.1 --> 2.18`
 - ldb: `(new package) --> 4.23.3`
 - legacy-cgi: `(new package) --> 2.6.3`
-- Less: `608 --> 691`
+- Less: `608 --> 692`
 - libadwaita: `(new package) --> 1.8.4`
 - libao: `(new package) --> 1.2.2`
 - libaom: `(new package) --> 3.13.1`
@@ -342,7 +342,7 @@ Upgraded software (core):
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
 - libdmx: `1.1.4 --> 1.1.5`
-- libdovi: `(new package) --> 2.3.0`
+- libdovi: `(new package) --> 2.3.1`
 - libdrm: `2.4.113 --> 2.4.131`
 - libedit: `20210910-3.1 --> 20250104-3.1`
 - libevdev: `1.13.0 --> 1.13.6`
@@ -371,12 +371,12 @@ Upgraded software (core):
 - libimobiledevice: `1.3.0 --> 1.4.0`
 - libimobiledevice-glue: `(new package) --> 1.3.2`
 - libindicator: `(new package) --> 12.10.1`
-- libinput: `1.21.0 --> 1.30.1`
+- libinput: `1.21.0 --> 1.31.0`
 - libisoburn: `1.5.4 --> 1.5.6`
 - libisofs: `1.5.4 --> 1.5.6`
 - libjcat: `0.1.11 --> 0.2.3`
 - libjpeg-turbo: `2.1.3 --> 3.1.3`
-- libjxl: `(new package) --> 1.2.0`
+- libjxl: `(new package) --> 0.11.2`
 - libksba: `1.6.1 --> 1.6.7`
 - liblc3: `(new package) --> 1.1.3`
 - libldap: `2.6.3 --> 2.6.12`
@@ -404,7 +404,7 @@ Upgraded software (core):
 - libpciaccess: `0.16 --> 0.18`
 - libpeas: `1.34.0 --> 1.36.0`
 - libpipeline: `1.5.6 --> 1.5.8`
-- libplacebo: `(new package) --> 7.351.0`
+- libplacebo: `(new package) --> 7.360.0`
 - libplist: `2.2.0 --> 2.7.0`
 - libpng: `1.6.38 --> 1.6.55`
 - libportal: `0.6 --> 0.9.1`
@@ -444,7 +444,7 @@ Upgraded software (core):
 - liburing: `2.1 --> 2.9`
 - libusb: `1.0.26 --> 1.0.28`
 - libusbmuxd: `2.0.2 --> 2.1.0`
-- libuv: `1.44.2 --> 1.51.0`
+- libuv: `1.44.2 --> 1.52.0`
 - libva: `2.16.0 --> 2.23.0`
 - libvpx: `1.12.0 --> 1.16.0`
 - libwacom: `2.4.0 --> 2.18.0`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.0`
-- Linux-API-Headers: `6.0.0 --> 6.19.0`
+- Linux: `6.0.0 --> 6.19.2`
+- Linux-API-Headers: `6.0.0 --> 6.19.2`
 - Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.19.0`
+- Linux-Headers: `6.0.0 --> 6.19.2`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -506,18 +506,18 @@ Upgraded software (core):
 - Lynx: `2.8.9 --> 2.9.2`
 - LZ4: `1.9.4 --> 1.10.0`
 - lzip: `1.22 --> 1.25`
-- M4: `1.4.19 --> 1.4.20`
+- M4: `1.4.19 --> 1.4.21`
 - make-ca: `1.10 --> 1.16.1`
 - Make: `4.3 --> 4.4.1`
 - Mako: `1.2.1 --> 1.3.10`
 - Man-DB: `2.10.2 --> 2.13.1`
-- man-pages: `5.13 --> 6.16`
+- man-pages: `5.13 --> 6.17`
 - Markdown: `3.3.6 --> 3.10.2`
 - MarkupSafe: `2.1.1 --> 3.0.3`
-- maturin: `(new package) --> 1.11.5`
+- maturin: `(new package) --> 1.12.0`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 25.3.1`
+- Mesa: `22.1.7 --> 25.3.5`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.10.1`
 - meson-python: `(new package) --> 0.19.0`
@@ -544,7 +544,7 @@ Upgraded software (core):
 - Neofetch: `7.3.0 --> (removed)`
 - net-tools: `(new package) --> 2.10`
 - Netcat: `0.7.1 --> 1.229`
-- NetworkManager: `1.40.0 --> 1.54.3`
+- NetworkManager: `1.40.0 --> 1.56.0`
 - NetworkManager-openvpn: `1.10.0 --> 1.12.0`
 - newt: `0.52.21 --> 0.52.25`
 - nftables: `(new package) --> 1.1.1`
@@ -555,7 +555,7 @@ Upgraded software (core):
 - noto-fonts-emoji: `20220920 --> 2.051`
 - npth: `1.6 --> 1.8`
 - NSPR: `4.35 --> 4.37`
-- NSS: `3.83 --> 3.119.1`
+- NSS: `3.83 --> 3.120.1`
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
@@ -626,14 +626,14 @@ Upgraded software (core):
 - pyopenssl: `22.1.0 --> 25.0.0`
 - PyParsing: `3.0.7 --> 3.3.2`
 - pyproject-hooks: `(new package) --> 1.2.0`
-- pyproject-metadata: `(new package) --> 0.10.0`
+- pyproject-metadata: `(new package) --> 0.11.0`
 - Python: `3.10.7 --> 3.14.3`
-- python-certifi: `2022.06.15 --> 2025.11.12`
+- python-certifi: `2022.06.15 --> 2026.01.04`
 - python-dbusmock: `0.28.4 --> 0.38.1`
 - pytz: `(new package) --> 2025.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.3`
-- qemu-guest-agent: `(new package) --> 10.2.0`
+- qemu-guest-agent: `(new package) --> 10.2.1`
 - Qpdf: `11.1.1 --> 12.3.2`
 - rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
@@ -651,7 +651,7 @@ Upgraded software (core):
 - run-parts: `5.5 --> 5.23.1`
 - SANE: `1.1.1 --> 1.4.0`
 - sane-airscan: `(new package) --> 0.99.36`
-- SBC: `2.0 --> 2.1`
+- SBC: `2.0 --> 2.2`
 - sbsigntools: `(new package) --> 0.9.5`
 - scdoc: `(new package) --> 1.11.0`
 - SDL: `1.2.15 --> (removed)`
@@ -721,15 +721,15 @@ Upgraded software (core):
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
 - Unifont: `15.0.01 --> 17.0.03`
-- UPower: `1.90.0 --> 1.91.0`
-- urllib3: `1.26.11 --> 2.5.0`
+- UPower: `1.90.0 --> 1.91.1`
+- urllib3: `1.26.11 --> 2.6.3`
 - usbutils: `014 --> 019`
 - Userspace-RCU: `0.13.2 --> 0.15.6`
 - utfcpp: `(new package) --> 4.0.9`
 - util-linux: `2.38.1 --> 2.41.3`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.1.2050`
+- Vim: `9.0.0600 --> 9.2.0000`
 - virglrenderer: `(new package) --> 1.2.0`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.82.3`
@@ -745,7 +745,7 @@ Upgraded software (core):
 - Wget: `1.21.3 --> 1.25.0`
 - wheel: `(new package) --> 0.46.3`
 - Which: `2.21 --> 2.23`
-- whois: `5.5.13 --> 5.6.5`
+- whois: `5.5.13 --> 5.6.6`
 - WirePlumber: `0.4.12 --> 0.5.11`
 - wlroots: `(new package) --> 0.19.2`
 - wlr-protocols: `(new package) --> 107`
@@ -831,7 +831,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 147.0.3`
+- Firefox: `105.0.1 --> 147.0.4`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

@@ -6,7 +6,7 @@
 mkdir -p sources
 pushd sources >/dev/null || true
 # Download sources using source-urls as a wget input file.
-wget -nc --continue --input-file=../source-urls
+wget -nc --continue --no-check-certificate --input-file=../source-urls
 STATUS=$?
 # Return out of the sources directory.
 popd >/dev/null || true
