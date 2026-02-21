@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.2`
-- Linux-API-Headers: `6.0.0 --> 6.19.2`
+- Linux: `6.0.0 --> 6.19.3`
+- Linux-API-Headers: `6.0.0 --> 6.19.3`
 - Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.19.2`
+- Linux-Headers: `6.0.0 --> 6.19.3`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`

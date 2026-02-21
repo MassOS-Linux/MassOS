@@ -9,11 +9,11 @@
 set -e
 
 # Set the software version.
-ver="0.0.5"
+ver="0.0.6"
 
 # Version of Go. Shouldn't really need to be updated frequently.
-ver_go="1.25.3"
-sum_go="0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"
+ver_go="1.26.0"
+sum_go="aac1b08a0fb0c4e0a7c1555beb7b59180b05dfc5a3d62e40e9de90cd42f88235"
 
 # What is our name?
 inv="$(basename "$0")"
@@ -127,15 +127,15 @@ operation_install() {
   echo "$sum_snapd dl_snapd" | sha256sum -c
   # Extract stuff.
   msg "Extracting source files..."
-  install -d go snapd
-  tar -xf dl_go -C go --strip-components=1
+  install -d go goroot snapd
+  tar -xf dl_go -C goroot --strip-components=1
   tar -xf dl_snapd -C snapd --strip-components=1
   # Build the thing.
   msg "Building Snapd $ver_snapd..."
   # Set up the environment variables for the build.
   unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
   unset CGO_CFLAGS CGO_CXXFLAGS CGO_CPPFLAGS CGO_LDFLAGS
-  export PATH="$PWD/go/bin:$PATH"
+  export PATH="$PWD/goroot/bin:$PATH"
   export GOPATH="$PWD/go"
   export GO111MODULE=off
   export CGO_ENABLED=1
@@ -181,18 +181,18 @@ operation_install() {
   install -dm755 /usr/share/man/man8
   /usr/bin/snap help --man > /usr/share/man/man8/snap.8
   install -t /usr/lib/snapd -Dm644 data/info
-  gzip -9 /usr/share/man/man8/snap.8
-  gzip -9 /usr/share/man/man8/snap-confine.8
-  gzip -9 /usr/share/man/man8/snap-discard-ns.8
-  gzip -9 /usr/share/man/man8/snapd-env-generator.8
+  gzip -9f /usr/share/man/man8/snap.8
+  gzip -9f /usr/share/man/man8/snap-confine.8
+  gzip -9f /usr/share/man/man8/snap-discard-ns.8
+  gzip -9f /usr/share/man/man8/snapd-env-generator.8
   rm -f /usr/lib/systemd/system/snapd.{system-shutdown.service,autoimport.service,recovery-chooser-trigger.service,core-fixup.*,snap-repair.*}
   rm -f /usr/lib/snapd/{snapd.core-fixup.sh,system-shutdown}
   rm -f /usr/bin/ubuntu-core-launcher
   install -t /usr/share/licenses/snapd -Dm644 COPYING
   # Strip the executables.
   msg "Stripping executables..."
-  strip --strip-all /usr/bin/snap 2>/dev/null || true
-  strip --strip-all /usr/lib/snapd/* 2>/dev/null || true
+  strip --strip-unneeded /usr/bin/snap 2>/dev/null || true
+  strip --strip-unneeded /usr/lib/snapd/* 2>/dev/null || true
   # Enable Snapd systemd services.
   msg "Enabling Snapd systemd services..."
   setcap -q - /usr/lib/snapd/snap-confine < /usr/lib/snapd/snap-confine.caps
