@@ -1,0 +1,1066 @@
+This patch replaces the default (often outdated and therefore buggy) layouts
+with improved versions for MassOS. Some layouts are fully removed, such as ones
+specific to other distros, as well as duplicates of others.
+
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/config.txt b/data/layouts/massos-cupertino/config.txt
+--- a/data/layouts/massos-cupertino/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,132 @@
++/configver 2
++/panels [<0>, <1>]
++/panels/dark-mode false
++/panels/panel-0/autohide-behavior uint32 0
++/panels/panel-0/background-alpha uint32 80
++/panels/panel-0/background-rgba [<1.0>, <1.0>, <1.0>, <0.47796610169491527>]
++/panels/panel-0/background-style uint32 0
++/panels/panel-0/enable-struts true
++/panels/panel-0/enter-opacity uint32 100
++/panels/panel-0/icon-size uint32 0
++/panels/panel-0/leave-opacity uint32 100
++/panels/panel-0/length uint32 100
++/panels/panel-0/length-adjust true
++/panels/panel-0/mode uint32 0
++/panels/panel-0/nrows uint32 1
++/panels/panel-0/plugin-ids [<1>, <2>, <3>, <4>, <5>, <6>, <7>, <8>, <9>, <10>, <11>, <12>, <13>, <14>]
++/panels/panel-0/position 'p=6;x=0;y=0'
++/panels/panel-0/position-locked true
++/panels/panel-0/size uint32 21
++/panels/panel-0/span-monitors false
++/panels/panel-1/autohide-behavior uint32 0
++/panels/panel-1/background-rgba [<1.0>, <1.0>, <1.0>, <0.47796610169491527>]
++/panels/panel-1/background-style uint32 0
++/panels/panel-1/length uint32 1
++/panels/panel-1/length-adjust true
++/panels/panel-1/plugin-ids [<15>, <28>, <16>, <17>, <29>, <18>, <19>, <20>, <21>, <22>, <23>, <24>, <25>, <26>, <27>]
++/panels/panel-1/position 'p=10;x=676;y=743'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 52
++/plugins/plugin-1 'whiskermenu'
++/plugins/plugin-1/button-icon '/usr/share/pixmaps/massos-logo-circlecropped-notext.png'
++/plugins/plugin-1/button-title 'Applications'
++/plugins/plugin-1/custom-menu false
++/plugins/plugin-1/favorites [<'xfce4-web-browser.desktop'>, <'xfce4-mail-reader.desktop'>, <'xfce4-file-manager.desktop'>, <'xfce4-terminal-emulator.desktop'>, <'org.gnome.Software.desktop'>]
++/plugins/plugin-1/hover-switch-category true
++/plugins/plugin-1/show-button-title true
++/plugins/plugin-1/show-generic-names false
++/plugins/plugin-1/show-menu-icons true
++/plugins/plugin-1/show-tooltips false
++/plugins/plugin-10 'actions'
++/plugins/plugin-10/appearance uint32 1
++/plugins/plugin-10/ask-confirmation true
++/plugins/plugin-10/button-title uint32 0
++/plugins/plugin-10/invert-orientation false
++/plugins/plugin-10/items [<'+lock-screen'>, <'+separator'>, <'+suspend'>, <'+hibernate'>, <'+separator'>, <'-hybrid-sleep'>, <'+restart'>, <'+shutdown'>, <'+separator'>, <'+switch-user'>, <'-logout-dialog'>, <'+logout'>]
++/plugins/plugin-11 'separator'
++/plugins/plugin-11/expand false
++/plugins/plugin-11/style uint32 0
++/plugins/plugin-12 'launcher'
++/plugins/plugin-12/items [<'xfce4-appfinder.desktop'>]
++/plugins/plugin-13 'notification-plugin'
++/plugins/plugin-14 'separator'
++/plugins/plugin-14/expand false
++/plugins/plugin-14/style uint32 0
++/plugins/plugin-15 'separator'
++/plugins/plugin-15/style uint32 0
++/plugins/plugin-16 'launcher'
++/plugins/plugin-16/arrow-position uint32 0
++/plugins/plugin-16/disable-tooltips false
++/plugins/plugin-16/items [<'xfce4-file-manager.desktop'>]
++/plugins/plugin-16/move-first true
++/plugins/plugin-16/show-label false
++/plugins/plugin-17 'launcher'
++/plugins/plugin-17/items [<'xfce4-web-browser.desktop'>]
++/plugins/plugin-18 'separator'
++/plugins/plugin-18/style uint32 0
++/plugins/plugin-19 'separator'
++/plugins/plugin-2 'appmenu'
++/plugins/plugin-2/plugins/plugin-2/bold-application-name true
++/plugins/plugin-2/plugins/plugin-2/compact-mode false
++/plugins/plugin-2/plugins/plugin-2/expand true
++/plugins/plugin-2/plugins/plugin-20/bold-application-name true
++/plugins/plugin-2/plugins/plugin-20/compact-mode false
++/plugins/plugin-2/plugins/plugin-20/expand true
++/plugins/plugin-20 'separator'
++/plugins/plugin-20/expand true
++/plugins/plugin-20/style uint32 0
++/plugins/plugin-21 'tasklist'
++/plugins/plugin-21/flat-buttons true
++/plugins/plugin-21/grouping uint32 1
++/plugins/plugin-21/include-all-monitors true
++/plugins/plugin-21/show-handle false
++/plugins/plugin-21/show-labels false
++/plugins/plugin-21/show-only-minimized false
++/plugins/plugin-21/show-wireframes false
++/plugins/plugin-21/sort-order uint32 4
++/plugins/plugin-22 'separator'
++/plugins/plugin-22/expand true
++/plugins/plugin-22/style uint32 0
++/plugins/plugin-23 'separator'
++/plugins/plugin-24 'separator'
++/plugins/plugin-24/style uint32 0
++/plugins/plugin-25 'launcher'
++/plugins/plugin-25/items [<'xfce-settings-manager.desktop'>]
++/plugins/plugin-26 'thunar-tpa'
++/plugins/plugin-27 'separator'
++/plugins/plugin-27/style uint32 0
++/plugins/plugin-28 'launcher'
++/plugins/plugin-28/items [<'xfce4-terminal-emulator.desktop'>]
++/plugins/plugin-29 'launcher'
++/plugins/plugin-29/items [<'gnome-software.desktop'>]
++/plugins/plugin-3 'separator'
++/plugins/plugin-3/expand true
++/plugins/plugin-3/style uint32 0
++/plugins/plugin-4 'systray'
++/plugins/plugin-4/icon-size 16
++/plugins/plugin-4/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-4/show-frame false
++/plugins/plugin-4/size-max uint32 16
++/plugins/plugin-4/symbolic-icons true
++/plugins/plugin-5 'pulseaudio'
++/plugins/plugin-5/enable-keyboard-shortcuts true
++/plugins/plugin-5/enable-mpris true
++/plugins/plugin-5/enable-multimedia-keys true
++/plugins/plugin-5/enable-wnck true
++/plugins/plugin-5/show-notifications true
++/plugins/plugin-6 'power-manager-plugin'
++/plugins/plugin-7 'separator'
++/plugins/plugin-7/style uint32 0
++/plugins/plugin-8 'clock'
++/plugins/plugin-8/digital-format '%a %I:%M %p'
++/plugins/plugin-8/digital-layout uint32 3
++/plugins/plugin-8/digital-time-font 'Noto Sans 9'
++/plugins/plugin-8/digital-time-format '%a %I:%M %p'
++/plugins/plugin-8/mode uint32 2
++/plugins/plugin-8/show-frame true
++/plugins/plugin-8/size-max uint32 22
++/plugins/plugin-8/style uint32 0
++/plugins/plugin-8/tooltip-format '%A %d %B %Y'
++/plugins/plugin-9 'separator'
++/plugins/plugin-9/expand false
++/plugins/plugin-9/style uint32 0
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-12/xfce4-appfinder.desktop b/data/layouts/massos-cupertino/launcher-12/xfce4-appfinder.desktop
+--- a/data/layouts/massos-cupertino/launcher-12/xfce4-appfinder.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-12/xfce4-appfinder.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Version=1.0
++Exec=xfce4-appfinder
++Icon=edit-find
++StartupNotify=true
++Terminal=false
++Type=Application
++Categories=Utility;X-XFCE;
++Name=Application Finder
++Comment=Find and launch applications installed on your system
++X-XFCE-Source=file:///usr/share/applications/xfce4-appfinder.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-16/xfce4-file-manager.desktop b/data/layouts/massos-cupertino/launcher-16/xfce4-file-manager.desktop
+--- a/data/layouts/massos-cupertino/launcher-16/xfce4-file-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-16/xfce4-file-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,15 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch FileManager %u
++Icon=org.xfce.filemanager
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
++X-AppStream-Ignore=True
++Name=File Manager
++Comment=Browse the file system
++X-XFCE-Source=file:///usr/share/applications/xfce4-file-manager.desktop
++Path=
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-17/xfce4-web-browser.desktop b/data/layouts/massos-cupertino/launcher-17/xfce4-web-browser.desktop
+--- a/data/layouts/massos-cupertino/launcher-17/xfce4-web-browser.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-17/xfce4-web-browser.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,15 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch WebBrowser %u
++Icon=org.xfce.webbrowser
++StartupNotify=true
++Terminal=false
++Categories=Network;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=x-scheme-handler/http;x-scheme-handler/https;
++X-AppStream-Ignore=True
++Name=Web Browser
++Comment=Browse the web
++X-XFCE-Source=file:///usr/share/applications/xfce4-web-browser.desktop
++Path=
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-25/xfce-settings-manager.desktop b/data/layouts/massos-cupertino/launcher-25/xfce-settings-manager.desktop
+--- a/data/layouts/massos-cupertino/launcher-25/xfce-settings-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-25/xfce-settings-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Name=Settings Manager
++Comment=Graphical Settings Manager for Xfce 4
++Exec=xfce4-settings-manager
++Icon=preferences-desktop
++Terminal=false
++Type=Application
++Categories=X-XFCE;Settings;DesktopSettings;
++OnlyShowIn=XFCE;
++X-XfceSettingsManagerHidden=true
++X-XFCE-Source=file:///usr/share/applications/xfce-settings-manager.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-28/xfce4-terminal-emulator.desktop b/data/layouts/massos-cupertino/launcher-28/xfce4-terminal-emulator.desktop
+--- a/data/layouts/massos-cupertino/launcher-28/xfce4-terminal-emulator.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-28/xfce4-terminal-emulator.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch TerminalEmulator
++Icon=org.xfce.terminalemulator
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=terminal;command line;shell;console;xfce;
++Keywords=terminal;command line;shell;console;xfce;
++OnlyShowIn=XFCE;
++X-AppStream-Ignore=True
++Name[en_GB]=Terminal Emulator
++Name=Terminal Emulator
++Comment[en_GB]=Use the command line
++Comment=Use the command line
++X-XFCE-Source=file:///usr/share/applications/xfce4-terminal-emulator.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-cupertino/launcher-29/gnome-software.desktop b/data/layouts/massos-cupertino/launcher-29/gnome-software.desktop
+--- a/data/layouts/massos-cupertino/launcher-29/gnome-software.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-cupertino/launcher-29/gnome-software.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Name[en_GB]=Software
++Name=Software
++Comment[en_GB]=Add, remove or update software on this computer
++Comment=Add, remove or update software on this computer
++Icon=org.gnome.Software
++Exec=gnome-software %U
++Terminal=false
++Type=Application
++Categories=GNOME;GTK;System;PackageManager;
++Keywords[en_GB]=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++Keywords=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++StartupNotify=true
++MimeType=x-scheme-handler/appstream;x-scheme-handler/flatpak+https;
++X-GNOME-UsesNotifications=true
++DBusActivatable=true
++X-Purism-FormFactor=Workstation;Mobile;
++X-XFCE-Source=file:///usr/share/applications/org.gnome.Software.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-default/config.txt b/data/layouts/massos-default/config.txt
+--- a/data/layouts/massos-default/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-default/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,63 @@
++/configver 2
++/panels [<1>, <2>]
++/panels/dark-mode true
++/panels/panel-1/icon-size uint32 16
++/panels/panel-1/length uint32 100
++/panels/panel-1/plugin-ids [<7>, <2>, <3>, <4>, <5>, <1>, <6>, <8>, <9>, <10>, <11>, <12>, <13>, <14>]
++/panels/panel-1/position 'p=6;x=0;y=0'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 26
++/panels/panel-2/autohide-behavior uint32 1
++/panels/panel-2/length uint32 1
++/panels/panel-2/plugin-ids [<15>, <16>, <17>, <18>, <19>, <20>, <21>, <22>]
++/panels/panel-2/position 'p=10;x=0;y=0'
++/panels/panel-2/position-locked true
++/panels/panel-2/size uint32 48
++/plugins/plugin-1 'xfce4-clipman-plugin'
++/plugins/plugin-10 'notification-plugin'
++/plugins/plugin-11 'separator'
++/plugins/plugin-11/style uint32 0
++/plugins/plugin-12 'clock'
++/plugins/plugin-12/digital-date-font 'Noto Sans 9'
++/plugins/plugin-12/digital-time-font 'Noto Sans 9'
++/plugins/plugin-13 'separator'
++/plugins/plugin-13/style uint32 0
++/plugins/plugin-14 'actions'
++/plugins/plugin-15 'showdesktop'
++/plugins/plugin-16 'separator'
++/plugins/plugin-17 'launcher'
++/plugins/plugin-17/items [<'16367369101.desktop'>]
++/plugins/plugin-18 'launcher'
++/plugins/plugin-18/items [<'16367369102.desktop'>]
++/plugins/plugin-19 'launcher'
++/plugins/plugin-19/items [<'16367369103.desktop'>]
++/plugins/plugin-2 'tasklist'
++/plugins/plugin-2/grouping uint32 1
++/plugins/plugin-20 'launcher'
++/plugins/plugin-20/items [<'16367369104.desktop'>]
++/plugins/plugin-21 'separator'
++/plugins/plugin-22 'directorymenu'
++/plugins/plugin-22/base-directory ''
++/plugins/plugin-3 'separator'
++/plugins/plugin-3/expand true
++/plugins/plugin-3/style uint32 0
++/plugins/plugin-4 'pager'
++/plugins/plugin-5 'separator'
++/plugins/plugin-5/style uint32 0
++/plugins/plugin-6 'systray'
++/plugins/plugin-6/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-6/square-icons true
++/plugins/plugin-7 'whiskermenu'
++/plugins/plugin-7/button-icon '/usr/share/massos/massos-logo-circlecropped-notext.png'
++/plugins/plugin-7/command-switchuser 'gdmflexiserver'
++/plugins/plugin-7/favorites [<'xfce4-web-browser.desktop'>, <'xfce4-mail-reader.desktop'>, <'xfce4-file-manager.desktop'>, <'xfce4-terminal-emulator.desktop'>, <'org.gnome.Software.desktop'>]
++/plugins/plugin-7/favorites-in-recent true
++/plugins/plugin-7/hover-switch-category true
++/plugins/plugin-7/position-categories-alternate true
++/plugins/plugin-7/position-search-alternate true
++/plugins/plugin-7/recent []
++/plugins/plugin-7/show-button-title true
++/plugins/plugin-8 'pulseaudio'
++/plugins/plugin-8/enable-keyboard-shortcuts true
++/plugins/plugin-8/show-notifications true
++/plugins/plugin-9 'power-manager-plugin'
+diff '--color=auto' -apruN a/data/layouts/massos-default/launcher-17/16367369101.desktop b/data/layouts/massos-default/launcher-17/16367369101.desktop
+--- a/data/layouts/massos-default/launcher-17/16367369101.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-default/launcher-17/16367369101.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,13 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch TerminalEmulator
++Icon=org.xfce.terminalemulator
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-AppStream-Ignore=True
++Name=Terminal Emulator
++Comment=Use the command line
++X-XFCE-Source=file:///usr/share/applications/xfce4-terminal-emulator.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-default/launcher-18/16367369102.desktop b/data/layouts/massos-default/launcher-18/16367369102.desktop
+--- a/data/layouts/massos-default/launcher-18/16367369102.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-default/launcher-18/16367369102.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,14 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch FileManager %u
++Icon=org.xfce.filemanager
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
++X-AppStream-Ignore=True
++Name=File Manager
++Comment=Browse the file system
++X-XFCE-Source=file:///usr/share/applications/xfce4-file-manager.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-default/launcher-19/16367369103.desktop b/data/layouts/massos-default/launcher-19/16367369103.desktop
+--- a/data/layouts/massos-default/launcher-19/16367369103.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-default/launcher-19/16367369103.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,14 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch WebBrowser %u
++Icon=org.xfce.webbrowser
++StartupNotify=true
++Terminal=false
++Categories=Network;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=x-scheme-handler/http;x-scheme-handler/https;
++X-AppStream-Ignore=True
++Name=Web Browser
++Comment=Browse the web
++X-XFCE-Source=file:///usr/share/applications/xfce4-web-browser.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-default/launcher-20/16367369104.desktop b/data/layouts/massos-default/launcher-20/16367369104.desktop
+--- a/data/layouts/massos-default/launcher-20/16367369104.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-default/launcher-20/16367369104.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++Name=Software
++Comment=Add, remove or update software on this computer
++Icon=org.gnome.Software
++Exec=gnome-software %U
++Terminal=false
++Type=Application
++Categories=GNOME;GTK;System;PackageManager;
++Keywords=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++StartupNotify=true
++MimeType=x-scheme-handler/appstream;
++X-GNOME-Bugzilla-Bugzilla=GNOME
++X-GNOME-Bugzilla-Product=gnome-software
++X-GNOME-Bugzilla-Component=gnome-software
++X-GNOME-UsesNotifications=true
++DBusActivatable=true
++X-XFCE-Source=file:///usr/share/applications/org.gnome.Software.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/config.txt b/data/layouts/massos-gnome-2/config.txt
+--- a/data/layouts/massos-gnome-2/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,109 @@
++/configver 2
++/panels [<1>, <2>]
++/panels/dark-mode false
++/panels/panel-1/autohide-behavior uint32 0
++/panels/panel-1/background-alpha uint32 100
++/panels/panel-1/background-style uint32 0
++/panels/panel-1/enable-struts true
++/panels/panel-1/enter-opacity uint32 100
++/panels/panel-1/icon-size uint32 0
++/panels/panel-1/leave-opacity uint32 100
++/panels/panel-1/length uint32 100
++/panels/panel-1/length-adjust true
++/panels/panel-1/mode uint32 0
++/panels/panel-1/nrows uint32 1
++/panels/panel-1/plugin-ids [<1>, <2>, <3>, <4>, <14>, <15>, <5>, <6>, <7>, <18>, <8>, <17>, <16>, <19>, <9>, <21>]
++/panels/panel-1/position 'p=6;x=512;y=22'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 30
++/panels/panel-2/autohide-behavior uint32 0
++/panels/panel-2/background-alpha uint32 100
++/panels/panel-2/background-style uint32 0
++/panels/panel-2/enable-struts true
++/panels/panel-2/enter-opacity uint32 100
++/panels/panel-2/leave-opacity uint32 100
++/panels/panel-2/length uint32 100
++/panels/panel-2/length-adjust true
++/panels/panel-2/mode uint32 0
++/panels/panel-2/nrows uint32 1
++/panels/panel-2/plugin-ids [<10>, <11>, <12>, <13>]
++/panels/panel-2/position 'p=8;x=55;y=743'
++/panels/panel-2/position-locked true
++/panels/panel-2/size uint32 30
++/plugins/plugin-1 'applicationsmenu'
++/plugins/plugin-1/button-icon '/usr/share/pixmaps/massos-logo-circlecropped-notext.png'
++/plugins/plugin-1/button-title 'Applications'
++/plugins/plugin-1/custom-menu false
++/plugins/plugin-1/show-button-title true
++/plugins/plugin-1/show-generic-names false
++/plugins/plugin-1/show-menu-icons true
++/plugins/plugin-1/show-tooltips false
++/plugins/plugin-10 'showdesktop'
++/plugins/plugin-11 'tasklist'
++/plugins/plugin-11/flat-buttons false
++/plugins/plugin-11/grouping uint32 0
++/plugins/plugin-11/include-all-monitors true
++/plugins/plugin-11/include-all-workspaces false
++/plugins/plugin-11/middle-click uint32 0
++/plugins/plugin-11/show-handle true
++/plugins/plugin-11/show-labels true
++/plugins/plugin-11/show-only-minimized false
++/plugins/plugin-11/show-wireframes false
++/plugins/plugin-11/sort-order uint32 1
++/plugins/plugin-11/switch-workspace-on-unminimize true
++/plugins/plugin-11/window-scrolling true
++/plugins/plugin-12 'separator'
++/plugins/plugin-12/expand true
++/plugins/plugin-12/style uint32 0
++/plugins/plugin-13 'pager'
++/plugins/plugin-13/miniature-view true
++/plugins/plugin-13/rows uint32 1
++/plugins/plugin-13/workspace-scrolling true
++/plugins/plugin-14 'launcher'
++/plugins/plugin-14/items [<'xfce4-terminal-emulator.desktop'>]
++/plugins/plugin-15 'launcher'
++/plugins/plugin-15/items [<'xfce4-file-manager.desktop'>]
++/plugins/plugin-16 'power-manager-plugin'
++/plugins/plugin-17 'pulseaudio'
++/plugins/plugin-17/enable-keyboard-shortcuts true
++/plugins/plugin-18 'xfce4-clipman-plugin'
++/plugins/plugin-19 'notification-plugin'
++/plugins/plugin-2 'places'
++/plugins/plugin-2/button-label 'Places'
++/plugins/plugin-2/show-bookmarks true
++/plugins/plugin-2/show-button-type 2
++/plugins/plugin-2/show-icons true
++/plugins/plugin-2/show-recent true
++/plugins/plugin-2/show-recent-clear true
++/plugins/plugin-2/show-volumes true
++/plugins/plugin-21 'actions'
++/plugins/plugin-3 'separator'
++/plugins/plugin-3/expand false
++/plugins/plugin-3/style uint32 0
++/plugins/plugin-4 'launcher'
++/plugins/plugin-4/items [<'xfce4-settings-manager.desktop'>]
++/plugins/plugin-5 'launcher'
++/plugins/plugin-5/items [<'xfce4-web-browser.desktop'>]
++/plugins/plugin-6 'launcher'
++/plugins/plugin-6/items [<'gnome-software.desktop'>]
++/plugins/plugin-7 'separator'
++/plugins/plugin-7/expand true
++/plugins/plugin-7/style uint32 0
++/plugins/plugin-8 'systray'
++/plugins/plugin-8/hide-new-items false
++/plugins/plugin-8/icon-size 22
++/plugins/plugin-8/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-8/menu-is-primary false
++/plugins/plugin-8/show-frame true
++/plugins/plugin-8/single-row false
++/plugins/plugin-8/size-max uint32 22
++/plugins/plugin-8/square-icons false
++/plugins/plugin-8/symbolic-icons false
++/plugins/plugin-9 'clock'
++/plugins/plugin-9/digital-format '%a %b %d, %I:%M %p'
++/plugins/plugin-9/digital-layout uint32 3
++/plugins/plugin-9/digital-time-font 'Noto Sans 9'
++/plugins/plugin-9/digital-time-format '%a %b %d, %I:%M %p'
++/plugins/plugin-9/mode uint32 2
++/plugins/plugin-9/show-frame true
++/plugins/plugin-9/tooltip-format '%A %d %B %Y'
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/launcher-14/xfce4-terminal-emulator.desktop b/data/layouts/massos-gnome-2/launcher-14/xfce4-terminal-emulator.desktop
+--- a/data/layouts/massos-gnome-2/launcher-14/xfce4-terminal-emulator.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/launcher-14/xfce4-terminal-emulator.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch TerminalEmulator
++Icon=org.xfce.terminalemulator
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=terminal;command line;shell;console;xfce;
++Keywords=terminal;command line;shell;console;xfce;
++OnlyShowIn=XFCE;
++X-AppStream-Ignore=True
++Name[en_GB]=Terminal Emulator
++Name=Terminal Emulator
++Comment[en_GB]=Use the command line
++Comment=Use the command line
++X-XFCE-Source=file:///usr/share/applications/xfce4-terminal-emulator.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/launcher-15/xfce4-file-manager.desktop b/data/layouts/massos-gnome-2/launcher-15/xfce4-file-manager.desktop
+--- a/data/layouts/massos-gnome-2/launcher-15/xfce4-file-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/launcher-15/xfce4-file-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch FileManager %u
++Icon=org.xfce.filemanager
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=file;manager;explorer;browse;filesystem;directory;folder;xfce;
++Keywords=file;manager;explorer;browse;filesystem;directory;folder;xfce;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
++X-AppStream-Ignore=True
++Name[en_GB]=File Manager
++Name=File Manager
++Comment[en_GB]=Browse the file system
++Comment=Browse the file system
++X-XFCE-Source=file:///usr/share/applications/xfce4-file-manager.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/launcher-4/xfce4-settings-manager.desktop b/data/layouts/massos-gnome-2/launcher-4/xfce4-settings-manager.desktop
+--- a/data/layouts/massos-gnome-2/launcher-4/xfce4-settings-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/launcher-4/xfce4-settings-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Name=Settings Manager
++Comment=Graphical Settings Manager for Xfce 4
++Exec=xfce4-settings-manager
++Icon=preferences-desktop
++Terminal=false
++Type=Application
++Categories=X-XFCE;Settings;DesktopSettings;
++OnlyShowIn=XFCE;
++X-XfceSettingsManagerHidden=true
++X-XFCE-Source=file:///usr/share/applications/xfce-settings-manager.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/launcher-5/xfce4-web-browser.desktop b/data/layouts/massos-gnome-2/launcher-5/xfce4-web-browser.desktop
+--- a/data/layouts/massos-gnome-2/launcher-5/xfce4-web-browser.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/launcher-5/xfce4-web-browser.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,14 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch WebBrowser %u
++Icon=org.xfce.webbrowser
++StartupNotify=true
++Terminal=false
++Categories=Network;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=x-scheme-handler/http;x-scheme-handler/https;
++Name=Web Browser
++Comment=Browse the web
++X-XFCE-Source=file:///usr/share/applications/xfce4-web-browser.desktop
++Path=
+diff '--color=auto' -apruN a/data/layouts/massos-gnome-2/launcher-6/gnome-software.desktop b/data/layouts/massos-gnome-2/launcher-6/gnome-software.desktop
+--- a/data/layouts/massos-gnome-2/launcher-6/gnome-software.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-gnome-2/launcher-6/gnome-software.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Name[en_GB]=Software
++Name=Software
++Comment[en_GB]=Add, remove or update software on this computer
++Comment=Add, remove or update software on this computer
++Icon=org.gnome.Software
++Exec=gnome-software %U
++Terminal=false
++Type=Application
++Categories=GNOME;GTK;System;PackageManager;
++Keywords[en_GB]=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++Keywords=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++StartupNotify=true
++MimeType=x-scheme-handler/appstream;x-scheme-handler/flatpak+https;
++X-GNOME-UsesNotifications=true
++DBusActivatable=true
++X-Purism-FormFactor=Workstation;Mobile;
++X-XFCE-Source=file:///usr/share/applications/org.gnome.Software.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-7/config.txt b/data/layouts/massos-redmond-7/config.txt
+--- a/data/layouts/massos-redmond-7/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-7/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,97 @@
++/configver 2
++/panels [<1>]
++/panels/dark-mode false
++/panels/panel-1/autohide-behavior uint32 0
++/panels/panel-1/background-alpha uint32 100
++/panels/panel-1/background-style uint32 0
++/panels/panel-1/enable-struts true
++/panels/panel-1/enter-opacity uint32 100
++/panels/panel-1/icon-size uint32 0
++/panels/panel-1/leave-opacity uint32 100
++/panels/panel-1/length uint32 100
++/panels/panel-1/length-adjust true
++/panels/panel-1/mode uint32 0
++/panels/panel-1/nrows uint32 1
++/panels/panel-1/plugin-ids [<1>, <2>, <14>, <4>, <3>, <15>, <5>, <6>, <16>, <19>, <7>, <9>, <17>, <18>, <10>, <11>, <12>, <13>]
++/panels/panel-1/position 'p=8;x=512;y=752'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 39
++/plugins/plugin-1 'whiskermenu'
++/plugins/plugin-1/button-icon '/usr/share/pixmaps/massos-logo-circlecropped-notext.png'
++/plugins/plugin-1/command-switchuser 'dm-tool switch-to-greeter'
++/plugins/plugin-1/favorites [<'xfce4-web-browser.desktop'>, <'xfce4-mail-reader.desktop'>, <'xfce4-file-manager.desktop'>, <'xfce4-terminal-emulator.desktop'>, <'org.gnome.Software.desktop'>]
++/plugins/plugin-1/favorites-in-recent true
++/plugins/plugin-1/hover-switch-category true
++/plugins/plugin-1/launcher-show-description false
++/plugins/plugin-1/menu-height 463
++/plugins/plugin-1/menu-width 385
++/plugins/plugin-1/position-commands-alternate true
++/plugins/plugin-1/position-search-alternate true
++/plugins/plugin-1/recent @av []
++/plugins/plugin-1/show-command-settings false
++/plugins/plugin-1/show-command-shutdown true
++/plugins/plugin-1/show-command-suspend true
++/plugins/plugin-1/sort-categories false
++/plugins/plugin-1/view-mode 2
++/plugins/plugin-10 'separator'
++/plugins/plugin-10/expand false
++/plugins/plugin-10/style uint32 0
++/plugins/plugin-11 'clock'
++/plugins/plugin-11/digital-format '%I:%M %p%n%x'
++/plugins/plugin-11/digital-layout uint32 3
++/plugins/plugin-11/digital-time-font 'Noto Sans 9'
++/plugins/plugin-11/digital-time-format '%I:%M %p%n%x'
++/plugins/plugin-11/mode uint32 2
++/plugins/plugin-11/show-frame true
++/plugins/plugin-11/tooltip-format '%A, %d %B, %Y'
++/plugins/plugin-12 'separator'
++/plugins/plugin-12/expand false
++/plugins/plugin-12/style uint32 0
++/plugins/plugin-13 'showdesktop'
++/plugins/plugin-14 'launcher'
++/plugins/plugin-14/items [<'xfce4-terminal-emulator.desktop'>]
++/plugins/plugin-15 'launcher'
++/plugins/plugin-15/items [<'gnome-software.desktop'>]
++/plugins/plugin-16 'pager'
++/plugins/plugin-17 'power-manager-plugin'
++/plugins/plugin-18 'notification-plugin'
++/plugins/plugin-19 'xfce4-clipman-plugin'
++/plugins/plugin-2 'separator'
++/plugins/plugin-2/expand false
++/plugins/plugin-2/style uint32 2
++/plugins/plugin-3 'launcher'
++/plugins/plugin-3/disable-tooltips false
++/plugins/plugin-3/items [<'xfce4-web-browser.desktop'>]
++/plugins/plugin-3/show-label false
++/plugins/plugin-4 'launcher'
++/plugins/plugin-4/items [<'xfce4-file-manager.desktop'>]
++/plugins/plugin-5 'tasklist'
++/plugins/plugin-5/flat-buttons true
++/plugins/plugin-5/grouping uint32 1
++/plugins/plugin-5/include-all-monitors true
++/plugins/plugin-5/include-all-workspaces false
++/plugins/plugin-5/middle-click uint32 0
++/plugins/plugin-5/show-handle true
++/plugins/plugin-5/show-labels false
++/plugins/plugin-5/show-only-minimized false
++/plugins/plugin-5/show-wireframes false
++/plugins/plugin-5/sort-order uint32 0
++/plugins/plugin-5/switch-workspace-on-unminimize true
++/plugins/plugin-5/window-scrolling true
++/plugins/plugin-6 'separator'
++/plugins/plugin-6/expand true
++/plugins/plugin-6/style uint32 0
++/plugins/plugin-7 'systray'
++/plugins/plugin-7/hide-new-items false
++/plugins/plugin-7/icon-size 0
++/plugins/plugin-7/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-7/menu-is-primary false
++/plugins/plugin-7/names-hidden @av []
++/plugins/plugin-7/show-frame false
++/plugins/plugin-7/single-row false
++/plugins/plugin-7/size-max uint32 24
++/plugins/plugin-7/square-icons false
++/plugins/plugin-7/symbolic-icons false
++/plugins/plugin-9 'pulseaudio'
++/plugins/plugin-9/enable-keyboard-shortcuts true
++/plugins/plugin-9/show-notifications false
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-7/launcher-14/xfce4-terminal-emulator.desktop b/data/layouts/massos-redmond-7/launcher-14/xfce4-terminal-emulator.desktop
+--- a/data/layouts/massos-redmond-7/launcher-14/xfce4-terminal-emulator.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-7/launcher-14/xfce4-terminal-emulator.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch TerminalEmulator
++Icon=org.xfce.terminalemulator
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=terminal;command line;shell;console;xfce;
++Keywords=terminal;command line;shell;console;xfce;
++OnlyShowIn=XFCE;
++X-AppStream-Ignore=True
++Name[en_GB]=Terminal Emulator
++Name=Terminal Emulator
++Comment[en_GB]=Use the command line
++Comment=Use the command line
++X-XFCE-Source=file:///usr/share/applications/xfce4-terminal-emulator.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-7/launcher-15/gnome-software.desktop b/data/layouts/massos-redmond-7/launcher-15/gnome-software.desktop
+--- a/data/layouts/massos-redmond-7/launcher-15/gnome-software.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-7/launcher-15/gnome-software.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Name[en_GB]=Software
++Name=Software
++Comment[en_GB]=Add, remove or update software on this computer
++Comment=Add, remove or update software on this computer
++Icon=org.gnome.Software
++Exec=gnome-software %U
++Terminal=false
++Type=Application
++Categories=GNOME;GTK;System;PackageManager;
++Keywords[en_GB]=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++Keywords=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++StartupNotify=true
++MimeType=x-scheme-handler/appstream;x-scheme-handler/flatpak+https;
++X-GNOME-UsesNotifications=true
++DBusActivatable=true
++X-Purism-FormFactor=Workstation;Mobile;
++X-XFCE-Source=file:///usr/share/applications/org.gnome.Software.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-7/launcher-3/xfce4-web-browser.desktop b/data/layouts/massos-redmond-7/launcher-3/xfce4-web-browser.desktop
+--- a/data/layouts/massos-redmond-7/launcher-3/xfce4-web-browser.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-7/launcher-3/xfce4-web-browser.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,15 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch WebBrowser %u
++Icon=org.xfce.webbrowser
++StartupNotify=true
++Terminal=false
++Categories=Network;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=x-scheme-handler/http;x-scheme-handler/https;
++X-AppStream-Ignore=True
++Name=Web Browser
++Comment=Browse the web
++X-XFCE-Source=file:///usr/share/applications/xfce4-web-browser.desktop
++Path=
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-7/launcher-4/xfce4-file-manager.desktop b/data/layouts/massos-redmond-7/launcher-4/xfce4-file-manager.desktop
+--- a/data/layouts/massos-redmond-7/launcher-4/xfce4-file-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-7/launcher-4/xfce4-file-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,15 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch FileManager %u
++Icon=org.xfce.filemanager
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
++X-AppStream-Ignore=True
++Name=File Manager
++Comment=Browse the file system
++X-XFCE-Source=file:///usr/share/applications/xfce4-file-manager.desktop
++Path=
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-95/config.txt b/data/layouts/massos-redmond-95/config.txt
+--- a/data/layouts/massos-redmond-95/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-95/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,74 @@
++/configver 2
++/panels [<1>]
++/panels/dark-mode false
++/panels/panel-1/autohide-behavior uint32 0
++/panels/panel-1/background-alpha uint32 100
++/panels/panel-1/background-style uint32 0
++/panels/panel-1/enable-struts true
++/panels/panel-1/enter-opacity uint32 100
++/panels/panel-1/icon-size uint32 0
++/panels/panel-1/leave-opacity uint32 100
++/panels/panel-1/length uint32 100
++/panels/panel-1/length-adjust true
++/panels/panel-1/mode uint32 0
++/panels/panel-1/nrows uint32 1
++/panels/panel-1/plugin-ids [<1>, <6>, <7>, <8>, <9>, <2>, <3>, <14>, <12>, <4>, <11>, <13>, <10>, <5>]
++/panels/panel-1/position 'p=8;x=512;y=752'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 30
++/plugins/plugin-1 'applicationsmenu'
++/plugins/plugin-1/button-icon '/usr/share/pixmaps/massos-logo-circlecropped-notext.png'
++/plugins/plugin-1/button-title 'Start'
++/plugins/plugin-1/custom-menu false
++/plugins/plugin-1/show-button-title true
++/plugins/plugin-1/show-generic-names false
++/plugins/plugin-1/show-menu-icons true
++/plugins/plugin-1/show-tooltips false
++/plugins/plugin-10 'notification-plugin'
++/plugins/plugin-11 'pulseaudio'
++/plugins/plugin-11/enable-keyboard-shortcuts true
++/plugins/plugin-12 'xfce4-clipman-plugin'
++/plugins/plugin-13 'power-manager-plugin'
++/plugins/plugin-14 'pager'
++/plugins/plugin-2 'tasklist'
++/plugins/plugin-2/flat-buttons false
++/plugins/plugin-2/grouping uint32 0
++/plugins/plugin-2/include-all-monitors true
++/plugins/plugin-2/include-all-workspaces false
++/plugins/plugin-2/middle-click uint32 0
++/plugins/plugin-2/show-handle true
++/plugins/plugin-2/show-labels true
++/plugins/plugin-2/show-only-minimized false
++/plugins/plugin-2/show-wireframes false
++/plugins/plugin-2/sort-order uint32 1
++/plugins/plugin-2/switch-workspace-on-unminimize true
++/plugins/plugin-2/window-scrolling true
++/plugins/plugin-3 'separator'
++/plugins/plugin-3/expand true
++/plugins/plugin-3/style uint32 0
++/plugins/plugin-4 'systray'
++/plugins/plugin-4/hide-new-items false
++/plugins/plugin-4/icon-size 22
++/plugins/plugin-4/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-4/menu-is-primary false
++/plugins/plugin-4/show-frame true
++/plugins/plugin-4/single-row false
++/plugins/plugin-4/size-max uint32 22
++/plugins/plugin-4/square-icons false
++/plugins/plugin-4/symbolic-icons false
++/plugins/plugin-5 'clock'
++/plugins/plugin-5/digital-format '%I:%M %p'
++/plugins/plugin-5/digital-layout uint32 3
++/plugins/plugin-5/digital-time-font 'Noto Sans 9'
++/plugins/plugin-5/digital-time-format '%I:%M %p'
++/plugins/plugin-5/mode uint32 2
++/plugins/plugin-5/show-frame true
++/plugins/plugin-5/tooltip-format '%A %d %B %Y'
++/plugins/plugin-6 'launcher'
++/plugins/plugin-6/items [<'xfce4-terminal-emulator.desktop'>]
++/plugins/plugin-7 'launcher'
++/plugins/plugin-7/items [<'xfce4-file-manager.desktop'>]
++/plugins/plugin-8 'launcher'
++/plugins/plugin-8/items [<'xfce4-web-browser.desktop'>]
++/plugins/plugin-9 'launcher'
++/plugins/plugin-9/items [<'gnome-software.desktop'>]
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-95/launcher-6/xfce4-terminal-emulator.desktop b/data/layouts/massos-redmond-95/launcher-6/xfce4-terminal-emulator.desktop
+--- a/data/layouts/massos-redmond-95/launcher-6/xfce4-terminal-emulator.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-95/launcher-6/xfce4-terminal-emulator.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,17 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch TerminalEmulator
++Icon=org.xfce.terminalemulator
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=terminal;command line;shell;console;xfce;
++Keywords=terminal;command line;shell;console;xfce;
++OnlyShowIn=XFCE;
++X-AppStream-Ignore=True
++Name[en_GB]=Terminal Emulator
++Name=Terminal Emulator
++Comment[en_GB]=Use the command line
++Comment=Use the command line
++X-XFCE-Source=file:///usr/share/applications/xfce4-terminal-emulator.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-95/launcher-7/xfce4-file-manager.desktop b/data/layouts/massos-redmond-95/launcher-7/xfce4-file-manager.desktop
+--- a/data/layouts/massos-redmond-95/launcher-7/xfce4-file-manager.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-95/launcher-7/xfce4-file-manager.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch FileManager %u
++Icon=org.xfce.filemanager
++StartupNotify=true
++Terminal=false
++Categories=Utility;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=file;manager;explorer;browse;filesystem;directory;folder;xfce;
++Keywords=file;manager;explorer;browse;filesystem;directory;folder;xfce;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=inode/directory;x-scheme-handler/trash;
++X-AppStream-Ignore=True
++Name[en_GB]=File Manager
++Name=File Manager
++Comment[en_GB]=Browse the file system
++Comment=Browse the file system
++X-XFCE-Source=file:///usr/share/applications/xfce4-file-manager.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-95/launcher-8/xfce4-web-browser.desktop b/data/layouts/massos-redmond-95/launcher-8/xfce4-web-browser.desktop
+--- a/data/layouts/massos-redmond-95/launcher-8/xfce4-web-browser.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-95/launcher-8/xfce4-web-browser.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Version=1.0
++Type=Application
++Exec=exo-open --launch WebBrowser %u
++Icon=org.xfce.webbrowser
++StartupNotify=true
++Terminal=false
++Categories=Network;X-XFCE;X-Xfce-Toplevel;
++Keywords[en_GB]=internet;web;browser;surf;explore;xfce;
++Keywords=internet;web;browser;surf;explore;xfce;
++OnlyShowIn=XFCE;
++X-XFCE-MimeType=x-scheme-handler/http;x-scheme-handler/https;
++X-AppStream-Ignore=True
++Name[en_GB]=Web Browser
++Name=Web Browser
++Comment[en_GB]=Browse the web
++Comment=Browse the web
++X-XFCE-Source=file:///usr/share/applications/xfce4-web-browser.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-redmond-95/launcher-9/gnome-software.desktop b/data/layouts/massos-redmond-95/launcher-9/gnome-software.desktop
+--- a/data/layouts/massos-redmond-95/launcher-9/gnome-software.desktop	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-redmond-95/launcher-9/gnome-software.desktop	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,18 @@
++[Desktop Entry]
++Name[en_GB]=Software
++Name=Software
++Comment[en_GB]=Add, remove or update software on this computer
++Comment=Add, remove or update software on this computer
++Icon=org.gnome.Software
++Exec=gnome-software %U
++Terminal=false
++Type=Application
++Categories=GNOME;GTK;System;PackageManager;
++Keywords[en_GB]=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++Keywords=Updates;Upgrade;Sources;Repositories;Preferences;Install;Uninstall;Program;Software;App;Store;
++StartupNotify=true
++MimeType=x-scheme-handler/appstream;x-scheme-handler/flatpak+https;
++X-GNOME-UsesNotifications=true
++DBusActivatable=true
++X-Purism-FormFactor=Workstation;Mobile;
++X-XFCE-Source=file:///usr/share/applications/org.gnome.Software.desktop
+diff '--color=auto' -apruN a/data/layouts/massos-unity/config.txt b/data/layouts/massos-unity/config.txt
+--- a/data/layouts/massos-unity/config.txt	1970-01-01 01:00:00.000000000 +0100
++++ b/data/layouts/massos-unity/config.txt	2026-02-25 00:49:03.520344354 +0000
+@@ -0,0 +1,86 @@
++/configver 2
++/panels [<1>, <2>]
++/panels/dark-mode true
++/panels/panel-1/icon-size uint32 22
++/panels/panel-1/length uint32 100
++/panels/panel-1/plugin-ids [<11>, <10>, <13>, <16>, <15>, <8>, <9>, <7>, <14>, <6>, <5>]
++/panels/panel-1/position 'p=6;x=0;y=0'
++/panels/panel-1/position-locked true
++/panels/panel-1/size uint32 24
++/panels/panel-2/background-rgba [<0.0>, <0.0>, <0.0>, <0.29999999999999999>]
++/panels/panel-2/background-style uint32 1
++/panels/panel-2/enter-opacity uint32 100
++/panels/panel-2/length uint32 97
++/panels/panel-2/length-adjust false
++/panels/panel-2/mode uint32 2
++/panels/panel-2/plugin-ids [<1>, <2>, <3>, <4>]
++/panels/panel-2/position 'p=8;x=33;y=396'
++/panels/panel-2/position-locked true
++/panels/panel-2/size uint32 64
++/plugins/plugin-1 'whiskermenu'
++/plugins/plugin-1/button-icon '/usr/share/pixmaps/massos-logo-circlecropped-notext.png'
++/plugins/plugin-1/button-single-row true
++/plugins/plugin-1/command-switchuser 'dm-tool switch-to-greeter'
++/plugins/plugin-1/favorites [<'xfce4-web-browser.desktop'>, <'xfce4-mail-reader.desktop'>, <'xfce4-file-manager.desktop'>, <'xfce4-terminal-emulator.desktop'>, <'org.gnome.Software.desktop'>]
++/plugins/plugin-1/favorites-in-recent true
++/plugins/plugin-1/launcher-icon-size 4
++/plugins/plugin-1/menu-height 743
++/plugins/plugin-1/menu-width 1301
++/plugins/plugin-1/position-categories-horizontal true
++/plugins/plugin-1/position-commands-alternate true
++/plugins/plugin-1/position-search-alternate true
++/plugins/plugin-1/profile-shape 2
++/plugins/plugin-1/recent []
++/plugins/plugin-1/recent-items-max 45
++/plugins/plugin-1/show-command-lockscreen false
++/plugins/plugin-1/show-command-logout false
++/plugins/plugin-1/show-command-menueditor false
++/plugins/plugin-1/show-command-profile false
++/plugins/plugin-1/show-command-settings false
++/plugins/plugin-1/view-mode 0
++/plugins/plugin-10 'appmenu'
++/plugins/plugin-10/plugins/plugin-10/bold-application-name true
++/plugins/plugin-10/plugins/plugin-10/compact-mode false
++/plugins/plugin-10/plugins/plugin-10/expand true
++/plugins/plugin-11 'wckbuttons'
++/plugins/plugin-13 'separator'
++/plugins/plugin-13/expand true
++/plugins/plugin-13/style uint32 0
++/plugins/plugin-14 'power-manager-plugin'
++/plugins/plugin-15 'xfce4-clipman-plugin'
++/plugins/plugin-16 'pager'
++/plugins/plugin-2 'tasklist'
++/plugins/plugin-2/flat-buttons true
++/plugins/plugin-2/grouping uint32 1
++/plugins/plugin-2/middle-click uint32 1
++/plugins/plugin-2/show-handle false
++/plugins/plugin-2/show-labels false
++/plugins/plugin-2/show-wireframes false
++/plugins/plugin-3 'separator'
++/plugins/plugin-3/expand true
++/plugins/plugin-3/style uint32 0
++/plugins/plugin-4 'thunar-tpa'
++/plugins/plugin-5 'actions'
++/plugins/plugin-5/appearance uint32 1
++/plugins/plugin-5/button-title uint32 0
++/plugins/plugin-5/custom-title ''
++/plugins/plugin-6 'clock'
++/plugins/plugin-6/digital-format '%I:%M %p'
++/plugins/plugin-6/digital-layout uint32 3
++/plugins/plugin-6/digital-time-font 'Noto Sans 9'
++/plugins/plugin-6/digital-time-format '%I:%M %p'
++/plugins/plugin-7 'pulseaudio'
++/plugins/plugin-7/enable-keyboard-shortcuts true
++/plugins/plugin-8 'xkb'
++/plugins/plugin-8/caps-lock-indicator false
++/plugins/plugin-8/display-name uint32 1
++/plugins/plugin-8/display-tooltip-icon false
++/plugins/plugin-8/display-type uint32 2
++/plugins/plugin-8/group-policy uint32 1
++/plugins/plugin-9 'systray'
++/plugins/plugin-9/hidden-legacy-items @av []
++/plugins/plugin-9/hide-new-items false
++/plugins/plugin-9/known-legacy-items [<'onboard'>, <'networkmanager applet'>]
++/plugins/plugin-9/single-row true
++/plugins/plugin-9/square-icons true
++/plugins/plugin-9/symbolic-icons true
+diff '--color=auto' -apruN a/data/layouts/meson.build b/data/layouts/meson.build
+--- a/data/layouts/meson.build	2025-05-22 07:53:32.000000000 +0100
++++ b/data/layouts/meson.build	2026-02-25 00:49:03.520344354 +0000
+@@ -1,16 +1,10 @@
+ layouts = {
+-  'cupertino': 'Cupertino.tar.bz2',
+-  'gnome2': 'GNOME 2.tar.bz2',
+-  'openSUSE-Leap-15.x': 'openSUSE Leap 15.x.tar.bz2',
+-  'redmond': 'Redmond.tar.bz2',
+-  'redmond7': 'Redmond 7.tar.bz2',
+-  'unity': 'Unity.tar.bz2',
+-  'xfce-4.12': 'Xfce 4.12.tar.bz2',
+-  'xfce-4.14': 'Xfce 4.14.tar.bz2',
+-  'xfce-4.16': 'Xfce 4.16.tar.bz2',
+-  'xubuntu-12.04': 'Xubuntu 12.04 (Precise).tar.bz2',
+-  'xubuntu-14.04': 'Xubuntu 14.04 (Trusty).tar.bz2',
+-  'xubuntu-18.04': 'Xubuntu 18.04 (Bionic).tar.bz2',
++  'massos-cupertino': 'MassOS Cupertino.tar.bz2',
++  'massos-default': 'MassOS Default.tar.bz2',
++  'massos-gnome-2': 'MassOS GNOME 2.tar.bz2',
++  'massos-redmond-7': 'MassOS Redmond 7.tar.bz2',
++  'massos-redmond-95': 'MassOS Redmond 95.tar.bz2',
++  'massos-unity': 'MassOS Unity.tar.bz2'
+ }
+ 
+ foreach layout, tarball : layouts

@@ -162,15 +162,15 @@ install -t /usr/share/licenses/tzdata -Dm644 LICENSE
 popd
 rm -rf tzdata
 # zlib.
-tar -xf ../sources/zlib-1.3.1.tar.xz
-pushd zlib-1.3.1
+tar -xf ../sources/zlib-1.3.2.tar.xz
+pushd zlib-1.3.2
 ./configure --prefix=/usr
 make
 make install
 rm -f /usr/lib/libz.a
 head -n28 zlib.h | tail -n25 | install -Dm644 /dev/stdin /usr/share/licenses/zlib/LICENSE
 popd
-rm -rf zlib-1.3.1
+rm -rf zlib-1.3.2
 # bzip2.
 tar -xf ../sources/bzip2-1.0.8.tar.gz
 pushd bzip2-1.0.8
@@ -1066,7 +1066,7 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/pyparsing -Dm644 LICENSE
 popd
 rm -rf pyparsing-3.3.2
-# edittables.
+# editables.
 tar -xf ../sources/editables-0.5.tar.gz
 pushd editables-0.5
 python -m build -nw -o dist
@@ -1161,6 +1161,14 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/termcolor -Dm644 COPYING.txt
 popd
 rm -rf termcolor-3.1.0
+# psutil.
+tar -xf ../sources/psutil-7.2.2.tar.gz
+pushd psutil-7.2.2
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/psutil -Dm644 LICENSE
+popd
+rm -rf psutil-7.2.2
 # six.
 tar -xf ../sources/six-1.17.0.tar.gz
 pushd six-1.17.0
@@ -1895,15 +1903,15 @@ install -t /usr/share/licenses/zip -Dm644 LICENSE
 popd
 rm -rf zip30
 # minizip.
-tar -xf ../sources/zlib-1.3.1.tar.xz
-pushd zlib-1.3.1/contrib/minizip
+tar -xf ../sources/zlib-1.3.2.tar.xz
+pushd zlib-1.3.2/contrib/minizip
 autoreconf -fi
 ./configure --prefix=/usr --enable-static=no
 make
 make install
 install -t /usr/share/licenses/minizip -Dm644 /usr/share/licenses/zlib/LICENSE
 popd
-rm -rf zlib-1.3.1
+rm -rf zlib-1.3.2
 # libmicrodns.
 tar -xf ../sources/microdns-0.2.0.tar.xz
 pushd microdns-0.2.0
@@ -2361,8 +2369,8 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.404
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-259.1.tar.gz
-pushd systemd-259.1
+tar -xf ../sources/systemd-259.2.tar.gz
+pushd systemd-259.2
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -2401,7 +2409,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-259.1
+rm -rf systemd-259.2
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5050,14 +5058,14 @@ install -t /usr/share/licenses/libdrm -Dm644 LICENSE
 popd
 rm -rf libdrm-2.4.131
 # DirectX-Headers.
-tar -xf ../sources/DirectX-Headers-1.618.2.tar.gz
-pushd DirectX-Headers-1.618.2
+tar -xf ../sources/DirectX-Headers-1.619.0.tar.gz
+pushd DirectX-Headers-1.619.0
 meson setup build --prefix=/usr --buildtype=minsize -Dbuild-test=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/directx-headers -Dm644 LICENSE
 popd
-rm -rf DirectX-Headers-1.618.2
+rm -rf DirectX-Headers-1.619.0
 # SPIRV-Headers.
 tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.341.0.tar.gz
 pushd SPIRV-Headers-vulkan-sdk-1.4.341.0
@@ -5185,15 +5193,15 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa (TODO: Should we add asahi and freedrendo gallium/vulkan drivers?).
-tar -xf ../sources/mesa-mesa-25.3.5.tar.bz2
-pushd mesa-mesa-25.3.5
-patch -Np1 -i ../../patches/mesa-25.3.1-restore-gallium-xa.patch
+tar -xf ../sources/mesa-mesa-26.0.1.tar.bz2
+pushd mesa-mesa-26.0.1
+patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=anti-lag,device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dgallium-xa=enabled -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dsysprof=true -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-25.3.5
+rm -rf mesa-mesa-26.0.1
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.23.0.tar.bz2
 pushd libva-2.23.0
@@ -5600,8 +5608,8 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-259.1.tar.gz
-pushd systemd-259.1
+tar -xf ../sources/systemd-259.2.tar.gz
+pushd systemd-259.2
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -5619,7 +5627,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-259.1
+rm -rf systemd-259.2
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5792,14 +5800,14 @@ install -t /usr/share/licenses/xf86-video-vesa -Dm644 COPYING
 popd
 rm -rf xf86-video-vesa-2.6.0
 # intel-gmmlib.
-tar -xf ../sources/intel-gmmlib-22.8.2.tar.gz
-pushd gmmlib-intel-gmmlib-22.8.2
+tar -xf ../sources/intel-gmmlib-22.9.0.tar.gz
+pushd gmmlib-intel-gmmlib-22.9.0
 CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/intel-gmmlib -Dm644 LICENSE.md
 popd
-rm -rf gmmlib-intel-gmmlib-22.8.2
+rm -rf gmmlib-intel-gmmlib-22.9.0
 # intel-vaapi-driver.
 tar -xf ../sources/intel-vaapi-driver-2.4.1.tar.bz2
 pushd intel-vaapi-driver-2.4.1
@@ -6815,6 +6823,7 @@ rm -rf libical-3.0.20
 # BlueZ.
 tar -xf ../sources/bluez-5.86.tar.xz
 pushd bluez-5.86
+patch -Np1 -i ../../patches/bluez-5.86-runtimefix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --enable-library
 make
 make install
@@ -8880,16 +8889,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.19.3.tar.xz
-pushd linux-6.19.3
+tar -xf ../sources/linux-6.19.4.tar.xz
+pushd linux-6.19.4
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.19.3,https://kernel.org
-linux.massos,1,MassOS,linux,6.19.3,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.19.4,https://kernel.org
+linux.massos,1,MassOS,linux,6.19.4,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8944,7 +8953,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.19.3
+rm -rf linux-6.19.4
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01
@@ -8976,8 +8985,8 @@ install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
 rm -rf bcachefs-tools-1.36.1
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20260110.tar.xz
-pushd linux-firmware-20260110
+tar -xf ../sources/linux-firmware-20260221.tar.xz
+pushd linux-firmware-20260221
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -8985,14 +8994,14 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20260110
+rm -rf linux-firmware-20260221
 # Intel-Microcode.
-tar -xf ../sources/intel-microcode-20260210.tar.gz
-pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260210
+tar -xf ../sources/intel-microcode-20260227.tar.gz
+pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
 install -t /usr/lib/firmware/intel-ucode -Dm644 intel-ucode{,-with-caveats}/*
 install -t /usr/share/licenses/intel-microcode -Dm644 license
 popd
-rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20260210
+rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
 # SOF-Firmware.
 tar -xf ../sources/sof-bin-2025.12.2.tar.gz
 pushd sof-bin-2025.12.2

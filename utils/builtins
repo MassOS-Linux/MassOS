@@ -631,6 +631,7 @@ ppp
 procps-ng
 proot
 psmisc
+psutil
 ptyprocess
 pulseaudio
 pv

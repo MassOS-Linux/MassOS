@@ -139,7 +139,7 @@ Upgraded software (core):
 - dhcpcd: `9.4.1 --> 10.2.3`
 - dialog: `1.3-20220728 --> 1.3-20250116`
 - Diffutils: `3.8 --> 3.12`
-- DirectX-Headers: `1.606.3 --> 1.618.2`
+- DirectX-Headers: `1.606.3 --> 1.619.0`
 - distro: `1.6.0 --> 1.9.0`
 - DKMS: `3.0.6 --> 3.2.1`
 - dmidecode: `3.4 --> 3.6`
@@ -282,9 +282,9 @@ Upgraded software (core):
 - Inetutils: `2.3 --> 2.7`
 - inih: `56 --> 62`
 - installer: `(new package) --> 0.7.0`
-- intel-gmmlib: `(new package) --> 22.8.2`
+- intel-gmmlib: `(new package) --> 22.9.0`
 - intel-media-driver: `(new package) --> 25.3.4`
-- Intel-Microcode: `(new package) --> 20260210`
+- Intel-Microcode: `(new package) --> 20260227`
 - IO-Tty: `(new package) --> 1.20`
 - IPC-Run: `(new package) --> 20231003.0`
 - ipp-usb: `(new package) --> 0.9.30`
@@ -489,10 +489,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.3`
-- Linux-API-Headers: `6.0.0 --> 6.19.3`
-- Linux-Firmware: `(new package) --> 20260110`
-- Linux-Headers: `6.0.0 --> 6.19.3`
+- Linux: `6.0.0 --> 6.19.4`
+- Linux-API-Headers: `6.0.0 --> 6.19.4`
+- Linux-Firmware: `(new package) --> 20260221`
+- Linux-Headers: `6.0.0 --> 6.19.4`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -517,7 +517,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.12.0`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 25.3.5`
+- Mesa: `22.1.7 --> 26.0.1`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.10.1`
 - meson-python: `(new package) --> 0.19.0`
@@ -615,6 +615,7 @@ Upgraded software (core):
 - Procps-NG: `4.0.0 --> 4.0.6`
 - proot: `(new package) --> 5.4.0`
 - PSmisc: `23.5 --> 23.7`
+- psutil: `(new package) --> 7.2.2`
 - PulseAudio: `16.1 --> 17.0`
 - pv: `1.6.20 --> 1.9.31`
 - PyCairo: `1.21.0 --> 1.29.0`
@@ -818,7 +819,7 @@ Upgraded software (core):
 - ytnef: `2.0 --> 2.1.2`
 - yyjson: `(new package) --> 0.12.0`
 - zipp: `3.7.0 --> 3.21.0`
-- zlib: `1.2.12 --> 1.3.1`
+- zlib: `1.2.12 --> 1.3.2`
 - zsh: `(new package) --> 5.9`
 - ZSTD: `1.5.2 --> 1.5.7`
 
@@ -831,7 +832,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 147.0.4`
+- Firefox: `105.0.1 --> 148.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
@@ -848,7 +849,7 @@ Upgraded software (Xfce):
 - libxfce4util: `4.17.2 --> 4.20.1`
 - libxfce4windowing: `(new package) --> 4.20.5`
 - lightdm-gtk-greeter: `2.0.8 --> 2.0.9`
-- MassOS-Welcome: `001 --> 002`
+- MassOS-Welcome: `001 --> 003`
 - Mousepad: `0.5.10 --> 0.6.5`
 - onboard: `(new package) --> 1.4.1`
 - Orage: `4.16.0 --> 4.20.2`
@@ -860,6 +861,7 @@ Upgraded software (Xfce):
 - thunar-archive-plugin: `0.5.0 --> 0.5.3`
 - thunar-volman: `4.16.0 --> 4.20.0`
 - tumbler: `4.17.2 --> 4.20.1`
+- vala-panel-appmenu: `(new package) --> 25.04`
 - Weston: `10.0.2 --> (removed)`
 - xarchiver: `0.5.4.19 --> 0.5.4.26`
 - xfburn: `0.6.2 --> 0.8.0`
@@ -869,6 +871,8 @@ Upgraded software (Xfce):
 - xfce4-mount-plugin: `1.1.5 --> 1.1.7`
 - xfce4-notifyd: `0.6.4 --> 0.9.7`
 - xfce4-panel: `4.17.3 --> 4.20.6`
+- xfce4-panel-profiles: `(new package) --> 1.1.1`
+- xfce4-places-plugin: `(new package) --> 1.9.0`
 - xfce4-power-manager: `4.16.0 --> 4.20.0`
 - xfce4-pulseaudio-plugin: `0.4.5 --> 0.5.1`
 - xfce4-screensaver: `4.16.0 --> 4.20.1`
@@ -878,6 +882,8 @@ Upgraded software (Xfce):
 - xfce4-taskmanager: `1.5.4 --> 1.5.8`
 - xfce4-terminal: `1.0.4 --> 1.1.5`
 - xfce4-whiskermenu-plugin: `2.6.1 --> 2.10.0`
+- xfce4-windowck-plugin: `(new package) --> 0.6.1`
+- xfce4-xkb-plugin: `(new package) --> 0.9.0`
 - xfconf: `4.16.0 --> 4.20.0`
 - xfdesktop: `4.17.0 --> 4.20.1`
 - xfwm4: `4.16.1 --> 4.20.0`

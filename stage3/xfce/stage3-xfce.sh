@@ -128,24 +128,6 @@ make install
 install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
-# Thunar.
-tar -xf ../sources/thunar-4.20.7.tar.bz2
-pushd thunar-4.20.7
-./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
-make
-make install
-install -t /usr/share/licenses/thunar -Dm644 COPYING
-popd
-rm -rf thunar-4.20.7
-# thunar-volman.
-tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
-pushd thunar-volman-4.20.0
-./configure --prefix=/usr --sysconfdir=/etc
-make
-make install
-install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
-popd
-rm -rf thunar-volman-4.20.0
 # Tumbler.
 tar -xf ../sources/tumbler-4.20.1.tar.bz2
 pushd tumbler-4.20.1
@@ -173,6 +155,34 @@ make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
 rm -rf xfce4-panel-4.20.6
+# xfce4-panel-profiles.
+tar -xf ../sources/xfce4-panel-profiles-1.1.1.tar.xz
+pushd xfce4-panel-profiles-1.1.1
+patch -Np1 -i ../../patches/xfce4-panel-profiles-1.1.1-massos-layouts.patch
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/xfce4-panel-profiles -Dm644 COPYING
+popd
+rm -rf xfce4-panel-profiles-1.1.1
+# Thunar.
+tar -xf ../sources/thunar-4.20.7.tar.bz2
+pushd thunar-4.20.7
+./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
+make
+make install
+install -t /usr/share/licenses/thunar -Dm644 COPYING
+popd
+rm -rf thunar-4.20.7
+# thunar-volman.
+tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
+pushd thunar-volman-4.20.0
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
+popd
+rm -rf thunar-volman-4.20.0
 # xfce4-power-manager.
 tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
 pushd xfce4-power-manager-4.20.0
@@ -392,6 +402,15 @@ make install
 install -t /usr/share/licenses/xfce4-mount-plugin -Dm644 COPYING
 popd
 rm -rf xfce4-mount-plugin-1.1.7
+# xfce4-places-plugin.
+tar -xf ../sources/xfce4-places-plugin-1.9.0.tar.xz
+pushd xfce4-places-plugin-1.9.0
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/xfce4-places-plugin -Dm644 COPYING
+popd
+rm -rf xfce4-places-plugin-1.9.0
 # xfce4-whiskermenu-plugin.
 tar -xf ../sources/xfce4-whiskermenu-plugin-2.10.0.tar.xz
 pushd xfce4-whiskermenu-plugin-2.10.0
@@ -401,6 +420,32 @@ ninja -C build install
 install -t /usr/share/licenses/xfce4-whiskermenu-plugin -Dm644 COPYING
 popd
 rm -rf xfce4-whiskermenu-plugin-2.10.0
+# xfce4-windowck-plugin.
+tar -xf ../sources/xfce4-windowck-plugin-0.6.1.tar.xz
+pushd xfce4-windowck-plugin-0.6.1
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/xfce4-windowck-plugin -Dm644 COPYING
+popd
+rm -rf xfce4-windowck-plugin-0.6.1
+# xfce4-xkb-plugin.
+tar -xf ../sources/xfce4-xkb-plugin-0.9.0.tar.xz
+pushd xfce4-xkb-plugin-0.9.0
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+install -t /usr/share/licenses/xfce4-xkb-plugin -Dm644 COPYING
+popd
+rm -rf xfce4-xkb-plugin-0.9.0
+# vala-panel-appmenu.
+tar -xf ../sources/vala-panel-appmenu-25.04.tar.bz2
+pushd vala-panel-appmenu-25.04
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+popd
+rm -rf vala-panel-appmenu-25.04
 # xfce4-screensaver.
 tar -xf ../sources/xfce4-screensaver-4.20.1.tar.xz
 pushd xfce4-screensaver-4.20.1
@@ -528,8 +573,8 @@ install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
 rm -rf gnome-software-49.2
 # MassOS-Welcome.
-tar -xf ../sources/massos-welcome-002.tar.gz
-pushd massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
+tar -xf ../sources/massos-welcome-003.tar.gz
+pushd massos-welcome-54b7142b57ad343415e0cc668234c21fbc2b0bd5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 install -Dm755 build/target/release/gnome-tour /usr/bin/massos-welcome
@@ -548,7 +593,7 @@ Exec=/usr/libexec/firstlogin
 END
 install -t /usr/share/licenses/massos-welcome -Dm644 LICENSE.md
 popd
-rm -rf massos-welcome-f978ef71ca6f58156969860d34a706943b79db79
+rm -rf massos-welcome-54b7142b57ad343415e0cc668234c21fbc2b0bd5
 # LightDM.
 tar -xf ../sources/lightdm-1.32.0.tar.xz
 pushd lightdm-1.32.0
@@ -581,7 +626,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-147.0.4.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-148.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {
@@ -609,7 +654,7 @@ END
 ln -sr /usr/lib/firefox/browser/chrome/icons/default/default128.png /usr/share/pixmaps/firefox.png
 install -dm755 /usr/share/licenses/firefox
 cat > /usr/share/licenses/firefox/LICENSE << "END"
-Please type 'about:license' in the Firefox URL box to view the Firefox license.
+Please type 'about:license' in the URL box to view the Mozilla Firefox license.
 END
 # Goodbye, finalize.sh will do the rest.
 popd

@@ -26,9 +26,9 @@ disabled by default. To enable it, you will need to pass the build parameter
 '-Dgallium-xa=enabled'.
 
 diff '--color=auto' -apruN a/meson.build b/meson.build
---- a/meson.build	2025-12-04 06:02:48.000000000 +0000
-+++ b/meson.build	2026-02-03 13:39:32.725127054 +0000
-@@ -711,6 +711,12 @@ if with_gallium_mediafoundation_test
+--- a/meson.build	2026-02-25 15:54:24.000000000 +0000
++++ b/meson.build	2026-02-27 18:24:46.200230291 +0000
+@@ -755,6 +755,12 @@ if with_gallium_mediafoundation_test
    endif
  endif
  
@@ -41,7 +41,7 @@ diff '--color=auto' -apruN a/meson.build b/meson.build
  d3d_drivers_path = get_option('d3d-drivers-path')
  if d3d_drivers_path == ''
    d3d_drivers_path = join_paths(get_option('prefix'), get_option('libdir'), 'd3d')
-@@ -2380,6 +2386,10 @@ endif
+@@ -2468,6 +2474,10 @@ endif
  if with_any_vk
    video_apis += 'vulkan'
  endif
@@ -52,7 +52,7 @@ diff '--color=auto' -apruN a/meson.build b/meson.build
  video_summary += {'APIs': video_apis.length() != 0 ? video_apis : false}
  summary(video_summary, section: 'Video', bool_yn: true, list_sep: ' ')
  
-@@ -2395,6 +2405,9 @@ if with_gallium
+@@ -2483,6 +2493,9 @@ if with_gallium
    gallium_summary += {'Platforms': _platforms}
  
    gallium_frontends = ['mesa']
@@ -63,8 +63,8 @@ diff '--color=auto' -apruN a/meson.build b/meson.build
      gallium_frontends += 'va'
    endif
 diff '--color=auto' -apruN a/meson.options b/meson.options
---- a/meson.options	2025-12-04 06:02:48.000000000 +0000
-+++ b/meson.options	2026-02-03 13:39:32.725798919 +0000
+--- a/meson.options	2026-02-25 15:54:24.000000000 +0000
++++ b/meson.options	2026-02-27 18:24:46.200405923 +0000
 @@ -138,6 +138,14 @@ option(
  )
  
@@ -81,9 +81,9 @@ diff '--color=auto' -apruN a/meson.options b/meson.options
    type : 'boolean',
    value : false,
 diff '--color=auto' -apruN a/src/compiler/nir/meson.build b/src/compiler/nir/meson.build
---- a/src/compiler/nir/meson.build	2025-12-04 06:02:48.000000000 +0000
-+++ b/src/compiler/nir/meson.build	2026-02-03 13:39:32.726191873 +0000
-@@ -82,6 +82,7 @@ with_nir_headers_only = (
+--- a/src/compiler/nir/meson.build	2026-02-25 15:54:24.000000000 +0000
++++ b/src/compiler/nir/meson.build	2026-02-27 18:24:46.200562195 +0000
+@@ -84,6 +84,7 @@ with_nir_headers_only = (
    not [
      with_gallium_va,
      with_any_vk,
@@ -93,14 +93,14 @@ diff '--color=auto' -apruN a/src/compiler/nir/meson.build b/src/compiler/nir/mes
      with_microsoft_clc,
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/.editorconfig b/src/gallium/frontends/xa/.editorconfig
 --- a/src/gallium/frontends/xa/.editorconfig	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/.editorconfig	2026-02-03 13:39:32.726638257 +0000
++++ b/src/gallium/frontends/xa/.editorconfig	2026-02-27 18:24:46.200657796 +0000
 @@ -0,0 +1,3 @@
 +[*.{c,h}]
 +indent_style = space
 +indent_size = 4
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/meson.build b/src/gallium/frontends/xa/meson.build
 --- a/src/gallium/frontends/xa/meson.build	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/meson.build	2026-02-03 13:39:57.579017507 +0000
++++ b/src/gallium/frontends/xa/meson.build	2026-02-27 18:25:18.862204279 +0000
 @@ -0,0 +1,30 @@
 +# Copyright © 2017 Intel Corporation
 +# SPDX-License-Identifier: MIT
@@ -125,7 +125,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/meson.build b/src/gallium/
 +    'xa_composite.c', 'xa_context.c', 'xa_renderer.c', 'xa_tgsi.c',
 +    'xa_tracker.c', 'xa_yuv.c',
 +  )],
-+  c_args : ['-pedantic'],
++  c_args : ['-pedantic', '-Wno-error=incompatible-pointer-types'],
 +  gnu_symbol_visibility : 'hidden',
 +  dependencies : idep_mesautil,
 +  include_directories : [inc_include, inc_src, inc_mesa, inc_gallium, inc_gallium_aux],
@@ -134,7 +134,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/meson.build b/src/gallium/
 +install_headers('xa_composite.h', 'xa_context.h')
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/README b/src/gallium/frontends/xa/README
 --- a/src/gallium/frontends/xa/README	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/README	2026-02-03 13:39:32.726987790 +0000
++++ b/src/gallium/frontends/xa/README	2026-02-27 18:24:46.200711987 +0000
 @@ -0,0 +1,72 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -210,7 +210,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/README b/src/gallium/front
 +lookups and test minor for compatibility before using such a function.
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.c b/src/gallium/frontends/xa/xa_composite.c
 --- a/src/gallium/frontends/xa/xa_composite.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_composite.c	2026-02-03 13:39:32.727130426 +0000
++++ b/src/gallium/frontends/xa/xa_composite.c	2026-02-27 18:24:46.200824548 +0000
 @@ -0,0 +1,590 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -804,7 +804,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.c b/src/galli
 +}
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.h b/src/gallium/frontends/xa/xa_composite.h
 --- a/src/gallium/frontends/xa/xa_composite.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_composite.h	2026-02-03 13:39:32.727415379 +0000
++++ b/src/gallium/frontends/xa/xa_composite.h	2026-02-27 18:24:46.200926509 +0000
 @@ -0,0 +1,156 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -964,7 +964,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_composite.h b/src/galli
 +#endif
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.c b/src/gallium/frontends/xa/xa_context.c
 --- a/src/gallium/frontends/xa/xa_context.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_context.c	2026-02-03 13:39:32.727570038 +0000
++++ b/src/gallium/frontends/xa/xa_context.c	2026-02-27 18:24:46.200965090 +0000
 @@ -0,0 +1,411 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -1379,7 +1379,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.c b/src/gallium
 +}
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.h b/src/gallium/frontends/xa/xa_context.h
 --- a/src/gallium/frontends/xa/xa_context.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_context.h	2026-02-03 13:39:32.727765573 +0000
++++ b/src/gallium/frontends/xa/xa_context.h	2026-02-27 18:24:46.201025631 +0000
 @@ -0,0 +1,101 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -1484,14 +1484,14 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_context.h b/src/gallium
 +#endif
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa-indent.sh b/src/gallium/frontends/xa/xa-indent.sh
 --- a/src/gallium/frontends/xa/xa-indent.sh	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa-indent.sh	2026-02-03 13:39:32.727921805 +0000
++++ b/src/gallium/frontends/xa/xa-indent.sh	2026-02-27 18:24:46.201057891 +0000
 @@ -0,0 +1,3 @@
 +#!/bin/sh
 +indent --linux-style -i4 -ip4 -bad -bap -psl $*
 +
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_priv.h b/src/gallium/frontends/xa/xa_priv.h
 --- a/src/gallium/frontends/xa/xa_priv.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_priv.h	2026-02-03 13:39:32.728065142 +0000
++++ b/src/gallium/frontends/xa/xa_priv.h	2026-02-27 18:24:46.201080821 +0000
 @@ -0,0 +1,287 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -1782,7 +1782,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_priv.h b/src/gallium/fr
 +#endif
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_renderer.c b/src/gallium/frontends/xa/xa_renderer.c
 --- a/src/gallium/frontends/xa/xa_renderer.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_renderer.c	2026-02-03 13:39:32.728235230 +0000
++++ b/src/gallium/frontends/xa/xa_renderer.c	2026-02-27 18:24:46.201128332 +0000
 @@ -0,0 +1,638 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -2424,7 +2424,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_renderer.c b/src/galliu
 +}
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tgsi.c b/src/gallium/frontends/xa/xa_tgsi.c
 --- a/src/gallium/frontends/xa/xa_tgsi.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_tgsi.c	2026-02-03 13:39:32.728475499 +0000
++++ b/src/gallium/frontends/xa/xa_tgsi.c	2026-02-27 18:24:46.201210003 +0000
 @@ -0,0 +1,500 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -2928,7 +2928,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tgsi.c b/src/gallium/fr
 +}
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.c b/src/gallium/frontends/xa/xa_tracker.c
 --- a/src/gallium/frontends/xa/xa_tracker.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_tracker.c	2026-02-03 13:39:32.728700619 +0000
++++ b/src/gallium/frontends/xa/xa_tracker.c	2026-02-27 18:24:46.201292924 +0000
 @@ -0,0 +1,578 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -3510,7 +3510,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.c b/src/gallium
 +}
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.h.in b/src/gallium/frontends/xa/xa_tracker.h.in
 --- a/src/gallium/frontends/xa/xa_tracker.h.in	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_tracker.h.in	2026-02-03 13:39:32.728925079 +0000
++++ b/src/gallium/frontends/xa/xa_tracker.h.in	2026-02-27 18:24:46.201370395 +0000
 @@ -0,0 +1,217 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -3731,7 +3731,7 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_tracker.h.in b/src/gall
 +#endif
 diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_yuv.c b/src/gallium/frontends/xa/xa_yuv.c
 --- a/src/gallium/frontends/xa/xa_yuv.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/frontends/xa/xa_yuv.c	2026-02-03 13:39:32.729093223 +0000
++++ b/src/gallium/frontends/xa/xa_yuv.c	2026-02-27 18:24:46.201416995 +0000
 @@ -0,0 +1,162 @@
 +/**********************************************************
 + * Copyright 2009-2011 VMware, Inc. All rights reserved.
@@ -3896,8 +3896,8 @@ diff '--color=auto' -apruN a/src/gallium/frontends/xa/xa_yuv.c b/src/gallium/fro
 +    return XA_ERR_NONE;
 +}
 diff '--color=auto' -apruN a/src/gallium/meson.build b/src/gallium/meson.build
---- a/src/gallium/meson.build	2025-12-04 06:02:48.000000000 +0000
-+++ b/src/gallium/meson.build	2026-02-03 13:39:32.729317041 +0000
+--- a/src/gallium/meson.build	2026-02-25 15:54:24.000000000 +0000
++++ b/src/gallium/meson.build	2026-02-27 18:24:46.201465156 +0000
 @@ -229,6 +229,10 @@ if with_dri
    subdir('frontends/dri')
    subdir('targets/dri')
@@ -3911,7 +3911,7 @@ diff '--color=auto' -apruN a/src/gallium/meson.build b/src/gallium/meson.build
  endif
 diff '--color=auto' -apruN a/src/gallium/targets/xa/meson.build b/src/gallium/targets/xa/meson.build
 --- a/src/gallium/targets/xa/meson.build	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/targets/xa/meson.build	2026-02-03 13:39:44.793052537 +0000
++++ b/src/gallium/targets/xa/meson.build	2026-02-27 18:24:46.201556337 +0000
 @@ -0,0 +1,45 @@
 +# Copyright © 2017-2018 Intel Corporation
 +# SPDX-License-Identifier: MIT
@@ -3960,7 +3960,7 @@ diff '--color=auto' -apruN a/src/gallium/targets/xa/meson.build b/src/gallium/ta
 +)
 diff '--color=auto' -apruN a/src/gallium/targets/xa/xa.sym b/src/gallium/targets/xa/xa.sym
 --- a/src/gallium/targets/xa/xa.sym	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/targets/xa/xa.sym	2026-02-03 13:39:32.729780516 +0000
++++ b/src/gallium/targets/xa/xa.sym	2026-02-27 18:24:46.201577837 +0000
 @@ -0,0 +1,39 @@
 +{
 +	global:
@@ -4003,7 +4003,7 @@ diff '--color=auto' -apruN a/src/gallium/targets/xa/xa.sym b/src/gallium/targets
 +};
 diff '--color=auto' -apruN a/src/gallium/targets/xa/xa_target.c b/src/gallium/targets/xa/xa_target.c
 --- a/src/gallium/targets/xa/xa_target.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/gallium/targets/xa/xa_target.c	2026-02-03 13:39:32.729909127 +0000
++++ b/src/gallium/targets/xa/xa_target.c	2026-02-27 18:24:46.201602228 +0000
 @@ -0,0 +1,2 @@
 +#include "target-helpers/drm_helper.h"
 +#include "target-helpers/sw_helper.h"

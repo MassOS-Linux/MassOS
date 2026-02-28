@@ -33,6 +33,7 @@ thunar
 thunar-archive-plugin
 thunar-volman
 tumbler
+vala-panel-appmenu
 xarchiver
 xfburn
 xfce4-appfinder
@@ -41,6 +42,8 @@ xfce4-dev-tools
 xfce4-mount-plugin
 xfce4-notifyd
 xfce4-panel
+xfce4-panel-profiles
+xfce4-places-plugin
 xfce4-power-manager
 xfce4-pulseaudio-plugin
 xfce4-screensaver
@@ -50,6 +53,8 @@ xfce4-settings
 xfce4-taskmanager
 xfce4-terminal
 xfce4-whiskermenu-plugin
+xfce4-windowck-plugin
+xfce4-xkb-plugin
 xfconf
 xfdesktop
 xfwm4
