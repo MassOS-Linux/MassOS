@@ -3282,6 +3282,7 @@ rm -rf krb5-krb5-1.22.2-final
 # libnfs.
 tar -xf ../sources/libnfs-6.0.2.tar.gz
 pushd libnfs-libnfs-6.0.2
+patch -Np1 -i ../../patches/libnfs-6.0.2-gnutls.patch
 patch -Np1 -i ../../patches/libnfs-6.0.2-glibc243.patch
 ./bootstrap
 ./configure --prefix=/usr --disable-static
@@ -3755,15 +3756,15 @@ install -t /usr/share/licenses/xmlsec -Dm644 Copyright
 popd
 rm -rf xmlsec-1.3.7
 # GLib (initial build for circular dependency).
-tar -xf ../sources/glib-2.86.3.tar.gz
-pushd glib-2.86.3
+tar -xf ../sources/glib-2.86.4.tar.gz
+pushd glib-2.86.4
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=disabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.86.3
+rm -rf glib-2.86.4
 # GTK-Doc.
 tar -xf ../sources/gtk-doc-1.35.1.tar.gz
 pushd gtk-doc-1.35.1
@@ -3811,15 +3812,15 @@ install -t /usr/share/licenses/gobject-introspection -Dm644 COPYING{,.{GPL,LGPL}
 popd
 rm -rf gobject-introspection-1.86.0
 # GLib (rebuild to support gobject-introspection).
-tar -xf ../sources/glib-2.86.3.tar.gz
-pushd glib-2.86.3
+tar -xf ../sources/glib-2.86.4.tar.gz
+pushd glib-2.86.4
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=enabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.86.3
+rm -rf glib-2.86.4
 # shared-mime-info.
 tar -xf ../sources/shared-mime-info-2.4.tar.gz
 pushd shared-mime-info-2.4
@@ -7057,8 +7058,8 @@ END
 popd
 rm -rf ppp-2.5.2
 # Vim.
-tar -xf ../sources/vim-9.2.0000.tar.gz
-pushd vim-9.2.0000
+tar -xf ../sources/vim-9.2.0095.tar.gz
+pushd vim-9.2.0095
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -7081,7 +7082,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 popd
-rm -rf vim-9.2.0000
+rm -rf vim-9.2.0095
 # libwpe.
 tar -xf ../sources/libwpe-1.16.2.tar.xz
 pushd libwpe-1.16.2
@@ -8462,11 +8463,11 @@ ninja -C build install
 popd
 rm -rf openal-soft-1.24.3
 # GStreamer / gst-plugins-{base,good,bad,ugly} / gst-libav / gstreamer-vaapi / gst-editing-services / gst-python
-tar -xf ../sources/gstreamer-1.28.0.tar.bz2
-pushd gstreamer-1.28.0
+tar -xf ../sources/gstreamer-1.28.1.tar.bz2
+pushd gstreamer-1.28.1
 mkdir -p subprojects/gl-headers
 tar -xf ../../sources/gl-headers-1d237e3.tar.bz2 -C subprojects/gl-headers --strip-components=1
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.0" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.1" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gstreamer -Dm644 LICENSE
@@ -8478,7 +8479,7 @@ install -t /usr/share/licenses/gst-libav -Dm644 subprojects/gst-libav/COPYING
 install -t /usr/share/licenses/gst-editing-services -Dm644 subprojects/gst-editing-services/COPYING{,.LIB}
 install -t /usr/share/licenses/gst-python -Dm644 subprojects/gst-python/COPYING
 popd
-rm -rf gstreamer-1.28.0
+rm -rf gstreamer-1.28.1
 # nvidia-vaapi-driver.
 tar -xf ../sources/nvidia-vaapi-driver-0.0.13.tar.gz
 pushd nvidia-vaapi-driver-0.0.13
@@ -8751,14 +8752,14 @@ install -t /usr/share/licenses/msgraph -Dm644 COPYING
 popd
 rm -rf msgraph-0.3.3
 # GVFS.
-tar -xf ../sources/gvfs-1.58.1.tar.gz
-pushd gvfs-1.58.1
-LDFLAGS="$LDFLAGS -lgnutls" meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dburn=true -Dman=true
+tar -xf ../sources/gvfs-1.58.2.tar.gz
+pushd gvfs-1.58.2
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dburn=true -Dman=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gvfs -Dm644 COPYING
 popd
-rm -rf gvfs-1.58.1
+rm -rf gvfs-1.58.2
 # Plymouth.
 tar -xf ../sources/plymouth-24.004.60-149-g4a3c171d.tar.bz2
 pushd plymouth-4a3c171d-4a3c171df86de1e6d2586fd09382fe4f6b69d307
@@ -8889,16 +8890,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.19.4.tar.xz
-pushd linux-6.19.4
+tar -xf ../sources/linux-6.19.6.tar.xz
+pushd linux-6.19.6
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.19.4,https://kernel.org
-linux.massos,1,MassOS,linux,6.19.4,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.19.6,https://kernel.org
+linux.massos,1,MassOS,linux,6.19.6,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8953,7 +8954,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.19.4
+rm -rf linux-6.19.6
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-590.48.01.tar.gz
 pushd open-gpu-kernel-modules-590.48.01
@@ -9009,6 +9010,17 @@ cp -at /usr/lib/firmware/intel sof*
 install -t /usr/share/licenses/sof-firmware -Dm644 LICENCE.Intel LICENCE.NXP Notice.NXP
 popd
 rm -rf sof-bin-2025.12.2
+# upgrade-massos.
+tar -xf ../sources/upgrade-massos-0.2.0.tar.gz
+pushd upgrade-massos-0.2.0
+go build -trimpath ugm-install-helper.go
+install -t /usr/bin -Dm755 upgrade-massos
+install -t /usr/libexec/upgrade-massos -Dm755 ugm-install-helper
+install -t /etc/upgrade-massos -Dm644 upgrade-massos.conf
+install -t /etc/upgrade-massos/trusted-keys -Dm644 trusted-keys/*.asc
+install -t /usr/share/licenses/upgrade-massos -Dm644 LICENSE
+popd
+rm -rf upgrade-massos-0.2.0
 # MassOS release detection utility.
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release

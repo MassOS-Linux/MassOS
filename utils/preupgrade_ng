@@ -1,3 +1,16 @@
 # Any pre-upgrade checks/tasks to perform for the new MassOS upgrade utility.
 # Note that some validity checks are performed by the utility itself.
 # This file may be left empty (with just these comments) if unused.
+
+# If upgrade-massos is not already installed (older build), then display an
+# informational message about its pre-installation on this and newer builds.
+if test ! -x /usr/bin/upgrade-massos; then
+  echo "Good news! After upgrading to this version of MassOS, you will no"
+  echo "longer need to manually download and run 'upgrade-massos' from the"
+  echo "source tree. The upgrade utility will become pre-installed on your"
+  echo "system, and you will be able to perform subsequent upgrades simply by"
+  echo "running the command 'sudo upgrade-massos' from any working directory."
+  echo
+  echo "The upgrade process will continue automatically in a few seconds..."
+  sleep 5
+fi

@@ -13,6 +13,7 @@ Changes:
 - Added IPXE, Memtest86+ and UEFI EDK2 Shell to the Live CD as additional tools.
 - Migrated to merged bin-sbin filesystem structure, as required by future systemd versions (`sbin` directories are now symlinks to their `bin` counterpart).
 - Migrated to systemd-sysusers for system user management where possible.
+- Added new system upgrade utility, `upgrade-massos`, which is included in the main MassOS system (does not need to be downloaded and ran separately).
 - Added a new utility, `massos-snapd`, for installing snapd and managing the snapd installation on a MassOS system.
 - Changed minimum supported kernel version in Glibc from 3.2 to 5.10, to improve optimisation.
 - Migrated Python modules away from Python EGGs, due to deprecation by pip (builds now use `build` and `installer` modules instead of `setup.py`).
@@ -210,7 +211,7 @@ Upgraded software (core):
 - Git: `2.38.0 --> 2.53.0`
 - glad: `(new package) --> 2.0.8`
 - glew: `(new package) --> 2.3.1`
-- GLib: `2.74.0 --> 2.86.2`
+- GLib: `2.74.0 --> 2.86.4`
 - glib-networking: `2.74.0 --> 2.80.1`
 - Glibc: `2.36 --> 2.42`
 - GLibmm: `2.66.5 --> 2.66.8`
@@ -260,7 +261,7 @@ Upgraded software (core):
 - gtksourceview4: `(new package) --> 4.8.4`
 - gtksourceview5: `(new package) --> 5.18.0`
 - Gutenprint: `5.3.4 --> 5.3.5`
-- GVFS: `1.50.2 --> 1.58.1`
+- GVFS: `1.50.2 --> 1.58.2`
 - gz2xz: `1.1.0 --> (removed)`
 - Gzip: `1.12 --> 1.14`
 - HarfBuzz: `5.2.0 --> 12.3.2`
@@ -489,10 +490,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.4`
-- Linux-API-Headers: `6.0.0 --> 6.19.4`
+- Linux: `6.0.0 --> 6.19.6`
+- Linux-API-Headers: `6.0.0 --> 6.19.6`
 - Linux-Firmware: `(new package) --> 20260221`
-- Linux-Headers: `6.0.0 --> 6.19.4`
+- Linux-Headers: `6.0.0 --> 6.19.6`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 21.1.8`
 - LLVM: `14.0.6 --> 21.1.8`
@@ -722,6 +723,7 @@ Upgraded software (core):
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
 - Unifont: `15.0.01 --> 17.0.03`
+- upgrade-massos: `(new package) --> 0.2.0`
 - UPower: `1.90.0 --> 1.91.1`
 - urllib3: `1.26.11 --> 2.6.3`
 - usbutils: `014 --> 019`
@@ -730,7 +732,7 @@ Upgraded software (core):
 - util-linux: `2.38.1 --> 2.41.3`
 - util-macros: `1.19.3 --> 1.20.2`
 - Vala: `0.56.3 --> 0.56.18`
-- Vim: `9.0.0600 --> 9.2.0000`
+- Vim: `9.0.0600 --> 9.2.0095`
 - virglrenderer: `(new package) --> 1.2.0`
 - virtiofsd: `(new package) --> 1.13.1`
 - VTE: `0.70.0 --> 0.82.3`

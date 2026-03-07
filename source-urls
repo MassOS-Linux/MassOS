@@ -185,7 +185,7 @@ https://cdn.kernel.org/pub/software/scm/git/git-2.53.0.tar.xz
 https://gitlab.freedesktop.org/gstreamer/meson-ports/gl-headers/-/archive/1d237e3/gl-headers-1d237e3.tar.bz2
 https://github.com/Dav1dde/glad/archive/v2.0.8/glad-2.0.8.tar.gz
 https://github.com/nigels-com/glew/releases/download/glew-2.3.1/glew-2.3.1.tgz
-https://github.com/GNOME/glib/archive/2.86.3/glib-2.86.3.tar.gz
+https://github.com/GNOME/glib/archive/2.86.4/glib-2.86.4.tar.gz
 https://github.com/GNOME/glib-networking/archive/2.80.1/glib-networking-2.80.1.tar.gz
 https://ftp.nluug.nl/gnu/glibc/glibc-2.43.tar.xz
 https://github.com/GNOME/glibmm/archive/2.66.8/glibmm-2.66.8.tar.gz
@@ -216,7 +216,7 @@ https://ftp.nluug.nl/gnu/grub/grub-2.14.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/db13f63/grub-theme-distro-massos-002.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/49.1/gsettings-desktop-schemas-49.1.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.2/gspell-1.14.2.tar.gz
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.0/gstreamer-1.28.0.tar.bz2
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.1/gstreamer-1.28.1.tar.bz2
 https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.14.3/gst-plugins-rs-0.14.3.tar.bz2
 https://github.com/GNOME/gtk/archive/3.24.51/gtk-3.24.51.tar.gz
 https://github.com/GNOME/gtk/archive/4.20.3/gtk-4.20.3.tar.gz
@@ -228,7 +228,7 @@ https://github.com/GNOME/gtksourceview/archive/4.8.4/gtksourceview-4.8.4.tar.gz
 https://github.com/GNOME/gtksourceview/archive/5.18.0/gtksourceview-5.18.0.tar.gz
 https://freefr.dl.sourceforge.net/project/gimp-print/gutenprint-5.3/5.3.5/gutenprint-5.3.5.tar.xz
 https://github.com/GNOME/gvdb/archive/2b42fc7/gvdb-2b42fc7.tar.gz
-https://github.com/GNOME/gvfs/archive/1.58.1/gvfs-1.58.1.tar.gz
+https://github.com/GNOME/gvfs/archive/1.58.2/gvfs-1.58.2.tar.gz
 https://github.com/chromium/gyp/archive/1615ec/gyp-1615ec.tar.gz
 https://ftp.nluug.nl/gnu/gzip/gzip-1.14.tar.xz
 https://github.com/harfbuzz/harfbuzz/releases/download/12.3.2/harfbuzz-12.3.2.tar.xz
@@ -485,7 +485,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.19.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.19.6.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260221.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz
@@ -747,6 +747,7 @@ https://dotat.at/prog/unifdef/unifdef-2.12.tar.gz
 https://unifoundry.com/pub/unifont/unifont-17.0.03/unifont-17.0.03.tar.gz
 https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.3.1/unix-tree-2.3.1.tar.bz2
 https://freefr.dl.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz
+https://github.com/MassOS-Linux/upgrade-massos/archive/0.2.0/upgrade-massos-0.2.0.tar.gz
 https://github.com/MassOS-Linux/upgrade-toolset/releases/download/20250728/upgrade-toolset-20250728-x86_64.tar.xz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v1.91.1/upower-v1.91.1.tar.bz2
 https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-2.6.3.tar.gz
@@ -756,7 +757,7 @@ https://github.com/nemtrif/utfcpp/archive/v4.0.9/utfcpp-4.0.9.tar.gz
 https://cdn.kernel.org/pub/linux/utils/util-linux/v2.41/util-linux-2.41.3.tar.xz
 https://xorg.freedesktop.org/archive/individual/util/util-macros-1.20.2.tar.xz
 https://download.gnome.org/sources/vala/0.56/vala-0.56.18.tar.xz
-https://github.com/vim/vim/archive/v9.2.0000/vim-9.2.0000.tar.gz
+https://github.com/vim/vim/archive/v9.2.0095/vim-9.2.0095.tar.gz
 https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/1.2.0/virglrenderer-1.2.0.tar.bz2
 https://gitlab.com/virtio-fs/virtiofsd/-/archive/v1.13.1/virtiofsd-v1.13.1.tar.bz2
 https://github.com/vicgeralds/vitetris/archive/v0.59.1/vitetris-0.59.1.tar.gz
