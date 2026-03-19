@@ -10,6 +10,7 @@ alsa-oss
 alsa-ucm-conf
 alsa-utils
 amf-headers
+apfs-rw-module
 apparmor
 appstream
 appstream-glib
@@ -386,6 +387,7 @@ libnfs
 libnftnl
 libnghttp2
 libnghttp3
+libngtcp2
 libnice
 libnl
 libnma

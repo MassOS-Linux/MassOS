@@ -1,0 +1,11 @@
+diff '--color=auto' -apruN a/src/nvidia-modeset/Makefile b/src/nvidia-modeset/Makefile
+--- a/src/nvidia-modeset/Makefile	2026-03-13 18:31:14.000000000 +0000
++++ b/src/nvidia-modeset/Makefile	2026-03-18 12:00:23.020692584 +0000
+@@ -155,6 +155,7 @@ ifeq ($(TARGET_ARCH),x86_64)
+   CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -fno-jump-tables)
+   CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -mindirect-branch=thunk-extern)
+   CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -mindirect-branch-register)
++  CONDITIONAL_CFLAGS += $(call TEST_CC_ARG, -mharden-sls=all)
+ endif
+ 
+ CFLAGS += $(CONDITIONAL_CFLAGS)

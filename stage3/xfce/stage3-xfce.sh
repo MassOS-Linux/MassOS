@@ -147,14 +147,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 popd
 rm -rf xfce4-appfinder-4.20.0
 # xfce4-panel.
-tar -xf ../sources/xfce4-panel-4.20.6.tar.bz2
-pushd xfce4-panel-4.20.6
+tar -xf ../sources/xfce4-panel-4.20.7.tar.bz2
+pushd xfce4-panel-4.20.7
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gio-unix --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
-rm -rf xfce4-panel-4.20.6
+rm -rf xfce4-panel-4.20.7
 # xfce4-panel-profiles.
 tar -xf ../sources/xfce4-panel-profiles-1.1.1.tar.xz
 pushd xfce4-panel-profiles-1.1.1
@@ -193,14 +193,14 @@ install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
 popd
 rm -rf xfce4-power-manager-4.20.0
 # xfce4-settings.
-tar -xf ../sources/xfce4-settings-4.20.3.tar.bz2
-pushd xfce4-settings-4.20.3
+tar -xf ../sources/xfce4-settings-4.20.4.tar.bz2
+pushd xfce4-settings-4.20.4
 ./configure --prefix=/usr --sysconfdir=/etc --enable-libxklavier --enable-libnotify --enable-pluggable-dialogs --enable-sound-settings --enable-wayland --enable-x11 --enable-xcursor --enable-xrandr
 make
 make install
 install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
-rm -rf xfce4-settings-4.20.3
+rm -rf xfce4-settings-4.20.4
 # xfdesktop.
 tar -xf ../sources/xfdesktop-4.20.1.tar.bz2
 pushd xfdesktop-4.20.1
@@ -239,15 +239,15 @@ install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
 rm -rf labwc-0.9.3
 # xfce4-session.
-tar -xf ../sources/xfce4-session-4.20.3.tar.bz2
-pushd xfce4-session-4.20.3
-patch -Np1 -i ../../patches/xfce4-session-4.20.3-labwcconfig.patch
+tar -xf ../sources/xfce4-session-4.20.4.tar.bz2
+pushd xfce4-session-4.20.4
+patch -Np1 -i ../../patches/xfce4-session-4.20.4-labwcconfig.patch
 ./configure --prefix=/usr --sysconfdir=/etc --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-session -Dm644 COPYING
 popd
-rm -rf xfce4-session-4.20.3
+rm -rf xfce4-session-4.20.4
 # Parole.
 tar -xf ../sources/parole-4.20.0.tar.xz
 pushd parole-4.20.0
@@ -474,14 +474,14 @@ install -t /usr/share/licenses/thunar-archive-plugin -Dm644 COPYING
 popd
 rm -rf thunar-archive-plugin-0.5.3
 # Mousepad.
-tar -xf ../sources/mousepad-0.6.5.tar.xz
-pushd mousepad-0.6.5
+tar -xf ../sources/mousepad-0.7.0.tar.xz
+pushd mousepad-0.7.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dkeyfile-settings=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
-rm -rf mousepad-0.6.5
+rm -rf mousepad-0.7.0
 # GNOME-Calculator.
 tar -xf ../sources/gnome-calculator-49.2.tar.bz2
 pushd gnome-calculator-49.2
@@ -626,7 +626,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-148.0.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-148.0.2.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

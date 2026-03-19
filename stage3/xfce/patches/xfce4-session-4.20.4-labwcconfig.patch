@@ -53,18 +53,18 @@ keyboard shortcuts from Xfwm4 which are missing in LabWC by default.
         Suggested Xfce key bindings.
      -->
 -    <keybind key="XF86_AudioLowerVolume">
--      <action name="Execute" command="amixer -D pulse sset Master 5%-" />
+-      <action name="Execute" command="amixer sset Master 5%-" />
 +    <!-- amixer is not usable for PipeWire. Use wpctl instead. -->
 +    <keybind key="XF86AudioLowerVolume">
 +      <action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" />
      </keybind>
 -    <keybind key="XF86_AudioRaiseVolume">
--      <action name="Execute" command="amixer -D pulse sset Master 5%+" />
+-      <action name="Execute" command="amixer sset Master 5%+" />
 +    <keybind key="XF86AudioRaiseVolume">
 +      <action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+" />
      </keybind>
 -    <keybind key="XF86_AudioMute">
--      <action name="Execute" command="amixer -D pulse sset Master toggle" />
+-      <action name="Execute" command="amixer sset Master toggle" />
 +    <keybind key="XF86AudioMute">
 +      <action name="Execute" command="wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" />
      </keybind>
@@ -76,7 +76,7 @@ keyboard shortcuts from Xfwm4 which are missing in LabWC by default.
      </keybind>
 +    <!-- Additional shortcuts which are default in Xfwm4. -->
 +    <keybind key="A-F2">
-+      <action name="Execute" command="xfce4-appfinder --disable-server" />
++      <action name="Execute" command="xfce4-appfinder --disable-server -c" />
 +    </keybind>
 +    <keybind key="W-r">
 +      <action name="Execute" command="xfce4-appfinder --disable-server -c" />
