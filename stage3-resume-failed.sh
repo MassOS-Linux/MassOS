@@ -89,8 +89,15 @@ sync
 # Finishing message.
 echo
 echo "We know it took time, but the build has finally finished successfully!"
-echo "If you want to create a Live ISO file for your build, use the script"
-echo "'./create-livecd.sh'."
+echo "You can produce a detached GPG signature for your build by running:"
+echo
+echo "  gpg --detach-sign --armor '$outfile.zst'"
+echo
+echo "The detached signature will be written to '$outfile.zst.asc'."
+echo
+echo "If you wish to create a Live CD ISO image for your build, run:"
+echo
+echo "  ./create-livecd.sh '$outfile.zst'"
 # Send a notification to the system if supported.
 if notify-send --version &>/dev/null; then
   notify-send -i "$PWD"/logo/massos-logo-circlecropped.png "MassOS Build System" "The Stage 3 build has finished successfully." &>/dev/null || true

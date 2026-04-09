@@ -143,6 +143,8 @@ fcron
 ffmpeg
 figlet
 file
+file-sharedir
+file-sharedir-install
 file-slurp
 findutils
 firewalld

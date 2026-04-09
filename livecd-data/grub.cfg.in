@@ -46,7 +46,7 @@ menuentry "Import Secure Boot keys (MokManager)" {
 
 # The UEFI EDK2 Shell is not signed for secure boot and contains no SBAT data.
 # This is because it is considered a debug tool, and it can bypass secure boot.
-# So the menuentry should only show is secure boot is disabled.
+# So the menuentry should only show if secure boot is disabled.
 if test "$lockdown" != "y"; then
   menuentry "UEFI EDK2 Shell" {
     chainloader /EFI/tools/shellx64.efi

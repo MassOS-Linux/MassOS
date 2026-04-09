@@ -205,3 +205,10 @@ b2sum "$isoname" > "$isoname.b2"
 echo "Blake-2 checksum written to $isoname.b2."
 # Try to change ownership of ISO image to top-level directory owner.
 chown -v "$(stat -c "%U:%G" .)" "$isoname" "$isoname.b2" || true
+# Finishing message.
+echo
+echo "To produce a detached GPG signature for your ISO image, run:"
+echo
+echo "  gpg --detach-sign --armor '$isoname'"
+echo
+echo "The detached signature will be written to '$isoname.asc'."

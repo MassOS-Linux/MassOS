@@ -5,9 +5,12 @@ Primarily to allow the package to build successfully with modern toolchains.
 
 Also fixes a typo in lib/console.c ("UNKOWN" instead of "UNKNOWN").
 
-diff '--color=auto' -aruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
+UPDATE 2026-04-09: Also includes a patch from Gentoo to fix building with
+Binutils 2.46. <https://bugs.gentoo.org/970040>
+
+diff '--color=auto' -apruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
 --- a/cert-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/cert-to-efi-sig-list.c	2025-07-13 15:42:25.322457341 +0100
++++ b/cert-to-efi-sig-list.c	2026-04-09 09:19:57.604190249 +0100
 @@ -6,7 +6,6 @@
  
  
@@ -16,9 +19,9 @@ diff '--color=auto' -aruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
  #include <efi.h>
  #ifdef CONFIG_arm
  /* FIXME:
-diff '--color=auto' -aruN a/efi-keytool.c b/efi-keytool.c
+diff '--color=auto' -apruN a/efi-keytool.c b/efi-keytool.c
 --- a/efi-keytool.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-keytool.c	2025-07-13 15:42:25.322601292 +0100
++++ b/efi-keytool.c	2026-04-09 09:19:57.604313700 +0100
 @@ -15,7 +15,6 @@
  #include <fcntl.h>
  #include <unistd.h>
@@ -27,9 +30,9 @@ diff '--color=auto' -aruN a/efi-keytool.c b/efi-keytool.c
  #include <efi.h>
  
  #include <kernel_efivars.h>
-diff '--color=auto' -aruN a/efi-readvar.c b/efi-readvar.c
+diff '--color=auto' -apruN a/efi-readvar.c b/efi-readvar.c
 --- a/efi-readvar.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-readvar.c	2025-07-13 15:42:25.322855715 +0100
++++ b/efi-readvar.c	2026-04-09 09:19:57.604362590 +0100
 @@ -17,7 +17,6 @@
  
  #include <openssl/x509.h>
@@ -38,9 +41,9 @@ diff '--color=auto' -aruN a/efi-readvar.c b/efi-readvar.c
  #include <efi.h>
  
  #include <kernel_efivars.h>
-diff '--color=auto' -aruN a/efi-updatevar.c b/efi-updatevar.c
+diff '--color=auto' -apruN a/efi-updatevar.c b/efi-updatevar.c
 --- a/efi-updatevar.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-updatevar.c	2025-07-13 15:42:25.323032827 +0100
++++ b/efi-updatevar.c	2026-04-09 09:19:57.604419950 +0100
 @@ -11,6 +11,7 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -57,9 +60,9 @@ diff '--color=auto' -aruN a/efi-updatevar.c b/efi-updatevar.c
  #include <efi.h>
  
  #include <kernel_efivars.h>
-diff '--color=auto' -aruN a/flash-var.c b/flash-var.c
+diff '--color=auto' -apruN a/flash-var.c b/flash-var.c
 --- a/flash-var.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/flash-var.c	2025-07-13 15:42:25.323202368 +0100
++++ b/flash-var.c	2026-04-09 09:19:57.604471811 +0100
 @@ -10,7 +10,6 @@
  #include <fcntl.h>
  #include <unistd.h>
@@ -68,9 +71,9 @@ diff '--color=auto' -aruN a/flash-var.c b/flash-var.c
  #include <efi.h>
  
  #include <version.h>
-diff '--color=auto' -aruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
+diff '--color=auto' -apruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
 --- a/hash-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/hash-to-efi-sig-list.c	2025-07-13 15:42:25.323345340 +0100
++++ b/hash-to-efi-sig-list.c	2026-04-09 09:19:57.604512991 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */
@@ -79,9 +82,9 @@ diff '--color=auto' -aruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
  #include <efi.h>
  #ifdef CONFIG_arm
  /* FIXME:
-diff '--color=auto' -aruN a/include/pecoff.h b/include/pecoff.h
+diff '--color=auto' -apruN a/include/pecoff.h b/include/pecoff.h
 --- a/include/pecoff.h	2019-01-08 22:13:13.000000000 +0000
-+++ b/include/pecoff.h	2025-07-13 15:42:25.323482751 +0100
++++ b/include/pecoff.h	2026-04-09 09:19:57.604554851 +0100
 @@ -1,7 +1,8 @@
  #include <PeImage.h>
  
@@ -92,9 +95,9 @@ diff '--color=auto' -aruN a/include/pecoff.h b/include/pecoff.h
  EFI_STATUS
  pecoff_relocate(PE_COFF_LOADER_IMAGE_CONTEXT *context, void **data);
  EFI_STATUS
-diff '--color=auto' -aruN a/lib/asn1/oid.h b/lib/asn1/oid.h
+diff '--color=auto' -apruN a/lib/asn1/oid.h b/lib/asn1/oid.h
 --- a/lib/asn1/oid.h	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/asn1/oid.h	2025-07-13 15:42:25.323632423 +0100
++++ b/lib/asn1/oid.h	2026-04-09 09:19:57.604601582 +0100
 @@ -11,11 +11,11 @@
  #define OID_H_
  
@@ -112,10 +115,10 @@ diff '--color=auto' -aruN a/lib/asn1/oid.h b/lib/asn1/oid.h
  } oid_t;
  
  extern const oid_t oid_names[];
-diff '--color=auto' -aruN a/lib/console.c b/lib/console.c
+diff '--color=auto' -apruN a/lib/console.c b/lib/console.c
 --- a/lib/console.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/console.c	2025-07-13 15:42:25.323775694 +0100
-@@ -357,7 +357,7 @@
++++ b/lib/console.c	2026-04-09 09:19:57.604651232 +0100
+@@ -357,7 +357,7 @@ static struct {
  	{  EFI_SECURITY_VIOLATION,     L"Security Violation"},
  
  	// warnings
@@ -124,9 +127,9 @@ diff '--color=auto' -aruN a/lib/console.c b/lib/console.c
  	{  EFI_WARN_DELETE_FAILURE,    L"Warning Delete Failure"},
  	{  EFI_WARN_WRITE_FAILURE,     L"Warning Write Failure"},
  	{  EFI_WARN_BUFFER_TOO_SMALL,  L"Warning Buffer Too Small"},
-diff '--color=auto' -aruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
+diff '--color=auto' -apruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
 --- a/lib/kernel_efivars.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/kernel_efivars.c	2025-07-13 15:42:25.323934696 +0100
++++ b/lib/kernel_efivars.c	2026-04-09 09:19:57.604712253 +0100
 @@ -16,7 +16,6 @@
  #include <unistd.h>
  #include <time.h>
@@ -135,7 +138,7 @@ diff '--color=auto' -aruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
  #include <efi.h>
  
  #include <kernel_efivars.h>
-@@ -29,54 +28,39 @@
+@@ -29,54 +28,39 @@ static char *kernel_efi_path = NULL;
  void
  kernel_variable_init(void)
  {
@@ -216,9 +219,9 @@ diff '--color=auto' -aruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
  }
  
  int
-diff '--color=auto' -aruN a/lib/pecoff.c b/lib/pecoff.c
+diff '--color=auto' -apruN a/lib/pecoff.c b/lib/pecoff.c
 --- a/lib/pecoff.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/pecoff.c	2025-07-13 15:42:25.324088007 +0100
++++ b/lib/pecoff.c	2026-04-09 09:19:57.604764323 +0100
 @@ -69,7 +69,7 @@
  #include <buildefi.h>
  
@@ -228,7 +231,7 @@ diff '--color=auto' -aruN a/lib/pecoff.c b/lib/pecoff.c
  {
  	EFI_IMAGE_DOS_HEADER *DosHdr = data;
  	EFI_IMAGE_OPTIONAL_HEADER_UNION *PEHdr = data;
-@@ -116,7 +116,7 @@
+@@ -116,7 +116,7 @@ pecoff_read_header(PE_COFF_LOADER_IMAGE_
  	context->NumberOfSections = PEHdr->Pe32.FileHeader.NumberOfSections;
  	context->FirstSection = (EFI_IMAGE_SECTION_HEADER *)((char *)PEHdr + PEHdr->Pe32.FileHeader.SizeOfOptionalHeader + sizeof(UINT32) + sizeof(EFI_IMAGE_FILE_HEADER));
  
@@ -237,7 +240,7 @@ diff '--color=auto' -aruN a/lib/pecoff.c b/lib/pecoff.c
  		Print(L"Malformed security header\n");
  		return EFI_INVALID_PARAMETER;
  	}
-@@ -404,7 +404,7 @@
+@@ -404,7 +404,7 @@ pecoff_execute_image(EFI_FILE *file, CHA
  	}
  
  	Print(L"Read %d bytes from %s\n", DataSize, name);
@@ -246,10 +249,10 @@ diff '--color=auto' -aruN a/lib/pecoff.c b/lib/pecoff.c
  	if (efi_status != EFI_SUCCESS) {
  		Print(L"Failed to read header\n");
  		goto out;
-diff '--color=auto' -aruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
+diff '--color=auto' -apruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
 --- a/lib/pkcs7verify.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/pkcs7verify.c	2025-07-13 15:42:25.324257269 +0100
-@@ -172,7 +172,7 @@
++++ b/lib/pkcs7verify.c	2026-04-09 09:19:57.611651142 +0100
+@@ -172,7 +172,7 @@ pkcs7verify_allow(VOID *data, UINTN len)
  	EFI_STATUS status;
  	int i;
  
@@ -258,10 +261,10 @@ diff '--color=auto' -aruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
  	if (status != EFI_SUCCESS)
  		goto out;
  
-diff '--color=auto' -aruN a/lib/sha256.c b/lib/sha256.c
+diff '--color=auto' -apruN a/lib/sha256.c b/lib/sha256.c
 --- a/lib/sha256.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/sha256.c	2025-07-13 15:42:25.324404011 +0100
-@@ -290,7 +290,7 @@
++++ b/lib/sha256.c	2026-04-09 09:19:57.611744433 +0100
+@@ -290,7 +290,7 @@ sha256_get_pecoff_digest_mem(void *buffe
  	 * filled to the end of the page */
  	DataSize = ALIGN_VALUE(DataSize, 8);
  
@@ -270,9 +273,9 @@ diff '--color=auto' -aruN a/lib/sha256.c b/lib/sha256.c
  	if (efi_status != EFI_SUCCESS) {
  		Print(L"Failed to read header\n");
  		return efi_status;
-diff '--color=auto' -aruN a/lib/shim_protocol.c b/lib/shim_protocol.c
+diff '--color=auto' -apruN a/lib/shim_protocol.c b/lib/shim_protocol.c
 --- a/lib/shim_protocol.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/shim_protocol.c	2025-07-13 15:42:25.324550572 +0100
++++ b/lib/shim_protocol.c	2026-04-09 09:19:57.611815733 +0100
 @@ -13,7 +13,7 @@
  static EFI_STATUS shimprotocol_context(void *data, unsigned int size,
  				       PE_COFF_LOADER_IMAGE_CONTEXT *context)
@@ -282,10 +285,10 @@ diff '--color=auto' -aruN a/lib/shim_protocol.c b/lib/shim_protocol.c
  }
  
  static EFI_STATUS shimprotocol_verify(void *buffer, UINT32 size)
-diff '--color=auto' -aruN a/Makefile b/Makefile
+diff '--color=auto' -apruN a/Makefile b/Makefile
 --- a/Makefile	2019-01-08 22:13:13.000000000 +0000
-+++ b/Makefile	2025-07-13 15:43:59.336843804 +0100
-@@ -21,15 +21,22 @@
++++ b/Makefile	2026-04-09 09:19:57.611873754 +0100
+@@ -21,15 +21,22 @@ KEYUPDATEAUTH = $(ALLKEYS:=-update.auth)
  KEYBLACKLISTAUTH = $(ALLKEYS:=-blacklist.auth)
  KEYHASHBLACKLISTAUTH = $(ALLKEYS:=-hash-blacklist.auth)
  
@@ -309,7 +312,7 @@ diff '--color=auto' -aruN a/Makefile b/Makefile
  
  install: all
  	$(INSTALL) -m 755 -d $(MANDIR)
-@@ -88,31 +95,31 @@
+@@ -88,31 +95,31 @@ HelloWorld.so: lib/lib-efi.a
  ShimReplace.so: lib/lib-efi.a
  
  cert-to-efi-sig-list: cert-to-efi-sig-list.o lib/lib.a
@@ -350,10 +353,10 @@ diff '--color=auto' -aruN a/Makefile b/Makefile
  
  clean:
  	rm -f PK.* KEK.* DB.* $(EFIFILES) $(EFISIGNED) $(BINARIES) *.o *.so
-diff '--color=auto' -aruN a/Make.rules b/Make.rules
+diff '--color=auto' -apruN a/Make.rules b/Make.rules
 --- a/Make.rules	2019-01-08 22:13:13.000000000 +0000
-+++ b/Make.rules	2025-07-13 15:42:25.324807735 +0100
-@@ -8,6 +8,10 @@
++++ b/Make.rules	2026-04-09 09:20:12.894657881 +0100
+@@ -8,6 +8,10 @@ else ifeq ($(ARCH),x86_64)
  ARCH3264 =
  else ifeq ($(ARCH),aarch64)
  ARCH3264 =
@@ -364,7 +367,7 @@ diff '--color=auto' -aruN a/Make.rules b/Make.rules
  else ifeq ($(ARCH),arm)
  ARCH3264 =
  else
-@@ -15,7 +19,7 @@
+@@ -15,7 +19,7 @@ $(error unknown architecture $(ARCH))
  endif
  INCDIR	   = -I$(TOPDIR)include/ -I/usr/include/efi -I/usr/include/efi/$(ARCH) -I/usr/include/efi/protocol
  CPPFLAGS   = -DCONFIG_$(ARCH)
@@ -373,7 +376,16 @@ diff '--color=auto' -aruN a/Make.rules b/Make.rules
  LDFLAGS	   = -nostdlib
  CRTOBJ		= crt0-efi-$(ARCH).o
  CRTPATHS	= /lib /lib64 /lib/efi /lib64/efi /usr/lib /usr/lib64 /usr/lib/efi /usr/lib64/efi /usr/lib/gnuefi /usr/lib64/gnuefi
-@@ -56,6 +60,15 @@
+@@ -26,7 +30,7 @@ CRTOBJS		= $(CRTPATH)/$(CRTOBJ)
+ LDSCRIPT	= elf_$(ARCH)_efi.lds
+ LDFLAGS		+= -shared -Bsymbolic $(CRTOBJS) -L $(CRTPATH) -L /usr/lib -L /usr/lib64 -T $(LDSCRIPT)
+ LOADLIBES	= -lefi -lgnuefi $(shell $(CC) $(ARCH3264) -print-libgcc-file-name)
+-FORMAT		= --target=efi-app-$(ARCH)
++FORMAT		= --output-target=efi-app-$(ARCH)
+ OBJCOPY		= objcopy
+ MYGUID		= 11111111-2222-3333-4444-123456789abc
+ INSTALL		= install
+@@ -56,6 +60,15 @@ ifeq ($(ARCH),aarch64)
    FORMAT = -O binary
  endif
  
@@ -389,7 +401,7 @@ diff '--color=auto' -aruN a/Make.rules b/Make.rules
  %.efi: %.so
  	$(OBJCOPY) -j .text -j .sdata -j .data -j .dynamic -j .dynsym \
  		   -j .rel -j .rela -j .rel.* -j .rela.* -j .rel* -j .rela* \
-@@ -71,7 +84,7 @@
+@@ -71,7 +84,7 @@ endif
  %.hash: %.efi hash-to-efi-sig-list
  	./hash-to-efi-sig-list $< $@
  
@@ -398,9 +410,9 @@ diff '--color=auto' -aruN a/Make.rules b/Make.rules
  	./cert-to-efi-sig-list $< $@
  
  %-hash-blacklist.esl: %.crt cert-to-efi-hash-list
-diff '--color=auto' -aruN a/sig-list-to-certs.c b/sig-list-to-certs.c
+diff '--color=auto' -apruN a/sig-list-to-certs.c b/sig-list-to-certs.c
 --- a/sig-list-to-certs.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/sig-list-to-certs.c	2025-07-13 15:42:25.324940476 +0100
++++ b/sig-list-to-certs.c	2026-04-09 09:19:57.611988974 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */
@@ -409,9 +421,9 @@ diff '--color=auto' -aruN a/sig-list-to-certs.c b/sig-list-to-certs.c
  #include <efi.h>
  #ifdef CONFIG_arm
  /* FIXME:
-diff '--color=auto' -aruN a/sign-efi-sig-list.c b/sign-efi-sig-list.c
+diff '--color=auto' -apruN a/sign-efi-sig-list.c b/sign-efi-sig-list.c
 --- a/sign-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/sign-efi-sig-list.c	2025-07-13 15:42:25.325071877 +0100
++++ b/sign-efi-sig-list.c	2026-04-09 09:19:57.612036835 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */

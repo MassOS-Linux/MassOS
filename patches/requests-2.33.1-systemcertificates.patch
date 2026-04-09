@@ -1,0 +1,43 @@
+diff '--color=auto' -apruN a/PKG-INFO b/PKG-INFO
+--- a/PKG-INFO	2026-03-30 17:08:10.206858200 +0100
++++ b/PKG-INFO	2026-04-09 05:24:21.039892863 +0100
+@@ -32,7 +32,6 @@ License-File: NOTICE
+ Requires-Dist: charset_normalizer<4,>=2
+ Requires-Dist: idna<4,>=2.5
+ Requires-Dist: urllib3<3,>=1.26
+-Requires-Dist: certifi>=2023.5.7
+ Provides-Extra: security
+ Provides-Extra: socks
+ Requires-Dist: PySocks!=1.5.7,>=1.5.6; extra == "socks"
+diff '--color=auto' -apruN a/pyproject.toml b/pyproject.toml
+--- a/pyproject.toml	2026-03-30 17:08:04.000000000 +0100
++++ b/pyproject.toml	2026-04-09 05:24:21.040014255 +0100
+@@ -18,8 +18,7 @@ requires-python = ">=3.10"
+ dependencies = [
+     "charset_normalizer>=2,<4",
+     "idna>=2.5,<4",
+-    "urllib3>=1.26,<3",
+-    "certifi>=2023.5.7"
++    "urllib3>=1.26,<3"
+ ]
+ dynamic = ["version"]
+ 
+diff '--color=auto' -apruN a/src/requests/certs.py b/src/requests/certs.py
+--- a/src/requests/certs.py	2026-03-30 17:08:04.000000000 +0100
++++ b/src/requests/certs.py	2026-04-09 05:24:21.040066826 +0100
+@@ -12,7 +12,14 @@ environment, you can change the definiti
+ packaged CA bundle.
+ """
+ 
+-from certifi import where
++import os
++
++if "_PIP_STANDALONE_CERT" not in os.environ:
++    def where():
++        return "/etc/pki/tls/certs/ca-bundle.crt"
++else:
++    def where():
++        return os.environ["_PIP_STANDALONE_CERT"]
+ 
+ if __name__ == "__main__":
+     print(where())

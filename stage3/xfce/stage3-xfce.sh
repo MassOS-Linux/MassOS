@@ -166,14 +166,14 @@ install -t /usr/share/licenses/xfce4-panel-profiles -Dm644 COPYING
 popd
 rm -rf xfce4-panel-profiles-1.1.1
 # Thunar.
-tar -xf ../sources/thunar-4.20.7.tar.bz2
-pushd thunar-4.20.7
+tar -xf ../sources/thunar-4.20.8.tar.bz2
+pushd thunar-4.20.8
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.7
+rm -rf thunar-4.20.8
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -230,14 +230,14 @@ install -t /usr/share/licenses/libwlembed -Dm644 LICENSE
 popd
 rm -rf libwlembed-4d37dc9-4d37dc9da9a1f699b86d4e6b05f4619b8eee4ee8
 # LabWC.
-tar -xf ../sources/labwc-0.9.3.tar.gz
-pushd labwc-0.9.3
+tar -xf ../sources/labwc-0.9.6.tar.gz
+pushd labwc-0.9.6
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
-rm -rf labwc-0.9.3
+rm -rf labwc-0.9.6
 # xfce4-session.
 tar -xf ../sources/xfce4-session-4.20.4.tar.bz2
 pushd xfce4-session-4.20.4
@@ -275,14 +275,14 @@ install -t /usr/share/licenses/xfburn -Dm644 COPYING
 popd
 rm -rf xfburn-0.8.0
 # xfce4-terminal.
-tar -xf ../sources/xfce4-terminal-1.1.5.tar.xz
-pushd xfce4-terminal-1.1.5
+tar -xf ../sources/xfce4-terminal-1.2.0.tar.xz
+pushd xfce4-terminal-1.2.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 popd
-rm -rf xfce4-terminal-1.1.5
+rm -rf xfce4-terminal-1.2.0
 # Shotwell.
 tar -xf ../sources/shotwell-shotwell-0.32.13.tar.bz2
 pushd shotwell-shotwell-0.32.13
@@ -483,24 +483,24 @@ install -t /usr/share/licenses/mousepad -Dm644 COPYING
 popd
 rm -rf mousepad-0.7.0
 # GNOME-Calculator.
-tar -xf ../sources/gnome-calculator-49.2.tar.bz2
-pushd gnome-calculator-49.2
+tar -xf ../sources/gnome-calculator-50.0.tar.bz2
+pushd gnome-calculator-50.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddoc=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-calculator -Dm644 COPYING
 popd
-rm -rf gnome-calculator-49.2
+rm -rf gnome-calculator-50.0
 # GParted.
-tar -xf ../sources/gparted-GPARTED_1_8_0.tar.bz2
-pushd gparted-GPARTED_1_8_0
+tar -xf ../sources/gparted-GPARTED_1_8_1.tar.bz2
+pushd gparted-GPARTED_1_8_1
 autoreconf -fi
 ./configure --prefix=/usr --disable-doc --disable-static --enable-libparted-dmraid --enable-online-resize --enable-xhost-root
 make
 make install
 install -t /usr/share/licenses/gparted -Dm644 COPYING
 popd
-rm -rf gparted-GPARTED_1_8_0
+rm -rf gparted-GPARTED_1_8_1
 # gnome-disk-utility.
 tar -xf ../sources/gnome-disk-utility-46.1.tar.bz2
 pushd gnome-disk-utility-46.1
@@ -527,7 +527,7 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf ../sources/evince-48.1.tar.gz
+tar -xf ../sources/evince-48.1.tar.bz2
 pushd evince-48.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dnautilus=false
 ninja -C build
@@ -536,23 +536,23 @@ install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
 rm -rf evince-48.1
 # simple-scan.
-tar -xf ../sources/simple-scan-49.1.tar.bz2
-pushd simple-scan-49.1
+tar -xf ../sources/simple-scan-50.0.tar.bz2
+pushd simple-scan-50.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/simple-scan -Dm644 COPYING
 popd
-rm -rf simple-scan-49.1
+rm -rf simple-scan-50.0
 # Baobab.
-tar -xf ../sources/baobab-49.0.tar.bz2
-pushd baobab-49.0
+tar -xf ../sources/baobab-50.0.tar.bz2
+pushd baobab-50.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/baobab -Dm644 COPYING
 popd
-rm -rf baobab-49.0
+rm -rf baobab-50.0
 # GNOME-Firmware.
 tar -xf ../sources/gnome-firmware-49.0.tar.bz2
 pushd gnome-firmware-49.0
@@ -563,15 +563,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-49.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-49.2.tar.bz2
-pushd gnome-software-49.2
+tar -xf ../sources/gnome-software-50.0.tar.bz2
+pushd gnome-software-50.0
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dtests=false
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dsystemd-sysupdate=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-49.2
+rm -rf gnome-software-50.0
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-003.tar.gz
 pushd massos-welcome-54b7142b57ad343415e0cc668234c21fbc2b0bd5
@@ -626,7 +626,7 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-tar --no-same-owner -xf ../sources/firefox-148.0.2.tar.xz -C /usr/lib
+tar --no-same-owner -xf ../sources/firefox-149.0.2.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

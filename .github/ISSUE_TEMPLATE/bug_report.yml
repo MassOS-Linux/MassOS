@@ -35,6 +35,7 @@ body:
       - label: "Issue with a particular piece of software in MassOS."
       - label: "Issue with booting or startup of MassOS."
       - label: "Issue with hardware or peripherals on MassOS."
+      - label: "Issue with upgrading MassOS."
       - label: "Issue with the MassOS documentation."
       - label: "Issue with compiling MassOS from source."
       - label: "Other issue (please describe in detail below)."
