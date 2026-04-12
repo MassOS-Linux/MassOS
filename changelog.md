@@ -87,8 +87,8 @@ Upgraded software (core):
 - Bash: `5.2 --> 5.3`
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
-- bcachefs-module: `(new package) --> 1.37.2`
-- bcachefs-tools: `(new package) --> 1.37.2`
+- bcachefs-module: `(new package) --> 1.37.5`
+- bcachefs-tools: `(new package) --> 1.37.5`
 - BIND-Utils: `9.18.6 --> 9.20.20`
 - Binutils: `2.39 --> 2.46`
 - blueprint-compiler: `(new package) --> 0.18.0`
@@ -495,10 +495,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.11`
-- Linux-API-Headers: `6.0.0 --> 6.19.11`
-- Linux-Firmware: `(new package) --> 20260221`
-- Linux-Headers: `6.0.0 --> 6.19.11`
+- Linux: `6.0.0 --> 6.19.12`
+- Linux-API-Headers: `6.0.0 --> 6.19.12`
+- Linux-Firmware: `(new package) --> 20260410`
+- Linux-Headers: `6.0.0 --> 6.19.12`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 22.1.3`
 - LLVM: `14.0.6 --> 22.1.3`
@@ -565,7 +565,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 595.44.03`
+- nvidia-modules-open: `(new package) --> 595.58.03`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.16`

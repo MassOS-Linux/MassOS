@@ -30,7 +30,7 @@ https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
 https://mirror.lyrahosting.com/gnu/bash/bash-5.3.tar.gz
 https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
-https://github.com/koverstreet/bcachefs-tools/archive/v1.37.2/bcachefs-tools-1.37.2.tar.gz
+https://github.com/koverstreet/bcachefs-tools/archive/v1.37.5/bcachefs-tools-1.37.5.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.20/bind-9.20.20.tar.xz
 https://dmassey.net/files/misc/bindgen-0.72.1-massos-precompiled-x86_64.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-with-gold-2.46.tar.xz
@@ -146,7 +146,7 @@ https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2
 https://github.com/yo8192/fcron/archive/ver3_4_0/fcron-ver3_4_0.tar.gz
 https://ffmpeg.org/releases/ffmpeg-8.1.tar.xz
 https://deb.debian.org/debian/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
-https://astron.com/pub/file/file-5.47.tar.gz
+https://dmassey.net/files/dev/file/file-5.47.tar.gz
 https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ShareDir-1.118.tar.gz
 https://cpan.metacpan.org/authors/id/E/ET/ETHER/File-ShareDir-Install-0.14.tar.gz
 https://cpan.metacpan.org/authors/id/C/CA/CAPOEIRAB/File-Slurp-9999.32.tar.gz
@@ -486,9 +486,9 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.19.11.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v6.x/linux-6.19.12.tar.xz
 https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.18/linux-apfs-rw-0.3.18.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260221.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260410.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz
 https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.3/llvm-project-22.1.3.src.tar.xz
@@ -568,7 +568,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/595.44.03/open-gpu-kernel-modules-595.44.03.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/595.58.03/open-gpu-kernel-modules-595.58.03.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-13.0.10/open-vm-tools-stable-13.0.10.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz

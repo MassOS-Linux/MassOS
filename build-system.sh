@@ -6091,8 +6091,8 @@ install -t /usr/share/licenses/mtools -Dm644 COPYING
 popd
 rm -rf mtools-4.0.49
 # bcachefs-tools.
-tar -xf ../sources/bcachefs-tools-1.37.2.tar.gz
-pushd bcachefs-tools-1.37.2
+tar -xf ../sources/bcachefs-tools-1.37.5.tar.gz
+pushd bcachefs-tools-1.37.5
 ## Initramfs scripts are inappropriate for dracut - throw them away.
 ## bcachefs will be built as an external module later.
 make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash DKMSDIR=/tmp/.mbs_trash
@@ -6102,7 +6102,7 @@ bcachefs completions zsh > /usr/share/zsh/site-functions/_bcachefs
 bcachefs completions fish > /usr/share/fish/vendor_completions.d/bcachefs.fish
 install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.37.2
+rm -rf bcachefs-tools-1.37.5
 # Polkit.
 tar -xf ../sources/polkit-127.tar.gz
 pushd polkit-127
@@ -8494,7 +8494,7 @@ tar -xf ../sources/gstreamer-1.28.1.tar.bz2
 pushd gstreamer-1.28.1
 mkdir -p subprojects/gl-headers
 tar -xf ../../sources/gl-headers-1d237e3.tar.bz2 -C subprojects/gl-headers --strip-components=1
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.1" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.1" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:vmaf=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gstreamer -Dm644 LICENSE
@@ -8917,16 +8917,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.19.11.tar.xz
-pushd linux-6.19.11
+tar -xf ../sources/linux-6.19.12.tar.xz
+pushd linux-6.19.12
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.19.11,https://kernel.org
-linux.massos,1,MassOS,linux,6.19.11,https://massos.org
+linux,1,The Linux Kernel Developers,linux,6.19.12,https://kernel.org
+linux.massos,1,MassOS,linux,6.19.12,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8981,10 +8981,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.19.11
+rm -rf linux-6.19.12
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-595.44.03.tar.gz
-pushd open-gpu-kernel-modules-595.44.03
+tar -xf ../sources/open-gpu-kernel-modules-595.58.03.tar.gz
+pushd open-gpu-kernel-modules-595.58.03
 patch -Np1 -i ../../patches/nvidia-modules-open-595.44.03-hardening.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -8996,10 +8996,10 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-595.44.03
+rm -rf open-gpu-kernel-modules-595.58.03
 # bcachefs-module.
-tar -xf ../sources/bcachefs-tools-1.37.2.tar.gz
-pushd bcachefs-tools-1.37.2
+tar -xf ../sources/bcachefs-tools-1.37.5.tar.gz
+pushd bcachefs-tools-1.37.5
 mkdir -p fs
 mv libbcachefs fs/bcachefs
 make -C /usr/src/linux M="$PWD/fs/bcachefs" CONFIG_BCACHEFS_FS=m CONFIG_BCACHEFS_QUOTA=y CONFIG_BCACHEFS_POSIX_ACL=y CONFIG_BCACHEFS_LOCK_TIME_STATS=y CONFIG_BCACHEFS_SIX_OPTIMISTIC_SPIN=y modules
@@ -9010,7 +9010,7 @@ install -t /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -Dm644
 depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/bcachefs-module -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.37.2
+rm -rf bcachefs-tools-1.37.5
 # apfs-rw-module.
 tar -xf ../sources/linux-apfs-rw-0.3.18.tar.gz
 pushd linux-apfs-rw-0.3.18
@@ -9025,8 +9025,8 @@ install -t /usr/share/licenses/apfs-rw-module -Dm644 LICENSE
 popd
 rm -rf linux-apfs-rw-0.3.18
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20260221.tar.xz
-pushd linux-firmware-20260221
+tar -xf ../sources/linux-firmware-20260410.tar.xz
+pushd linux-firmware-20260410
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -9034,7 +9034,7 @@ rm -rf /usr/lib/firmware/{mellanox,qcom}
 rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20260221
+rm -rf linux-firmware-20260410
 # Intel-Microcode.
 tar -xf ../sources/intel-microcode-20260227.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
