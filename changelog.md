@@ -69,7 +69,7 @@ Upgraded software (core):
 - alsa-ucm-conf: `(new package) --> 1.2.15.3`
 - alsa-utils: `(new package) --> 1.2.15.2`
 - AMF-Headers: `(new package) --> 1.5.0`
-- apfs-rw-module: `(new package) --> 0.3.18`
+- apfs-rw-module: `(new package) --> 0.3.19`
 - AppArmor: `3.1.1 --> 4.1.2`
 - AppStream: `0.15.5 --> 1.1.2`
 - appstream-glib: `0.8.0 --> 0.8.3`
@@ -275,7 +275,7 @@ Upgraded software (core):
 - hicolor-icon-theme: `0.17 --> 0.18`
 - hidapi: `(new package) --> 0.14.0`
 - highway: `(new package) --> 1.3.0`
-- HPLIP: `3.22.6 --> 3.25.6`
+- HPLIP: `3.22.6 --> 3.25.8`
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.406`
 - hyfetch: `(new package) --> 2.1.0-rc1`
@@ -495,10 +495,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 6.19.12`
-- Linux-API-Headers: `6.0.0 --> 6.19.12`
+- Linux: `6.0.0 --> 7.0.0`
+- Linux-API-Headers: `6.0.0 --> 7.0.0`
 - Linux-Firmware: `(new package) --> 20260410`
-- Linux-Headers: `6.0.0 --> 6.19.12`
+- Linux-Headers: `6.0.0 --> 7.0.0`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 22.1.3`
 - LLVM: `14.0.6 --> 22.1.3`
@@ -697,7 +697,7 @@ Upgraded software (core):
 - SQLite: `3.39.3 --> 3.51.3`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
-- strace: `5.19 --> 6.19`
+- strace: `5.19 --> 6.19.0.44.92edf`
 - Sudo: `1.9.11p3 --> 1.9.17p2`
 - SVT-AV1: `(new package) --> 4.1.0`
 - SWIG: `4.0.2 --> 4.4.1`

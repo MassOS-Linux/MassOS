@@ -898,14 +898,14 @@ install -t /usr/share/licenses/patchelf -Dm644 COPYING
 popd
 rm -rf patchelf-0.18.0
 # strace.
-tar -xf ../sources/strace-6.19.tar.xz
-pushd strace-6.19
+tar -xf ../sources/strace-6.19.0.44.92edf.tar.xz
+pushd strace-6.19.0.44.92edf
 ./configure --prefix=/usr --with-libdw
 make
 make install
 install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
 popd
-rm -rf strace-6.19
+rm -rf strace-6.19.0.44.92edf
 # libffi.
 tar -xf ../sources/libffi-3.5.2.tar.gz
 pushd libffi-3.5.2
@@ -7326,8 +7326,8 @@ install -t /usr/share/licenses/sane-airscan -Dm644 COPYING LICENSE
 popd
 rm -rf sane-airscan-0.99.36
 # HPLIP.
-tar -xf ../sources/hplip-3.25.6.tar.gz
-pushd hplip-3.25.6
+tar -xf ../sources/hplip-3.25.8.tar.gz
+pushd hplip-3.25.8
 patch -Np1 -i ../../patches/hplip-3.25.2-manyfixes.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=incompatible-pointer-types -Wno-error=return-mismatch" ./configure --prefix=/usr --sbindir=/usr/bin --enable-cups-drv-install --enable-hpcups-install --disable-imageProcessor-build --enable-pp-build --disable-qt4 --disable-qt5
@@ -7339,7 +7339,7 @@ rm -f /usr/share/applications/hp{lip,-uiscan}.desktop
 rm -f /usr/bin/hp-{uninstall,upgrade} /usr/share/hplip/{uninstall,upgrade}.py
 install -t /usr/share/licenses/hplip -Dm644 COPYING
 popd
-rm -rf hplip-3.25.6
+rm -rf hplip-3.25.8
 # system-config-printer.
 tar -xf ../sources/system-config-printer-1.5.18.tar.xz
 pushd system-config-printer-1.5.18
@@ -8917,16 +8917,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-6.19.12.tar.xz
-pushd linux-6.19.12
+tar -xf ../sources/linux-7.0.tar.xz
+pushd linux-7.0
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,6.19.12,https://kernel.org
-linux.massos,1,MassOS,linux,6.19.12,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.0.0,https://kernel.org
+linux.massos,1,MassOS,linux,7.0.0,https://massos.org
 END
 cp ../../extras/build-configs/kernel-config .config
 make olddefconfig
@@ -8981,7 +8981,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-6.19.12
+rm -rf linux-7.0
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-595.58.03.tar.gz
 pushd open-gpu-kernel-modules-595.58.03
@@ -9012,8 +9012,8 @@ install -t /usr/share/licenses/bcachefs-module -Dm644 COPYING
 popd
 rm -rf bcachefs-tools-1.37.5
 # apfs-rw-module.
-tar -xf ../sources/linux-apfs-rw-0.3.18.tar.gz
-pushd linux-apfs-rw-0.3.18
+tar -xf ../sources/linux-apfs-rw-0.3.19.tar.gz
+pushd linux-apfs-rw-0.3.19
 sed -i 's/?"$/"/' genver.sh
 make KERNEL_DIR=/usr/src/linux
 strip --strip-debug apfs.ko
@@ -9023,7 +9023,7 @@ install -t /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -Dm644
 depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/apfs-rw-module -Dm644 LICENSE
 popd
-rm -rf linux-apfs-rw-0.3.18
+rm -rf linux-apfs-rw-0.3.19
 # Linux-Firmware.
 tar -xf ../sources/linux-firmware-20260410.tar.xz
 pushd linux-firmware-20260410
