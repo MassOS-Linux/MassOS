@@ -6,6 +6,12 @@
 set -e
 # Disabling hashing is useful so the newly built tools are detected.
 set +h
+# Do not allow building on unsupported architectures.
+if [ "$(uname -m)" != "x86_64" ]; then
+  echo "Error: MassOS does not currently support building for $(uname -m)." >&2
+  echo "Error: MassOS currently only supports the x86_64 architecture." >&2
+  exit 1
+fi
 # Ensure retrieve-sources.sh has been run first.
 if [ ! -d sources ]; then
   echo "Error: You must run retrieve-sources.sh first!" >&2
@@ -89,15 +95,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.0.tar.xz
-pushd linux-7.0
+tar -xf ../sources/linux-7.0.1.tar.xz
+pushd linux-7.0.1
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0
+rm -rf linux-7.0.1
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
