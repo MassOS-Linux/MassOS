@@ -45,16 +45,16 @@ chmod 0750 /root
 mkdir -p /usr/lib/locale
 mklocales
 # Install Rust, Go and GYP to temporary directories for building some packages.
-tar -xf ../sources/rust-1.94.0-x86_64-unknown-linux-gnu.tar.gz
-pushd rust-1.94.0-x86_64-unknown-linux-gnu
+tar -xf ../sources/rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu.tar.gz
+pushd rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
 tar -xf ../../sources/rust-src-1.94.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
-tar -xf ../../sources/cargo-c-x86_64-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
-tar -xf ../../sources/bindgen-0.72.1-massos-precompiled-x86_64.tar.xz -C /root/mbs/extras/rust/bin --strip-components=1 bindgen-0.72.1-massos-precompiled-x86_64/bindgen
-tar -xf ../../sources/cbindgen-0.29.2-massos-precompiled-x86_64.tar.xz -C /root/mbs/extras/rust/bin --strip-components=1 cbindgen-0.29.2-massos-precompiled-x86_64/cbindgen
+tar -xf ../../sources/cargo-c-"$MBS_ARCH"-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
+tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.2-massos-precompiled-multiarch.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.2-massos-precompiled-multiarch/"$MBS_ARCH"/{,c}bindgen
 popd
-rm -rf rust-1.94.0-x86_64-unknown-linux-gnu
-tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
+rm -rf rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
+[ "$MBS_ARCH" != "x86_64" ] || tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
+[ "$MBS_ARCH" != "aarch64" ] || tar -xf ../sources/go1.25.3.linux-arm64.tar.gz -C /root/mbs/extras
 install -dm755 /root/mbs/extras/gyp
 tar -xf ../sources/gyp-1615ec.tar.gz -C /root/mbs/extras/gyp --strip-components=1
 # Bison (circular deps; rebuilt later).
@@ -447,6 +447,7 @@ tar -xf ../sources/gcc-15.2.0.tar.xz
 pushd gcc-15.2.0
 patch -Np1 -i ../../patches/gcc-15.2.0-glibc243.patch
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 mkdir -p build; pushd build
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure LD=ld --prefix=/usr --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-host-pie --enable-linker-build-id --disable-fixincludes --disable-multilib
 make
@@ -456,7 +457,7 @@ ln -sf "../../libexec/gcc/$(gcc -dumpmachine)/$(gcc -dumpversion)/liblto_plugin.
 ln -sf gcc.1 /usr/share/man/man1/cc.1
 mkdir -p /usr/share/gdb/auto-load/usr/lib
 mv /usr/lib/*gdb.py /usr/share/gdb/auto-load/usr/lib
-find /usr -depth -name x86_64-stage1-linux-gnu\* -exec rm -rf {} +
+find /usr -depth -name "$MBS_ARCH"-stage1-linux-gnu\* -exec rm -rf {} +
 install -t /usr/share/licenses/gcc -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB ../COPYING.RUNTIME
 popd; popd
 rm -rf gcc-15.2.0
@@ -1045,7 +1046,7 @@ popd
 rm -rf build-1.4.3
 # Sphinx (required to build man pages of some packages).
 mkdir -p /root/mbs/extras/sphinx
-tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20260119-x86_64-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
+tar --no-same-owner --same-permissions -xf ../sources/sphinx-py3.14-20260430-"$MBS_ARCH"-venv-mbs.tar.xz -C /root/mbs/extras/sphinx --strip-components=1
 # Ninja.
 tar -xf ../sources/ninja-1.13.2.tar.gz
 pushd ninja-1.13.2
@@ -1091,6 +1092,14 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/pyparsing -Dm644 LICENSE
 popd
 rm -rf pyparsing-3.3.2
+# pycparser.
+tar -xf ../sources/pycparser-release_v2.23.tar.gz
+pushd pycparser-release_v2.23
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/pycparser -Dm644 LICENSE
+popd
+rm -rf pycparser-release_v2.23
 # editables.
 tar -xf ../sources/editables-0.5.tar.gz
 pushd editables-0.5
@@ -2378,7 +2387,7 @@ rm -rf sbsigntools-0.9.5
 tar -xf ../sources/efitools-1.9.2.tar.gz
 pushd efitools-1.9.2
 patch -Np1 -i ../../patches/efitools-1.9.2-fixes.patch
-ARCH=x86_64 CC="gcc -std=gnu17" make -j1
+ARCH="$MBS_ARCH" CC="gcc -std=gnu17" make -j1
 make -j1 install
 ## NOTE: The efitools apps are intentionally not signed for secure boot by us.
 install -t /usr/share/licenses/efitools -Dm644 COPYING
@@ -3564,7 +3573,7 @@ make -C profiles install
 make -C utils install
 rm -f /usr/lib/libapparmor.a
 chmod 755 /usr/lib/perl5/*/vendor_perl/auto/LibAppArmor/LibAppArmor.so
-mv /usr/lib/ruby/{site,vendor}_ruby/4.0.0/x86_64-linux/LibAppArmor.so
+mv /usr/lib/ruby/{site,vendor}_ruby/4.0.0/"$MBS_ARCH"-linux/LibAppArmor.so
 sed -i 's|ADDITIONAL_PROFILE_DIR=|ADDITIONAL_PROFILE_DIR=/var/lib/snapd/apparmor/profiles|' /usr/lib/apparmor/rc.apparmor.functions
 systemctl enable apparmor
 install -t /usr/share/licenses/apparmor -Dm644 LICENSE libraries/libapparmor/COPYING.LGPL changehat/pam_apparmor/COPYING
@@ -3694,7 +3703,7 @@ rm -rf nspr-4.37
 tar -xf ../sources/nss-3.121.tar.gz
 pushd nss-3.121/nss
 sed -i "s|'disable_werror%': 0|'disable_werror%': 1|" coreconf/config.gypi
-./build.sh --target=x64 --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
+./build.sh --enable-libpkix --disable-tests --opt --system-nspr --system-sqlite
 install -t /usr/lib -Dm755 ../dist/Release/lib/*.so
 install -t /usr/lib -Dm644 ../dist/Release/lib/*.chk
 install -t /usr/bin -Dm755 ../dist/Release/bin/{*util,shlibsign,signtool,signver,ssltap}
@@ -3887,7 +3896,7 @@ rm -rf graphene-1.10.8
 tar -xf ../sources/llvm-project-22.1.4.src.tar.xz
 pushd llvm-project-22.1.4.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
-cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AMDGPU;BPF;NVPTX;X86" -DLLVM_HOST_TRIPLE=x86_64-pc-linux-gnu -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
+cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AArch64;AMDGPU;ARM;BPF;NVPTX;WebAssembly;X86" -DLLVM_HOST_TRIPLE="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
 ninja -C build install
 install -dm755 /etc/clang
@@ -3953,8 +3962,8 @@ rm -rf efivar-39
 # efibootmgr.
 tar -xf ../sources/efibootmgr-18.tar.bz2
 pushd efibootmgr-18
-make libdir=/usr/lib sbindir=/usr/bin EFIDIR=massos EFI_LOADER=grubx64.efi
-make libdir=/usr/lib sbindir=/usr/bin EFIDIR=massos EFI_LOADER=grubx64.efi install
+make libdir=/usr/lib sbindir=/usr/bin EFIDIR=massos EFI_LOADER="grub$MBS_ARCH_EFI.efi"
+make libdir=/usr/lib sbindir=/usr/bin EFIDIR=massos EFI_LOADER="grub$MBS_ARCH_EFI.efi" install
 install -t /usr/share/licenses/efibootmgr -Dm644 COPYING
 popd
 rm -rf efibootmgr-18
@@ -4026,8 +4035,8 @@ rm -rf woff2-1.0.2
 # shim (Microsoft-signed version from another distro).
 tar -xf ../sources/shim-signed-15.8-ubuntu-1.59.tar.xz
 pushd shim-signed-15.8-ubuntu-1.59
-install -t /usr/lib/shim -Dm644 fbx64.efi mmx64.efi shimx64.efi.signed
-echo "shimx64.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE > /usr/lib/shim/BOOTX64.CSV
+install -t /usr/lib/shim -Dm644 fb"$MBS_ARCH_EFI".efi mm"$MBS_ARCH_EFI".efi shim"$MBS_ARCH_EFI".efi.signed
+echo "shim$MBS_ARCH_EFI.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE > /usr/lib/shim/BOOT"$MBS_ARCH_EFI_UPPER".CSV
 install -dm755 /var/lib/shim-signed/mok
 install -t /usr/share/licenses/shim -Dm644 copyright
 popd
@@ -4055,16 +4064,17 @@ patch -Np1 -i ../../patches/grub-2.12-luksrootfs.patch
 patch -Np1 -i ../../patches/grub-2.12-uefisecureboot-installsigned.patch
 patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
 autoreconf -fi
+## Note that the Legacy BIOS target is only supported and thus built on x86_64.
 mkdir -p build-pc; pushd build-pc
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+[ "$MBS_ARCH" != "x86_64" ] || CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=pc --target=i386 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
 mkdir -p build-efi; pushd build-efi
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --target=x86_64 --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --with-platform=efi --enable-cache-stats --enable-device-mapper --enable-grub-mkfont --enable-grub-mount --disable-efiemu --disable-werror
 popd
-make -C build-pc
+[ "$MBS_ARCH" != "x86_64" ] || make -C build-pc
 make -C build-efi
 make -C build-efi bashcompletiondir="/usr/share/bash-completion/completions" install
-make -C build-pc bashcompletiondir="/usr/share/bash-completion/completions" install
+[ "$MBS_ARCH" != "x86_64" ] || make -C build-pc bashcompletiondir="/usr/share/bash-completion/completions" install
 sed -i 's|${GRUB_DISTRIBUTOR} GNU/Linux|${GRUB_DISTRIBUTOR}|' /etc/grub.d/10_linux
 sed -i "s|'uefi-firmware' {|'uefi-firmware' --class efi {|" /etc/grub.d/30_uefi-firmware
 cat > /usr/share/grub/sbat.csv << "END"
@@ -4116,18 +4126,18 @@ search --file --no-floppy --set=root /THIS_IS_THE_MASSOS_LIVECD
 configfile /grub.cfg
 END
 mkdir -p /boot/grub
-install -dm755 /usr/lib/grub/x86_64-efi-signed
+install -dm755 /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed
 cat grub{,-normal}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/grubx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O "$MBS_ARCH_GRUB"-efi -d /usr/lib/grub/"$MBS_ARCH_GRUB"-efi -o /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/grub"$MBS_ARCH_EFI".efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 cat grub{,-removable}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/gcdx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O "$MBS_ARCH_GRUB"-efi -d /usr/lib/grub/"$MBS_ARCH_GRUB"-efi -o /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/gcd"$MBS_ARCH_EFI".efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 cat grub{,-livecd}.cfg > /boot/grub/grub.cfg
-grub-mkstandalone -O x86_64-efi -d /usr/lib/grub/x86_64-efi -o /usr/lib/grub/x86_64-efi-signed/glcdx64.efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
+grub-mkstandalone -O "$MBS_ARCH_GRUB"-efi -d /usr/lib/grub/"$MBS_ARCH_GRUB"-efi -o /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/glcd"$MBS_ARCH_EFI".efi --modules="part_msdos part_gpt iso9660 ext2 btrfs fat ntfs exfat luks luks2" --sbat=/usr/share/grub/sbat.csv --compress=lzo /boot/grub/grub.cfg
 rm -f /boot/grub/grub.cfg
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/grubx64.efi
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/gcdx64.efi
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/x86_64-efi-signed/glcdx64.efi
-rm -f /usr/lib/grub/x86_64-efi-signed/g{rub,cd,lcd}x64.efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/grub"$MBS_ARCH_EFI".efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/gcd"$MBS_ARCH_EFI".efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/glcd"$MBS_ARCH_EFI".efi
+rm -f /usr/lib/grub/"$MBS_ARCH_GRUB"-efi-signed/g{rub,{,l}cd}"$MBS_ARCH_EFI".efi
 rmdir /boot/grub 2>/dev/null || true
 install -t /usr/share/licenses/grub -Dm644 COPYING
 popd
@@ -4574,7 +4584,7 @@ tar -xf ../sources/wpa_supplicant-2.11.tar.gz
 pushd wpa_supplicant-2.11
 patch -Np1 -i ../../patches/wpa_supplicant-2.11-miscfixes.patch
 pushd wpa_supplicant
-cp ../../../extras/build-configs/wpasup-config .config
+cp ../../../extras/build-configs/wpa-supplicant-config .config
 make BINDIR=/usr/bin LIBDIR=/usr/lib
 install -t /usr/bin -Dm755 wpa_{cli,passphrase,supplicant}
 install -t /usr/share/man/man5 -Dm644 doc/docbook/wpa_supplicant.conf.5
@@ -5224,16 +5234,18 @@ tail -n211 README.md | head -n22 | sed 's/    //g' > COPYING
 install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
-# Mesa (TODO: Should we add asahi and freedrendo gallium/vulkan drivers?).
-tar -xf ../sources/mesa-mesa-26.0.5.tar.bz2
-pushd mesa-mesa-26.0.5
+# Mesa.
+tar -xf ../sources/mesa-mesa-26.0.6.tar.bz2
+pushd mesa-mesa-26.0.6
+## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dvulkan-layers=anti-lag,device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dgallium-rusticl-enable-drivers=radeonsi -Dgallium-xa=enabled -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dsysprof=true -Dvideo-codecs=all -Dvalgrind=disabled
+## TODO: Consider if certain drivers should be excluded based on architecture.
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=asahi,crocus,d3d12,ethosu,etnaviv,freedreno,i915,iris,lima,llvmpipe,nouveau,panfrost,r300,r600,radeonsi,rocket,softpipe,svga,tegra,v3d,vc4,virgl,zink -Dvulkan-drivers=amd,asahi,broadcom,freedreno,gfxstream,imagination,intel,intel_hasvk,microsoft-experimental,nouveau,panfrost,swrast,virtio -Dvulkan-layers=anti-lag,device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dgallium-rusticl-enable-drivers=asahi,freedreno,radeonsi -Dfreedreno-kmds=msm,virtio -Damdgpu-virtio=true -Dgallium-xa=enabled -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dsysprof=true -Dvideo-codecs=all -Dvalgrind=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-26.0.5
+rm -rf mesa-mesa-26.0.6
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.23.0.tar.bz2
 pushd libva-2.23.0
@@ -5645,7 +5657,7 @@ pushd systemd-260.1
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-boot"$MBS_ARCH_EFI".efi
 cat > /etc/pam.d/systemd-user << "END"
 account  required pam_access.so
 account  include  system-account
@@ -7401,14 +7413,6 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/idna -Dm644 LICENSE.md
 popd
 rm -rf idna-3.11
-# pycparser.
-tar -xf ../sources/pycparser-release_v2.23.tar.gz
-pushd pycparser-release_v2.23
-python -m build -nw -o dist
-python -m installer --compile-bytecode 1 dist/*.whl
-install -t /usr/share/licenses/pycparser -Dm644 LICENSE
-popd
-rm -rf pycparser-release_v2.23
 # cffi.
 tar -xf ../sources/cffi-2.0.0.tar.gz
 pushd cffi-2.0.0
@@ -7924,7 +7928,7 @@ pushd fwupd-efi-1.8
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Defi_sbat_distro_id=massos -Defi_sbat_distro_summary=MassOS -Defi_sbat_distro_pkgname=fwupd-efi -Defi_sbat_distro_version=1.8 -Defi_sbat_distro_url=https://massos.org
 ninja -C build
 ninja -C build install
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/libexec/fwupd/efi/fwupdx64.efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/libexec/fwupd/efi/fwupd"$MBS_ARCH_EFI".efi
 install -t /usr/share/licenses/fwupd-efi -Dm644 COPYING
 popd
 rm -rf fwupd-efi-1.8
@@ -8271,11 +8275,11 @@ pushd rav1e-0.8.1
 sed -i "s/git_version(),/\"compiled on $(date +%Y-%m-%d) at $(date +%H:%M:%S)\"/" src/lib.rs
 cargo build --release
 cargo cbuild --release
-sed -i 's|/usr/local|/usr|' target/x86_64-unknown-linux-gnu/release/rav1e.pc
+sed -i 's|/usr/local|/usr|' target/"$MBS_ARCH"-unknown-linux-gnu/release/rav1e.pc
 install -t /usr/bin -Dm755 target/release/rav1e
-install -t /usr/include/rav1e -Dm644 target/x86_64-unknown-linux-gnu/release/include/rav1e/rav1e.h
-install -t /usr/lib/pkgconfig -Dm644 target/x86_64-unknown-linux-gnu/release/rav1e.pc
-install -Dm755 target/x86_64-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.8.1
+install -t /usr/include/rav1e -Dm644 target/"$MBS_ARCH"-unknown-linux-gnu/release/include/rav1e/rav1e.h
+install -t /usr/lib/pkgconfig -Dm644 target/"$MBS_ARCH"-unknown-linux-gnu/release/rav1e.pc
+install -Dm755 target/"$MBS_ARCH"-unknown-linux-gnu/release/librav1e.so /usr/lib/librav1e.so.0.8.1
 ln -sf librav1e.so.0.8.1 /usr/lib/librav1e.so.0
 ln -sf librav1e.so.0.8.1 /usr/lib/librav1e.so
 ldconfig
@@ -8810,13 +8814,14 @@ install -t /usr/bin -Dm755 busybox
 install -t /usr/share/licenses/busybox -Dm644 LICENSE
 popd
 rm -rf busybox-1.37.0
-# memtest86+.
+# memtest86+ (only supported on x86_64 systems).
 tar -xf ../sources/memtest86plus-7.20.tar.gz
 pushd memtest86plus-7.20
-make -C build64
-install -t /usr/lib/memtest86+ -Dm644 build64/memtest.{bin,efi}
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/memtest86+/memtest.efi
-install -t /usr/share/licenses/memtest86+ -Dm644 LICENSE
+[ "$MBS_ARCH" != "x86_64" ] || make -C build64
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/memtest86+ -Dm644 build64/memtest.{bin,efi}
+[ "$MBS_ARCH" != "x86_64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/memtest86+/memtest.efi
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/memtest86+ -Dm644 LICENSE
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^memtest86+$/d' /usr/share/massos/builtins
 popd
 rm -rf memtest86plus-7.20
 # iPXE.
@@ -8826,8 +8831,8 @@ cp ../../extras/build-configs/ipxe-config src/config/general.h
 cat > src/config/local/general.h << "END"
 #undef IMAGE_EFI
 END
-make -C src VERSION="1.21.1+ (g814963)" bin/ipxe.{lkrn,pxe}
-cp src/bin/ipxe.{lkrn,pxe} .
+[ "$MBS_ARCH" != "x86_64" ] || make -C src VERSION="1.21.1+ (g814963)" bin/ipxe.{lkrn,pxe}
+[ "$MBS_ARCH" != "x86_64" ] || cp src/bin/ipxe.{lkrn,pxe} .
 make -C src VERSION="1.21.1+ (g814963)" veryclean
 cat > src/config/local/general.h << "END"
 #undef IMAGE_NBI
@@ -8838,8 +8843,9 @@ cat > src/config/local/general.h << "END"
 #undef IMAGE_SDI
 #undef PXE_CMD
 END
-make -C src VERSION="1.21.1+ (g814963)" bin-x86_64-efi/ipxe.efi
-install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe} src/bin-x86_64-efi/ipxe.efi
+make -C src VERSION="1.21.1+ (g814963)" bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe}
+install -t /usr/lib/ipxe -Dm644 src/bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/ipxe/ipxe.efi
 install -t /usr/share/licenses/ipxe -Dm644 COPYING{,.GPLv2,.UBDL}
 popd
@@ -8851,8 +8857,9 @@ cp BaseTools/Conf/tools_def.template Conf/tools_def.txt
 cp BaseTools/Conf/build_rule.template Conf/build_rule.txt
 cp BaseTools/Conf/build_rule.template build_rule.txt
 make -C BaseTools
-PATH="$PWD/BaseTools/BinWrappers/PosixLike:$PATH" WORKSPACE="$PWD" EDK_TOOLS_PATH="$PWD/BaseTools" build -p ShellPkg/ShellPkg.dsc -a X64 -b RELEASE -n $(nproc) -t GCC
-install -Dm644 Build/Shell/RELEASE_GCC/X64/ShellPkg/Application/Shell/EA4BB293-2D7F-4456-A681-1F22F42CD0BC/OUTPUT/Shell.efi /usr/lib/edk2-shell/shellx64.efi
+echo -e '#!/bin/sh\nif test "$(uname -m)" = x86_64; then echo X64; elif test "$(uname -m)" = aarch64; then echo AARCH64; else echo UNKNOWN; fi' | install -m755 /dev/stdin edk2arch
+PATH="$PWD/BaseTools/BinWrappers/PosixLike:$PATH" WORKSPACE="$PWD" EDK_TOOLS_PATH="$PWD/BaseTools" build -p ShellPkg/ShellPkg.dsc -a "$(./edk2arch)" -b RELEASE -n "$(nproc)" -t GCC
+install -Dm644 Build/Shell/RELEASE_GCC/"$(./edk2arch)"/ShellPkg/Application/Shell/EA4BB293-2D7F-4456-A681-1F22F42CD0BC/OUTPUT/Shell.efi /usr/lib/edk2-shell/shell"$MBS_ARCH_EFI".efi
 ## NOTE: The UEFI EDK2 Shell is intentionally not signed for secure boot by us.
 ## NOTE: This is because it is insecure by nature (it is a debugging tool).
 install -t /usr/share/licenses/edk2-shell -Dm644 License.txt
@@ -8871,7 +8878,7 @@ rm -rf virtiofsd-v1.13.1
 tar -xf ../sources/qemu-10.2.2.tar.xz
 pushd qemu-10.2.2
 sed -i 's/b6910bec11614980a21e46fbccc35934b671bd81/9a1c801a1a3c102bf95c5339c9e985b26b823a21/' subprojects/dtc.wrap
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list=x86_64-linux-user,x86_64-softmmu
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list="$MBS_ARCH-linux-user,$MBS_ARCH-softmmu"
 make
 install -t /usr/bin -Dm755 build/qga/qemu-ga
 install -t /etc/qemu -Dm755 scripts/qemu-guest-agent/fsfreeze-hook
@@ -8916,38 +8923,43 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.0.1.tar.xz
-pushd linux-7.0.1
+tar -xf ../sources/linux-7.0.3.tar.xz
+pushd linux-7.0.3
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.0.1,https://kernel.org
-linux.massos,1,MassOS,linux,7.0.1,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.0.3,https://kernel.org
+linux.massos,1,MassOS,linux,7.0.3,https://massos.org
 END
-cp ../../extras/build-configs/kernel-config .config
+cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
 make
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/x86/boot/bzImage
+[ "$MBS_ARCH" != "x86_64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/x86/boot/bzImage
+[ "$MBS_ARCH" != "aarch64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/arm64/boot/Image
 make -s kernelrelease > version
 make INSTALL_MOD_STRIP=1 modules_install
 install -Dm644 version /usr/share/massos/.krel
-cp arch/x86/boot/bzImage.signed /boot/vmlinuz-"$(cat version)"
-cp arch/x86/boot/bzImage.signed /usr/lib/modules/"$(cat version)"/vmlinuz
+[ "$MBS_ARCH" != "x86_64" ] || cp arch/x86/boot/bzImage.signed /boot/vmlinuz-"$(cat version)"
+[ "$MBS_ARCH" != "aarch64" ] || cp arch/arm64/boot/Image.signed /boot/vmlinuz-"$(cat version)"
+cp /boot/vmlinuz-"$(cat version)" /usr/lib/modules/"$(cat version)"/vmlinuz
 cp System.map /boot/System.map-"$(cat version)"
 cp .config /boot/config-"$(cat version)"
 rm -f /usr/lib/modules/"$(cat version)"/{build,source}
 install -t /usr/lib/modules/"$(cat version)"/build -Dm644 .config Makefile Module.symvers System.map version vmlinux sbat.csv
 install -t /usr/lib/modules/"$(cat version)"/build/kernel -Dm644 kernel/Makefile
-install -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -Dm644 arch/x86/Makefile
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -Dm644 arch/x86/Makefile
+[ "$MBS_ARCH" != "aarch64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/arm64 -Dm644 arch/arm64/Makefile
 cp -t /usr/lib/modules/"$(cat version)"/build -a scripts
 install -t /usr/lib/modules/"$(cat version)"/build/tools/objtool -Dm755 tools/objtool/objtool
 mkdir -p /usr/lib/modules/"$(cat version)"/build/{fs/xfs,mm}
 cp -t /usr/lib/modules/"$(cat version)"/build -a include
-cp -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -a arch/x86/include
-install -t /usr/lib/modules/"$(cat version)"/build/arch/x86/kernel -Dm644 arch/x86/kernel/asm-offsets.s
+[ "$MBS_ARCH" != "x86_64" ] || cp -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -a arch/x86/include
+[ "$MBS_ARCH" != "aarch64" ] || cp -t /usr/lib/modules/"$(cat version)"/build/arch/arm64 -a arch/arm64/include
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/x86/kernel -Dm644 arch/x86/kernel/asm-offsets.s
+[ "$MBS_ARCH" != "aarch64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/arm64/kernel -Dm644 arch/arm64/kernel/asm-offsets.s
 install -t /usr/lib/modules/"$(cat version)"/build/drivers/md -Dm644 drivers/md/*.h
 install -t /usr/lib/modules/"$(cat version)"/build/net/mac80211 -Dm644 net/mac80211/*.h
 install -t /usr/lib/modules/"$(cat version)"/build/drivers/media/i2c -Dm644 drivers/media/i2c/msp3400-driver.h
@@ -8980,10 +8992,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0.1
+rm -rf linux-7.0.3
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-595.58.03.tar.gz
-pushd open-gpu-kernel-modules-595.58.03
+tar -xf ../sources/open-gpu-kernel-modules-595.71.05.tar.gz
+pushd open-gpu-kernel-modules-595.71.05
 patch -Np1 -i ../../patches/nvidia-modules-open-595.44.03-hardening.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -8995,7 +9007,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-595.58.03
+rm -rf open-gpu-kernel-modules-595.71.05
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.37.5.tar.gz
 pushd bcachefs-tools-1.37.5
@@ -9029,16 +9041,21 @@ pushd linux-firmware-20260410
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
-rm -rf /usr/lib/firmware/{mellanox,qcom}
-rm -f /usr/lib/firmware/mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst
+## Only needed for high-end enterprise/data-center hardware. Wastes space.
+rm -rf /usr/lib/firmware/{liquidio,mellanox,netronome,qed,qlogic,{c*fw-*,ql2*_fw}.bin.zst}
+## Only needed on x86_64 host systems, similar to Intel Microcode.
+[ "$MBS_ARCH" = "x86_64" ] || rm -rf /usr/lib/firmware/amd-ucode
+## Only needed on aarch64 host systems. Wastes space otherwise.
+[ "$MBS_ARCH" = "aarch64" ] || rm -rf /usr/lib/firmware/{mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst,qcom}
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
 rm -rf linux-firmware-20260410
-# Intel-Microcode.
+# Intel-Microcode (has no use on non-x86_64 architectures).
 tar -xf ../sources/intel-microcode-20260227.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
-install -t /usr/lib/firmware/intel-ucode -Dm644 intel-ucode{,-with-caveats}/*
-install -t /usr/share/licenses/intel-microcode -Dm644 license
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/firmware/intel-ucode -Dm644 intel-ucode{,-with-caveats}/*
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/intel-microcode -Dm644 license
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^intel-microcode$/d' /usr/share/massos/builtins
 popd
 rm -rf Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
 # SOF-Firmware.
@@ -9063,8 +9080,8 @@ rm -rf upgrade-massos-0.2.1
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.13.6" > /usr/share/massos/.osinstallguiver
-echo "c63a300b0969fdfa25d2eac1226639bcfb3b6397bd067e0802387e4ab6886484" > /usr/share/massos/.osinstallguisum
+echo "0.14.0" > /usr/share/massos/.osinstallguiver
+echo "a7d3248c9385bd09110797e96a6613f8a6cd1c08838779e1a95f5cb8131ed55a" > /usr/share/massos/.osinstallguisum
 # Set up the osinstallgui configuration file.
 cat > /usr/share/massos/.osinstallguicfg << "END"
 OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"
@@ -9107,7 +9124,7 @@ checksum: b59998e0e7f2b683d04999d968ef29f9b9933cdb2c85ffc83cf1505bc3efccf1
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 5 > /usr/share/massos/.rootfs_compat
+echo 6 > /usr/share/massos/.rootfs_compat
 # Clean up the mbs directory and self-destruct.
 # Keep /root/mbs/extras as it can be used by stage 3.
 popd

@@ -8,6 +8,13 @@ background_image /splash2.png
 
 set timeout=20
 
+# Architecture-specific EFI suffixes.
+if test "$grub_cpu" = "arm64"; then
+  set efi_suffix="aa64"
+else
+  set efi_suffix="x64"
+fi
+
 menuentry "MassOS Live CD" {
   linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image
   initrd /initramfs.img
@@ -28,9 +35,12 @@ menuentry "MassOS Live CD (copy-to-RAM + fallback graphics)" {
   initrd /initramfs.img
 }
 
-menuentry "Run memory test (Memtest86+)" {
-  chainloader /EFI/tools/memtest64.efi
-}
+# Memtest86+ is only supported on x86_64.
+if test "$grub_cpu" = "x86_64"; then
+  menuentry "Run memory test (Memtest86+)" {
+    chainloader /EFI/tools/memtest64.efi
+  }
+fi
 
 menuentry "Boot from local disk" {
   exit 1
@@ -41,7 +51,7 @@ menuentry "Boot from network (iPXE)" {
 }
 
 menuentry "Import Secure Boot keys (MokManager)" {
-  chainloader /EFI/BOOT/mmx64.efi
+  chainloader "/EFI/BOOT/mm$efi_suffix.efi"
 }
 
 # The UEFI EDK2 Shell is not signed for secure boot and contains no SBAT data.
@@ -49,12 +59,12 @@ menuentry "Import Secure Boot keys (MokManager)" {
 # So the menuentry should only show if secure boot is disabled.
 if test "$lockdown" != "y"; then
   menuentry "UEFI EDK2 Shell" {
-    chainloader /EFI/tools/shellx64.efi
+    chainloader "/EFI/tools/shell$efi_suffix.efi"
   }
 fi
 
-# Some older UEFI firmwares do not expose a firmware settings option.
-# If this is the case, the menuentry should not be shown on such devices.
+# Some older UEFI firmwares do not support the 'reboot into firmware' option.
+# If this is the case, the menuentry should not be shown.
 if fwsetup --is-supported; then
   menuentry "UEFI Firmware Settings" {
     fwsetup

@@ -69,7 +69,7 @@ echo "Done!"
 find "$MASSOS"/{boot,etc,usr,var} -type d,f,l -printf "%y:%p\n" | sed "s|$MASSOS||" | sort > "$MASSOS"/usr/share/massos/.distfiles
 # Finish the MassOS system.
 sync
-outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-x86_64-$1.tar"
+outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-$(uname -m)-$1.tar"
 printf "Creating %s... " "$outfile"
 cd "$MASSOS"
 tar -cpf ../"$outfile" *

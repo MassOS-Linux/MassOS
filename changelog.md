@@ -495,10 +495,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 7.0.1`
-- Linux-API-Headers: `6.0.0 --> 7.0.1`
+- Linux: `6.0.0 --> 7.0.3`
+- Linux-API-Headers: `6.0.0 --> 7.0.3`
 - Linux-Firmware: `(new package) --> 20260410`
-- Linux-Headers: `6.0.0 --> 7.0.1`
+- Linux-Headers: `6.0.0 --> 7.0.3`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 22.1.4`
 - LLVM: `14.0.6 --> 22.1.4`
@@ -523,7 +523,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.12.6`
 - mdadm: `4.2 --> 4.4`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 26.0.5`
+- Mesa: `22.1.7 --> 26.0.6`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.11.0`
 - meson-python: `(new package) --> 0.19.0`
@@ -565,7 +565,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2022.10.3`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 595.58.03`
+- nvidia-modules-open: `(new package) --> 595.71.05`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.16`
@@ -839,7 +839,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 150.0`
+- Firefox: `105.0.1 --> 150.0.1`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

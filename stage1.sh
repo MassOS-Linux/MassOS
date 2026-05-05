@@ -7,9 +7,9 @@ set -e
 # Disabling hashing is useful so the newly built tools are detected.
 set +h
 # Do not allow building on unsupported architectures.
-if [ "$(uname -m)" != "x86_64" ]; then
+if [ "$(uname -m)" != "x86_64" ] && [ "$(uname -m)" != "aarch64" ]; then
   echo "Error: MassOS does not currently support building for $(uname -m)." >&2
-  echo "Error: MassOS currently only supports the x86_64 architecture." >&2
+  echo "Error: MassOS only supports the x86_64 and aarch64 architectures." >&2
   exit 1
 fi
 # Ensure retrieve-sources.sh has been run first.
@@ -73,7 +73,7 @@ pushd "$MASSOS"/root/mbs/work
 tar -xf ../sources/binutils-with-gold-2.46.tar.xz
 pushd binutils-with-gold-2.46
 mkdir -p build; pushd build
-../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 install
 popd; popd
@@ -87,33 +87,34 @@ tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
 tar -xf ../../sources/mpc-1.4.0.tar.xz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 mkdir -p build; pushd build
-../configure --prefix="$MASSOS"/root/mbs/stage1 --target=x86_64-stage1-linux-gnu --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.43 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.43 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
 make -j1 install
-cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/x86_64-stage1-linux-gnu/15.2.0/include/limits.h
+cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(uname -m)"-stage1-linux-gnu/15.2.0/include/limits.h
 popd; popd
 rm -rf gcc-15.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.0.1.tar.xz
-pushd linux-7.0.1
+tar -xf ../sources/linux-7.0.3.tar.xz
+pushd linux-7.0.3
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0.1
+rm -rf linux-7.0.3
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 make -j1 DESTDIR="$MASSOS" install
-ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
+[ "$(uname -m)" != "x86_64" ] || ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
 sed -i '/RTLDLIST=/s@/usr@@g' "$MASSOS"/usr/bin/ldd
 popd; popd
 rm -rf glibc-2.43
@@ -121,7 +122,7 @@ rm -rf glibc-2.43
 tar -xf ../sources/gcc-15.2.0.tar.xz
 pushd gcc-15.2.0
 mkdir -p build; pushd build
-../libstdc++-v3/configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/x86_64-stage1-linux-gnu/include/c++/15.2.0
+../libstdc++-v3/configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/"$(uname -m)"-stage1-linux-gnu/include/c++/15.2.0
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
@@ -132,7 +133,7 @@ tar -xf ../sources/binutils-with-gold-2.46.tar.xz
 pushd binutils-with-gold-2.46
 sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
-../configure --prefix=/usr --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
@@ -147,16 +148,17 @@ tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
 tar -xf ../../sources/mpc-1.4.0.tar.xz -C mpc --strip-components=1
 tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
+sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir -p build; pushd build
-../configure --prefix=/usr --target=x86_64-stage1-linux-gnu --host=x86_64-stage1-linux-gnu --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/x86_64-stage1-linux-gnu/libgcc"
+../configure --prefix=/usr --target="$(uname -m)-stage1-linux-gnu" --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 15.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/$(uname -m)-stage1-linux-gnu/libgcc"
 make
 make -j1 DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 popd; popd
 rm -rf gcc-15.2.0
 # Install upgrade-toolset utilities, needed for bootstrapping.
-tar -xf ../sources/upgrade-toolset-20250728-x86_64.tar.xz -C "$MASSOS"/usr/bin --strip-components=1
+tar -xf ../sources/upgrade-toolset-20260430-"$(uname -m)".tar.xz -C "$MASSOS"/usr/bin --strip-components=1
 rm -f "$MASSOS"/usr/bin/LICENSE*
 rm -f "$MASSOS"/usr/bin/{ch,run}con
 # Change back to the start directory (should be MassOS source tree top-level).

@@ -24,9 +24,14 @@ if test $EUID -ne 0; then
   echo "ERROR: $(basename "$0") must be run as root."
   exit 1
 fi
+# Ensure we are running on a supported architecture.
+if test "$(uname -m)" != "x86_64" && test "$(uname -m)" != "aarch64"; then
+  echo "Error: The architecture $(uname -m) is currently unsupported." >&2
+  echo "Note: Only x86_64 and aarch64 are currently supported by MassOS." >&2
+fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=5
+SCRIPT_COMPAT=6
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
@@ -69,9 +74,13 @@ if test -e "iso-workdir"; then
   exit 1
 fi
 # Create directories.
-mkdir -p iso-workdir/{iso-root,massos-rootfs,osinstallgui,syslinux}
+mkdir -p iso-workdir/{iso-root,massos-rootfs,osinstallgui}
 mkdir -p iso-workdir/iso-root/EFI/{BOOT,tools}
-mkdir -p iso-workdir/iso-root/{isolinux,LICENSES,LiveOS}
+mkdir -p iso-workdir/iso-root/{LICENSES,LiveOS}
+# x86_64 specific directories (Legacy BIOS support).
+if test "$(uname -m)" = "x86_64"; then
+  mkdir -p iso-workdir/{syslinux,iso-root/isolinux}
+fi
 # Get osinstallgui version from the rootfs before extracting the whole thing.
 echo "Getting information from the rootfs..."
 OSINSTALLGUI_VER="$(tar -xOf "$1" usr/share/massos/.osinstallguiver)"
@@ -81,10 +90,13 @@ echo "Downloading osinstallgui..."
 curl -fL "https://github.com/DanielMYT/osinstallgui/archive/$OSINSTALLGUI_VER/osinstallgui-$OSINSTALLGUI_VER.tar.gz" -o iso-workdir/osinstallgui.tar.gz
 echo "$OSINSTALLGUI_SUM iso-workdir/osinstallgui.tar.gz" | sha256sum -c
 tar -xf iso-workdir/osinstallgui.tar.gz -C iso-workdir/osinstallgui --strip-components=1
-echo "Downloading SYSLINUX..."
-curl -fL https://cdn.kernel.org/pub/linux/utils/boot/syslinux/Testing/6.04/syslinux-6.04-pre1.tar.xz -o iso-workdir/syslinux.tar.xz
-echo "3f6d50a57f3ed47d8234fd0ab4492634eb7c9aaf7dd902f33d3ac33564fd631d iso-workdir/syslinux.tar.xz" | sha256sum -c
-tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --strip-components=1
+# Only download SYSLINUX on x86_64 (Legacy BIOS is unsupported elsewhere).
+if test "$(uname -m)" = "x86_64"; then
+  echo "Downloading SYSLINUX..."
+  curl -fL https://cdn.kernel.org/pub/linux/utils/boot/syslinux/Testing/6.04/syslinux-6.04-pre1.tar.xz -o iso-workdir/syslinux.tar.xz
+  echo "3f6d50a57f3ed47d8234fd0ab4492634eb7c9aaf7dd902f33d3ac33564fd631d iso-workdir/syslinux.tar.xz" | sha256sum -c
+  tar --no-same-owner -xf iso-workdir/syslinux.tar.xz -C iso-workdir/syslinux --strip-components=1
+fi
 # Extract rootfs.
 echo "Extracting rootfs..."
 tar -xpf "$1" -C iso-workdir/massos-rootfs
@@ -119,7 +131,7 @@ chroot iso-workdir/massos-rootfs /usr/bin/chown -R massos:massos /home/massos/.c
 . livecd-data/autologin/autologin.sh
 sync
 # Set ISO file name for bootloader configs, now we know version and variant.
-isoname="massos-$ver-livecd-x86_64-$variant.iso"
+isoname="massos-$ver-livecd-$(uname -m)-$variant.iso"
 # Create squashfs image.
 echo "Creating squashfs image..."
 cd iso-workdir/massos-rootfs
@@ -134,37 +146,51 @@ mass-chroot iso-workdir/massos-rootfs /usr/sbin/mkinitramfs "$(cat iso-workdir/m
 mv iso-workdir/massos-rootfs/boot/initramfs-*.img iso-workdir/iso-root/initramfs.img
 # Install bootloader files.
 echo "Setting up bootloader..."
-## Legacy BIOS (ISOLINUX).
-cp iso-workdir/syslinux/bios/core/isolinux.bin iso-workdir/iso-root/isolinux/isolinux.bin
-cp iso-workdir/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32 iso-workdir/iso-root/isolinux/ldlinux.c32
-cp iso-workdir/syslinux/bios/com32/lib/libcom32.c32 iso-workdir/iso-root/isolinux/libcom32.c32
-cp iso-workdir/syslinux/bios/com32/libutil/libutil.c32 iso-workdir/iso-root/isolinux/libutil.c32
-cp iso-workdir/syslinux/bios/com32/menu/vesamenu.c32 iso-workdir/iso-root/isolinux/vesamenu.c32
-cp iso-workdir/syslinux/bios/com32/chain/chain.c32 iso-workdir/iso-root/isolinux/chain.c32
-cp iso-workdir/syslinux/bios/com32/modules/reboot.c32 iso-workdir/iso-root/isolinux/reboot.c32
-cp iso-workdir/syslinux/bios/com32/modules/poweroff.c32 iso-workdir/iso-root/isolinux/poweroff.c32
-cp iso-workdir/syslinux/bios/mbr/isohdpfx.bin iso-workdir/iso-root/isolinux/isohdpfx.bin
-sed "s|@@ISOFILE@@|$isoname|g" livecd-data/isolinux.cfg.in > iso-workdir/iso-root/isolinux/isolinux.cfg
-cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
-cp iso-workdir/syslinux/COPYING iso-workdir/iso-root/LICENSES/ISOLINUX.txt
+## Legacy BIOS (ISOLINUX) (x86_64 only).
+if test "$(uname -m)" = "x86_64"; then
+  cp iso-workdir/syslinux/bios/core/isolinux.bin iso-workdir/iso-root/isolinux/isolinux.bin
+  cp iso-workdir/syslinux/bios/com32/elflink/ldlinux/ldlinux.c32 iso-workdir/iso-root/isolinux/ldlinux.c32
+  cp iso-workdir/syslinux/bios/com32/lib/libcom32.c32 iso-workdir/iso-root/isolinux/libcom32.c32
+  cp iso-workdir/syslinux/bios/com32/libutil/libutil.c32 iso-workdir/iso-root/isolinux/libutil.c32
+  cp iso-workdir/syslinux/bios/com32/menu/vesamenu.c32 iso-workdir/iso-root/isolinux/vesamenu.c32
+  cp iso-workdir/syslinux/bios/com32/chain/chain.c32 iso-workdir/iso-root/isolinux/chain.c32
+  cp iso-workdir/syslinux/bios/com32/modules/reboot.c32 iso-workdir/iso-root/isolinux/reboot.c32
+  cp iso-workdir/syslinux/bios/com32/modules/poweroff.c32 iso-workdir/iso-root/isolinux/poweroff.c32
+  cp iso-workdir/syslinux/bios/mbr/isohdpfx.bin iso-workdir/iso-root/isolinux/isohdpfx.bin
+  sed "s|@@ISOFILE@@|$isoname|g" livecd-data/isolinux.cfg.in > iso-workdir/iso-root/isolinux/isolinux.cfg
+  cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
+  cp iso-workdir/syslinux/COPYING iso-workdir/iso-root/LICENSES/ISOLINUX.txt
+fi
 ## UEFI (shim + GRUB).
-cp iso-workdir/massos-rootfs/usr/lib/shim/shimx64.efi.signed iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
-cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi iso-workdir/iso-root/EFI/BOOT/mmx64.efi
-cp iso-workdir/massos-rootfs/usr/lib/grub/x86_64-efi-signed/glcdx64.efi.signed iso-workdir/iso-root/EFI/BOOT/grubx64.efi
-chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTX64.EFI,{grubx64,mmx64}.efi}
+if test "$(uname -m)" = "x86_64"; then
+  cp iso-workdir/massos-rootfs/usr/lib/shim/shimx64.efi.signed iso-workdir/iso-root/EFI/BOOT/BOOTX64.EFI
+  cp iso-workdir/massos-rootfs/usr/lib/shim/mmx64.efi iso-workdir/iso-root/EFI/BOOT/mmx64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/grub/x86_64-efi-signed/glcdx64.efi.signed iso-workdir/iso-root/EFI/BOOT/grubx64.efi
+  chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTX64.EFI,{grubx64,mmx64}.efi}
+else
+  cp iso-workdir/massos-rootfs/usr/lib/shim/shimaa64.efi.signed iso-workdir/iso-root/EFI/BOOT/BOOTAA64.EFI
+  cp iso-workdir/massos-rootfs/usr/lib/shim/mmaa64.efi iso-workdir/iso-root/EFI/BOOT/mmaa64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/grub/arm64-efi-signed/glcdaa64.efi.signed iso-workdir/iso-root/EFI/BOOT/grubaa64.efi
+  chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTAA64.EFI,{grubaa64,mmaa64}.efi}
+fi
 sed "s|@@ISOFILE@@|$isoname|g" livecd-data/grub.cfg.in > iso-workdir/iso-root/grub.cfg
 cp iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright iso-workdir/iso-root/LICENSES/shim.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
 cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
-cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.bin iso-workdir/iso-root/isolinux/memtest64.bin
-cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.efi.signed iso-workdir/iso-root/EFI/tools/memtest64.efi
+# Some of these won't be installed depending on architecture (if unsupported).
 cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi.signed iso-workdir/iso-root/EFI/tools/ipxe.efi
-cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
-cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
 cp iso-workdir/massos-rootfs/usr/share/licenses/ipxe/COPYING.GPLv2 iso-workdir/iso-root/LICENSES/IPXE.txt
-cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/iso-root/LICENSES/Memtest86+.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt
+if test "$(uname -m)" = "x86_64"; then
+  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.bin iso-workdir/iso-root/isolinux/memtest64.bin
+  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.efi.signed iso-workdir/iso-root/EFI/tools/memtest64.efi
+  cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/iso-root/LICENSES/Memtest86+.txt
+  cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
+  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
+else
+  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellaa64.efi iso-workdir/iso-root/EFI/tools/shellaa64.efi
+fi
 # Copy over secure boot certs from the rootfs to the live CD.
 cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
 # Copy db.der as ENROLLME.cer, for easier MokManager import.
@@ -193,7 +219,12 @@ sync
 # Because label gets truncated if on a FAT32 volume (i.e. Rufus with ISO mode).
 # And the boot process depends on the volume name, so it must not be changed.
 echo "Creating ISO image..."
-xorrisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e EFI/BOOT/efiboot.img -isohybrid-gpt-basdat -no-emul-boot -isohybrid-mbr iso-workdir/iso-root/isolinux/isohdpfx.bin -o "$isoname" iso-workdir/iso-root
+if test "$(uname -m)" = "x86_64"; then
+  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e EFI/BOOT/efiboot.img -isohybrid-gpt-basdat -no-emul-boot -isohybrid-mbr iso-workdir/iso-root/isolinux/isohdpfx.bin -o "$isoname" iso-workdir/iso-root
+else
+  # Non-x86_64 ISOs do not need any Legacy BIOS boot functionality.
+  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -e EFI/BOOT/efiboot.img -no-emul-boot -o "$isoname" iso-workdir/iso-root
+fi
 # Clean up.
 echo "Cleaning up..."
 rm -rf iso-workdir

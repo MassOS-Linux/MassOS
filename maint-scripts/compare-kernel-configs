@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+
+# Compare a Linux kernel config symbol from multiple different kernel configs.
+# This could be used to influence how to set symbols in our own kernel config.
+
+
+CONFDIR="$1"
+SYMBOL="$2"
+if test -z "$CONFDIR" || test -z "$SYMBOL"; then
+  echo "Usage: $(basename "$0") <directory-with-configs> <search-symbol>" >&2
+  exit 1
+fi
+
+while read -r conf; do
+  result="$(grep -Esm1 "^$SYMBOL=|# $SYMBOL is not set" "$CONFDIR/$conf")"
+  if test -z "$result"; then
+    # Symbol isn't present in the configuration file.
+    echo "$conf: $SYMBOL was not found in this config."
+  elif test "$result" = "$SYMBOL=y"; then
+    # Symbol is enabled.
+    echo "$conf: $SYMBOL is enabled in this config [y]."
+  elif test "$result" = "$SYMBOL=m"; then
+    # Symbol is modularized.
+    echo "$conf: $SYMBOL is modularized in this config [m]."
+  elif test "$result" = "$SYMBOL=n" || test "$result" = "# $SYMBOL is not set"; then
+    # Symbol is disabled.
+    echo "$conf: $SYMBOL is disabled in this config [n]."
+  else
+    # An error may have occurred.
+    echo "$conf: An unknown error occurred while searching for $SYMBOL."
+  fi
+done < <(find "$CONFDIR" -mindepth 1 -maxdepth 1 -type f -exec basename {} ';')
