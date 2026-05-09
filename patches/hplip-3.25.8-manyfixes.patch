@@ -1,7 +1,7 @@
-diff '--color=auto' -aruN a/base/sixext.py b/base/sixext.py
---- a/base/sixext.py	2025-02-27 12:12:29.000000000 +0000
-+++ b/base/sixext.py	2025-05-03 13:32:36.923177425 +0100
-@@ -110,11 +110,11 @@
+diff '--color=auto' -apruN a/base/sixext.py b/base/sixext.py
+--- a/base/sixext.py	2025-11-13 11:27:26.000000000 +0000
++++ b/base/sixext.py	2026-05-06 20:37:46.801743664 +0100
+@@ -110,11 +110,11 @@ if PY3:
  
  
      def to_string_utf8(s):
@@ -15,10 +15,10 @@ diff '--color=auto' -aruN a/base/sixext.py b/base/sixext.py
  
  
      def to_unicode(s, enc=None):
-diff '--color=auto' -aruN a/configure.in b/configure.in
---- a/configure.in	2025-02-27 12:12:29.000000000 +0000
-+++ b/configure.in	2025-05-03 13:32:36.923385266 +0100
-@@ -618,7 +618,7 @@
+diff '--color=auto' -apruN a/configure.in b/configure.in
+--- a/configure.in	2025-11-13 11:27:26.000000000 +0000
++++ b/configure.in	2026-05-06 20:37:46.802094370 +0100
+@@ -620,7 +620,7 @@ fi
  
  if test "$class_driver" = "no" && test "$hpijs_only_build" = "no" && test "$hpcups_only_build" = "no"; then
     AC_CHECK_LIB([cups], [cupsDoFileRequest], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libcups support], 9)])
@@ -27,7 +27,7 @@ diff '--color=auto' -aruN a/configure.in b/configure.in
     if test "$libusb01_build" = "yes"; then
        AC_CHECK_LIB([usb], [usb_init], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find libusb support], 2)])
        AC_CHECK_HEADERS(usb.h, ,[AC_MSG_ERROR([cannot find libusb-devel support], 11)])
-@@ -628,17 +628,29 @@
+@@ -630,17 +630,29 @@ if test "$class_driver" = "no" && test "
     fi
  fi
  
@@ -68,7 +68,7 @@ diff '--color=auto' -aruN a/configure.in b/configure.in
  fi
  
  #CFLAGS=`(python-config --includes)`
-@@ -681,7 +693,6 @@
+@@ -683,7 +695,6 @@ if test "$class_driver" = "no" && test "
     AS_IF([test "x$FOUND_HEADER" != "xyes"],
            [AC_MSG_ERROR([cannot find python-devel support], 6)])
  fi
@@ -76,10 +76,10 @@ diff '--color=auto' -aruN a/configure.in b/configure.in
  
  if test "$hpijs_only_build" = "no" && test "$scan_build" = "yes" && test "$hpcups_only_build" = "no"; then
     AC_CHECK_LIB([sane], [sane_open], [LIBS="$LIBS"], [AC_MSG_ERROR([cannot find sane-backends-devel support (or --disable-scan-build)], 12)])
-diff '--color=auto' -aruN a/createPPD.sh b/createPPD.sh
---- a/createPPD.sh	2025-02-27 12:12:29.000000000 +0000
-+++ b/createPPD.sh	2025-05-03 13:32:36.923617457 +0100
-@@ -55,16 +55,16 @@
+diff '--color=auto' -apruN a/createPPD.sh b/createPPD.sh
+--- a/createPPD.sh	2025-11-13 11:27:26.000000000 +0000
++++ b/createPPD.sh	2026-05-06 20:37:46.802346162 +0100
+@@ -55,16 +55,16 @@ then
  	else
  		cp prnt/ps/hp-postscript*.ppd ppd/classppd/ps
  		for i in ppd/classppd/ps/*.ppd; do
@@ -99,7 +99,7 @@ diff '--color=auto' -aruN a/createPPD.sh b/createPPD.sh
  	#done
  
  	cat > class_cups_drv.inc <<EOF
-@@ -83,14 +83,14 @@
+@@ -83,14 +83,14 @@ else # discrete drivers
  install -d ppd/hpcups
  ppdc -d ppd/hpcups prnt/drv/hpcups.drv
  for i in ppd/hpcups/*.ppd; do
@@ -116,10 +116,10 @@ diff '--color=auto' -aruN a/createPPD.sh b/createPPD.sh
  done
  echo "building foomatic_drv.inc..."
  ./hpijs-drv > foomatic_drv.inc $shadow
-diff '--color=auto' -aruN a/cups_drv.inc b/cups_drv.inc
---- a/cups_drv.inc	2025-02-27 12:21:24.000000000 +0000
-+++ b/cups_drv.inc	2025-05-03 13:32:36.923815268 +0100
-@@ -414,6 +414,7 @@
+diff '--color=auto' -apruN a/cups_drv.inc b/cups_drv.inc
+--- a/cups_drv.inc	2025-11-13 11:37:07.000000000 +0000
++++ b/cups_drv.inc	2026-05-06 20:37:46.802513679 +0100
+@@ -416,6 +416,7 @@ cups_ppd_printers = \
     ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
     ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
     ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
@@ -127,7 +127,7 @@ diff '--color=auto' -aruN a/cups_drv.inc b/cups_drv.inc
     ppd/hpcups/hp-laserjet_m1005.ppd.gz \
     ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
     ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
-@@ -531,6 +532,7 @@
+@@ -534,6 +535,7 @@ cups_ppd_printers = \
     ppd/hpcups/hp-laserjet_professional_p1607dn.ppd.gz \
     ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
     ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
@@ -135,10 +135,10 @@ diff '--color=auto' -aruN a/cups_drv.inc b/cups_drv.inc
     ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
     ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
     ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
-diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
---- a/data/models/models.dat	2025-02-27 12:12:29.000000000 +0000
-+++ b/data/models/models.dat	2025-05-03 13:32:36.925764196 +0100
-@@ -2104,7 +2104,7 @@
+diff '--color=auto' -apruN a/data/models/models.dat b/data/models/models.dat
+--- a/data/models/models.dat	2025-11-13 11:27:26.000000000 +0000
++++ b/data/models/models.dat	2026-05-06 20:37:46.808570458 +0100
+@@ -2104,7 +2104,7 @@ usb-pid=411
  usb-vid=3f0
  wifi-config=0
  
@@ -147,7 +147,7 @@ diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
  align-type=0
  clean-type=0
  color-cal-type=0
-@@ -2119,14 +2119,6 @@
+@@ -2119,14 +2119,6 @@ io-support=14
  job-storage=0
  linefeed-cal-type=0
  model1=HP LaserJet 100 Color MFP M175
@@ -162,7 +162,7 @@ diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
  ppd-name=hp-laserjet_100_color_mfp_m175-ps.ppd
  monitor-type=0
  panel-check-type=0
-@@ -2218,6 +2210,378 @@
+@@ -2218,6 +2210,378 @@ usb-pid=62a
  usb-vid=3f0
  wifi-config=3
  
@@ -541,7 +541,7 @@ diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
  [officejet_100_mobile_l411]
  align-type=-1
  clean-type=1
-@@ -17920,6 +18284,58 @@
+@@ -17920,6 +18284,58 @@ usb-pid=2c17
  usb-vid=3f0
  wifi-config=0
  
@@ -600,7 +600,7 @@ diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
  [hp_laserjet_cp1025nw]
  align-type=0
  clean-type=0
-@@ -18521,6 +18937,49 @@
+@@ -18521,6 +18937,49 @@ usb-pid=3011
  usb-vid=3f0
  wifi-config=0
  
@@ -650,10 +650,53 @@ diff '--color=auto' -aruN a/data/models/models.dat b/data/models/models.dat
  [hp_laserjet_professional_p1102]
  align-type=0
  clean-type=0
-diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
---- a/Makefile.in	2025-02-27 12:21:27.000000000 +0000
-+++ b/Makefile.in	2025-05-03 13:32:36.930092996 +0100
-@@ -1728,6 +1728,7 @@
+diff '--color=auto' -apruN a/Makefile.am b/Makefile.am
+--- a/Makefile.am	2025-11-13 11:27:26.000000000 +0000
++++ b/Makefile.am	2026-05-06 20:37:42.776540967 +0100
+@@ -167,7 +167,7 @@ if !HPLIP_CLASS_DRIVER
+ dist_hplip_SCRIPTS = hpssd.py __init__.py hpdio.py
+ endif #HPLIP_CLASS_DRIVER
+ 
+-dist_noinst_DATA += prnt/drv/hpijs.drv.in.template prnt/drv/hpcups.drv.in.template prnt/hpcups/libImageProcessor-x86_64.so prnt/hpcups/libImageProcessor-x86_32.so
++dist_noinst_DATA += prnt/drv/hpijs.drv.in.template prnt/drv/hpcups.drv.in.template
+ 
+ dist_noinst_DATA += prnt/ipp-usb/HPLIP.conf
+ dist_noinst_SCRIPTS += dat2drv.py install.py  hplip-install init-suse-firewall init-iptables-firewall class_rpm_build.sh hplipclassdriver.spec createPPD.sh Makefile_dat2drv hpijs-drv
+@@ -594,11 +594,10 @@ hpcups_SOURCES = prnt/hpcups/HPCupsFilte
+ 	prnt/hpcups/flate_colorspace.h prnt/hpcups/RunLenEncoding.h prnt/hpcups/common_defines.h \
+ 	prnt/hpcups/genPCLm.h \
+ 	common/utils.c common/utils.h prnt/hpcups/Hbpl1_Wrapper.cpp prnt/hpcups/genPCLm.cpp \
+-	prnt/hpcups/genJPEGStrips.cpp prnt/hpcups/RunLenEncoding.cpp \
+-	prnt/hpcups/ImageProcessor.h
++	prnt/hpcups/genJPEGStrips.cpp prnt/hpcups/RunLenEncoding.cpp
+ 
+ hpcups_CXXFLAGS = $(APDK_ENDIAN_FLAG) $(DBUS_CFLAGS)
+-hpcups_LDADD = -L./prnt/hpcups/ -ljpeg -ldl -lImageProcessor -lcups -lcupsimage -lz $(DBUS_LIBS)
++hpcups_LDADD = -L./prnt/hpcups/ -ljpeg -ldl -lcups -lcupsimage -lz $(DBUS_LIBS)
+ #else
+ #hpcupsdir = $(cupsfilterdir)
+ #hpcups_PROGRAMS = hpcups
+@@ -696,16 +695,6 @@ endif #HPLIP_CLASS_DRIVER
+ 
+ install-data-hook:
+ if HPLIP_BUILD
+-	if [ \( "$(UNAME)" = "x86_64" -a  -d "$(libdir)/" \) ]; then \
+-		cp prnt/hpcups/libImageProcessor-x86_64.so $(libdir)/ ; \
+-		chmod 775 $(libdir)/libImageProcessor-x86_64.so ; \
+-		ln -sf $(libdir)/libImageProcessor-x86_64.so $(libdir)/libImageProcessor.so ; \
+-	fi; \
+-	if [ \( \( "$(UNAME)" = "i686" -o "$(UNAME)" = "i386" \) -a -d "$(libdir)/" \) ]; then \
+-		cp prnt/hpcups/libImageProcessor-x86_32.so $(libdir)/ ; \
+-		chmod 775 $(libdir)/libImageProcessor-x86_32.so ; \
+-		ln -sf $(libdir)/libImageProcessor-x86_32.so $(libdir)/libImageProcessor.so ; \
+-	fi
+ 	if [ -d "/usr/share/ipp-usb/quirks/" ]; then \
+ 		echo "ipp-usb directory exists"; \
+ 		cp prnt/ipp-usb/HPLIP.conf /usr/share/ipp-usb/quirks/ ; \
+diff '--color=auto' -apruN a/Makefile.in b/Makefile.in
+--- a/Makefile.in	2025-11-13 11:37:11.000000000 +0000
++++ b/Makefile.in	2026-05-06 20:37:46.810555352 +0100
+@@ -1751,6 +1751,7 @@ am__dist_ppd_DATA_DIST = prnt/ps/hp-lase
  	ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
  	ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
  	ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
@@ -661,7 +704,7 @@ diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
  	ppd/hpcups/hp-laserjet_m1005.ppd.gz \
  	ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
  	ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
-@@ -1846,6 +1847,7 @@
+@@ -1870,6 +1871,7 @@ am__dist_ppd_DATA_DIST = prnt/ps/hp-lase
  	ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
  	ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
  	ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
@@ -669,7 +712,7 @@ diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
  	ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
  	ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
  	ppd/hpcups/hp-laserjet_tank_250x.ppd.gz \
-@@ -4313,6 +4315,7 @@
+@@ -4371,6 +4373,7 @@ dist_unrel_DATA =
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cm1418fnw-pcl3.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_cp1025nw.ppd.gz \
@@ -677,7 +720,7 @@ diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m1005.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m101-m106.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_m109-m112.ppd.gz \
-@@ -4430,6 +4433,7 @@
+@@ -4489,6 +4492,7 @@ dist_unrel_DATA =
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1607dn.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1608dn.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p1609dn.ppd.gz \
@@ -685,10 +728,10 @@ diff '--color=auto' -aruN a/Makefile.in b/Makefile.in
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_professional_p_1102w.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_1020.ppd.gz \
  @HPLIP_CLASS_DRIVER_FALSE@   ppd/hpcups/hp-laserjet_tank_150x.ppd.gz \
-diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.c
---- a/pcard/pcardext/pcardext.c	2025-02-27 12:12:29.000000000 +0000
-+++ b/pcard/pcardext/pcardext.c	2025-05-03 13:32:36.930980140 +0100
-@@ -20,7 +20,7 @@
+diff '--color=auto' -apruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.c
+--- a/pcard/pcardext/pcardext.c	2025-11-13 11:27:26.000000000 +0000
++++ b/pcard/pcardext/pcardext.c	2026-05-06 20:37:46.812131440 +0100
+@@ -20,7 +20,7 @@ pcardext - Python extension for HP photo
  Requires:
  Python 2.2+
  
@@ -697,7 +740,7 @@ diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.
  
  \*****************************************************************************/
  
-@@ -41,9 +41,37 @@
+@@ -41,9 +41,37 @@ typedef int Py_ssize_t;
  
  int verbose=0;
  
@@ -735,7 +778,7 @@ diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.
  int ReadSector(int sector, int nsector, void *buf, int size)
  {
      PyObject * result;
-@@ -59,9 +87,13 @@
+@@ -59,9 +87,13 @@ int ReadSector(int sector, int nsector,
          if( result )
          {
              Py_ssize_t len = 0;
@@ -751,7 +794,7 @@ diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.
              {
                  goto abort;
              }
-@@ -208,7 +240,9 @@
+@@ -208,7 +240,9 @@ PyObject * pcardext_read( PyObject * sel
      
      if( FatReadFileExt( name, offset, len, buffer ) == len )
      {
@@ -762,7 +805,7 @@ diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.
      }
      else
      {
-@@ -236,14 +270,15 @@
+@@ -236,14 +270,15 @@ static PyMethodDef pcardext_methods[] =
  
  static char pcardext_documentation[] = "Python extension for HP photocard services";
  
@@ -786,10 +829,10 @@ diff '--color=auto' -aruN a/pcard/pcardext/pcardext.c b/pcard/pcardext/pcardext.
  }
  
  
-diff '--color=auto' -aruN a/prnt/drv/hpcups.drv.in b/prnt/drv/hpcups.drv.in
---- a/prnt/drv/hpcups.drv.in	2025-02-27 12:21:22.000000000 +0000
-+++ b/prnt/drv/hpcups.drv.in	2025-05-03 13:32:36.932288766 +0100
-@@ -23221,6 +23221,14 @@
+diff '--color=auto' -apruN a/prnt/drv/hpcups.drv.in b/prnt/drv/hpcups.drv.in
+--- a/prnt/drv/hpcups.drv.in	2025-11-13 11:37:05.000000000 +0000
++++ b/prnt/drv/hpcups.drv.in	2026-05-06 20:37:46.814525139 +0100
+@@ -23305,6 +23305,14 @@ Group "RLT/HP Real Life Technologies"
        Attribute "Product" "" "(HP LaserJet Professional p1102s Printer)"
      }
      {
@@ -804,7 +847,7 @@ diff '--color=auto' -aruN a/prnt/drv/hpcups.drv.in b/prnt/drv/hpcups.drv.in
        ModelName "HP LaserJet Professional p1106"
        Attribute "NickName" "" "HP LaserJet Professional p1106, hpcups $Version"
        Attribute "ShortNickName" "" "HP LJ Pro p1106 hpijs"
-@@ -23654,6 +23662,14 @@
+@@ -23738,6 +23746,14 @@ Group "RLT/HP Real Life Technologies"
        PCFileName "hp-laserjet_cp1025nw.ppd"
        Attribute "Product" "" "(HP LaserJet Pro cp1025nw Color Printer Series)"
      }
@@ -819,9 +862,9 @@ diff '--color=auto' -aruN a/prnt/drv/hpcups.drv.in b/prnt/drv/hpcups.drv.in
    }
  } // End LJZjsColor (for proprietary plugin)
  
-diff '--color=auto' -aruN a/prnt/hpcups/HPCupsFilter.h b/prnt/hpcups/HPCupsFilter.h
---- a/prnt/hpcups/HPCupsFilter.h	2025-02-27 12:12:29.000000000 +0000
-+++ b/prnt/hpcups/HPCupsFilter.h	2025-05-03 13:32:36.934237794 +0100
+diff '--color=auto' -apruN a/prnt/hpcups/HPCupsFilter.h b/prnt/hpcups/HPCupsFilter.h
+--- a/prnt/hpcups/HPCupsFilter.h	2025-11-13 11:27:26.000000000 +0000
++++ b/prnt/hpcups/HPCupsFilter.h	2026-05-06 20:37:46.816006656 +0100
 @@ -38,6 +38,8 @@
  #include <cups/ppd.h>
  #include "dbuscomm.h"
@@ -831,9 +874,9 @@ diff '--color=auto' -aruN a/prnt/hpcups/HPCupsFilter.h b/prnt/hpcups/HPCupsFilte
  #define		DBITMAPFILEHEADER		14
  #define		DBITMAPINFOHEADER		40
  
-diff '--color=auto' -aruN a/prnt/hpijs/hpcupsfax.cpp b/prnt/hpijs/hpcupsfax.cpp
---- a/prnt/hpijs/hpcupsfax.cpp	2025-02-27 12:12:29.000000000 +0000
-+++ b/prnt/hpijs/hpcupsfax.cpp	2025-05-03 13:32:36.934413015 +0100
+diff '--color=auto' -apruN a/prnt/hpijs/hpcupsfax.cpp b/prnt/hpijs/hpcupsfax.cpp
+--- a/prnt/hpijs/hpcupsfax.cpp	2025-11-13 11:27:26.000000000 +0000
++++ b/prnt/hpijs/hpcupsfax.cpp	2026-05-06 20:37:46.816438081 +0100
 @@ -43,6 +43,7 @@
  #include <arpa/inet.h>
  #include <math.h>
@@ -842,10 +885,10 @@ diff '--color=auto' -aruN a/prnt/hpijs/hpcupsfax.cpp b/prnt/hpijs/hpcupsfax.cpp
  #include <cups/raster.h>
  #include <string>
  #ifdef FALSE
-diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
---- a/scan/sane/bb_ledm.c	2025-02-27 12:12:29.000000000 +0000
-+++ b/scan/sane/bb_ledm.c	2025-05-03 13:32:36.934676356 +0100
-@@ -189,7 +189,7 @@
+diff '--color=auto' -apruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
+--- a/scan/sane/bb_ledm.c	2025-11-13 11:27:26.000000000 +0000
++++ b/scan/sane/bb_ledm.c	2026-05-06 20:37:46.816844116 +0100
+@@ -189,7 +189,7 @@ Keep-Alive: 20\r\nProxy-Connection: keep
  <YStart>%d</YStart>\
  <Height>%d</Height>\
  <Format>%s</Format>\
@@ -854,7 +897,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
  <ColorSpace>%s</ColorSpace>\
  <BitDepth>%d</BitDepth>\
  <InputSource>%s</InputSource>\
-@@ -234,6 +234,38 @@
+@@ -234,6 +234,38 @@ Keep-Alive: 300\r\nProxy-Connection: kee
  # define JOBSTATE_COMPLETED "<j:JobState>Completed</j:JobState>"
  # define PRESCANPAGE "<PreScanPage>"
  
@@ -893,7 +936,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
  static int parse_scan_elements(const char *payload, int size, struct wscn_scan_elements *elements)
  {
    char tag[512];
-@@ -764,8 +796,7 @@
+@@ -764,8 +796,7 @@ int bb_get_parameters(struct ledm_sessio
        if (ps->currentCompression == SF_RAW && ps->currentScanMode != CE_GRAY8)
        {
           /* Set scan parameters based on scan job response values */
@@ -903,7 +946,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
          pp->pixels_per_line = pbb->job.pixels_per_line;
          pp->bytes_per_line = pbb->job.bytes_per_line;
        }
-@@ -786,8 +817,8 @@
+@@ -786,8 +817,8 @@ int bb_get_parameters(struct ledm_sessio
        break;
      case SPO_BEST_GUESS:  /* called by xsane & sane_start */
        /* Set scan parameters based on best guess. */
@@ -914,7 +957,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
        pp->bytes_per_line = BYTES_PER_LINE(pp->pixels_per_line, pp->depth * factor);
        break;
      default:
-@@ -896,7 +927,7 @@
+@@ -896,7 +927,7 @@ SANE_Status bb_start_scan(struct ledm_se
          (int) ((ps->currentBrx / 5548.7133) - (ps->currentTlx / 5548.7133)),//<Width>
          (int) (ps->currentTly / 5548.7133),//<YStart>
          (int) ((ps->currentBry / 5548.7133) - (ps->currentTly / 5548.7133)),//<Height>
@@ -923,7 +966,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
          (! strcmp(ce_element[ps->currentScanMode], "Color8")) ? "Color" : (! strcmp(ce_element[ps->currentScanMode], "Gray8")) ? "Gray" : "Gray",//<ColorSpace>
          ((! strcmp(ce_element[ps->currentScanMode], "Color8")) || (! strcmp(ce_element[ps->currentScanMode], "Gray8"))) ? 8: 8,//<BitDepth>
          ps->currentInputSource == IS_PLATEN ? is_element[1] : is_element[2],//<InputSource>
-@@ -994,6 +1025,7 @@
+@@ -994,6 +1025,7 @@ SANE_Status bb_start_scan(struct ledm_se
          _DBG("bb_start_scan() read_http_payload FAILED len=%d buf=%s\n", len, buf);
          break;
       }
@@ -931,7 +974,7 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
        //For a new scan, buf must contain <PreScanPage>. 
       if (NULL == strstr(buf,PRESCANPAGE)) 
       {         //i.e Paper is not present in Scanner
-@@ -1012,6 +1044,9 @@
+@@ -1012,6 +1044,9 @@ SANE_Status bb_start_scan(struct ledm_se
          stat = SANE_STATUS_GOOD;
          goto bugout;
       }
@@ -941,10 +984,10 @@ diff '--color=auto' -aruN a/scan/sane/bb_ledm.c b/scan/sane/bb_ledm.c
       usleep(500000);//0.5 sec delay
    }//end while()
  
-diff '--color=auto' -aruN a/scan/sane/ledm.c b/scan/sane/ledm.c
---- a/scan/sane/ledm.c	2025-02-27 12:12:29.000000000 +0000
-+++ b/scan/sane/ledm.c	2025-05-03 13:32:36.934944407 +0100
-@@ -170,11 +170,11 @@
+diff '--color=auto' -apruN a/scan/sane/ledm.c b/scan/sane/ledm.c
+--- a/scan/sane/ledm.c	2025-11-13 11:27:26.000000000 +0000
++++ b/scan/sane/ledm.c	2026-05-06 20:37:46.817211817 +0100
+@@ -170,11 +170,11 @@ static int set_scan_mode_side_effects(st
        case CE_GRAY8:
        case CE_COLOR8:
        default:
@@ -959,7 +1002,7 @@ diff '--color=auto' -aruN a/scan/sane/ledm.c b/scan/sane/ledm.c
           ps->option[LEDM_OPTION_JPEG_QUALITY].cap |= SANE_CAP_SOFT_SELECT;   /* enable jpeg quality */
           break;
     }
-@@ -690,7 +690,7 @@
+@@ -690,7 +690,7 @@ SANE_Status ledm_control_option(SANE_Han
           }
           else
           {  /* Set default. */
@@ -968,7 +1011,7 @@ diff '--color=auto' -aruN a/scan/sane/ledm.c b/scan/sane/ledm.c
              stat = SANE_STATUS_GOOD;
           }
           break;
-@@ -995,7 +995,9 @@
+@@ -995,7 +995,9 @@ SANE_Status ledm_start(SANE_Handle handl
      }
    }
    else
@@ -979,10 +1022,10 @@ diff '--color=auto' -aruN a/scan/sane/ledm.c b/scan/sane/ledm.c
  
    stat = SANE_STATUS_GOOD;
  
-diff '--color=auto' -aruN a/scan/sane/ledmi.h b/scan/sane/ledmi.h
---- a/scan/sane/ledmi.h	2025-02-27 12:12:29.000000000 +0000
-+++ b/scan/sane/ledmi.h	2025-05-03 13:32:52.605080610 +0100
-@@ -162,7 +162,7 @@
+diff '--color=auto' -apruN a/scan/sane/ledmi.h b/scan/sane/ledmi.h
+--- a/scan/sane/ledmi.h	2025-11-13 11:27:26.000000000 +0000
++++ b/scan/sane/ledmi.h	2026-05-06 20:37:46.817398315 +0100
+@@ -162,7 +162,7 @@ struct ledm_session
  int bb_open(struct ledm_session*);
  int bb_close(struct ledm_session*);
  int bb_get_parameters(struct ledm_session*, SANE_Parameters*, int);
@@ -991,10 +1034,10 @@ diff '--color=auto' -aruN a/scan/sane/ledmi.h b/scan/sane/ledmi.h
  SANE_Status bb_start_scan(struct ledm_session*);
  int bb_get_image_data(struct ledm_session*, int); 
  int bb_end_page(struct ledm_session*, int);
-diff '--color=auto' -aruN a/unload.py b/unload.py
---- a/unload.py	2025-02-27 12:12:29.000000000 +0000
-+++ b/unload.py	2025-05-03 13:32:36.935183638 +0100
-@@ -44,6 +44,11 @@
+diff '--color=auto' -apruN a/unload.py b/unload.py
+--- a/unload.py	2025-11-13 11:27:26.000000000 +0000
++++ b/unload.py	2026-05-06 20:37:46.817662554 +0100
+@@ -44,6 +44,11 @@ except ImportError:
  
  # Local
  from base.g import *

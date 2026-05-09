@@ -50,7 +50,7 @@ pushd rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
 tar -xf ../../sources/rust-src-1.94.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
 tar -xf ../../sources/cargo-c-"$MBS_ARCH"-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
-tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.2-massos-precompiled-multiarch.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.2-massos-precompiled-multiarch/"$MBS_ARCH"/{,c}bindgen
+tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild/"$MBS_ARCH"/{,c}bindgen
 popd
 rm -rf rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
 [ "$MBS_ARCH" != "x86_64" ] || tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
@@ -901,7 +901,7 @@ rm -rf patchelf-0.18.0
 # strace.
 tar -xf ../sources/strace-6.19.0.44.92edf.tar.xz
 pushd strace-6.19.0.44.92edf
-./configure --prefix=/usr --with-libdw
+./configure --prefix=/usr --with-libdw --enable-mpers=check
 make
 make install
 install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
@@ -2128,7 +2128,7 @@ rm -rf xmlto-0.0.29
 tar -xf ../sources/OpenSP-1.5.2.tar.gz
 pushd OpenSP-1.5.2
 patch -Np1 -i ../../patches/OpenSP-1.5.2-fixes.patch
-./configure --prefix=/usr --mandir=/usr/share/man --disable-static --disable-doc-build --enable-default-catalog=/etc/sgml/catalog --enable-default-search-path=/usr/share/sgml --enable-http
+./configure --prefix=/usr --mandir=/usr/share/man --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static --disable-doc-build --enable-default-catalog=/etc/sgml/catalog --enable-default-search-path=/usr/share/sgml --enable-http
 make pkgdatadir=/usr/share/sgml/OpenSP
 make pkgdatadir=/usr/share/sgml/OpenSP install
 for p in {nsgmls,s{gmlnorm,p{am,cat,ent},x}}; do ln -sf o$p /usr/bin/$p; done
@@ -2141,7 +2141,7 @@ rm -rf OpenSP-1.5.2
 tar -xf ../sources/openjade-1.3.2.tar.gz
 pushd openjade-1.3.2
 patch -Np1 -i ../../patches/openjade-1.3.2-fixes.patch
-CXXFLAGS="$CXXFLAGS -fno-lifetime-dse" ./configure --prefix=/usr --mandir=/usr/share/man --enable-http --disable-static --enable-default-catalog=/etc/sgml/catalog --enable-default-search-path=/usr/share/sgml --datadir=/usr/share/sgml/openjade
+CXXFLAGS="$CXXFLAGS -fno-lifetime-dse" ./configure --prefix=/usr --mandir=/usr/share/man --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --enable-http --disable-static --enable-default-catalog=/etc/sgml/catalog --enable-default-search-path=/usr/share/sgml --datadir=/usr/share/sgml/openjade
 make
 make install install-man
 ln -sf openjade /usr/bin/jade
@@ -2387,9 +2387,9 @@ rm -rf sbsigntools-0.9.5
 tar -xf ../sources/efitools-1.9.2.tar.gz
 pushd efitools-1.9.2
 patch -Np1 -i ../../patches/efitools-1.9.2-fixes.patch
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '44,45d' Makefile
 ARCH="$MBS_ARCH" CC="gcc -std=gnu17" make -j1
 make -j1 install
-## NOTE: The efitools apps are intentionally not signed for secure boot by us.
 install -t /usr/share/licenses/efitools -Dm644 COPYING
 popd
 rm -rf efitools-1.9.2
@@ -2488,7 +2488,7 @@ rm -rf util-linux-2.42
 # FUSE2.
 tar -xf ../sources/fuse-2.9.9.tar.gz
 pushd fuse-2.9.9
-patch -Np1 -i ../../patches/fuse-2.9.9-glibc234.patch
+patch -Np1 -i ../../patches/fuse-2.9.9-buildfixes.patch
 cp /usr/share/gettext/m4/*.m4 m4
 autoreconf -fi
 UDEV_RULES_PATH=/usr/lib/udev/rules.d MOUNT_FUSE_PATH=/usr/bin ./configure --prefix=/usr --libdir=/usr/lib --sbindir=/usr/bin --enable-lib --enable-util --disable-example --disable-static
@@ -2662,7 +2662,7 @@ rm -rf LVM2.2.03.39
 # dmraid.
 tar -xf ../sources/dmraid-1.0.0.rc16-3.tar.bz2
 pushd dmraid/1.0.0.rc16-3/dmraid
-CC="gcc -std=gnu17" ./configure --prefix=/usr --sbindir=/usr/bin --enable-led --enable-intel_led --enable-shared_lib
+CC="gcc -std=gnu17" ./configure --prefix=/usr --sbindir=/usr/bin --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --enable-led --enable-intel_led --enable-shared_lib
 make -j1
 make -j1 install
 rm -f /usr/lib/libdmraid.a
@@ -3616,8 +3616,8 @@ install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 popd
 rm -rf sudo-1.9.17p2
 # dracut.
-tar -xf ../sources/dracut-ng-109.tar.gz
-pushd dracut-ng-109
+tar -xf ../sources/dracut-109.tar.gz
+pushd dracut-109
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio
 make
 make install
@@ -3648,7 +3648,7 @@ omit_dracutmodules+=" biosdevname cifs connman dash dbus-broker fcoe fcoe-uefi h
 END
 install -t /usr/share/licenses/dracut -Dm644 COPYING
 popd
-rm -rf dracut-ng-109
+rm -rf dracut-109
 # Fcron.
 tar -xf ../sources/fcron-ver3_4_0.tar.gz
 pushd fcron-ver3_4_0
@@ -3769,16 +3769,6 @@ rm -rf /usr/share/dwarves/runtime/python
 install -t /usr/share/licenses/pahole -Dm644 COPYING
 popd
 rm -rf pahole-1.29
-# libsmbios.
-tar -xf ../sources/libsmbios-2.4.3.tar.gz
-pushd libsmbios-2.4.3
-./autogen.sh --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-rpath --disable-static
-make
-make install
-cp -r out/public-include/* /usr/include
-install -t /usr/share/licenses/libsmbios -Dm644 COPYING COPYING-GPL
-popd
-rm -rf libsmbios-2.4.3
 # DKMS.
 tar -xf ../sources/dkms-3.2.1.tar.gz
 pushd dkms-3.2.1
@@ -4095,7 +4085,9 @@ insmod usb_keyboard
 insmod font
 insmod gzio
 insmod efi_gop
-insmod efi_uga
+if [ "$grub_cpu" = "i386" -o "$grub_cpu" = "x86_64" ]; then
+  insmod efi_uga
+fi
 insmod png
 set gfxpayload=keep
 if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
@@ -4164,7 +4156,7 @@ rm -rf os-prober-1.84
 # libatasmart.
 tar -xf ../sources/libatasmart_0.19.orig.tar.xz
 pushd libatasmart-0.19
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libatasmart -Dm644 LGPL
@@ -4191,7 +4183,7 @@ rm -rf libblockdev-3.4.0
 # libdaemon.
 tar -xf ../sources/libdaemon_0.14.orig.tar.gz
 pushd libdaemon-0.14
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libdaemon -Dm644 LICENSE
@@ -5093,7 +5085,7 @@ rm -rf xcb-util-errors-1.0.1
 tar -xf ../sources/libdrm-2.4.131.tar.xz
 pushd libdrm-2.4.131
 patch -Np1 -i ../../patches/libdrm-2.4.118-license.patch
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=false -Dudev=true -Dvalgrind=disabled
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=false -Dudev=true -Dcairo-tests=disabled -Dvalgrind=disabled $(uname -m | grep -q '^aarch64$' && echo -Domap=enabled -Dtegra=enabled)
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libdrm -Dm644 LICENSE
@@ -5239,8 +5231,10 @@ tar -xf ../sources/mesa-mesa-26.0.6.tar.bz2
 pushd mesa-mesa-26.0.6
 ## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
-## TODO: Consider if certain drivers should be excluded based on architecture.
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dgallium-drivers=asahi,crocus,d3d12,ethosu,etnaviv,freedreno,i915,iris,lima,llvmpipe,nouveau,panfrost,r300,r600,radeonsi,rocket,softpipe,svga,tegra,v3d,vc4,virgl,zink -Dvulkan-drivers=amd,asahi,broadcom,freedreno,gfxstream,imagination,intel,intel_hasvk,microsoft-experimental,nouveau,panfrost,swrast,virtio -Dvulkan-layers=anti-lag,device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Dgallium-rusticl-enable-drivers=asahi,freedreno,radeonsi -Dfreedreno-kmds=msm,virtio -Damdgpu-virtio=true -Dgallium-xa=enabled -Dglx=dri -Dglvnd=enabled -Dintel-rt=enabled -Dsysprof=true -Dvideo-codecs=all -Dvalgrind=disabled
+## Try to only build drivers which are applicable to the target architecture.
+[ "$MBS_ARCH" != "x86_64" ] || echo "-Dgallium-drivers=crocus,d3d12,i915,iris,llvmpipe,nouveau,r300,r600,radeonsi,softpipe,svga,virgl,zink -Dvulkan-drivers=amd,gfxstream,intel,intel_hasvk,microsoft-experimental,nouveau,swrast,virtio -Dgallium-rusticl-enable-drivers=radeonsi -Dintel-rt=enabled" > extraconf
+[ "$MBS_ARCH" != "aarch64" ] || echo "-Dgallium-drivers=asahi,d3d12,ethosu,etnaviv,freedreno,lima,llvmpipe,nouveau,panfrost,r300,r600,radeonsi,rocket,softpipe,svga,tegra,v3d,vc4,virgl,zink -Dvulkan-drivers=amd,asahi,broadcom,freedreno,gfxstream,imagination,microsoft-experimental,nouveau,panfrost,swrast,virtio -Dgallium-rusticl-enable-drivers=asahi,freedreno,radeonsi -Dfreedreno-kmds=msm,virtio" > extraconf
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="$LDFLAGS" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddebug=false -Dplatforms=wayland,x11 -Dvulkan-layers=anti-lag,device-select,intel-nullhw,overlay,screenshot,vram-report-limit -Dgallium-rusticl=true -Damdgpu-virtio=true -Dgallium-xa=enabled -Dglx=dri -Dglvnd=enabled -Dsysprof=true -Dvideo-codecs=all -Dvalgrind=disabled $(cat extraconf)
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
@@ -5276,7 +5270,7 @@ rm -rf iceauth-1.0.10
 tar -xf ../sources/luit-1.1.1.tar.bz2
 pushd luit-1.1.1
 sed -i -e "/D_XOPEN/s/5/6/" configure
-./configure --prefix=/usr
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu"
 make
 make install
 install -t /usr/share/licenses/luit -Dm644 COPYING
@@ -5798,15 +5792,6 @@ make install
 install -t /usr/share/licenses/xf86-input-libinput -Dm644 COPYING
 popd
 rm -rf xf86-input-libinput-1.5.0
-# xf86-input-vmmouse.
-tar -xf ../sources/xf86-input-vmmouse-13.2.0.tar.xz
-pushd xf86-input-vmmouse-13.2.0
-./configure --prefix=/usr
-make
-make install
-install -t /usr/share/licenses/xf86-input-vmmouse -Dm644 COPYING
-popd
-rm -rf xf86-input-vmmouse-13.2.0
 # xf86-video-qxl.
 tar -xf ../sources/xf86-video-qxl-0.1.6.tar.xz
 pushd xf86-video-qxl-0.1.6
@@ -5819,7 +5804,7 @@ rm -rf xf86-video-qxl-0.1.6
 # xf86-video-vmware.
 tar -xf ../sources/xf86-video-vmware-13.4.0.tar.xz
 pushd xf86-video-vmware-13.4.0
-./configure --prefix=/usr --enable-vmwarectrl-client
+CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" ./configure --prefix=/usr --enable-vmwarectrl-client
 make
 make install
 install -t /usr/share/licenses/xf86-video-vmware -Dm644 COPYING
@@ -5837,38 +5822,41 @@ rm -rf xf86-video-fbdev-0.5.1
 # xf86-video-vesa.
 tar -xf ../sources/xf86-video-vesa-2.6.0.tar.xz
 pushd xf86-video-vesa-2.6.0
-./configure --prefix=/usr
+CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xf86-video-vesa -Dm644 COPYING
 popd
 rm -rf xf86-video-vesa-2.6.0
-# intel-gmmlib.
+# intel-gmmlib (x86_64 only).
 tar -xf ../sources/intel-gmmlib-22.9.0.tar.gz
 pushd gmmlib-intel-gmmlib-22.9.0
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/intel-gmmlib -Dm644 LICENSE.md
+[ "$MBS_ARCH" != "x86_64" ] || CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DRUN_TEST_SUITE=OFF -Wno-dev -G Ninja -B build
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build install
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/intel-gmmlib -Dm644 LICENSE.md
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^intel-gmmlib$/d' /usr/share/massos/builtins
 popd
 rm -rf gmmlib-intel-gmmlib-22.9.0
-# intel-vaapi-driver.
+# intel-vaapi-driver (x86_64 only).
 tar -xf ../sources/intel-vaapi-driver-2.4.1.tar.bz2
 pushd intel-vaapi-driver-2.4.1
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/intel-vaapi-driver -Dm644 COPYING
+[ "$MBS_ARCH" != "x86_64" ] || meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build install
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/intel-vaapi-driver -Dm644 COPYING
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^intel-vaapi-driver$/d' /usr/share/massos/builtins
 popd
 rm -rf intel-vaapi-driver-2.4.1
-# intel-media-driver.
+# intel-media-driver (x86_64 only).
 tar -xf ../sources/intel-media-25.4.6.tar.gz
 pushd media-driver-intel-media-25.4.6
 patch -Np1 -i ../../patches/intel-media-driver-25.2.0-cmake400.patch
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
-ninja -C build
-ninja -C build install
-install -t /usr/share/licenses/intel-media-driver -Dm644 LICENSE.md
+[ "$MBS_ARCH" != "x86_64" ] || CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_LIBDIR=lib -DINSTALL_DRIVER_SYSCONF=OFF -DMEDIA_BUILD_FATAL_WARNINGS=OFF -Wno-dev -G Ninja -B build
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build
+[ "$MBS_ARCH" != "x86_64" ] || ninja -C build install
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/intel-media-driver -Dm644 LICENSE.md
+[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^intel-media-driver$/d' /usr/share/massos/builtins
 popd
 rm -rf media-driver-intel-media-25.4.6
 # xinit.
@@ -6084,7 +6072,7 @@ rm -rf vitetris-0.59.1
 tar -xf ../sources/fuseiso-20070708.tar.bz2
 pushd fuseiso-20070708
 patch -Np1 -i ../../patches/fuseiso-20070708-fixes.patch
-./configure --prefix=/usr
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu"
 make
 make install
 install -t /usr/share/licenses/fuseiso -Dm644 COPYING
@@ -7195,7 +7183,7 @@ rm -rf accountsservice-23.13.9
 tar -xf ../sources/polkit-gnome-0.105.tar.xz
 pushd polkit-gnome-0.105
 patch -Np1 -i ../../patches/polkit-gnome-0.105-upstreamfixes.patch
-./configure --prefix=/usr
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu"
 make
 make install
 mkdir -p /etc/xdg/autostart
@@ -7339,7 +7327,7 @@ rm -rf sane-airscan-0.99.36
 # HPLIP.
 tar -xf ../sources/hplip-3.25.8.tar.gz
 pushd hplip-3.25.8
-patch -Np1 -i ../../patches/hplip-3.25.2-manyfixes.patch
+patch -Np1 -i ../../patches/hplip-3.25.8-manyfixes.patch
 AUTOMAKE="automake --foreign" autoreconf -fi
 CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration -Wno-error=implicit-int -Wno-error=incompatible-pointer-types -Wno-error=return-mismatch" ./configure --prefix=/usr --sbindir=/usr/bin --enable-cups-drv-install --enable-hpcups-install --disable-imageProcessor-build --enable-pp-build --disable-qt4 --disable-qt5
 make
@@ -7667,7 +7655,7 @@ rm -rf libnotify-0.8.8
 # startup-notification.
 tar -xf ../sources/startup-notification-0.12.tar.gz
 pushd startup-notification-0.12
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/startup-notification -Dm644 COPYING
@@ -8017,7 +8005,7 @@ rm -rf libde265-1.0.18
 tar -xf ../sources/cdparanoia-III-10.2.src.tgz
 pushd cdparanoia-III-10.2
 patch -Np1 -i ../../patches/cdparanoia-III-10.2-buildfix.patch
-./configure --prefix=/usr --mandir=/usr/share/man
+./configure --prefix=/usr --mandir=/usr/share/man --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu"
 make -j1
 make -j1 install
 chmod 755 /usr/lib/libcdda_*.so.0.10.2
@@ -8092,7 +8080,7 @@ rm -rf soundtouch
 # libdv.
 tar -xf ../sources/libdv-1.0.0.tar.gz
 pushd libdv-1.0.0
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libdv -Dm644 COPYING COPYRIGHT
@@ -8184,7 +8172,7 @@ rm -rf libraw1394-2.1.2
 # libavc1394.
 tar -xf ../sources/libavc1394-0.5.4.tar.gz
 pushd libavc1394-0.5.4
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libavc1394 -Dm644 COPYING
@@ -8193,7 +8181,7 @@ rm -rf libavc1394-0.5.4
 # libiec61883.
 tar -xf ../sources/libiec61883-1.2.0.tar.xz
 pushd libiec61883-1.2.0
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libiec61883 -Dm644 COPYING
@@ -8211,7 +8199,7 @@ rm -rf libnice-0.1.22
 # libbs2b.
 tar -xf ../sources/libbs2b-3.1.0.tar.bz2
 pushd libbs2b-3.1.0
-./configure --prefix=/usr --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --disable-static
 make
 make install
 install -t /usr/share/licenses/libbs2b -Dm644 COPYING
@@ -8350,7 +8338,7 @@ rm -rf libmodplug-0.8.9.0
 tar -xf ../sources/libmpeg2-upstream-0.5.1.tar.gz
 pushd libmpeg2-upstream-0.5.1
 sed -i 's/static const/static/' libmpeg2/idct_mmx.c
-./configure --prefix=/usr --enable-shared --disable-static
+./configure --prefix=/usr --build="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" --enable-shared --disable-static
 find . -name Makefile -exec sed -i 's|-Wl,-rpath,/usr/lib||' {} ';'
 make
 make install
@@ -8807,7 +8795,7 @@ rm -rf plymouth-4a3c171d-4a3c171df86de1e6d2586fd09382fe4f6b69d307
 # Busybox.
 tar -xf ../sources/busybox-1.37.0.tar.bz2
 pushd busybox-1.37.0
-patch -Np1 -i ../../patches/busybox-1.37.0-linuxheaders68.patch
+patch -Np1 -i ../../patches/busybox-1.37.0-upstreamfixes.patch
 cp ../../extras/build-configs/busybox-config .config
 make
 install -t /usr/bin -Dm755 busybox
@@ -8843,6 +8831,7 @@ cat > src/config/local/general.h << "END"
 #undef IMAGE_SDI
 #undef PXE_CMD
 END
+[ "$MBS_ARCH" = "x86_64" ] || echo "#undef IMAGE_UCODE" >> src/config/local/general.h
 make -C src VERSION="1.21.1+ (g814963)" bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
 [ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe}
 install -t /usr/lib/ipxe -Dm644 src/bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
@@ -8953,7 +8942,7 @@ install -t /usr/lib/modules/"$(cat version)"/build/kernel -Dm644 kernel/Makefile
 [ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -Dm644 arch/x86/Makefile
 [ "$MBS_ARCH" != "aarch64" ] || install -t /usr/lib/modules/"$(cat version)"/build/arch/arm64 -Dm644 arch/arm64/Makefile
 cp -t /usr/lib/modules/"$(cat version)"/build -a scripts
-install -t /usr/lib/modules/"$(cat version)"/build/tools/objtool -Dm755 tools/objtool/objtool
+[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/modules/"$(cat version)"/build/tools/objtool -Dm755 tools/objtool/objtool
 mkdir -p /usr/lib/modules/"$(cat version)"/build/{fs/xfs,mm}
 cp -t /usr/lib/modules/"$(cat version)"/build -a include
 [ "$MBS_ARCH" != "x86_64" ] || cp -t /usr/lib/modules/"$(cat version)"/build/arch/x86 -a arch/x86/include
@@ -9079,6 +9068,9 @@ rm -rf upgrade-massos-0.2.1
 # MassOS release detection utility.
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
+# Specify the Raspberry Pi firmware version to use for aarch64 raspi images.
+echo "1.20260408" > /usr/share/massos/.rpifwver
+echo "b26fd19facd534aab474cc64e25db4b120682c2c4c9a2a4bed97495ec578a645" > /usr/share/massos/.rpifwsum
 # Specify the version of osinstallgui that should be used by the Live CD.
 echo "0.14.0" > /usr/share/massos/.osinstallguiver
 echo "a7d3248c9385bd09110797e96a6613f8a6cd1c08838779e1a95f5cb8131ed55a" > /usr/share/massos/.osinstallguisum

@@ -783,7 +783,6 @@ Upgraded software (core):
 - xdriinfo: `1.0.6 --> 1.0.8`
 - xev: `1.2.5 --> 1.2.6`
 - xf86-input-libinput: `1.2.1 --> 1.5.0`
-- xf86-input-vmmouse: `(new package) --> 13.2.0`
 - xf86-video-fbdev: `(new package) --> 0.5.1`
 - xf86-video-qxl: `(new package) --> 0.1.6`
 - xf86-video-vesa: `(new package) --> 2.6.0`

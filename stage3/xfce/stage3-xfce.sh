@@ -54,7 +54,7 @@ END
 cat > /etc/profile.d/arc-theme.sh << "END"
 export GTK_THEME="Arc-Dark"
 END
-flatpak install -y runtime/org.gtk.Gtk3theme.Arc{,-Dark}/x86_64/3.22
+flatpak install -y runtime/org.gtk.Gtk3theme.Arc{,-Dark}/"$MBS_ARCH"/3.22
 rm -rf arc-theme-20220102
 # xfce4-dev-tools.
 tar -xf ../sources/xfce4-dev-tools-4.20.0.tar.bz2

@@ -32,7 +32,7 @@ https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
 https://github.com/koverstreet/bcachefs-tools/archive/v1.37.5/bcachefs-tools-1.37.5.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.20/bind-9.20.20.tar.xz
-https://dmassey.net/files/misc/bindgen-0.72.1-cbindgen-0.29.2-massos-precompiled-multiarch.tar.xz
+https://dmassey.net/files/misc/bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-with-gold-2.46.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/GNOME/blueprint-compiler/archive/0.18.0/blueprint-compiler-0.18.0.tar.gz
@@ -116,7 +116,7 @@ https://waterlan.home.xs4all.nl/dos2unix/dos2unix-7.5.5.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://github.com/williamh/dotconf/archive/v1.4.1/dotconf-1.4.1.tar.gz
 https://github.com/quietvoid/dovi_tool/archive/2.3.1/dovi_tool-2.3.1.tar.gz
-https://github.com/dracut-ng/dracut-ng/archive/109/dracut-ng-109.tar.gz
+https://github.com/dracut-ng/dracut/archive/109/dracut-109.tar.gz
 https://duktape.org/duktape-2.7.0.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.4/e2fsprogs-1.47.4.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.6/EasyRSA-3.2.6.tgz
@@ -421,7 +421,6 @@ https://gitlab.freedesktop.org/vyivel/libsfdo/-/archive/v0.1.4/libsfdo-v0.1.4.ta
 https://github.com/libsigcplusplus/libsigcplusplus/releases/download/2.12.1/libsigc++-2.12.1.tar.xz
 https://mirror.lyrahosting.com/gnu/libsigsegv/libsigsegv-2.15.tar.gz
 https://xorg.freedesktop.org/archive/individual/lib/libSM-1.2.6.tar.xz
-https://github.com/dell/libsmbios/archive/v2.4.3/libsmbios-2.4.3.tar.gz
 https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2.tar.xz
 https://github.com/jedisct1/libsodium/releases/download/1.0.20-RELEASE/libsodium-1.0.20.tar.gz
 https://github.com/GNOME/libsoup/archive/2.74.3/libsoup-2.74.3.tar.gz
@@ -814,7 +813,6 @@ https://xorg.freedesktop.org/archive/individual/app/xdpyinfo-1.4.0.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xdriinfo-1.0.8.tar.xz
 https://xorg.freedesktop.org/archive/individual/app/xev-1.2.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-input-libinput-1.5.0.tar.xz
-https://xorg.freedesktop.org/archive/individual/driver/xf86-input-vmmouse-13.2.0.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-fbdev-0.5.1.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-qxl-0.1.6.tar.xz
 https://xorg.freedesktop.org/archive/individual/driver/xf86-video-vesa-2.6.0.tar.xz

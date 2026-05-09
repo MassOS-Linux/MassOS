@@ -25,8 +25,10 @@ If you are a developer, the information below, as well as the following links ma
 # Information for developers
 A detailed description of how the MassOS build system works can be found at [Building MassOS](https://github.com/MassOS-Linux/MassOS/wiki/Building-MassOS).
 
-This repository contains the source and build system for the core MassOS system (stage 1 and stage 2), as well as Xfce (stage 3). Any additional desktop environments which become supported in the future will be submoduled under the `stage3/` directory. The GNOME port is maintained at the [MassOS-GNOME](https://github.com/MassOS-Linux/MassOS-GNOME) repository.
+This repository contains the source and build system for the core MassOS system (stage 1 and stage 2), as well as Xfce (stage 3). Any additional desktop environments which become supported in the future will be submoduled under the `stage3/` directory. The GNOME port is discontinued, but can be found at the [MassOS-GNOME](https://github.com/MassOS-Linux/MassOS-GNOME) repository.
 
 This repository now also contains the script and data used to create a live CD ISO image from a MassOS build. It should be noted that the files in the [livecd-installer](https://github.com/MassOS-Linux/livecd-installer) repository are deprecated; MassOS now uses [osinstallgui](https://github.com/DanielMYT/osinstallgui) as its installation program.
+
+The MassOS build system supports the **x86_64** and **aarch64** architectures - but it is only possible to build MassOS for the same architecture as the host system (native-compilation). Cross-compilation is not supported. Please see [Architecture Support](https://github.com/MassOS-Linux/MassOS/wiki/Architecture-Support) for more in-depth information about the architectures supported by MassOS.
 
 All repositories for the MassOS project can be found [here](https://github.com/orgs/MassOS-Linux/repositories).

@@ -9,11 +9,12 @@
 set -e
 
 # Set the software version.
-ver="0.0.6"
+ver="0.0.7"
 
 # Version of Go. Shouldn't really need to be updated frequently.
 ver_go="1.26.0"
 sum_go="aac1b08a0fb0c4e0a7c1555beb7b59180b05dfc5a3d62e40e9de90cd42f88235"
+sum_goarm="bd03b743eb6eb4193ea3c3fd3956546bf0e3ca5b7076c8226334afe6b75704cd"
 
 # What is our name?
 inv="$(basename "$0")"
@@ -121,14 +122,22 @@ operation_install() {
   # Download stuff.
   msg "Downloading source files..."
   curl -fL "https://dl.google.com/go/go$ver_go.linux-amd64.tar.gz" -o dl_go
+  curl -fL "https://dl.google.com/go/go$ver_go.linux-arm64.tar.gz" -o dl_goarm
   curl -fL "https://github.com/canonical/snapd/releases/download/$ver_snapd/snapd_$ver_snapd.vendor.tar.xz" -o dl_snapd
   # Verify stuff.
   echo "$sum_go dl_go" | sha256sum -c
+  echo "$sum_goarm dl_goarm" | sha256sum -c
   echo "$sum_snapd dl_snapd" | sha256sum -c
   # Extract stuff.
   msg "Extracting source files..."
   install -d go goroot snapd
-  tar -xf dl_go -C goroot --strip-components=1
+  if test "$(uname -m)" = "x86_64"; then
+    tar -xf dl_go -C goroot --strip-components=1
+  elif test "$(uname -m)" = "aarch64"; then
+    tar -xf dl_goarm -C goroot --strip-components=1
+  else
+    die "Unsupported architecture. Cannot continue."
+  fi
   tar -xf dl_snapd -C snapd --strip-components=1
   # Build the thing.
   msg "Building Snapd $ver_snapd..."
