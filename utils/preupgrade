@@ -1,25 +1,30 @@
+# The new MassOS upgrade utility (upgrade-massos) uses preupgrade_ng.
+# This older file was only used by the now-unsupported older utility.
+# As trying to perform an upgrade with it isn't supported, just crash.
 # Upgrading from original MassOS (pre-2023) is not allowed.
-if [ "$(cat /etc/massos-release | cut -d'-' -f1)" != "experimental" ]; then
-  echo "Error: Upgrading from a pre-2023 MassOS version is not allowed." >&2
-  echo "Please back up your personal data and perform a clean reinstall." >&2
-  exit 1
-fi
-# Check for a new version of Glibc (breaks this utility).
-if [ "$(ldd --version | head -n1 | cut -d' ' -f4)" != "2.36" ]; then
-  echo "
-IMPORTANT: This upgrade includes a newer version of the core C library (glibc).
-Upgrading on a running system using this utility will break your system, and is
-therefore not possible. To upgrade, please boot a MassOS live environment, run
-the installation program, and choose 'Repair' --> 'Refresh'. This won't erase
-your apps or data. For information on how to do this, see the following URL:
+cat > /dev/stderr << "END"
+This legacy upgrade utility is no longer supported, and for safety, upgrades
+are no longer permitted to be performed using it.
 
-  https://github.com/MassOS-Linux/MassOS/wiki/Upgrading-MassOS
-" >&2
-  exit 1
-fi
-# Notice for massos-upgrade.
-echo "Note: Upgrading using the Live CD is preferred. For information, see" >&2
-echo "<https://github.com/MassOS-Linux/MassOS/wiki/Upgrading-MassOS>." >&2
-echo "The upgrade will begin in 10 seconds. To cancel, press Control+C and" >&2
-echo "no changes will be made to your computer." >&2
-sleep 10
+Please use the newer upgrade utility instead - see the following URL for info
+about the new upgrade utility, as well as instructions on how to use it:
+
+  https://github.com/MassOS-Linux/upgrade-massos
+
+Please note that upgrades cannot be performed from experimental builds older
+than experimental-20251105, nor can they be performed from any pre-2023 version
+(e.g. 2022.10). If you are therefore using such a version, please back up your
+data and perform a clean reinstallation of the latest version of MassOS. You
+can refer to the official MassOS installation guide if you are unsure about how
+to do this:
+
+  https://github.com/MassOS-Linux/MassOS/wiki/Installing-MassOS
+
+To check what MassOS version you are currently using, run the following command
+in a terminal:
+
+  massos-release
+
+Thank you for using MassOS.
+END
+exit 1

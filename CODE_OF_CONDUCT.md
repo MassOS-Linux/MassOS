@@ -1,7 +1,7 @@
 # MassOS Project Code of Conduct
 
-This is version **0.1** of the **MassOS Project Code of Conduct**, last updated
-on **2026-02-28**. Note that this version is incomplete, and the document is
+This is version **0.2** of the **MassOS Project Code of Conduct**, last updated
+on **2026-05-10**. Note that this version is incomplete, and the document is
 undergoing work. Expect versions of the document greater than **1.x** to be
 finalized versions.
 
@@ -56,8 +56,10 @@ attacks/insults towards anyone inside or outside of the community will not be
 tolerated. Bigoted remarks against protected characteristics, including but not
 limited to: race, ethnicity, nationality, religion/faith (or lack thereof),
 age, sex, gender identity, sexual orientation or disability are not tolerated
-under any circumstance. Constructive criticism and debate is always welcome,
-but should always be directed at ideas and statements, not individuals.
+under any circumstance. Criticism and debate (provided it is constructive and
+does not fall under the "controversial topics" designation outlined in rule
+**8**) is welcome, but must only be directed at ideas and statements, not
+individuals.
 
 2. **Respect the privacy of others.** Do not leak or divulge personal or
 sensitive information about anyone without their explicit permission. This can
@@ -94,7 +96,8 @@ provided anywhere within the community.
 6. **Do not spam.** No spamming of any kind is tolerated. This includes, but is
 not limited to: excessively sending messages or media in channels that aren't
 designed for it, or repeating your messages when you don't receive a response
-immediately.
+immediately (which may happen due to timezone differences, as well as personal
+commitments in real life).
 
 7. **No advertising or self-promotion.** Do not advertise or self-promote
 anywhere within the MassOS community. This includes promoting your own blog

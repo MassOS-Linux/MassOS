@@ -1,0 +1,95 @@
+From 2d28657ef63217b9a1774605267d84f89d751441 Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Fri, 1 May 2026 13:56:10 +0100
+Subject: [PATCH] [w89c840] Fix build warnings with GCC 16
+
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/drivers/net/w89c840.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/src/drivers/net/w89c840.c b/src/drivers/net/w89c840.c
+index 33a6658d2a3..a2b4800d2f5 100644
+--- a/src/drivers/net/w89c840.c
++++ b/src/drivers/net/w89c840.c
+@@ -682,9 +682,7 @@ static int w89c840_probe ( struct nic *nic, struct pci_device *p ) {
+ 
+     DBG ( "Ethernet addr: %s\n", eth_ntoa ( nic->node_addr ) );
+ 
+-#if defined(W89C840_DEBUG)
+-    printf("winbond-840: EEPROM checksum %hX, got eeprom", sum);
+-#endif
++    DBG ( "winbond-840: EEPROM checksum %hX, got eeprom", sum );
+ 
+     /* Reset the chip to erase previous misconfiguration.
+        No hold time required! */
+From c18d0a23b634ae001ea877020c0236bfca1468e5 Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Fri, 1 May 2026 14:17:00 +0100
+Subject: [PATCH] [build] Remove redundant regparm function attribute for
+ x86_64
+
+The regparm function attribute is meaningful only for i386, not for
+x86_64, and is reported as a build error by GCC 16.
+
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/arch/x86_64/include/bits/compiler.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/arch/x86_64/include/bits/compiler.h b/src/arch/x86_64/include/bits/compiler.h
+index 99185b05863..e846445f150 100644
+--- a/src/arch/x86_64/include/bits/compiler.h
++++ b/src/arch/x86_64/include/bits/compiler.h
+@@ -13,7 +13,7 @@ FILE_SECBOOT ( PERMITTED );
+ #define ASM_NO_PREFIX "c"
+ 
+ /** Declare a function with standard calling conventions */
+-#define __asmcall __attribute__ (( regparm(0) ))
++#define __asmcall
+ 
+ /** Declare a function with libgcc implicit linkage */
+ #define __libgcc
+From be35d67a029485f461ce83cbeda15056a52cb069 Mon Sep 17 00:00:00 2001
+From: Michael Brown <mcb30@ipxe.org>
+Date: Fri, 1 May 2026 14:34:52 +0100
+Subject: [PATCH] [librm] Specify regparm function attribute only for i386
+
+The regparm function attribute is meaningful only for i386, not for
+x86_64, and is reported as a build error by GCC 16.
+
+Signed-off-by: Michael Brown <mcb30@ipxe.org>
+---
+ src/arch/x86/transitions/librm_mgmt.c | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/src/arch/x86/transitions/librm_mgmt.c b/src/arch/x86/transitions/librm_mgmt.c
+index 89feec96a31..6c8d55f90e9 100644
+--- a/src/arch/x86/transitions/librm_mgmt.c
++++ b/src/arch/x86/transitions/librm_mgmt.c
+@@ -21,6 +21,13 @@ FILE_LICENCE ( GPL2_OR_LATER_OR_UBDL );
+  *
+  */
+ 
++/* Calling convention used by interrupt wrapper */
++#ifdef __x86_64__
++#define __intrcall
++#else
++#define __intrcall __attribute__ (( regparm ( 3 ) ))
++#endif
++
+ /** The interrupt wrapper */
+ extern char interrupt_wrapper[];
+ 
+@@ -247,9 +254,8 @@ interrupt_dump ( int intr, struct interrupt_frame32 *frame32,
+  * @v frame64		64-bit interrupt wrapper stack frame (or NULL)
+  * @v frame		Interrupt wrapper stack frame
+  */
+-void __attribute__ (( regparm ( 3 ) ))
+-interrupt ( int intr, struct interrupt_frame32 *frame32,
+-	    struct interrupt_frame64 *frame64 ) {
++__intrcall void interrupt ( int intr, struct interrupt_frame32 *frame32,
++			    struct interrupt_frame64 *frame64 ) {
+ 	struct profiler *profiler = interrupt_profiler ( intr );
+ 	uint32_t discard_eax;
+ 
