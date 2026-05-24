@@ -11,6 +11,7 @@ alsa-ucm-conf
 alsa-utils
 amf-headers
 apfs-rw-module
+apfsprogs
 apparmor
 appstream
 appstream-glib

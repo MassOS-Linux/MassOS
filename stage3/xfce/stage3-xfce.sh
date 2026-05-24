@@ -257,14 +257,16 @@ ninja -C build install
 popd
 rm -rf parole-4.20.0
 # Orage.
-tar -xf ../sources/orage-4.20.2.tar.bz2
-pushd orage-4.20.2
+tar -xf ../sources/orage-4.20.3.tar.bz2
+pushd orage-4.20.3
+patch -Np1 -i ../../patches/orage-4.20.3-libical4.patch
+autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
 make
 make install
 install -t /usr/share/licenses/orage -Dm644 COPYING
 popd
-rm -rf orage-4.20.2
+rm -rf orage-4.20.3
 # Xfburn.
 tar -xf ../sources/xfburn-0.8.0.tar.bz2
 pushd xfburn-0.8.0
@@ -626,8 +628,8 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-150.0.1.tar.xz.1 -C /usr/lib
-[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-150.0.1.tar.xz -C /usr/lib
+[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-151.0.1.tar.xz.1 -C /usr/lib
+[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-151.0.1.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

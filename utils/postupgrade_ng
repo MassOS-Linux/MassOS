@@ -19,3 +19,6 @@ systemd-hwdb update
 
 # Regenerate CA certificate store data if it is outdated.
 make-ca -C /usr/share/massos/certs/certdata.txt
+
+# Generate SSH host keys if they are missing.
+ssh-keygen -A

@@ -8,9 +8,13 @@ Also fixes a typo in lib/console.c ("UNKOWN" instead of "UNKNOWN").
 UPDATE 2026-04-09: Also includes a patch from Gentoo to fix building with
 Binutils 2.46. <https://bugs.gentoo.org/970040>
 
+UPDATE 2026-05-23: Also includes a patch from Fedora to remove use of the
+OpenSSL ENGINE APIs, as they are removed from OpenSSL 4.0.0, and thus the build
+fails when the code still tries to make use of them.
+
 diff '--color=auto' -apruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
 --- a/cert-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/cert-to-efi-sig-list.c	2026-04-09 09:19:57.604190249 +0100
++++ b/cert-to-efi-sig-list.c	2026-05-23 21:27:02.957113257 +0100
 @@ -6,7 +6,6 @@
  
  
@@ -21,7 +25,7 @@ diff '--color=auto' -apruN a/cert-to-efi-sig-list.c b/cert-to-efi-sig-list.c
  /* FIXME:
 diff '--color=auto' -apruN a/efi-keytool.c b/efi-keytool.c
 --- a/efi-keytool.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-keytool.c	2026-04-09 09:19:57.604313700 +0100
++++ b/efi-keytool.c	2026-05-23 21:27:02.957233730 +0100
 @@ -15,7 +15,6 @@
  #include <fcntl.h>
  #include <unistd.h>
@@ -32,7 +36,7 @@ diff '--color=auto' -apruN a/efi-keytool.c b/efi-keytool.c
  #include <kernel_efivars.h>
 diff '--color=auto' -apruN a/efi-readvar.c b/efi-readvar.c
 --- a/efi-readvar.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-readvar.c	2026-04-09 09:19:57.604362590 +0100
++++ b/efi-readvar.c	2026-05-23 21:27:02.957304587 +0100
 @@ -17,7 +17,6 @@
  
  #include <openssl/x509.h>
@@ -43,7 +47,7 @@ diff '--color=auto' -apruN a/efi-readvar.c b/efi-readvar.c
  #include <kernel_efivars.h>
 diff '--color=auto' -apruN a/efi-updatevar.c b/efi-updatevar.c
 --- a/efi-updatevar.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/efi-updatevar.c	2026-04-09 09:19:57.604419950 +0100
++++ b/efi-updatevar.c	2026-05-23 21:27:07.546219650 +0100
 @@ -11,6 +11,7 @@
  #include <stdio.h>
  #include <stdlib.h>
@@ -60,9 +64,45 @@ diff '--color=auto' -apruN a/efi-updatevar.c b/efi-updatevar.c
  #include <efi.h>
  
  #include <kernel_efivars.h>
+@@ -52,7 +52,6 @@ help(const char *progname)
+ 	       "\t-g <guid>\tOptional <guid> for the X509 Certificate\n"
+ 	       "\t-k <key>\tSecret key file for authorising User Mode updates\n"
+ 	       "\t-d <list>[-<entry>]\tDelete the signature list <list> (or just a single <entry> within the list)\n"
+-	       "\t--engine <eng>\tUse engine <eng> for private key\n"
+ 	       );
+ }
+ 
+@@ -61,7 +60,6 @@ main(int argc, char *argv[])
+ {
+ 	char *variables[] = { "PK", "KEK", "db", "dbx" };
+ 	char *signedby[] = { "PK", "PK", "KEK", "KEK" };
+-	char *engine = NULL;
+ 	EFI_GUID *owners[] = { &GV_GUID, &GV_GUID, &SIG_DB, &SIG_DB };
+ 	EFI_GUID *owner, guid = MOK_OWNER;
+ 	int i, esl_mode = 0, fd, ret, delsig = -1, delentry = -1;
+@@ -116,10 +114,6 @@ main(int argc, char *argv[])
+ 			sscanf(argv[2], "%d-%d", &delsig, &delentry);
+ 			argv += 2;
+ 			argc -= 2;
+-		} else if (strcmp(argv[1], "--engine") == 0) {
+-			engine = argv[2];
+-			argv += 2;
+-			argc -= 2;
+ 		} else {
+ 			/* unrecognised option */
+ 			break;
+@@ -286,7 +280,7 @@ main(int argc, char *argv[])
+ 			fprintf(stderr, "Can't update variable%s without a key\n", variable_is_setupmode() ? "" : " in User Mode");
+ 			exit(1);
+ 		}
+-		EVP_PKEY *pkey = read_private_key(engine, key_file);
++		EVP_PKEY *pkey = read_private_key(key_file);
+ 		if (!pkey) {
+ 			fprintf(stderr, "error reading private key %s\n", key_file);
+ 			exit(1);
 diff '--color=auto' -apruN a/flash-var.c b/flash-var.c
 --- a/flash-var.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/flash-var.c	2026-04-09 09:19:57.604471811 +0100
++++ b/flash-var.c	2026-05-23 21:27:02.957453589 +0100
 @@ -10,7 +10,6 @@
  #include <fcntl.h>
  #include <unistd.h>
@@ -73,7 +113,7 @@ diff '--color=auto' -apruN a/flash-var.c b/flash-var.c
  #include <version.h>
 diff '--color=auto' -apruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
 --- a/hash-to-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/hash-to-efi-sig-list.c	2026-04-09 09:19:57.604512991 +0100
++++ b/hash-to-efi-sig-list.c	2026-05-23 21:27:02.957515096 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */
@@ -82,9 +122,24 @@ diff '--color=auto' -apruN a/hash-to-efi-sig-list.c b/hash-to-efi-sig-list.c
  #include <efi.h>
  #ifdef CONFIG_arm
  /* FIXME:
+diff '--color=auto' -apruN a/include/openssl_sign.h b/include/openssl_sign.h
+--- a/include/openssl_sign.h	2019-01-08 22:13:13.000000000 +0000
++++ b/include/openssl_sign.h	2026-05-23 21:27:07.546273707 +0100
+@@ -2,9 +2,9 @@
+ 
+ int
+ sign_efi_var(char *payload, int payload_size, char *keyfile, char *certfile,
+-	     unsigned char **sig, int *sigsize, char *engine);
++	     unsigned char **sig, int *sigsize);
+ int
+ sign_efi_var_ssl(char *payload, int payload_size, EVP_PKEY *pkey, X509 *cert,
+ 		 unsigned char **sig, int *sigsize);
+ EVP_PKEY *
+-read_private_key(char *engine, char *keyfile);
++read_private_key(char *keyfile);
 diff '--color=auto' -apruN a/include/pecoff.h b/include/pecoff.h
 --- a/include/pecoff.h	2019-01-08 22:13:13.000000000 +0000
-+++ b/include/pecoff.h	2026-04-09 09:19:57.604554851 +0100
++++ b/include/pecoff.h	2026-05-23 21:27:02.957571943 +0100
 @@ -1,7 +1,8 @@
  #include <PeImage.h>
  
@@ -97,7 +152,7 @@ diff '--color=auto' -apruN a/include/pecoff.h b/include/pecoff.h
  EFI_STATUS
 diff '--color=auto' -apruN a/lib/asn1/oid.h b/lib/asn1/oid.h
 --- a/lib/asn1/oid.h	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/asn1/oid.h	2026-04-09 09:19:57.604601582 +0100
++++ b/lib/asn1/oid.h	2026-05-23 21:27:02.957635380 +0100
 @@ -11,11 +11,11 @@
  #define OID_H_
  
@@ -117,7 +172,7 @@ diff '--color=auto' -apruN a/lib/asn1/oid.h b/lib/asn1/oid.h
  extern const oid_t oid_names[];
 diff '--color=auto' -apruN a/lib/console.c b/lib/console.c
 --- a/lib/console.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/console.c	2026-04-09 09:19:57.604651232 +0100
++++ b/lib/console.c	2026-05-23 21:27:02.957700716 +0100
 @@ -357,7 +357,7 @@ static struct {
  	{  EFI_SECURITY_VIOLATION,     L"Security Violation"},
  
@@ -129,7 +184,7 @@ diff '--color=auto' -apruN a/lib/console.c b/lib/console.c
  	{  EFI_WARN_BUFFER_TOO_SMALL,  L"Warning Buffer Too Small"},
 diff '--color=auto' -apruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
 --- a/lib/kernel_efivars.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/kernel_efivars.c	2026-04-09 09:19:57.604712253 +0100
++++ b/lib/kernel_efivars.c	2026-05-23 21:27:02.957776462 +0100
 @@ -16,7 +16,6 @@
  #include <unistd.h>
  #include <time.h>
@@ -219,9 +274,102 @@ diff '--color=auto' -apruN a/lib/kernel_efivars.c b/lib/kernel_efivars.c
  }
  
  int
+diff '--color=auto' -apruN a/lib/openssl_sign.c b/lib/openssl_sign.c
+--- a/lib/openssl_sign.c	2019-01-08 22:13:13.000000000 +0000
++++ b/lib/openssl_sign.c	2026-05-23 21:27:07.546301966 +0100
+@@ -7,7 +7,6 @@
+ #include <openssl/pem.h>
+ #include <openssl/err.h>
+ #include <openssl/sha.h>
+-#include <openssl/engine.h>
+ 
+ #include <openssl_sign.h>
+ 
+@@ -33,7 +32,7 @@ sign_efi_var_ssl(char *payload, int payl
+ 
+ int
+ sign_efi_var(char *payload, int payload_size, char *keyfile, char *certfile,
+-	     unsigned char **sig, int *sigsize, char *engine)
++	     unsigned char **sig, int *sigsize)
+ {
+ 	int ret;
+ 
+@@ -60,7 +59,7 @@ sign_efi_var(char *payload, int payload_
+ 		return 1;
+ 	}
+ 
+-	EVP_PKEY *pkey = read_private_key(engine, keyfile);
++	EVP_PKEY *pkey = read_private_key(keyfile);
+ 	if (!pkey) {
+ 		ERR_print_errors_fp(stdout);
+ 		fprintf(stderr, "error reading private key %s\n", keyfile);
+@@ -96,61 +95,8 @@ read_pem_private_key(char *keyfile)
+ 	return pkey;
+ }
+ 
+-static int ui_read(UI *ui, UI_STRING *uis)
+-{
+-	char password[128];
+-
+-	if (UI_get_string_type(uis) != UIT_PROMPT)
+-		return 0;
+-
+-	EVP_read_pw_string(password, sizeof(password), "Enter engine key pass phrase:", 0);
+-	UI_set_result(ui, uis, password);
+-	return 1;
+-}
+-
+-static EVP_PKEY *
+-read_engine_private_key(char *engine, char *keyfile)
+-{
+-	UI_METHOD *ui;
+-	ENGINE *e;
+-	EVP_PKEY *pkey = NULL;
+-
+-	ENGINE_load_builtin_engines();
+-	e = ENGINE_by_id(engine);
+-
+-	if (!e) {
+-		fprintf(stderr, "Failed to load engine: %s\n", engine);
+-		ERR_print_errors_fp(stderr);
+-		return NULL;
+-	}
+-
+-	ui = UI_create_method("sbsigntools");
+-	if (!ui) {
+-		fprintf(stderr, "Failed to create UI method\n");
+-		ERR_print_errors_fp(stderr);
+-		goto out_free;
+-	}
+-	UI_method_set_reader(ui, ui_read);
+-
+-	if (!ENGINE_init(e)) {
+-		fprintf(stderr, "Failed to initialize engine %s\n", engine);
+-		ERR_print_errors_fp(stderr);
+-		goto out_free;
+-	}
+-
+-	pkey = ENGINE_load_private_key(e, keyfile, ui, NULL);
+-	ENGINE_finish(e);
+-
+- out_free:
+-	ENGINE_free(e);
+-	return pkey;
+-}
+-
+ EVP_PKEY *
+-read_private_key(char *engine, char *keyfile)
++read_private_key(char *keyfile)
+ {
+-	if (engine)
+-		return read_engine_private_key(engine, keyfile);
+-	else
+-		return read_pem_private_key(keyfile);
++	return read_pem_private_key(keyfile);
+ }
 diff '--color=auto' -apruN a/lib/pecoff.c b/lib/pecoff.c
 --- a/lib/pecoff.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/pecoff.c	2026-04-09 09:19:57.604764323 +0100
++++ b/lib/pecoff.c	2026-05-23 21:27:02.957858258 +0100
 @@ -69,7 +69,7 @@
  #include <buildefi.h>
  
@@ -251,7 +399,7 @@ diff '--color=auto' -apruN a/lib/pecoff.c b/lib/pecoff.c
  		goto out;
 diff '--color=auto' -apruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
 --- a/lib/pkcs7verify.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/pkcs7verify.c	2026-04-09 09:19:57.611651142 +0100
++++ b/lib/pkcs7verify.c	2026-05-23 21:27:02.957936904 +0100
 @@ -172,7 +172,7 @@ pkcs7verify_allow(VOID *data, UINTN len)
  	EFI_STATUS status;
  	int i;
@@ -263,7 +411,7 @@ diff '--color=auto' -apruN a/lib/pkcs7verify.c b/lib/pkcs7verify.c
  
 diff '--color=auto' -apruN a/lib/sha256.c b/lib/sha256.c
 --- a/lib/sha256.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/sha256.c	2026-04-09 09:19:57.611744433 +0100
++++ b/lib/sha256.c	2026-05-23 21:27:02.958008781 +0100
 @@ -290,7 +290,7 @@ sha256_get_pecoff_digest_mem(void *buffe
  	 * filled to the end of the page */
  	DataSize = ALIGN_VALUE(DataSize, 8);
@@ -275,7 +423,7 @@ diff '--color=auto' -apruN a/lib/sha256.c b/lib/sha256.c
  		return efi_status;
 diff '--color=auto' -apruN a/lib/shim_protocol.c b/lib/shim_protocol.c
 --- a/lib/shim_protocol.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/lib/shim_protocol.c	2026-04-09 09:19:57.611815733 +0100
++++ b/lib/shim_protocol.c	2026-05-23 21:27:02.958075247 +0100
 @@ -13,7 +13,7 @@
  static EFI_STATUS shimprotocol_context(void *data, unsigned int size,
  				       PE_COFF_LOADER_IMAGE_CONTEXT *context)
@@ -287,7 +435,7 @@ diff '--color=auto' -apruN a/lib/shim_protocol.c b/lib/shim_protocol.c
  static EFI_STATUS shimprotocol_verify(void *buffer, UINT32 size)
 diff '--color=auto' -apruN a/Makefile b/Makefile
 --- a/Makefile	2019-01-08 22:13:13.000000000 +0000
-+++ b/Makefile	2026-04-09 09:19:57.611873754 +0100
++++ b/Makefile	2026-05-23 21:27:02.958133424 +0100
 @@ -21,15 +21,22 @@ KEYUPDATEAUTH = $(ALLKEYS:=-update.auth)
  KEYBLACKLISTAUTH = $(ALLKEYS:=-blacklist.auth)
  KEYHASHBLACKLISTAUTH = $(ALLKEYS:=-hash-blacklist.auth)
@@ -355,7 +503,7 @@ diff '--color=auto' -apruN a/Makefile b/Makefile
  	rm -f PK.* KEK.* DB.* $(EFIFILES) $(EFISIGNED) $(BINARIES) *.o *.so
 diff '--color=auto' -apruN a/Make.rules b/Make.rules
 --- a/Make.rules	2019-01-08 22:13:13.000000000 +0000
-+++ b/Make.rules	2026-04-09 09:20:12.894657881 +0100
++++ b/Make.rules	2026-05-23 21:27:02.958189941 +0100
 @@ -8,6 +8,10 @@ else ifeq ($(ARCH),x86_64)
  ARCH3264 =
  else ifeq ($(ARCH),aarch64)
@@ -412,7 +560,7 @@ diff '--color=auto' -apruN a/Make.rules b/Make.rules
  %-hash-blacklist.esl: %.crt cert-to-efi-hash-list
 diff '--color=auto' -apruN a/sig-list-to-certs.c b/sig-list-to-certs.c
 --- a/sig-list-to-certs.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/sig-list-to-certs.c	2026-04-09 09:19:57.611988974 +0100
++++ b/sig-list-to-certs.c	2026-05-23 21:27:02.958230679 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */
@@ -423,7 +571,7 @@ diff '--color=auto' -apruN a/sig-list-to-certs.c b/sig-list-to-certs.c
  /* FIXME:
 diff '--color=auto' -apruN a/sign-efi-sig-list.c b/sign-efi-sig-list.c
 --- a/sign-efi-sig-list.c	2019-01-08 22:13:13.000000000 +0000
-+++ b/sign-efi-sig-list.c	2026-04-09 09:19:57.612036835 +0100
++++ b/sign-efi-sig-list.c	2026-05-23 21:27:07.546331914 +0100
 @@ -4,7 +4,6 @@
   * see COPYING file
   */
@@ -432,3 +580,48 @@ diff '--color=auto' -apruN a/sign-efi-sig-list.c b/sign-efi-sig-list.c
  #include <efi.h>
  #ifdef CONFIG_arm
  /* FIXME:
+@@ -31,7 +30,7 @@
+ static void
+ usage(const char *progname)
+ {
+-	printf("Usage: %s [-r] [-m] [-a] [-g <guid>] [-o] [-t <timestamp>] [-i <infile>] [-c <crt file>] [-k <key file>] [-e <engine>] <var> <efi sig list file> <output file>\n", progname);
++	printf("Usage: %s [-r] [-m] [-a] [-g <guid>] [-o] [-t <timestamp>] [-i <infile>] [-c <crt file>] [-k <key file>] <var> <efi sig list file> <output file>\n", progname);
+ }
+ 
+ static void
+@@ -56,7 +55,6 @@ help(const char *progname)
+ 	       "\t-g <guid>        Use <guid> as the signature owner GUID\n"
+ 	       "\t-c <crt>         <crt> is the file containing the signing certificate in PEM format\n"
+ 	       "\t-k <key>         <key> is the file containing the key for <crt> in PEM format\n"
+-	       "\t-e <engine>      Use openssl engine <engine> for the private key\n"
+ 	       );
+ }
+ 
+@@ -67,7 +65,6 @@ main(int argc, char *argv[])
+ 		*str, *signedinput = NULL, *timestampstr = NULL;
+ 	void *out;
+ 	const char *progname = argv[0];
+-	char *engine = NULL;
+ 	unsigned char *sigbuf;
+ 	int rsasig = 0, monotonic = 0, varlen, i, outputforsign = 0, outlen,
+ 		sigsize;
+@@ -126,10 +123,6 @@ main(int argc, char *argv[])
+ 			certfile = argv[2];
+ 			argv += 2;
+ 			argc -= 2;
+-		} else if (strcmp("-e", argv[1]) == 0) {
+-			engine = argv[2];
+-			argv += 2;
+-			argc -= 2;
+ 		} else  {
+ 			break;
+ 		}
+@@ -249,7 +242,7 @@ main(int argc, char *argv[])
+ 			exit(1);
+ 		}
+ 		if (sign_efi_var(signbuf, signbuflen, keyfile, certfile,
+-				 &sigbuf, &sigsize, engine))
++				 &sigbuf, &sigsize))
+ 			exit(1);
+ 	}
+ 	printf("Signature of size %d\n", sigsize);

@@ -85,4 +85,4 @@ CONFIG_WPS_ER=y
 CONFIG_WPS_NFC=y
 CONFIG_WPS_REG_DISABLE_OPEN=y
 CONFIG_WPS=y
-CFLAGS += -Wno-error=discarded-qualifiers
+CFLAGS += -Wno-error=deprecated-declarations -Wno-error=discarded-qualifiers

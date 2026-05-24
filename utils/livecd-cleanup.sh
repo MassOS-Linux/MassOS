@@ -45,6 +45,9 @@ rm -f /etc/xdg/autostart/trust-livecd-installer.desktop
 # Set up machine-id for this installation, if it lacks one.
 systemd-machine-id-setup
 
+# Generate SSH host keys.
+ssh-keygen -A
+
 # Auto-generate a Machine Owner Key (MOK) for the new system.
 # This is to support signing of out of tree kernel modules and similar.
 # Follow the formatting of Ubuntu/Debian, as VirtualBox also expects that.

@@ -96,19 +96,20 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(unam
 popd; popd
 rm -rf gcc-16.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.0.6.tar.xz
-pushd linux-7.0.6
+tar -xf ../sources/linux-7.0.10.tar.xz
+pushd linux-7.0.10
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0.6
+rm -rf linux-7.0.10
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
+patch -Np1 -i ../../patches/glibc-2.43-securityfixes.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
 ../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib

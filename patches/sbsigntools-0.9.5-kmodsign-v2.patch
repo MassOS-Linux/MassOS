@@ -4,15 +4,24 @@ Unified and rediffed for MassOS.
 
 Origin: <https://packages.ubuntu.com/source/noble/sbsigntool>
 
-diff '--color=auto' -aruN a/docs/kmodsign.1.in b/docs/kmodsign.1.in
+Patch v2 (new rediff): Remove usage of the OpenSSL ENGINE API, which
+was removed by upstream in OpenSSL 4.0.0. The caveat is that hardware
+signing keys (based on PKCS#11) are no longer supported. But MOKs,
+which are used to sign out-of-tree modules installed by the user, are
+always the standard PKCS#7 (file-based) anyway. A v3 of this patch may
+be produced if other distros rewrite this module to retain PKCS#11
+support, without reliance on the OpenSSL ENGINE API. But for now, that
+is beyond the scope of MassOS.
+
+diff '--color=auto' -apruN a/docs/kmodsign.1.in b/docs/kmodsign.1.in
 --- a/docs/kmodsign.1.in	1970-01-01 01:00:00.000000000 +0100
-+++ b/docs/kmodsign.1.in	2025-06-24 11:30:14.434613088 +0100
++++ b/docs/kmodsign.1.in	2026-05-23 21:11:11.621706603 +0100
 @@ -0,0 +1,2 @@
 +[name]
 +kmodsign - Kernel module signing tool
-diff '--color=auto' -aruN a/docs/Makefile.am b/docs/Makefile.am
+diff '--color=auto' -apruN a/docs/Makefile.am b/docs/Makefile.am
 --- a/docs/Makefile.am	2023-03-19 21:07:59.000000000 +0000
-+++ b/docs/Makefile.am	2025-06-24 11:30:14.434502858 +0100
++++ b/docs/Makefile.am	2026-05-23 21:11:11.621706603 +0100
 @@ -1,9 +1,9 @@
  
  man1_MANS = sbsign.1 sbverify.1 sbattach.1 sbvarsign.1 sbsiglist.1 \
@@ -25,10 +34,10 @@ diff '--color=auto' -aruN a/docs/Makefile.am b/docs/Makefile.am
  CLEANFILES = $(man1_MANS)
  
  $(builddir)/%.1: $(srcdir)/%.1.in $(top_builddir)/src/%
-diff '--color=auto' -aruN a/src/kmodsign.c b/src/kmodsign.c
+diff '--color=auto' -apruN a/src/kmodsign.c b/src/kmodsign.c
 --- a/src/kmodsign.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/src/kmodsign.c	2025-06-24 11:30:14.434711428 +0100
-@@ -0,0 +1,352 @@
++++ b/src/kmodsign.c	2026-05-23 21:11:11.621706603 +0100
+@@ -0,0 +1,332 @@
 +/* Sign a module file using the given key.
 + *
 + * Copyright © 2014-2015 Red Hat, Inc. All Rights Reserved.
@@ -56,7 +65,6 @@ diff '--color=auto' -aruN a/src/kmodsign.c b/src/kmodsign.c
 +#include <openssl/evp.h>
 +#include <openssl/pem.h>
 +#include <openssl/err.h>
-+#include <openssl/engine.h>
 +
 +/*
 + * Use CMS if we have openssl-1.0.0 or newer available - otherwise we have to
@@ -259,30 +267,11 @@ diff '--color=auto' -aruN a/src/kmodsign.c b/src/kmodsign.c
 +	/* Read the private key and the X.509 cert the PKCS#7 message
 +	 * will point to.
 +	 */
-+	if (!strncmp(private_key_name, "pkcs11:", 7)) {
-+		ENGINE *e;
-+
-+		ENGINE_load_builtin_engines();
-+		drain_openssl_errors();
-+		e = ENGINE_by_id("pkcs11");
-+		ERR(!e, "Load PKCS#11 ENGINE");
-+		if (ENGINE_init(e))
-+			drain_openssl_errors();
-+		else
-+			ERR(1, "ENGINE_init");
-+		if (key_pass)
-+			ERR(!ENGINE_ctrl_cmd_string(e, "PIN", key_pass, 0), "Set PKCS#11 PIN");
-+		private_key = ENGINE_load_private_key(e, private_key_name, NULL,
-+						      NULL);
-+		ERR(!private_key, "%s", private_key_name);
-+	} else {
-+		b = BIO_new_file(private_key_name, "rb");
-+		ERR(!b, "%s", private_key_name);
-+		private_key = PEM_read_bio_PrivateKey(b, NULL, pem_pw_cb, NULL);
-+		ERR(!private_key, "%s", private_key_name);
-+		BIO_free(b);
-+	}
-+
++	b = BIO_new_file(private_key_name, "rb");
++	ERR(!b, "%s", private_key_name);
++	private_key = PEM_read_bio_PrivateKey(b, NULL, pem_pw_cb, NULL);
++	ERR(!private_key, "%s", private_key_name);
++	BIO_free(b);
 +	b = BIO_new_file(x509_name, "rb");
 +	ERR(!b, "%s", x509_name);
 +	x509 = d2i_X509_bio(b, NULL); /* Binary encoded X.509 */
@@ -381,9 +370,9 @@ diff '--color=auto' -aruN a/src/kmodsign.c b/src/kmodsign.c
 +
 +	return 0;
 +}
-diff '--color=auto' -aruN a/src/Makefile.am b/src/Makefile.am
+diff '--color=auto' -apruN a/src/Makefile.am b/src/Makefile.am
 --- a/src/Makefile.am	2023-03-19 21:07:59.000000000 +0000
-+++ b/src/Makefile.am	2025-06-24 11:30:14.434236228 +0100
++++ b/src/Makefile.am	2026-05-23 21:11:11.621706603 +0100
 @@ -1,5 +1,5 @@
  
 -bin_PROGRAMS = sbsign sbverify sbattach sbvarsign sbsiglist sbkeysync
@@ -391,7 +380,7 @@ diff '--color=auto' -aruN a/src/Makefile.am b/src/Makefile.am
  
  coff_headers = coff/external.h coff/pe.h
  AM_CFLAGS = -Wall -Wextra --std=gnu99
-@@ -39,3 +39,7 @@
+@@ -39,3 +39,7 @@ sbkeysync_SOURCES = sbkeysync.c $(common
  sbkeysync_LDADD = $(common_LDADD) $(uuid_LIBS)
  sbkeysync_CPPFLAGS = $(EFI_CPPFLAGS)
  sbkeysync_CFLAGS = $(AM_CFLAGS) $(common_CFLAGS)
