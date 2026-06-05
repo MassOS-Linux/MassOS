@@ -487,12 +487,12 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.10.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.0.11.tar.xz
 https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.20/linux-apfs-rw-0.3.20.tar.gz
-https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260410.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260519.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.6/llvm-project-22.1.6.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/llvm-project-22.1.7.src.tar.xz
 https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.35.tar.bz2
 https://www.cpan.org/authors/id/P/PV/PVANDRY/Locale-gettext-1.07.tar.gz
@@ -522,7 +522,7 @@ https://github.com/PyO3/maturin/archive/v1.13.3/maturin-1.13.3.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.6.tar.gz
 https://github.com/memtest86plus/memtest86plus/archive/v7.20/memtest86plus-7.20.tar.gz
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
-https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.1/mesa-mesa-26.1.1.tar.bz2
+https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.2/mesa-mesa-26.1.2.tar.bz2
 https://github.com/mesonbuild/meson/releases/download/1.11.1/meson-1.11.1.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.19.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/mkfontscale-1.2.4.tar.xz
@@ -725,7 +725,7 @@ https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.1.0/SVT-AV1-v4.1.0.tar.bz2
 https://github.com/swig/swig/archive/v4.4.1/swig-4.4.1.tar.gz
 https://github.com/GNOME/sysprof/archive/50.0/sysprof-50.0.tar.gz
 https://github.com/OpenPrinting/system-config-printer/releases/download/v1.5.18/system-config-printer-1.5.18.tar.xz
-https://github.com/systemd/systemd/archive/v260.1/systemd-260.1.tar.gz
+https://github.com/systemd/systemd/archive/v260.2/systemd-260.2.tar.gz
 https://taglib.org/releases/taglib-2.3.tar.gz
 https://www.samba.org/ftp/talloc/talloc-2.4.4.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.35.tar.xz

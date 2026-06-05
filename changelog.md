@@ -113,10 +113,10 @@ Upgraded software (core):
 - chafa: `(new package) --> 1.14.5`
 - chardet: `5.0.0 --> 5.2.0`
 - charset-normalizer: `(new package) --> 3.4.4`
-- Clang: `14.0.6 --> 22.1.6`
+- Clang: `14.0.6 --> 22.1.7`
 - Class-Inspector: `(new package) --> 1.36`
 - CMake: `3.24.2 --> 4.3.3`
-- compiler-rt: `15.0.3 --> 22.1.6`
+- compiler-rt: `15.0.3 --> 22.1.7`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
 - confuse: `(new package) --> 3.3`
@@ -339,11 +339,11 @@ Upgraded software (core):
 - libcdio: `2.1.0 --> 2.2.0`
 - libcdio-paranoia: `10.2+2.0.1 --> 10.2+2.0.2`
 - libchamplain: `0.12.20 --> 0.12.21`
-- libclc: `(new package) --> 22.1.6`
+- libclc: `(new package) --> 22.1.7`
 - libcloudproviders: `(new package) --> 0.3.6`
 - libcupsfilters: `(new package) --> 2.1.1`
-- libc++: `(new package) --> 22.1.6`
-- libc++abi: `(new package) --> 22.1.6`
+- libc++: `(new package) --> 22.1.7`
+- libc++abi: `(new package) --> 22.1.7`
 - libde265: `1.0.8 --> 1.0.18`
 - libdecor: `(new package) --> 0.2.2`
 - libdisplay-info: `(new package) --> 0.3.0`
@@ -496,13 +496,13 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 7.0.10`
-- Linux-API-Headers: `6.0.0 --> 7.0.10`
-- Linux-Firmware: `(new package) --> 20260410`
-- Linux-Headers: `6.0.0 --> 7.0.10`
+- Linux: `6.0.0 --> 7.0.11`
+- Linux-API-Headers: `6.0.0 --> 7.0.11`
+- Linux-Firmware: `(new package) --> 20260519`
+- Linux-Headers: `6.0.0 --> 7.0.11`
 - Linux-PAM: `1.5.2 --> 1.7.2`
-- LLD: `14.0.6 --> 22.1.6`
-- LLVM: `14.0.6 --> 22.1.6`
+- LLD: `14.0.6 --> 22.1.7`
+- LLVM: `14.0.6 --> 22.1.7`
 - LMDB: `0.9.29 --> 0.9.35`
 - lolcat: `1.2 --> 1.5`
 - LSB-Tools: `0.10 --> 0.12`
@@ -524,7 +524,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.13.3`
 - mdadm: `4.2 --> 4.6`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 26.1.1`
+- Mesa: `22.1.7 --> 26.1.2`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.11.1`
 - meson-python: `(new package) --> 0.19.0`
@@ -575,7 +575,7 @@ Upgraded software (core):
 - OpenAL: `1.22.2 --> 1.24.3`
 - OpenH264: `2.3.1 --> 2.6.0`
 - OpenJPEG: `2.5.0 --> 2.5.4`
-- OpenMP: `(new package) --> 22.1.6`
+- OpenMP: `(new package) --> 22.1.7`
 - OpenSSH: `9.0p1 --> 10.3p1`
 - OpenSSL: `3.0.5 --> 4.0.0`
 - OpenVPN: `2.5.7 --> 2.7.4`
@@ -703,7 +703,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 4.1.0`
 - SWIG: `4.0.2 --> 4.4.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 260.1`
+- systemd: `251.5 --> 260.2`
 - Taglib: `1.12 --> 2.3`
 - talloc: `(new package) --> 2.4.4`
 - tar: `1.34 --> 1.35`
@@ -839,7 +839,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.1.0`
 - Evince: `43.0 --> 48.1`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 151.0.1`
+- Firefox: `105.0.1 --> 151.0.3`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`

@@ -2405,9 +2405,8 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.407
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-260.1.tar.gz
-pushd systemd-260.1
-patch -Np1 -i ../../patches/systemd-260.1-openssl4.patch
+tar -xf ../sources/systemd-260.2.tar.gz
+pushd systemd-260.2
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -2446,7 +2445,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-260.1
+rm -rf systemd-260.2
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -3638,6 +3637,7 @@ rm -rf sudo-1.9.17p2
 # dracut.
 tar -xf ../sources/dracut-111.tar.gz
 pushd dracut-111
+patch -Np1 -i ../../patches/dracut-111-snapdragonfix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio
 make
 make install
@@ -3903,8 +3903,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-22.1.6.src.tar.xz
-pushd llvm-project-22.1.6.src
+tar -xf ../sources/llvm-project-22.1.7.src.tar.xz
+pushd llvm-project-22.1.7.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AArch64;AMDGPU;ARM;BPF;NVPTX;WebAssembly;X86" -DLLVM_HOST_TRIPLE="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3922,7 +3922,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-22.1.6.src
+rm -rf llvm-project-22.1.7.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -4101,13 +4101,13 @@ insmod linux
 insmod chain
 insmod peimage
 insmod bli
-insmod usbms
-insmod usb_keyboard
 insmod font
 insmod gzio
 insmod efi_gop
 if [ "$grub_cpu" = "i386" -o "$grub_cpu" = "x86_64" ]; then
   insmod efi_uga
+  insmod usbms
+  insmod usb_keyboard
 fi
 insmod png
 set gfxpayload=keep
@@ -5151,14 +5151,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-22.1.2
 # libclc.
-tar -xf ../sources/llvm-project-22.1.6.src.tar.xz
-pushd llvm-project-22.1.6.src/libclc
+tar -xf ../sources/llvm-project-22.1.7.src.tar.xz
+pushd llvm-project-22.1.7.src/libclc
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-22.1.6.src
+rm -rf llvm-project-22.1.7.src
 # glslang.
 tar -xf ../sources/glslang-16.3.0.tar.gz
 pushd glslang-16.3.0
@@ -5250,8 +5250,8 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-26.1.1.tar.bz2
-pushd mesa-mesa-26.1.1
+tar -xf ../sources/mesa-mesa-26.1.2.tar.bz2
+pushd mesa-mesa-26.1.2
 ## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
 ## Try to only build drivers which are applicable to the target architecture.
@@ -5262,7 +5262,7 @@ ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-26.1.1
+rm -rf mesa-mesa-26.1.2
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.23.0.tar.bz2
 pushd libva-2.23.0
@@ -5669,9 +5669,8 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-260.1.tar.gz
-pushd systemd-260.1
-patch -Np1 -i ../../patches/systemd-260.1-openssl4.patch
+tar -xf ../sources/systemd-260.2.tar.gz
+pushd systemd-260.2
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -5689,7 +5688,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-260.1
+rm -rf systemd-260.2
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -8936,16 +8935,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.0.10.tar.xz
-pushd linux-7.0.10
+tar -xf ../sources/linux-7.0.11.tar.xz
+pushd linux-7.0.11
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.0.10,https://kernel.org
-linux.massos,1,MassOS,linux,7.0.10,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.0.11,https://kernel.org
+linux.massos,1,MassOS,linux,7.0.11,https://massos.org
 END
 cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
@@ -8954,6 +8953,7 @@ make
 [ "$MBS_ARCH" != "aarch64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/arm64/boot/Image
 make -s kernelrelease > version
 make INSTALL_MOD_STRIP=1 modules_install
+[ "$MBS_ARCH" != "aarch64" ] || make dtbs_install
 install -Dm644 version /usr/share/massos/.krel
 [ "$MBS_ARCH" != "x86_64" ] || cp arch/x86/boot/bzImage.signed /boot/vmlinuz-"$(cat version)"
 [ "$MBS_ARCH" != "aarch64" ] || cp arch/arm64/boot/Image.signed /boot/vmlinuz-"$(cat version)"
@@ -9005,7 +9005,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0.10
+rm -rf linux-7.0.11
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-595.71.05.tar.gz
 pushd open-gpu-kernel-modules-595.71.05
@@ -9049,8 +9049,8 @@ install -t /usr/share/licenses/apfs-rw-module -Dm644 LICENSE
 popd
 rm -rf linux-apfs-rw-0.3.20
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20260410.tar.xz
-pushd linux-firmware-20260410
+tar -xf ../sources/linux-firmware-20260519.tar.xz
+pushd linux-firmware-20260519
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -9062,7 +9062,7 @@ rm -rf /usr/lib/firmware/{liquidio,mellanox,netronome,qed,qlogic,{c*fw-*,ql2*_fw
 [ "$MBS_ARCH" = "aarch64" ] || rm -rf /usr/lib/firmware/{mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst,qcom}
 install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
 popd
-rm -rf linux-firmware-20260410
+rm -rf linux-firmware-20260519
 # Intel-Microcode (has no use on non-x86_64 architectures).
 tar -xf ../sources/intel-microcode-20260227.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227

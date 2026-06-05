@@ -144,6 +144,16 @@ cp iso-workdir/massos-rootfs/boot/vmlinuz-* iso-workdir/iso-root/vmlinuz
 echo "Generating initramfs..."
 mass-chroot iso-workdir/massos-rootfs /usr/sbin/mkinitramfs "$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)" >/dev/null
 mv iso-workdir/massos-rootfs/boot/initramfs-*.img iso-workdir/iso-root/initramfs.img
+# Install DTBs if we are on an architecture which ships them.
+if test -d iso-workdir/massos-rootfs/boot/dtbs-"$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)"; then
+  # Copy /boot/dtbs-KERNELVERSION to (iso)/dtbs
+  echo "Installing DTBs..."
+  cp -r iso-workdir/massos-rootfs/boot/dtbs-"$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)" iso-workdir/iso-root/dtbs
+elif test -d iso-workdir/massos-rootfs/boot/dtbs/"$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)"; then
+  # Copy /boot/dtbs/KERNELVERSION to (iso)/dtbs
+  echo "Installing DTBs..."
+  cp -r iso-workdir/massos-rootfs/boot/dtbs/"$(cat iso-workdir/massos-rootfs/usr/share/massos/.krel)" iso-workdir/iso-root/dtbs
+fi
 # Install bootloader files.
 echo "Setting up bootloader..."
 ## Legacy BIOS (ISOLINUX) (x86_64 only).
