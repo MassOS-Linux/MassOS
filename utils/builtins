@@ -191,6 +191,7 @@ glslang
 glu
 glycin
 gmp
+gnome-common
 gnome-keyring
 gnome-online-accounts
 gnome-themes-extra
@@ -298,6 +299,7 @@ libadwaita
 libaio
 libao
 libaom
+libappindicator
 libarchive
 libass
 libassuan
@@ -324,6 +326,7 @@ libcupsfilters
 libc++
 libc++abi
 libdaemon
+libdbusmenu
 libde265
 libdecor
 libdisplay-info

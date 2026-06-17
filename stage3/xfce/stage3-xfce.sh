@@ -230,14 +230,14 @@ install -t /usr/share/licenses/libwlembed -Dm644 LICENSE
 popd
 rm -rf libwlembed-4d37dc9-4d37dc9da9a1f699b86d4e6b05f4619b8eee4ee8
 # LabWC.
-tar -xf ../sources/labwc-0.9.6.tar.gz
-pushd labwc-0.9.6
+tar -xf ../sources/labwc-0.20.0.tar.gz
+pushd labwc-0.20.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
-rm -rf labwc-0.9.6
+rm -rf labwc-0.20.0
 # xfce4-session.
 tar -xf ../sources/xfce4-session-4.20.4.tar.bz2
 pushd xfce4-session-4.20.4
@@ -628,8 +628,8 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-151.0.3.tar.xz.1 -C /usr/lib
-[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-151.0.3.tar.xz -C /usr/lib
+[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-152.0.tar.xz.1 -C /usr/lib
+[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-152.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

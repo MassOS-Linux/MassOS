@@ -70,14 +70,14 @@ cp -r patches "$MASSOS"/root/mbs
 # Change to the working directory.
 pushd "$MASSOS"/root/mbs/work
 # Binutils (build 1).
-tar -xf ../sources/binutils-with-gold-2.46.tar.xz
-pushd binutils-with-gold-2.46
+tar -xf ../sources/binutils-with-gold-2.46.1.tar.xz
+pushd binutils-with-gold-2.46.1
 mkdir -p build; pushd build
-../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS Binutils 2.46.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 install
 popd; popd
-rm -rf binutils-with-gold-2.46
+rm -rf binutils-with-gold-2.46.1
 # GCC (build 1).
 tar -xf ../sources/gcc-16.1.0.tar.xz
 pushd gcc-16.1.0
@@ -96,15 +96,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(unam
 popd; popd
 rm -rf gcc-16.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.0.11.tar.xz
-pushd linux-7.0.11
+tar -xf ../sources/linux-7.1.tar.xz
+pushd linux-7.1
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.0.11
+rm -rf linux-7.1
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
@@ -130,16 +130,16 @@ rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
 rm -rf gcc-16.1.0
 # Binutils (build 2).
-tar -xf ../sources/binutils-with-gold-2.46.tar.xz
-pushd binutils-with-gold-2.46
+tar -xf ../sources/binutils-with-gold-2.46.1.tar.xz
+pushd binutils-with-gold-2.46.1
 sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
-../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.46" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.46.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
-rm -rf binutils-with-gold-2.46
+rm -rf binutils-with-gold-2.46.1
 # GCC (build 2).
 tar -xf ../sources/gcc-16.1.0.tar.xz
 pushd gcc-16.1.0

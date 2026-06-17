@@ -6,8 +6,8 @@ https://mirror.netcologne.de/xfce/src/apps/catfish/4.20/catfish-4.20.1.tar.xz
 https://github.com/elementary/icons/archive/8.1.0/elementary-icon-theme-8.1.0.tar.gz
 https://gitlab.gnome.org/GNOME/evince/-/archive/48.1/evince-48.1.tar.bz2
 https://mirror.netcologne.de/xfce/src/xfce/exo/4.20/exo-4.20.0.tar.bz2
-https://archive.mozilla.org/pub/firefox/releases/151.0.3/linux-aarch64/en-US/firefox-151.0.3.tar.xz
-https://archive.mozilla.org/pub/firefox/releases/151.0.3/linux-x86_64/en-US/firefox-151.0.3.tar.xz
+https://archive.mozilla.org/pub/firefox/releases/152.0/linux-aarch64/en-US/firefox-152.0.tar.xz
+https://archive.mozilla.org/pub/firefox/releases/152.0/linux-x86_64/en-US/firefox-152.0.tar.xz
 https://mirror.netcologne.de/xfce/src/xfce/garcon/4.20/garcon-4.20.0.tar.bz2
 https://gitlab.gnome.org/GNOME/gnome-calculator/-/archive/50.0/gnome-calculator-50.0.tar.bz2
 https://gitlab.gnome.org/GNOME/gnome-disk-utility/-/archive/46.1/gnome-disk-utility-46.1.tar.bz2
@@ -15,7 +15,7 @@ https://gitlab.gnome.org/World/gnome-firmware/-/archive/49.0/gnome-firmware-49.0
 https://gitlab.gnome.org/mwleeds/gnome-pwa-list/-/archive/48ac9f7/gnome-pwa-list-48ac9f7.tar.bz2
 https://gitlab.gnome.org/GNOME/gnome-software/-/archive/50.0/gnome-software-50.0.tar.bz2
 https://gitlab.gnome.org/GNOME/gparted/-/archive/GPARTED_1_8_1/gparted-GPARTED_1_8_1.tar.bz2
-https://github.com/labwc/labwc/archive/0.9.6/labwc-0.9.6.tar.gz
+https://github.com/labwc/labwc/archive/0.20.0/labwc-0.20.0.tar.gz
 https://gitlab.xfce.org/kelnos/libwlembed/-/archive/4d37dc9/libwlembed-0.0.0-299-g4d37dc9.tar.bz2
 https://mirror.netcologne.de/xfce/src/xfce/libxfce4ui/4.20/libxfce4ui-4.20.2.tar.bz2
 https://mirror.netcologne.de/xfce/src/xfce/libxfce4util/4.20/libxfce4util-4.20.1.tar.bz2

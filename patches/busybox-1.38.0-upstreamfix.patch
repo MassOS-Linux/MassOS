@@ -1,19 +1,5 @@
-diff '--color=auto' -apruN a/libbb/hash_md5_sha.c b/libbb/hash_md5_sha.c
---- a/libbb/hash_md5_sha.c	2024-09-26 15:00:52.000000000 +0100
-+++ b/libbb/hash_md5_sha.c	2026-05-07 15:12:21.932297473 +0100
-@@ -1313,7 +1313,9 @@ unsigned FAST_FUNC sha1_end(sha1_ctx_t *
- 	hash_size = 8;
- 	if (ctx->process_block == sha1_process_block64
- #if ENABLE_SHA1_HWACCEL
-+# if defined(__GNUC__) && defined(__x86_64__)
- 	 || ctx->process_block == sha1_process_block64_shaNI
-+# endif
- #endif
- 	) {
- 		hash_size = 5;
-diff '--color=auto' -apruN a/networking/tc.c b/networking/tc.c
---- a/networking/tc.c	2024-04-16 08:23:50.000000000 +0100
-+++ b/networking/tc.c	2026-05-07 15:12:16.388522037 +0100
+--- a/networking/tc.c
++++ b/networking/tc.c
 @@ -31,7 +31,7 @@
  //usage:	"qdisc [handle QHANDLE] [root|"IF_FEATURE_TC_INGRESS("ingress|")"parent CLASSID]\n"
  /* //usage: "[estimator INTERVAL TIME_CONSTANT]\n" */

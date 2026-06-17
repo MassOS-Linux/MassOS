@@ -11,11 +11,20 @@ GRUB_TIMEOUT=10
 # Don't change this from the default unless you know what you are doing.
 GRUB_DISTRIBUTOR="MassOS"
 
+# If you're on an aarch64 system, you may require a device tree blob to boot.
+# If you know you need one, add it here, relative to '/boot/dtbs-<kernel-ver>'.
+# e.g. the Lenovo Yoga Slim 7x needs 'qcom/x1e80100-lenovo-yoga-slim7x.dtb'.
+# This is currently a MassOS-specific option so isn't present on other distros.
+# However due to GRUB policy, UEFI secure boot must be turned OFF to use DTBs.
+GRUB_DEVICETREE=""
+
 # Add custom kernel parameters for standard entries only here.
-# 'quiet splash' are the ideal parameters for a graphical boot with plymouth.
+# 'quiet splash' are the ideal parameters for a graphical boot with Plymouth.
 GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
 
 # Add custom kernel parameters for all entries (including recovery mode) here.
+# Snapdragon X (Windows-on-ARM) laptops currently need, at minimum, these:
+# 'clk_ignore_unused pd_ignore_unused systemd.tpm2_wait=0'.
 GRUB_CMDLINE_LINUX=""
 
 # Ensure modules for both GPT and MBR disks are preloaded.

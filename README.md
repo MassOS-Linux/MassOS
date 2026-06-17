@@ -1,7 +1,8 @@
 # IMPORTANT NOTICE
 Official development of MassOS was ceased at the end of 2022. Unless otherwise stated, any subsequent code commits beyond this date are done purely for experimental purposes; they are NOT indicative of any upcoming release, should NOT be considered stable/usable, and will NOT be given any support whatsoever. See [changelog.md in the development branch](https://github.com/MassOS-Linux/MassOS/blob/development/changelog.md) for more information.
 
-- Experimental builds can be downloaded from [here](https://dmassey.net/files/massos-experimental-builds/) (Xfce only).
+- Current x86_64 builds can be downloaded from [here](https://archive.massos.org/massos-builds/) (Xfce only).
+- WIP aarch64 builds can be downloaded from [here](https://dmassey.net/files/massos-aarch64/) (this link is subject to change in the near future).
 
 # MassOS
 This is the main source repository for the [MassOS](https://massos.org) operating system.

@@ -1,0 +1,93 @@
+This is a unification of multiple (previously separate) GRUB patches applied by
+MassOS, all of which make some tweaks to the default files which (at runtime)
+are responsible for generating /boot/grub/grub.cfg.
+
+1. Ensures the efi_uga module is only loaded on architectures which support it.
+Attempting to load it on unsupported architectures, such as aarch64, will cause
+a warning to display on boot which would have to be manually dismissed.
+
+2. Adds support for auto-detecting-and-inserting the correct parameters for an
+installation which has LUKS disk encryption enabled. This patch inserts the
+parameters to support BOTH dracut, and initramfs-tools/mkinitcpio.
+
+3. Adds support for loading a device tree blob (DTB) file if one is specified.
+DTBs are required on certain systems e.g. aarch64 laptops & SBCs. This patch is
+derived from a downstream patch from Ubuntu, but with custom changes for MassOS
+such that the DTB file can be specified in /etc/default/grub, rather than
+needing to be symlinked in /boot (thus not requiring an update to the symlink
+when a newer kernel version is installed, and thus supporting the situation
+where /boot could be on a filesystem that doesn't support symlinks).
+
+diff '--color=auto' -apruN a/util/grub.d/00_header.in b/util/grub.d/00_header.in
+--- a/util/grub.d/00_header.in	2025-11-18 11:49:31.000000000 +0000
++++ b/util/grub.d/00_header.in	2026-06-07 18:58:04.983462904 +0100
+@@ -135,7 +135,9 @@ else # GRUB_FORCE_EFI_ALL_VIDEO is not s
+     cat <<EOF
+   if [ x\$grub_platform = xefi ]; then
+     insmod efi_gop
+-    insmod efi_uga
++    if [ x\$grub_cpu = xi386 -o x\$grub_cpu = xx86_64 ]; then
++      insmod efi_uga
++    fi
+   elif [ x\$feature_all_video_module = xy ]; then
+ EOF
+ fi # end GRUB_FORCE_EFI_ALL_VIDEO
+diff '--color=auto' -apruN a/util/grub.d/10_linux.in b/util/grub.d/10_linux.in
+--- a/util/grub.d/10_linux.in	2025-08-14 23:27:02.000000000 +0100
++++ b/util/grub.d/10_linux.in	2026-06-07 18:58:04.983618397 +0100
+@@ -157,6 +157,13 @@ EOF
+ 	initrd	$(echo $initrd_path)
+ EOF
+   fi
++  if test -n "${dtb}" ; then
++    message="$(gettext_printf "Loading device tree blob ...")"
++    sed "s/^/$submenu_indentation/" << EOF
++	echo	'$(echo "$message" | grub_quote)'
++	devicetree	${rel_dirname}/${dtb}
++EOF
++  fi
+   sed "s/^/$submenu_indentation/" << EOF
+ }
+ EOF
+@@ -214,6 +221,17 @@ for linux in ${reverse_sorted_list}; do
+   alt_version=`echo $version | sed -e "s,\.old$,,g"`
+   linux_root_device_thisversion="${LINUX_ROOT_DEVICE}"
+ 
++  # Detect LUKS encryption and change parameters for initramfs.
++  luks_device=""
++  luks_uuid=""
++  if test "${GRUB_DEVICE}" = /dev/mapper/cryptroot; then
++    luks_device="$(cryptsetup status /dev/mapper/cryptroot 2>/dev/null || true)"
++    luks_uuid="$(blkid -s UUID -o value -t TYPE=crypto_LUKS "$(echo "${luks_device}" | grep 'device:' | xargs | cut -d' ' -f2)" || true)"
++  fi
++  if test -n "${luks_uuid}"; then
++    linux_root_device_thisversion="/dev/mapper/cryptroot cryptdevice=UUID=${luks_uuid}:cryptroot rd.luks.uuid=${luks_uuid} rd.luks.name=${luks_uuid}=cryptroot"
++  fi
++
+   initrd_early=
+   for i in ${GRUB_EARLY_INITRD_LINUX_STOCK} \
+ 	   ${GRUB_EARLY_INITRD_LINUX_CUSTOM}; do
+@@ -250,6 +268,12 @@ for linux in ${reverse_sorted_list}; do
+     gettext_printf "Found initrd image: %s\n" "$(echo $initrd_display)" >&2
+   fi
+ 
++  dtb=
++  if test -n "${GRUB_DEVICETREE}" && test -e "${dirname}/dtbs-${version}/${GRUB_DEVICETREE}" ; then
++    dtb="dtbs-${version}/${GRUB_DEVICETREE}"
++    gettext_printf "Found device tree blob: %s\n" "${dirname}/${dtb}" >&2
++  fi
++
+   config=
+   for i in "${dirname}/config-${version}" "${dirname}/config-${alt_version}" "/etc/kernels/kernel-config-${version}" ; do
+     if test -e "${i}" ; then
+diff '--color=auto' -apruN a/util/grub-mkconfig.in b/util/grub-mkconfig.in
+--- a/util/grub-mkconfig.in	2025-11-18 11:49:31.000000000 +0000
++++ b/util/grub-mkconfig.in	2026-06-07 18:58:42.460752933 +0100
+@@ -223,6 +223,7 @@ export GRUB_DEFAULT \
+   GRUB_BUTTON_CMOS_ADDRESS \
+   GRUB_BUTTON_CMOS_CLEAN \
+   GRUB_DISTRIBUTOR \
++  GRUB_DEVICETREE \
+   GRUB_CMDLINE_LINUX \
+   GRUB_CMDLINE_LINUX_DEFAULT \
+   GRUB_CMDLINE_LINUX_RECOVERY \
