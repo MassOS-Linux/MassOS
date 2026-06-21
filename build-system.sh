@@ -45,16 +45,16 @@ chmod 0750 /root
 mkdir -p /usr/lib/locale
 mklocales
 # Install Rust, Go and GYP to temporary directories for building some packages.
-tar -xf ../sources/rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu.tar.gz
-pushd rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
+tar -xf ../sources/rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu.tar.gz
+pushd rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
-tar -xf ../../sources/rust-src-1.94.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
+tar -xf ../../sources/rust-src-1.96.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
 tar -xf ../../sources/cargo-c-"$MBS_ARCH"-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
-tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild/"$MBS_ARCH"/{,c}bindgen
+tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch/"$MBS_ARCH"/{,c}bindgen
 popd
-rm -rf rust-1.94.0-"$MBS_ARCH"-unknown-linux-gnu
-[ "$MBS_ARCH" != "x86_64" ] || tar -xf ../sources/go1.25.3.linux-amd64.tar.gz -C /root/mbs/extras
-[ "$MBS_ARCH" != "aarch64" ] || tar -xf ../sources/go1.25.3.linux-arm64.tar.gz -C /root/mbs/extras
+rm -rf rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu
+[ "$MBS_ARCH" != "x86_64" ] || tar -xf ../sources/go1.26.4.linux-amd64.tar.gz -C /root/mbs/extras
+[ "$MBS_ARCH" != "aarch64" ] || tar -xf ../sources/go1.26.4.linux-arm64.tar.gz -C /root/mbs/extras
 install -dm755 /root/mbs/extras/gyp
 tar -xf ../sources/gyp-1615ec.tar.gz -C /root/mbs/extras/gyp --strip-components=1
 # Bison (circular deps; rebuilt later).
@@ -1014,13 +1014,13 @@ install -t /usr/share/licenses/setuptools -Dm644 LICENSE
 popd
 rm -rf setuptools-82.0.1
 # pip.
-tar -xf ../sources/pip-26.0.1.tar.gz
-pushd pip-26.0.1
+tar -xf ../sources/pip-26.1.2.tar.gz
+pushd pip-26.1.2
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist pip --upgrade
 install -t /usr/share/licenses/pip -Dm644 LICENSE.txt
 popd
-rm -rf pip-26.0.1
+rm -rf pip-26.1.2
 # pyproject-hooks.
 tar -xf ../sources/pyproject_hooks-1.2.0.tar.gz
 pushd pyproject_hooks-1.2.0
@@ -2405,8 +2405,8 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.408
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-260.2.tar.gz
-pushd systemd-260.2
+tar -xf ../sources/systemd-261.tar.gz
+pushd systemd-261
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -2445,7 +2445,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-260.2
+rm -rf systemd-261
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -3914,8 +3914,8 @@ install -t /usr/share/licenses/graphene -Dm644 LICENSE.txt
 popd
 rm -rf graphene-1.10.8
 # LLVM / Clang / LLD / libc++ / libc++abi / compiler-rt / OpenMP.
-tar -xf ../sources/llvm-project-22.1.7.src.tar.xz
-pushd llvm-project-22.1.7.src
+tar -xf ../sources/llvm-project-22.1.8.src.tar.xz
+pushd llvm-project-22.1.8.src
 sed -i 's/utility/tool/' llvm/utils/FileCheck/CMakeLists.txt
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_INSTALL_DOCDIR=share/doc -DCMAKE_SKIP_INSTALL_RPATH=ON -DPACKAGE_VENDOR="MassOS" -DLLVM_ENABLE_PROJECTS="clang;lld" -DLLVM_ENABLE_RUNTIMES="compiler-rt;libcxx;libcxxabi;openmp" -DLLVM_TARGETS_TO_BUILD="AArch64;AMDGPU;ARM;BPF;NVPTX;WebAssembly;X86" -DLLVM_HOST_TRIPLE="$MBS_ARCH-$MBS_ARCH_VENDOR-linux-gnu" -DLLVM_BINUTILS_INCDIR=/usr/include -DLLVM_BUILD_LLVM_DYLIB=ON -DLLVM_LINK_LLVM_DYLIB=ON -DLLVM_ENABLE_FFI=ON -DLLVM_ENABLE_RTTI=ON -DLLVM_ENABLE_ZLIB=ON -DLLVM_ENABLE_ZSTD=ON -DLLVM_INCLUDE_BENCHMARKS=OFF -DLLVM_INCLUDE_EXAMPLES=OFF -DLLVM_INCLUDE_TESTS=OFF -DLLVM_USE_PERF=ON -DCLANG_LINK_CLANG_DYLIB=ON -DENABLE_LINKER_BUILD_ID=ON -DCLANG_CONFIG_FILE_SYSTEM_DIR=/etc/clang -DCLANG_DEFAULT_PIE_ON_LINUX=ON -DLIBCXX_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_INSTALL_LIBRARY_DIR=/usr/lib -DLIBCXXABI_USE_LLVM_UNWINDER=OFF -DCOMPILER_RT_USE_LIBCXX=OFF -DOPENMP_INSTALL_LIBDIR=lib -DLIBOMP_INSTALL_ALIASES=OFF -DLLVM_BUILD_DOCS=ON -DLLVM_ENABLE_SPHINX=ON -DSPHINX_WARNINGS_AS_ERRORS=OFF -Wno-dev -G Ninja -B build -S llvm
 ninja -C build
@@ -3933,7 +3933,7 @@ install -t /usr/share/licenses/libc++abi -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/compiler-rt -Dm644 LICENSE.TXT
 install -t /usr/share/licenses/openmp -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-22.1.7.src
+rm -rf llvm-project-22.1.8.src
 # bpftool.
 tar -xf ../sources/bpftool-7.6.0.tar.gz
 tar -xf ../sources/libbpf-1.6.2.tar.gz -C bpftool-7.6.0/libbpf --strip-components=1
@@ -4082,8 +4082,7 @@ tar -xf ../sources/grub-2.14.tar.xz
 pushd grub-2.14
 patch -Np1 -i ../../patches/grub-2.14-reverts.patch
 patch -Np1 -i ../../patches/grub-2.14-grubcfgfixes.patch
-patch -Np1 -i ../../patches/grub-2.12-uefisecureboot-installsigned.patch
-patch -Np1 -i ../../patches/grub-2.14-uefisecureboot-peimage.patch
+patch -Np1 -i ../../patches/grub-2.14-uefisecureboot.patch
 autoreconf -fi
 ## Note that the Legacy BIOS target is only supported and thus built on x86_64.
 mkdir -p build-pc; pushd build-pc
@@ -4119,7 +4118,6 @@ if [ "$grub_cpu" = "i386" -o "$grub_cpu" = "x86_64" ]; then
   insmod usbms
   insmod usb_keyboard
 fi
-insmod png
 set gfxpayload=keep
 if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
   insmod gfxterm
@@ -4127,21 +4125,30 @@ if loadfont (memdisk)/boot/grub/fonts/unicode.pf2; then
   terminal_input console
   terminal_output gfxterm
 fi
+if [ "$grub_cpu" = "i386" ]; then
+  set efi_suffix="ia32"
+elif [ "$grub_cpu" = "x86_64" ]; then
+  set efi_suffix="x64"
+elif [ "$grub_cpu" = "arm64" ]; then
+  set efi_suffix="aa64"
+else
+  set efi_suffix="$grub_cpu"
+fi
 END
 cat > grub-normal.cfg << "END"
-if [ -f $cmdpath/massos.cfg ]; then
-  configfile $cmdpath/massos.cfg
+if [ -f "$cmdpath/mass$efi_suffix.cfg" ]; then
+  configfile "$cmdpath/mass$efi_suffix.cfg"
 else
-  search --file --no-floppy --set=root /EFI/massos/massos.cfg
-  configfile /EFI/massos/massos.cfg
+  search --file --no-floppy --set=root "/EFI/massos/mass$efi_suffix.cfg"
+  configfile "/EFI/massos/mass$efi_suffix.cfg"
 fi
 END
 cat > grub-removable.cfg << "END"
-if [ -f $cmdpath/massos.cfg ]; then
-  configfile $cmdpath/massos.cfg
+if [ -f "$cmdpath/mass$efi_suffix.cfg" ]; then
+  configfile "$cmdpath/mass$efi_suffix.cfg"
 else
-  search --file --no-floppy --set=root /EFI/BOOT/massos.cfg
-  configfile /EFI/BOOT/massos.cfg
+  search --file --no-floppy --set=root "/EFI/BOOT/mass$efi_suffix.cfg"
+  configfile "/EFI/BOOT/mass$efi_suffix.cfg"
 fi
 END
 cat > grub-livecd.cfg << "END"
@@ -5160,14 +5167,14 @@ install -t /usr/share/licenses/spirv-llvm-translator -Dm644 LICENSE.TXT
 popd
 rm -rf SPIRV-LLVM-Translator-22.1.2
 # libclc.
-tar -xf ../sources/llvm-project-22.1.7.src.tar.xz
-pushd llvm-project-22.1.7.src/libclc
+tar -xf ../sources/llvm-project-22.1.8.src.tar.xz
+pushd llvm-project-22.1.8.src/libclc
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libclc -Dm644 LICENSE.TXT
 popd
-rm -rf llvm-project-22.1.7.src
+rm -rf llvm-project-22.1.8.src
 # glslang.
 tar -xf ../sources/glslang-16.3.0.tar.gz
 pushd glslang-16.3.0
@@ -5678,8 +5685,8 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-260.2.tar.gz
-pushd systemd-260.2
+tar -xf ../sources/systemd-261.tar.gz
+pushd systemd-261
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -5697,7 +5704,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-260.2
+rm -rf systemd-261
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5951,8 +5958,8 @@ install -t /usr/share/licenses/fish -Dm644 COPYING doc_src/license.rst
 popd
 rm -rf fish-4.0.2
 # yq.
-tar -xf ../sources/yq-4.52.2.tar.gz
-pushd yq-4.52.2
+tar -xf ../sources/yq-4.53.3.tar.gz
+pushd yq-4.53.3
 go build -trimpath -buildmode=pie -ldflags="-linkmode=external"
 install -t /usr/bin -Dm755 yq
 install -dm755 /usr/share/bash-completion/completions
@@ -5963,7 +5970,7 @@ yq completion zsh > /usr/share/zsh/site-functions/_yq
 yq completion fish > /usr/share/fish/vendor_completions.d/yq.fish
 install -t /usr/share/licenses/yq -Dm644 LICENSE
 popd
-rm -rf yq-4.52.2
+rm -rf yq-4.53.3
 # parallel.
 tar -xf ../sources/parallel-20250322.tar.bz2
 pushd parallel-20250322
@@ -7652,7 +7659,7 @@ rm -rf newt-0.52.25
 # UPower.
 tar -xf ../sources/upower-v1.91.2.tar.bz2
 pushd upower-v1.91.2
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dinstalled_tests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/upower -Dm644 COPYING
@@ -7847,17 +7854,19 @@ install -t /usr/share/licenses/libxmlb -Dm644 LICENSE
 popd
 rm -rf libxmlb-0.3.27
 # AppStream.
-tar -xf ../sources/AppStream-1.1.2.tar.xz
-pushd AppStream-1.1.2
-CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration -Wno-error=int-conversion" meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dvapi=true -Dcompose=true
+tar -xf ../sources/AppStream-1.1.3.tar.xz
+pushd AppStream-1.1.3
+sed -i "/^subdir('tests\/')$/d" meson.build
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dapidocs=false -Dblake3-support=false -Dcompose=true -Dman=false -Dvapi=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/appstream -Dm644 COPYING
 popd
-rm -rf AppStream-1.1.2
+rm -rf AppStream-1.1.3
 # appstream-glib.
 tar -xf ../sources/appstream_glib_0_8_3.tar.gz
 pushd appstream-glib-appstream_glib_0_8_3
+sed -e "/^subdir('installed-tests')$/d" -e "/^subdir('tests')$/d" -i data/meson.build
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Drpm=false
 ninja -C build
 ninja -C build install
@@ -7894,8 +7903,8 @@ install -t /usr/share/licenses/malcontent -Dm644 COPYING{,-DOCS}
 popd
 rm -rf malcontent-0.13.0
 # Flatpak.
-tar -xf ../sources/flatpak-1.16.6.tar.xz
-pushd flatpak-1.16.6
+tar -xf ../sources/flatpak-1.18.0.tar.xz
+pushd flatpak-1.18.0
 patch -Np1 -i ../../patches/flatpak-1.14.5-flathubrepo.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dsystem_bubblewrap=bwrap -Dsystem_dbus_proxy=xdg-dbus-proxy -Dtests=false
 ninja -C build
@@ -7917,7 +7926,7 @@ systemd-sysusers
 flatpak remote-add --if-not-exists flathub ./flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
 popd
-rm -rf flatpak-1.16.6
+rm -rf flatpak-1.18.0
 # libportal / libportal-gtk3 / libportal-gtk4.
 tar -xf ../sources/libportal-0.9.1.tar.xz
 pushd libportal-0.9.1
@@ -8645,6 +8654,7 @@ rm -rf colord-gtk-0.3.1
 # xdg-desktop-portal.
 tar -xf ../sources/xdg-desktop-portal-1.22.0.tar.xz
 pushd xdg-desktop-portal-1.22.0
+patch -Np1 -i ../../patches/xdg-desktop-portal-1.22.0-upstreamfix.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=disabled
 ninja -C build
 ninja -C build install
@@ -8724,7 +8734,7 @@ rm -rf libchamplain-0.12.21
 # gspell.
 tar -xf ../sources/gspell-1.14.3.tar.gz
 pushd gspell-1.14.3
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dinstall_tests=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gspell -Dm644 LICENSES/LGPL-2.1-or-later.txt
@@ -8961,16 +8971,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.1.tar.xz
-pushd linux-7.1
+tar -xf ../sources/linux-7.1.1.tar.xz
+pushd linux-7.1.1
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.1.0,https://kernel.org
-linux.massos,1,MassOS,linux,7.1.0,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.1.1,https://kernel.org
+linux.massos,1,MassOS,linux,7.1.1,https://massos.org
 END
 cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
@@ -9031,10 +9041,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1
+rm -rf linux-7.1.1
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-595.71.05.tar.gz
-pushd open-gpu-kernel-modules-595.71.05
+tar -xf ../sources/open-gpu-kernel-modules-610.43.02.tar.gz
+pushd open-gpu-kernel-modules-610.43.02
 patch -Np1 -i ../../patches/nvidia-modules-open-595.44.03-hardening.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -9046,7 +9056,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-595.71.05
+rm -rf open-gpu-kernel-modules-610.43.02
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.38.5.tar.gz
 pushd bcachefs-tools-1.38.5
@@ -9109,6 +9119,7 @@ rm -rf sof-bin-2025.12.2
 tar -xf ../sources/upgrade-massos-0.2.1.tar.gz
 pushd upgrade-massos-0.2.1
 go build -trimpath ugm-install-helper.go
+sed -i "s|massos-builds|builds/$(uname -m)|" upgrade-massos.conf
 install -t /usr/bin -Dm755 upgrade-massos
 install -t /usr/libexec/upgrade-massos -Dm755 ugm-install-helper
 install -t /etc/upgrade-massos -Dm644 upgrade-massos.conf
@@ -9162,8 +9173,8 @@ cat > /usr/share/massos/snapdversion << "END"
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
 # SHA256 checksum is for the source file named 'snapd_<VERSION>.vendor.tar.xz'.
-version: 2.75.2
-checksum: b59998e0e7f2b683d04999d968ef29f9b9933cdb2c85ffc83cf1505bc3efccf1
+version: 2.76
+checksum: 78ad358dc685ab5a40b9ca0b3fc283ae7c8fbbabb4612182d512bde7efeef605
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.

@@ -1,28 +1,28 @@
 UI vesamenu.c32
 PROMPT 0
-TIMEOUT 200
+TIMEOUT 300
 ONTIMEOUT massos
 
 MENU TITLE Welcome to MassOS
 MENU BACKGROUND splash.png
 
 LABEL massos
-MENU LABEL MassOS Live CD
+MENU LABEL MassOS @@VERSION@@ LIVE
 KERNEL /vmlinuz
 APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image
 
 LABEL massos-copytoram
-MENU LABEL MassOS Live CD (copy-to-RAM, high memory systems)
+MENU LABEL MassOS @@VERSION@@ LIVE (RAM)
 KERNEL /vmlinuz
 APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram
 
 LABEL massos-nomodeset
-MENU LABEL MassOS Live CD (fallback graphics, unsupported GPUs)
+MENU LABEL MassOS @@VERSION@@ LIVE (nomodeset)
 KERNEL /vmlinuz
 APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image nomodeset
 
 LABEL massos-copytoram-nomodeset
-MENU LABEL MassOS Live CD (copy-to-RAM + fallback graphics)
+MENU LABEL MassOS @@VERSION@@ LIVE (RAM + nomodeset)
 KERNEL /vmlinuz
 APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram nomodeset
 

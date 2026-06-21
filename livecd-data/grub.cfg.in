@@ -4,33 +4,24 @@
 # The first-stage configuration will have already loaded any necessary modules.
 # See the file 'keys/README.md' in the MassOS repository for more information.
 
-background_image /splash2.png
+set timeout=30
 
-set timeout=20
-
-# Architecture-specific EFI suffixes.
-if test "$grub_cpu" = "arm64"; then
-  set efi_suffix="aa64"
-else
-  set efi_suffix="x64"
-fi
-
-menuentry "MassOS Live CD" {
+menuentry "MassOS @@VERSION@@ LIVE" {
   linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image
   initrd /initramfs.img
 }
 
-menuentry "MassOS Live CD (copy-to-RAM, high memory systems)" {
+menuentry "MassOS @@VERSION@@ LIVE (RAM)" {
   linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram
   initrd /initramfs.img
 }
 
-menuentry "MassOS Live CD (fallback graphics, unsupported GPUs)" {
+menuentry "MassOS @@VERSION@@ LIVE (nomodeset)" {
   linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image nomodeset
   initrd /initramfs.img
 }
 
-menuentry "MassOS Live CD (copy-to-RAM + fallback graphics)" {
+menuentry "MassOS @@VERSION@@ LIVE (RAM + nomodeset)" {
   linux /vmlinuz root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@ISOFILE@@" ro quiet splash rd.live.image rd.live.ram nomodeset
   initrd /initramfs.img
 }

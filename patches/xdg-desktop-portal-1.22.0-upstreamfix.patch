@@ -1,0 +1,12 @@
+--- a/src/xdg-desktop-portal.service.in
++++ b/src/xdg-desktop-portal.service.in
+@@ -4,7 +4,8 @@
+ [Unit]
+ Description=Portal service
+ PartOf=graphical-session.target
+-Requisite=graphical-session.target
++Requires=dbus.service
++After=dbus.service
+ After=graphical-session.target
+ 
+ [Service]

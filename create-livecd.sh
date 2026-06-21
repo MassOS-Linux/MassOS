@@ -167,7 +167,7 @@ if test "$(uname -m)" = "x86_64"; then
   cp iso-workdir/syslinux/bios/com32/modules/reboot.c32 iso-workdir/iso-root/isolinux/reboot.c32
   cp iso-workdir/syslinux/bios/com32/modules/poweroff.c32 iso-workdir/iso-root/isolinux/poweroff.c32
   cp iso-workdir/syslinux/bios/mbr/isohdpfx.bin iso-workdir/iso-root/isolinux/isohdpfx.bin
-  sed "s|@@ISOFILE@@|$isoname|g" livecd-data/isolinux.cfg.in > iso-workdir/iso-root/isolinux/isolinux.cfg
+  sed -e "s|@@VERSION@@|$ver|g" -e "s|@@ISOFILE@@|$isoname|g" livecd-data/isolinux.cfg.in > iso-workdir/iso-root/isolinux/isolinux.cfg
   cp livecd-data/splash.png iso-workdir/iso-root/isolinux/splash.png
   cp iso-workdir/syslinux/COPYING iso-workdir/iso-root/LICENSES/ISOLINUX.txt
 fi
@@ -183,10 +183,9 @@ else
   cp iso-workdir/massos-rootfs/usr/lib/grub/arm64-efi-signed/glcdaa64.efi.signed iso-workdir/iso-root/EFI/BOOT/grubaa64.efi
   chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTAA64.EFI,{grubaa64,mmaa64}.efi}
 fi
-sed "s|@@ISOFILE@@|$isoname|g" livecd-data/grub.cfg.in > iso-workdir/iso-root/grub.cfg
+sed -e "s|@@VERSION@@|$ver|g" -e "s|@@ISOFILE@@|$isoname|g" livecd-data/grub.cfg.in > iso-workdir/iso-root/grub.cfg
 cp iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright iso-workdir/iso-root/LICENSES/shim.txt
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
-cp livecd-data/splash2.png iso-workdir/iso-root/splash2.png
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
 # Some of these won't be installed depending on architecture (if unsupported).
 cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi.signed iso-workdir/iso-root/EFI/tools/ipxe.efi

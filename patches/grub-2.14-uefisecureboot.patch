@@ -1,3 +1,22 @@
+This is a consolidation of the two (previously separate) GRUB UEFI secure boot
+patches.
+
+PATCH 01:
+
+Makes GRUB support UEFI secure boot via the use of pregenerated GRUB .efi
+binaries which can be signed for UEFI secure boot. Also makes use of shim where
+necessary.
+
+Heavily based on two patches from Ubuntu, but with minor modifications to work
+better on MassOS systems (primarily renaming the stub configuration file that
+lives next to the EFI binary): <https://packages.ubuntu.com/source/noble/grub2>
+
+Note that the patch does not affect distros which are not configured for secure
+boot (i.e., ones lacking a pregenerated and signed grubx64.efi.signed binary).
+Similarly, it won't affect --removable unless there is a gcdx64.efi.signed.
+
+PATCH 02:
+
 This patch pulls in the peimage module for GRUB from Ubuntu.
 
 It fixes an issue with UEFI Secure Boot whereby MokList-signed EFI binaries
@@ -9,13 +28,17 @@ binaries are properly validated against MokList certificates, not just UEFI db
 certificates.
 
 Please note that using this patch requires adding a 'grub.peimage,2' line to
-the SBAT data for GRUB.
+the SBAT data for GRUB. Please also note that, although Shim 16.1 was "meant"
+to fix this problem out of the box, it was found (on MassOS systems) to in fact
+introduce it's own regression, whereby Windows boot entries would hang when
+attempting to be chainloaded from GRUB. Until/unless this issue is fixed,
+MassOS will continue to use this peimage module patch, with Shim 15.8.
 
 <https://git.launchpad.net/ubuntu/+source/grub2> (2.14~git20250718.0e36779-2)
 
 diff '--color=auto' -apruN a/grub-core/loader/efi/peimage.c b/grub-core/loader/efi/peimage.c
 --- a/grub-core/loader/efi/peimage.c	1970-01-01 01:00:00.000000000 +0100
-+++ b/grub-core/loader/efi/peimage.c	2025-12-03 17:31:54.795174165 +0000
++++ b/grub-core/loader/efi/peimage.c	2026-06-20 19:13:07.549924905 +0100
 @@ -0,0 +1,922 @@
 +/* peimage.c - load EFI PE binaries (for Secure Boot support) */
 +
@@ -940,8 +963,8 @@ diff '--color=auto' -apruN a/grub-core/loader/efi/peimage.c b/grub-core/loader/e
 +  grub_efi_unregister_loader (&peimage_loader);
 +}
 diff '--color=auto' -apruN a/grub-core/Makefile.core.def b/grub-core/Makefile.core.def
---- a/grub-core/Makefile.core.def	2025-10-24 18:31:32.000000000 +0100
-+++ b/grub-core/Makefile.core.def	2025-12-03 17:31:54.794977782 +0000
+--- a/grub-core/Makefile.core.def	2026-01-08 18:22:14.000000000 +0000
++++ b/grub-core/Makefile.core.def	2026-06-20 19:13:07.553819652 +0100
 @@ -1919,6 +1919,19 @@ module = {
  };
  
@@ -964,7 +987,7 @@ diff '--color=auto' -apruN a/grub-core/Makefile.core.def b/grub-core/Makefile.co
    common = lib/fdt.c;
 diff '--color=auto' -apruN a/include/grub/efi/peimage.h b/include/grub/efi/peimage.h
 --- a/include/grub/efi/peimage.h	1970-01-01 01:00:00.000000000 +0100
-+++ b/include/grub/efi/peimage.h	2025-12-03 17:31:54.795251096 +0000
++++ b/include/grub/efi/peimage.h	2026-06-20 19:13:07.553819652 +0100
 @@ -0,0 +1,19 @@
 +/* SPDX-License-Identifier: GPL-3.0+ */
 +
@@ -985,3 +1008,334 @@ diff '--color=auto' -apruN a/include/grub/efi/peimage.h b/include/grub/efi/peima
 +
 +/* Value of the signature field of a PE image header */
 +#define GRUB_PE32_SIGNATURE "PE\0"
+diff '--color=auto' -apruN a/util/grub-install.c b/util/grub-install.c
+--- a/util/grub-install.c	2025-04-10 18:40:34.000000000 +0100
++++ b/util/grub-install.c	2026-06-20 19:18:05.880377005 +0100
+@@ -79,6 +79,7 @@ static char *label_color;
+ static char *label_bgcolor;
+ static char *product_version;
+ static int add_rs_codes = 1;
++static int uefi_secure_boot = 1;
+ 
+ enum
+   {
+@@ -109,7 +110,9 @@ enum
+     OPTION_LABEL_FONT,
+     OPTION_LABEL_COLOR,
+     OPTION_LABEL_BGCOLOR,
+-    OPTION_PRODUCT_VERSION
++    OPTION_PRODUCT_VERSION,
++    OPTION_UEFI_SECURE_BOOT,
++    OPTION_NO_UEFI_SECURE_BOOT
+   };
+ 
+ static int fs_probe = 1;
+@@ -233,6 +236,14 @@ argp_parser (int key, char *arg, struct
+       bootloader_id = xstrdup (arg);
+       return 0;
+ 
++    case OPTION_UEFI_SECURE_BOOT:
++      uefi_secure_boot = 1;
++      return 0;
++
++    case OPTION_NO_UEFI_SECURE_BOOT:
++      uefi_secure_boot = 0;
++      return 0;
++
+     case ARGP_KEY_ARG:
+       if (install_device)
+ 	grub_util_error ("%s", _("More than one install device?"));
+@@ -302,6 +313,13 @@ static struct argp_option options[] = {
+   {"label-color", OPTION_LABEL_COLOR, N_("COLOR"), 0, N_("use COLOR for label"), 2},
+   {"label-bgcolor", OPTION_LABEL_BGCOLOR, N_("COLOR"), 0, N_("use COLOR for label background"), 2},
+   {"product-version", OPTION_PRODUCT_VERSION, N_("STRING"), 0, N_("use STRING as product version"), 2},
++  {"uefi-secure-boot", OPTION_UEFI_SECURE_BOOT, 0, 0,
++   N_("install an image usable with UEFI Secure Boot. "
++      "This option is only available on EFI."), 2},
++  {"no-uefi-secure-boot", OPTION_NO_UEFI_SECURE_BOOT, 0, 0,
++   N_("do not install an image usable with UEFI Secure Boot, even if the "
++      "system was currently started using it. "
++      "This option is only available on EFI."), 2},
+   {0, 0, 0, 0, 0, 0}
+ };
+ 
+@@ -848,7 +866,8 @@ main (int argc, char *argv[])
+ {
+   int is_efi = 0;
+   const char *efi_distributor = NULL;
+-  const char *efi_file = NULL;
++  const char *efi_suffix = NULL, *efi_suffix_upper = NULL;
++  char *efi_file = NULL;
+   char **grub_devices;
+   grub_fs_t grub_fs;
+   grub_device_t grub_dev = NULL;
+@@ -1140,6 +1159,39 @@ main (int argc, char *argv[])
+       */
+       char *t;
+       efi_distributor = bootloader_id;
++      switch (platform)
++	{
++	case GRUB_INSTALL_PLATFORM_I386_EFI:
++	  efi_suffix = "ia32";
++	  efi_suffix_upper = "IA32";
++	  break;
++	case GRUB_INSTALL_PLATFORM_X86_64_EFI:
++	  efi_suffix = "x64";
++	  efi_suffix_upper = "X64";
++	  break;
++	case GRUB_INSTALL_PLATFORM_IA64_EFI:
++	  efi_suffix = "ia64";
++	  efi_suffix_upper = "IA64";
++	  break;
++	case GRUB_INSTALL_PLATFORM_ARM_EFI:
++	  efi_suffix = "arm";
++	  efi_suffix_upper = "ARM";
++	  break;
++	case GRUB_INSTALL_PLATFORM_ARM64_EFI:
++	  efi_suffix = "aa64";
++	  efi_suffix_upper = "AA64";
++	  break;
++	case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
++	  efi_suffix = "riscv32";
++	  efi_suffix_upper = "RISCV32";
++	  break;
++	case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
++	  efi_suffix = "riscv64";
++	  efi_suffix_upper = "RISCV64";
++	  break;
++	default:
++	  break;
++	}
+       if (removable)
+ 	{
+ 	  /* The specification makes stricter requirements of removable
+@@ -1148,72 +1200,16 @@ main (int argc, char *argv[])
+ 	     must have a specific file name depending on the architecture.
+ 	  */
+ 	  efi_distributor = "BOOT";
+-	  switch (platform)
+-	    {
+-	    case GRUB_INSTALL_PLATFORM_I386_EFI:
+-	      efi_file = "BOOTIA32.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_X86_64_EFI:
+-	      efi_file = "BOOTX64.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_IA64_EFI:
+-	      efi_file = "BOOTIA64.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM_EFI:
+-	      efi_file = "BOOTARM.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+-	      efi_file = "BOOTAA64.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_LOONGARCH64_EFI:
+-	      efi_file = "BOOTLOONGARCH64.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+-	      efi_file = "BOOTRISCV32.EFI";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
+-	      efi_file = "BOOTRISCV64.EFI";
+-	      break;
+-	    default:
+-	      grub_util_error ("%s", _("You've found a bug"));
+-	      break;
+-	    }
++	  if (!efi_suffix)
++	    grub_util_error ("%s", _("You've found a bug"));
++	  efi_file = xasprintf ("BOOT%s.EFI", efi_suffix_upper);
+ 	}
+       else
+ 	{
+ 	  /* It is convenient for each architecture to have a different
+ 	     efi_file, so that different versions can be installed in parallel.
+ 	  */
+-	  switch (platform)
+-	    {
+-	    case GRUB_INSTALL_PLATFORM_I386_EFI:
+-	      efi_file = "grubia32.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_X86_64_EFI:
+-	      efi_file = "grubx64.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_IA64_EFI:
+-	      efi_file = "grubia64.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM_EFI:
+-	      efi_file = "grubarm.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
+-	      efi_file = "grubaa64.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_LOONGARCH64_EFI:
+-	      efi_file = "grubloongarch64.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_RISCV32_EFI:
+-	      efi_file = "grubriscv32.efi";
+-	      break;
+-	    case GRUB_INSTALL_PLATFORM_RISCV64_EFI:
+-	      efi_file = "grubriscv64.efi";
+-	      break;
+-	    default:
+-	      efi_file = "grub.efi";
+-	      break;
+-	    }
++	  efi_file = xasprintf ("grub%s.efi", efi_suffix);
+ 	}
+       t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
+       free (efidir);
+@@ -1421,16 +1417,60 @@ main (int argc, char *argv[])
+               debug_image);
+     }
+ 
+-  if (!have_abstractions)
++  char *efi_signed = NULL;
++  switch (platform)
++    {
++    case GRUB_INSTALL_PLATFORM_I386_EFI:
++    case GRUB_INSTALL_PLATFORM_X86_64_EFI:
++    case GRUB_INSTALL_PLATFORM_ARM_EFI:
++    case GRUB_INSTALL_PLATFORM_ARM64_EFI:
++    case GRUB_INSTALL_PLATFORM_IA64_EFI:
++      {
++	char *dir = xasprintf ("%s-signed", grub_install_source_directory);
++	char *signed_image;
++	if (removable)
++	  signed_image = xasprintf ("gcd%s.efi.signed", efi_suffix);
++	else
++	  signed_image = xasprintf ("grub%s.efi.signed", efi_suffix);
++	efi_signed = grub_util_path_concat (2, dir, signed_image);
++	break;
++      }
++
++    default:
++      break;
++    }
++
++  if (!efi_signed || !grub_util_is_regular (efi_signed))
++    uefi_secure_boot = 0;
++
++  if (!have_abstractions || uefi_secure_boot)
+     {
+       if ((disk_module && grub_strcmp (disk_module, "biosdisk") != 0)
+ 	  || grub_drives[1]
+ 	  || (!install_drive
+ 	      && platform != GRUB_INSTALL_PLATFORM_POWERPC_IEEE1275)
+ 	  || (install_drive && !is_same_disk (grub_drives[0], install_drive))
+-	  || !have_bootdev (platform))
++	  || !have_bootdev (platform)
++	  || uefi_secure_boot)
+ 	{
+ 	  char *uuid = NULL;
++
++	  if (uefi_secure_boot && config.is_cryptodisk_enabled)
++	    {
++	      if (grub_dev->disk)
++		probe_cryptodisk_uuid (grub_dev->disk);
++
++	      for (curdrive = grub_drives + 1; *curdrive; curdrive++)
++		{
++		  grub_device_t dev = grub_device_open (*curdrive);
++		  if (!dev)
++		    continue;
++		  if (dev->disk)
++		    probe_cryptodisk_uuid (dev->disk);
++		  grub_device_close (dev);
++		}
++	    }
++
+ 	  /*  generic method (used on coreboot and ata mod).  */
+ 	  if (!force_file_id
+ 	      && grub_fs->fs_uuid && grub_fs->fs_uuid (grub_dev, &uuid))
+@@ -1559,9 +1599,6 @@ main (int argc, char *argv[])
+ 		grub_device_close (dev);
+ 	    }
+ 	  fprintf (load_cfg_f, "\n");
+-	  char *escaped_relpath = escape (relative_grubdir);
+-	  fprintf (load_cfg_f, "set prefix=($root)'%s'\n",
+-		   escaped_relpath);
+ 	}
+       else
+ 	{
+@@ -1978,7 +2015,78 @@ main (int argc, char *argv[])
+     case GRUB_INSTALL_PLATFORM_IA64_EFI:
+       {
+ 	char *dst = grub_util_path_concat (2, efidir, efi_file);
+-	grub_install_copy_file (imgfile, dst, 1);
++	if (uefi_secure_boot)
++	  {
++	    char *shim_signed = NULL;
++	    char *mok_file = NULL;
++	    char *bootcsv = NULL;
++	    char *config_base;
++	    char *config_dst;
++	    FILE *config_dst_f;
++
++	    shim_signed = xasprintf ("/usr/lib/shim/shim%s.efi.signed", efi_suffix);
++	    mok_file = xasprintf ("mm%s.efi", efi_suffix);
++	    bootcsv = xasprintf ("BOOT%s.CSV", efi_suffix_upper);
++
++	    if (grub_util_is_regular (shim_signed))
++	      {
++		char *chained_base, *chained_dst;
++		char *mok_src, *mok_dst, *bootcsv_src, *bootcsv_dst;
++
++		/* Install grub as our chained bootloader */
++		chained_base = xasprintf ("grub%s.efi", efi_suffix);
++		chained_dst = grub_util_path_concat (2, efidir, chained_base);
++		grub_install_copy_file (efi_signed, chained_dst, 1);
++		free (chained_dst);
++		free (chained_base);
++
++		/* Now handle shim, and make this our new "default" loader. */
++		if (!removable)
++		  {
++		    free (efi_file);
++		    efi_file = xasprintf ("shim%s.efi", efi_suffix);
++		    free (dst);
++		    dst = grub_util_path_concat (2, efidir, efi_file);
++		  }
++		grub_install_copy_file (shim_signed, dst, 1);
++		free (efi_signed);
++		efi_signed = xstrdup (shim_signed);
++
++		/* Not critical, so not an error if it is not present (as it
++		   won't be for older releases); but if we have MokManager,
++		   make sure it gets installed.  */
++		mok_src = grub_util_path_concat (2, "/usr/lib/shim/",
++						    mok_file);
++		mok_dst = grub_util_path_concat (2, efidir,
++						    mok_file);
++		grub_install_copy_file (mok_src,
++					mok_dst, 0);
++		free (mok_src);
++		free (mok_dst);
++
++		/* Also try to install boot.csv for fallback */
++		bootcsv_src = grub_util_path_concat (2, "/usr/lib/shim/",
++						     bootcsv);
++		bootcsv_dst = grub_util_path_concat (2, efidir, bootcsv);
++		grub_install_copy_file (bootcsv_src, bootcsv_dst, 0);
++		free (bootcsv_src);
++		free (bootcsv_dst);
++	      }
++	    else
++	      grub_install_copy_file (efi_signed, dst, 1);
++
++	    config_base = xasprintf ("mass%s.cfg", efi_suffix);
++	    config_dst = grub_util_path_concat (2, efidir, config_base);
++	    grub_install_copy_file (load_cfg, config_dst, 1);
++	    config_dst_f = grub_util_fopen (config_dst, "ab");
++	    char *escaped_relpath = escape (relative_grubdir);
++	    fprintf (config_dst_f, "configfile ($root)'%s'/grub.cfg\n", escaped_relpath);
++	    fclose (config_dst_f);
++	    free (config_dst);
++	    free (config_base);
++	  }
++	else
++	  grub_install_copy_file (imgfile, dst, 1);
+ 
+ 	grub_set_install_backup_ponr ();
+ 

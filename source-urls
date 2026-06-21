@@ -12,7 +12,7 @@ https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.16.tar.bz2
 https://github.com/GPUOpen-LibrariesAndSDKs/AMF/releases/download/v1.5.2/AMF-headers-v1.5.2.tar.gz
 https://github.com/linux-apfs/apfsprogs/archive/v0.2.1/apfsprogs-0.2.1.tar.gz
 https://gitlab.com/apparmor/apparmor/-/archive/v4.1.2/apparmor-v4.1.2.tar.bz2
-https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.2.tar.xz
+https://www.freedesktop.org/software/appstream/releases/AppStream-1.1.3.tar.xz
 https://github.com/hughsie/appstream-glib/archive/refs/tags/appstream_glib_0_8_3.tar.gz
 https://github.com/aria2/aria2/releases/download/release-1.37.0/aria2-1.37.0.tar.xz
 https://files.pythonhosted.org/packages/source/a/asciidoc/asciidoc-10.2.1.tar.gz
@@ -33,7 +33,7 @@ https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
 https://github.com/koverstreet/bcachefs-tools/archive/v1.38.5/bcachefs-tools-1.38.5.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.23/bind-9.20.23.tar.xz
-https://dmassey.net/files/misc/bindgen-0.72.1-cbindgen-0.29.2-massos-precomp-multi-rebuild.tar.xz
+https://dmassey.net/files/misc/bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-with-gold-2.46.1.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/GNOME/blueprint-compiler/archive/v0.20.4/blueprint-compiler-0.20.4.tar.gz
@@ -52,8 +52,8 @@ https://github.com/c-ares/c-ares/releases/download/v1.34.6/c-ares-1.34.6.tar.gz
 https://gitlab.freedesktop.org/cairo/cairo/-/archive/1.18.4/cairo-1.18.4.tar.bz2
 https://gitlab.freedesktop.org/cairo/cairomm/-/archive/1.14.6/cairomm-1.14.6.tar.bz2
 https://github.com/di/calver/archive/2025.04.02/calver-2025.04.02.tar.gz
-https://github.com/lu-zero/cargo-c/releases/download/v0.10.22/cargo-c-aarch64-unknown-linux-musl.tar.gz
-https://github.com/lu-zero/cargo-c/releases/download/v0.10.22/cargo-c-x86_64-unknown-linux-musl.tar.gz
+https://github.com/lu-zero/cargo-c/releases/download/v0.10.23/cargo-c-aarch64-unknown-linux-musl.tar.gz
+https://github.com/lu-zero/cargo-c/releases/download/v0.10.23/cargo-c-x86_64-unknown-linux-musl.tar.gz
 https://github.com/rustyrussell/ccan/archive/7340873/ccan-7340873.tar.gz
 https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
 https://files.pythonhosted.org/packages/source/c/cffi/cffi-2.0.0.tar.gz
@@ -156,7 +156,7 @@ https://github.com/firewalld/firewalld/releases/download/v2.3.0/firewalld-2.3.0.
 https://github.com/fish-shell/fish-shell/releases/download/4.0.2/fish-4.0.2.tar.xz
 https://github.com/xiph/flac/releases/download/1.5.0/flac-1.5.0.tar.xz
 https://download.flashrom.org/releases/flashrom-v1.7.0.tar.xz
-https://github.com/flatpak/flatpak/releases/download/1.16.6/flatpak-1.16.6.tar.xz
+https://github.com/flatpak/flatpak/releases/download/1.18.0/flatpak-1.18.0.tar.xz
 https://github.com/westes/flex/releases/download/v2.6.4/flex-2.6.4.tar.gz
 https://files.pythonhosted.org/packages/source/f/flit-core/flit_core-3.12.0.tar.gz
 https://github.com/fmtlib/fmt/archive/12.1.0/fmt-12.1.0.tar.gz
@@ -203,8 +203,8 @@ https://download.gnome.org/sources/gnome-themes-extra/3.28/gnome-themes-extra-3.
 https://github.com/ncroxon/gnu-efi/archive/4.0.4/gnu-efi-4.0.4.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.20.tar.bz2
 https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.13.tar.xz
-https://dl.google.com/go/go1.25.3.linux-amd64.tar.gz
-https://dl.google.com/go/go1.25.3.linux-arm64.tar.gz
+https://dl.google.com/go/go1.26.4.linux-amd64.tar.gz
+https://dl.google.com/go/go1.26.4.linux-arm64.tar.gz
 https://github.com/GNOME/gobject-introspection/archive/1.86.0/gobject-introspection-1.86.0.tar.gz
 https://mirror.lyrahosting.com/gnu/gperf/gperf-3.3.tar.gz
 https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.1.0.tar.bz2
@@ -490,12 +490,12 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.1.tar.xz
 https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.20/linux-apfs-rw-0.3.20.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260519.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz
-https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/llvm-project-22.1.7.src.tar.xz
+https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/llvm-project-22.1.8.src.tar.xz
 https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
 https://git.openldap.org/openldap/openldap/-/archive/LMDB_0.9.35.tar.bz2
 https://www.cpan.org/authors/id/P/PV/PVANDRY/Locale-gettext-1.07.tar.gz
@@ -572,7 +572,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/595.71.05/open-gpu-kernel-modules-595.71.05.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/610.43.02/open-gpu-kernel-modules-610.43.02.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-13.0.10/open-vm-tools-stable-13.0.10.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
@@ -609,7 +609,7 @@ https://github.com/OpenSC/pkcs11-helper/releases/download/pkcs11-helper-1.31.0/p
 https://distfiles.ariadne.space/pkgconf/pkgconf-2.5.1.tar.xz
 https://github.com/madler/pigz/archive/v2.8/pigz-2.8.tar.gz
 https://www.gnupg.org/ftp/gcrypt/pinentry/pinentry-1.3.2.tar.bz2
-https://github.com/pypa/pip/archive/26.0.1/pip-26.0.1.tar.gz
+https://github.com/pypa/pip/archive/26.1.2/pip-26.1.2.tar.gz
 https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.6.6/pipewire-1.6.6.tar.bz2
 https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.4/pixman-pixman-0.46.4.tar.bz2
 https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.6.0.tar.gz
@@ -665,9 +665,9 @@ https://github.com/oetiker/rrdtool-1.x/releases/download/v1.9.0/rrdtool-1.9.0.ta
 https://www.samba.org/ftp/rsync/src/rsync-3.4.4.tar.gz
 https://github.com/mirror/rtmpdump/archive/6f6bb13/rtmpdump-2.4-105-g6f6bb13.tar.gz
 https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.5.tar.xz
-https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.94.0-aarch64-unknown-linux-gnu.tar.gz
-https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.94.0-x86_64-unknown-linux-gnu.tar.gz
-https://static.rust-lang.org/dist/rust-src-1.94.0.tar.gz
+https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.96.0-aarch64-unknown-linux-gnu.tar.gz
+https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.96.0-x86_64-unknown-linux-gnu.tar.gz
+https://static.rust-lang.org/dist/rust-src-1.96.0.tar.gz
 https://download.samba.org/pub/samba/stable/samba-4.23.3.tar.gz
 https://gitlab.com/sane-project/backends/-/archive/1.4.0/sane-1.4.0.tar.gz
 https://github.com/alexpevzner/sane-airscan/archive/0.99.36/sane-airscan-0.99.36.tar.gz
@@ -728,7 +728,7 @@ https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.1.0/SVT-AV1-v4.1.0.tar.bz2
 https://github.com/swig/swig/archive/v4.4.1/swig-4.4.1.tar.gz
 https://github.com/GNOME/sysprof/archive/50.0/sysprof-50.0.tar.gz
 https://github.com/OpenPrinting/system-config-printer/releases/download/v1.5.18/system-config-printer-1.5.18.tar.xz
-https://github.com/systemd/systemd/archive/v260.2/systemd-260.2.tar.gz
+https://github.com/systemd/systemd/archive/v261/systemd-261.tar.gz
 https://taglib.org/releases/taglib-2.3.tar.gz
 https://www.samba.org/ftp/talloc/talloc-2.4.4.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.35.tar.xz
@@ -858,7 +858,7 @@ https://github.com/Cyan4973/xxHash/archive/v0.8.3/xxHash-0.8.3.tar.gz
 https://downloads.sourceforge.net/project/lzmautils/xz-5.8.2.tar.xz
 https://github.com/v1cont/yad/releases/download/v14.1/yad-14.1.tar.xz
 https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
-https://github.com/mikefarah/yq/archive/v4.52.2/yq-4.52.2.tar.gz
+https://github.com/mikefarah/yq/archive/v4.53.3/yq-4.53.3.tar.gz
 https://github.com/Yeraze/ytnef/archive/v2.1.2/ytnef-2.1.2.tar.gz
 https://github.com/ibireme/yyjson/archive/0.12.0/yyjson-0.12.0.tar.gz
 https://downloads.sourceforge.net/project/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz
