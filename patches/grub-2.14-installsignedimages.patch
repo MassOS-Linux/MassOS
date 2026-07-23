@@ -9,10 +9,10 @@ Note that the patch does not affect distros which are not configured for secure
 boot (i.e., ones lacking a pregenerated and signed grubx64.efi.signed binary).
 Similarly, it won't affect --removable unless there is a gcdx64.efi.signed.
 
-diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
---- a/util/grub-install.c	2025-06-20 18:04:12.000000000 +0100
-+++ b/util/grub-install.c	2025-08-10 23:56:49.132151394 +0100
-@@ -79,6 +79,7 @@
+diff '--color=auto' -apruN a/util/grub-install.c b/util/grub-install.c
+--- a/util/grub-install.c	2025-04-10 18:40:34.000000000 +0100
++++ b/util/grub-install.c	2026-07-23 22:27:01.330317163 +0100
+@@ -79,6 +79,7 @@ static char *label_color;
  static char *label_bgcolor;
  static char *product_version;
  static int add_rs_codes = 1;
@@ -20,7 +20,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
  
  enum
    {
-@@ -109,7 +110,9 @@
+@@ -109,7 +110,9 @@ enum
      OPTION_LABEL_FONT,
      OPTION_LABEL_COLOR,
      OPTION_LABEL_BGCOLOR,
@@ -31,7 +31,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
    };
  
  static int fs_probe = 1;
-@@ -233,6 +236,14 @@
+@@ -233,6 +236,14 @@ argp_parser (int key, char *arg, struct
        bootloader_id = xstrdup (arg);
        return 0;
  
@@ -46,7 +46,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
      case ARGP_KEY_ARG:
        if (install_device)
  	grub_util_error ("%s", _("More than one install device?"));
-@@ -302,6 +313,13 @@
+@@ -302,6 +313,13 @@ static struct argp_option options[] = {
    {"label-color", OPTION_LABEL_COLOR, N_("COLOR"), 0, N_("use COLOR for label"), 2},
    {"label-bgcolor", OPTION_LABEL_BGCOLOR, N_("COLOR"), 0, N_("use COLOR for label background"), 2},
    {"product-version", OPTION_PRODUCT_VERSION, N_("STRING"), 0, N_("use STRING as product version"), 2},
@@ -60,7 +60,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
    {0, 0, 0, 0, 0, 0}
  };
  
-@@ -848,7 +866,8 @@
+@@ -848,7 +866,8 @@ main (int argc, char *argv[])
  {
    int is_efi = 0;
    const char *efi_distributor = NULL;
@@ -70,7 +70,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
    char **grub_devices;
    grub_fs_t grub_fs;
    grub_device_t grub_dev = NULL;
-@@ -1140,6 +1159,39 @@
+@@ -1140,6 +1159,39 @@ main (int argc, char *argv[])
        */
        char *t;
        efi_distributor = bootloader_id;
@@ -110,7 +110,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
        if (removable)
  	{
  	  /* The specification makes stricter requirements of removable
-@@ -1148,72 +1200,16 @@
+@@ -1148,72 +1200,16 @@ main (int argc, char *argv[])
  	     must have a specific file name depending on the architecture.
  	  */
  	  efi_distributor = "BOOT";
@@ -187,7 +187,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
  	}
        t = grub_util_path_concat (3, efidir, "EFI", efi_distributor);
        free (efidir);
-@@ -1421,16 +1417,60 @@
+@@ -1421,16 +1417,60 @@ main (int argc, char *argv[])
                debug_image);
      }
  
@@ -250,7 +250,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
  	  /*  generic method (used on coreboot and ata mod).  */
  	  if (!force_file_id
  	      && grub_fs->fs_uuid && grub_fs->fs_uuid (grub_dev, &uuid))
-@@ -1559,9 +1599,6 @@
+@@ -1559,9 +1599,6 @@ main (int argc, char *argv[])
  		grub_device_close (dev);
  	    }
  	  fprintf (load_cfg_f, "\n");
@@ -260,7 +260,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
  	}
        else
  	{
-@@ -1978,7 +2015,75 @@
+@@ -1978,7 +2015,78 @@ main (int argc, char *argv[])
      case GRUB_INSTALL_PLATFORM_IA64_EFI:
        {
  	char *dst = grub_util_path_concat (2, efidir, efi_file);
@@ -270,6 +270,7 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 +	    char *shim_signed = NULL;
 +	    char *mok_file = NULL;
 +	    char *bootcsv = NULL;
++	    char *config_base;
 +	    char *config_dst;
 +	    FILE *config_dst_f;
 +
@@ -324,13 +325,15 @@ diff '--color=auto' -aruN a/util/grub-install.c b/util/grub-install.c
 +	    else
 +	      grub_install_copy_file (efi_signed, dst, 1);
 +
-+	    config_dst = grub_util_path_concat (2, efidir, "massos.cfg");
++	    config_base = xasprintf ("mass%s.cfg", efi_suffix);
++	    config_dst = grub_util_path_concat (2, efidir, config_base);
 +	    grub_install_copy_file (load_cfg, config_dst, 1);
 +	    config_dst_f = grub_util_fopen (config_dst, "ab");
 +	    char *escaped_relpath = escape (relative_grubdir);
 +	    fprintf (config_dst_f, "configfile ($root)'%s'/grub.cfg\n", escaped_relpath);
 +	    fclose (config_dst_f);
 +	    free (config_dst);
++	    free (config_base);
 +	  }
 +	else
 +	  grub_install_copy_file (imgfile, dst, 1);
