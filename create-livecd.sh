@@ -184,7 +184,14 @@ else
   chmod +x iso-workdir/iso-root/EFI/BOOT/{BOOTAA64.EFI,{grubaa64,mmaa64}.efi}
 fi
 sed -e "s|@@VERSION@@|$ver|g" -e "s|@@ISOFILE@@|$isoname|g" livecd-data/grub.cfg.in > iso-workdir/iso-root/grub.cfg
-cp iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright iso-workdir/iso-root/LICENSES/shim.txt
+if test -f iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright; then
+  cp iso-workdir/massos-rootfs/usr/share/licenses/shim/copyright iso-workdir/iso-root/LICENSES/shim.txt
+elif test -f iso-workdir/massos-rootfs/usr/share/licenses/shim/COPYRIGHT; then
+  cp iso-workdir/massos-rootfs/usr/share/licenses/shim/COPYRIGHT iso-workdir/iso-root/LICENSES/shim.txt
+else
+  echo "Error: No license file found for shim." >&2
+  exit 1
+fi
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
 # Some of these won't be installed depending on architecture (if unsupported).

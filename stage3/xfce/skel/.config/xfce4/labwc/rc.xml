@@ -1,0 +1,124 @@
+<?xml version="1.0"?>
+<!--
+  This is a very simple config file with many options missing. For a
+  complete set of options with comments, see Labwc docs/rc.xml.all
+
+  Some modifications to upstream defaults have been made for MassOS.
+
+  After modifying this file, you must run 'labwc -r', or re-login.
+-->
+<labwc_config>
+
+  <!-- Change to 'automatic' or 'cascade' if you prefer. -->
+  <placement>
+    <policy>center</policy>
+  </placement>
+
+  <theme>
+    <name>Arc-Dark</name>
+    <cornerRadius>8</cornerRadius>
+    <font name="sans" size="11"/>
+  </theme>
+
+  <desktops number="4" />
+
+  <keyboard>
+    <default/>
+    <!-- Use a different terminal emulator -->
+    <keybind key="W-Return">
+      <action name="Execute" command="xfce4-terminal"/>
+    </keybind>
+    <!-- Also provide Ctrl+Alt+T, which is a default in Xfwm4. -->
+    <keybind key="C-A-T">
+      <action name="Execute" command="xfce4-terminal"/>
+    </keybind>
+    <!--
+      Remove a previously defined keybind
+      A shorter alternative is <keybind key="W-F4" />
+    -->
+    <keybind key="W-F4">
+      <action name="None"/>
+    </keybind>
+
+    <!-- Upstream defaults numlock to on. We default to off. -->
+    <numlock>off</numlock>
+
+    <!--
+       Suggested Xfce key bindings.
+    -->
+    <!-- amixer is not usable for PipeWire. Use wpctl instead. -->
+    <keybind key="XF86AudioLowerVolume">
+      <action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-" />
+    </keybind>
+    <keybind key="XF86AudioRaiseVolume">
+      <action name="Execute" command="wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+" />
+    </keybind>
+    <keybind key="XF86AudioMute">
+      <action name="Execute" command="wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle" />
+    </keybind>
+    <!-- Use brightnessctl to allow adjustment with keys. -->
+    <keybind key="XF86MonBrightnessDown">
+      <action name="Execute" command="brightnessctl set 5%-" />
+    </keybind>
+    <keybind key="XF86MonBrightnessUp">
+      <action name="Execute" command="brightnessctl set 5%+" />
+    </keybind>
+    <keybind key="W-q">
+      <action name="Close" />
+    </keybind>
+    <keybind key="A-Tab">
+      <action name="NextWindow" />
+    </keybind>
+    <keybind key="W-Tab">
+      <action name="ToggleMaximize" />
+    </keybind>
+    <keybind key="W-1">
+      <action name="GoToDesktop" to="1" />
+    </keybind>
+    <keybind key="W-2">
+      <action name="GoToDesktop" to="2" />
+    </keybind>
+    <keybind key="W-3">
+      <action name="GoToDesktop" to="3" />
+    </keybind>
+    <keybind key="W-4">
+      <action name="GoToDesktop" to="4" />
+    </keybind>
+    <!-- Additional shortcuts which are default in Xfwm4. -->
+    <keybind key="A-F2">
+      <action name="Execute" command="xfce4-appfinder --disable-server -c" />
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute" command="xfce4-appfinder --disable-server -c" />
+    </keybind>
+    <keybind key="Print">
+      <action name="Execute" command="xfce4-screenshooter" />
+    </keybind>
+  </keyboard>
+
+  <libinput>
+    <!-- These settings apply to traditional mice. -->
+    <device category="non-touch">
+      <!-- Pointer speed between -1.0 (slowest) and 1.0 (fastest). -->
+      <pointerSpeed>0.0</pointerSpeed>
+      <!-- Change 'adaptive' to 'flat' to disable acceleration. -->
+      <accelProfile>adaptive</accelProfile>
+      <!-- Change 'no' to 'yes' to enable natural scrolling. -->
+      <naturalScroll>no</naturalScroll>
+    </device>
+    <!-- These settings apply to laptop touchpads. -->
+    <device category="touchpad">
+      <!-- Pointer speed between -1.0 (slowest) and 1.0 (fastest). -->
+      <pointerSpeed>0.0</pointerSpeed>
+      <!-- Change 'adaptive' to 'flat' to disable acceleration. -->
+      <accelProfile>adaptive</accelProfile>
+      <!-- Change 'no' to 'yes' to enable natural scrolling. -->
+      <naturalScroll>no</naturalScroll>
+    </device>
+  </libinput>
+
+  <snapping>
+    <range>10</range>
+  </snapping>
+
+</labwc_config>

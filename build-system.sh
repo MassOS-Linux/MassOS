@@ -83,7 +83,7 @@ rm -rf ncurses-6.6
 # Perl (circular deps; rebuilt later).
 tar -xf ../sources/perl-5.42.2.tar.xz
 pushd perl-5.42.2
-./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Duseshrplib -Dprivlib=/usr/lib/perl5/5.42/core_perl -Darchlib=/usr/lib/perl5/5.42/core_perl -Dsitelib=/usr/lib/perl5/5.42/site_perl -Dsitearch=/usr/lib/perl5/5.42/site_perl -Dvendorlib=/usr/lib/perl5/5.42/vendor_perl -Dvendorarch=/usr/lib/perl5/5.42/vendor_perl
+./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Duseshrplib -Dprivlib=/usr/lib/perl5/5.42/core_perl -Darchlib=/usr/lib/perl5/5.42/core_perl -Dsitelib=/usr/lib/perl5/5.42/site_perl -Dsitearch=/usr/lib/perl5/5.42/site_perl -Dvendorlib=/usr/lib/perl5/5.42/vendor_perl -Dvendorarch=/usr/lib/perl5/5.42/vendor_perl -Dmyuname="linux massos default $(uname -m) gnulinux" -Dosvers=default
 make
 make install
 popd
@@ -106,13 +106,13 @@ make install
 popd
 rm -rf texinfo-7.3
 # util-linux (circular deps; rebuilt later).
-tar -xf ../sources/util-linux-2.42.1.tar.xz
-pushd util-linux-2.42.1
+tar -xf ../sources/util-linux-2.42.2.tar.xz
+pushd util-linux-2.42.2
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --disable-static --disable-chfn-chsh --disable-liblastlog2 --disable-login --disable-nologin --disable-pylibmount --disable-runuser --disable-setpriv --disable-su --disable-use-tty-group --without-python
 make
 make install
 popd
-rm -rf util-linux-2.42.1
+rm -rf util-linux-2.42.2
 # man-pages.
 tar -xf ../sources/man-pages-6.18.tar.xz
 pushd man-pages-6.18
@@ -122,8 +122,8 @@ install -t /usr/share/licenses/man-pages -Dm644 LICENSES/*
 popd
 rm -rf man-pages-6.18
 # iana-etc.
-tar -xf ../sources/iana-etc-20260612.tar.gz
-install -t /etc -Dm644 iana-etc-20260612/{protocols,services}
+tar -xf ../sources/iana-etc-20260617.tar.gz
+install -t /etc -Dm644 iana-etc-20260617/{protocols,services}
 install -dm755 /usr/share/licenses/iana-etc
 cat > /usr/share/licenses/iana-etc/LICENSE << "END"
 Copyright 2017 Jörg Thalheim
@@ -134,7 +134,7 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 END
-rm -rf iana-etc-20260612
+rm -rf iana-etc-20260617
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
@@ -154,7 +154,7 @@ popd; popd
 rm -rf glibc-2.43
 # tzdata.
 mkdir -p tzdata; pushd tzdata
-tar -xf ../../sources/tzdata2026b.tar.gz
+tar -xf ../../sources/tzdata2026c.tar.gz
 mkdir -p /usr/share/zoneinfo/{posix,right}
 for r in etcetera southamerica northamerica europe africa antarctica asia australasia backward; do zic -L /dev/null -d /usr/share/zoneinfo $r; zic -L /dev/null -d /usr/share/zoneinfo/posix $r; zic -L leapseconds -d /usr/share/zoneinfo/right $r; done
 install -t /usr/share/zoneinfo -Dm644 {iso3166,zone{,1970}}.tab
@@ -184,6 +184,7 @@ make CFLAGS="$CFLAGS"
 make PREFIX=/usr install
 cp -a libbz2.so.* /usr/lib
 ln -sf libbz2.so.1.0.8 /usr/lib/libbz2.so
+ln -sf libbz2.so.1.0.8 /usr/lib/libbz2.so.1
 install -Dm755 bzip2-shared /usr/bin/bzip2
 ln -sf bzip2 /usr/bin/bzcat
 ln -sf bzip2 /usr/bin/bunzip2
@@ -277,8 +278,8 @@ install -t /usr/share/licenses/flex -Dm644 COPYING
 popd
 rm -rf flex-2.6.4
 # pkconf (replaces pkg-config).
-tar -xf ../sources/pkgconf-2.5.1.tar.xz
-pushd pkgconf-2.5.1
+tar -xf ../sources/pkgconf-3.0.2.tar.xz
+pushd pkgconf-3.0.2
 ./configure --prefix=/usr --disable-static
 make
 make install
@@ -287,7 +288,7 @@ ln -sf pkgconf.1 /usr/share/man/man1/pkg-config.1
 install -t /usr/share/licenses/pkgconf -Dm644 COPYING
 ln -sf pkgconf /usr/share/licenses/pkg-config
 popd
-rm -rf pkgconf-2.5.1
+rm -rf pkgconf-3.0.2
 # Binutils.
 tar -xf ../sources/binutils-with-gold-2.46.1.tar.xz
 pushd binutils-with-gold-2.46.1
@@ -339,23 +340,23 @@ install -t /usr/share/licenses/isl -Dm644 LICENSE
 popd
 rm -rf isl-0.27
 # Attr.
-tar -xf ../sources/attr-2.5.2.tar.xz
-pushd attr-2.5.2
+tar -xf ../sources/attr-2.6.0.tar.xz
+pushd attr-2.6.0
 ./configure --prefix=/usr --disable-static --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/attr -Dm644 doc/COPYING doc/COPYING.LGPL
 popd
-rm -rf attr-2.5.2
+rm -rf attr-2.6.0
 # Acl.
-tar -xf ../sources/acl-2.3.2.tar.xz
-pushd acl-2.3.2
+tar -xf ../sources/acl-2.4.0.tar.xz
+pushd acl-2.4.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/acl -Dm644 doc/COPYING doc/COPYING.LGPL
 popd
-rm -rf acl-2.3.2
+rm -rf acl-2.4.0
 # libxcrypt.
 tar -xf ../sources/libxcrypt-4.5.2.tar.xz
 pushd libxcrypt-4.5.2
@@ -607,14 +608,14 @@ install -t /usr/share/licenses/gperf -Dm644 COPYING
 popd
 rm -rf gperf-3.3
 # Expat.
-tar -xf ../sources/expat-2.8.1.tar.xz
-pushd expat-2.8.1
+tar -xf ../sources/expat-2.8.2.tar.xz
+pushd expat-2.8.2
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/expat -Dm644 COPYING
 popd
-rm -rf expat-2.8.1
+rm -rf expat-2.8.2
 # confuse.
 tar -xf ../sources/confuse-3.3.tar.xz
 pushd confuse-3.3
@@ -683,7 +684,7 @@ rm -rf lua-5.4.8
 # Perl.
 tar -xf ../sources/perl-5.42.2.tar.xz
 pushd perl-5.42.2
-BUILD_ZLIB=False BUILD_BZIP2=0 ./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.42/core_perl -Darchlib=/usr/lib/perl5/5.42/core_perl -Dsitelib=/usr/lib/perl5/5.42/site_perl -Dsitearch=/usr/lib/perl5/5.42/site_perl -Dvendorlib=/usr/lib/perl5/5.42/vendor_perl -Dvendorarch=/usr/lib/perl5/5.42/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Duseshrplib -Dusethreads
+BUILD_ZLIB=False BUILD_BZIP2=0 ./Configure -des -Doptimize="$CFLAGS" -Dprefix=/usr -Dvendorprefix=/usr -Dprivlib=/usr/lib/perl5/5.42/core_perl -Darchlib=/usr/lib/perl5/5.42/core_perl -Dsitelib=/usr/lib/perl5/5.42/site_perl -Dsitearch=/usr/lib/perl5/5.42/site_perl -Dvendorlib=/usr/lib/perl5/5.42/vendor_perl -Dvendorarch=/usr/lib/perl5/5.42/vendor_perl -Dman1dir=/usr/share/man/man1 -Dman3dir=/usr/share/man/man3 -Dpager="/usr/bin/less -isR" -Dmyuname="linux massos default $(uname -m) gnulinux" -Dosvers=default -Duseshrplib -Dusethreads
 BUILD_ZLIB=False BUILD_BZIP2=0 make
 BUILD_ZLIB=False BUILD_BZIP2=0 make install
 install -t /usr/share/licenses/perl -Dm644 Copying
@@ -890,14 +891,14 @@ install -t /usr/share/licenses/libbpf -Dm644 ../LICENSE{,.BSD-2-Clause,.LGPL-2.1
 popd
 rm -rf libbpf-1.6.2
 # patchelf.
-tar -xf ../sources/patchelf-0.18.0.tar.bz2
-pushd patchelf-0.18.0
+tar -xf ../sources/patchelf-0.19.1.tar.bz2
+pushd patchelf-0.19.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/patchelf -Dm644 COPYING
 popd
-rm -rf patchelf-0.18.0
+rm -rf patchelf-0.19.1
 # strace.
 tar -xf ../sources/strace-7.0.0.84.ce6af.tar.xz
 pushd strace-7.0.0.84.ce6af
@@ -908,14 +909,14 @@ install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
 popd
 rm -rf strace-7.0.0.84.ce6af
 # libffi.
-tar -xf ../sources/libffi-3.5.2.tar.gz
-pushd libffi-3.5.2
+tar -xf ../sources/libffi-3.7.1.tar.gz
+pushd libffi-3.7.1
 ./configure --prefix=/usr --disable-static --disable-exec-static-tramp --disable-multi-os-directory --enable-pax_emutramp
 make
 make install
 install -t /usr/share/licenses/libffi -Dm644 LICENSE
 popd
-rm -rf libffi-3.5.2
+rm -rf libffi-3.7.1
 # OpenSSL.
 tar -xf ../sources/openssl-4.0.1.tar.gz
 pushd openssl-4.0.1
@@ -926,6 +927,15 @@ make MANSUFFIX=ssl install
 install -t /usr/share/licenses/openssl -Dm644 LICENSE.txt
 popd
 rm -rf openssl-4.0.1
+# OpenSSL (3.x compat libs - to be removed once VMware is updated to 4.x).
+tar -xf ../sources/openssl-3.6.3.tar.gz
+pushd openssl-3.6.3
+./config --prefix=/usr --openssldir=/etc/ssl --libdir=lib shared zlib-dynamic no-docs
+make
+install -t /usr/lib -Dm755 lib{crypto,ssl}.so.3
+ldconfig
+popd
+rm -rf openssl-3.6.3
 # easy-rsa.
 tar -xf ../sources/EasyRSA-3.2.6.tgz
 pushd EasyRSA-3.2.6
@@ -1006,13 +1016,13 @@ install -t /usr/share/licenses/wheel -Dm644 LICENSE.txt
 popd
 rm -rf wheel-0.47.0
 # setuptools.
-tar -xf ../sources/setuptools-82.0.1.tar.gz
-pushd setuptools-82.0.1
+tar -xf ../sources/setuptools-83.0.0.tar.gz
+pushd setuptools-83.0.0
 pip --disable-pip-version-check wheel --no-build-isolation --no-cache-dir --no-deps -w dist .
 pip --disable-pip-version-check install --root-user-action ignore --compile --no-cache-dir --no-index --no-user -f dist setuptools
 install -t /usr/share/licenses/setuptools -Dm644 LICENSE
 popd
-rm -rf setuptools-82.0.1
+rm -rf setuptools-83.0.0
 # pip.
 tar -xf ../sources/pip-26.1.2.tar.gz
 pushd pip-26.1.2
@@ -1059,15 +1069,15 @@ install -t /usr/share/licenses/ninja -Dm644 COPYING
 popd
 rm -rf ninja-1.13.2
 # Meson.
-tar -xf ../sources/meson-1.11.1.tar.gz
-pushd meson-1.11.1
+tar -xf ../sources/meson-1.11.2.tar.gz
+pushd meson-1.11.2
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/bash-completion/completions -Dm644 data/shell-completions/bash/meson
 install -t /usr/share/zsh/site-functions -Dm644 data/shell-completions/zsh/_meson
 install -t /usr/share/licenses/meson -Dm644 COPYING
 popd
-rm -rf meson-1.11.1
+rm -rf meson-1.11.2
 # calver.
 tar -xf ../sources/calver-2025.04.02.tar.gz
 pushd calver-2025.04.02
@@ -1102,13 +1112,13 @@ install -t /usr/share/licenses/pycparser -Dm644 LICENSE
 popd
 rm -rf pycparser-release_v2.23
 # editables.
-tar -xf ../sources/editables-0.5.tar.gz
-pushd editables-0.5
+tar -xf ../sources/editables-0.6.tar.gz
+pushd editables-0.6
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/editables -Dm644 LICENSE.txt
 popd
-rm -rf editables-0.5
+rm -rf editables-0.6
 # pyproject-metadata.
 tar -xf ../sources/pyproject_metadata-0.11.0.tar.gz
 pushd pyproject_metadata-0.11.0
@@ -1125,30 +1135,38 @@ python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/typing-extensions -Dm644 LICENSE
 popd
 rm -rf typing_extensions-4.13.1
+# vcs-versioning.
+tar -xf ../sources/vcs_versioning-2.2.2.tar.gz
+pushd vcs_versioning-2.2.2
+python -m build -nw -o dist
+python -m installer --compile-bytecode 1 dist/*.whl
+install -t /usr/share/licenses/vcs-versioning -Dm644 LICENSE.txt
+popd
+rm -rf vcs_versioning-2.2.2
 # setuptools-scm.
-tar -xf ../sources/setuptools-scm-9.2.2.tar.gz
-pushd setuptools-scm-9.2.2
+tar -xf ../sources/setuptools_scm-10.1.2.tar.gz
+pushd setuptools_scm-10.1.2
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/setuptools-scm -Dm644 LICENSE
 popd
-rm -rf setuptools-scm-9.2.2
+rm -rf setuptools_scm-10.1.2
 # pytz.
-tar -xf ../sources/pytz-2025.2.tar.gz
-pushd pytz-2025.2
+tar -xf ../sources/pytz-2026.2.tar.gz
+pushd pytz-2026.2
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/pytz -Dm644 LICENSE.txt
 popd
-rm -rf pytz-2025.2
+rm -rf pytz-2026.2
 # pathspec.
-tar -xf ../sources/pathspec-1.0.4.tar.gz
-pushd pathspec-1.0.4
+tar -xf ../sources/pathspec-1.1.1.tar.gz
+pushd pathspec-1.1.1
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/pathspec -Dm644 LICENSE
 popd
-rm -rf pathspec-1.0.4
+rm -rf pathspec-1.1.1
 # pluggy.
 tar -xf ../sources/pluggy-1.6.0.tar.gz
 pushd pluggy-1.6.0
@@ -1165,13 +1183,13 @@ python -m installer --compile-bytecode 1 dist/*.whl
 popd
 rm -rf trove-classifiers-2026.1.14.14
 # hatchling.
-tar -xf ../sources/hatchling-1.28.0.tar.gz
-pushd hatchling-1.28.0
+tar -xf ../sources/hatchling-1.30.1.tar.gz
+pushd hatchling-1.30.1
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/hatching -Dm644 LICENSE.txt
 popd
-rm -rf hatchling-1.28.0
+rm -rf hatchling-1.30.1
 # hatch-vcs.
 tar -xf ../sources/hatch-vcs-0.5.0.tar.gz
 pushd hatch-vcs-0.5.0
@@ -1257,14 +1275,14 @@ install -t /usr/share/licenses/cabextract -Dm644 COPYING
 popd; popd
 rm -rf libmspack-1.11
 # libseccomp.
-tar -xf ../sources/libseccomp-2.6.0.tar.gz
-pushd libseccomp-2.6.0
+tar -xf ../sources/libseccomp-2.6.1.tar.gz
+pushd libseccomp-2.6.1
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libseccomp -Dm644 LICENSE
 popd
-rm -rf libseccomp-2.6.0
+rm -rf libseccomp-2.6.1
 # File.
 tar -xf ../sources/file-5.48.tar.gz
 pushd file-5.48
@@ -1300,23 +1318,23 @@ install -t /usr/share/licenses/diffutils -Dm644 COPYING
 popd
 rm -rf diffutils-3.12
 # Gawk.
-tar -xf ../sources/gawk-5.4.0.tar.xz
-pushd gawk-5.4.0
+tar -xf ../sources/gawk-5.4.1.tar.xz
+pushd gawk-5.4.1
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/gawk -Dm644 COPYING
 popd
-rm -rf gawk-5.4.0
+rm -rf gawk-5.4.1
 # Findutils.
-tar -xf ../sources/findutils-4.10.0.tar.xz
-pushd findutils-4.10.0
+tar -xf ../sources/findutils-4.11.0.tar.xz
+pushd findutils-4.11.0
 ./configure --prefix=/usr --localstatedir=/var/lib/locate --with-packager=MassOS
 make
 make install
 install -t /usr/share/licenses/findutils -Dm644 COPYING
 popd
-rm -rf findutils-4.10.0
+rm -rf findutils-4.11.0
 # Groff.
 tar -xf ../sources/groff-1.24.1.tar.gz
 pushd groff-1.24.1
@@ -1358,14 +1376,14 @@ install -t /usr/share/licenses/sharutils -Dm644 COPYING
 popd
 rm -rf sharutils-4.15.2
 # LMDB.
-tar -xf ../sources/LMDB_0.9.35.tar.bz2
-pushd openldap-LMDB_0.9.35-69087ced3cb6082f7dcfb4fc2dcaa3b68a7e2e8c/libraries/liblmdb
+tar -xf ../sources/LMDB_1.0.0.tar.bz2
+pushd openldap-LMDB_1.0.0-2562c3297402d82bbc049c7e645515edb4079eba/libraries/liblmdb
 make CFLAGS="$CFLAGS"
 sed -i 's| liblmdb.a||' Makefile
 make prefix=/usr install
 install -t /usr/share/licenses/lmdb -Dm644 COPYRIGHT LICENSE
 popd
-rm -rf openldap-LMDB_0.9.35-69087ced3cb6082f7dcfb4fc2dcaa3b68a7e2e8c
+rm -rf openldap-LMDB_1.0.0-2562c3297402d82bbc049c7e645515edb4079eba
 # Cyrus-SASL (will be rebuilt later to support krb5 and OpenLDAP).
 tar -xf ../sources/cyrus-sasl-2.1.28.tar.gz
 pushd cyrus-sasl-2.1.28
@@ -1427,13 +1445,13 @@ install -t /usr/share/licenses/iptables -Dm644 COPYING
 popd
 rm -rf iptables-1.8.13
 # IPRoute2.
-tar -xf ../sources/iproute2-7.0.0.tar.xz
-pushd iproute2-7.0.0
+tar -xf ../sources/iproute2-7.1.0.tar.xz
+pushd iproute2-7.1.0
 make
 make SBINDIR=/usr/bin install
 install -t /usr/share/licenses/iproute2 -Dm644 COPYING
 popd
-rm -rf iproute2-7.0.0
+rm -rf iproute2-7.1.0
 # ethtool.
 tar -xf ../sources/ethtool-6.14.tar.xz
 pushd ethtool-6.14
@@ -1526,6 +1544,7 @@ rm -rf patch-2.8
 # tar.
 tar -xf ../sources/tar-1.35.tar.xz
 pushd tar-1.35
+patch -Np1 -i ../../patches/tar-1.35-acl240.patch
 ./configure --prefix=/usr
 make
 make install
@@ -1533,8 +1552,8 @@ install -t /usr/share/licenses/tar -Dm644 COPYING
 popd
 rm -rf tar-1.35
 # Nano.
-tar -xf ../sources/nano-9.0.tar.xz
-pushd nano-9.0
+tar -xf ../sources/nano-9.1.tar.xz
+pushd nano-9.1
 ./configure --prefix=/usr --sysconfdir=/etc --enable-utf8
 make
 make install
@@ -1542,7 +1561,7 @@ cp doc/sample.nanorc /etc/nanorc
 sed -i '0,/# include/{s/# include/include/}' /etc/nanorc
 install -t /usr/share/licenses/nano -Dm644 COPYING
 popd
-rm -rf nano-9.0
+rm -rf nano-9.1
 # dos2unix.
 tar -xf ../sources/dos2unix-7.5.5.tar.gz
 pushd dos2unix-7.5.5
@@ -1730,13 +1749,13 @@ head -n32 README.md | tail -n28 | install -Dm644 /dev/stdin /usr/share/licenses/
 popd
 rm -rf ply-3.11
 # Cython.
-tar -xf ../sources/cython-3.2.5.tar.gz
-pushd cython-3.2.5
+tar -xf ../sources/cython-3.2.8.tar.gz
+pushd cython-3.2.8
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/cython -Dm644 {COPYING,LICENSE}.txt
 popd
-rm -rf cython-3.2.5
+rm -rf cython-3.2.8
 # PyYAML.
 tar -xf ../sources/pyyaml-6.0.3.tar.gz
 pushd pyyaml-6.0.3
@@ -2032,14 +2051,14 @@ install -t /usr/share/licenses/libxml2 -Dm644 Copyright
 popd
 rm -rf libxml2-2.15.3
 # libarchive.
-tar -xf ../sources/libarchive-3.8.7.tar.xz
-pushd libarchive-3.8.7
+tar -xf ../sources/libarchive-3.8.8.tar.xz
+pushd libarchive-3.8.8
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libarchive -Dm644 COPYING
 popd
-rm -rf libarchive-3.8.7
+rm -rf libarchive-3.8.8
 # Docbook XML 4.5.
 mkdir docbook-xml-4.5
 pushd docbook-xml-4.5
@@ -2396,17 +2415,17 @@ install -t /usr/share/licenses/efitools -Dm644 COPYING
 popd
 rm -rf efitools-1.9.2
 # hwdata.
-tar -xf ../sources/hwdata-0.408.tar.gz
-pushd hwdata-0.408
+tar -xf ../sources/hwdata-0.409.tar.gz
+pushd hwdata-0.409
 ./configure --prefix=/usr --disable-blacklist
 make
 make install
 install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
-rm -rf hwdata-0.408
+rm -rf hwdata-0.409
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-261.tar.gz
-pushd systemd-261
+tar -xf ../sources/systemd-261.1.tar.gz
+pushd systemd-261.1
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -2445,7 +2464,7 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-261
+rm -rf systemd-261.1
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -2477,8 +2496,8 @@ install -t /usr/share/licenses/procps-ng -Dm644 COPYING COPYING.LIB
 popd
 rm -rf procps-ng-4.0.6
 # util-linux.
-tar -xf ../sources/util-linux-2.42.1.tar.xz
-pushd util-linux-2.42.1
+tar -xf ../sources/util-linux-2.42.2.tar.xz
+pushd util-linux-2.42.2
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-liblastlog2 --disable-static --without-python
 make
 make install
@@ -2486,7 +2505,7 @@ systemd-sysusers
 systemctl enable uuidd.socket
 install -t /usr/share/licenses/util-linux -Dm644 COPYING
 popd
-rm -rf util-linux-2.42.1
+rm -rf util-linux-2.42.2
 # FUSE2.
 tar -xf ../sources/fuse-2.9.9.tar.gz
 pushd fuse-2.9.9
@@ -2786,7 +2805,6 @@ rm -rf apfsprogs-0.2.1
 # Fakeroot.
 tar -xf ../sources/fakeroot-upstream-1.38.1.tar.bz2
 pushd fakeroot-upstream-1.38.1
-patch -Np1 -i ../../patches/fakeroot-1.38.1-wrapawk.patch
 ./bootstrap
 ./configure --prefix=/usr --libdir=/usr/lib/libfakeroot --disable-static
 make
@@ -2919,14 +2937,14 @@ install -t /usr/share/licenses/libnghttp3 -Dm644 COPYING
 popd
 rm -rf nghttp3-1.15.0
 # curl (initial build for circular deps - rebuilt later for far more features).
-tar -xf ../sources/curl-8.20.0.tar.xz
-pushd curl-8.20.0
+tar -xf ../sources/curl-8.21.0.tar.xz
+pushd curl-8.21.0
 ./configure --prefix=/usr --disable-static --disable-threaded-resolver --without-libpsl --with-openssl --with-ca-path=/etc/ssl/certs
 make
 make install
 install -t /usr/share/licenses/curl -Dm644 COPYING
 popd
-rm -rf curl-8.20.0
+rm -rf curl-8.21.0
 # jsoncpp.
 tar -xf ../sources/jsoncpp-1.9.6.tar.gz
 pushd jsoncpp-1.9.6
@@ -2947,15 +2965,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 popd
 rm -rf RHash-1.4.5
 # CMake.
-tar -xf ../sources/cmake-4.3.3.tar.gz
-pushd cmake-4.3.3
+tar -xf ../sources/cmake-4.4.0.tar.gz
+pushd cmake-4.4.0
 sed -i 's/"lib64"/"lib"/' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --no-system-cppdap --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 LICENSE.rst
 popd
-rm -rf cmake-4.3.3
+rm -rf cmake-4.4.0
 # brotli.
 tar -xf ../sources/brotli-1.2.0.tar.gz
 pushd brotli-1.2.0
@@ -2968,14 +2986,14 @@ install -t /usr/share/licenses/brotli -Dm644 LICENSE
 popd
 rm -rf brotli-1.2.0
 # c-ares.
-tar -xf ../sources/c-ares-1.34.6.tar.gz
-pushd c-ares-1.34.6
+tar -xf ../sources/c-ares-1.34.7.tar.gz
+pushd c-ares-1.34.7
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/c-ares -Dm644 LICENSE.md
 popd
-rm -rf c-ares-1.34.6
+rm -rf c-ares-1.34.7
 # utfcpp.
 tar -xf ../sources/utfcpp-4.1.1.tar.gz
 pushd utfcpp-4.1.1
@@ -3013,15 +3031,14 @@ install -t /usr/share/licenses/yyjson -Dm644 LICENSE
 popd
 rm -rf yyjson-0.12.0
 # JSON-C.
-tar -xf ../sources/json-c-0.18.tar.gz
-pushd json-c-0.18
-patch -Np1 -i ../../patches/json-c-0.18-cmake400.patch
+tar -xf ../sources/json-c-0.19.tar.gz
+pushd json-c-0.19
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_STATIC_LIBS=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/json-c -Dm644 COPYING
 popd
-rm -rf json-c-0.18
+rm -rf json-c-0.19
 # nlohmann-json.
 tar -xf ../sources/nlohmann-json-3.11.3.tar.gz
 pushd json-3.11.3
@@ -3094,13 +3111,13 @@ install -t /usr/share/licenses/tcl -Dm644 ../license.terms
 popd
 rm -rf tcl8.6.18
 # SQLite.
-tar -xf ../sources/sqlite-autoconf-3530200.tar.gz
-pushd sqlite-autoconf-3530200
+tar -xf ../sources/sqlite-autoconf-3530300.tar.gz
+pushd sqlite-autoconf-3530300
 CPPFLAGS="$CPPFLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_SECURE_DELETE=1 -DSQLITE_ENABLE_STMTVTAB=1 -DSQLITE_ENABLE_STAT4=1 -DSQLITE_ENABLE_MATH_FUNCTIONS=1" ./configure --prefix=/usr --disable-static --fts4 --fts5 --rtree --icu-collations --with-icu-ldflags="-licui18n -licuuc -licudata"
 make
 make install
 pushd tea
-./configure --prefix=/usr --with-system-sqlite --override-sqlite-version=3.53.2
+./configure --prefix=/usr --with-system-sqlite --override-sqlite-version=3.53.3
 popd
 make -C tea
 make -C tea install
@@ -3110,7 +3127,7 @@ The code and documentation of SQLite is dedicated to the public domain.
 See <https://www.sqlite.org/copyright.html> for more information.
 END
 popd
-rm -rf sqlite-autoconf-3530200
+rm -rf sqlite-autoconf-3530300
 # libusb.
 tar -xf ../sources/libusb-1.0.30.tar.bz2
 pushd libusb-1.0.30
@@ -3170,14 +3187,14 @@ install -t /usr/share/licenses/whois -Dm644 COPYING
 popd
 rm -rf whois-5.6.6
 # libpsl.
-tar -xf ../sources/libpsl-0.21.5.tar.gz
-pushd libpsl-0.21.5
+tar -xf ../sources/libpsl-0.22.0.tar.gz
+pushd libpsl-0.22.0
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libpsl -Dm644 COPYING
 popd
-rm -rf libpsl-0.21.5
+rm -rf libpsl-0.22.0
 # usbutils.
 tar -xf ../sources/usbutils-019.tar.xz
 pushd usbutils-019
@@ -3207,13 +3224,13 @@ install -t /usr/share/licenses/pkcs11-helper -Dm644 COPYING COPYING.BSD COPYING.
 popd
 rm -rf pkcs11-helper-1.31.0
 # python-certifi.
-tar -xf ../sources/python-certifi-2026.01.04.tar.gz
-pushd python-certifi-2026.01.04
+tar -xf ../sources/python-certifi-2026.06.17.tar.gz
+pushd python-certifi-2026.06.17
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/python-certifi -Dm644 LICENSE
 popd
-rm -rf python-certifi-2026.01.04
+rm -rf python-certifi-2026.06.17
 # libssh2.
 tar -xf ../sources/libssh2-1.11.1.tar.xz
 pushd libssh2-1.11.1
@@ -3224,14 +3241,14 @@ install -t /usr/share/licenses/libssh2 -Dm644 COPYING
 popd
 rm -rf libssh2-1.11.1
 # Jansson.
-tar -xf ../sources/jansson-2.15.0.tar.bz2
-pushd jansson-2.15.0
+tar -xf ../sources/jansson-2.15.1.tar.bz2
+pushd jansson-2.15.1
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/jansson -Dm644 LICENSE
 popd
-rm -rf jansson-2.15.0
+rm -rf jansson-2.15.1
 # nftables (rebuild with Jansson for JSON support).
 tar -xf ../sources/nftables-1.1.1.tar.xz
 pushd nftables-1.1.1
@@ -3278,18 +3295,19 @@ install -t /usr/share/licenses/libngtcp2 -Dm644 COPYING
 popd
 rm -rf ngtcp2-1.22.1
 # libevent.
-tar -xf ../sources/libevent-2.1.12-stable.tar.gz
-pushd libevent-2.1.12-stable
+tar -xf ../sources/libevent-2.1.13-stable.tar.gz
+pushd libevent-2.1.13-stable
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DEVENT__LIBRARY_TYPE=SHARED -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libevent -Dm644 LICENSE
 popd
-rm -rf libevent-2.1.12-stable
+rm -rf libevent-2.1.13-stable
 # libldap.
 tar -xf ../sources/openldap-2.6.13.tgz
 pushd openldap-2.6.13
 patch -Np1 -i ../../patches/openldap-2.6.13-openssl4.patch
+sed -i 's/$(uname -n)/massos/' build/mkversion
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --enable-dynamic --enable-versioning --disable-debug --disable-slapd --disable-static
 make depend
@@ -3318,14 +3336,14 @@ install -t /usr/share/licenses/libksba -Dm644 COPYING COPYING.GPLv2 COPYING.GPLv
 popd
 rm -rf libksba-1.8.0
 # GNUPG.
-tar -xf ../sources/gnupg-2.5.20.tar.bz2
-pushd gnupg-2.5.20
+tar -xf ../sources/gnupg-2.5.21.tar.bz2
+pushd gnupg-2.5.21
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --enable-g13
 make
 make install
 install -t /usr/share/licenses/gnupg -Dm644 COPYING{,.CC0,.GPL2,.LGPL21,.LGPL3,.other}
 popd
-rm -rf gnupg-2.5.20
+rm -rf gnupg-2.5.21
 # krb5.
 tar -xf ../sources/krb5-krb5-1.22.2-final.tar.gz
 pushd krb5-krb5-1.22.2-final
@@ -3362,13 +3380,13 @@ install -t /usr/share/licenses/rtmpdump -Dm644 COPYING
 popd
 rm -rf rtmpdump-6f6bb1353fc84f4cc37138baa99f586750028a01
 # curl (rebuild to support more features).
-tar -xf ../sources/curl-8.20.0.tar.xz
-pushd curl-8.20.0
+tar -xf ../sources/curl-8.21.0.tar.xz
+pushd curl-8.21.0
 ./configure --prefix=/usr --disable-static --disable-threaded-resolver --enable-ares --enable-httpsrr --with-openssl --with-libssh2 --with-gssapi --with-nghttp3 --with-ngtcp2 --with-ca-path=/etc/ssl/certs
 make
 make install
 popd
-rm -rf curl-8.20.0
+rm -rf curl-8.21.0
 # libnl.
 tar -xf ../sources/libnl-3.11.0.tar.gz
 pushd libnl-3.11.0
@@ -3397,14 +3415,14 @@ install -t /usr/share/licenses/keyutils -Dm644 LICENCE.{L,}GPL
 popd
 rm -rf keyutils-1.6.3
 # libnvme.
-tar -xf ../sources/libnvme-1.16.1.tar.gz
-pushd libnvme-1.16.1
+tar -xf ../sources/libnvme-1.16.2.tar.gz
+pushd libnvme-1.16.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dlibdbus=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libnvme -Dm644 COPYING
 popd
-rm -rf libnvme-1.16.1
+rm -rf libnvme-1.16.2
 # nvme-cli.
 tar -xf ../sources/nvme-cli-2.16.tar.gz
 pushd nvme-cli-2.16
@@ -3451,14 +3469,14 @@ install -t /usr/share/licenses/openvpn -Dm644 COPYING COPYRIGHT.GPL
 popd
 rm -rf openvpn-2.7.4
 # GPGME.
-tar -xf ../sources/gpgme-2.1.0.tar.bz2
-pushd gpgme-2.1.0
+tar -xf ../sources/gpgme-2.1.2.tar.bz2
+pushd gpgme-2.1.2
 ./configure --prefix=/usr --disable-gpg-test --disable-gpgsm-test
 make
 make install
 install -t /usr/share/licenses/gpgme -Dm644 COPYING{,.LESSER} LICENSES
 popd
-rm -rf gpgme-2.1.0
+rm -rf gpgme-2.1.2
 # gpgmepp.
 tar -xf ../sources/gpgmepp-2.1.0.tar.xz
 pushd gpgmepp-2.1.0
@@ -3523,21 +3541,21 @@ rm -rf libnsl-2.0.1
 # Wget.
 tar -xf ../sources/wget-1.25.0.tar.gz
 pushd wget-1.25.0
-./configure --prefix=/usr --sysconfdir=/etc --disable-rpath --with-cares --with-metalink
+CFLAGS="$CFLAGS -Wno-error=incompatible-pointer-types" ./configure --prefix=/usr --sysconfdir=/etc --disable-rpath --with-cares --with-metalink
 make
 make install
 install -t /usr/share/licenses/wget -Dm644 COPYING
 popd
 rm -rf wget-1.25.0
 # aria2.
-tar -xf ../sources/aria2-1.37.0.tar.xz
-pushd aria2-1.37.0
+tar -xf ../sources/aria2-1.37.0-42-g9e727358.tar.xz
+pushd aria2-1.37.0-42-g9e727358
 ./configure --prefix=/usr --with-bashcompletiondir=/usr/share/bash-completion/completions --with-ca-bundle=/etc/pki/tls/certs/ca-bundle.crt --enable-libaria2 --with-libuv
 make
 make install
 install -t /usr/share/licenses/aria2 -Dm644 COPYING
 popd
-rm -rf aria2-1.37.0
+rm -rf aria2-1.37.0-42-g9e727358
 # Ruby.
 tar -xf ../sources/ruby-4.0.5.tar.xz
 pushd ruby-4.0.5
@@ -3700,16 +3718,16 @@ install -t /usr/share/licenses/fcron -Dm644 doc/en/txt/gpl.txt
 popd
 rm -rf fcron-ver3_4_0
 # lsof.
-tar -xf ../sources/lsof-4.99.6.tar.gz
-pushd lsof-4.99.6
+tar -xf ../sources/lsof-4.99.7.tar.gz
+pushd lsof-4.99.7
 ./Configure linux -n
 sed -i "s/cc/cc $CFLAGS/" Makefile
-make
+make LSOF_SYSINFO=none
 install -m755 lsof /usr/bin/lsof
 install -m644 Lsof.8 /usr/share/man/man8/lsof.8
 install -t /usr/share/licenses/lsof -Dm644 COPYING
 popd
-rm -rf lsof-4.99.6
+rm -rf lsof-4.99.7
 # NSPR.
 tar -xf ../sources/nspr-4.39.tar.gz
 pushd nspr-4.39/nspr
@@ -3740,14 +3758,14 @@ install -t /usr/share/licenses/nss -Dm644 COPYING
 popd
 rm -rf nss-3.125
 # Git.
-tar -xf ../sources/git-2.54.0.tar.xz
-pushd git-2.54.0
+tar -xf ../sources/git-2.55.0.tar.xz
+pushd git-2.55.0
 ./configure --prefix=/usr --with-gitconfig=/etc/gitconfig --with-libpcre2
 make all man
 make perllibdir=/usr/lib/perl5/5.42/vendor_perl install install-man
 install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 popd
-rm -rf git-2.54.0
+rm -rf git-2.55.0
 # Botan.
 tar -xf ../sources/Botan-3.9.0.tar.xz
 pushd Botan-3.9.0
@@ -3810,15 +3828,15 @@ install -t /usr/share/licenses/xmlsec -Dm644 Copyright
 popd
 rm -rf xmlsec-1.3.11
 # GLib (initial build for circular dependency).
-tar -xf ../sources/glib-2.88.1.tar.gz
-pushd glib-2.88.1
+tar -xf ../sources/glib-2.88.2.tar.gz
+pushd glib-2.88.2
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=disabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.88.1
+rm -rf glib-2.88.2
 # GTK-Doc.
 tar -xf ../sources/gtk-doc-1.36.0.tar.gz
 pushd gtk-doc-1.36.0
@@ -3857,14 +3875,14 @@ install -t /usr/share/licenses/mm-common -Dm644 COPYING
 popd
 rm -rf mm-common-1.0.6
 # GLibmm.
-tar -xf ../sources/glibmm-2.66.8.tar.gz
-pushd glibmm-2.66.8
+tar -xf ../sources/glibmm-2.66.9.tar.gz
+pushd glibmm-2.66.9
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbuild-documentation=false -Dmaintainer-mode=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glibmm -Dm644 COPYING COPYING.tools
 popd
-rm -rf glibmm-2.66.8
+rm -rf glibmm-2.66.9
 # gobject-introspection.
 tar -xf ../sources/gobject-introspection-1.86.0.tar.gz
 pushd gobject-introspection-1.86.0
@@ -3875,24 +3893,24 @@ install -t /usr/share/licenses/gobject-introspection -Dm644 COPYING{,.{GPL,LGPL}
 popd
 rm -rf gobject-introspection-1.86.0
 # GLib (rebuild to support gobject-introspection).
-tar -xf ../sources/glib-2.88.1.tar.gz
-pushd glib-2.88.1
+tar -xf ../sources/glib-2.88.2.tar.gz
+pushd glib-2.88.2
 tar -xf ../../sources/gvdb-2b42fc7.tar.gz -C subprojects/gvdb --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglib_debug=disabled -Dintrospection=enabled -Dman-pages=enabled -Dtests=false -Dsysprof=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glib -Dm644 COPYING
 popd
-rm -rf glib-2.88.1
+rm -rf glib-2.88.2
 # shared-mime-info.
-tar -xf ../sources/shared-mime-info-2.4.tar.gz
-pushd shared-mime-info-2.4
+tar -xf ../sources/shared-mime-info-2.5.1.tar.gz
+pushd shared-mime-info-2.5.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dupdate-mimedb=true
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/shared-mime-info -Dm644 COPYING
 popd
-rm -rf shared-mime-info-2.4
+rm -rf shared-mime-info-2.5.1
 # desktop-file-utils.
 tar -xf ../sources/desktop-file-utils-0.28.tar.xz
 pushd desktop-file-utils-0.28
@@ -4054,14 +4072,14 @@ install -t /usr/share/licenses/woff2 -Dm644 LICENSE
 popd
 rm -rf woff2-1.0.2
 # shim (Microsoft-signed version from another distro).
-tar -xf ../sources/shim-signed-15.8-ubuntu-1.59.tar.xz
-pushd shim-signed-15.8-ubuntu-1.59
+tar -xf ../sources/shim-signed-16.1-fedora-f45-7.tar.xz
+pushd shim-signed-16.1-fedora-f45-7
 install -t /usr/lib/shim -Dm644 fb"$MBS_ARCH_EFI".efi mm"$MBS_ARCH_EFI".efi shim"$MBS_ARCH_EFI".efi.signed
 echo "shim$MBS_ARCH_EFI.efi,massos,,This is the boot entry for massos" | iconv -t UCS-2LE > /usr/lib/shim/BOOT"$MBS_ARCH_EFI_UPPER".CSV
 install -dm755 /var/lib/shim-signed/mok
-install -t /usr/share/licenses/shim -Dm644 copyright
+install -t /usr/share/licenses/shim -Dm644 COPYRIGHT
 popd
-rm -rf shim-signed-15.8-ubuntu-1.59
+rm -rf shim-signed-16.1-fedora-f45-7
 # mokutil.
 tar -xf ../sources/mokutil-0.7.2.tar.gz
 pushd mokutil-0.7.2
@@ -4082,7 +4100,8 @@ tar -xf ../sources/grub-2.14.tar.xz
 pushd grub-2.14
 patch -Np1 -i ../../patches/grub-2.14-reverts.patch
 patch -Np1 -i ../../patches/grub-2.14-grubcfgfixes.patch
-patch -Np1 -i ../../patches/grub-2.14-uefisecureboot.patch
+patch -Np1 -i ../../patches/grub-2.14-shim161fix.patch
+patch -Np1 -i ../../patches/grub-2.14-installsignedimages.patch
 autoreconf -fi
 ## Note that the Legacy BIOS target is only supported and thus built on x86_64.
 mkdir -p build-pc; pushd build-pc
@@ -4101,14 +4120,12 @@ cat > /usr/share/grub/sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
 grub,5,Free Software Foundation,grub,2.14,https://gnu.org/software/grub/
 grub.massos,1,MassOS,grub,2.14,https://massos.org
-grub.peimage,2,Canonical,grub,2.14,https://git.launchpad.net/ubuntu/+source/grub2/
 END
 ## Generate GRUB EFI images that can be signed for UEFI secure boot.
 ## Please see 'keys/README.md' in the MassOS repo for detailed info about this.
 cat > grub.cfg << "END"
 insmod linux
 insmod chain
-insmod peimage
 insmod bli
 insmod font
 insmod gzio
@@ -4363,24 +4380,24 @@ install -t /usr/share/licenses/hunspell-en -Dm644 COPYING{,.LESSER,.MPL}
 popd
 rm -rf hunspell-1.7.2
 # Enchant.
-tar -xf ../sources/enchant-2.8.16.tar.gz
-pushd enchant-2.8.16
+tar -xf ../sources/enchant-2.8.19.tar.gz
+pushd enchant-2.8.19
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/enchant -Dm644 COPYING.LIB
 popd
-rm -rf enchant-2.8.16
+rm -rf enchant-2.8.19
 # Fontconfig.
-tar -xf ../sources/fontconfig-2.18.1.tar.bz2
-pushd fontconfig-2.18.1
+tar -xf ../sources/fontconfig-2.18.2.tar.bz2
+pushd fontconfig-2.18.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddoc-pdf=disabled -Diconv=enabled -Dtests=disabled
 ninja -C build
 ninja -C build install
 rm -f /usr/lib/libfontconfig.a
 install -t /usr/share/licenses/fontconfig -Dm644 COPYING
 popd
-rm -rf fontconfig-2.18.1
+rm -rf fontconfig-2.18.2
 # Fribidi.
 tar -xf ../sources/fribidi-1.0.16.tar.xz
 pushd fribidi-1.0.16
@@ -4417,23 +4434,24 @@ install -t /usr/share/licenses/lolcat -Dm644 LICENSE
 popd
 rm -rf lolcat-1.5
 # NASM.
-tar -xf ../sources/nasm-3.01.tar.xz
-pushd nasm-3.01
+tar -xf ../sources/nasm-3.02.tar.xz
+pushd nasm-3.02
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/nasm -Dm644 LICENSE
 popd
-rm -rf nasm-3.01
+rm -rf nasm-3.02
 # libjpeg-turbo.
-tar -xf ../sources/libjpeg-turbo-3.1.4.1.tar.gz
-pushd libjpeg-turbo-3.1.4.1
+tar -xf ../sources/libjpeg-turbo-3.2.0.tar.gz
+pushd libjpeg-turbo-3.2.0
+patch -Np1 -i ../../patches/libjpeg-turbo-3.2.0-upstreamfix.patch
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_DEFAULT_LIBDIR=lib -DCMAKE_SKIP_INSTALL_RPATH=TRUE -DENABLE_STATIC=FALSE -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libjpeg-turbo -Dm644 LICENSE.md README.ijg
 popd
-rm -rf libjpeg-turbo-3.1.4.1
+rm -rf libjpeg-turbo-3.2.0
 # libgphoto2
 tar -xf ../sources/libgphoto2-2.5.31.tar.xz
 pushd libgphoto2-2.5.31
@@ -4636,14 +4654,14 @@ install -t /usr/share/licenses/wireless-tools -Dm644 COPYING
 popd
 rm -rf wireless_tools.30
 # fmt.
-tar -xf ../sources/fmt-12.1.0.tar.gz
-pushd fmt-12.1.0
+tar -xf ../sources/fmt-12.2.0.tar.gz
+pushd fmt-12.2.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DFMT_TEST=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fmt -Dm644 LICENSE
 popd
-rm -rf fmt-12.1.0
+rm -rf fmt-12.2.0
 # libzip.
 tar -xf ../sources/libzip-1.11.4.tar.xz
 pushd libzip-1.11.4
@@ -5013,14 +5031,14 @@ install -t /usr/share/licenses/libfontenc -Dm644 COPYING
 popd
 rm -rf libfontenc-1.1.9
 # libXfont2.
-tar -xf ../sources/libXfont2-2.0.7.tar.xz
-pushd libXfont2-2.0.7
+tar -xf ../sources/libXfont2-2.0.8.tar.xz
+pushd libXfont2-2.0.8
 ./configure --prefix=/usr --disable-static
 make
 make install
 install -t /usr/share/licenses/libxfont2 -Dm644 COPYING
 popd
-rm -rf libXfont2-2.0.7
+rm -rf libXfont2-2.0.8
 # libXft.
 tar -xf ../sources/libXft-2.3.9.tar.xz
 pushd libXft-2.3.9
@@ -5131,32 +5149,32 @@ install -t /usr/share/licenses/libdrm -Dm644 LICENSE
 popd
 rm -rf libdrm-2.4.134
 # DirectX-Headers.
-tar -xf ../sources/DirectX-Headers-1.619.1.tar.gz
-pushd DirectX-Headers-1.619.1
+tar -xf ../sources/DirectX-Headers-1.619.4.tar.gz
+pushd DirectX-Headers-1.619.4
 meson setup build --prefix=/usr --buildtype=minsize -Dbuild-test=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/directx-headers -Dm644 LICENSE
 popd
-rm -rf DirectX-Headers-1.619.1
+rm -rf DirectX-Headers-1.619.4
 # SPIRV-Headers.
-tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.350.0.tar.gz
-pushd SPIRV-Headers-vulkan-sdk-1.4.350.0
+tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.350.1.tar.gz
+pushd SPIRV-Headers-vulkan-sdk-1.4.350.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-headers -Dm644 LICENSE
 popd
-rm -rf SPIRV-Headers-vulkan-sdk-1.4.350.0
+rm -rf SPIRV-Headers-vulkan-sdk-1.4.350.1
 # SPIRV-Tools.
-tar -xf ../sources/SPIRV-Tools-vulkan-sdk-1.4.350.0.tar.gz
-pushd SPIRV-Tools-vulkan-sdk-1.4.350.0
+tar -xf ../sources/SPIRV-Tools-vulkan-sdk-1.4.350.1.tar.gz
+pushd SPIRV-Tools-vulkan-sdk-1.4.350.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DSPIRV_TOOLS_BUILD_STATIC=OFF -DSPIRV_WERROR=OFF -DSPIRV-Headers_SOURCE_DIR=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/spirv-tools -Dm644 LICENSE
 popd
-rm -rf SPIRV-Tools-vulkan-sdk-1.4.350.0
+rm -rf SPIRV-Tools-vulkan-sdk-1.4.350.1
 # SPIRV-LLVM-Translator.
 tar -xf ../sources/SPIRV-LLVM-Translator-22.1.2.tar.gz
 pushd SPIRV-LLVM-Translator-22.1.2
@@ -5198,23 +5216,23 @@ install -t /usr/share/licenses/shaderc -Dm644 LICENSE
 popd
 rm -rf shaderc-2026.2
 # Vulkan-Headers.
-tar -xf ../sources/Vulkan-Headers-vulkan-sdk-1.4.350.0.tar.gz
-pushd Vulkan-Headers-vulkan-sdk-1.4.350.0
+tar -xf ../sources/Vulkan-Headers-vulkan-sdk-1.4.350.1.tar.gz
+pushd Vulkan-Headers-vulkan-sdk-1.4.350.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/vulkan-headers -Dm644 LICENSE.md
 popd
-rm -rf Vulkan-Headers-vulkan-sdk-1.4.350.0
+rm -rf Vulkan-Headers-vulkan-sdk-1.4.350.1
 # Vulkan-Loader.
-tar -xf ../sources/Vulkan-Loader-vulkan-sdk-1.4.350.0.tar.gz
-pushd Vulkan-Loader-vulkan-sdk-1.4.350.0
+tar -xf ../sources/Vulkan-Loader-vulkan-sdk-1.4.350.1.tar.gz
+pushd Vulkan-Loader-vulkan-sdk-1.4.350.1
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DVULKAN_HEADERS_INSTALL_DIR=/usr -DCMAKE_INSTALL_LIBDIR=lib -DCMAKE_INSTALL_SYSCONFDIR=/etc -DCMAKE_INSTALL_DATADIR=/share -DCMAKE_SKIP_RPATH=TRUE -DBUILD_TESTS=OFF -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/vulkan-loader -Dm644 LICENSE.txt
 popd
-rm -rf Vulkan-Loader-vulkan-sdk-1.4.350.0
+rm -rf Vulkan-Loader-vulkan-sdk-1.4.350.1
 # ORC.
 tar -xf ../sources/orc-0.4.41.tar.bz2
 pushd orc-0.4.41
@@ -5226,8 +5244,8 @@ install -t /usr/share/licenses/orc -Dm644 COPYING
 popd
 rm -rf orc-0.4.41
 # Vulkan-Tools.
-tar -xf ../sources/Vulkan-Tools-vulkan-sdk-1.4.350.0.tar.gz
-pushd Vulkan-Tools-vulkan-sdk-1.4.350.0
+tar -xf ../sources/Vulkan-Tools-vulkan-sdk-1.4.350.1.tar.gz
+pushd Vulkan-Tools-vulkan-sdk-1.4.350.1
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=ON -DBUILD_WSI_XCB_SUPPORT=ON -DBUILD_WSI_XLIB_SUPPORT=ON -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_CUBE=ON -DBUILD_ICD=OFF -DBUILD_VULKANINFO=OFF -DBUILD_WSI_XCB_SUPPORT=OFF -DBUILD_WSI_XLIB_SUPPORT=OFF -DBUILD_WSI_WAYLAND_SUPPORT=ON -Wno-dev -G Ninja -B build-wayland
 ninja -C build
@@ -5236,16 +5254,16 @@ ninja -C build install
 install -Dm755 build-wayland/cube/vkcube /usr/bin/vkcube-wayland
 install -t /usr/share/licenses/vulkan-tools -Dm644 LICENSE.txt
 popd
-rm -rf Vulkan-Tools-vulkan-sdk-1.4.350.0
+rm -rf Vulkan-Tools-vulkan-sdk-1.4.350.1
 # libva (circular dependency; will be rebuilt later to support Mesa).
-tar -xf ../sources/libva-2.23.0.tar.bz2
-pushd libva-2.23.0
+tar -xf ../sources/libva-2.24.1.tar.bz2
+pushd libva-2.24.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libva -Dm644 COPYING
 popd
-rm -rf libva-2.23.0
+rm -rf libva-2.24.1
 # libvdpau.
 tar -xf ../sources/libvdpau-1.5.tar.bz2
 pushd libvdpau-1.5
@@ -5266,8 +5284,8 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-26.1.2.tar.bz2
-pushd mesa-mesa-26.1.2
+tar -xf ../sources/mesa-mesa-26.1.4.tar.bz2
+pushd mesa-mesa-26.1.4
 ## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
 ## Try to only build drivers which are applicable to the target architecture.
@@ -5278,16 +5296,16 @@ ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-26.1.2
+rm -rf mesa-mesa-26.1.4
 # libva (rebuild to support Mesa).
-tar -xf ../sources/libva-2.23.0.tar.bz2
-pushd libva-2.23.0
+tar -xf ../sources/libva-2.24.1.tar.bz2
+pushd libva-2.24.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libva -Dm644 COPYING
 popd
-rm -rf libva-2.23.0
+rm -rf libva-2.24.1
 # xbitmaps.
 tar -xf ../sources/xbitmaps-1.1.4.tar.xz
 pushd xbitmaps-1.1.4
@@ -5469,14 +5487,14 @@ install -t /usr/share/licenses/xkbevd -Dm644 COPYING
 popd
 rm -rf xkbevd-1.1.6
 # xkbutils.
-tar -xf ../sources/xkbutils-1.0.6.tar.xz
-pushd xkbutils-1.0.6
+tar -xf ../sources/xkbutils-1.0.7.tar.xz
+pushd xkbutils-1.0.7
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xkbutils -Dm644 COPYING
 popd
-rm -rf xkbutils-1.0.6
+rm -rf xkbutils-1.0.7
 # xkill.
 tar -xf ../sources/xkill-1.0.7.tar.xz
 pushd xkill-1.0.7
@@ -5487,14 +5505,14 @@ install -t /usr/share/licenses/xkill -Dm644 COPYING
 popd
 rm -rf xkill-1.0.7
 # xlsatoms.
-tar -xf ../sources/xlsatoms-1.1.4.tar.xz
-pushd xlsatoms-1.1.4
+tar -xf ../sources/xlsatoms-1.1.5.tar.xz
+pushd xlsatoms-1.1.5
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xlsatoms -Dm644 COPYING
 popd
-rm -rf xlsatoms-1.1.4
+rm -rf xlsatoms-1.1.5
 # xlsclients.
 tar -xf ../sources/xlsclients-1.1.6.tar.xz
 pushd xlsclients-1.1.6
@@ -5551,32 +5569,32 @@ install -t /usr/share/licenses/xrandr -Dm644 COPYING
 popd
 rm -rf xrandr-1.5.4
 # xrdb.
-tar -xf ../sources/xrdb-1.2.2.tar.xz
-pushd xrdb-1.2.2
+tar -xf ../sources/xrdb-1.2.3.tar.xz
+pushd xrdb-1.2.3
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xrdb -Dm644 COPYING
 popd
-rm -rf xrdb-1.2.2
+rm -rf xrdb-1.2.3
 # xrefresh.
-tar -xf ../sources/xrefresh-1.1.0.tar.xz
-pushd xrefresh-1.1.0
+tar -xf ../sources/xrefresh-1.1.1.tar.xz
+pushd xrefresh-1.1.1
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xrefresh -Dm644 COPYING
 popd
-rm -rf xrefresh-1.1.0
+rm -rf xrefresh-1.1.1
 # xset.
-tar -xf ../sources/xset-1.2.5.tar.xz
-pushd xset-1.2.5
+tar -xf ../sources/xset-1.2.6.tar.xz
+pushd xset-1.2.6
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/xset -Dm644 COPYING
 popd
-rm -rf xset-1.2.5
+rm -rf xset-1.2.6
 # xsetroot.
 tar -xf ../sources/xsetroot-1.1.3.tar.xz
 pushd xsetroot-1.1.3
@@ -5623,21 +5641,21 @@ install -t /usr/share/licenses/xwud -Dm644 COPYING
 popd
 rm -rf xwud-1.0.7
 # noto-fonts / noto-fonts-cjk / noto-fonts-emoji.
-tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-2025.11.01.tar.xz -C / --strip-components=1
+tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-2026.07.01.tar.xz -C / --strip-components=1
 tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-cjk-20240730.tar.xz -C / --strip-components=1
 tar --no-same-owner --same-permissions -xf ../sources/noto-fonts-emoji-2.051.tar.xz -C / --strip-components=1
 sed -i 's|<string>sans-serif</string>|<string>Noto Sans</string>|' /etc/fonts/fonts.conf
 sed -i 's|<string>monospace</string>|<string>Noto Sans Mono</string>|' /etc/fonts/fonts.conf
 fc-cache
 # xkeyboard-config.
-tar -xf ../sources/xkeyboard-config-2.47.tar.xz
-pushd xkeyboard-config-2.47
+tar -xf ../sources/xkeyboard-config-2.48.tar.xz
+pushd xkeyboard-config-2.48
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xkeyboard-config -Dm644 COPYING
 popd
-rm -rf xkeyboard-config-2.47
+rm -rf xkeyboard-config-2.48
 # libxklavier.
 tar -xf ../sources/libxklavier-5.4.tar.bz2
 pushd libxklavier-5.4
@@ -5685,8 +5703,8 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-261.tar.gz
-pushd systemd-261
+tar -xf ../sources/systemd-261.1.tar.gz
+pushd systemd-261.1
 meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
 ninja -C build
 ninja -C build install
@@ -5704,7 +5722,7 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-261
+rm -rf systemd-261.1
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
@@ -5792,8 +5810,8 @@ install -t /usr/share/licenses/libxcvt -Dm644 COPYING
 popd
 rm -rf libxcvt-0.1.3
 # Xorg-Server.
-tar -xf ../sources/xorg-server-21.1.23.tar.xz
-pushd xorg-server-21.1.23
+tar -xf ../sources/xorg-server-21.1.24.tar.xz
+pushd xorg-server-21.1.24
 patch -Np1 -i ../../patches/xorg-server-21.1.2-addxvfbrun.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dglamor=true -Dlibunwind=true -Dsuid_wrapper=true -Dxephyr=true -Dxvfb=true -Dxkb_output_dir=/var/lib/xkb
 ninja -C build
@@ -5803,16 +5821,16 @@ install -t /usr/share/man/man1 xvfb-run.1
 install -dm755 /etc/X11/xorg.conf.d
 install -t /usr/share/licenses/xorg-server -Dm644 COPYING
 popd
-rm -rf xorg-server-21.1.23
+rm -rf xorg-server-21.1.24
 # Xwayland.
-tar -xf ../sources/xwayland-24.1.12.tar.xz
-pushd xwayland-24.1.12
+tar -xf ../sources/xwayland-24.1.13.tar.xz
+pushd xwayland-24.1.13
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dxvfb=false -Dxkb_output_dir=/var/lib/xkb
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xwayland -Dm644 COPYING
 popd
-rm -rf xwayland-24.1.12
+rm -rf xwayland-24.1.13
 # libinput.
 tar -xf ../sources/libinput-1.31.3.tar.bz2
 pushd libinput-1.31.3
@@ -6026,14 +6044,14 @@ ln -sf hyfetch /usr/share/licenses/neofetch
 popd
 rm -rf hyfetch-2.1.0-rc1
 # fastfetch.
-tar -xf ../sources/fastfetch-2.63.1.tar.gz
-pushd fastfetch-2.63.1
+tar -xf ../sources/fastfetch-2.66.0.tar.gz
+pushd fastfetch-2.66.0
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DENABLE_SYSTEM_YYJSON=ON -DINSTALL_LICENSE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/fastfetch -Dm644 LICENSE
 popd
-rm -rf fastfetch-2.63.1
+rm -rf fastfetch-2.66.0
 # htop.
 tar -xf ../sources/htop-3.4.1.tar.xz
 pushd htop-3.4.1
@@ -6044,6 +6062,45 @@ rm -f /usr/share/applications/htop.desktop
 install -t /usr/share/licenses/htop -Dm644 COPYING
 popd
 rm -rf htop-3.4.1
+# brightnessctl.
+tar -xf ../sources/brightnessctl-0.5.1.tar.gz
+pushd brightnessctl-0.5.1
+make ENABLE_SYSTEMD=1
+make ENABLE_SYSTEMD=1 install
+install -t /usr/share/licenses/brightnessctl -Dm644 LICENSE
+popd
+rm -rf brightnessctl-0.5.1
+# zram-generator.
+tar -xf ../sources/zram-generator-1.2.1.tar.gz
+pushd zram-generator-1.2.1
+patch -Np1 -i ../../patches/zram-generator-1.2.1-pregenerated-manual-pages.patch
+make
+make install
+cat > /etc/systemd/zram-generator.conf << "END"
+# This is the default (example) ZRAM configuration file for MassOS.
+# Everything is commented out (and thus disabled) by default.
+# Uncomment to use these defaults, and/or customize to your own needs.
+
+# Main ZRAM device.
+#[zram0]
+
+# Default is half of the total system RAM, or 4GB, whichever is LOWER.
+# Alternatively you can replace min() with a hardcoded megabyte value.
+#zram-size = min(ram / 2, 4096)
+
+# 'zstd' compresses very efficiently, but uses a lot of CPU resources.
+# For a less effective, but more lightweight alternative, try 'lz4'.
+#compression-algorithm = zstd
+
+# Format the ZRAM area as swap space. This is the recommended default.
+#fs-type = swap
+
+# Ensure ZRAM is given a higher priority than physical swap space.
+#swap-priority = 100
+END
+install -t /usr/share/licenses/zram-generator -Dm644 LICENSE
+popd
+rm -rf zram-generator-1.2.1
 # bsd-games.
 tar -xf ../sources/bsd-games-3.3.tar.gz
 pushd bsd-games-3.3
@@ -6154,8 +6211,8 @@ install -t /usr/share/licenses/polkit -Dm644 COPYING
 popd
 rm -rf polkit-127
 # OpenSSH.
-tar -xf ../sources/openssh-10.3p1.tar.gz
-pushd openssh-10.3p1
+tar -xf ../sources/openssh-10.4p1.tar.gz
+pushd openssh-10.4p1
 install -o root -g sys -dm700 /var/lib/sshd
 echo 'u sshd - "sshd PrivSep" /var/lib/sshd' > /usr/lib/sysusers.d/sshd.conf
 systemd-sysusers
@@ -6169,7 +6226,7 @@ sed -i 's/#UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
 rm -f /etc/ssh/ssh_host_{ecdsa,ed25519,rsa}_key{,.pub}
 install -t /usr/share/licenses/openssh -Dm644 LICENCE
 popd
-rm -rf openssh-10.3p1
+rm -rf openssh-10.4p1
 # sshfs.
 tar -xf ../sources/sshfs-3.7.6.tar.xz
 pushd sshfs-3.7.6
@@ -6209,14 +6266,14 @@ install -t /usr/share/licenses/glew -Dm644 LICENSE.txt
 popd
 rm -rf glew-2.3.1
 # libtiff.
-tar -xf ../sources/libtiff-v4.7.1.tar.bz2
-pushd libtiff-v4.7.1
+tar -xf ../sources/libtiff-v4.7.2.tar.bz2
+pushd libtiff-v4.7.2
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libtiff -Dm644 LICENSE.md
 popd
-rm -rf libtiff-v4.7.1
+rm -rf libtiff-v4.7.2
 # lcms2.
 tar -xf ../sources/lcms2-2.19.1.tar.gz
 pushd lcms2-2.19.1
@@ -6254,8 +6311,8 @@ install -t /usr/share/licenses/wlroots -Dm644 LICENSE
 popd
 rm -rf wlroots-0.20.1
 # at-spi2-core (now provides ATK and at-spi2-atk).
-tar -xf ../sources/at-spi2-core-2.60.3.tar.gz
-pushd at-spi2-core-2.60.3
+tar -xf ../sources/at-spi2-core-2.60.5.tar.gz
+pushd at-spi2-core-2.60.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
@@ -6263,7 +6320,7 @@ install -t /usr/share/licenses/at-spi2-core -Dm644 COPYING
 ln -sf at-spi2-core /usr/share/licenses/at-spi2-atk
 ln -sf at-spi2-core /usr/share/licenses/atk
 popd
-rm -rf at-spi2-core-2.60.3
+rm -rf at-spi2-core-2.60.5
 # Atkmm.
 tar -xf ../sources/atkmm-2.28.5.tar.gz
 pushd atkmm-2.28.5
@@ -6274,14 +6331,14 @@ install -t /usr/share/licenses/atkmm -Dm644 COPYING{,.tools}
 popd
 rm -rf atkmm-2.28.5
 # GDK-Pixbuf (initial build - will be rebuilt later with glycin for loaders).
-tar -xf ../sources/gdk-pixbuf-2.44.6.tar.gz
-pushd gdk-pixbuf-2.44.6
+tar -xf ../sources/gdk-pixbuf-2.44.7.tar.gz
+pushd gdk-pixbuf-2.44.7
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgif=disabled -Dglycin=disabled -Djpeg=disabled -Dothers=disabled -Dpng=disabled -Dthumbnailer=disabled -Dtiff=disabled -Dinstalled_tests=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gdk-pixbuf -Dm644 COPYING
 popd
-rm -rf gdk-pixbuf-2.44.6
+rm -rf gdk-pixbuf-2.44.7
 # Cairo.
 tar -xf ../sources/cairo-1.18.4.tar.bz2
 pushd cairo-1.18.4
@@ -6309,14 +6366,14 @@ ninja -C build install
 popd
 rm -rf harfbuzz-14.2.1
 # Pango.
-tar -xf ../sources/pango-1.57.1.tar.gz
-pushd pango-1.57.1
+tar -xf ../sources/pango-1.58.0.tar.gz
+pushd pango-1.58.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dintrospection=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/pango -Dm644 COPYING
 popd
-rm -rf pango-1.57.1
+rm -rf pango-1.58.0
 # Pangomm.
 tar -xf ../sources/pangomm-2.46.4.tar.gz
 pushd pangomm-2.46.4
@@ -6363,8 +6420,8 @@ install -t /usr/share/licenses/jp2a -Dm644 COPYING LICENSES
 popd
 rm -rf jp2a-1.3.2
 # Graphviz.
-tar -xf ../sources/graphviz-15.0.0.tar.bz2
-pushd graphviz-15.0.0
+tar -xf ../sources/graphviz-15.1.0.tar.bz2
+pushd graphviz-15.1.0
 sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac
 ./autogen.sh
 ./configure --prefix=/usr --disable-php --enable-lefty --with-webp
@@ -6373,7 +6430,7 @@ make
 make -j1 install
 install -t /usr/share/licenses/graphviz -Dm644 COPYING
 popd
-rm -rf graphviz-15.0.0
+rm -rf graphviz-15.1.0
 # Vala.
 tar -xf ../sources/vala-0.56.19.tar.xz
 pushd vala-0.56.19
@@ -6635,13 +6692,13 @@ install -t /usr/share/licenses/exiv2 -Dm644 COPYING
 popd
 rm -rf exiv2-0.28.8
 # meson-python.
-tar -xf ../sources/meson_python-0.19.0.tar.gz
-pushd meson_python-0.19.0
+tar -xf ../sources/meson_python-0.20.0.tar.gz
+pushd meson_python-0.20.0
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/meson-python -Dm644 LICENSE LICENSES/MIT.txt
 popd
-rm -rf meson_python-0.19.0
+rm -rf meson_python-0.20.0
 # PyCairo.
 tar -xf ../sources/pycairo-1.29.0.tar.gz
 pushd pycairo-1.29.0
@@ -6909,11 +6966,10 @@ install -t /usr/share/licenses/libical -Dm644 COPYING.LESSER.txt LICENSE.txt LIC
 popd
 rm -rf libical-4.0.2
 # BlueZ.
-tar -xf ../sources/bluez-5.86.tar.xz
-pushd bluez-5.86
-patch -Np1 -i ../../patches/bluez-5.86-runtimefix.patch
+tar -xf ../sources/bluez-5.87.tar.xz
+pushd bluez-5.87
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --enable-library
-make ICAL_LIBS="-lical -licalvcal"
+make
 make install
 ln -sf ../libexec/bluetooth/bluetoothd /usr/bin
 install -dm755 /etc/bluetooth
@@ -6922,7 +6978,7 @@ systemctl enable bluetooth
 systemctl enable --global obex
 install -t /usr/share/licenses/bluez -Dm644 COPYING COPYING.LIB
 popd
-rm -rf bluez-5.86
+rm -rf bluez-5.87
 # Avahi.
 tar -xf ../sources/avahi-0.8.tar.gz
 pushd avahi-0.8
@@ -7016,14 +7072,14 @@ install -t /usr/share/licenses/speech-dispatcher -Dm644 COPYING.{GPL-2,GPL-3,LGP
 popd
 rm -rf speech-dispatcher-0.12.1
 # SDL3 (initial build - will be rebuilt later for PipeWire support).
-tar -xf ../sources/SDL3-3.4.10.tar.gz
-pushd SDL3-3.4.10
+tar -xf ../sources/SDL3-3.4.12.tar.gz
+pushd SDL3-3.4.12
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_STATIC=OFF -DSDL_RPATH=OFF -DSDL_PIPEWIRE=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/sdl3 -Dm644 LICENSE.txt
 popd
-rm -rf SDL3-3.4.10
+rm -rf SDL3-3.4.12
 # sdl2-compat (provides SDL2).
 tar -xf ../sources/sdl2-compat-2.32.70.tar.gz
 pushd sdl2-compat-2.32.70
@@ -7145,8 +7201,8 @@ END
 popd
 rm -rf ppp-2.5.2
 # Vim.
-tar -xf ../sources/vim-9.2.0649.tar.gz
-pushd vim-9.2.0649
+tar -xf ../sources/vim-9.2.0782.tar.gz
+pushd vim-9.2.0782
 echo '#define SYS_VIMRC_FILE "/etc/vimrc"' >> src/feature.h
 echo '#define SYS_GVIMRC_FILE "/etc/gvimrc"' >> src/feature.h
 ./configure --prefix=/usr --with-features=huge --enable-gpm --enable-gui=gtk3 --with-tlib=ncursesw --enable-luainterp --enable-perlinterp --enable-python3interp=dynamic --enable-rubyinterp --enable-tclinterp --with-tclsh=tclsh --with-compiledby="MassOS"
@@ -7169,7 +7225,7 @@ rm -f /usr/share/applications/vim.desktop
 rm -f /usr/share/applications/gvim.desktop
 install -t /usr/share/licenses/vim -Dm644 LICENSE
 popd
-rm -rf vim-9.2.0649
+rm -rf vim-9.2.0782
 # libwpe.
 tar -xf ../sources/libwpe-1.16.2.tar.xz
 pushd libwpe-1.16.2
@@ -7218,24 +7274,23 @@ install -t /usr/share/licenses/gcr4 -Dm644 COPYING
 popd
 rm -rf gcr-4.4.0.1
 # pinentry.
-tar -xf ../sources/pinentry-1.3.2.tar.bz2
-pushd pinentry-1.3.2
+tar -xf ../sources/pinentry-1.3.3.tar.bz2
+pushd pinentry-1.3.3
 ./configure --prefix=/usr --enable-pinentry-tty
 make
 make install
 install -t /usr/share/licenses/pinentry -Dm644 COPYING
 popd
-rm -rf pinentry-1.3.2
+rm -rf pinentry-1.3.3
 # AccountsService.
-tar -xf ../sources/accountsservice-23.13.9.tar.xz
-pushd accountsservice-23.13.9
-sed -i '/sys.exit(77)/d' tests/test-daemon.py
-CFLAGS="$CFLAGS -Wno-error=implicit-function-declaration" meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dadmin_group=wheel
+tar -xf ../sources/accountsservice-26.27.3.tar.bz2
+pushd accountsservice-26.27.3
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dadmin_group=wheel -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/accountsservice -Dm644 COPYING
 popd
-rm -rf accountsservice-23.13.9
+rm -rf accountsservice-26.27.3
 # polkit-gnome.
 tar -xf ../sources/polkit-gnome-0.105.tar.xz
 pushd polkit-gnome-0.105
@@ -7270,14 +7325,14 @@ install -t /usr/share/licenses/gnome-keyring -Dm644 COPYING COPYING.LIB
 popd
 rm -rf gnome-keyring-48.0
 # Poppler.
-tar -xf ../sources/poppler-26.06.0.tar.xz
-pushd poppler-26.06.0
+tar -xf ../sources/poppler-26.07.0.tar.xz
+pushd poppler-26.07.0
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_CPP_TESTS=OFF -DBUILD_GTK_TESTS=OFF -DBUILD_MANUAL_TESTS=OFF -DENABLE_QT5=OFF -DENABLE_QT6=OFF -DENABLE_UNSTABLE_API_ABI_HEADERS=ON -DENABLE_ZLIB_UNCOMPRESS=ON -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/poppler -Dm644 COPYING{,3}
 popd
-rm -rf poppler-26.06.0
+rm -rf poppler-26.07.0
 # poppler-data.
 tar -xf ../sources/poppler-data-0.4.12.tar.gz
 pushd poppler-data-0.4.12
@@ -7353,6 +7408,7 @@ pushd gutenprint-5.3.5
 ./configure --prefix=/usr --disable-static --disable-static-genppd --disable-test
 make
 make install
+rm -f /usr/lib/gutenprint/5.3/config.summary
 install -t /usr/share/licenses/gutenprint -Dm644 COPYING
 popd
 rm -rf gutenprint-5.3.5
@@ -7436,29 +7492,29 @@ install -t /usr/share/licenses/dnspython -Dm644 LICENSE
 popd
 rm -rf dnspython-2.7.0
 # chardet.
-tar -xf ../sources/chardet-5.2.0.tar.gz
-pushd chardet-5.2.0
+tar -xf ../sources/chardet-7.4.3.tar.gz
+pushd chardet-7.4.3
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/chardet -Dm644 LICENSE
 popd
-rm -rf chardet-5.2.0
+rm -rf chardet-7.4.3
 # charset-normalizer.
-tar -xf ../sources/charset_normalizer-3.4.4.tar.gz
-pushd charset_normalizer-3.4.4
+tar -xf ../sources/charset_normalizer-3.4.7.tar.gz
+pushd charset_normalizer-3.4.7
 python -m build -nw -o dist --skip-dependency-check
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/charset-normalizer -Dm644 LICENSE
 popd
-rm -rf charset_normalizer-3.4.4
+rm -rf charset_normalizer-3.4.7
 # idna.
-tar -xf ../sources/idna-3.11.tar.gz
-pushd idna-3.11
+tar -xf ../sources/idna-3.18.tar.gz
+pushd idna-3.18
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/idna -Dm644 LICENSE.md
 popd
-rm -rf idna-3.11
+rm -rf idna-3.18
 # cffi.
 tar -xf ../sources/cffi-2.0.0.tar.gz
 pushd cffi-2.0.0
@@ -7476,21 +7532,21 @@ install -t /usr/share/licenses/glad -Dm644 LICENSE
 popd
 rm -rf glad-2.0.8
 # setuptools-rust.
-tar -xf ../sources/setuptools-rust-1.12.0.tar.gz
-pushd setuptools-rust-1.12.0
+tar -xf ../sources/setuptools-rust-1.12.1.tar.gz
+pushd setuptools-rust-1.12.1
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/setuptools-rust -Dm644 LICENSE
 popd
-rm -rf setuptools-rust-1.12.0
+rm -rf setuptools-rust-1.12.1
 # maturin.
-tar -xf ../sources/maturin-1.14.0.tar.gz
-pushd maturin-1.14.0
+tar -xf ../sources/maturin-1.14.1.tar.gz
+pushd maturin-1.14.1
 python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/maturin -Dm644 license-{apache,mit}
 popd
-rm -rf maturin-1.14.0
+rm -rf maturin-1.14.1
 # cryptography.
 tar -xf ../sources/cryptography-48.0.0.tar.gz
 pushd cryptography-48.0.0
@@ -7657,15 +7713,15 @@ install -t /usr/share/licenses/newt -Dm644 COPYING
 popd
 rm -rf newt-0.52.25
 # UPower.
-tar -xf ../sources/upower-v1.91.2.tar.bz2
-pushd upower-v1.91.2
+tar -xf ../sources/upower-v1.91.3.tar.bz2
+pushd upower-v1.91.3
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dinstalled_tests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/upower -Dm644 COPYING
 systemctl enable upower
 popd
-rm -rf upower-v1.91.2
+rm -rf upower-v1.91.3
 # power-profiles-daemon.
 tar -xf ../sources/power-profiles-daemon-0.30.tar.bz2
 pushd power-profiles-daemon-0.30
@@ -7845,14 +7901,14 @@ install -t /usr/share/licenses/libfyaml -Dm644 LICENSE
 popd
 rm -rf libfyaml-0.9.6
 # libxmlb.
-tar -xf ../sources/libxmlb-0.3.27.tar.xz
-pushd libxmlb-0.3.27
+tar -xf ../sources/libxmlb-0.3.28.tar.xz
+pushd libxmlb-0.3.28
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dstemmer=true -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxmlb -Dm644 LICENSE
 popd
-rm -rf libxmlb-0.3.27
+rm -rf libxmlb-0.3.28
 # AppStream.
 tar -xf ../sources/AppStream-1.1.3.tar.xz
 pushd AppStream-1.1.3
@@ -7951,14 +8007,14 @@ install -t /usr/share/licenses/geocode-glib -Dm644 COPYING.LIB
 popd
 rm -rf geocode-glib-3.26.4
 # GeoClue.
-tar -xf ../sources/geoclue-2.8.1.tar.bz2
-pushd geoclue-2.8.1
+tar -xf ../sources/geoclue-2.8.2.tar.bz2
+pushd geoclue-2.8.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/geoclue -Dm644 COPYING{,.LIB}
 popd
-rm -rf geoclue-2.8.1
+rm -rf geoclue-2.8.2
 # passim.
 tar -xf ../sources/passim-0.1.11.tar.xz
 pushd passim-0.1.11
@@ -8441,8 +8497,8 @@ install -t /usr/share/licenses/highway -Dm644 LICENSE
 popd
 rm -rf highway-1.4.0
 # libjxl.
-tar -xf ../sources/libjxl-0.11.2.tar.gz
-pushd libjxl-0.11.2
+tar -xf ../sources/libjxl-0.12.0.tar.gz
+pushd libjxl-0.12.0
 tar -xf ../../sources/sjpeg-46da5ae.tar.gz -C third_party/sjpeg --strip-components=1
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DJPEGXL_ENABLE_PLUGINS=OFF -DJPEGXL_ENABLE_SKCMS=OFF -Wno-dev -G Ninja -B build
 ninja -C build
@@ -8450,7 +8506,7 @@ ninja -C build install
 rm -f /usr/lib/libjxl_extras_codec.a
 install -t /usr/share/licenses/libjxl -Dm644 LICENSE PATENTS
 popd
-rm -rf libjxl-0.11.2
+rm -rf libjxl-0.12.0
 # chafa.
 tar -xf ../sources/chafa-1.14.5.tar.xz
 pushd chafa-1.14.5
@@ -8518,8 +8574,8 @@ install -t /usr/share/licenses/openal -Dm644 COPYING BSD-3Clause
 popd
 rm -rf openal-soft-1.24.3
 # FFmpeg.
-tar -xf ../sources/ffmpeg-8.1.1.tar.xz
-pushd ffmpeg-8.1.1
+tar -xf ../sources/ffmpeg-8.1.2.tar.xz
+pushd ffmpeg-8.1.2
 patch -Np1 -i ../../patches/ffmpeg-7.1-chromium.patch
 ./configure --prefix=/usr --disable-debug --disable-htmlpages --disable-nonfree --disable-podpages --disable-rpath --disable-static --disable-txtpages --enable-alsa --enable-amf --enable-bzlib --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-gmp --enable-gpl --enable-iconv --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libiec61883 --enable-libjack --enable-libjxl --enable-libkvazaar --enable-liblc3 --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libplacebo --enable-libpulse --enable-libqrencode --enable-librav1e --enable-librsvg --enable-librtmp --enable-libshaderc --enable-libspeex --enable-libsvtav1 --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-libxvid --enable-manpages --enable-nvdec --enable-nvenc --enable-openal --enable-opengl --enable-openssl --enable-optimizations --enable-sdl2 --enable-shared --enable-small --enable-stripping --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
@@ -8528,7 +8584,7 @@ make install
 install -t /usr/bin -Dm755 tools/qt-faststart
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 popd
-rm -rf ffmpeg-8.1.1
+rm -rf ffmpeg-8.1.2
 # OpenAL (rebuild - circular dependency with FFmpeg).
 tar -xf ../sources/openal-soft-1.24.3.tar.gz
 pushd openal-soft-1.24.3
@@ -8538,11 +8594,11 @@ ninja -C build install
 popd
 rm -rf openal-soft-1.24.3
 # GStreamer / gst-plugins-{base,good,bad,ugly} / gst-libav / gstreamer-vaapi / gst-editing-services / gst-python
-tar -xf ../sources/gstreamer-1.28.4.tar.bz2
-pushd gstreamer-1.28.4
+tar -xf ../sources/gstreamer-1.28.5.tar.bz2
+pushd gstreamer-1.28.5
 mkdir -p subprojects/gl-headers
 tar -xf ../../sources/gl-headers-1d237e3.tar.bz2 -C subprojects/gl-headers --strip-components=1
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.4" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:vmaf=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.5" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:vmaf=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gstreamer -Dm644 LICENSE
@@ -8554,7 +8610,7 @@ install -t /usr/share/licenses/gst-libav -Dm644 subprojects/gst-libav/COPYING
 install -t /usr/share/licenses/gst-editing-services -Dm644 subprojects/gst-editing-services/COPYING{,.LIB}
 install -t /usr/share/licenses/gst-python -Dm644 subprojects/gst-python/COPYING
 popd
-rm -rf gstreamer-1.28.4
+rm -rf gstreamer-1.28.5
 # nvidia-vaapi-driver.
 tar -xf ../sources/nvidia-vaapi-driver-0.0.13.tar.gz
 pushd nvidia-vaapi-driver-0.0.13
@@ -8565,29 +8621,32 @@ install -t /usr/share/licenses/nvidia-vaapi-driver -Dm644 COPYING
 popd
 rm -rf nvidia-vaapi-driver-0.0.13
 # PipeWire + WirePlumber.
-tar -xf ../sources/pipewire-1.6.6.tar.bz2
-pushd pipewire-1.6.6
+tar -xf ../sources/pipewire-1.6.8.tar.bz2
+pushd pipewire-1.6.8
 mkdir -p subprojects/wireplumber
-tar -xf ../../sources/wireplumber-0.5.14.tar.bz2 -C subprojects/wireplumber --strip-components=1
+tar -xf ../../sources/wireplumber-0.5.15.tar.bz2 -C subprojects/wireplumber --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dbluez5-backend-native-mm=enabled -Dexamples=disabled -Dffmpeg=enabled -Dpw-cat-ffmpeg=enabled -Dtests=disabled -Dvulkan=enabled -Dsession-managers=wireplumber -Dwireplumber:system-lua=true -Dwireplumber:tests=false
 ninja -C build
 ninja -C build install
+install -dm755 /etc/alsa/conf.d
+ln -sfr /usr/share/alsa/alsa.conf.d/50-pipewire.conf /etc/alsa/conf.d/50-pipewire.conf
+ln -sfr /usr/share/alsa/alsa.conf.d/99-pipewire-default.conf /etc/alsa/conf.d/99-pipewire-default.conf
 systemctl --global enable pipewire.socket pipewire-pulse.socket
 systemctl --global enable wireplumber
 echo "autospawn = no" >> /etc/pulse/client.conf
 install -t /usr/share/licenses/pipewire -Dm644 COPYING
 install -t /usr/share/licenses/wireplumber -Dm644 subprojects/wireplumber/LICENSE
 popd
-rm -rf pipewire-1.6.6
+rm -rf pipewire-1.6.8
 # SDL3 (rebuild for PipeWire support).
-tar -xf ../sources/SDL3-3.4.10.tar.gz
-pushd SDL3-3.4.10
+tar -xf ../sources/SDL3-3.4.12.tar.gz
+pushd SDL3-3.4.12
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=MinSizeRel -DSDL_STATIC=OFF -DSDL_RPATH=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/sdl3 -Dm644 LICENSE.txt
 popd
-rm -rf SDL3-3.4.10
+rm -rf SDL3-3.4.12
 # GTK4 (rebuild to support GStreamer and tinysparql).
 tar -xf ../sources/gtk-4.22.4.tar.gz
 pushd gtk-4.22.4
@@ -8598,35 +8657,35 @@ install -t /usr/share/licenses/gtk4 -Dm644 COPYING
 popd
 rm -rf gtk-4.22.4
 # glycin.
-tar -xf ../sources/glycin-2.1.1.tar.gz
-pushd glycin-2.1.1
+tar -xf ../sources/glycin-2.1.5.tar.gz
+pushd glycin-2.1.5
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dloaders=glycin-heif,glycin-image-rs,glycin-jxl,glycin-raw,glycin-svg -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/glycin -Dm644 LICENSE{,-LGPL-2.1,-MPL-2.0}
 popd
-rm -rf glycin-2.1.1
+rm -rf glycin-2.1.5
 # GDK-Pixbuf (rebuild - glycin now provides most loaders and the thumbnailer).
-tar -xf ../sources/gdk-pixbuf-2.44.6.tar.gz
-pushd gdk-pixbuf-2.44.6
+tar -xf ../sources/gdk-pixbuf-2.44.7.tar.gz
+pushd gdk-pixbuf-2.44.7
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dgif=disabled -Dglycin=enabled -Djpeg=disabled -Dothers=enabled -Dpng=disabled -Dthumbnailer=disabled -Dtiff=disabled -Dinstalled_tests=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gdk-pixbuf -Dm644 COPYING
 popd
-rm -rf gdk-pixbuf-2.44.6
+rm -rf gdk-pixbuf-2.44.7
 # libadwaita.
-tar -xf ../sources/libadwaita-1.9.1.tar.gz
-pushd libadwaita-1.9.1
+tar -xf ../sources/libadwaita-1.9.2.tar.gz
+pushd libadwaita-1.9.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dexamples=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libadwaita -Dm644 COPYING
 popd
-rm -rf libadwaita-1.9.1
+rm -rf libadwaita-1.9.2
 # gst-plugin-gtk4 / gst-plugin-dav1d / gst-plugin-rav1e (from gst-plugins-rs).
-tar -xf ../sources/gst-plugins-rs-0.14.5.tar.bz2
-pushd gst-plugins-rs-0.14.5
+tar -xf ../sources/gst-plugins-rs-0.15.3.tar.bz2
+pushd gst-plugins-rs-0.15.3
 pushd video/gtk4
 cargo build --release
 popd
@@ -8641,7 +8700,7 @@ install -t /usr/share/licenses/gst-plugin-gtk4 -Dm644 video/gtk4/LICENSE-MPL-2.0
 install -t /usr/share/licenses/gst-plugin-dav1d -Dm644 video/dav1d/LICENSE-{APACHE,MIT}
 install -t /usr/share/licenses/gst-plugin-rav1e -Dm644 video/rav1e/LICENSE-{APACHE,MIT}
 popd
-rm -rf gst-plugins-rs-0.14.5
+rm -rf gst-plugins-rs-0.15.3
 # colord-gtk.
 tar -xf ../sources/colord-gtk-0.3.1.tar.gz
 pushd colord-gtk-0.3.1
@@ -8652,15 +8711,15 @@ install -t /usr/share/licenses/colord-gtk -Dm644 COPYING
 popd
 rm -rf colord-gtk-0.3.1
 # xdg-desktop-portal.
-tar -xf ../sources/xdg-desktop-portal-1.22.0.tar.xz
-pushd xdg-desktop-portal-1.22.0
+tar -xf ../sources/xdg-desktop-portal-1.22.1.tar.xz
+pushd xdg-desktop-portal-1.22.1
 patch -Np1 -i ../../patches/xdg-desktop-portal-1.22.0-upstreamfix.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dtests=disabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xdg-desktop-portal -Dm644 COPYING
 popd
-rm -rf xdg-desktop-portal-1.22.0
+rm -rf xdg-desktop-portal-1.22.1
 # xdg-desktop-portal-gtk.
 tar -xf ../sources/xdg-desktop-portal-gtk-1.15.3.tar.xz
 pushd xdg-desktop-portal-gtk-1.15.3
@@ -8676,6 +8735,19 @@ END
 install -t /usr/share/licenses/xdg-desktop-portal-gtk -Dm644 COPYING
 popd
 rm -rf xdg-desktop-portal-gtk-1.15.3
+# xdg-desktop-portal-wlr.
+tar -xf ../sources/xdg-desktop-portal-wlr-0.8.3.tar.gz
+pushd xdg-desktop-portal-wlr-0.8.3
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
+ninja -C build
+ninja -C build install
+cat > /usr/share/xdg-desktop-portal/wlr-portals.conf << "END"
+[preferred]
+default=wlr
+END
+install -t /usr/share/licenses/xdg-desktop-portal-wlr -Dm644 LICENSE
+popd
+rm -rf xdg-desktop-portal-wlr-0.8.3
 # WebKitGTK.
 tar -xf ../sources/webkitgtk-2.52.4.tar.xz
 pushd webkitgtk-2.52.4
@@ -8923,8 +8995,8 @@ install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
 popd
 rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-11.0.1.tar.xz
-pushd qemu-11.0.1
+tar -xf ../sources/qemu-11.0.2.tar.xz
+pushd qemu-11.0.2
 sed -i 's/b6910bec11614980a21e46fbccc35934b671bd81/9a1c801a1a3c102bf95c5339c9e985b26b823a21/' subprojects/dtc.wrap
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list="$MBS_ARCH-linux-user,$MBS_ARCH-softmmu"
 make
@@ -8944,7 +9016,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-11.0.1
+rm -rf qemu-11.0.2
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -8971,20 +9043,20 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.1.1.tar.xz
-pushd linux-7.1.1
+tar -xf ../sources/linux-7.1.4.tar.xz
+pushd linux-7.1.4
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.1.1,https://kernel.org
-linux.massos,1,MassOS,linux,7.1.1,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.1.4,https://kernel.org
+linux.massos,1,MassOS,linux,7.1.4,https://massos.org
 END
 cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
-make
+make KBUILD_BUILD_HOST=massos
 [ "$MBS_ARCH" != "x86_64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/x86/boot/bzImage
 [ "$MBS_ARCH" != "aarch64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt arch/arm64/boot/Image
 make -s kernelrelease > version
@@ -9041,10 +9113,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.1
+rm -rf linux-7.1.4
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-610.43.02.tar.gz
-pushd open-gpu-kernel-modules-610.43.02
+tar -xf ../sources/open-gpu-kernel-modules-610.43.03.tar.gz
+pushd open-gpu-kernel-modules-610.43.03
 patch -Np1 -i ../../patches/nvidia-modules-open-595.44.03-hardening.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -9056,7 +9128,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-610.43.02
+rm -rf open-gpu-kernel-modules-610.43.03
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.38.5.tar.gz
 pushd bcachefs-tools-1.38.5
@@ -9086,8 +9158,8 @@ install -t /usr/share/licenses/apfs-rw-module -Dm644 LICENSE
 popd
 rm -rf linux-apfs-rw-0.3.20
 # Linux-Firmware.
-tar -xf ../sources/linux-firmware-20260519.tar.xz
-pushd linux-firmware-20260519
+tar -xf ../sources/linux-firmware-20260622.tar.xz
+pushd linux-firmware-20260622
 sed -i 's/zstd --compress --quiet --stdout/zstd --ultra -22 --compress --quiet --stdout/' copy-firmware.sh
 ./copy-firmware.sh -v -j$(nproc) --zstd /usr/lib/firmware
 ./dedup-firmware.sh -v /usr/lib/firmware
@@ -9097,9 +9169,9 @@ rm -rf /usr/lib/firmware/{liquidio,mellanox,netronome,qed,qlogic,{c*fw-*,ql2*_fw
 [ "$MBS_ARCH" = "x86_64" ] || rm -rf /usr/lib/firmware/amd-ucode
 ## Only needed on aarch64 host systems. Wastes space otherwise.
 [ "$MBS_ARCH" = "aarch64" ] || rm -rf /usr/lib/firmware/{mrvl/prestera/mvsw_prestera_fw_arm64-v4.1.img.zst,qcom}
-install -t /usr/share/licenses/linux-firmware -Dm644 GPL-2 GPL-3 LICENCE* LICENSE* WHENCE
+install -t /usr/share/licenses/linux-firmware -Dm644 LICENSES/* WHENCE
 popd
-rm -rf linux-firmware-20260519
+rm -rf linux-firmware-20260622
 # Intel-Microcode (has no use on non-x86_64 architectures).
 tar -xf ../sources/intel-microcode-20260227.tar.gz
 pushd Intel-Linux-Processor-Microcode-Data-Files-microcode-20260227
@@ -9134,8 +9206,8 @@ install -t /usr/bin -Dm755 massos-release
 echo "1.20260408" > /usr/share/massos/.rpifwver
 echo "b26fd19facd534aab474cc64e25db4b120682c2c4c9a2a4bed97495ec578a645" > /usr/share/massos/.rpifwsum
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.14.0" > /usr/share/massos/.osinstallguiver
-echo "a7d3248c9385bd09110797e96a6613f8a6cd1c08838779e1a95f5cb8131ed55a" > /usr/share/massos/.osinstallguisum
+echo "0.14.1" > /usr/share/massos/.osinstallguiver
+echo "4537eb3e799d95304d734572c1a0747d2ff11ebcaf51e1af3ce3cf44070e6cb6" > /usr/share/massos/.osinstallguisum
 # Set up the osinstallgui configuration file.
 cat > /usr/share/massos/.osinstallguicfg << "END"
 OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"

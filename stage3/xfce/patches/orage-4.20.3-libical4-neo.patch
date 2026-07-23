@@ -1,15 +1,7 @@
-diff '--color=auto' -apruN a/configure.ac b/configure.ac
---- a/configure.ac	2026-03-27 07:16:55.000000000 +0000
-+++ b/configure.ac	2026-05-24 01:42:33.984096189 +0100
-@@ -85,7 +85,7 @@ XDT_CHECK_PACKAGE([GLIB], [glib-2.0], [g
- XDT_CHECK_PACKAGE([GIO], [gio-2.0], [glib_minimum_version])
- XDT_CHECK_PACKAGE([LIBGTK], [gtk+-3.0], [gtk_minimum_version])
- XDT_CHECK_PACKAGE([LIBXFCE4UTIL], [libxfce4util-1.0], [xfce_minimum_version])
--XDT_CHECK_PACKAGE([LIBICAL], [libical], [libical_minimum_version])
-+XDT_CHECK_PACKAGE([LIBICAL], [libical libicalss], [libical_minimum_version])
- XDT_CHECK_PACKAGE([LIBXFCE4UI], [libxfce4ui-2], [xfce_minimum_version])
- 
- if test "$LIBICAL_VERSION" = "3.0.15"; then
+This is the second version of the libical 4 patch for Orage, without
+the configure.ac changes, as they were found to cause build failures
+in some cases. Instead, manually add '-licalss' to LDFLAGS.
+
 diff '--color=auto' -apruN a/src/ical-archive.c b/src/ical-archive.c
 --- a/src/ical-archive.c	2026-03-27 07:15:22.000000000 +0000
 +++ b/src/ical-archive.c	2026-05-24 01:42:33.984198039 +0100

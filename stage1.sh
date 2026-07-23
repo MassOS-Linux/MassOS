@@ -96,15 +96,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(unam
 popd; popd
 rm -rf gcc-16.1.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.1.1.tar.xz
-pushd linux-7.1.1
+tar -xf ../sources/linux-7.1.4.tar.xz
+pushd linux-7.1.4
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.1
+rm -rf linux-7.1.4
 # Glibc.
 tar -xf ../sources/glibc-2.43.tar.xz
 pushd glibc-2.43
@@ -112,7 +112,7 @@ patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
 patch -Np1 -i ../../patches/glibc-2.43-securityfixes.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../scripts/config.guess) --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build="$(../scripts/config.guess)" --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-headers="$MASSOS"/usr/include --enable-kernel=5.10 --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 make -j1 DESTDIR="$MASSOS" install
 [ "$(uname -m)" != "x86_64" ] || ln -sf ld-linux-x86-64.so.2 "$MASSOS"/usr/lib/ld-lsb-x86-64.so.3
@@ -123,7 +123,7 @@ rm -rf glibc-2.43
 tar -xf ../sources/gcc-16.1.0.tar.xz
 pushd gcc-16.1.0
 mkdir -p build; pushd build
-../libstdc++-v3/configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/"$(uname -m)"-stage1-linux-gnu/include/c++/16.1.0
+../libstdc++-v3/configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/"$(uname -m)"-stage1-linux-gnu/include/c++/16.1.0
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
@@ -134,7 +134,7 @@ tar -xf ../sources/binutils-with-gold-2.46.1.tar.xz
 pushd binutils-with-gold-2.46.1
 sed -i '6031 s/$add_dir //' ltmain.sh
 mkdir -p build; pushd build
-../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-pkgversion="MassOS Binutils 2.46.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
+../configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --with-pkgversion="MassOS Binutils 2.46.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-64-bit-bfd --enable-default-hash-style=gnu --enable-new-dtags --enable-relro --enable-shared --disable-gold --disable-gprofng --disable-nls --disable-werror
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
@@ -152,7 +152,7 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir -p build; pushd build
-../configure --prefix=/usr --target="$(uname -m)-stage1-linux-gnu" --host="$(uname -m)-stage1-linux-gnu" --build=$(../config.guess) --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/$(uname -m)-stage1-linux-gnu/libgcc"
+../configure --prefix=/usr --target="$(uname -m)-stage1-linux-gnu" --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/$(uname -m)-stage1-linux-gnu/libgcc"
 make
 make -j1 DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc

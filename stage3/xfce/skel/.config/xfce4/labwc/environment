@@ -1,0 +1,26 @@
+# Example environment file for Xfce
+# See also example config files shipped with labwc
+
+##
+## Use the XKB_DEFAULT_LAYOUT variable to set the keyboard layout. For example
+## to start with Swedish keyboard layout set it to 'se'. If you are unsure what
+## your country code is, refer to the layout section of:
+## /usr/share/X11/xkb/rules/evdev.lst
+##
+## Multiple keyboard layouts can be set by comma-separating the country codes.
+## If a variant layout is needed, the syntax is layout(variant)
+## If multiple layouts are used, specify the toggle-keybind using
+## XKB_DEFAULT_OPTIONS as show below.
+##
+## For further details, see xkeyboard-config(7)
+##
+
+XKB_DEFAULT_LAYOUT=us
+XKB_DEFAULT_MODEL=pc105
+
+##
+## Set cursor theme and size. Find system icons themes with:
+## `find /usr/share/icons/ -type d -name "cursors"`
+##
+
+XCURSOR_THEME=Adwaita

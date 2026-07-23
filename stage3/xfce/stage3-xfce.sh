@@ -11,8 +11,8 @@ pushd /root/mbs/work
 . ../build.env
 # === IF RESUMING A FAILED BUILD, ONLY REMOVE LINES BELOW THIS ONE.
 # elementary-icon-theme.
-tar -xf ../sources/elementary-icon-theme-8.1.0.tar.gz
-pushd icons-8.1.0
+tar -xf ../sources/elementary-icon-theme-8.2.0.tar.gz
+pushd icons-8.2.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dvolume_icons=false
 ninja -C build
 ninja -C build install
@@ -20,7 +20,7 @@ gtk-update-icon-cache -q -t -f /usr/share/icons/elementary
 gtk4-update-icon-cache -q -t -f /usr/share/icons/elementary
 install -t /usr/share/licenses/elementary-icon-theme -Dm644 COPYING
 popd
-rm -rf icons-8.1.0
+rm -rf icons-8.2.0
 # arc-theme.
 tar --no-same-owner -xf ../sources/arc-theme-20220102.tar.xz
 tar --no-same-owner -xf ../sources/arc-theme-openbox.tar.gz -C arc-theme-20220102/usr/share/themes --strip-components=1
@@ -75,14 +75,14 @@ install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 popd
 rm -rf libxfce4util-4.20.1
 # libxfce4windowing.
-tar -xf ../sources/libxfce4windowing-4.20.5.tar.bz2
-pushd libxfce4windowing-4.20.5
+tar -xf ../sources/libxfce4windowing-4.20.6.tar.bz2
+pushd libxfce4windowing-4.20.6
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled -Dx11=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxfce4windowing -Dm644 COPYING
 popd
-rm -rf libxfce4windowing-4.20.5
+rm -rf libxfce4windowing-4.20.6
 # xfconf.
 tar -xf ../sources/xfconf-4.20.0.tar.bz2
 pushd xfconf-4.20.0
@@ -166,14 +166,14 @@ install -t /usr/share/licenses/xfce4-panel-profiles -Dm644 COPYING
 popd
 rm -rf xfce4-panel-profiles-1.1.1
 # Thunar.
-tar -xf ../sources/thunar-4.20.8.tar.bz2
-pushd thunar-4.20.8
+tar -xf ../sources/thunar-4.20.9.tar.bz2
+pushd thunar-4.20.9
 ./configure --prefix=/usr --sysconfdir=/etc --enable-exif --enable-gio-unix --enable-gudev --enable-notifications
 make
 make install
 install -t /usr/share/licenses/thunar -Dm644 COPYING
 popd
-rm -rf thunar-4.20.8
+rm -rf thunar-4.20.9
 # thunar-volman.
 tar -xf ../sources/thunar-volman-4.20.0.tar.bz2
 pushd thunar-volman-4.20.0
@@ -202,14 +202,14 @@ install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
 rm -rf xfce4-settings-4.20.4
 # xfdesktop.
-tar -xf ../sources/xfdesktop-4.20.1.tar.bz2
-pushd xfdesktop-4.20.1
+tar -xf ../sources/xfdesktop-4.20.2.tar.bz2
+pushd xfdesktop-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc --enable-notifications --enable-thunarx --enable-wayland --enable-x11 --with-default-backdrop-filename=/usr/share/backgrounds/MassOS-Avantgarde-Dark.png
 make
 make install
 install -t /usr/share/licenses/xfdesktop -Dm644 COPYING
 popd
-rm -rf xfdesktop-4.20.1
+rm -rf xfdesktop-4.20.2
 # xfwm4.
 tar -xf ../sources/xfwm4-4.20.0.tar.bz2
 pushd xfwm4-4.20.0
@@ -230,18 +230,17 @@ install -t /usr/share/licenses/libwlembed -Dm644 LICENSE
 popd
 rm -rf libwlembed-4d37dc9-4d37dc9da9a1f699b86d4e6b05f4619b8eee4ee8
 # LabWC.
-tar -xf ../sources/labwc-0.20.0.tar.gz
-pushd labwc-0.20.0
+tar -xf ../sources/labwc-0.20.1.tar.gz
+pushd labwc-0.20.1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/labwc -Dm644 LICENSE
 popd
-rm -rf labwc-0.20.0
+rm -rf labwc-0.20.1
 # xfce4-session.
 tar -xf ../sources/xfce4-session-4.20.4.tar.bz2
 pushd xfce4-session-4.20.4
-patch -Np1 -i ../../patches/xfce4-session-4.20.4-labwcconfig.patch
 ./configure --prefix=/usr --sysconfdir=/etc --enable-wayland --enable-x11
 make
 make install
@@ -259,9 +258,9 @@ rm -rf parole-4.20.0
 # Orage.
 tar -xf ../sources/orage-4.20.3.tar.bz2
 pushd orage-4.20.3
-patch -Np1 -i ../../patches/orage-4.20.3-libical4.patch
+patch -Np1 -i ../../patches/orage-4.20.3-libical4-neo.patch
 autoreconf -fi
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
+LDFLAGS="$LDFLAGS -licalss" ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/xfce4 --disable-debug --disable-static
 make
 make install
 install -t /usr/share/licenses/orage -Dm644 COPYING
@@ -286,14 +285,14 @@ install -t /usr/share/licenses/xfce4-terminal -Dm644 COPYING
 popd
 rm -rf xfce4-terminal-1.2.0
 # Shotwell.
-tar -xf ../sources/shotwell-shotwell-0.32.13.tar.bz2
-pushd shotwell-shotwell-0.32.13
+tar -xf ../sources/shotwell-shotwell-0.32.17.tar.bz2
+pushd shotwell-shotwell-0.32.17
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/shotwell -Dm644 COPYING
 popd
-rm -rf shotwell-shotwell-0.32.13
+rm -rf shotwell-shotwell-0.32.17
 # xfce4-notifyd.
 tar -xf ../sources/xfce4-notifyd-0.9.7.tar.bz2
 pushd xfce4-notifyd-0.9.7
@@ -357,7 +356,7 @@ install -t /usr/share/licenses/blueman -Dm644 COPYING
 popd
 rm -rf blueman-2.4.6
 # onboard.
-tar -xf ../sources/onboard-1.4.1.tar.gz
+tar -xf ../sources/onboard_1.4.1.orig.tar.gz
 pushd onboard-1.4.1
 patch -Np1 -i ../../patches/onboard-1.4.1-fixes.patch
 CFLAGS="$CFLAGS -std=gnu17" python setup.py build
@@ -449,23 +448,23 @@ ninja -C build install
 popd
 rm -rf vala-panel-appmenu-25.04
 # xfce4-screensaver.
-tar -xf ../sources/xfce4-screensaver-4.20.1.tar.xz
-pushd xfce4-screensaver-4.20.1
+tar -xf ../sources/xfce4-screensaver-4.20.2.tar.xz
+pushd xfce4-screensaver-4.20.2
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/xfce4-screensaver -Dm644 COPYING{,.LGPL,.LIB}
 popd
-rm -rf xfce4-screensaver-4.20.1
+rm -rf xfce4-screensaver-4.20.2
 # xarchiver.
-tar -xf ../sources/xarchiver-0.5.4.26.tar.gz
-pushd xarchiver-0.5.4.26
+tar -xf ../sources/xarchiver-0.5.4.27.tar.gz
+pushd xarchiver-0.5.4.27
 ./configure  --prefix=/usr --libexecdir=/usr/lib/xfce4
 make
 make install
 install -t /usr/share/licenses/xarchiver -Dm644 COPYING
 popd
-rm -rf xarchiver-0.5.4.26
+rm -rf xarchiver-0.5.4.27
 # thunar-archive-plugin.
 tar -xf ../sources/thunar-archive-plugin-0.5.3.tar.bz2
 pushd thunar-archive-plugin-0.5.3
@@ -529,14 +528,14 @@ install -t /usr/share/licenses/mugshot -Dm644 COPYING
 popd
 rm -rf mugshot-0.4.3
 # Evince.
-tar -xf ../sources/evince-48.1.tar.bz2
-pushd evince-48.1
+tar -xf ../sources/evince-48.4.tar.bz2
+pushd evince-48.4
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dnautilus=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/evince -Dm644 COPYING
 popd
-rm -rf evince-48.1
+rm -rf evince-48.4
 # simple-scan.
 tar -xf ../sources/simple-scan-50.0.tar.bz2
 pushd simple-scan-50.0
@@ -565,15 +564,15 @@ install -t /usr/share/licenses/gnome-firmware -Dm644 COPYING
 popd
 rm -rf gnome-firmware-49.0
 # GNOME-Software.
-tar -xf ../sources/gnome-software-50.0.tar.bz2
-pushd gnome-software-50.0
+tar -xf ../sources/gnome-software-50.3.tar.bz2
+pushd gnome-software-50.3
 tar -xf ../../sources/gnome-pwa-list-48ac9f7.tar.bz2 -C subprojects/gnome-pwa-list --strip-components=1
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddkms=true -Dexternal_appstream=true -Dpackagekit=false -Dsystemd-sysupdate=false -Dtests=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gnome-software -Dm644 COPYING
 popd
-rm -rf gnome-software-50.0
+rm -rf gnome-software-50.3
 # MassOS-Welcome.
 tar -xf ../sources/massos-welcome-003.tar.gz
 pushd massos-welcome-54b7142b57ad343415e0cc668234c21fbc2b0bd5
@@ -628,8 +627,8 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-152.0.1.tar.xz.1 -C /usr/lib
-[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-152.0.1.tar.xz -C /usr/lib
+[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.tar.xz.1 -C /usr/lib
+[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {

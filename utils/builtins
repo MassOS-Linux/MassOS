@@ -43,6 +43,7 @@ bluez
 boost
 botan
 bpftool
+brightnessctl
 brotli
 bsd-games
 btrfs-progs
@@ -815,6 +816,7 @@ xcursorgen
 xdg-dbus-proxy
 xdg-desktop-portal
 xdg-desktop-portal-gtk
+xdg-desktop-portal-wlr
 xdg-user-dirs
 xdg-utils
 xdpyinfo
@@ -868,5 +870,6 @@ yyjson
 zip
 zipp
 zlib
+zram-generator
 zsh
 zstd

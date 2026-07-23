@@ -1,0 +1,761 @@
+diff '--color=auto' -apruN a/Makefile b/Makefile
+--- a/Makefile	2024-11-28 10:46:05.000000000 +0000
++++ b/Makefile	2026-06-26 17:16:37.420495194 +0100
+@@ -38,7 +38,7 @@ systemd-service:
+ 		>units/systemd-zram-setup@.service
+ 
+ man:
+-	$(RONN) --organization="zram-generator developers" man/*.md
++	@echo Manual pages for this package have been pregenerated.
+ 
+ check: program
+ 	$(CARGO) test $(CARGOFLAGS)
+diff '--color=auto' -apruN a/man/zram-generator.8 b/man/zram-generator.8
+--- a/man/zram-generator.8	1970-01-01 01:00:00.000000000 +0100
++++ b/man/zram-generator.8	2026-06-26 17:15:47.303957074 +0100
+@@ -0,0 +1,59 @@
++.\" generated with Ronn-NG/v0.10.1
++.\" http://github.com/apjanke/ronn-ng/tree/0.10.1
++.TH "ZRAM\-GENERATOR" "8" "November 2024" "zram-generator developers"
++.SH "NAME"
++\fBzram\-generator\fR \- Systemd unit generator for zram swap devices
++.SH "SYNOPSIS"
++\fB/usr/lib/systemd/system\-generators/zram\-generator\fR \fBTARGET_DIR\fR [\fI2RGET_DIR\fR \fI3RGET_DIR\fR]
++.br
++\fB/usr/lib/systemd/system\-generators/zram\-generator\fR \-\-setup\-device \fBDEVICE\fR
++.br
++\fB/usr/lib/systemd/system\-generators/zram\-generator\fR \-\-reset\-device \fBDEVICE\fR
++.SH "DESCRIPTION"
++\fBzram\-generator\fR is a generator that creates systemd units to format and use compressed RAM devices, either as swap or a file system\.
++.P
++The generator will be invoked by systemd early at boot\. The generator will then:
++.IP "1." 4
++read configuration files from \fI{/etc,/lib}/systemd/zram\-generator\.conf[\.d]\fR (see zram\-generator\.conf(5) for details);
++.IP "2." 4
++generate systemd\.swap(5) and/or systemd\.mount(5) units into \fBTARGET_DIR\fR and connect them to \fBswap\.target\fR or \fBlocal\-fs\.target\fR as appropriate;
++.IP "3." 4
++ensure the \fBzram\fR module is loaded and create the requested devices\.
++.IP "" 0
++.P
++The generator does nothing if run inside a container (as determined by \fIsystemd\-detect\-virt(8) \-\-container\fR)\.
++.P
++The generator also understands the kernel command\-line option \fBsystemd\.zram\fR\. See zram\-generator\.conf(5) for details\.
++.P
++Setting the \fBZRAM_GENERATOR_ROOT\fR environment variable makes the generator run in test mode, in which case containerisation is ignored and step \fB3\fR is skipped\.
++.br
++For the ramifications of \fBZRAM_GENERATOR_ROOT\fR on config handling, see zram\-generator\.conf(5)\.
++.P
++Generated \fIdev\-zramN\.swap\fR units depend on \fBsystemd\-zram\-setup@zramN\.service\fR, which will:
++.IP "1." 4
++read configuration files from \fI{/etc,/lib}/systemd/zram\-generator\.conf[\.d]\fR (see zram\-generator\.conf(5) for details);
++.IP "2." 4
++set the desired compression algorithm, if any; if the current kernel doesn't understand the specified algorithm, a warning is issued, but execution continues;
++.IP "3." 4
++set the desired blockdev size and format it as swap with \fIsystemd\-makefs(8)\fR\.
++.IP "" 0
++.P
++Generated \fIpath\-to\-mount\-point\.mount\fR units depend on \fBsystemd\-zram\-setup@zramN\.service\fR\. The effect is similar to what happens for swap units, but of course they are formatted with a file system\.
++.P
++When the unit is stopped, the zram device is reset, freeing memory and allowing the device to be reused\.
++.P
++\fBzram\-generator\fR implements systemd\.generator(7)\.
++.SS "Applying config changes"
++This generator is invoked in early boot, and the devices it configures will be created very early too, so the easiest way to apply config changes is to simply reboot the machine\.
++.P
++Nevertheless, sometimes it may be useful to add new devices or apply config changes at runtime\. Applying new configuration means restarting the units, and that in turn means recreating the zram devices\. This means that \fIfile systems are temporarily unmounted and their contents lost\fR, and \fIpages are moved out of the compressed swap device\fR into other memory\. If this is acceptable, \fBsystemctl restart systemd\-zram\-setup@zramN\fR or \fBsystemctl restart systemd\-zram\-setup@*\fR may be used to recreate a specific device or all configured devices\. (If the device didn't exist, \fBrestart\fR will create it\.) If the way the device is used (e\.g\. the mount point or file system type) is changed, \fBsystemctl daemon\-reload\fR needs to be called first to recreate systemd units\. If a device or mount point is removed from configuration, the unit should be stopped before calling \fBdaemon\-reload\fR\. Otherwise, systemd will not know how to stop the unit properly\.
++.SH "REPORTING BUGS"
++\fIhttps://github\.com/systemd/zram\-generator/issues\fR
++.SH "SEE ALSO"
++zram\-generator\.conf(5), systemd\.generator(7), systemd\.swap(5)
++.P
++\fIhttps://github\.com/systemd/zram\-generator\fR
++.P
++Linux documentation of zram: \fIhttps://kernel\.org/doc/html/latest/admin\-guide/blockdev/zram\.html\fR
++.br
++and the zram sysfs ABI: \fIhttps://kernel\.org/doc/Documentation/ABI/testing/sysfs\-block\-zram\fR
+diff '--color=auto' -apruN a/man/zram-generator.8.html b/man/zram-generator.8.html
+--- a/man/zram-generator.8.html	1970-01-01 01:00:00.000000000 +0100
++++ b/man/zram-generator.8.html	2026-06-26 17:15:47.304026449 +0100
+@@ -0,0 +1,153 @@
++<!DOCTYPE html>
++<html>
++<head>
++  <meta http-equiv='content-type' content='text/html;charset=utf-8'>
++  <meta name='generator' content='Ronn-NG/v0.10.1 (http://github.com/apjanke/ronn-ng/tree/0.10.1)'>
++  <title>zram-generator(8) - Systemd unit generator for zram swap devices</title>
++  <style type='text/css' media='all'>
++  /* style: man */
++  body#manpage {margin:0}
++  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
++  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
++  .mp h2 {margin:10px 0 0 0}
++  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
++  .mp h3 {margin:0 0 0 4ex}
++  .mp dt {margin:0;clear:left}
++  .mp dt.flush {float:left;width:8ex}
++  .mp dd {margin:0 0 0 9ex}
++  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
++  .mp pre {margin-bottom:20px}
++  .mp pre+h2,.mp pre+h3 {margin-top:22px}
++  .mp h2+pre,.mp h3+pre {margin-top:5px}
++  .mp img {display:block;margin:auto}
++  .mp h1.man-title {display:none}
++  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
++  .mp h2 {font-size:16px;line-height:1.25}
++  .mp h1 {font-size:20px;line-height:2}
++  .mp {text-align:justify;background:#fff}
++  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
++  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
++  .mp u {text-decoration:underline}
++  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
++  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
++  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
++  .mp b.man-ref {font-weight:normal;color:#434241}
++  .mp pre {padding:0 4ex}
++  .mp pre code {font-weight:normal;color:#434241}
++  .mp h2+pre,h3+pre {padding-left:0}
++  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
++  ol.man-decor {width:100%}
++  ol.man-decor li.tl {text-align:left}
++  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
++  ol.man-decor li.tr {text-align:right;float:right}
++  </style>
++</head>
++<!--
++  The following styles are deprecated and will be removed at some point:
++  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
++
++  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
++  .man-navigation should be used instead.
++-->
++<body id='manpage'>
++  <div class='mp' id='man'>
++
++  <div class='man-navigation' style='display:none'>
++    <a href="#NAME">NAME</a>
++    <a href="#SYNOPSIS">SYNOPSIS</a>
++    <a href="#DESCRIPTION">DESCRIPTION</a>
++    <a href="#REPORTING-BUGS">REPORTING BUGS</a>
++    <a href="#SEE-ALSO">SEE ALSO</a>
++  </div>
++
++  <ol class='man-decor man-head man head'>
++    <li class='tl'>zram-generator(8)</li>
++    <li class='tc'></li>
++    <li class='tr'>zram-generator(8)</li>
++  </ol>
++
++  
++
++<h2 id="NAME">NAME</h2>
++<p class="man-name">
++  <code>zram-generator</code> - <span class="man-whatis">Systemd unit generator for zram swap devices</span>
++</p>
++<h2 id="SYNOPSIS">SYNOPSIS</h2>
++
++<p><code>/usr/lib/systemd/system-generators/zram-generator</code> <code>TARGET_DIR</code> [<em>2RGET_DIR</em> <em>3RGET_DIR</em>]<br>
++<code>/usr/lib/systemd/system-generators/zram-generator</code> --setup-device <code>DEVICE</code><br>
++<code>/usr/lib/systemd/system-generators/zram-generator</code> --reset-device <code>DEVICE</code></p>
++
++<h2 id="DESCRIPTION">DESCRIPTION</h2>
++
++<p><code>zram-generator</code> is a generator that creates systemd units to format and use compressed RAM devices, either as swap or a file system.</p>
++
++<p>The generator will be invoked by systemd early at boot. The generator will then:</p>
++
++<ol>
++  <li>read configuration files from <em>{/etc,/lib}/systemd/zram-generator.conf[.d]</em> (see <a class="man-ref" href="zram-generator.conf.5.html">zram-generator.conf<span class="s">(5)</span></a> for details);</li>
++  <li>generate <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.swap.html">systemd.swap<span class="s">(5)</span></a> and/or <span class="man-ref">systemd.mount<span class="s">(5)</span></span> units into <code>TARGET_DIR</code> and connect them to <code>swap.target</code> or <code>local-fs.target</code> as appropriate;</li>
++  <li>ensure the <code>zram</code> module is loaded and create the requested devices.</li>
++</ol>
++
++<p>The generator does nothing if run inside a container (as determined by <em><span class="man-ref">systemd-detect-virt<span class="s">(8)</span></span> --container</em>).</p>
++
++<p>The generator also understands the kernel command-line option <code>systemd.zram</code>. See <a class="man-ref" href="zram-generator.conf.5.html">zram-generator.conf<span class="s">(5)</span></a> for details.</p>
++
++<p>Setting the <code>ZRAM_GENERATOR_ROOT</code> environment variable makes the generator run in test mode, in which case containerisation is ignored and step <code>3</code> is skipped.<br>
++For the ramifications of <code>ZRAM_GENERATOR_ROOT</code> on config handling, see <a class="man-ref" href="zram-generator.conf.5.html">zram-generator.conf<span class="s">(5)</span></a>.</p>
++
++<p>Generated <em>dev-zramN.swap</em> units depend on <code>systemd-zram-setup@zramN.service</code>, which will:</p>
++
++<ol>
++  <li>read configuration files from <em>{/etc,/lib}/systemd/zram-generator.conf[.d]</em> (see <a class="man-ref" href="zram-generator.conf.5.html">zram-generator.conf<span class="s">(5)</span></a> for details);</li>
++  <li>set the desired compression algorithm, if any;
++if the current kernel doesn't understand the specified algorithm, a warning is issued, but execution continues;</li>
++  <li>set the desired blockdev size and format it as swap with <em><a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd-makefs.html">systemd-makefs<span class="s">(8)</span></a></em>.</li>
++</ol>
++
++<p>Generated <em>path-to-mount-point.mount</em> units depend on <code>systemd-zram-setup@zramN.service</code>.
++The effect is similar to what happens for swap units, but of course they are formatted with a file system.</p>
++
++<p>When the unit is stopped, the zram device is reset, freeing memory and allowing the device to be reused.</p>
++
++<p><code>zram-generator</code> implements <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.generator.html">systemd.generator<span class="s">(7)</span></a>.</p>
++
++<h3 id="Applying-config-changes">Applying config changes</h3>
++
++<p>This generator is invoked in early boot, and the devices it configures will be created very early too,
++so the easiest way to apply config changes is to simply reboot the machine.</p>
++
++<p>Nevertheless, sometimes it may be useful to add new devices or apply config changes at runtime.
++Applying new configuration means restarting the units, and that in turn means recreating the zram devices.
++This means that <em>file systems are temporarily unmounted and their contents lost</em>, and <em>pages are moved out of the compressed swap device</em> into other memory.
++If this is acceptable, <code>systemctl restart systemd-zram-setup@zramN</code> or <code>systemctl restart systemd-zram-setup@*</code>
++may be used to recreate a specific device or all configured devices.
++(If the device didn't exist, <code>restart</code> will create it.)
++If the way the device is used (e.g. the mount point or file system type) is changed,
++<code>systemctl daemon-reload</code> needs to be called first to recreate systemd units.
++If a device or mount point is removed from configuration, the unit should be stopped before calling <code>daemon-reload</code>.
++Otherwise, systemd will not know how to stop the unit properly.</p>
++
++<h2 id="REPORTING-BUGS">REPORTING BUGS</h2>
++
++<p><a href="https://github.com/systemd/zram-generator/issues" data-bare-link="true">https://github.com/systemd/zram-generator/issues</a></p>
++
++<h2 id="SEE-ALSO">SEE ALSO</h2>
++
++<p><a class="man-ref" href="zram-generator.conf.5.html">zram-generator.conf<span class="s">(5)</span></a>, <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.generator.html">systemd.generator<span class="s">(7)</span></a>, <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.swap.html">systemd.swap<span class="s">(5)</span></a></p>
++
++<p><a href="https://github.com/systemd/zram-generator" data-bare-link="true">https://github.com/systemd/zram-generator</a></p>
++
++<p>Linux documentation of zram: <a href="https://kernel.org/doc/html/latest/admin-guide/blockdev/zram.html" data-bare-link="true">https://kernel.org/doc/html/latest/admin-guide/blockdev/zram.html</a><br>
++     and the zram sysfs ABI: <a href="https://kernel.org/doc/Documentation/ABI/testing/sysfs-block-zram" data-bare-link="true">https://kernel.org/doc/Documentation/ABI/testing/sysfs-block-zram</a></p>
++
++  <ol class='man-decor man-foot man foot'>
++    <li class='tl'>zram-generator developers</li>
++    <li class='tc'>November 2024</li>
++    <li class='tr'>zram-generator(8)</li>
++  </ol>
++
++  </div>
++</body>
++</html>
+diff '--color=auto' -apruN a/man/zram-generator.conf.5 b/man/zram-generator.conf.5
+--- a/man/zram-generator.conf.5	1970-01-01 01:00:00.000000000 +0100
++++ b/man/zram-generator.conf.5	2026-06-26 17:15:47.304111658 +0100
+@@ -0,0 +1,197 @@
++.\" generated with Ronn-NG/v0.10.1
++.\" http://github.com/apjanke/ronn-ng/tree/0.10.1
++.TH "ZRAM\-GENERATOR\.CONF" "5" "November 2024" "zram-generator developers"
++.SH "NAME"
++\fBzram\-generator\.conf\fR \- Systemd unit generator for zram swap devices (configuration)
++.SH "SYNOPSIS"
++\fB/usr/lib/systemd/zram\-generator\.conf\fR
++.br
++\fB/usr/local/lib/systemd/zram\-generator\.conf\fR
++.br
++\fB/etc/systemd/zram\-generator\.conf\fR
++.br
++\fB/run/systemd/zram\-generator\.conf\fR
++.P
++\fB/usr/lib/systemd/zram\-generator\.conf\.d/*\.conf\fR
++.br
++\fB/usr/local/lib/systemd/zram\-generator\.conf\.d/*\.conf\fR
++.br
++\fB/etc/systemd/zram\-generator\.conf\.d/*\.conf\fR
++.br
++\fB/run/systemd/zram\-generator\.conf\.d/*\.conf\fR
++.SH "DESCRIPTION"
++These files configure devices created by zram\-generator(8)\. See systemd\.syntax(5) for a general description of the syntax\.
++.SH "CONFIGURATION DIRECTORIES AND PRECEDENCE"
++The default configuration doesn't specify any devices\. Consult \fI/usr/share/zram\-generator/zram\-generator\.conf\.example\fR for an example configuration file\.
++.P
++When packages need to customize the configuration, they can install configuration snippets in \fI/usr/lib/systemd/zram\-generator\.conf\.d/\fR\. Files in \fI/etc/\fR are reserved for the local administrator, who may use this logic to override the configuration files installed by vendor packages\. The main configuration file is read before any of the configuration directories, and has the lowest precedence; entries in a file in any configuration directory override entries in the single configuration file\. Files in the \fI*\.conf\.d/\fR configuration subdirectories are sorted by their filename in lexicographic order, regardless of which of the subdirectories they reside in\. When multiple files specify the same option, for options which accept just a single value, the entry in the file with the lexicographically latest name takes precedence\. It is recommended to prefix all filenames in those subdirectories with a two\-digit number and a dash, to simplify the ordering of the files\.
++.P
++To disable a configuration file supplied by the vendor, the recommended way is to place a symlink to \fI/dev/null\fR in the configuration directory in \fI/etc/\fR, with the same filename as the vendor configuration file\.
++.P
++The generator understands the following option on the kernel command\-line: \fBsystemd\.zram[=0|1]\fR\. When specified with a true argument (or no argument), the \fBzram0\fR device will be created\. Default options apply, but may be overridden by configuration on disk if present\. When specified with a false argument, no zram devices will be created by the generator\. This option thus has higher priority than the configuration files\.
++.SH "OPTIONS"
++Each device is configured independently in its \fB[zramN]\fR section, where N is a nonnegative integer\. The global section may contain \fIDIRECTIVES\fR\. Other sections are ignored\.
++.P
++Devices with the final size of \fI0\fR will be discarded\.
++.IP "\(bu" 4
++\fBhost\-memory\-limit\fR=
++.IP
++Sets the upper limit on the total usable RAM (as defined by \fIMemTotal\fR in \fB/proc/meminfo\fR, confer proc(5)) above which the device will \fInot\fR be created\.
++.IP
++This takes a nonnegative number, representing that limit in megabytes, or the literal string \fInone\fR, which can be used to override a limit set earlier\.
++.IP
++Defaults to \fInone\fR\.
++.IP "\(bu" 4
++\fBzram\-size\fR=
++.IP
++Sets the size of the zram device as a function of \fIMemTotal\fR, available as the \fBram\fR variable\. Additional variables may be provided by \fIDIRECTIVES\fR\.
++.IP
++Arithmetic operators (^%/*\-+), e, π, SI suffixes, log(), int(), ceil(), floor(), round(), abs(), min(), max(), and trigonometric functions are supported\.
++.IP
++Defaults to \fImin(ram / 2, 4096)\fR\.
++.IP "\(bu" 4
++\fBzram\-resident\-limit\fR=
++.IP
++Sets the maximum resident memory limit of the zram device (or \fI0\fR for no limit) as a function of \fIMemTotal\fR, available as the \fBram\fR variable\.
++.IP
++Same format as \fBzram\-size\fR\. Defaults to \fI0\fR\.
++.IP "\(bu" 4
++\fBcompression\-algorithm\fR=
++.IP
++Specifies the algorithm used to compress the zram device\.
++.IP
++This takes a whitespace\-separated list string, representing the algorithms to use, and parameters in parenteses\.
++.br
++Consult \fI/sys/block/zram0/comp_algorithm\fR (and \fI\|\.\|\.\|\./recomp_algorithm\fR) for a list of currently loaded compression algorithms, but note that additional ones may be loaded on demand\.
++.IP
++If unset, none will be configured and the kernel's default will be used\.
++.br
++If more than one is given, and recompression is enabled in the kernel, subsequent ones will be set as the recompression algorithms, with decreasing priority\.
++.IP
++If a compression algorithm is suffixed with a parenthesised comma\-separated list of parameters, those are given to \fB\|\.\|\.\|\./algorithm_params\fR (and \fB\|\.\|\.\|\./recompress\fR)\. A parenthesised parameter list \fIwithout\fR a compression algorithm is set as the global recompression parameters\.
++.IP "\(bu" 4
++\fBwriteback\-device\fR=
++.IP
++Write incompressible pages, for which no gain was achieved, to the specified device under memory pressure\. This corresponds to the \fI/sys/block/zramX/backing_dev\fR parameter\.
++.IP
++Takes a path to a block device, like \fI/dev/disk/by\-partuuid/2d54ffa0\-01\fR or \fI/dev/zvol/tarta\-zoot/swap\-writeback\fR\.
++.IP
++If unset, none is used, and incompressible pages are kept in RAM\.
++.IP "\(bu" 4
++\fBswap\-priority\fR=
++.IP
++Controls the relative swap priority, a value between \-1 and 32767\. Higher numbers indicate higher priority\.
++.IP
++If unset, 100 is used\.
++.IP "\(bu" 4
++\fBmount\-point\fR=
++.IP
++Format the device with a file system (not as swap) and mount this file system over the specified directory\. When neither this option nor \fBfs\-type\fR= is specified, the device will be formatted as swap\.
++.IP
++Note that the device is temporary: contents will be destroyed automatically after the file system is unmounted (to release the backing memory)\.
++.IP "\(bu" 4
++\fBfs\-type\fR=
++.IP
++Specifies how the device shall be formatted\. The default is \fIext2\fR if \fBmount\-point\fR is specified, and \fIswap\fR otherwise\. (Effectively, the device will be formatted as swap, if neither \fBfs\-type\fR= nor \fBmount\-point\fR= are specified\.)
++.IP
++Note that the device is temporary: contents will be destroyed automatically after the file system is unmounted (to release the backing memory)\.
++.IP
++Also see systemd\-makefs(8)\.
++.IP "\(bu" 4
++\fBoptions\fR=
++.IP
++Sets mount or swapon options\. Availability depends on \fBfs\-type\fR\.
++.IP
++Defaults to \fIdiscard\fR\.
++.IP "" 0
++.SH "DIRECTIVES"
++The global section (before any section header) may contain directives in the following form:
++.IP "\(bu" 4
++\fBset!\fR\fIvariable\fR=\fIprogram\fR
++.IP
++\fIprogram\fR is executed by the shell as\-if by system(3), its standard output stream parsed as an arithmetic expression (like \fBzram\-size\fR/\fBzram\-resident\-limit\fR), then the result is remembered into \fIvariable\fR, usable in later \fBset!\fRs and \fBzram\-size\fRs/\fBzram\-resident\-limit\fRs\.
++.IP "" 0
++.SH "ENVIRONMENT VARIABLES"
++Setting \fBZRAM_GENERATOR_ROOT\fR during parsing will cause \fI/proc/meminfo\fR to be read from \fI$ZRAM_GENERATOR_ROOT/proc/meminfo\fR instead, and \fI{/usr/lib,/usr/local/lib,/etc,/run}/systemd/zram\-generator\.conf\fR to be read from \fI$ZRAM_GENERATOR_ROOT/{/usr/lib,/usr/local/lib,/etc,/run}/systemd/zram\-generator\.conf\fR\.
++.SH "EXAMPLES"
++The default configuration will yield the following:
++.IP "" 4
++.nf
++ zram device size
++     ^
++     │
++  4G>│               ooooooooooooo
++     │             o
++     │           o
++     │         o
++  2G>│       o
++     │     o
++     │   o
++512M>│ o
++     0───────────────────────> total usable RAM
++       ^     ^       ^
++       1G    4G      8G
++.fi
++.IP "" 0
++.P
++A piecewise\-linear size 1:1 for the first 4G, then 1:2 above, up to a max of 32G:
++.br
++\~\~\fBzram\-size = min(min(ram, 4096) + max(ram \- 4096, 0) / 2, 32 * 1024)\fR
++.IP "" 4
++.nf
++ zram device size
++     ^
++ 32G>|                                                oooooooooooooo
++     |                                            o
++ 30G>|                                        o
++     |
++    /=/
++     |
++  8G>│                           o
++     │                       o
++     │                   o
++     │               o
++     │           o
++  4G>│       o
++     │     o
++     │   o
++  1G>│ o
++     0───────────────────────────────────||──────────────────────> total usable RAM
++       ^     ^       ^               ^        ^       ^       ^
++       1G    4G      8G             12G      56G     60G     64G
++.fi
++.IP "" 0
++.SH "OBSOLETE OPTIONS"
++.IP "\(bu" 4
++\fBmemory\-limit\fR=
++.IP
++Compatibility alias for \fBhost\-memory\-limit\fR\.
++.IP "\(bu" 4
++\fBzram\-fraction\fR=
++.IP
++Defines the scaling factor of the zram device's size with relation to the total usable RAM\.
++.IP
++This takes a nonnegative floating\-point number representing that factor\.
++.IP
++Defaulted to \fI0\.5\fR\. Setting this or \fBmax\-zram\-size\fR overrides \fBzram\-size\fR\.
++.IP "\(bu" 4
++\fBmax\-zram\-size\fR=
++.IP
++Sets the limit on the zram device's size obtained by \fBzram\-fraction\fR\.
++.IP
++This takes a nonnegative number, representing that limit in megabytes, or the literal string \fInone\fR, which can be used to override a limit set earlier\.
++.IP
++Defaulted to \fI4096\fR\. Setting this or \fBzram\-fraction\fR overrides \fBzram\-size\fR\.
++.IP "" 0
++.SH "REPORTING BUGS"
++\fIhttps://github\.com/systemd/zram\-generator/issues\fR
++.SH "SEE ALSO"
++zram\-generator(8), systemd\.syntax(5), proc(5)
++.P
++\fIhttps://github\.com/systemd/zram\-generator\fR
++.P
++Linux documentation of zram: \fIhttps://kernel\.org/doc/html/latest/admin\-guide/blockdev/zram\.html\fR
++.br
++and the zram sysfs ABI: \fIhttps://kernel\.org/doc/Documentation/ABI/testing/sysfs\-block\-zram\fR
++.P
++\fBfasteval\fR documentation for the entire \fBzram\-size\fR arithmetic DSL: \fIhttps://docs\.rs/fasteval/0\.2\.4/fasteval/#the\-fasteval\-expression\-mini\-language\fR
+diff '--color=auto' -apruN a/man/zram-generator.conf.5.html b/man/zram-generator.conf.5.html
+--- a/man/zram-generator.conf.5.html	1970-01-01 01:00:00.000000000 +0100
++++ b/man/zram-generator.conf.5.html	2026-06-26 17:15:47.304204471 +0100
+@@ -0,0 +1,324 @@
++<!DOCTYPE html>
++<html>
++<head>
++  <meta http-equiv='content-type' content='text/html;charset=utf-8'>
++  <meta name='generator' content='Ronn-NG/v0.10.1 (http://github.com/apjanke/ronn-ng/tree/0.10.1)'>
++  <title>zram-generator.conf(5) - Systemd unit generator for zram swap devices (configuration)</title>
++  <style type='text/css' media='all'>
++  /* style: man */
++  body#manpage {margin:0}
++  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
++  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
++  .mp h2 {margin:10px 0 0 0}
++  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
++  .mp h3 {margin:0 0 0 4ex}
++  .mp dt {margin:0;clear:left}
++  .mp dt.flush {float:left;width:8ex}
++  .mp dd {margin:0 0 0 9ex}
++  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
++  .mp pre {margin-bottom:20px}
++  .mp pre+h2,.mp pre+h3 {margin-top:22px}
++  .mp h2+pre,.mp h3+pre {margin-top:5px}
++  .mp img {display:block;margin:auto}
++  .mp h1.man-title {display:none}
++  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
++  .mp h2 {font-size:16px;line-height:1.25}
++  .mp h1 {font-size:20px;line-height:2}
++  .mp {text-align:justify;background:#fff}
++  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
++  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
++  .mp u {text-decoration:underline}
++  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
++  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
++  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
++  .mp b.man-ref {font-weight:normal;color:#434241}
++  .mp pre {padding:0 4ex}
++  .mp pre code {font-weight:normal;color:#434241}
++  .mp h2+pre,h3+pre {padding-left:0}
++  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
++  ol.man-decor {width:100%}
++  ol.man-decor li.tl {text-align:left}
++  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
++  ol.man-decor li.tr {text-align:right;float:right}
++  </style>
++</head>
++<!--
++  The following styles are deprecated and will be removed at some point:
++  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
++
++  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
++  .man-navigation should be used instead.
++-->
++<body id='manpage'>
++  <div class='mp' id='man'>
++
++  <div class='man-navigation' style='display:none'>
++    <a href="#NAME">NAME</a>
++    <a href="#SYNOPSIS">SYNOPSIS</a>
++    <a href="#DESCRIPTION">DESCRIPTION</a>
++    <a href="#CONFIGURATION-DIRECTORIES-AND-PRECEDENCE">CONFIGURATION DIRECTORIES AND PRECEDENCE</a>
++    <a href="#OPTIONS">OPTIONS</a>
++    <a href="#DIRECTIVES">DIRECTIVES</a>
++    <a href="#ENVIRONMENT-VARIABLES">ENVIRONMENT VARIABLES</a>
++    <a href="#EXAMPLES">EXAMPLES</a>
++    <a href="#OBSOLETE-OPTIONS">OBSOLETE OPTIONS</a>
++    <a href="#REPORTING-BUGS">REPORTING BUGS</a>
++    <a href="#SEE-ALSO">SEE ALSO</a>
++  </div>
++
++  <ol class='man-decor man-head man head'>
++    <li class='tl'>zram-generator.conf(5)</li>
++    <li class='tc'></li>
++    <li class='tr'>zram-generator.conf(5)</li>
++  </ol>
++
++  
++
++<h2 id="NAME">NAME</h2>
++<p class="man-name">
++  <code>zram-generator.conf</code> - <span class="man-whatis">Systemd unit generator for zram swap devices (configuration)</span>
++</p>
++<h2 id="SYNOPSIS">SYNOPSIS</h2>
++
++<p><code>/usr/lib/systemd/zram-generator.conf</code><br>
++<code>/usr/local/lib/systemd/zram-generator.conf</code><br>
++<code>/etc/systemd/zram-generator.conf</code><br>
++<code>/run/systemd/zram-generator.conf</code></p>
++
++<p><code>/usr/lib/systemd/zram-generator.conf.d/*.conf</code><br>
++<code>/usr/local/lib/systemd/zram-generator.conf.d/*.conf</code><br>
++<code>/etc/systemd/zram-generator.conf.d/*.conf</code><br>
++<code>/run/systemd/zram-generator.conf.d/*.conf</code></p>
++
++<h2 id="DESCRIPTION">DESCRIPTION</h2>
++
++<p>These files configure devices created by <a class="man-ref" href="zram-generator.8.html">zram-generator<span class="s">(8)</span></a>. See <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.syntax.html">systemd.syntax<span class="s">(5)</span></a> for a general description of the syntax.</p>
++
++<h2 id="CONFIGURATION-DIRECTORIES-AND-PRECEDENCE">CONFIGURATION DIRECTORIES AND PRECEDENCE</h2>
++
++<p>The default configuration doesn't specify any devices. Consult <em>/usr/share/zram-generator/zram-generator.conf.example</em> for an example configuration file.</p>
++
++<p>When packages need to customize the configuration, they can install configuration snippets in <em>/usr/lib/systemd/zram-generator.conf.d/</em>.
++Files in <em>/etc/</em> are reserved for the local administrator, who may use this logic to override the configuration files installed by vendor packages.
++The main configuration file is read before any of the configuration directories, and has the lowest precedence;
++entries in a file in any configuration directory override entries in the single configuration file.
++Files in the <em>*.conf.d/</em> configuration subdirectories are sorted by their filename in lexicographic order, regardless of which of the subdirectories they reside in.
++When multiple files specify the same option, for options which accept just a single value, the entry in the file with the lexicographically latest name takes precedence.
++It is recommended to prefix all filenames in those subdirectories with a two-digit number and a dash, to simplify the ordering of the files.</p>
++
++<p>To disable a configuration file supplied by the vendor, the recommended way is to place a symlink to <em>/dev/null</em> in the configuration directory in <em>/etc/</em>,
++with the same filename as the vendor configuration file.</p>
++
++<p>The generator understands the following option on the kernel command-line: <code>systemd.zram[=0|1]</code>.
++When specified with a true argument (or no argument), the <code>zram0</code> device will be created.
++Default options apply, but may be overridden by configuration on disk if present.
++When specified with a false argument, no zram devices will be created by the generator.
++This option thus has higher priority than the configuration files.</p>
++
++<h2 id="OPTIONS">OPTIONS</h2>
++
++<p>Each device is configured independently in its <code>[zramN]</code> section, where N is a nonnegative integer. The global section may contain <a href="#DIRECTIVES" title="DIRECTIVES" data-bare-link="true">DIRECTIVES</a>. Other sections are ignored.</p>
++
++<p>Devices with the final size of <em>0</em> will be discarded.</p>
++
++<ul>
++  <li>
++    <p><code>host-memory-limit</code>=</p>
++
++    <p>Sets the upper limit on the total usable RAM (as defined by <em>MemTotal</em> in <code>/proc/meminfo</code>, confer <a class="man-ref" href="https://man7.org/linux/man-pages/man5/proc.5.html">proc<span class="s">(5)</span></a>) above which the device will <em>not</em> be created.</p>
++
++    <p>This takes a nonnegative number, representing that limit in megabytes, or the literal string <em>none</em>, which can be used to override a limit set earlier.</p>
++
++    <p>Defaults to <em>none</em>.</p>
++  </li>
++  <li>
++    <p><code>zram-size</code>=</p>
++
++    <p>Sets the size of the zram device as a function of <em>MemTotal</em>, available as the <code>ram</code> variable.
++Additional variables may be provided by <a href="#DIRECTIVES" title="DIRECTIVES" data-bare-link="true">DIRECTIVES</a>.</p>
++
++    <p>Arithmetic operators (^%/*-+), e, π, SI suffixes, log(), int(), ceil(), floor(), round(), abs(), min(), max(), and trigonometric functions are supported.</p>
++
++    <p>Defaults to <em>min(ram / 2, 4096)</em>.</p>
++  </li>
++  <li>
++    <p><code>zram-resident-limit</code>=</p>
++
++    <p>Sets the maximum resident memory limit of the zram device (or <em>0</em> for no limit) as a function of <em>MemTotal</em>, available as the <code>ram</code> variable.</p>
++
++    <p>Same format as <code>zram-size</code>. Defaults to <em>0</em>.</p>
++  </li>
++  <li>
++    <p><code>compression-algorithm</code>=</p>
++
++    <p>Specifies the algorithm used to compress the zram device.</p>
++
++    <p>This takes a whitespace-separated list string, representing the algorithms to use, and parameters in parenteses.<br>
++Consult <em>/sys/block/zram0/comp_algorithm</em> (and <em>.../recomp_algorithm</em>) for a list of currently loaded compression algorithms, but note that additional ones may be loaded on demand.</p>
++
++    <p>If unset, none will be configured and the kernel's default will be used.<br>
++If more than one is given, and recompression is enabled in the kernel, subsequent ones will be set as the recompression algorithms, with decreasing priority.</p>
++
++    <p>If a compression algorithm is suffixed with a parenthesised comma-separated list of parameters, those are given to <code>.../algorithm_params</code> (and <code>.../recompress</code>).
++A parenthesised parameter list <em>without</em> a compression algorithm is set as the global recompression parameters.</p>
++  </li>
++  <li>
++    <p><code>writeback-device</code>=</p>
++
++    <p>Write incompressible pages, for which no gain was achieved, to the specified device under memory pressure.
++This corresponds to the <em>/sys/block/zramX/backing_dev</em> parameter.</p>
++
++    <p>Takes a path to a block device, like <em>/dev/disk/by-partuuid/2d54ffa0-01</em> or <em>/dev/zvol/tarta-zoot/swap-writeback</em>.</p>
++
++    <p>If unset, none is used, and incompressible pages are kept in RAM.</p>
++  </li>
++  <li>
++    <p><code>swap-priority</code>=</p>
++
++    <p>Controls the relative swap priority, a value between -1 and 32767. Higher numbers indicate higher priority.</p>
++
++    <p>If unset, 100 is used.</p>
++  </li>
++  <li>
++    <p><code>mount-point</code>=</p>
++
++    <p>Format the device with a file system (not as swap) and mount this file system over the specified directory.
++When neither this option nor <code>fs-type</code>= is specified, the device will be formatted as swap.</p>
++
++    <p>Note that the device is temporary: contents will be destroyed automatically after the file system is unmounted (to release the backing memory).</p>
++  </li>
++  <li>
++    <p><code>fs-type</code>=</p>
++
++    <p>Specifies how the device shall be formatted. The default is <em>ext2</em> if <code>mount-point</code> is specified, and <em>swap</em> otherwise. (Effectively, the device will be formatted as swap, if neither <code>fs-type</code>= nor <code>mount-point</code>= are specified.)</p>
++
++    <p>Note that the device is temporary: contents will be destroyed automatically after the file system is unmounted (to release the backing memory).</p>
++
++    <p>Also see <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd-makefs.html">systemd-makefs<span class="s">(8)</span></a>.</p>
++  </li>
++  <li>
++    <p><code>options</code>=</p>
++
++    <p>Sets mount or swapon options. Availability depends on <code>fs-type</code>.</p>
++
++    <p>Defaults to <em>discard</em>.</p>
++  </li>
++</ul>
++
++<h2 id="DIRECTIVES">DIRECTIVES</h2>
++
++<p>The global section (before any section header) may contain directives in the following form:</p>
++
++<ul>
++  <li>
++    <p><code>set!</code><em>variable</em>=<em>program</em></p>
++
++    <p><em>program</em> is executed by the shell as-if by <a class="man-ref" href="https://man7.org/linux/man-pages/man3/system.3.html">system<span class="s">(3)</span></a>,
++its standard output stream parsed as an arithmetic expression (like <code>zram-size</code>/<code>zram-resident-limit</code>),
++then the result is remembered into <em>variable</em>,
++usable in later <code>set!</code>s and <code>zram-size</code>s/<code>zram-resident-limit</code>s.</p>
++  </li>
++</ul>
++
++<h2 id="ENVIRONMENT-VARIABLES">ENVIRONMENT VARIABLES</h2>
++
++<p>Setting <code>ZRAM_GENERATOR_ROOT</code> during parsing will cause <em>/proc/meminfo</em> to be read from <em>$ZRAM_GENERATOR_ROOT/proc/meminfo</em> instead,
++and <em>{/usr/lib,/usr/local/lib,/etc,/run}/systemd/zram-generator.conf</em> to be read from <em>$ZRAM_GENERATOR_ROOT/{/usr/lib,/usr/local/lib,/etc,/run}/systemd/zram-generator.conf</em>.</p>
++
++<h2 id="EXAMPLES">EXAMPLES</h2>
++
++<p>The default configuration will yield the following:</p>
++
++<pre><code> zram device size
++     ^
++     │
++  4G&gt;│               ooooooooooooo
++     │             o
++     │           o
++     │         o
++  2G&gt;│       o
++     │     o
++     │   o
++512M&gt;│ o
++     0───────────────────────&gt; total usable RAM
++       ^     ^       ^
++       1G    4G      8G
++</code></pre>
++
++<p>A piecewise-linear size 1:1 for the first 4G, then 1:2 above, up to a max of 32G:<br>
++  <code>zram-size = min(min(ram, 4096) + max(ram - 4096, 0) / 2, 32 * 1024)</code></p>
++
++<pre><code> zram device size
++     ^
++ 32G&gt;|                                                oooooooooooooo
++     |                                            o
++ 30G&gt;|                                        o
++     |
++    /=/
++     |
++  8G&gt;│                           o
++     │                       o
++     │                   o
++     │               o
++     │           o
++  4G&gt;│       o
++     │     o
++     │   o
++  1G&gt;│ o
++     0───────────────────────────────────||──────────────────────&gt; total usable RAM
++       ^     ^       ^               ^        ^       ^       ^
++       1G    4G      8G             12G      56G     60G     64G
++</code></pre>
++
++<h2 id="OBSOLETE-OPTIONS">OBSOLETE OPTIONS</h2>
++
++<ul>
++  <li>
++    <p><code>memory-limit</code>=</p>
++
++    <p>Compatibility alias for <code>host-memory-limit</code>.</p>
++  </li>
++  <li>
++    <p><code>zram-fraction</code>=</p>
++
++    <p>Defines the scaling factor of the zram device's size with relation to the total usable RAM.</p>
++
++    <p>This takes a nonnegative floating-point number representing that factor.</p>
++
++    <p>Defaulted to <em>0.5</em>. Setting this or <code>max-zram-size</code> overrides <code>zram-size</code>.</p>
++  </li>
++  <li>
++    <p><code>max-zram-size</code>=</p>
++
++    <p>Sets the limit on the zram device's size obtained by <code>zram-fraction</code>.</p>
++
++    <p>This takes a nonnegative number, representing that limit in megabytes, or the literal string <em>none</em>, which can be used to override a limit set earlier.</p>
++
++    <p>Defaulted to <em>4096</em>. Setting this or <code>zram-fraction</code> overrides <code>zram-size</code>.</p>
++  </li>
++</ul>
++
++<h2 id="REPORTING-BUGS">REPORTING BUGS</h2>
++
++<p><a href="https://github.com/systemd/zram-generator/issues" data-bare-link="true">https://github.com/systemd/zram-generator/issues</a></p>
++
++<h2 id="SEE-ALSO">SEE ALSO</h2>
++
++<p><a class="man-ref" href="zram-generator.8.html">zram-generator<span class="s">(8)</span></a>, <a class="man-ref" href="https://freedesktop.org/software/systemd/man/systemd.syntax.html">systemd.syntax<span class="s">(5)</span></a>, <a class="man-ref" href="https://man7.org/linux/man-pages/man5/proc.5.html">proc<span class="s">(5)</span></a></p>
++
++<p><a href="https://github.com/systemd/zram-generator" data-bare-link="true">https://github.com/systemd/zram-generator</a></p>
++
++<p>Linux documentation of zram: <a href="https://kernel.org/doc/html/latest/admin-guide/blockdev/zram.html" data-bare-link="true">https://kernel.org/doc/html/latest/admin-guide/blockdev/zram.html</a><br>
++     and the zram sysfs ABI: <a href="https://kernel.org/doc/Documentation/ABI/testing/sysfs-block-zram" data-bare-link="true">https://kernel.org/doc/Documentation/ABI/testing/sysfs-block-zram</a></p>
++
++<p><code>fasteval</code> documentation for the entire <code>zram-size</code> arithmetic DSL: <a href="https://docs.rs/fasteval/0.2.4/fasteval/#the-fasteval-expression-mini-language" data-bare-link="true">https://docs.rs/fasteval/0.2.4/fasteval/#the-fasteval-expression-mini-language</a></p>
++
++  <ol class='man-decor man-foot man foot'>
++    <li class='tl'>zram-generator developers</li>
++    <li class='tc'>November 2024</li>
++    <li class='tr'>zram-generator.conf(5)</li>
++  </ol>
++
++  </div>
++</body>
++</html>
