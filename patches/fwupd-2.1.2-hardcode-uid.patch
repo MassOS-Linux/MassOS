@@ -1,0 +1,7 @@
+Hardcode system user UID according to the MassOS 'USERIDS.md' specification.
+
+--- a/data/motd/fwupd.sysusers
++++ b/data/motd/fwupd.sysusers
+@@ -1 +1 @@
+-u @systemd_unit_user@ - "Firmware update daemon" @localstatedir@/lib/fwupd
++u @systemd_unit_user@ 961 "Firmware update daemon" @localstatedir@/lib/fwupd

@@ -92,7 +92,7 @@ Upgraded software (core):
 - bcachefs-module: `(new package) --> 1.38.5`
 - bcachefs-tools: `(new package) --> 1.38.5`
 - BIND-Utils: `9.18.6 --> 9.20.23`
-- Binutils: `2.39 --> 2.46.1`
+- Binutils: `2.39 --> 2.47`
 - blueprint-compiler: `(new package) --> 0.20.4`
 - BlueZ: `5.65 --> 5.87`
 - Boost: `1.80.0 --> 1.91.0`
@@ -117,7 +117,7 @@ Upgraded software (core):
 - charset-normalizer: `(new package) --> 3.4.7`
 - Clang: `14.0.6 --> 22.1.8`
 - Class-Inspector: `(new package) --> 1.36`
-- CMake: `3.24.2 --> 4.4.0`
+- CMake: `3.24.2 --> 4.4.2`
 - compiler-rt: `15.0.3 --> 22.1.8`
 - colord: `1.4.6 --> 1.4.8`
 - colord-gtk: `(new package) --> 0.3.1`
@@ -145,7 +145,7 @@ Upgraded software (core):
 - dhcpcd: `9.4.1 --> 10.2.3`
 - dialog: `1.3-20220728 --> 1.3-20250116`
 - Diffutils: `3.8 --> 3.12`
-- DirectX-Headers: `1.606.3 --> 1.619.4`
+- DirectX-Headers: `1.606.3 --> 1.619.5`
 - distro: `1.6.0 --> 1.9.0`
 - DKMS: `3.0.6 --> 3.2.1`
 - dmidecode: `3.4 --> 3.6`
@@ -154,13 +154,13 @@ Upgraded software (core):
 - dos2unix: `7.4.2 --> 7.5.5`
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.1`
-- dracut: `056 --> 111`
+- dracut: `056 --> 112`
 - dvd+rw-tools: `7.1 --> (removed)`
 - e2fsprogs: `1.46.5 --> 1.47.4`
 - easy-rsa: `3.1.0 --> 3.2.6`
 - Ed: `1.18 --> 1.22.5`
 - editables: `(new package) --> 0.6`
-- EDK2-Shell: `(new package) --> 202602`
+- EDK2-Shell: `(new package) --> 202605`
 - efitools: `(new package) --> 1.9.2`
 - efivar: `38 --> 39`
 - egl-wayland: `1.1.11 --> 1.1.18`
@@ -180,7 +180,7 @@ Upgraded software (core):
 - fast-float: `(new package) --> 8.2.9`
 - fastfetch: `(new package) --> 2.66.0`
 - fastjsonschema: `(new package) --> 2.21.1`
-- FFmpeg: `5.1.2 --> 8.1.2`
+- FFmpeg: `5.1.2 --> 9.0`
 - File: `5.43 --> 5.48`
 - File-ShareDir: `(new package) --> 1.118`
 - File-ShareDir-Install: `(new package) --> 0.14`
@@ -220,7 +220,7 @@ Upgraded software (core):
 - glew: `(new package) --> 2.3.1`
 - GLib: `2.74.0 --> 2.88.2`
 - glib-networking: `2.74.0 --> 2.80.1`
-- Glibc: `2.36 --> 2.43`
+- Glibc: `2.36 --> 2.44`
 - GLibmm: `2.66.5 --> 2.66.9`
 - glslang: `11.11.0 --> 16.3.0`
 - GLU: `9.0.2 --> 9.0.3`
@@ -246,18 +246,18 @@ Upgraded software (core):
 - grub-theme-distro-massos: `(new package) --> 002`
 - gsettings-desktop-schemas: `43.0 --> 50.1`
 - gspell: `1.12.0 --> 1.14.3`
-- gst-editing-services: `(new package) --> 1.28.5`
-- gst-libav: `1.20.3 --> 1.28.5`
+- gst-editing-services: `(new package) --> 1.28.6`
+- gst-libav: `1.20.3 --> 1.28.6`
 - gst-plugin-dav1d: `(new package) --> 0.15.3`
 - gst-plugin-gtk4: `(new package) --> 0.15.3`
 - gst-plugin-rav1e: `(new package) --> 0.15.3`
-- gst-plugins-bad: `1.20.3 --> 1.28.5`
-- gst-plugins-base: `1.20.3 --> 1.28.5`
-- gst-plugins-good: `1.20.3 --> 1.28.5`
+- gst-plugins-bad: `1.20.3 --> 1.28.6`
+- gst-plugins-base: `1.20.3 --> 1.28.6`
+- gst-plugins-good: `1.20.3 --> 1.28.6`
 - gst-plugins-rs: `0.8.4 --> (removed)`
-- gst-plugins-ugly: `1.20.3 --> 1.28.5`
-- gst-python: `(new package) --> 1.28.5`
-- GStreamer: `1.20.3 --> 1.28.5`
+- gst-plugins-ugly: `1.20.3 --> 1.28.6`
+- gst-python: `(new package) --> 1.28.6`
+- GStreamer: `1.20.3 --> 1.28.6`
 - gstreamer-vaapi: `1.20.3 --> (removed)`
 - GTK-Doc: `1.33.2 --> 1.36.0`
 - gtk-layer-shell: `(new package) --> 0.9.1`
@@ -502,10 +502,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 7.1.4`
-- Linux-API-Headers: `6.0.0 --> 7.1.4`
+- Linux: `6.0.0 --> 7.1.6`
+- Linux-API-Headers: `6.0.0 --> 7.1.6`
 - Linux-Firmware: `(new package) --> 20260622`
-- Linux-Headers: `6.0.0 --> 7.1.4`
+- Linux-Headers: `6.0.0 --> 7.1.6`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 22.1.8`
 - LLVM: `14.0.6 --> 22.1.8`
@@ -530,7 +530,7 @@ Upgraded software (core):
 - maturin: `(new package) --> 1.14.1`
 - mdadm: `4.2 --> 4.6`
 - memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 26.1.4`
+- Mesa: `22.1.7 --> 26.1.6`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.11.2`
 - meson-python: `(new package) --> 0.20.0`
@@ -557,7 +557,7 @@ Upgraded software (core):
 - Neofetch: `7.3.0 --> (removed)`
 - net-tools: `(new package) --> 2.10`
 - Netcat: `0.7.1 --> 1.229`
-- NetworkManager: `1.40.0 --> 1.56.1`
+- NetworkManager: `1.40.0 --> 1.58.0`
 - NetworkManager-openvpn: `1.10.0 --> 1.12.0`
 - newt: `0.52.21 --> 0.52.25`
 - nftables: `(new package) --> 1.1.1`
@@ -572,7 +572,7 @@ Upgraded software (core):
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2026.2.25`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
-- nvidia-modules-open: `(new package) --> 610.43.03`
+- nvidia-modules-open: `(new package) --> 610.57.04`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
 - NVIDIA-Open-Kernel-Modules: `515.76 --> (removed)`
 - nvme-cli: `(new package) --> 2.16`
@@ -710,7 +710,7 @@ Upgraded software (core):
 - SVT-AV1: `(new package) --> 4.1.0`
 - SWIG: `4.0.2 --> 4.4.1`
 - system-config-printer: `(new package) --> 1.5.18`
-- systemd: `251.5 --> 261.1`
+- systemd: `251.5 --> 261.2`
 - Taglib: `1.12 --> 2.3`
 - talloc: `(new package) --> 2.4.4`
 - tar: `1.34 --> 1.35`
@@ -724,8 +724,8 @@ Upgraded software (core):
 - Tk: `8.6.12 --> 8.6.18`
 - tldr: `1.5.0 --> 1.8.1`
 - tomli: `(new package) --> 2.2.1`
-- tpm2-tools: `(new package) --> 5.8-rc0`
-- tpm2-tss: `3.2.0 --> 4.2.0-rc0`
+- tpm2-tools: `(new package) --> 5.8`
+- tpm2-tss: `3.2.0 --> 4.2.0`
 - traceroute: `(new package) --> 2.1.6`
 - tree: `2.0.4 --> 2.3.2`
 - trove-classifiers: `(new package) --> 2026.1.14.14`

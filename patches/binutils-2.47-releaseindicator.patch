@@ -1,0 +1,20 @@
+The date stamp of the snapshot is supposed to be appended to the Binutils
+version output only in development versions of the software, the state of which
+is indicated by the 'bfd/development.sh' file. For the release tarball of 2.47,
+the Binutils maintainers accidentally left it in development mode, so we need
+to ensure it is not set (and thus the date stamp will not get appended to the
+version output) in the stable build for MassOS.
+
+diff '--color=auto' -apruN a/bfd/development.sh b/bfd/development.sh
+--- a/bfd/development.sh	2026-07-26 00:00:00.000000000 +0100
++++ b/bfd/development.sh	2026-07-27 13:20:13.643566868 +0100
+@@ -16,7 +16,7 @@
+ # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ # Controls whether to enable development-mode features by default.
+-development=true
++development=false
+ 
+ # Indicate whether this is a release branch.
+-experimental=true
++experimental=false

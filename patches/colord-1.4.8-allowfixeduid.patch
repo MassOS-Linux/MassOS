@@ -1,0 +1,48 @@
+From 9ff8c5f112cf5bad2142360efb754425b4b2d4dc Mon Sep 17 00:00:00 2001
+From: Daniel Massey <contact@dmassey.net>
+Date: Mon, 27 Jul 2026 01:47:34 +0100
+Subject: [PATCH] Allow specifying a fixed UID for the colord daemon user
+
+By default, if the meson option daemon_user is set to a value other
+than root, a systemd sysusers configuration file gets installed which
+sets up the unpriveleged colord daemon user at runtime. Add a new meson
+option, daemon_uid, which (if set) allows specifying a fixed UID for
+said daemon user, rather than relying on auto-assignment by systemd at
+runtime.
+---
+ data/colord.sysusers.conf.in | 2 +-
+ data/meson.build             | 1 +
+ meson_options.txt            | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/data/colord.sysusers.conf.in b/data/colord.sysusers.conf.in
+index 89ce743d..790b116e 100644
+--- a/data/colord.sysusers.conf.in
++++ b/data/colord.sysusers.conf.in
+@@ -1 +1 @@
+-u @daemon_user@ - "colord colour management daemon" @localstatedir@/lib/colord
++u @daemon_user@ @daemon_uid@ "colord colour management daemon" @localstatedir@/lib/colord
+diff --git a/data/meson.build b/data/meson.build
+index d253e7fc..544be9fe 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -16,6 +16,7 @@ con2 = configuration_data()
+ con2.set('localstatedir', localstatedir)
+ con2.set('servicedir', libexecdir)
+ con2.set('daemon_user', get_option('daemon_user'))
++con2.set('daemon_uid', get_option('daemon_uid'))
+ 
+ # replace @servicedir@, @daemon_user@ and @localstatedir@
+ if get_option('systemd')
+diff --git a/meson_options.txt b/meson_options.txt
+index 88d0b7be..81c54450 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -13,6 +13,7 @@ option('print_profiles', type : 'boolean', value : false, description : 'Build e
+ option('tests', type : 'boolean', value : true, description : 'Build self tests')
+ option('installed_tests', type : 'boolean', value : false, description : 'Install tests')
+ option('daemon_user', type : 'string', value : 'root', description : 'User for running the colord daemon')
++option('daemon_uid', type : 'string', value : '-', description : 'Fixed UID of the colord daemon user')
+ option('pnp_ids', type : 'string', value : '', description : 'Location of pnp.ids if hwdb is not available')
+ option('man', type : 'boolean', value : true, description : 'Generate man pages')
+ option('docs', type : 'boolean', value : true, description : 'Generate documentation')

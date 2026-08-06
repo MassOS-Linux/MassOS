@@ -9,9 +9,8 @@ if test $EUID -ne 0; then
   echo "Error: This script is not intended to be run standalone." >&2
 fi
 
-# Remove live user and autologin group.
+# Remove live user.
 userdel -rf massos
-groupdel -f autologin
 
 # Restore original display manager configuration, depending on which is in use.
 if test -f /etc/lightdm/lightdm.conf.orig; then
@@ -53,8 +52,8 @@ ssh-keygen -A
 # Follow the formatting of Ubuntu/Debian, as VirtualBox also expects that.
 # Don't generate keys if they for some reason already exist.
 if test ! -e /var/lib/shim-signed/mok/MOK.priv && test ! -e /var/lib/shim-signed/mok/MOK.der && test ! -e /var/lib/shim-signed/mok/MOK.crt; then
-  openssl req -new -x509 -newkey rsa:2048 -nodes -keyout /var/lib/shim-signed/mok/MOK.priv -out /var/lib/shim-signed/mok/MOK.der -outform DER -days 3650 -subj "/CN=Auto-generated MOK for MassOS on $(date +%Y-%m-%d)/" -addext "extendedKeyUsage=codeSigning"
-  openssl x509 -in /var/lib/shim-signed/mok/MOK.der -inform DER -out /var/lib/shim-signed/mok/MOK.crt -outform PEM
+  openssl req -new -x509 -newkey rsa:2048 -nodes -keyout /var/lib/shim-signed/mok/MOK.priv -out /var/lib/shim-signed/mok/MOK.crt -days 3650 -subj "/CN=MassOS User KMOD Signing MOK $(date +%Y-%m-%d)/" -addext "extendedKeyUsage=codeSigning"
+  openssl x509 -in /var/lib/shim-signed/mok/MOK.crt -out /var/lib/shim-signed/mok/MOK.der -outform DER
   chmod 0600 /var/lib/shim-signed/mok/MOK.priv
   echo "To import the MOK, run 'sudo mokutil --import /var/lib/shim-signed/mok/MOK.der'" > /var/lib/shim-signed/mok/README.txt
 fi

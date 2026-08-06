@@ -108,6 +108,7 @@ rm -rf texinfo-7.3
 # util-linux (circular deps; rebuilt later).
 tar -xf ../sources/util-linux-2.42.2.tar.xz
 pushd util-linux-2.42.2
+patch -Np1 -i ../../patches/util-linux-2.42.2-hardcode-uid.patch
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --disable-static --disable-chfn-chsh --disable-liblastlog2 --disable-login --disable-nologin --disable-pylibmount --disable-runuser --disable-setpriv --disable-su --disable-use-tty-group --without-python
 make
 make install
@@ -136,13 +137,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 END
 rm -rf iana-etc-20260617
 # Glibc.
-tar -xf ../sources/glibc-2.43.tar.xz
-pushd glibc-2.43
+tar -xf ../sources/glibc-2.44.tar.xz
+pushd glibc-2.44
 patch -Np1 -i ../../patches/glibc-2.40-vardirectories.patch
-patch -Np1 -i ../../patches/glibc-2.43-securityfixes.patch
 mkdir -p build; pushd build
 echo "rootsbindir=/usr/bin" > configparms
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.43" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --with-pkgversion="MassOS Glibc 2.44" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-kernel=5.10 --enable-stack-protector=strong --disable-nscd --disable-werror libc_cv_slibdir=/usr/lib
 make
 sed -i '/test-installation/s@$(PERL)@echo not running@' ../Makefile
 make -j1 install
@@ -151,7 +151,7 @@ sed -e '/#/d' -e '/SUPPORTED-LOCALES/d' -e 's|\\||g' -e 's|/| |g' -e 's|^|#|g' -
 mklocales
 install -t /usr/share/licenses/glibc -Dm644 ../COPYING* ../LICENSES
 popd; popd
-rm -rf glibc-2.43
+rm -rf glibc-2.44
 # tzdata.
 mkdir -p tzdata; pushd tzdata
 tar -xf ../../sources/tzdata2026c.tar.gz
@@ -290,16 +290,18 @@ ln -sf pkgconf /usr/share/licenses/pkg-config
 popd
 rm -rf pkgconf-3.0.2
 # Binutils.
-tar -xf ../sources/binutils-with-gold-2.46.1.tar.xz
-pushd binutils-with-gold-2.46.1
+tar -xf ../sources/binutils-2.47.tar.xz
+pushd binutils-2.47
+tar -xf ../../sources/binutils-with-gold-2.46.1.tar.xz binutils-with-gold-2.46.1/{elfcpp,gold} -C . --strip-components=1
+patch -Np1 -i ../../patches/binutils-2.47-releaseindicator.patch
 mkdir -p build; pushd build
-CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --with-pkgversion="MassOS Binutils 2.46.1" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-default-hash-style=gnu --enable-gold --enable-install-libiberty --enable-ld=default --enable-new-dtags --enable-plugins --enable-relro --enable-shared --disable-werror
+CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ../configure --prefix=/usr --sysconfdir=/etc --with-pkgversion="MassOS Binutils 2.47" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-system-zlib --enable-default-hash-style=gnu --enable-gold --enable-install-libiberty --enable-ld=default --enable-new-dtags --enable-plugins --enable-relro --enable-shared --disable-werror
 make tooldir=/usr
 make -j1 tooldir=/usr install
 rm -f /usr/lib/lib{bfd,ctf,ctf-nobfd,gprofng,opcodes,sframe}.a
 install -t /usr/share/licenses/binutils -Dm644 ../COPYING ../COPYING.LIB ../COPYING3 ../COPYING3.LIB
 popd; popd
-rm -rf binutils-with-gold-2.46.1
+rm -rf binutils-2.47
 # GMP.
 tar -xf ../sources/gmp-6.3.0.tar.xz
 pushd gmp-6.3.0
@@ -431,7 +433,7 @@ rm -rf libcap-2.78
 # Shadow (initial build; will be rebuilt later to support systemd and AUDIT).
 tar -xf ../sources/shadow-4.19.4.tar.xz
 pushd shadow-4.19.4
-patch -Np1 -i ../../patches/shadow-4.18.0-MassOS.patch
+patch -Np1 -i ../../patches/shadow-4.19.4-MassOS.patch
 touch /usr/bin/passwd
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-static --with-bcrypt --with-group-name-max-length=32 --with-libcrack --with-yescrypt --without-libbsd --disable-logind
 make
@@ -1920,7 +1922,7 @@ pushd boost-1.91.0-1
 ./b2 install threading=multi link=shared
 install -t /usr/share/licenses/boost -Dm644 LICENSE_1_0.txt
 popd
-rm -rf boost-1.90.0-1
+rm -rf boost-1.91.0-1
 # libgpg-error.
 tar -xf ../sources/libgpg-error-1.61.tar.bz2
 pushd libgpg-error-1.61
@@ -2408,9 +2410,28 @@ rm -rf sbsigntools-0.9.5
 tar -xf ../sources/efitools-1.9.2.tar.gz
 pushd efitools-1.9.2
 patch -Np1 -i ../../patches/efitools-1.9.2-manyfixes.patch
-[ "$MBS_ARCH" = "x86_64" ] || sed -i '44,45d' Makefile
+sed -i '44,45d' Makefile
 ARCH="$MBS_ARCH" CC="gcc -std=gnu17" make -j1
 make -j1 install
+cat > /usr/share/efitools/README-MassOS << "END"
+The EFI applications are no longer supplied as part of the efitools package on
+newer builds of MassOS. This is primarily because they are entirely broken when
+built with modern compiler toolchains (such as the one used by MassOS). They
+also cannot be signed for secure boot by the MassOS developers, because they
+are considered insecure applications by modern standards.
+
+If you still need to obtain the EFI applications for some reason, you can
+download a prebuilt efitools package (which is built with an older toolchain
+and thus includes working builds of the EFI applications) from one of the
+following locations (depending on your CPU architecture):
+
+- https://dmassey.net/files/misc/efitools-1.9.2-standalone-x86_64.tar.xz
+- https://dmassey.net/files/misc/efitools-1.9.2-standalone-aarch64.tar.xz
+
+After extracting the tarball, the EFI applications can be found under the
+'efi/' subdirectory (NOT 'usr/share/efitools/efi/'). They aren't signed for
+secure boot but you can sign them yourself using sbsign(1) if you wish.
+END
 install -t /usr/share/licenses/efitools -Dm644 COPYING
 popd
 rm -rf efitools-1.9.2
@@ -2424,9 +2445,10 @@ install -t /usr/share/licenses/hwdata -Dm644 COPYING
 popd
 rm -rf hwdata-0.409
 # systemd (initial build; will be rebuilt later to support more features).
-tar -xf ../sources/systemd-261.1.tar.gz
-pushd systemd-261.1
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled
+tar -xf ../sources/systemd-261.2.tar.gz
+pushd systemd-261.2
+patch -Np1 -i ../../patches/systemd-261.2-hardcode-uids.patch
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=disabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=false -Dvmlinux-h=disabled -Dadm-gid=999 -Dwheel-gid=998 -Dempower-gid=997 -Dutmp-gid=996 -Daudio-gid=995 -Dcdrom-gid=994 -Dclock-gid=993 -Ddialout-gid=992 -Ddisk-gid=991 -Dinput-gid=990 -Dkmem-gid=989 -Dkvm-gid=988 -Dlp-gid=987 -Drender-gid=986 -Dsgx-gid=985 -Dtape-gid=984 -Dvideo-gid=983 -Dusers-gid=982 -Dsystemd-journal-gid=981 -Dtty-gid=5 -Dsystemd-network-uid=979 -Dsystemd-resolve-uid=977 -Dsystemd-timesync-uid=976 -Dsystemd-imds-uid=969
 ninja -C build
 ninja -C build install
 cat > /etc/pam.d/systemd-user << "END"
@@ -2452,9 +2474,11 @@ u daemon 6 "Daemon User" -
 m daemon bin
 
 g floppy 7 -
-g lpadmin 19 -
-g mail 34 -
-g scanner 70 -
+g mail 8 -
+g lpadmin 9 -
+g scanner 10 -
+g netdev 11 -
+g autologin 12 -
 END
 systemd-sysusers
 chgrp utmp /var/log/lastlog
@@ -2464,10 +2488,11 @@ install -t /usr/lib/systemd/system -Dm644 ../../extras/systemd-units/*
 systemctl enable gpm
 install -t /usr/share/licenses/systemd -Dm644 LICENSE.{GPL2,LGPL2.1} LICENSES/*
 popd
-rm -rf systemd-261.1
+rm -rf systemd-261.2
 # D-Bus (initial build; will be rebuilt later for more features).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
+patch -Np1 -i ../../patches/dbus-1.16.2-hardcode-uid.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dapparmor=disabled -Dlibaudit=disabled -Dmodular_tests=disabled -Dselinux=disabled -Dx11_autolaunch=disabled
 ninja -C build
 ninja -C build install
@@ -2498,6 +2523,7 @@ rm -rf procps-ng-4.0.6
 # util-linux.
 tar -xf ../sources/util-linux-2.42.2.tar.xz
 pushd util-linux-2.42.2
+patch -Np1 -i ../../patches/util-linux-2.42.2-hardcode-uid.patch
 ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --prefix=/usr --sysconfdir=/etc --localstatedir=/var --runstatedir=/run --bindir=/usr/bin --libdir=/usr/lib --sbindir=/usr/bin --disable-chfn-chsh --disable-login --disable-nologin --disable-su --disable-setpriv --disable-runuser --disable-pylibmount --disable-liblastlog2 --disable-static --without-python
 make
 make install
@@ -2965,15 +2991,15 @@ install -t /usr/share/licenses/rhash -Dm644 COPYING
 popd
 rm -rf RHash-1.4.5
 # CMake.
-tar -xf ../sources/cmake-4.4.0.tar.gz
-pushd cmake-4.4.0
+tar -xf ../sources/cmake-4.4.2.tar.gz
+pushd cmake-4.4.2
 sed -i 's/"lib64"/"lib"/' Modules/GNUInstallDirs.cmake
 ./bootstrap --prefix=/usr --parallel=$(nproc) --generator=Ninja --docdir=/share/doc/cmake --mandir=/share/man --system-libs --no-system-cppdap --sphinx-man
 ninja
 ninja install
 install -t /usr/share/licenses/cmake -Dm644 LICENSE.rst
 popd
-rm -rf cmake-4.4.0
+rm -rf cmake-4.4.2
 # brotli.
 tar -xf ../sources/brotli-1.2.0.tar.gz
 pushd brotli-1.2.0
@@ -3077,23 +3103,24 @@ install -t /usr/share/licenses/libtpms -Dm644 LICENSE
 popd
 rm -rf libtpms-0.10.2
 # tpm2-tss.
-tar -xf ../sources/tpm2-tss-4.2.0-rc0.tar.xz
-pushd tpm2-tss-4.2.0-rc0
+tar -xf ../sources/tpm2-tss-4.2.0.tar.gz
+pushd tpm2-tss-4.2.0
+patch -Np1 -i ../../patches/tpm2-tss-4.2.0-hardcode-uid.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --with-runstatedir=/run --with-sysusersdir=/usr/lib/sysusers.d --with-tmpfilesdir=/usr/lib/tmpfiles.d --with-udevrulesprefix="60-" --disable-static
 make
 make install
 install -t /usr/share/licenses/tpm2-tss -Dm644 LICENSE
 popd
-rm -rf tpm2-tss-4.2.0-rc0
+rm -rf tpm2-tss-4.2.0
 # tpm2-tools.
-tar -xf ../sources/tpm2-tools-5.8-rc0.tar.xz
-pushd tpm2-tools-5.8-rc0
+tar -xf ../sources/tpm2-tools-5.8.tar.gz
+pushd tpm2-tools-5.8
 ./configure --prefix=/usr
 make
 make install
 install -t /usr/share/licenses/tpm2-tools -Dm644 docs/LICENSE
 popd
-rm -rf tpm2-tools-5.8-rc0
+rm -rf tpm2-tools-5.8
 # Tcl.
 tar -xf ../sources/tcl8.6.18-src.tar.gz
 pushd tcl8.6.18/unix
@@ -3455,7 +3482,7 @@ rm -rf smartmontools-7.5
 # OpenVPN.
 tar -xf ../sources/openvpn-2.7.4.tar.gz
 pushd openvpn-2.7.4
-echo 'u openvpn - "OpenVPN" -' > /usr/lib/sysusers.d/openvpn.conf
+echo 'u openvpn 972 "OpenVPN" -' > /usr/lib/sysusers.d/openvpn.conf
 systemd-sysusers
 sed -i '/^CONFIGURE_DEFINES=/ s/set/env/g' configure.ac
 autoreconf -fi
@@ -3629,7 +3656,7 @@ rm -rf Linux-PAM-1.7.2
 # Shadow (rebuild to support systemd and Audit).
 tar -xf ../sources/shadow-4.19.4.tar.xz
 pushd shadow-4.19.4
-patch -Np1 -i ../../patches/shadow-4.18.0-MassOS.patch
+patch -Np1 -i ../../patches/shadow-4.19.4-MassOS.patch
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --disable-static --with-audit --with-bcrypt --with-group-name-max-length=32 --with-libcrack --with-yescrypt --without-libbsd
 make
 make exec_prefix=/usr pamdir= install
@@ -3654,10 +3681,9 @@ install -t /usr/share/licenses/sudo -Dm644 LICENSE.md
 popd
 rm -rf sudo-1.9.17p2
 # dracut.
-tar -xf ../sources/dracut-111.tar.gz
-pushd dracut-111
+tar -xf ../sources/dracut-112.tar.gz
+pushd dracut-112
 patch -Np1 -i ../../patches/dracut-111-simpledrmfix.patch
-patch -Np1 -i ../../patches/dracut-111-snapdragonfix.patch
 ./configure --prefix=/usr --sysconfdir=/etc --libdir=/usr/lib --sbindir=/usr/bin --systemdsystemunitdir=/usr/lib/systemd/system --bashcompletiondir=/usr/share/bash-completion/completions --enable-dracut-cpio
 make
 make install
@@ -3688,11 +3714,11 @@ omit_dracutmodules+=" biosdevname cifs connman dash dbus-broker fcoe fcoe-uefi h
 END
 install -t /usr/share/licenses/dracut -Dm644 COPYING
 popd
-rm -rf dracut-111
+rm -rf dracut-112
 # Fcron.
 tar -xf ../sources/fcron-ver3_4_0.tar.gz
 pushd fcron-ver3_4_0
-echo 'u fcron - "Fcron User" -' > /usr/lib/sysusers.d/fcron.conf
+echo 'u fcron 971 "Fcron User" -' > /usr/lib/sysusers.d/fcron.conf
 systemd-sysusers
 autoconf
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --without-sendmail --with-piddir=/run --with-boot-install=no --with-editor=/usr/bin/nano --with-dsssl-dir=/usr/share/sgml/docbook/dsssl-stylesheets-1.79
@@ -3722,7 +3748,7 @@ tar -xf ../sources/lsof-4.99.7.tar.gz
 pushd lsof-4.99.7
 ./Configure linux -n
 sed -i "s/cc/cc $CFLAGS/" Makefile
-make LSOF_SYSINFO=none
+make LSOF_HOST=massos LSOF_SYSINFO=none
 install -m755 lsof /usr/bin/lsof
 install -m644 Lsof.8 /usr/share/man/man8/lsof.8
 install -t /usr/share/licenses/lsof -Dm644 COPYING
@@ -4599,7 +4625,7 @@ rm -rf bind-9.20.23
 # dhcpcd.
 tar -xf ../sources/dhcpcd-10.2.3.tar.xz
 pushd dhcpcd-10.2.3
-echo 'u dhcpcd - "dhcpcd PrivSep" /var/lib/dhcpcd' > /usr/lib/sysusers.d/dhcpcd.conf
+echo 'u dhcpcd 970 "dhcpcd PrivSep" /var/lib/dhcpcd' > /usr/lib/sysusers.d/dhcpcd.conf
 systemd-sysusers
 install -o dhcpcd -g dhcpcd -dm700 /var/lib/dhcpcd
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --libexecdir=/usr/lib/dhcpcd --runstatedir=/run --dbdir=/var/lib/dhcpcd --privsepuser=dhcpcd
@@ -5149,14 +5175,14 @@ install -t /usr/share/licenses/libdrm -Dm644 LICENSE
 popd
 rm -rf libdrm-2.4.134
 # DirectX-Headers.
-tar -xf ../sources/DirectX-Headers-1.619.4.tar.gz
-pushd DirectX-Headers-1.619.4
+tar -xf ../sources/DirectX-Headers-1.619.5.tar.gz
+pushd DirectX-Headers-1.619.5
 meson setup build --prefix=/usr --buildtype=minsize -Dbuild-test=false
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/directx-headers -Dm644 LICENSE
 popd
-rm -rf DirectX-Headers-1.619.4
+rm -rf DirectX-Headers-1.619.5
 # SPIRV-Headers.
 tar -xf ../sources/SPIRV-Headers-vulkan-sdk-1.4.350.1.tar.gz
 pushd SPIRV-Headers-vulkan-sdk-1.4.350.1
@@ -5284,8 +5310,8 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-26.1.4.tar.bz2
-pushd mesa-mesa-26.1.4
+tar -xf ../sources/mesa-mesa-26.1.6.tar.bz2
+pushd mesa-mesa-26.1.6
 ## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
 ## Try to only build drivers which are applicable to the target architecture.
@@ -5296,7 +5322,7 @@ ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-26.1.4
+rm -rf mesa-mesa-26.1.6
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.24.1.tar.bz2
 pushd libva-2.24.1
@@ -5703,9 +5729,10 @@ install -t /usr/share/licenses/egl-wayland -Dm644 COPYING
 popd
 rm -rf egl-wayland-1.1.18
 # systemd (rebuild to support more features).
-tar -xf ../sources/systemd-261.1.tar.gz
-pushd systemd-261.1
-meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled
+tar -xf ../sources/systemd-261.2.tar.gz
+pushd systemd-261.2
+patch -Np1 -i ../../patches/systemd-261.2-hardcode-uids.patch
+meson setup build --prefix=/usr --sbindir=bin --sysconfdir=/etc --localstatedir=/var --buildtype=minsize -Dmode=release -Dversion-tag="$(cat meson.version)-massos" -Dshared-lib-tag="$(cat meson.version)-massos" -Dsbat-distro-version="$(cat meson.version)-massos" -Dsbat-distro-url=https://massos.org -Dbpf-framework=enabled -Ddefault-compression=zstd -Ddefault-dnssec=no -Ddev-kvm-mode=0660 -Ddns-over-tls=openssl -Dfallback-hostname=massos -Dfirstboot=false -Dhomed=disabled -Dinitrd=true -Dinstall-tests=false -Dkernel-install=false -Dman=enabled -Dpamconfdir=/etc/pam.d -Drpmmacrosdir=no -Dsysupdate=disabled -Dsysusers=true -Dtests=false -Dtpm=true -Dukify=disabled -Duserdb=true -Dvmlinux-h=disabled -Dadm-gid=999 -Dwheel-gid=998 -Dempower-gid=997 -Dutmp-gid=996 -Daudio-gid=995 -Dcdrom-gid=994 -Dclock-gid=993 -Ddialout-gid=992 -Ddisk-gid=991 -Dinput-gid=990 -Dkmem-gid=989 -Dkvm-gid=988 -Dlp-gid=987 -Drender-gid=986 -Dsgx-gid=985 -Dtape-gid=984 -Dvideo-gid=983 -Dusers-gid=982 -Dsystemd-journal-gid=981 -Dtty-gid=5 -Dsystemd-network-uid=979 -Dsystemd-resolve-uid=977 -Dsystemd-timesync-uid=976 -Dsystemd-imds-uid=969
 ninja -C build
 ninja -C build install
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/systemd/boot/efi/systemd-boot"$MBS_ARCH_EFI".efi
@@ -5722,10 +5749,11 @@ auth     required pam_deny.so
 password required pam_deny.so
 END
 popd
-rm -rf systemd-261.1
+rm -rf systemd-261.2
 # D-Bus (rebuild for X and libaudit support).
 tar -xf ../sources/dbus-1.16.2.tar.xz
 pushd dbus-1.16.2
+patch -Np1 -i ../../patches/dbus-1.16.2-hardcode-uid.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dapparmor=enabled -Dlibaudit=enabled -Dmodular_tests=disabled -Dselinux=disabled -Dx11_autolaunch=enabled
 ninja -C build
 ninja -C build install
@@ -6201,8 +6229,8 @@ rm -rf bcachefs-tools-1.38.5
 # Polkit.
 tar -xf ../sources/polkit-127.tar.gz
 pushd polkit-127
-patch -Np1 -i ../../patches/polkit-125-massos-undetected-distro.patch
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dman=true -Dpam_prefix=/etc/pam.d -Dsession_tracking=logind -Dtests=false
+patch -Np1 -i ../../patches/polkit-127-pamconfig.patch
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dman=true -Dpam_prefix=/etc/pam.d -Dpolkitd_uid=968 -Dsession_tracking=logind -Dtests=false
 ninja -C build
 ninja -C build install
 systemd-sysusers
@@ -6214,7 +6242,7 @@ rm -rf polkit-127
 tar -xf ../sources/openssh-10.4p1.tar.gz
 pushd openssh-10.4p1
 install -o root -g sys -dm700 /var/lib/sshd
-echo 'u sshd - "sshd PrivSep" /var/lib/sshd' > /usr/lib/sysusers.d/sshd.conf
+echo 'u sshd 967 "sshd PrivSep" /var/lib/sshd' > /usr/lib/sysusers.d/sshd.conf
 systemd-sysusers
 ./configure --prefix=/usr --sysconfdir=/etc/ssh --sbindir=/usr/bin --with-default-path="/usr/local/bin:/usr/bin" --with-kerberos5=/usr --with-libedit --with-pam --with-pid-dir=/run --with-privsep-path=/var/lib/sshd --with-privsep-user=sshd --with-xauth=/usr/bin/xauth
 make
@@ -6223,7 +6251,7 @@ install -t /usr/bin -Dm755 contrib/ssh-copy-id
 install -t /usr/share/man/man1 -Dm644 contrib/ssh-copy-id.1
 cp /etc/pam.d/{login,sshd}
 sed -i 's/#UsePAM no/UsePAM yes/' /etc/ssh/sshd_config
-rm -f /etc/ssh/ssh_host_{ecdsa,ed25519,rsa}_key{,.pub}
+rm -f /etc/ssh/ssh_host_*_key{,.pub}
 install -t /usr/share/licenses/openssh -Dm644 LICENCE
 popd
 rm -rf openssh-10.4p1
@@ -6499,8 +6527,8 @@ rm -rf librsvg-2.62.3
 # Colord.
 tar -xf ../sources/colord-1.4.8.tar.xz
 pushd colord-1.4.8
-sed -i '/class="manual"/i<refmiscinfo class="source">colord</refmiscinfo>' man/*.xml
-meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddaemon_user=colord -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false
+patch -Np1 -i ../../patches/colord-1.4.8-allowfixeduid.patch
+meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Ddaemon_user=colord -Ddaemon_uid=966 -Dvapi=true -Dsystemd=true -Dlibcolordcompat=true -Dargyllcms_sensor=false -Dman=false -Dtests=false
 ninja -C build
 ninja -C build install
 systemd-sysusers
@@ -6516,7 +6544,7 @@ m cups lp
 END
 systemd-sysusers
 patch -Np1 -i ../../patches/cups-2.4.11-pamconfig.patch
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --sbindir=/usr/bin --with-docdir=/usr/share/cups/doc --with-rundir=/run/cups --with-cups-group=420 --with-cups-user=420 --with-system-groups=lpadmin --enable-libpaper
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libdir=/usr/lib --sbindir=/usr/bin --with-docdir=/usr/share/cups/doc --with-rundir=/run/cups --with-cups-group=420 --with-cups-user=420 --with-system-groups="root wheel lpadmin" --enable-libpaper
 make
 make install
 echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf
@@ -6982,7 +7010,7 @@ rm -rf bluez-5.87
 # Avahi.
 tar -xf ../sources/avahi-0.8.tar.gz
 pushd avahi-0.8
-echo 'u avahi - "Avahi Daemon Owner" /var/run/avahi-daemon' > /usr/lib/sysusers.d/avahi.conf
+echo 'u avahi 965 "Avahi Daemon Owner" /var/run/avahi-daemon' > /usr/lib/sysusers.d/avahi.conf
 systemd-sysusers
 patch -Np1 -i ../../patches/avahi-0.8-unifiedfixes.patch
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-mono --disable-monodoc --disable-python --disable-qt3 --disable-qt4 --disable-qt5 --disable-rpath --disable-static --enable-compat-libdns_sd --with-distro=none
@@ -7420,7 +7448,7 @@ echo "1.4.0" > .tarball-version
 echo "1.4.0" > .version
 autoreconf -fi
 mkdir -p build; pushd build
-../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-rpath --with-group=scanner --with-lockdir=/run/lock
+../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-rpath --with-lockdir=/run/lock
 make
 make install
 install -Dm644 tools/udev/libsane.rules /usr/lib/udev/rules.d/65-scanner.rules
@@ -7733,11 +7761,18 @@ systemctl enable power-profiles-daemon
 popd
 rm -rf power-profiles-daemon-0.30
 # NetworkManager.
-tar -xf ../sources/NetworkManager-1.56.1.tar.gz
-pushd NetworkManager-1.56.1
+tar -xf ../sources/NetworkManager-1.58.0.tar.gz
+pushd NetworkManager-1.58.0
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dnmtui=true -Dqt=false -Dselinux=false -Dsession_tracking=systemd -Dtests=no
 ninja -C build
 ninja -C build install
+cat > /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "END"
+polkit.addRule(function(action, subject) {
+  if (action.id == "org.freedesktop.NetworkManager.settings.modify.system" && (subject.isInGroup("wheel") || subject.isInGroup("netdev")) && subject.local) {
+    return polkit.Result.YES;
+  }
+});
+END
 cat >> /etc/NetworkManager/NetworkManager.conf << "END"
 # Put your custom configuration files in '/etc/NetworkManager/conf.d/'.
 [main]
@@ -7746,7 +7781,7 @@ END
 install -t /usr/share/licenses/networkmanager -Dm644 COPYING{,.{GFD,LGP}L}
 systemctl enable NetworkManager
 popd
-rm -rf NetworkManager-1.56.1
+rm -rf NetworkManager-1.58.0
 # libnma / libnma-gtk4
 tar -xf ../sources/libnma-1.10.6.tar.gz
 pushd libnma-1.10.6
@@ -7800,7 +7835,7 @@ autoreconf -fi
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
 make
 make install
-echo 'u nm-openvpn - "NetworkManager OpenVPN" -' > /usr/lib/sysusers.d/nm-openvpn.conf
+echo 'u nm-openvpn 964 "NetworkManager OpenVPN" -' > /usr/lib/sysusers.d/nm-openvpn.conf
 systemd-sysusers
 install -t /usr/share/licenses/networkmanager-openvpn -Dm644 COPYING
 popd
@@ -7961,6 +7996,7 @@ rm -rf malcontent-0.13.0
 # Flatpak.
 tar -xf ../sources/flatpak-1.18.0.tar.xz
 pushd flatpak-1.18.0
+patch -Np1 -i ../../patches/flatpak-1.18.0-hardcode-uid.patch
 patch -Np1 -i ../../patches/flatpak-1.14.5-flathubrepo.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dsystem_bubblewrap=bwrap -Dsystem_dbus_proxy=xdg-dbus-proxy -Dtests=false
 ninja -C build
@@ -7977,7 +8013,6 @@ if [ -d /var/lib/flatpak/exports/bin ]; then
 fi
 export PATH
 END
-sed -i 's|"Flatpak system helper" -|"Flatpak system helper" /var/lib/flatpak|' /usr/lib/sysusers.d/flatpak.conf
 systemd-sysusers
 flatpak remote-add --if-not-exists flathub ./flathub.flatpakrepo
 install -t /usr/share/licenses/flatpak -Dm644 COPYING
@@ -8018,6 +8053,7 @@ rm -rf geoclue-2.8.2
 # passim.
 tar -xf ../sources/passim-0.1.11.tar.xz
 pushd passim-0.1.11
+patch -Np1 -i ../../patches/passim-0.1.11-hardcode-uid.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
 ninja -C build install
@@ -8038,6 +8074,7 @@ rm -rf fwupd-efi-1.8
 # fwupd.
 tar -xf ../sources/fwupd-2.1.2.tar.xz
 pushd fwupd-2.1.2
+patch -Np1 -i ../../patches/fwupd-2.1.2-hardcode-uid.patch
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Defi_binary=false -Dsupported_build=enabled -Dsystemd_unit_user=fwupd -Dtests=false
 ninja -C build
 ninja -C build install
@@ -8574,17 +8611,17 @@ install -t /usr/share/licenses/openal -Dm644 COPYING BSD-3Clause
 popd
 rm -rf openal-soft-1.24.3
 # FFmpeg.
-tar -xf ../sources/ffmpeg-8.1.2.tar.xz
-pushd ffmpeg-8.1.2
+tar -xf ../sources/ffmpeg-9.0.tar.xz
+pushd ffmpeg-9.0
 patch -Np1 -i ../../patches/ffmpeg-7.1-chromium.patch
-./configure --prefix=/usr --disable-debug --disable-htmlpages --disable-nonfree --disable-podpages --disable-rpath --disable-static --disable-txtpages --enable-alsa --enable-amf --enable-bzlib --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-gmp --enable-gpl --enable-iconv --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libiec61883 --enable-libjack --enable-libjxl --enable-libkvazaar --enable-liblc3 --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libplacebo --enable-libpulse --enable-libqrencode --enable-librav1e --enable-librsvg --enable-librtmp --enable-libshaderc --enable-libspeex --enable-libsvtav1 --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-libxvid --enable-manpages --enable-nvdec --enable-nvenc --enable-openal --enable-opengl --enable-openssl --enable-optimizations --enable-sdl2 --enable-shared --enable-small --enable-stripping --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
+./configure --prefix=/usr --disable-debug --disable-htmlpages --disable-nonfree --disable-podpages --disable-rpath --disable-static --disable-txtpages --enable-alsa --enable-amf --enable-bzlib --enable-cuda-llvm --enable-cuvid --enable-ffnvcodec --enable-gmp --enable-gpl --enable-iconv --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcdio --enable-libdav1d --enable-libdrm --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libiec61883 --enable-libjack --enable-libjxl --enable-libkvazaar --enable-liblc3 --enable-libmodplug --enable-libmp3lame --enable-libopenh264 --enable-libopenjpeg --enable-libopus --enable-libplacebo --enable-libpulse --enable-libqrencode --enable-librav1e --enable-librsvg --enable-librtmp --enable-libspeex --enable-libsvtav1 --enable-libtheora --enable-libtwolame --enable-libvorbis --enable-libvpx --enable-libwebp --enable-libx264 --enable-libx265 --enable-libxcb --enable-libxcb-shape --enable-libxcb-shm --enable-libxcb-xfixes --enable-libxml2 --enable-libxvid --enable-manpages --enable-nvdec --enable-nvenc --enable-openal --enable-opengl --enable-openssl --enable-optimizations --enable-sdl2 --enable-shared --enable-small --enable-stripping --enable-vaapi --enable-vdpau --enable-version3 --enable-vulkan --enable-xlib --enable-zlib
 make
 gcc $CFLAGS tools/qt-faststart.c -o tools/qt-faststart $LDFLAGS
 make install
 install -t /usr/bin -Dm755 tools/qt-faststart
 install -t /usr/share/licenses/ffmpeg -Dm644 COPYING.GPLv2 COPYING.GPLv3 COPYING.LGPLv2.1 COPYING.LGPLv3 LICENSE.md
 popd
-rm -rf ffmpeg-8.1.2
+rm -rf ffmpeg-9.0
 # OpenAL (rebuild - circular dependency with FFmpeg).
 tar -xf ../sources/openal-soft-1.24.3.tar.gz
 pushd openal-soft-1.24.3
@@ -8594,11 +8631,11 @@ ninja -C build install
 popd
 rm -rf openal-soft-1.24.3
 # GStreamer / gst-plugins-{base,good,bad,ugly} / gst-libav / gstreamer-vaapi / gst-editing-services / gst-python
-tar -xf ../sources/gstreamer-1.28.5.tar.bz2
-pushd gstreamer-1.28.5
+tar -xf ../sources/gstreamer-1.28.6.tar.bz2
+pushd gstreamer-1.28.6
 mkdir -p subprojects/gl-headers
 tar -xf ../../sources/gl-headers-1d237e3.tar.bz2 -C subprojects/gl-headers --strip-components=1
-CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.5" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:vmaf=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
+CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" meson setup build --prefix=/usr --sbindir=bin --buildtype=release -Ddevtools=disabled -Dexamples=disabled -Dglib_assert=false -Dglib_checks=false -Dglib_debug=disabled -Dgpl=enabled -Dgst-examples=disabled -Dlibnice=disabled -Dorc-source=system -Dpackage-name="MassOS GStreamer 1.28.6" -Dpackage-origin="https://massos.org" -Drtsp_server=disabled -Dtests=disabled -Dgst-plugins-bad:aja=disabled -Dgst-plugins-bad:avtp=disabled -Dgst-plugins-bad:fdkaac=disabled -Dgst-plugins-bad:gpl=enabled -Dgst-plugins-bad:iqa=disabled -Dgst-plugins-bad:srtp=disabled -Dgst-plugins-bad:tinyalsa=disabled -Dgst-plugins-bad:vmaf=disabled -Dgst-plugins-bad:webrtcdsp=disabled -Dgst-plugins-ugly:gpl=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/gstreamer -Dm644 LICENSE
@@ -8610,7 +8647,7 @@ install -t /usr/share/licenses/gst-libav -Dm644 subprojects/gst-libav/COPYING
 install -t /usr/share/licenses/gst-editing-services -Dm644 subprojects/gst-editing-services/COPYING{,.LIB}
 install -t /usr/share/licenses/gst-python -Dm644 subprojects/gst-python/COPYING
 popd
-rm -rf gstreamer-1.28.5
+rm -rf gstreamer-1.28.6
 # nvidia-vaapi-driver.
 tar -xf ../sources/nvidia-vaapi-driver-0.0.13.tar.gz
 pushd nvidia-vaapi-driver-0.0.13
@@ -8950,7 +8987,7 @@ cp ../../extras/build-configs/ipxe-config src/config/general.h
 cat > src/config/local/general.h << "END"
 #undef IMAGE_EFI
 END
-[ "$MBS_ARCH" != "x86_64" ] || make -C src bin/ipxe.{lkrn,pxe}
+[ "$MBS_ARCH" != "x86_64" ] || make -C src bin/ipxe.{lkrn,pxe} NO_WERROR=1
 [ "$MBS_ARCH" != "x86_64" ] || cp src/bin/ipxe.{lkrn,pxe} .
 make -C src veryclean
 cat > src/config/local/general.h << "END"
@@ -8963,7 +9000,7 @@ cat > src/config/local/general.h << "END"
 #undef PXE_CMD
 END
 [ "$MBS_ARCH" = "x86_64" ] || echo "#undef IMAGE_UCODE" >> src/config/local/general.h
-make -C src bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
+make -C src bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi NO_WERROR=1
 [ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe}
 install -t /usr/lib/ipxe -Dm644 src/bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
 sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/ipxe/ipxe.efi
@@ -8971,8 +9008,8 @@ install -t /usr/share/licenses/ipxe -Dm644 COPYING{,.GPLv2,.UBDL}
 popd
 rm -rf ipxe-2.0.0
 # EDK2-Shell.
-tar -xf ../sources/edk2-stable202602.tar.xz
-pushd edk2-stable202602
+tar -xf ../sources/edk2-stable202605.tar.xz
+pushd edk2-stable202605
 cp BaseTools/Conf/tools_def.template Conf/tools_def.txt
 cp BaseTools/Conf/build_rule.template Conf/build_rule.txt
 cp BaseTools/Conf/build_rule.template build_rule.txt
@@ -8984,7 +9021,7 @@ install -Dm644 Build/Shell/RELEASE_GCC/"$(./edk2arch)"/ShellPkg/Application/Shel
 ## NOTE: This is because it is insecure by nature (it is a debugging tool).
 install -t /usr/share/licenses/edk2-shell -Dm644 License.txt
 popd
-rm -rf edk2-stable202602
+rm -rf edk2-stable202605
 # virtiofsd.
 tar -xf ../sources/virtiofsd-v1.13.1.tar.bz2
 pushd virtiofsd-v1.13.1
@@ -9043,16 +9080,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.1.4.tar.xz
-pushd linux-7.1.4
+tar -xf ../sources/linux-7.1.6.tar.xz
+pushd linux-7.1.6
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.1.4,https://kernel.org
-linux.massos,1,MassOS,linux,7.1.4,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.1.6,https://kernel.org
+linux.massos,1,MassOS,linux,7.1.6,https://massos.org
 END
 cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
@@ -9113,10 +9150,10 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.4
+rm -rf linux-7.1.6
 # nvidia-modules-open (provides nvidia-modules).
-tar -xf ../sources/open-gpu-kernel-modules-610.43.03.tar.gz
-pushd open-gpu-kernel-modules-610.43.03
+tar -xf ../sources/open-gpu-kernel-modules-610.57.04.tar.gz
+pushd open-gpu-kernel-modules-610.57.04
 patch -Np1 -i ../../patches/nvidia-modules-open-595.44.03-hardening.patch
 LDFLAGS="" make modules SYSSRC=/usr/src/linux
 find kernel-open -name \*.ko -exec strip --strip-debug {} ';'
@@ -9128,7 +9165,7 @@ depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/nvidia-modules-open -Dm644 COPYING
 ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
-rm -rf open-gpu-kernel-modules-610.43.03
+rm -rf open-gpu-kernel-modules-610.57.04
 # bcachefs-module.
 tar -xf ../sources/bcachefs-tools-1.38.5.tar.gz
 pushd bcachefs-tools-1.38.5
@@ -9206,8 +9243,8 @@ install -t /usr/bin -Dm755 massos-release
 echo "1.20260408" > /usr/share/massos/.rpifwver
 echo "b26fd19facd534aab474cc64e25db4b120682c2c4c9a2a4bed97495ec578a645" > /usr/share/massos/.rpifwsum
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.14.1" > /usr/share/massos/.osinstallguiver
-echo "4537eb3e799d95304d734572c1a0747d2ff11ebcaf51e1af3ce3cf44070e6cb6" > /usr/share/massos/.osinstallguisum
+echo "0.14.2" > /usr/share/massos/.osinstallguiver
+echo "cb623f0f3cc1213d9ba1422619e349530c88cbc5b898f688d630af7baa3adf05" > /usr/share/massos/.osinstallguisum
 # Set up the osinstallgui configuration file.
 cat > /usr/share/massos/.osinstallguicfg << "END"
 OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"
@@ -9224,7 +9261,7 @@ OSINSTALLGUI_LOCALES_FILE="/etc/locales"
 OSINSTALLGUI_KEYMAPS_SYSTEMD=1
 OSINSTALLGUI_KEYMAPS_LOCATION="/usr/share/keymaps"
 OSINSTALLGUI_ROOTPW=1
-OSINSTALLGUI_ADMIN_GROUP="wheel,lpadmin"
+OSINSTALLGUI_ADMIN_GROUP="wheel"
 OSINSTALLGUI_USER_SHELL="/usr/bin/bash"
 OSINSTALLGUI_USER_PWSCORE=0
 OSINSTALLGUI_GRUB_EXTRA_ARGS_LEGACY=""
@@ -9250,7 +9287,7 @@ checksum: 78ad358dc685ab5a40b9ca0b3fc283ae7c8fbbabb4612182d512bde7efeef605
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 6 > /usr/share/massos/.rootfs_compat
+echo 7 > /usr/share/massos/.rootfs_compat
 # Clean up the mbs directory and self-destruct.
 # Keep /root/mbs/extras as it can be used by stage 3.
 popd

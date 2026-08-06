@@ -601,7 +601,7 @@ pushd lightdm-1.32.0
 patch -Np1 -i ../../patches/lightdm-1.32.0-xsession.patch
 patch -Np1 -i ../../patches/lightdm-1.32.0-fixmemoryleak.patch
 sed -i 's|initdir = ${sysconfdir}/init|initdir = /tmp/.mbs_trash/init|' data/Makefile.in
-echo 'u lightdm - "LightDM Daemon" /var/lib/lightdm' > /usr/lib/sysusers.d/lightdm.conf
+echo 'u lightdm 430 "LightDM Daemon" /var/lib/lightdm' > /usr/lib/sysusers.d/lightdm.conf
 systemd-sysusers
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --libexecdir=/usr/lib/lightdm --sbindir=/usr/bin --disable-static --disable-tests --with-greeter-user=lightdm --with-greeter-session=lightdm-gtk-greeter
 make

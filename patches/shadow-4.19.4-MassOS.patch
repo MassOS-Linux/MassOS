@@ -1,8 +1,8 @@
 diff '--color=auto' -apruN a/etc/login.defs b/etc/login.defs
---- a/etc/login.defs	2025-06-24 21:28:01.048486339 +0100
-+++ b/etc/login.defs	2025-11-01 00:27:27.780382010 +0000
+--- a/etc/login.defs	2026-03-02 13:43:45.971884610 +0000
++++ b/etc/login.defs	2026-07-27 21:05:05.221396442 +0100
 @@ -9,12 +9,12 @@
- # Note: When PAM is used, some modules may enforce a minimum delay (e.g.
+ # Note: when PAM is used, some modules may enforce a minimum delay (e.g.
  #       pam_unix(8) enforces a 2s delay)
  #
 -FAIL_DELAY		3
@@ -143,6 +143,28 @@ diff '--color=auto' -apruN a/etc/login.defs b/etc/login.defs
  
  #
  # Min/max values for automatic uid selection in useradd(8)
+@@ -233,8 +233,8 @@ SU_WHEEL_ONLY	no
+ UID_MIN			 1000
+ UID_MAX			60000
+ # System accounts
+-SYS_UID_MIN		  101
+-SYS_UID_MAX		  999
++SYS_UID_MIN		  500
++SYS_UID_MAX		  960
+ # Extra per user uids
+ SUB_UID_MIN		   100000
+ SUB_UID_MAX		600100000
+@@ -246,8 +246,8 @@ SUB_UID_COUNT		    65536
+ GID_MIN			 1000
+ GID_MAX			60000
+ # System accounts
+-SYS_GID_MIN		  101
+-SYS_GID_MAX		  999
++SYS_GID_MIN		  500
++SYS_GID_MAX		  960
+ # Extra per user group ids
+ SUB_GID_MIN		   100000
+ SUB_GID_MAX		600100000
 @@ -266,12 +266,12 @@ LOGIN_TIMEOUT		60
  #
  # Maximum number of attempts to change password if rejected (too easy)
@@ -168,7 +190,7 @@ diff '--color=auto' -apruN a/etc/login.defs b/etc/login.defs
  #
  # Which fields may be changed by regular users using chfn(1) - use
 @@ -329,7 +329,7 @@ CHFN_RESTRICT		rwh
- # Note: If you use PAM, it is recommended to use a value consistent with
+ # Note: if you use PAM, it is recommended to use a value consistent with
  # the PAM modules configuration.
  #
 -#ENCRYPT_METHOD DES
@@ -186,9 +208,9 @@ diff '--color=auto' -apruN a/etc/login.defs b/etc/login.defs
  #
  # If defined, this command is run when removing a user.
 diff '--color=auto' -apruN a/man/cs/Makefile.in b/man/cs/Makefile.in
---- a/man/cs/Makefile.in	2025-06-24 21:28:30.313808592 +0100
-+++ b/man/cs/Makefile.in	2025-11-01 00:24:27.817035068 +0000
-@@ -340,7 +340,7 @@ top_builddir = @top_builddir@
+--- a/man/cs/Makefile.in	2026-03-02 14:01:23.800194142 +0000
++++ b/man/cs/Makefile.in	2026-07-27 20:57:16.714986884 +0100
+@@ -343,7 +343,7 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/expiry.1 man5/faillog.5 man8/faillog.8 man1/gpasswd.1 \
  	man8/groupadd.8 man8/groupdel.8 man8/groupmod.8 man8/grpck.8 \
@@ -198,9 +220,9 @@ diff '--color=auto' -apruN a/man/cs/Makefile.in b/man/cs/Makefile.in
  EXTRA_DIST = $(man_MANS) \
  	man8/groupmems.8 \
 diff '--color=auto' -apruN a/man/de/Makefile.in b/man/de/Makefile.in
---- a/man/de/Makefile.in	2025-06-24 21:28:30.360407882 +0100
-+++ b/man/de/Makefile.in	2025-11-01 00:24:27.817247010 +0000
-@@ -344,11 +344,11 @@ top_builddir = @top_builddir@
+--- a/man/de/Makefile.in	2026-03-02 14:01:23.818992679 +0000
++++ b/man/de/Makefile.in	2026-07-27 20:57:16.715094656 +0100
+@@ -347,11 +347,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -215,9 +237,9 @@ diff '--color=auto' -apruN a/man/de/Makefile.in b/man/de/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/es/Makefile.in b/man/es/Makefile.in
---- a/man/es/Makefile.in	2025-06-24 21:28:30.376982995 +0100
-+++ b/man/es/Makefile.in	2025-11-01 00:24:27.817464982 +0000
-@@ -311,7 +311,7 @@ man_MANS =
+--- a/man/es/Makefile.in	2026-03-02 14:01:23.825986990 +0000
++++ b/man/es/Makefile.in	2026-07-27 20:57:16.715231329 +0100
+@@ -315,7 +315,7 @@ man_MANS =
  #	man1/login.1 \
  #	man1/newgrp.1 \
  #	man1/passwd.1 \
@@ -227,9 +249,9 @@ diff '--color=auto' -apruN a/man/es/Makefile.in b/man/es/Makefile.in
  #	man8/vigr.8 \
  #	man8/vipw.8
 diff '--color=auto' -apruN a/man/fr/Makefile.in b/man/fr/Makefile.in
---- a/man/fr/Makefile.in	2025-06-24 21:28:30.418822377 +0100
-+++ b/man/fr/Makefile.in	2025-11-01 00:24:27.817630823 +0000
-@@ -346,11 +346,11 @@ top_builddir = @top_builddir@
+--- a/man/fr/Makefile.in	2026-03-02 14:01:23.842830686 +0000
++++ b/man/fr/Makefile.in	2026-07-27 20:57:16.715359442 +0100
+@@ -349,11 +349,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -244,9 +266,9 @@ diff '--color=auto' -apruN a/man/fr/Makefile.in b/man/fr/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/hu/Makefile.in b/man/hu/Makefile.in
---- a/man/hu/Makefile.in	2025-06-24 21:28:30.439013051 +0100
-+++ b/man/hu/Makefile.in	2025-11-01 00:24:27.817796165 +0000
-@@ -339,7 +339,7 @@ top_build_prefix = @top_build_prefix@
+--- a/man/hu/Makefile.in	2026-03-02 14:01:23.850785939 +0000
++++ b/man/hu/Makefile.in	2026-07-27 20:57:16.715587736 +0100
+@@ -342,7 +342,7 @@ top_build_prefix = @top_build_prefix@
  top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chsh.1 man1/gpasswd.1 man1/login.1 man1/newgrp.1 \
@@ -256,9 +278,9 @@ diff '--color=auto' -apruN a/man/hu/Makefile.in b/man/hu/Makefile.in
  EXTRA_DIST = $(man_MANS)
  all: all-am
 diff '--color=auto' -apruN a/man/it/Makefile.in b/man/it/Makefile.in
---- a/man/it/Makefile.in	2025-06-24 21:28:30.481212244 +0100
-+++ b/man/it/Makefile.in	2025-11-01 00:24:27.817957136 +0000
-@@ -344,11 +344,11 @@ top_builddir = @top_builddir@
+--- a/man/it/Makefile.in	2026-03-02 14:01:23.867682338 +0000
++++ b/man/it/Makefile.in	2026-07-27 20:57:16.715707158 +0100
+@@ -347,11 +347,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -273,9 +295,9 @@ diff '--color=auto' -apruN a/man/it/Makefile.in b/man/it/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/ja/Makefile.in b/man/ja/Makefile.in
---- a/man/ja/Makefile.in	2025-06-24 21:28:30.501762380 +0100
-+++ b/man/ja/Makefile.in	2025-11-01 00:24:27.818117338 +0000
-@@ -345,7 +345,7 @@ man_MANS = man1/chage.1 man1/chfn.1 man8
+--- a/man/ja/Makefile.in	2026-03-02 14:01:23.875693128 +0000
++++ b/man/ja/Makefile.in	2026-07-27 20:57:16.715816350 +0100
+@@ -348,7 +348,7 @@ man_MANS = man1/chage.1 man1/chfn.1 man8
  	man8/groupadd.8 man8/groupdel.8 man8/groupmod.8 man8/grpck.8 \
  	man8/grpconv.8 man8/grpunconv.8 man1/login.1 man5/login.defs.5 \
  	man8/logoutd.8 man1/newgrp.1 man8/newusers.8 man1/passwd.1 \
@@ -285,9 +307,9 @@ diff '--color=auto' -apruN a/man/ja/Makefile.in b/man/ja/Makefile.in
  	man8/userdel.8 man8/usermod.8 man8/vigr.8 man8/vipw.8 \
  	$(am__append_1) $(am__append_2)
 diff '--color=auto' -apruN a/man/ko/Makefile.in b/man/ko/Makefile.in
---- a/man/ko/Makefile.in	2025-06-24 21:28:30.521014492 +0100
-+++ b/man/ko/Makefile.in	2025-11-01 00:24:27.818275209 +0000
-@@ -341,7 +341,7 @@ man_MANS = \
+--- a/man/ko/Makefile.in	2026-03-02 14:01:23.883431026 +0000
++++ b/man/ko/Makefile.in	2026-07-27 20:57:16.715905322 +0100
+@@ -344,7 +344,7 @@ man_MANS = \
  	man1/chfn.1 \
  	man1/chsh.1 \
  	man1/login.1 \
@@ -297,9 +319,9 @@ diff '--color=auto' -apruN a/man/ko/Makefile.in b/man/ko/Makefile.in
  	man8/vigr.8 \
  	man8/vipw.8
 diff '--color=auto' -apruN a/man/Makefile.in b/man/Makefile.in
---- a/man/Makefile.in	2025-06-24 21:28:30.293878424 +0100
-+++ b/man/Makefile.in	2025-11-01 00:24:27.818472991 +0000
-@@ -412,11 +412,11 @@ top_srcdir = @top_srcdir@
+--- a/man/Makefile.in	2026-03-02 14:01:23.792496608 +0000
++++ b/man/Makefile.in	2026-07-27 20:57:16.715997704 +0100
+@@ -415,11 +415,11 @@ top_srcdir = @top_srcdir@
  @USE_NLS_TRUE@SUBDIRS = po cs da de es fi fr hu id it ja ko pl pt_BR ru sv tr uk zh_CN zh_TW
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -314,9 +336,9 @@ diff '--color=auto' -apruN a/man/Makefile.in b/man/Makefile.in
  	man8/useradd.8 man8/userdel.8 man8/usermod.8 man8/vigr.8 \
  	man8/vipw.8 $(am__append_1) $(am__append_2) $(am__append_4) \
 diff '--color=auto' -apruN a/man/pl/Makefile.in b/man/pl/Makefile.in
---- a/man/pl/Makefile.in	2025-06-24 21:28:30.544907750 +0100
-+++ b/man/pl/Makefile.in	2025-11-01 00:24:27.818682073 +0000
-@@ -345,7 +345,7 @@ top_srcdir = @top_srcdir@
+--- a/man/pl/Makefile.in	2026-03-02 14:01:23.892764634 +0000
++++ b/man/pl/Makefile.in	2026-07-27 20:57:16.716093785 +0100
+@@ -348,7 +348,7 @@ top_srcdir = @top_srcdir@
  
  # 2012.01.28 - activate manpages with more than 50% translated messages
  man_MANS = man1/chage.1 man1/chsh.1 man1/expiry.1 man5/faillog.5 \
@@ -326,9 +348,9 @@ diff '--color=auto' -apruN a/man/pl/Makefile.in b/man/pl/Makefile.in
  	man1/newgrp.1 man1/sg.1 man3/shadow.3 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/pt_BR/Makefile.in b/man/pt_BR/Makefile.in
---- a/man/pt_BR/Makefile.in	2025-06-24 21:28:30.564198574 +0100
-+++ b/man/pt_BR/Makefile.in	2025-11-01 00:24:27.818852725 +0000
-@@ -342,7 +342,7 @@ man_MANS = \
+--- a/man/pt_BR/Makefile.in	2026-03-02 14:01:23.900536163 +0000
++++ b/man/pt_BR/Makefile.in	2026-07-27 20:57:16.716189427 +0100
+@@ -345,7 +345,7 @@ man_MANS = \
  	man8/groupadd.8 \
  	man8/groupdel.8 \
  	man8/groupmod.8 \
@@ -338,9 +360,9 @@ diff '--color=auto' -apruN a/man/pt_BR/Makefile.in b/man/pt_BR/Makefile.in
  
  EXTRA_DIST = $(man_MANS)
 diff '--color=auto' -apruN a/man/ru/Makefile.in b/man/ru/Makefile.in
---- a/man/ru/Makefile.in	2025-06-24 21:28:30.588007746 +0100
-+++ b/man/ru/Makefile.in	2025-11-01 00:24:27.819028877 +0000
-@@ -344,11 +344,11 @@ top_builddir = @top_builddir@
+--- a/man/ru/Makefile.in	2026-03-02 14:01:23.909876345 +0000
++++ b/man/ru/Makefile.in	2026-07-27 20:57:16.716265479 +0100
+@@ -347,11 +347,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -355,9 +377,9 @@ diff '--color=auto' -apruN a/man/ru/Makefile.in b/man/ru/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/sv/Makefile.in b/man/sv/Makefile.in
---- a/man/sv/Makefile.in	2025-06-24 21:28:30.612477621 +0100
-+++ b/man/sv/Makefile.in	2025-11-01 00:24:27.819220588 +0000
-@@ -345,10 +345,10 @@ top_srcdir = @top_srcdir@
+--- a/man/sv/Makefile.in	2026-03-02 14:01:23.919149684 +0000
++++ b/man/sv/Makefile.in	2026-07-27 20:57:16.716357880 +0100
+@@ -348,10 +348,10 @@ top_srcdir = @top_srcdir@
  
  # 2012.01.28 - activate manpages with more than 50% translated messages
  man_MANS = man1/chage.1 man1/chsh.1 man1/expiry.1 man5/faillog.5 \
@@ -371,9 +393,9 @@ diff '--color=auto' -apruN a/man/sv/Makefile.in b/man/sv/Makefile.in
  	$(am__append_1) $(am__append_2)
  man_nopam = \
 diff '--color=auto' -apruN a/man/tr/Makefile.in b/man/tr/Makefile.in
---- a/man/tr/Makefile.in	2025-06-24 21:28:30.631798912 +0100
-+++ b/man/tr/Makefile.in	2025-11-01 00:24:27.819447091 +0000
-@@ -345,7 +345,7 @@ man_MANS = \
+--- a/man/tr/Makefile.in	2026-03-02 14:01:23.927062368 +0000
++++ b/man/tr/Makefile.in	2026-07-27 20:57:16.716428972 +0100
+@@ -348,7 +348,7 @@ man_MANS = \
  	man8/groupmod.8 \
  	man1/login.1 \
  	man1/passwd.1 \
@@ -383,9 +405,9 @@ diff '--color=auto' -apruN a/man/tr/Makefile.in b/man/tr/Makefile.in
  	man1/su.1 \
  	man8/useradd.8 \
 diff '--color=auto' -apruN a/man/uk/Makefile.in b/man/uk/Makefile.in
---- a/man/uk/Makefile.in	2025-06-24 21:28:30.655210818 +0100
-+++ b/man/uk/Makefile.in	2025-11-01 00:24:27.819620232 +0000
-@@ -344,11 +344,11 @@ top_builddir = @top_builddir@
+--- a/man/uk/Makefile.in	2026-03-02 14:01:23.936338587 +0000
++++ b/man/uk/Makefile.in	2026-07-27 20:57:16.716510103 +0100
+@@ -347,11 +347,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -400,9 +422,9 @@ diff '--color=auto' -apruN a/man/uk/Makefile.in b/man/uk/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/zh_CN/Makefile.in b/man/zh_CN/Makefile.in
---- a/man/zh_CN/Makefile.in	2025-06-24 21:28:30.679473320 +0100
-+++ b/man/zh_CN/Makefile.in	2025-11-01 00:24:27.819784434 +0000
-@@ -344,11 +344,11 @@ top_builddir = @top_builddir@
+--- a/man/zh_CN/Makefile.in	2026-03-02 14:01:23.945683678 +0000
++++ b/man/zh_CN/Makefile.in	2026-07-27 20:57:16.716595515 +0100
+@@ -347,11 +347,11 @@ top_builddir = @top_builddir@
  top_srcdir = @top_srcdir@
  man_MANS = man1/chage.1 man1/chfn.1 man8/chgpasswd.8 man8/chpasswd.8 \
  	man1/chsh.1 man1/expiry.1 man5/faillog.5 man8/faillog.8 \
@@ -417,9 +439,9 @@ diff '--color=auto' -apruN a/man/zh_CN/Makefile.in b/man/zh_CN/Makefile.in
  	man1/su.1 man5/suauth.5 man8/useradd.8 man8/userdel.8 \
  	man8/usermod.8 man8/vigr.8 man8/vipw.8 $(am__append_1) \
 diff '--color=auto' -apruN a/man/zh_TW/Makefile.in b/man/zh_TW/Makefile.in
---- a/man/zh_TW/Makefile.in	2025-06-24 21:28:30.698824106 +0100
-+++ b/man/zh_TW/Makefile.in	2025-11-01 00:24:27.819945055 +0000
-@@ -347,7 +347,7 @@ man_MANS = \
+--- a/man/zh_TW/Makefile.in	2026-03-02 14:01:23.953420766 +0000
++++ b/man/zh_TW/Makefile.in	2026-07-27 20:57:16.716677947 +0100
+@@ -350,7 +350,7 @@ man_MANS = \
  	man8/groupadd.8 \
  	man8/groupdel.8 \
  	man8/groupmod.8 \
@@ -430,7 +452,7 @@ diff '--color=auto' -apruN a/man/zh_TW/Makefile.in b/man/zh_TW/Makefile.in
  	man8/userdel.8 \
 diff '--color=auto' -apruN a/pam.d/chage b/pam.d/chage
 --- a/pam.d/chage	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/chage	2025-11-01 00:24:27.820114437 +0000
++++ b/pam.d/chage	2026-07-27 20:57:16.716766268 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -439,7 +461,7 @@ diff '--color=auto' -apruN a/pam.d/chage b/pam.d/chage
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/chfn b/pam.d/chfn
 --- a/pam.d/chfn	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/chfn	2025-11-01 00:24:27.820176478 +0000
++++ b/pam.d/chfn	2026-07-27 20:57:16.716814589 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -448,7 +470,7 @@ diff '--color=auto' -apruN a/pam.d/chfn b/pam.d/chfn
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/chgpasswd b/pam.d/chgpasswd
 --- a/pam.d/chgpasswd	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/chgpasswd	2025-11-01 00:24:27.820239728 +0000
++++ b/pam.d/chgpasswd	2026-07-27 20:57:16.716843820 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -457,7 +479,7 @@ diff '--color=auto' -apruN a/pam.d/chgpasswd b/pam.d/chgpasswd
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/chpasswd b/pam.d/chpasswd
 --- a/pam.d/chpasswd	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/chpasswd	2025-11-01 00:24:27.820302499 +0000
++++ b/pam.d/chpasswd	2026-07-27 20:57:16.716875820 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -466,7 +488,7 @@ diff '--color=auto' -apruN a/pam.d/chpasswd b/pam.d/chpasswd
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/chsh b/pam.d/chsh
 --- a/pam.d/chsh	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/chsh	2025-11-01 00:24:27.820365130 +0000
++++ b/pam.d/chsh	2026-07-27 20:57:16.716910491 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -475,7 +497,7 @@ diff '--color=auto' -apruN a/pam.d/chsh b/pam.d/chsh
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/groupadd b/pam.d/groupadd
 --- a/pam.d/groupadd	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/groupadd	2025-11-01 00:24:27.820427460 +0000
++++ b/pam.d/groupadd	2026-07-27 20:57:16.716937291 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -484,7 +506,7 @@ diff '--color=auto' -apruN a/pam.d/groupadd b/pam.d/groupadd
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/groupdel b/pam.d/groupdel
 --- a/pam.d/groupdel	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/groupdel	2025-11-01 00:24:27.820490241 +0000
++++ b/pam.d/groupdel	2026-07-27 20:57:16.716962012 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -493,7 +515,7 @@ diff '--color=auto' -apruN a/pam.d/groupdel b/pam.d/groupdel
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/groupmems b/pam.d/groupmems
 --- a/pam.d/groupmems	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/groupmems	2025-11-01 00:24:27.820554101 +0000
++++ b/pam.d/groupmems	2026-07-27 20:57:16.716991432 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -502,7 +524,7 @@ diff '--color=auto' -apruN a/pam.d/groupmems b/pam.d/groupmems
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/groupmod b/pam.d/groupmod
 --- a/pam.d/groupmod	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/groupmod	2025-11-01 00:24:27.820617152 +0000
++++ b/pam.d/groupmod	2026-07-27 20:57:16.717016483 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -511,7 +533,7 @@ diff '--color=auto' -apruN a/pam.d/groupmod b/pam.d/groupmod
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/login b/pam.d/login
 --- a/pam.d/login	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/login	2025-11-01 00:24:27.820709963 +0000
++++ b/pam.d/login	2026-07-27 20:57:16.717041293 +0100
 @@ -0,0 +1,10 @@
 +auth     optional  pam_faildelay.so delay=3000000
 +auth     requisite pam_nologin.so
@@ -525,7 +547,7 @@ diff '--color=auto' -apruN a/pam.d/login b/pam.d/login
 +password include   system-password
 diff '--color=auto' -apruN a/pam.d/newusers b/pam.d/newusers
 --- a/pam.d/newusers	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/newusers	2025-11-01 00:24:27.820799564 +0000
++++ b/pam.d/newusers	2026-07-27 20:57:16.717071634 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -534,12 +556,12 @@ diff '--color=auto' -apruN a/pam.d/newusers b/pam.d/newusers
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/passwd b/pam.d/passwd
 --- a/pam.d/passwd	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/passwd	2025-11-01 00:24:27.820867764 +0000
++++ b/pam.d/passwd	2026-07-27 20:57:16.717098314 +0100
 @@ -0,0 +1 @@
 +password include system-password
 diff '--color=auto' -apruN a/pam.d/su b/pam.d/su
 --- a/pam.d/su	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/su	2025-11-01 00:24:27.820932875 +0000
++++ b/pam.d/su	2026-07-27 20:57:16.717127975 +0100
 @@ -0,0 +1,6 @@
 +auth    sufficient pam_rootok.so
 +auth    include    system-auth
@@ -549,7 +571,7 @@ diff '--color=auto' -apruN a/pam.d/su b/pam.d/su
 +session include    system-session
 diff '--color=auto' -apruN a/pam.d/useradd b/pam.d/useradd
 --- a/pam.d/useradd	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/useradd	2025-11-01 00:24:27.820997006 +0000
++++ b/pam.d/useradd	2026-07-27 20:57:16.717153706 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -558,7 +580,7 @@ diff '--color=auto' -apruN a/pam.d/useradd b/pam.d/useradd
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/userdel b/pam.d/userdel
 --- a/pam.d/userdel	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/userdel	2025-11-01 00:24:27.821060706 +0000
++++ b/pam.d/userdel	2026-07-27 20:57:16.717179016 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth
@@ -567,7 +589,7 @@ diff '--color=auto' -apruN a/pam.d/userdel b/pam.d/userdel
 +password required   pam_permit.so
 diff '--color=auto' -apruN a/pam.d/usermod b/pam.d/usermod
 --- a/pam.d/usermod	1970-01-01 01:00:00.000000000 +0100
-+++ b/pam.d/usermod	2025-11-01 00:24:27.821125067 +0000
++++ b/pam.d/usermod	2026-07-27 20:57:16.717208207 +0100
 @@ -0,0 +1,5 @@
 +auth     sufficient pam_rootok.so
 +auth     include    system-auth

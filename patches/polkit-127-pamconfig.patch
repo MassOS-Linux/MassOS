@@ -1,0 +1,26 @@
+diff '--color=auto' -apruN a/meson.build b/meson.build
+--- a/meson.build	2025-12-17 16:14:53.000000000 +0000
++++ b/meson.build	2026-07-27 01:16:07.111078213 +0100
+@@ -345,21 +345,13 @@ if pam_include == ''
+       'PAM_FILE_INCLUDE_PASSWORD': 'system',
+       'PAM_FILE_INCLUDE_SESSION': 'system',
+     }
+-  elif os_type == 'lfs'
++  else
+     pam_conf = {
+       'PAM_FILE_INCLUDE_AUTH': 'system-auth',
+       'PAM_FILE_INCLUDE_ACCOUNT': 'system-account',
+       'PAM_FILE_INCLUDE_PASSWORD': 'system-password',
+       'PAM_FILE_INCLUDE_SESSION': 'system-session',
+     }
+-  #if ['redhat', 'gentoo', 'pardus'].contains(os_type)
+-  else
+-    pam_conf = {
+-      'PAM_FILE_INCLUDE_AUTH': 'system-auth',
+-      'PAM_FILE_INCLUDE_ACCOUNT': 'system-auth',
+-      'PAM_FILE_INCLUDE_PASSWORD': 'system-auth',
+-      'PAM_FILE_INCLUDE_SESSION': 'system-auth',
+-    }
+   endif
+ else
+   pam_conf = {

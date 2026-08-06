@@ -34,6 +34,7 @@ https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
 https://github.com/koverstreet/bcachefs-tools/archive/v1.38.5/bcachefs-tools-1.38.5.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.23/bind-9.20.23.tar.xz
 https://dmassey.net/files/misc/bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch.tar.xz
+https://mirror.lyrahosting.com/gnu/binutils/binutils-2.47.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-with-gold-2.46.1.tar.xz
 https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/GNOME/blueprint-compiler/archive/v0.20.4/blueprint-compiler-0.20.4.tar.gz
@@ -65,7 +66,7 @@ https://cpan.metacpan.org/authors/id/P/PL/PLICEASE/Class-Inspector-1.36.tar.gz
 https://download.gnome.org/sources/clutter/1.26/clutter-1.26.4.tar.xz
 https://download.gnome.org/sources/clutter-gst/3.0/clutter-gst-3.0.27.tar.xz
 https://download.gnome.org/sources/clutter-gtk/1.8/clutter-gtk-1.8.4.tar.xz
-https://github.com/Kitware/CMake/releases/download/v4.4.0/cmake-4.4.0.tar.gz
+https://github.com/Kitware/CMake/releases/download/v4.4.2/cmake-4.4.2.tar.gz
 https://github.com/abishekvashok/cmatrix/releases/download/v2.0/cmatrix-v2.0-Butterscotch.tar
 https://download.gnome.org/sources/cogl/1.22/cogl-1.22.8.tar.xz
 https://www.freedesktop.org/software/colord/releases/colord-1.4.8.tar.xz
@@ -97,7 +98,7 @@ https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-ut
 https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.2.3/dhcpcd-10.2.3.tar.xz
 https://invisible-mirror.net/archives/dialog/dialog-1.3-20250116.tgz
 https://mirror.lyrahosting.com/gnu/diffutils/diffutils-3.12.tar.xz
-https://github.com/microsoft/DirectX-Headers/archive/v1.619.4/DirectX-Headers-1.619.4.tar.gz
+https://github.com/microsoft/DirectX-Headers/archive/v1.619.5/DirectX-Headers-1.619.5.tar.gz
 https://github.com/python-distro/distro/archive/v1.9.0/distro-1.9.0.tar.gz
 https://downloads.sourceforge.net/project/djvu/DjVuLibre/3.5.28/djvulibre-3.5.28.tar.gz
 https://github.com/dell/dkms/archive/v3.2.1/dkms-3.2.1.tar.gz
@@ -118,13 +119,13 @@ https://dmassey.net/files/dev/dos2unix/dos2unix-7.5.5.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://github.com/williamh/dotconf/archive/v1.4.1/dotconf-1.4.1.tar.gz
 https://github.com/quietvoid/dovi_tool/archive/2.3.1/dovi_tool-2.3.1.tar.gz
-https://github.com/dracut-ng/dracut/archive/111/dracut-111.tar.gz
+https://github.com/dracut-ng/dracut/archive/112/dracut-112.tar.gz
 https://duktape.org/duktape-2.7.0.tar.xz
 https://cdn.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/v1.47.4/e2fsprogs-1.47.4.tar.xz
 https://github.com/OpenVPN/easy-rsa/releases/download/v3.2.6/EasyRSA-3.2.6.tgz
 https://mirror.lyrahosting.com/gnu/ed/ed-1.22.5.tar.lz
 https://files.pythonhosted.org/packages/source/e/editables/editables-0.6.tar.gz
-https://github.com/DanielMYT/edk2-source-tarballs/releases/download/edk2-stable202602/edk2-stable202602.tar.xz
+https://github.com/DanielMYT/edk2-source-tarballs/releases/download/edk2-stable202605/edk2-stable202605.tar.xz
 https://github.com/rhboot/efibootmgr/releases/download/18/efibootmgr-18.tar.bz2
 https://git.kernel.org/pub/scm/linux/kernel/git/jejb/efitools.git/snapshot/efitools-1.9.2.tar.gz
 https://github.com/rhboot/efivar/archive/39/efivar-39.tar.gz
@@ -146,7 +147,7 @@ https://github.com/fastfloat/fast_float/archive/v8.2.9/fast_float-8.2.9.tar.gz
 https://github.com/fastfetch-cli/fastfetch/archive/2.66.0/fastfetch-2.66.0.tar.gz
 https://files.pythonhosted.org/packages/source/f/fastjsonschema/fastjsonschema-2.21.1.tar.gz
 https://github.com/yo8192/fcron/archive/ver3_4_0/fcron-ver3_4_0.tar.gz
-https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz
+https://ffmpeg.org/releases/ffmpeg-9.0.tar.xz
 https://deb.debian.org/debian/pool/main/f/figlet/figlet_2.2.5.orig.tar.gz
 https://astron.com/pub/file/file-5.48.tar.gz
 https://cpan.metacpan.org/authors/id/R/RE/REHSACK/File-ShareDir-1.118.tar.gz
@@ -191,7 +192,7 @@ https://github.com/Dav1dde/glad/archive/v2.0.8/glad-2.0.8.tar.gz
 https://github.com/nigels-com/glew/releases/download/glew-2.3.1/glew-2.3.1.tgz
 https://github.com/GNOME/glib/archive/2.88.2/glib-2.88.2.tar.gz
 https://github.com/GNOME/glib-networking/archive/2.80.1/glib-networking-2.80.1.tar.gz
-https://mirror.lyrahosting.com/gnu/glibc/glibc-2.43.tar.xz
+https://mirror.lyrahosting.com/gnu/glibc/glibc-2.44.tar.xz
 https://github.com/GNOME/glibmm/archive/2.66.9/glibmm-2.66.9.tar.gz
 https://github.com/KhronosGroup/glslang/archive/16.3.0/glslang-16.3.0.tar.gz
 https://archive.mesa3d.org/glu/glu-9.0.3.tar.xz
@@ -222,7 +223,7 @@ https://mirror.lyrahosting.com/gnu/grub/grub-2.14.tar.xz
 https://github.com/MassOS-Linux/grub-theme-distro-massos/archive/db13f63/grub-theme-distro-massos-002.tar.gz
 https://github.com/GNOME/gsettings-desktop-schemas/archive/50.1/gsettings-desktop-schemas-50.1.tar.gz
 https://github.com/GNOME/gspell/archive/1.14.3/gspell-1.14.3.tar.gz
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.5/gstreamer-1.28.5.tar.bz2
+https://gitlab.freedesktop.org/gstreamer/gstreamer/-/archive/1.28.6/gstreamer-1.28.6.tar.bz2
 https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/archive/0.15.3/gst-plugins-rs-0.15.3.tar.bz2
 https://github.com/GNOME/gtk/archive/3.24.52/gtk-3.24.52.tar.gz
 https://github.com/GNOME/gtk/archive/4.22.4/gtk-4.22.4.tar.gz
@@ -491,7 +492,7 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.4.tar.xz
+https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.6.tar.xz
 https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.20/linux-apfs-rw-0.3.20.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260622.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
@@ -526,7 +527,7 @@ https://github.com/PyO3/maturin/archive/v1.14.1/maturin-1.14.1.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.6.tar.gz
 https://github.com/memtest86plus/memtest86plus/archive/v7.20/memtest86plus-7.20.tar.gz
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
-https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.4/mesa-mesa-26.1.4.tar.bz2
+https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.6/mesa-mesa-26.1.6.tar.bz2
 https://github.com/mesonbuild/meson/releases/download/1.11.2/meson-1.11.2.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.20.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/mkfontscale-1.2.4.tar.xz
@@ -552,7 +553,7 @@ https://downloads.sourceforge.net/project/net-tools/net-tools-2.10.tar.xz
 https://salsa.debian.org/debian/netcat-openbsd/-/archive/upstream/1.229/netcat-openbsd-upstream-1.229.tar.bz2
 https://mirror.lyrahosting.com/gnu/nettle/nettle-3.10.2.tar.gz
 https://gitlab.gnome.org/GNOME/network-manager-applet/-/archive/1.36.0/network-manager-applet-1.36.0.tar.bz2
-https://github.com/NetworkManager/NetworkManager/archive/1.56.1/NetworkManager-1.56.1.tar.gz
+https://github.com/NetworkManager/NetworkManager/archive/1.58.0/NetworkManager-1.58.0.tar.gz
 https://gitlab.gnome.org/GNOME/NetworkManager-openvpn/-/archive/1.12.0/NetworkManager-openvpn-1.12.0.tar.bz2
 https://releases.pagure.org/newt/newt-0.52.25.tar.gz
 https://www.netfilter.org/pub/nftables/nftables-1.1.1.tar.xz
@@ -573,7 +574,7 @@ https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
 https://github.com/kkos/oniguruma/releases/download/v6.9.10/onig-6.9.10.tar.gz
-https://github.com/NVIDIA/open-gpu-kernel-modules/archive/610.43.03/open-gpu-kernel-modules-610.43.03.tar.gz
+https://github.com/NVIDIA/open-gpu-kernel-modules/archive/610.57.04/open-gpu-kernel-modules-610.57.04.tar.gz
 https://github.com/vmware/open-vm-tools/archive/stable-13.0.10/open-vm-tools-stable-13.0.10.tar.gz
 https://github.com/kcat/openal-soft/archive/1.24.3/openal-soft-1.24.3.tar.gz
 https://github.com/cisco/openh264/archive/v2.6.0/openh264-2.6.0.tar.gz
@@ -730,7 +731,7 @@ https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.1.0/SVT-AV1-v4.1.0.tar.bz2
 https://github.com/swig/swig/archive/v4.4.1/swig-4.4.1.tar.gz
 https://github.com/GNOME/sysprof/archive/50.0/sysprof-50.0.tar.gz
 https://github.com/OpenPrinting/system-config-printer/releases/download/v1.5.18/system-config-printer-1.5.18.tar.xz
-https://github.com/systemd/systemd/archive/v261.1/systemd-261.1.tar.gz
+https://github.com/systemd/systemd/archive/v261.2/systemd-261.2.tar.gz
 https://taglib.org/releases/taglib-2.3.tar.gz
 https://www.samba.org/ftp/talloc/talloc-2.4.4.tar.gz
 https://mirror.lyrahosting.com/gnu/tar/tar-1.35.tar.xz
@@ -744,8 +745,8 @@ https://github.com/GNOME/tinysparql/archive/3.9.2/tinysparql-3.9.2.tar.gz
 https://downloads.sourceforge.net/project/tcl/Tcl/8.6.18/tk8.6.18-src.tar.gz
 https://files.pythonhosted.org/packages/source/t/toml/toml-0.10.2.tar.gz
 https://github.com/hukkin/tomli/archive/2.2.1/tomli-2.2.1.tar.gz
-https://dmassey.net/files/dev/tpm2-tools/tpm2-tools-5.8-rc0.tar.xz
-https://dmassey.net/files/dev/tpm2-tss/tpm2-tss-4.2.0-rc0.tar.xz
+https://github.com/tpm2-software/tpm2-tools/releases/download/5.8/tpm2-tools-5.8.tar.gz
+https://github.com/tpm2-software/tpm2-tss/releases/download/4.2.0/tpm2-tss-4.2.0.tar.gz
 https://downloads.sourceforge.net/project/traceroute/traceroute/traceroute-2.1.6/traceroute-2.1.6.tar.gz
 https://github.com/pypa/trove-classifiers/archive/2026.1.14.14/trove-classifiers-2026.1.14.14.tar.gz
 https://github.com/njh/twolame/releases/download/0.4.0/twolame-0.4.0.tar.gz

@@ -31,7 +31,7 @@ if test "$(uname -m)" != "x86_64" && test "$(uname -m)" != "aarch64"; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=6
+SCRIPT_COMPAT=7
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
@@ -104,8 +104,7 @@ sync
 ver="$(cat iso-workdir/massos-rootfs/etc/massos-release)"
 # Prepare the live system.
 echo "Preparing the live system..."
-chroot iso-workdir/massos-rootfs /usr/sbin/groupadd -r autologin
-chroot iso-workdir/massos-rootfs /usr/sbin/useradd -c "Live User" -G wheel,lpadmin,autologin -ms /usr/bin/bash massos
+chroot iso-workdir/massos-rootfs /usr/sbin/useradd -c "Live User" -G wheel,autologin -s /usr/bin/bash -m massos
 echo "massos:massos" | chroot iso-workdir/massos-rootfs /usr/sbin/chpasswd -c YESCRYPT
 echo "massos ALL=(ALL) NOPASSWD: ALL" > iso-workdir/massos-rootfs/etc/sudoers.d/live
 cat > iso-workdir/massos-rootfs/etc/polkit-1/rules.d/49-live.rules << "END"
