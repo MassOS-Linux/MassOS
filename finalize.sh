@@ -43,6 +43,11 @@ if [ -d /usr/man ]; then
   cp -rv /usr/man /usr/share >&2
   rm -rf /usr/man
 fi
+# If build system hostname is not 'massos', check for any references to it.
+if [ "$(uname -n)" != "massos" ] && grep -rl "$(uname -n)" /usr > /tmp/.mbs_hnc; then
+  echo "WARNING: References to hostname '$(uname -n)' found in files:" >&2
+  cat /tmp/.mbs_hnc >&2
+fi
 # Compress manual pages.
 # Future version of zman will mandate ZMAN_ALLOW_UNSAFE=1 for working on /usr.
 ZMAN_ALLOW_UNSAFE=1 zman /usr/share/man

@@ -1,0 +1,519 @@
+diff '--color=auto' -apruN a/agent/mibgroup/host/data_access/swrun.c b/agent/mibgroup/host/data_access/swrun.c
+--- a/agent/mibgroup/host/data_access/swrun.c	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/host/data_access/swrun.c	2026-08-14 00:22:09.329037519 +0100
+@@ -17,7 +17,10 @@
+ #include "swrun.h"
+ #include "swrun_private.h"
+ 
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H)
++#define PCRE2_CODE_UNIT_WIDTH 8
++#include <pcre2.h>
++#elif defined(HAVE_PCRE_H)
+ #include <pcre.h>
+ #endif
+ 
+@@ -100,32 +103,47 @@ swrun_max_processes( void )
+ #endif /* NETSNMP_FEATURE_REMOVE_SWRUN_MAX_PROCESSES */
+ 
+ #ifndef NETSNMP_FEATURE_REMOVE_SWRUN_COUNT_PROCESSES_BY_REGEX
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+ int
+ swrun_count_processes_by_regex( char *name, netsnmp_regex_ptr regexp )
+ {
+     netsnmp_swrun_entry *entry;
+     netsnmp_iterator  *it;
+     int i = 0;
++#ifdef HAVE_PCRE2_H
++    pcre2_match_data *ndx_match = pcre2_match_data_create(30, NULL);
++#elif HAVE_PCRE_H
+     int found_ndx[30];
++#endif
+     int found;
+     char fullCommand[64 + 128 + 128 + 3];
+ 
+     netsnmp_cache_check_and_reload(swrun_cache);
+-    if ( !swrun_container || !name || !regexp.regex_ptr )
++    if ( !swrun_container || !name || !regexp.regex_ptr ) {
++#ifdef HAVE_PCRE2_H
++        pcre2_match_data_free(ndx_match);
++#endif
+         return 0;    /* or -1 */
++    }
+ 
+     it = CONTAINER_ITERATOR( swrun_container );
+     while ((entry = (netsnmp_swrun_entry*)ITERATOR_NEXT( it )) != NULL) {
+         /* need to assemble full command back so regexps can get full picture */
+         sprintf(fullCommand, "%s %s", entry->hrSWRunPath, entry->hrSWRunParameters);
++#ifdef HAVE_PCRE2_H
++        found = pcre2_match(regexp.regex_ptr, (unsigned char *)fullCommand,
++                            strlen(fullCommand), 0, 0, ndx_match, NULL);
++#elif  HAVE_PCRE_H
+         found = pcre_exec(regexp.regex_ptr, NULL, fullCommand, strlen(fullCommand), 0, 0, found_ndx, 30);
++#endif
+         if (found > 0) {
+             i++;
+         }
+     }
+     ITERATOR_RELEASE( it );
+-
++#ifdef HAVE_PCRE2_H
++    pcre2_match_data_free(ndx_match);
++#endif
+     return i;
+ }
+ #endif /* HAVE_PCRE_H */
+diff '--color=auto' -apruN a/agent/mibgroup/if-mib/data_access/interface.c b/agent/mibgroup/if-mib/data_access/interface.c
+--- a/agent/mibgroup/if-mib/data_access/interface.c	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/if-mib/data_access/interface.c	2026-08-14 00:22:09.336103557 +0100
+@@ -16,7 +16,11 @@
+ #include "if-mib/ifTable/ifTable.h"
+ #include "if-mib/data_access/interface.h"
+ #include "interface_private.h"
+-#if defined(HAVE_PCRE_H)
++
++#if defined(HAVE_PCRE2_H)
++#define PCRE2_CODE_UNIT_WIDTH 8
++#include <pcre2.h>
++#elif defined(HAVE_PCRE_H)
+ #include <pcre.h>
+ #elif defined(HAVE_REGEX_H)
+ #include <sys/types.h>
+@@ -824,7 +828,9 @@ int netsnmp_access_interface_max_reached
+ int netsnmp_access_interface_include(const char *name)
+ {
+     netsnmp_include_if_list *if_ptr;
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H)
++    pcre2_match_data *ndx_match;
++#elif defined(HAVE_PCRE_H)
+     int                      found_ndx[3];
+ #endif
+ 
+@@ -838,9 +844,18 @@ int netsnmp_access_interface_include(con
+          */
+         return TRUE;
+ 
++#if defined(HAVE_PCRE2_H)
++    ndx_match = pcre2_match_data_create(3, NULL);
++#endif
+ 
+     for (if_ptr = include_list; if_ptr; if_ptr = if_ptr->next) {
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H)
++        if (pcre2_match(if_ptr->regex_ptr, (const unsigned char *)name,
++                        strlen(name), 0, 0, ndx_match, NULL) >= 0)  {
++                pcre2_match_data_free(ndx_match);
++                return TRUE;
++        }
++#elif defined(HAVE_PCRE_H)
+         if (pcre_exec(if_ptr->regex_ptr, NULL, name, strlen(name), 0, 0,
+                       found_ndx, 3) >= 0)
+             return TRUE;
+@@ -853,6 +868,9 @@ int netsnmp_access_interface_include(con
+ #endif
+     }
+ 
++#if defined(HAVE_PCRE2_H)
++    pcre2_match_data_free(ndx_match);
++#endif
+     return FALSE;
+ }
+ 
+@@ -964,7 +982,15 @@ _parse_include_if_config(const char *tok
+ {
+     netsnmp_include_if_list *if_ptr, *if_new;
+     char                    *name, *st;
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H)
++    /*
++     * We can only get the message upon calling pcre2_error_message.
++     * so an additional variable is required.
++     */
++    int                     pcre2_err_code;
++    char                    pcre2_error[128];
++    size_t                  pcre2_error_offset;
++#elif defined(HAVE_PCRE_H)
+     const char              *pcre_error;
+     int                     pcre_error_offset;
+ #elif defined(HAVE_REGEX_H)
+@@ -996,7 +1022,19 @@ _parse_include_if_config(const char *tok
+             config_perror("Out of memory");
+             goto err;
+         }
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H)
++        if_new->regex_ptr = pcre2_compile((const unsigned char *)if_new->name,
++                                          PCRE2_ZERO_TERMINATED, 0,
++                                          &pcre2_err_code, &pcre2_error_offset,
++                                          NULL);
++        if (!if_new->regex_ptr) {
++            pcre2_get_error_message(pcre2_err_code,
++                                    (unsigned char *)pcre2_error,
++                                    sizeof(pcre2_error));
++            config_perror(pcre2_error);
++            goto err;
++        }
++#elif defined(HAVE_PCRE_H)
+         if_new->regex_ptr = pcre_compile(if_new->name, 0,  &pcre_error,
+                                          &pcre_error_offset, NULL);
+         if (!if_new->regex_ptr) {
+@@ -1032,7 +1070,7 @@ _parse_include_if_config(const char *tok
+ 
+ err:
+     if (if_new) {
+-#if defined(HAVE_PCRE_H) || defined(HAVE_REGEX_H)
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H) || defined(HAVE_REGEX_H)
+         free(if_new->regex_ptr);
+ #endif
+         free(if_new->name);
+@@ -1047,7 +1085,7 @@ _free_include_if_config(void)
+ 
+     while (if_ptr) {
+         if_next = if_ptr->next;
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+         free(if_ptr->regex_ptr);
+ #elif defined(HAVE_REGEX_H)
+         regfree(if_ptr->regex_ptr);
+diff '--color=auto' -apruN a/agent/mibgroup/ip-mib/data_access/systemstats_linux.c b/agent/mibgroup/ip-mib/data_access/systemstats_linux.c
+--- a/agent/mibgroup/ip-mib/data_access/systemstats_linux.c	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/ip-mib/data_access/systemstats_linux.c	2026-08-14 00:22:09.336226869 +0100
+@@ -36,7 +36,7 @@ netsnmp_access_systemstats_arch_init(voi
+ }
+ 
+ /*
+-  /proc/net/snmp
++  /proc/net/snmp - Linux 6.6 and lower
+ 
+   Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates
+   Ip: 2 64 7083534 0 0 0 0 0 6860233 6548963 0 0 1 286623 63322 1 259920 0 0
+@@ -49,6 +49,26 @@ netsnmp_access_systemstats_arch_init(voi
+   
+   Udp: InDatagrams NoPorts InErrors OutDatagrams
+   Udp: 1491094 122 0 1466178
++*
++  /proc/net/snmp - Linux 6.7 and higher
++
++  Ip: Forwarding DefaultTTL InReceives InHdrErrors InAddrErrors ForwDatagrams InUnknownProtos InDiscards InDelivers OutRequests OutDiscards OutNoRoutes ReasmTimeout ReasmReqds ReasmOKs ReasmFails FragOKs FragFails FragCreates OutTransmits
++  Ip: 1 64 50859058 496 0 37470604 0 0 20472980 7515791 1756 0 0 7264 3632 0 3548 0 7096 44961424
++
++  Icmp: InMsgs InErrors InCsumErrors InDestUnreachs InTimeExcds InParmProbs InSrcQuenchs InRedirects InEchos InEchoReps InTimestamps InTimestampReps InAddrMasks InAddrMaskReps OutMsgs OutErrors OutRateLimitGlobal OutRateLimitHost OutDestUnreachs OutTimeExcds OutParmProbs OutSrcQuenchs OutRedirects OutEchos OutEchoReps OutTimestamps OutTimestampReps OutAddrMasks OutAddrMaskReps
++  Icmp: 114447 2655 0 17589 0 0 0 0 66905 29953 0 0 0 0 143956 0 0 572 16610 484 0 0 0 59957 66905 0 0 0 0
++
++  IcmpMsg: InType0 InType3 InType8 OutType0 OutType3 OutType8 OutType11
++  IcmpMsg: 29953 17589 66905 66905 16610 59957 484
++
++  Tcp: RtoAlgorithm RtoMin RtoMax MaxConn ActiveOpens PassiveOpens AttemptFails EstabResets CurrEstab InSegs OutSegs RetransSegs InErrs OutRsts InCsumErrors
++  Tcp: 1 200 120000 -1 17744 13525 307 3783 6 18093137 9277788 3499 8 7442 0
++
++  Udp: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti MemErrors
++  Udp: 2257832 1422 0 2252835 0 0 0 84 0
++
++  UdpLite: InDatagrams NoPorts InErrors OutDatagrams RcvbufErrors SndbufErrors InCsumErrors IgnoredMulti MemErrors
++  UdpLite: 0 0 0 0 0 0 0 0 0
+ */
+ 
+ 
+@@ -101,10 +121,10 @@ _systemstats_v4(netsnmp_container* conta
+     FILE           *devin;
+     char            line[1024];
+     netsnmp_systemstats_entry *entry = NULL;
+-    int             scan_count;
++    int             scan_count, expected_scan_count;
+     char           *stats, *start = line;
+     int             len;
+-    unsigned long long scan_vals[19];
++    unsigned long long scan_vals[20];
+ 
+     DEBUGMSGTL(("access:systemstats:container:arch", "load v4 (flags %x)\n",
+                 load_flags));
+@@ -126,10 +146,17 @@ _systemstats_v4(netsnmp_container* conta
+      */
+     NETSNMP_IGNORE_RESULT(fgets(line, sizeof(line), devin));
+     len = strlen(line);
+-    if (224 != len) {
++    switch (len) {
++    case 224:
++	expected_scan_count = 19;
++	break;
++    case 237:
++	expected_scan_count = 20;
++	break;
++    default:
+         fclose(devin);
+         snmp_log(LOG_ERR, "systemstats_linux: unexpected header length in /proc/net/snmp."
+-                 " %d != 224\n", len);
++                 " %d not in { 224, 237 } \n", len);
+         return -4;
+     }
+ 
+@@ -178,20 +205,20 @@ _systemstats_v4(netsnmp_container* conta
+         memset(scan_vals, 0x0, sizeof(scan_vals));
+         scan_count = sscanf(stats,
+                             "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu"
+-                            "%llu %llu %llu %llu %llu %llu %llu %llu %llu",
++                            "%llu %llu %llu %llu %llu %llu %llu %llu %llu %llu",
+                             &scan_vals[0],&scan_vals[1],&scan_vals[2],
+                             &scan_vals[3],&scan_vals[4],&scan_vals[5],
+                             &scan_vals[6],&scan_vals[7],&scan_vals[8],
+                             &scan_vals[9],&scan_vals[10],&scan_vals[11],
+                             &scan_vals[12],&scan_vals[13],&scan_vals[14],
+                             &scan_vals[15],&scan_vals[16],&scan_vals[17],
+-                            &scan_vals[18]);
++                            &scan_vals[18],&scan_vals[19]);
+         DEBUGMSGTL(("access:systemstats", "  read %d values\n", scan_count));
+ 
+-        if(scan_count != 19) {
++        if(scan_count != expected_scan_count) {
+             snmp_log(LOG_ERR,
+                      "error scanning systemstats data (expected %d, got %d)\n",
+-                     19, scan_count);
++                     expected_scan_count, scan_count);
+             netsnmp_access_systemstats_entry_free(entry);
+             return -4;
+         }
+@@ -223,6 +250,7 @@ _systemstats_v4(netsnmp_container* conta
+         entry->stats.HCOutFragFails.high = scan_vals[17] >> 32;
+         entry->stats.HCOutFragCreates.low = scan_vals[18] & 0xffffffff;
+         entry->stats.HCOutFragCreates.high = scan_vals[18] >> 32;
++        /* entry->stats. = scan_vals[19]; / * OutTransmits */
+ 
+         entry->stats.columnAvail[IPSYSTEMSTATSTABLE_HCINRECEIVES] = 1;
+         entry->stats.columnAvail[IPSYSTEMSTATSTABLE_INHDRERRORS] = 1;
+diff '--color=auto' -apruN a/agent/mibgroup/struct.h b/agent/mibgroup/struct.h
+--- a/agent/mibgroup/struct.h	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/struct.h	2026-08-14 00:22:09.328312717 +0100
+@@ -30,7 +30,7 @@ struct extensible {
+ 
+ struct myproc {
+     char            name[STRMAX];
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+     netsnmp_regex_ptr regexp;
+ #endif
+     char            fixcmd[STRMAX];
+diff '--color=auto' -apruN a/agent/mibgroup/ucd-snmp/proc.c b/agent/mibgroup/ucd-snmp/proc.c
+--- a/agent/mibgroup/ucd-snmp/proc.c	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/ucd-snmp/proc.c	2026-08-14 00:22:09.329148771 +0100
+@@ -39,7 +39,10 @@
+ #  include <time.h>
+ # endif
+ #endif
+-#ifdef HAVE_PCRE_H
++#ifdef HAVE_PCRE2_H
++#define PCRE2_CODE_UNIT_WIDTH 8
++#include <pcre2.h>
++#elif HAVE_PCRE_H
+ #include <pcre.h>
+ #endif
+ 
+@@ -108,7 +111,7 @@ init_proc(void)
+     REGISTER_MIB("ucd-snmp/proc", extensible_proc_variables, variable2,
+                  proc_variables_oid);
+ 
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+ #define proc_parse_usage "process-name [max-num] [min-num] [regexp]"
+ #else
+ #define proc_parse_usage "process-name [max-num] [min-num]"
+@@ -134,7 +137,7 @@ proc_free_config(void)
+     for (ptmp = procwatch; ptmp != NULL;) {
+         ptmp2 = ptmp;
+         ptmp = ptmp->next;
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+         free(ptmp2->regexp.regex_ptr);
+ #endif
+         free(ptmp2);
+@@ -208,7 +211,7 @@ proc_parse_config(const char *token, cha
+     if (*procp == NULL)
+         return;                 /* memory alloc error */
+     numprocs++;
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+     (*procp)->regexp.regex_ptr = NULL;
+ #endif
+     /*
+@@ -220,9 +223,24 @@ proc_parse_config(const char *token, cha
+         cptr = skip_not_white(cptr);
+         if ((cptr = skip_white(cptr))) {
+             (*procp)->min = atoi(cptr);
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+             cptr = skip_not_white(cptr);
+             if ((cptr = skip_white(cptr))) {
++#ifdef HAVE_PCRE2_H
++                char pcre2_error_msg[128];
++                int pcre2_err_code;
++                size_t pcre2_error_offset;
++
++                DEBUGMSGTL(("ucd-snmp/regexp_proc", "Loading regex %s\n", cptr));
++                (*procp)->regexp.regex_ptr =
++                    pcre2_compile((const unsigned char *)cptr, PCRE2_ZERO_TERMINATED, 0, &pcre2_err_code, &pcre2_error_offset, NULL);
++                pcre2_get_error_message(pcre2_err_code,
++                                        (unsigned char *)pcre2_error_msg,
++                                        sizeof(pcre2_error_msg));
++                if ((*procp)->regexp.regex_ptr == NULL) {
++                    config_perror(pcre2_error_msg);
++                }
++#elif HAVE_PCRE_H
+                 const char *pcre_error;
+                 int pcre_error_offset;
+ 
+@@ -232,6 +250,7 @@ proc_parse_config(const char *token, cha
+                 if ((*procp)->regexp.regex_ptr == NULL) {
+                     config_perror(pcre_error);
+                 }
++#endif
+             }
+ #endif
+         } else
+@@ -390,7 +409,7 @@ sh_count_myprocs(struct myproc *proc)
+     if (proc == NULL)
+         return 0;
+ 
+-#if defined(USING_HOST_DATA_ACCESS_SWRUN_MODULE) && defined(HAVE_PCRE_H)
++#if defined(USING_HOST_DATA_ACCESS_SWRUN_MODULE) && (defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H))
+     if (proc->regexp.regex_ptr != NULL)
+       return sh_count_procs_by_regex(proc->name, proc->regexp);
+ #endif
+@@ -406,7 +425,7 @@ sh_count_procs(char *procname)
+   return swrun_count_processes_by_name( procname );
+ }
+ 
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+ netsnmp_feature_require(swrun_count_processes_by_regex);
+ int
+ sh_count_procs_by_regex(char *procname, netsnmp_regex_ptr regexp)
+diff '--color=auto' -apruN a/agent/mibgroup/ucd-snmp/proc.h b/agent/mibgroup/ucd-snmp/proc.h
+--- a/agent/mibgroup/ucd-snmp/proc.h	2023-08-15 21:32:01.000000000 +0100
++++ b/agent/mibgroup/ucd-snmp/proc.h	2026-08-14 00:22:09.328401339 +0100
+@@ -12,7 +12,7 @@ config_require(util_funcs);
+      extern WriteMethod fixProcError;
+      int sh_count_myprocs(struct myproc *);
+      int             sh_count_procs(char *);
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+      int sh_count_procs_by_regex(char *, netsnmp_regex_ptr);
+ #endif
+ 
+diff '--color=auto' -apruN a/apps/Makefile.in b/apps/Makefile.in
+--- a/apps/Makefile.in	2023-08-15 21:32:01.000000000 +0100
++++ b/apps/Makefile.in	2026-08-14 00:19:49.691738984 +0100
+@@ -235,7 +235,7 @@ snmppcap$(EXEEXT):    snmppcap.$(OSUFFIX
+ 	$(LINK) ${CFLAGS} -o $@ snmppcap.$(OSUFFIX) ${LDFLAGS} ${USEAGENTLIBS} ${LIBS} -lpcap
+ 
+ libnetsnmptrapd.$(LIB_EXTENSION)$(LIB_VERSION): $(LLIBTRAPD_OBJS)
+-	$(LIB_LD_CMD) $@ ${LLIBTRAPD_OBJS} $(MIBLIB) $(MYSQL_LIBS) $(USELIBS) $(PERLLDOPTS_FOR_LIBS) $(LDFLAGS)
++	$(LIB_LD_CMD) $@ ${LLIBTRAPD_OBJS} $(MIBLIB) $(MYSQL_LIBS) $(USELIBS) $(USEAGENTLIBS) $(PERLLDOPTS_FOR_LIBS) $(LDFLAGS)
+ 	$(RANLIB) $@
+ 
+ snmpinforminstall:
+diff '--color=auto' -apruN a/configure.d/config_os_libs1 b/configure.d/config_os_libs1
+--- a/configure.d/config_os_libs1	2023-08-15 21:32:01.000000000 +0100
++++ b/configure.d/config_os_libs1	2026-08-14 00:22:09.328440119 +0100
+@@ -97,6 +97,32 @@ LIBS="$netsnmp_save_LIBS"
+ #
+ #   regex in process table
+ #
++if test "x$with_pcre2" != "xno"; then
++  AC_CHECK_HEADER([pcre2.h], [
++      AC_DEFINE([HAVE_PCRE2_H], [1], [Define to 1 if you have <pcre2.h>.])
++      pcre2_h=yes
++    ],
++    [pcre2_h=no], [#define PCRE2_CODE_UNIT_WIDTH 8]
++  )
++fi
++if test "x$pcre2header_h" = "xno" -o "x$pcre2_h" = "xno" ; then
++  if test "x$with_pcre2" = "xyes" ; then
++    AC_MSG_ERROR([Could not find the pcre2 header file needed and was specifically asked to use pcre2 support])
++  else
++    with_pcre2=no
++  fi
++fi
++
++if test "x$with_pcre2" != "xno"; then
++  NETSNMP_SEARCH_LIBS([pcre2_match_8], [pcre2-8], [
++    LMIBLIBS="$LMIBLIBS -lpcre2-8"
++    ],,, LAGENTLIBS)
++  AC_SUBST(LAGENTLIBS)
++  AC_SUBST(LMIBLIBS)
++fi
++
++if test "x$with_pcre2" != "xyes"; then
++
+ if test "x$with_pcre" != "xno"; then
+   AC_CHECK_HEADER([pcre.h], [
+       AC_DEFINE([HAVE_PCRE_H], [1], [Define to 1 if you have <pcre.h>.])
+@@ -123,3 +149,4 @@ if test "x$with_pcre" != "xno"; then
+   AC_SUBST(LAGENTLIBS)
+   AC_SUBST(LMIBLIBS)
+ fi
++fi
+diff '--color=auto' -apruN a/configure.d/config_project_with_enable b/configure.d/config_project_with_enable
+--- a/configure.d/config_project_with_enable	2023-08-15 21:32:01.000000000 +0100
++++ b/configure.d/config_project_with_enable	2026-08-14 00:22:09.328485690 +0100
+@@ -160,6 +160,10 @@ NETSNMP_ARG_WITH(rpm,
+                                   management system when building the host MIB
+                                   module.])
+ 
++NETSNMP_ARG_WITH(pcre2-8,
++[  --without-pcre2                  Don't include pcre2 process searching
++                                  support in the agent.],
++      with_pcre2="$withval", with_pcre2="maybe")
+ 
+ NETSNMP_ARG_WITH(pcre,
+ [  --without-pcre                  Don't include pcre process searching
+diff '--color=auto' -apruN a/include/net-snmp/data_access/interface.h b/include/net-snmp/data_access/interface.h
+--- a/include/net-snmp/data_access/interface.h	2023-08-15 21:32:01.000000000 +0100
++++ b/include/net-snmp/data_access/interface.h	2026-08-14 00:22:09.328550981 +0100
+@@ -10,7 +10,10 @@
+ extern          "C" {
+ #endif
+ 
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H)
++#define PCRE2_CODE_UNIT_WIDTH 8
++#include <pcre2.h>
++#elif defined(HAVE_PCRE_H)
+ #include <pcre.h>
+ #elif defined(HAVE_REGEX_H)
+ #include <regex.h>
+@@ -211,7 +214,9 @@ typedef struct _conf_if_list {
+     typedef netsnmp_conf_if_list conf_if_list; /* backwards compat */
+ 
+ typedef struct _include_if_list {
+-#if defined(HAVE_PCRE_H)
++#if defined(HAVE_PCRE2_H)
++    pcre2_code              *regex_ptr;
++#elif defined(HAVE_PCRE_H)
+     pcre                    *regex_ptr;
+ #elif defined(HAVE_REGEX_H)
+     regex_t                 *regex_ptr;
+diff '--color=auto' -apruN a/include/net-snmp/data_access/swrun.h b/include/net-snmp/data_access/swrun.h
+--- a/include/net-snmp/data_access/swrun.h	2023-08-15 21:32:01.000000000 +0100
++++ b/include/net-snmp/data_access/swrun.h	2026-08-14 00:22:09.328575791 +0100
+@@ -90,7 +90,7 @@ extern "C" {
+     int  swrun_count_processes_by_name( char *name );
+ 
+ #if !defined(NETSNMP_FEATURE_REMOVE_SWRUN_COUNT_PROCESSES_BY_REGEX) \
+-    && defined(HAVE_PCRE_H)
++    && (defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H))
+     int  swrun_count_processes_by_regex(char *name, netsnmp_regex_ptr regexp);
+ #endif
+ 
+diff '--color=auto' -apruN a/include/net-snmp/types.h b/include/net-snmp/types.h
+--- a/include/net-snmp/types.h	2023-08-15 21:32:01.000000000 +0100
++++ b/include/net-snmp/types.h	2026-08-14 00:22:09.328603952 +0100
+@@ -63,7 +63,7 @@ typedef long ssize_t;
+ typedef unsigned long int nfds_t;
+ #endif
+ 
+-#ifdef HAVE_PCRE_H
++#if defined(HAVE_PCRE2_H) || defined(HAVE_PCRE_H)
+ /*
+  * Abstract the pcre typedef such that not all *.c files have to include
+  * <pcre.h>.

@@ -335,6 +335,7 @@ libdmx
 libdovi
 libdrm
 libdv
+libdvdcss
 libdvdnav
 libdvdread
 libedit
@@ -614,6 +615,7 @@ pathspec
 pcaudiolib
 pciutils
 pcre2
+pdfio
 pefile
 perl
 pexpect

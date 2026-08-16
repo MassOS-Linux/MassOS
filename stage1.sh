@@ -43,7 +43,8 @@ LC_ALL=C
 MASSOS="$PWD"/massos-rootfs
 PATH="$MASSOS"/root/mbs/stage1/bin:$PATH
 CONFIG_SITE="$MASSOS"/usr/share/config.site
-export LC_ALL MASSOS MASSOS_TARGET PATH CONFIG_SITE
+VERSION="$(./version.sh)"
+export LC_ALL MASSOS PATH CONFIG_SITE VERSION
 # Build in parallel using all available CPU cores.
 export MAKEFLAGS="-j$(nproc)"
 # All compiler optimisation flags must be unset for the toolchain packages.
@@ -80,8 +81,8 @@ make -j1 install
 popd; popd
 rm -rf binutils-2.47
 # GCC (build 1).
-tar -xf ../sources/gcc-16.1.0.tar.xz
-pushd gcc-16.1.0
+tar -xf ../sources/gcc-16.2.0.tar.xz
+pushd gcc-16.2.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
 tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
@@ -90,22 +91,22 @@ tar -xf ../../sources/isl-0.27.tar.xz -C isl --strip-components=1
 sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 mkdir -p build; pushd build
-../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.44 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
+../configure --prefix="$MASSOS"/root/mbs/stage1 --target="$(uname -m)-stage1-linux-gnu" --with-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --with-glibc-version=2.44 --with-newlib --without-headers --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libssp --disable-libstdcxx --disable-libvtv --disable-multilib --disable-nls --disable-shared --disable-threads
 make
 make -j1 install
-cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(uname -m)"-stage1-linux-gnu/16.1.0/include/limits.h
+cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(uname -m)"-stage1-linux-gnu/16.2.0/include/limits.h
 popd; popd
-rm -rf gcc-16.1.0
+rm -rf gcc-16.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.1.6.tar.xz
-pushd linux-7.1.6
+tar -xf ../sources/linux-7.1.8.tar.xz
+pushd linux-7.1.8
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.6
+rm -rf linux-7.1.8
 # Glibc.
 tar -xf ../sources/glibc-2.44.tar.xz
 pushd glibc-2.44
@@ -120,15 +121,15 @@ sed -i '/RTLDLIST=/s@/usr@@g' "$MASSOS"/usr/bin/ldd
 popd; popd
 rm -rf glibc-2.44
 # libstdc++ (from GCC - build 1).
-tar -xf ../sources/gcc-16.1.0.tar.xz
-pushd gcc-16.1.0
+tar -xf ../sources/gcc-16.2.0.tar.xz
+pushd gcc-16.2.0
 mkdir -p build; pushd build
-../libstdc++-v3/configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/"$(uname -m)"-stage1-linux-gnu/include/c++/16.1.0
+../libstdc++-v3/configure --prefix=/usr --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --disable-multilib --disable-nls --disable-libstdcxx-pch --with-gxx-include-dir=/root/mbs/stage1/"$(uname -m)"-stage1-linux-gnu/include/c++/16.2.0
 make
 make -j1 DESTDIR="$MASSOS" install
 rm -f "$MASSOS"/usr/lib/lib{stdc++{,exp,fs},supc++}.la
 popd; popd
-rm -rf gcc-16.1.0
+rm -rf gcc-16.2.0
 # Binutils (build 2).
 tar -xf ../sources/binutils-2.47.tar.xz
 pushd binutils-2.47
@@ -142,8 +143,8 @@ rm -f "$MASSOS"/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{l,}a
 popd; popd
 rm -rf binutils-2.47
 # GCC (build 2).
-tar -xf ../sources/gcc-16.1.0.tar.xz
-pushd gcc-16.1.0
+tar -xf ../sources/gcc-16.2.0.tar.xz
+pushd gcc-16.2.0
 mkdir -p gmp mpfr mpc isl
 tar -xf ../../sources/gmp-6.3.0.tar.xz -C gmp --strip-components=1
 tar -xf ../../sources/mpfr-4.2.2.tar.xz -C mpfr --strip-components=1
@@ -153,12 +154,12 @@ sed -i '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
 sed -i '/lp64=/s/lib64/lib/' gcc/config/aarch64/t-aarch64-linux
 sed -i '/thread_header =/s/@.*@/gthr-posix.h/' libgcc/Makefile.in libstdc++-v3/include/Makefile.in
 mkdir -p build; pushd build
-../configure --prefix=/usr --target="$(uname -m)-stage1-linux-gnu" --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.1.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/$(uname -m)-stage1-linux-gnu/libgcc"
+../configure --prefix=/usr --target="$(uname -m)-stage1-linux-gnu" --host="$(uname -m)-stage1-linux-gnu" --build="$(../config.guess)" --with-build-sysroot="$MASSOS" --with-pkgversion="MassOS GCC 16.2.0" --with-bugurl="https://github.com/MassOS-Linux/MassOS/issues" --enable-languages=c,c++ --enable-default-pie --enable-default-ssp --enable-linker-build-id --disable-nls --disable-multilib --disable-libatomic --disable-libgomp --disable-libquadmath --disable-libsanitizer --disable-libssp --disable-libvtv LDFLAGS_FOR_TARGET="-L$PWD/$(uname -m)-stage1-linux-gnu/libgcc"
 make
 make -j1 DESTDIR="$MASSOS" install
 ln -sf gcc "$MASSOS"/usr/bin/cc
 popd; popd
-rm -rf gcc-16.1.0
+rm -rf gcc-16.2.0
 # Install upgrade-toolset utilities, needed for bootstrapping.
 tar -xf ../sources/upgrade-toolset-20260430-"$(uname -m)".tar.xz -C "$MASSOS"/usr/bin --strip-components=1
 rm -f "$MASSOS"/usr/bin/LICENSE*
@@ -172,9 +173,10 @@ rm -rf "$MASSOS"/root/mbs/stage1
 rm -rf "$MASSOS"/usr/share/{info,man,doc}/*
 # Copy boilerplate /etc files into the system.
 cp -r utils/etc/. "$MASSOS"/etc
-# Rename lsb-release and os-release to /usr/lib, and then create symlinks.
-mv "$MASSOS"/etc/{lsb,os}-release "$MASSOS"/usr/lib
-install -t "$MASSOS"/usr/lib -Dm644 utils/massos-release
+# Generate release information files.
+echo "$VERSION" > "$MASSOS"/usr/lib/massos-release
+sed "s/@@VERSION@@/$VERSION/g" utils/relinfo/lsb-release > "$MASSOS"/usr/lib/lsb-release
+sed "s/@@VERSION@@/$VERSION/g" utils/relinfo/os-release > "$MASSOS"/usr/lib/os-release
 ln -sfr "$MASSOS"/usr/lib/massos-release "$MASSOS"/etc/massos-release
 ln -sfr "$MASSOS"/usr/lib/os-release "$MASSOS"/etc/os-release
 ln -sfr "$MASSOS"/usr/lib/lsb-release "$MASSOS"/etc/lsb-release

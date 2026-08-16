@@ -75,14 +75,14 @@ install -t /usr/share/licenses/libxfce4util -Dm644 COPYING
 popd
 rm -rf libxfce4util-4.20.1
 # libxfce4windowing.
-tar -xf ../sources/libxfce4windowing-4.20.6.tar.bz2
-pushd libxfce4windowing-4.20.6
+tar -xf ../sources/libxfce4windowing-4.20.7.tar.bz2
+pushd libxfce4windowing-4.20.7
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize -Dwayland=enabled -Dx11=enabled
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/libxfce4windowing -Dm644 COPYING
 popd
-rm -rf libxfce4windowing-4.20.6
+rm -rf libxfce4windowing-4.20.7
 # xfconf.
 tar -xf ../sources/xfconf-4.20.0.tar.bz2
 pushd xfconf-4.20.0
@@ -129,14 +129,14 @@ install -t /usr/share/licenses/garcon -Dm644 COPYING
 popd
 rm -rf garcon-4.20.0
 # Tumbler.
-tar -xf ../sources/tumbler-4.20.1.tar.bz2
-pushd tumbler-4.20.1
+tar -xf ../sources/tumbler-4.20.2.tar.bz2
+pushd tumbler-4.20.2
 ./configure --prefix=/usr --sysconfdir=/etc
 make
 make install
 install -t /usr/share/licenses/tumbler -Dm644 COPYING
 popd
-rm -rf tumbler-4.20.1
+rm -rf tumbler-4.20.2
 # xfce4-appfinder.
 tar -xf ../sources/xfce4-appfinder-4.20.0.tar.bz2
 pushd xfce4-appfinder-4.20.0
@@ -147,14 +147,14 @@ install -t /usr/share/licenses/xfce4-appfinder -Dm644 COPYING
 popd
 rm -rf xfce4-appfinder-4.20.0
 # xfce4-panel.
-tar -xf ../sources/xfce4-panel-4.20.7.tar.bz2
-pushd xfce4-panel-4.20.7
+tar -xf ../sources/xfce4-panel-4.20.8.tar.bz2
+pushd xfce4-panel-4.20.8
 ./configure --prefix=/usr --sysconfdir=/etc --enable-gio-unix --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-panel -Dm644 COPYING
 popd
-rm -rf xfce4-panel-4.20.7
+rm -rf xfce4-panel-4.20.8
 # xfce4-panel-profiles.
 tar -xf ../sources/xfce4-panel-profiles-1.1.1.tar.xz
 pushd xfce4-panel-profiles-1.1.1
@@ -184,23 +184,23 @@ install -t /usr/share/licenses/thunar-volman -Dm644 COPYING
 popd
 rm -rf thunar-volman-4.20.0
 # xfce4-power-manager.
-tar -xf ../sources/xfce4-power-manager-4.20.0.tar.bz2
-pushd xfce4-power-manager-4.20.0
+tar -xf ../sources/xfce4-power-manager-4.20.1.tar.bz2
+pushd xfce4-power-manager-4.20.1
 ./configure --prefix=/usr --sysconfdir=/etc --sbindir=/usr/bin --enable-polkit --enable-wayland --enable-x11
 make
 make install
 install -t /usr/share/licenses/xfce4-power-manager -Dm644 COPYING
 popd
-rm -rf xfce4-power-manager-4.20.0
+rm -rf xfce4-power-manager-4.20.1
 # xfce4-settings.
-tar -xf ../sources/xfce4-settings-4.20.4.tar.bz2
-pushd xfce4-settings-4.20.4
+tar -xf ../sources/xfce4-settings-4.20.5.tar.bz2
+pushd xfce4-settings-4.20.5
 ./configure --prefix=/usr --sysconfdir=/etc --enable-libxklavier --enable-libnotify --enable-pluggable-dialogs --enable-sound-settings --enable-wayland --enable-x11 --enable-xcursor --enable-xrandr
 make
 make install
 install -t /usr/share/licenses/xfce4-settings -Dm644 COPYING
 popd
-rm -rf xfce4-settings-4.20.4
+rm -rf xfce4-settings-4.20.5
 # xfdesktop.
 tar -xf ../sources/xfdesktop-4.20.2.tar.bz2
 pushd xfdesktop-4.20.2
@@ -627,8 +627,8 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.tar.xz.1 -C /usr/lib
-[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.tar.xz -C /usr/lib
+[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.4.tar.xz.1 -C /usr/lib
+[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.4.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {
@@ -658,5 +658,7 @@ install -dm755 /usr/share/licenses/firefox
 cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the URL box to view the Mozilla Firefox license.
 END
+# Firefox compat libs with system FFmpeg 9.0+ (remove after Firefox 155).
+tar --no-same-owner -xf ../sources/firefox-153-ffmpeg-8.1.2-compat-libs.tar.xz -C /usr/lib/firefox --strip-components=2 firefox-153-ffmpeg-8.1.2-compat-libs/"$MBS_ARCH"
 # Goodbye, finalize.sh will do the rest.
 popd

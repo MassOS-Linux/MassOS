@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# MassOS Live CD (ISO) Creation Script - Copyright (C) 2025 Daniel Massey.
+# MassOS Live CD (ISO) Creation Script - Copyright (C) 2025-2026 Daniel Massey.
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -235,10 +235,10 @@ sync
 # And the boot process depends on the volume name, so it must not be changed.
 echo "Creating ISO image..."
 if test "$(uname -m)" = "x86_64"; then
-  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e EFI/BOOT/efiboot.img -isohybrid-gpt-basdat -no-emul-boot -isohybrid-mbr iso-workdir/iso-root/isolinux/isohdpfx.bin -o "$isoname" iso-workdir/iso-root
+  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -b isolinux/isolinux.bin -c boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e EFI/BOOT/efiboot.img -isohybrid-gpt-basdat -no-emul-boot -isohybrid-mbr iso-workdir/iso-root/isolinux/isohdpfx.bin -o "$isoname" iso-workdir/iso-root
 else
   # Non-x86_64 ISOs do not need any Legacy BIOS boot functionality.
-  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -e EFI/BOOT/efiboot.img -no-emul-boot -o "$isoname" iso-workdir/iso-root
+  xorriso -as mkisofs -iso-level 3 -d -J -N -R -max-iso9660-filenames -relaxed-filenames -allow-lowercase -V "MASSOS_LIVE" -c boot.cat -e EFI/BOOT/efiboot.img -no-emul-boot -o "$isoname" iso-workdir/iso-root
 fi
 # Clean up.
 echo "Cleaning up..."
