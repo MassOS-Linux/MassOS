@@ -31,7 +31,7 @@ https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
 https://mirror.lyrahosting.com/gnu/bash/bash-5.3.tar.gz
 https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz
 https://github.com/gavinhoward/bc/releases/download/7.0.3/bc-7.0.3.tar.xz
-https://github.com/koverstreet/bcachefs-tools/archive/v1.38.5/bcachefs-tools-1.38.5.tar.gz
+https://github.com/koverstreet/bcachefs-tools/archive/v1.39.2/bcachefs-tools-1.39.2.tar.gz
 https://ftp.isc.org/isc/bind9/9.20.26/bind-9.20.26.tar.xz
 https://archive.massos.org/sources/precompiled/rust/bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch.tar.xz
 https://mirror.lyrahosting.com/gnu/binutils/binutils-2.47.tar.xz
@@ -40,7 +40,7 @@ https://mirror.lyrahosting.com/gnu/bison/bison-3.8.2.tar.xz
 https://github.com/GNOME/blueprint-compiler/archive/v0.22.2/blueprint-compiler-0.22.2.tar.gz
 https://cdn.kernel.org/pub/linux/bluetooth/bluez-5.87.tar.xz
 https://github.com/boostorg/boost/releases/download/boost-1.91.0-1/boost-1.91.0-1-b2-nodocs.tar.xz
-https://botan.randombit.net/releases/Botan-3.9.0.tar.xz
+https://botan.randombit.net/releases/Botan-3.13.0.tar.xz
 https://github.com/libbpf/bpftool/archive/v7.6.0/bpftool-7.6.0.tar.gz
 https://github.com/Hummer12007/brightnessctl/archive/0.5.1/brightnessctl-0.5.1.tar.gz
 https://github.com/google/brotli/archive/v1.2.0/brotli-1.2.0.tar.gz
@@ -77,7 +77,7 @@ https://github.com/cowsay-org/cowsay/archive/v3.8.4/cowsay-3.8.4.tar.gz
 https://mirror.lyrahosting.com/gnu/cpio/cpio-2.15.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.10.3/cracklib-2.10.3.tar.bz2
 https://github.com/cracklib/cracklib/releases/download/v2.10.3/cracklib-words-2.10.3.bz2
-https://github.com/pyca/cryptography/archive/48.0.0/cryptography-48.0.0.tar.gz
+https://github.com/pyca/cryptography/archive/50.0.1/cryptography-50.0.1.tar.gz
 https://cdn.kernel.org/pub/linux/utils/cryptsetup/v2.8/cryptsetup-2.8.7.tar.xz
 https://github.com/OpenPrinting/cups/releases/download/v2.4.19/cups-2.4.19-source.tar.gz
 https://github.com/OpenPrinting/cups-browsed/releases/download/2.1.1/cups-browsed-2.1.1.tar.xz
@@ -102,7 +102,6 @@ https://github.com/microsoft/DirectX-Headers/archive/v1.619.5/DirectX-Headers-1.
 https://github.com/python-distro/distro/archive/v1.9.0/distro-1.9.0.tar.gz
 https://downloads.sourceforge.net/project/djvu/DjVuLibre/3.5.28/djvulibre-3.5.28.tar.gz
 https://github.com/dell/dkms/archive/v3.2.1/dkms-3.2.1.tar.gz
-https://deb.debian.org/debian/pool/main/d/dmg2img/dmg2img_1.6.7.orig.tar.gz
 https://mirror.netcologne.de/savannah/dmidecode/dmidecode-3.6.tar.xz
 https://launchpad.net/dmraid/1.0/1.0.0.rc16-3/+download/dmraid-1.0.0.rc16-3.tar.bz2
 https://files.pythonhosted.org/packages/source/d/dnspython/dnspython-2.7.0.tar.gz
@@ -115,7 +114,7 @@ https://archive.docbook.org/xml/5.1/docbook-v5.1-os.zip
 https://archive.docbook.org/xml/4.5/docbook-xml-4.5.zip
 https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
 https://files.pythonhosted.org/packages/source/d/docutils/docutils-0.23.tar.gz
-https://archive.massos.org/sources/individual/dos2unix/dos2unix-7.5.5.tar.gz
+https://downloads.sourceforge.net/project/dos2unix/dos2unix/7.5.7/dos2unix-7.5.7.tar.gz
 https://github.com/dosfstools/dosfstools/releases/download/v4.2/dosfstools-4.2.tar.gz
 https://github.com/williamh/dotconf/archive/v1.4.1/dotconf-1.4.1.tar.gz
 https://github.com/quietvoid/dovi_tool/archive/2.3.1/dovi_tool-2.3.1.tar.gz
@@ -253,6 +252,7 @@ https://downloads.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-e
 https://downloads.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-en_GB-large-2020.12.07.zip
 https://downloads.sourceforge.net/project/wordlist/speller/2020.12.07/hunspell-en_US-large-2020.12.07.zip
 https://github.com/vcrhonek/hwdata/archive/v0.410/hwdata-0.410.tar.gz
+https://github.com/openSUSE/hwinfo/archive/25.5/hwinfo-25.5.tar.gz
 https://github.com/hykilpikonna/hyfetch/archive/2.1.0/hyfetch-2.1.0.tar.gz
 https://github.com/Mic92/iana-etc/releases/download/20260805/iana-etc-20260805.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/iceauth-1.0.11.tar.xz
@@ -302,7 +302,7 @@ https://github.com/EHfive/ldacBT/releases/download/v2.0.2.3/ldacBT-2.0.2.3.tar.g
 https://github.com/jackrosenthal/legacy-cgi/archive/v2.6.3/legacy-cgi-2.6.3.tar.gz
 https://www.greenwoodsoftware.com/less/less-704.tar.gz
 https://github.com/GNOME/libadwaita/archive/1.9.3/libadwaita-1.9.3.tar.gz
-https://pagure.io/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
+https://github.com/yugabyte/libaio/archive/libaio-0.3.113/libaio-libaio-0.3.113.tar.gz
 https://gitlab.xiph.org/xiph/libao/-/archive/1.2.2/libao-1.2.2.tar.bz2
 https://storage.googleapis.com/aom-releases/libaom-3.14.1.tar.gz
 https://old-releases.ubuntu.com/ubuntu/pool/main/liba/libappindicator/libappindicator_12.10.1+20.10.20200706.1.orig.tar.gz
@@ -325,7 +325,7 @@ https://github.com/stevegrubb/libcap-ng/archive/v0.8.5/libcap-ng-0.8.5.tar.gz
 https://github.com/PJK/libcbor/archive/v0.12.0/libcbor-0.12.0.tar.gz
 https://github.com/libcdio/libcdio/releases/download/2.2.0/libcdio-2.2.0.tar.bz2
 https://mirror.lyrahosting.com/gnu/libcdio/libcdio-paranoia-10.2+2.0.2.tar.gz
-https://github.com/GNOME/libchamplain/archive/0.12.21/libchamplain-0.12.21.tar.gz
+https://download.gnome.org/sources/libchamplain/0.12/libchamplain-0.12.21.tar.xz
 https://github.com/GNOME/libcloudproviders/archive/0.3.6/libcloudproviders-0.3.6.tar.gz
 https://github.com/OpenPrinting/libcupsfilters/releases/download/2.2.0/libcupsfilters-2.2.0.tar.xz
 https://deb.debian.org/debian/pool/main/libd/libdaemon/libdaemon_0.14.orig.tar.gz
@@ -456,6 +456,7 @@ https://github.com/webmproject/libwebp/archive/v1.6.0/libwebp-1.6.0.tar.gz
 https://github.com/GNOME/libwnck/archive/43.3/libwnck-43.3.tar.gz
 https://wpewebkit.org/releases/libwpe-1.16.2.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libX11-1.8.13.tar.xz
+https://github.com/wfeldt/libx86emu/archive/3.7/libx86emu-3.7.tar.gz
 https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXaw-1.0.16.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.17.0.tar.xz
@@ -493,8 +494,8 @@ https://xorg.freedesktop.org/archive/individual/lib/libXxf86dga-1.1.7.tar.xz
 https://xorg.freedesktop.org/archive/individual/lib/libXxf86vm-1.1.7.tar.xz
 https://github.com/lemenkov/libyuv/archive/1b1c058/libyuv-2880.tar.gz
 https://github.com/nih-at/libzip/releases/download/v1.11.4/libzip-1.11.4.tar.xz
-https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.1.8.tar.xz
-https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.20/linux-apfs-rw-0.3.20.tar.gz
+https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.2.2.tar.xz
+https://github.com/linux-apfs/linux-apfs-rw/archive/v0.3.21/linux-apfs-rw-0.3.21.tar.gz
 https://cdn.kernel.org/pub/linux/kernel/firmware/linux-firmware-20260810.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.6.1/Linux-PAM-1.6.1.tar.xz
 https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz
@@ -526,9 +527,9 @@ https://github.com/Python-Markdown/markdown/releases/download/3.10.2/markdown-3.
 https://github.com/pallets/markupsafe/archive/3.0.3/markupsafe-3.0.3.tar.gz
 https://github.com/PyO3/maturin/archive/v1.14.1/maturin-1.14.1.tar.gz
 https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git/snapshot/mdadm-4.6.tar.gz
-https://github.com/memtest86plus/memtest86plus/archive/v7.20/memtest86plus-7.20.tar.gz
+https://github.com/memtest86plus/memtest86plus/archive/7726853/memtest86plus-8.10-34-g7726853.tar.gz
 https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
-https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.6/mesa-mesa-26.1.6.tar.bz2
+https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.1.7/mesa-mesa-26.1.7.tar.bz2
 https://github.com/mesonbuild/meson/releases/download/1.11.2/meson-1.11.2.tar.gz
 https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.20.0.tar.gz
 https://xorg.freedesktop.org/archive/individual/app/mkfontscale-1.2.4.tar.xz
@@ -571,6 +572,7 @@ https://archive.mozilla.org/pub/nspr/releases/v4.40/src/nspr-4.40.tar.gz
 https://archive.mozilla.org/pub/security/nss/releases/NSS_3_126_RTM/src/nss-3.126.tar.gz
 https://github.com/avahi/nss-mdns/releases/download/v0.15.1/nss-mdns-0.15.1.tar.gz
 https://github.com/tuxera/ntfs-3g/archive/2026.7.7/ntfs-3g-2026.7.7.tar.gz
+https://archive.massos.org/sources/individual/ntfsprogs-plus/ntfsprogs-plus-1.0.0-21-g53943da.tar.xz
 https://github.com/FFmpeg/nv-codec-headers/releases/download/n13.0.19.0/nv-codec-headers-13.0.19.0.tar.gz
 https://github.com/elFarto/nvidia-vaapi-driver/archive/v0.0.13/nvidia-vaapi-driver-0.0.13.tar.gz
 https://github.com/linux-nvme/nvme-cli/archive/v2.16/nvme-cli-2.16.tar.gz
@@ -652,7 +654,7 @@ https://launchpad.net/python-distutils-extra/trunk/2.39/+download/python-distuti
 https://github.com/stub42/pytz/releases/download/release_2026.2/pytz-2026.2.tar.gz
 https://files.pythonhosted.org/packages/source/p/pyxdg/pyxdg-0.28.tar.gz
 https://files.pythonhosted.org/packages/source/P/PyYAML/pyyaml-6.0.3.tar.gz
-https://download.qemu.org/qemu-11.0.3.tar.xz
+https://download.qemu.org/qemu-11.1.1.tar.xz
 https://github.com/qpdf/qpdf/releases/download/v12.4.0/qpdf-12.4.0.tar.gz
 https://github.com/fukuchi/libqrencode/archive/v4.1.1/qrencode-4.1.1.tar.gz
 https://github.com/xiph/rav1e/archive/v0.8.1/rav1e-0.8.1.tar.gz
@@ -664,15 +666,15 @@ https://download.gnome.org/sources/rest/0.8/rest-0.8.1.tar.xz
 https://download.gnome.org/sources/rest/0.9/rest-0.9.1.tar.xz
 https://github.com/rhash/RHash/archive/v1.4.5/RHash-1.4.5.tar.gz
 https://github.com/BurntSushi/ripgrep/archive/15.1.0/ripgrep-15.1.0.tar.gz
-https://github.com/rnpgp/rnp/releases/download/v0.18.0/rnp-v0.18.0.tar.gz
+https://github.com/rnpgp/rnp/releases/download/v0.18.1/rnp-v0.18.1.tar.gz
 https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.4/rpcsvc-proto-1.4.4.tar.xz
 https://github.com/oetiker/rrdtool-1.x/releases/download/v1.9.0/rrdtool-1.9.0.tar.gz
 https://www.samba.org/ftp/rsync/src/rsync-3.4.4.tar.gz
 https://github.com/mirror/rtmpdump/archive/6f6bb13/rtmpdump-2.4-105-g6f6bb13.tar.gz
 https://cache.ruby-lang.org/pub/ruby/4.0/ruby-4.0.6.tar.xz
-https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.96.0-aarch64-unknown-linux-gnu.tar.gz
-https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.96.0-x86_64-unknown-linux-gnu.tar.gz
-https://static.rust-lang.org/dist/rust-src-1.96.0.tar.gz
+https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.97.1-aarch64-unknown-linux-gnu.tar.gz
+https://d3ah34wvbudrdd.cloudfront.net/dist/rust-1.97.1-x86_64-unknown-linux-gnu.tar.gz
+https://static.rust-lang.org/dist/rust-src-1.97.1.tar.gz
 https://download.samba.org/pub/samba/stable/samba-4.23.3.tar.gz
 https://gitlab.com/sane-project/backends/-/archive/1.4.0/sane-1.4.0.tar.gz
 https://github.com/alexpevzner/sane-airscan/archive/0.99.36/sane-airscan-0.99.36.tar.gz
@@ -727,7 +729,7 @@ https://downloads.sourceforge.net/project/squashfs/squashfs/squashfs4.7/squashfs
 https://github.com/vasi/squashfuse/releases/download/0.6.0/squashfuse-0.6.0.tar.gz
 https://github.com/libfuse/sshfs/releases/download/sshfs-3.7.6/sshfs-3.7.6.tar.xz
 https://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
-https://github.com/strace/strace/releases/download/v7.1/strace-7.1.tar.xz
+https://github.com/strace/strace/releases/download/v7.2/strace-7.2.tar.xz
 https://github.com/sudo-project/sudo/releases/download/v1.9.17p2/sudo-1.9.17p2.tar.gz
 https://gitlab.com/AOMediaCodec/SVT-AV1/-/archive/v4.2.0/SVT-AV1-v4.2.0.tar.bz2
 https://github.com/swig/swig/archive/v4.5.0/swig-4.5.0.tar.gz
@@ -761,7 +763,7 @@ https://dotat.at/prog/unifdef/unifdef-2.12.tar.gz
 https://unifoundry.com/pub/unifont/unifont-17.0.03/unifont-17.0.03.tar.gz
 https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.3.2/unix-tree-2.3.2.tar.bz2
 https://downloads.sourceforge.net/project/infozip/UnZip%206.x%20%28latest%29/UnZip%206.0/unzip60.tar.gz
-https://github.com/MassOS-Linux/upgrade-massos/archive/0.2.1/upgrade-massos-0.2.1.tar.gz
+https://github.com/MassOS-Linux/upgrade-massos/archive/0.2.3/upgrade-massos-0.2.3.tar.gz
 https://github.com/MassOS-Linux/upgrade-toolset/releases/download/20260430/upgrade-toolset-20260430-aarch64.tar.xz
 https://github.com/MassOS-Linux/upgrade-toolset/releases/download/20260430/upgrade-toolset-20260430-x86_64.tar.xz
 https://gitlab.freedesktop.org/upower/upower/-/archive/v1.91.3/upower-v1.91.3.tar.bz2

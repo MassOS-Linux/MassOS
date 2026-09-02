@@ -247,6 +247,7 @@ highway
 hplip
 htop
 hwdata
+hwinfo
 hyfetch
 iana-etc
 iceauth
@@ -462,6 +463,7 @@ libwebp
 libwnck
 libwpe
 libx11
+libx86emu
 libxau
 libxaw
 libxcb
@@ -578,6 +580,7 @@ nspr
 nss
 nss-mdns
 ntfs-3g
+ntfsprogs-plus
 nv-codec-headers
 nvidia-modules
 nvidia-modules-open

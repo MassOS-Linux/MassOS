@@ -1,12 +1,12 @@
-]# Full Changelog History
+# Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
 # Current Development
-**IMPORTANT NOTICE:** Official development of MassOS was ceased at the end of 2022. Unless otherwise stated, any subsequent code commits beyond this date are done purely for experimental purposes; they are NOT indicative of any upcoming release, should NOT be considered stable/usable, and will NOT be given any support whatsoever. This also applies to all experimental builds published at [https://dmassey.net/files/massos-experimental-builds/](https://dmassey.net/files/massos-experimental-builds/). Please also note that it is NOT POSSIBLE to perform an in-place upgrade from MassOS 2022.10 or older to any build based on these experimental changes; do NOT attempt it under any circumstance.
+**IMPORTANT NOTICE:** It is NOT possible to perform an in-place upgrade from MassOS 2022.10 or older to this version. A clean reinstallation must be performed instead, though subsequent system upgrades will be possible using the [new MassOS upgrade utility](https://github.com/MassOS-Linux/upgrade-massos). Please see [this announcement](https://github.com/MassOS-Linux/MassOS/issues/54) for more information about the continuation of MassOS releases from September 2026.
 
 Changes:
 
-- Experimental builds will now be versioned based on their build date, i.e., `experimental-20241231`.
+- Monthly releases of MassOS are continuing from September 2026, starting from this version, `2026.09`. Please see [this announcement](https://github.com/MassOS-Linux/MassOS/wiki/54) for more information.
 - Added (work-in-progress) support for building and running MassOS on the **aarch64** architecture.
 - Switched to osinstallgui in the live CD, a new (currently still in development) GUI installer program to replace the old TUI installer.
 - Moved Live CD creation script to the main MassOS repo (with improvements) and dropped support for "nofirmware" ISOs (firmware is now included in rootfs).
@@ -29,6 +29,7 @@ Changes:
 - Removed cdrkit and dvd+rw-tools (libisoburn provides more modern and safer alternatives to the utilities for ISO creation, disc burning, and others).
 - Renamed NVIDIA-Open-Kernel-Modules package to nvidia-modules-open, and marked as provides nvidia-modules.
 - Split Noto fonts package into normal fonts, CJK fonts and emoji fonts.
+- Added ntfsprogs-plus, which (along with the new kernel NTFSPlus driver) significantly improves NTFS support, and finally provides fully-fledged `mkfs` and `fsck` implementations for the NTFS filesystem.
 - Added qemu-guest-agent, spice-vdagent and open-vm-tools, to improve the experience when running MassOS in a VM.
 - Added new default GRUB theme for MassOS based on distro-grub-themes.
 - Added GTK4 and libadwaita to the core MassOS system, to support future programs which depend on them.
@@ -70,7 +71,7 @@ Upgraded software (core):
 - alsa-ucm-conf: `(new package) --> 1.2.16`
 - alsa-utils: `(new package) --> 1.2.16`
 - AMF-Headers: `(new package) --> 1.5.2`
-- apfs-rw-module: `(new package) --> 0.3.20`
+- apfs-rw-module: `(new package) --> 0.3.21`
 - apfsprogs: `(new package) --> 0.2.1`
 - AppArmor: `3.1.1 --> 5.0.2`
 - AppStream: `0.15.5 --> 1.1.5`
@@ -89,14 +90,14 @@ Upgraded software (core):
 - Bash: `5.2 --> 5.3`
 - bash-completion: `2.11 --> 2.16.0`
 - bc: `6.0.3 --> 7.0.3`
-- bcachefs-module: `(new package) --> 1.38.5`
-- bcachefs-tools: `(new package) --> 1.38.5`
+- bcachefs-module: `(new package) --> 1.39.2`
+- bcachefs-tools: `(new package) --> 1.39.2`
 - BIND-Utils: `9.18.6 --> 9.20.26`
 - Binutils: `2.39 --> 2.47`
 - blueprint-compiler: `(new package) --> 0.22.2`
 - BlueZ: `5.65 --> 5.87`
 - Boost: `1.80.0 --> 1.91.0`
-- Botan: `(new package) --> 3.9.0`
+- Botan: `(new package) --> 3.13.0`
 - bpftool: `7.0.0 --> 7.6.0`
 - brightnessctl: `(new package) --> 0.5.1`
 - brotli: `1.0.9 --> 1.2.0`
@@ -126,7 +127,7 @@ Upgraded software (core):
 - cowsay: `3.04 --> 3.8.4`
 - cpio: `(new package) --> 2.15`
 - CrackLib: `2.9.8 --> 2.10.3`
-- cryptography: `37.0.1 --> 48.0.0`
+- cryptography: `37.0.1 --> 50.0.1`
 - cryptsetup: `2.5.0 --> 2.8.7`
 - CUPS: `2.4.2 --> 2.4.19`
 - cups-browsed: `(new package) --> 2.1.1`
@@ -148,10 +149,11 @@ Upgraded software (core):
 - DirectX-Headers: `1.606.3 --> 1.619.5`
 - distro: `1.6.0 --> 1.9.0`
 - DKMS: `3.0.6 --> 3.2.1`
+- dmg2img: `1.6.7 --> (removed)`
 - dmidecode: `3.4 --> 3.6`
 - dnspython: `2.2.0 --> 2.7.0`
 - docutils: `0.18.1 --> 0.23`
-- dos2unix: `7.4.2 --> 7.5.5`
+- dos2unix: `7.4.2 --> 7.5.7`
 - dotconf: `(new package) --> 1.4.1`
 - dovi-tool: `(new package) --> 2.3.1`
 - dracut: `056 --> 112`
@@ -282,6 +284,7 @@ Upgraded software (core):
 - HPLIP: `3.22.6 --> 3.25.8`
 - htop: `3.2.1 --> 3.4.1`
 - hwdata: `0.363 --> 0.410`
+- hwinfo: `(new package) --> 25.5`
 - hyfetch: `(new package) --> 2.1.0`
 - iana-etc: `20220922 --> 20260805`
 - iceauth: `1.0.9 --> 1.0.11`
@@ -469,6 +472,7 @@ Upgraded software (core):
 - libwnck: `43.0 --> 43.3`
 - libwpe: `1.14.0 --> 1.16.2`
 - libX11: `1.8.1 --> 1.8.13`
+- libx86emu: `(new package) --> 3.7`
 - libXau: `1.0.10 --> 1.0.12`
 - libXaw: `1.0.14 --> 1.0.16`
 - libxcb: `1.15 --> 1.17`
@@ -505,10 +509,10 @@ Upgraded software (core):
 - libXxf86vm: `1.1.5 --> 1.1.7`
 - libyuv: `(new package) --> 2880`
 - libzip: `1.9.2 --> 1.11.4`
-- Linux: `6.0.0 --> 7.1.8`
-- Linux-API-Headers: `6.0.0 --> 7.1.8`
+- Linux: `6.0.0 --> 7.2.2`
+- Linux-API-Headers: `6.0.0 --> 7.2.2`
 - Linux-Firmware: `(new package) --> 20260810`
-- Linux-Headers: `6.0.0 --> 7.1.8`
+- Linux-Headers: `6.0.0 --> 7.2.2`
 - Linux-PAM: `1.5.2 --> 1.7.2`
 - LLD: `14.0.6 --> 22.1.8`
 - LLVM: `14.0.6 --> 22.1.8`
@@ -532,8 +536,8 @@ Upgraded software (core):
 - MarkupSafe: `2.1.1 --> 3.0.3`
 - maturin: `(new package) --> 1.14.1`
 - mdadm: `4.2 --> 4.6`
-- memtest86+ `(new package) --> 7.20`
-- Mesa: `22.1.7 --> 26.1.6`
+- memtest86+ `(new package) --> 8.10-34-g7726853`
+- Mesa: `22.1.7 --> 26.1.7`
 - mesa-utils: `8.5.0 --> 9.0.0`
 - Meson: `0.63.2 --> 1.11.2`
 - meson-python: `(new package) --> 0.20.0`
@@ -574,6 +578,7 @@ Upgraded software (core):
 - NSS: `3.83 --> 3.126`
 - nss-mdns: `(new package) --> 0.15.1`
 - ntfs-3g: `2022.5.17 --> 2026.7.7`
+- ntfsprogs-plus: `(new package) --> 1.0.0-21-g53943da`
 - nv-codec-headers: `(new package) --> 13.0.19.0`
 - nvidia-modules-open: `(new package) --> 610.57.04`
 - nvidia-vaapi-driver: `(new package) --> 0.0.13`
@@ -651,7 +656,7 @@ Upgraded software (core):
 - pytz: `(new package) --> 2026.2`
 - pyxdg: `(new package) --> 0.28`
 - PyYAML: `(new package) --> 6.0.3`
-- qemu-guest-agent: `(new package) --> 11.0.3`
+- qemu-guest-agent: `(new package) --> 11.1.1`
 - Qpdf: `11.1.1 --> 12.4.0`
 - rav1e: `0.5.1 --> 0.8.1`
 - rdfind: `(new package) --> 1.7.0`
@@ -660,7 +665,7 @@ Upgraded software (core):
 - requests: `2.28.1 --> 2.34.2`
 - rhash: `1.4.2 --> 1.4.5`
 - ripgrep: `(new package) --> 15.1.0`
-- rnp: `(new package) --> 0.18.0`
+- rnp: `(new package) --> 0.18.1`
 - rpcsvc-proto: `1.4.3 --> 1.4.4`
 - rrdtool: `1.8.0 --> 1.9.0`
 - rsync: `3.2.6 --> 3.4.4`
@@ -703,13 +708,13 @@ Upgraded software (core):
 - spice-protocol: `(new package) --> 0.14.4`
 - spice-vdagent: `(new package) --> 0.22.1`
 - SPIRV-Headers: `1.3.216.0 --> 1.4.357.0`
-- SPIRV-LLVM-Translator: `(new package) --> 22.1.2`
+- SPIRV-LLVM-Translator: `(new package) --> 22.1.5`
 - SPIRV-Tools: `2022.2 --> 1.4.357.0`
 - SQLite: `3.39.3 --> 3.53.4`
 - squashfs-tools: `4.5.1 --> 4.7`
 - squashfuse: `0.1.105 --> 0.6.0`
 - sshfs: `3.7.3 --> 3.7.6`
-- strace: `5.19 --> 7.1`
+- strace: `5.19 --> 7.2`
 - Sudo: `1.9.11p3 --> 1.9.17p2`
 - SVT-AV1: `(new package) --> 4.1.0`
 - SWIG: `4.0.2 --> 4.5.0`
@@ -740,7 +745,7 @@ Upgraded software (core):
 - UFW: `0.36.1 --> (removed)`
 - unifdef: `(new package) --> 2.12`
 - Unifont: `15.0.01 --> 17.0.03`
-- upgrade-massos: `(new package) --> 0.2.1`
+- upgrade-massos: `(new package) --> 0.2.3`
 - UPower: `1.90.0 --> 1.91.3`
 - urllib3: `1.26.11 --> 2.7.0`
 - usbutils: `014 --> 019`
@@ -852,7 +857,7 @@ Upgraded software (Xfce):
 - elementary-icon-theme: `(new package) --> 8.2.0`
 - Evince: `43.0 --> 48.4`
 - Exo: `4.17.2 --> 4.20.0`
-- Firefox: `105.0.1 --> 153.0.4`
+- Firefox: `105.0.1 --> 155.0`
 - FreeRDP: `2.8.0 --> (removed)`
 - Galculator: `2.1.4 --> (removed)`
 - Garcon: `4.17.1 --> 4.20.0`
@@ -910,7 +915,7 @@ Upgraded software (Xfce):
 
 Upgraded software (extras - **NOT** installed by default):
 
-- Snapd: `(new package) --> 2.76`
+- Snapd: `(new package) --> 2.76.3`
 
 # MassOS 2022.10
 Changes:

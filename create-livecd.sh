@@ -31,7 +31,7 @@ if test "$(uname -m)" != "x86_64" && test "$(uname -m)" != "aarch64"; then
 fi
 # The compatibility level of this script with MassOS rootfs images.
 # Increment when this script needs to be modified due to build system changes.
-SCRIPT_COMPAT=7
+SCRIPT_COMPAT=8
 # Set up default umask, in case host umask differs.
 umask 0022
 # Add the MassOS programs directory to our path, in case we're not on MassOS.
@@ -193,19 +193,23 @@ else
 fi
 cp iso-workdir/massos-rootfs/usr/share/licenses/grub/COPYING iso-workdir/iso-root/LICENSES/GRUB.txt
 # Install Memtest86+, IPXE and UEFI EDK2 Shell.
-# Some of these won't be installed depending on architecture (if unsupported).
-cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi.signed iso-workdir/iso-root/EFI/tools/ipxe.efi
-cp iso-workdir/massos-rootfs/usr/share/licenses/ipxe/COPYING.GPLv2 iso-workdir/iso-root/LICENSES/IPXE.txt
-cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt
+# Legacy BIOS versions only get installed on x86_64.
 if test "$(uname -m)" = "x86_64"; then
-  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.bin iso-workdir/iso-root/isolinux/memtest64.bin
-  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/memtest.efi.signed iso-workdir/iso-root/EFI/tools/memtest64.efi
-  cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/iso-root/LICENSES/Memtest86+.txt
+  cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi iso-workdir/iso-root/EFI/tools/ipxex64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe-secureboot.efi.signed iso-workdir/iso-root/EFI/tools/ipsbx64.efi
   cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.lkrn iso-workdir/iso-root/isolinux/ipxe.lkrn
-  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellx64.efi iso-workdir/iso-root/EFI/tools/shellx64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/mt86plus.efi.signed iso-workdir/iso-root/EFI/tools/mt86x64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/mt86plus.bin iso-workdir/iso-root/isolinux/mt86plus.bin
+  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shell.efi iso-workdir/iso-root/EFI/tools/shelx64.efi
 else
-  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shellaa64.efi iso-workdir/iso-root/EFI/tools/shellaa64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe.efi iso-workdir/iso-root/EFI/tools/ipxeaa64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/ipxe/ipxe-secureboot.efi.signed iso-workdir/iso-root/EFI/tools/ipsbaa64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/memtest86+/mt86plus.efi.signed iso-workdir/iso-root/EFI/tools/mt86aa64.efi
+  cp iso-workdir/massos-rootfs/usr/lib/edk2-shell/shell.efi iso-workdir/iso-root/EFI/tools/shelaa64.efi
 fi
+cp iso-workdir/massos-rootfs/usr/share/licenses/ipxe/COPYING.GPLv2 iso-workdir/iso-root/LICENSES/IPXE.txt
+cp iso-workdir/massos-rootfs/usr/share/licenses/memtest86+/LICENSE iso-workdir/iso-root/LICENSES/Memtest86+.txt
+cp iso-workdir/massos-rootfs/usr/share/licenses/edk2-shell/License.txt iso-workdir/iso-root/LICENSES/UEFI-EDK2-Shell.txt
 # Copy over secure boot certs from the rootfs to the live CD.
 cp -r iso-workdir/massos-rootfs/usr/share/massos/certs/secureboot iso-workdir/iso-root
 # Copy db.der as ENROLLME.cer, for easier MokManager import.

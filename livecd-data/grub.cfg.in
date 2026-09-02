@@ -26,20 +26,25 @@ menuentry "MassOS @@VERSION@@ LIVE (RAM + nomodeset)" {
   initrd /initramfs.img
 }
 
-# Memtest86+ is only supported on x86_64.
-if test "$grub_cpu" = "x86_64"; then
-  menuentry "Run memory test (Memtest86+)" {
-    chainloader /EFI/tools/memtest64.efi
-  }
-fi
+menuentry "Run memory test (Memtest86+)" {
+  chainloader "/EFI/tools/mt86$efi_suffix.efi"
+}
 
 menuentry "Boot from local disk" {
   exit 1
 }
 
-menuentry "Boot from network (iPXE)" {
-  chainloader /EFI/tools/ipxe.efi
-}
+# The default iPXE image is signed for secure boot.
+# But an unsigned image with additional functionality is also available.
+if test "$lockdown" = "y"; then
+  menuentry "Boot from network (iPXE)" {
+    chainloader "/EFI/tools/ipsb$efi_suffix.efi"
+  }
+else
+  menuentry "Boot from network (iPXE)" {
+    chainloader "/EFI/tools/ipxe$efi_suffix.efi"
+  }
+fi
 
 menuentry "Import Secure Boot keys (MokManager)" {
   chainloader "/EFI/BOOT/mm$efi_suffix.efi"
@@ -50,7 +55,7 @@ menuentry "Import Secure Boot keys (MokManager)" {
 # So the menuentry should only show if secure boot is disabled.
 if test "$lockdown" != "y"; then
   menuentry "UEFI EDK2 Shell" {
-    chainloader "/EFI/tools/shell$efi_suffix.efi"
+    chainloader "/EFI/tools/shel$efi_suffix.efi"
   }
 fi
 

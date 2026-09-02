@@ -28,7 +28,7 @@ APPEND initrd=/initramfs.img root=live:LABEL=MASSOS_LIVE iso-scan/filename="@@IS
 
 LABEL memtest
 MENU LABEL Run memory test (Memtest86+)
-KERNEL memtest64.bin
+KERNEL mt86plus.bin
 
 LABEL localboot
 MENU LABEL Boot from local disk

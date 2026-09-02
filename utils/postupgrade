@@ -23,3 +23,10 @@ make-ca -C /usr/share/massos/certs/certdata.txt
 
 # Generate SSH host keys if they are missing.
 ssh-keygen -A
+
+# Replace AppArmor profiles if they were installed as '.new'.
+# TODO: Eventually allow UGM to have full directories in etc-force-replace...
+echo "Note: Replacing AppArmor profiles with '.new' versions..." >&2
+while read -r f; do
+  mv -f "$f" "${f%.new}" || true
+done < <(find /etc/apparmor.d -type f -name \*.new)

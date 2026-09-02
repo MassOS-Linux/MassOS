@@ -1,0 +1,15 @@
+The tar program will fail to untar any archives containing character special
+files without this fix.
+
+For more info, see <https://gitlab.com/apparmor/apparmor/-/work_items/664>.
+
+--- a/profiles/apparmor.d/tar
++++ b/profiles/apparmor.d/tar
+@@ -17,6 +17,7 @@ profile tar /usr/bin/tar {
+   # used to extract user files as root
+   capability chown,
+   capability fowner,
++  capability mknod,
+ 
+   # used to compress user files as root
+   capability dac_override,

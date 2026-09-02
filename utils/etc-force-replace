@@ -1,3 +1,4 @@
+apparmor/default_unconfined.template
 dircolors
 ethertypes
 grub.d/00_header

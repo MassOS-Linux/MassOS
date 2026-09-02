@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+# rootfs-idmap - Create a map of non-root-owned files for a local rootfs tree.
+# Copyright (C) 2026 Daniel Massey.
+# This program is licensed under GNU GPLv3+.
+
+# Ensure we are running under Bash 4.0 or newer.
+if test -z "$BASH_VERSION"; then
+  echo "Error: $(basename "$0") must be run under Bash." >&2
+  exit 1
+fi
+
+# Get rootfs tree as main (only) argument.
+tree="$1"
+
+if test -z "$tree"; then
+  echo "Usage: $(basename "$0") <rootfs-path>" >&2
+  exit 1
+fi
+
+# Ensure there is a /etc/group file.
+if test ! -r "$tree"/etc/group; then
+  echo "Error: Rootfs tree '$tree' does not contain a /etc/group file." >&2
+  exit 1
+fi
+
+# Create an ID map for numerical ownerships to rootfs-specific named ones.
+declare -A idmap
+idmap[0]="root"
+while read -r line; do
+  # Valid lines must contain name as column 1 and GID as column 3.
+  name="$(echo "$line" | cut -d: -f1)"
+  gid="$(echo "$line" | cut -d: -f3)"
+  if test ! -z "$name" && test ! -z "$gid"; then
+    # The line is valid, add the entry to the map.
+    idmap["$gid"]="$name"
+  fi
+done < "$tree"/etc/group
+
+# Perform the search (currently only needed on boot, etc, usr, and var).
+while read -r line; do
+  # Reference ID map with relevant line parse to find user and group.
+  uid="$(echo "$line" | cut -d: -f1)"
+  gid="$(echo "$line" | cut -d: -f2)"
+  user="${idmap[$uid]}"
+  group="${idmap[$gid]}"
+  # Only proceed if the line matched successfully. Other skip it and warn.
+  file="$(echo "$line" | cut -d: -f3)"
+  if test ! -z "$user" && test ! -z "$group"; then
+    # Printing to stdout ensures it gets picked up by redirect.
+    echo "$user:$group:${file#$tree}"
+  else
+    # Printing to stderr ensures it should not get redirected.
+    echo "Warning: IDs for '$file' ($uid:$gid) not mapped. Ignoring." >&2
+  fi
+done < <(find "$tree"/{boot,etc,usr,var} -type d,f,l \( ! -uid 0 -o ! -gid 0 \) -printf "%U:%G:%p\n")

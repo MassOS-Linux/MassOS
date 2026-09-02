@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Builds the core MassOS system (Stage 2) in a chroot environment.
-# Copyright (C) 2021-2025 Daniel Massey / MassOS Developers.
+# Copyright (C) 2021-2026 Daniel Massey / MassOS Developers.
 #
 # This script is part of the MassOS build system. It is licensed under GPLv3+.
 # See the 'LICENSE' file for the full license text. On a MassOS system, this
@@ -45,14 +45,14 @@ chmod 0750 /root
 mkdir -p /usr/lib/locale
 mklocales
 # Install Rust, Go and GYP to temporary directories for building some packages.
-tar -xf ../sources/rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu.tar.gz
-pushd rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu
+tar -xf ../sources/rust-1.97.1-"$MBS_ARCH"-unknown-linux-gnu.tar.gz
+pushd rust-1.97.1-"$MBS_ARCH"-unknown-linux-gnu
 ./install.sh --prefix=/root/mbs/extras/rust --without=rust-docs
-tar -xf ../../sources/rust-src-1.96.0.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
+tar -xf ../../sources/rust-src-1.97.1.tar.gz -C /root/mbs/extras/rust/lib --strip-components=3
 tar -xf ../../sources/cargo-c-"$MBS_ARCH"-unknown-linux-musl.tar.gz -C /root/mbs/extras/rust/bin
 tar -xf ../../sources/bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch.tar.xz -C /root/mbs/extras/rust/bin --strip-components=2 bindgen-0.72.1-cbindgen-0.29.4-massos-precompiled-multiarch/"$MBS_ARCH"/{,c}bindgen
 popd
-rm -rf rust-1.96.0-"$MBS_ARCH"-unknown-linux-gnu
+rm -rf rust-1.97.1-"$MBS_ARCH"-unknown-linux-gnu
 [ "$MBS_ARCH" != "x86_64" ] || tar -xf ../sources/go1.26.4.linux-amd64.tar.gz -C /root/mbs/extras
 [ "$MBS_ARCH" != "aarch64" ] || tar -xf ../sources/go1.26.4.linux-arm64.tar.gz -C /root/mbs/extras
 install -dm755 /root/mbs/extras/gyp
@@ -902,14 +902,14 @@ install -t /usr/share/licenses/patchelf -Dm644 COPYING
 popd
 rm -rf patchelf-0.19.1
 # strace.
-tar -xf ../sources/strace-7.1.tar.xz
-pushd strace-7.1
+tar -xf ../sources/strace-7.2.tar.xz
+pushd strace-7.2
 ./configure --prefix=/usr --with-libdw --enable-mpers=check
 make
 make install
 install -t /usr/share/licenses/strace -Dm644 COPYING LGPL-2.1-or-later
 popd
-rm -rf strace-7.1
+rm -rf strace-7.2
 # libffi.
 tar -xf ../sources/libffi-3.7.1.tar.gz
 pushd libffi-3.7.1
@@ -1568,13 +1568,13 @@ install -t /usr/share/licenses/nano -Dm644 COPYING
 popd
 rm -rf nano-9.2
 # dos2unix.
-tar -xf ../sources/dos2unix-7.5.5.tar.gz
-pushd dos2unix-7.5.5
+tar -xf ../sources/dos2unix-7.5.7.tar.gz
+pushd dos2unix-7.5.7
 make
 make install
 install -t /usr/share/licenses/dos2unix -Dm644 COPYING.txt
 popd
-rm -rf dos2unix-7.5.5
+rm -rf dos2unix-7.5.7
 # docutils.
 tar -xf ../sources/docutils-0.23.tar.gz
 pushd docutils-0.23
@@ -2721,6 +2721,27 @@ rm -f /usr/lib/libdmraid.a
 install -t /usr/share/licenses/dmraid -Dm644 LICENSE{,_GPL,_LGPL}
 popd
 rm -rf dmraid
+# libx86emu.
+tar -xf ../sources/libx86emu-3.7.tar.gz
+pushd libx86emu-3.7
+echo 3.7 > VERSION
+touch changelog
+make -j1 MAJOR_VERSION=3
+make -j1 LIBDIR=/usr/lib install
+install -t /usr/share/licenses/libx86emu -Dm644 LICENSE{,_INFO}
+popd
+rm -rf libx86emu-3.7
+# hwinfo.
+tar -xf ../sources/hwinfo-25.5.tar.gz
+pushd hwinfo-25.5
+echo 25.5 > VERSION
+touch changelog
+sed -i 's/sbin/bin/g' Makefile
+make -j1 LIBDIR=/usr/lib
+make -j1 LIBDIR=/usr/lib install
+install -t /usr/share/licenses/hwinfo -Dm644 COPYING
+popd
+rm -rf hwinfo-25.5
 # btrfs-progs.
 tar -xf ../sources/btrfs-progs-v7.1.tar.xz
 pushd btrfs-progs-v7.1
@@ -2800,6 +2821,16 @@ make install
 install -t /usr/share/licenses/ntfs-3g -Dm644 COPYING COPYING.LIB
 popd
 rm -rf ntfs-3g-2026.7.7
+# ntfsprogs-plus.
+tar -xf ../sources/ntfsprogs-plus-1.0.0-21-g53943da.tar.xz
+pushd ntfsprogs-plus-1.0.0-21-g53943da
+./configure --prefix=/usr --exec-prefix=/usr --sbindir=/usr/bin --disable-static
+sed -e 's|$(sbindir)/mkntfs|mkntfs|' -e 's|$(sbindir)/ntfsck|ntfsck|' -i src/Makefile
+make
+make install
+install -t /usr/share/licenses/ntfsprogs-plus -Dm644 COPYING COPYING.LIB
+popd
+rm -rf ntfsprogs-plus-1.0.0-21-g53943da
 # exfatprogs.
 tar -xf ../sources/exfatprogs-1.2.8.tar.xz
 pushd exfatprogs-1.2.8
@@ -3623,6 +3654,7 @@ rm -rf audit-userspace-4.0.3
 tar -xf ../sources/apparmor-v5.0.2.tar.bz2
 pushd apparmor-v5.0.2
 patch -Np1 -i ../../patches/apparmor-5.0.2-swig45.patch
+patch -Np1 -i ../../patches/apparmor-5.0.2-tar-mknod.patch
 pushd libraries/libapparmor
 ./autogen.sh
 ./configure --prefix=/usr --sbindir=/usr/bin --with-perl --with-python --with-ruby
@@ -3799,23 +3831,24 @@ install -t /usr/share/licenses/git -Dm644 COPYING LGPL-2.1
 popd
 rm -rf git-2.55.0
 # Botan.
-tar -xf ../sources/Botan-3.9.0.tar.xz
-pushd Botan-3.9.0
+tar -xf ../sources/Botan-3.13.0.tar.xz
+pushd Botan-3.13.0
 CFLAGS="" CPPFLAGS="" CXXFLAGS="" LDFLAGS="" ./configure.py --prefix=/usr --optimize-for-size --disable-static-library --build-tool=ninja --distribution-info=MassOS --with-boost --with-bzip --with-lzma --with-sqlite3 --with-tpm2 --with-zlib --without-pdf --without-sphinx --with-os-feature=getrandom
 ninja
 ninja install
 install -t /usr/share/licenses/botan -Dm644 license.txt
 popd
-rm -rf Botan-3.9.0
+rm -rf Botan-3.13.0
 # rnp.
-tar -xf ../sources/rnp-v0.18.0.tar.gz
-pushd rnp-v0.18.0
+tar -xf ../sources/rnp-v0.18.1.tar.gz
+pushd rnp-v0.18.1
+patch -Np1 -i ../../patches/rnp-0.18.1-upstreamfix.patch
 cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF -DDOWNLOAD_GTEST=OFF -DENABLE_COVERAGE=OFF -DENABLE_FUZZERS=OFF -DENABLE_SANITIZERS=OFF -Wno-dev -G Ninja -B build
 ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/rnp -Dm644 LICENSE.md
 popd
-rm -rf rnp-v0.18.0
+rm -rf rnp-v0.18.1
 # snowball.
 tar -xf ../sources/snowball-2.2.0.tar.gz
 pushd snowball-2.2.0
@@ -4711,15 +4744,6 @@ ninja -C build install
 install -t /usr/share/licenses/libzip -Dm644 LICENSE
 popd
 rm -rf libzip-1.11.4
-# dmg2img.
-tar -xf ../sources/dmg2img_1.6.7.orig.tar.gz
-pushd dmg2img-1.6.7
-patch -Np1 -i ../../patches/dmg2img-1.6.7-openssl.patch
-make PREFIX=/usr CFLAGS="$CFLAGS"
-install -t /usr/bin -Dm755 dmg2img vfdecrypt
-install -t /usr/share/licenses/dmg2img -Dm644 COPYING
-popd
-rm -rf dmg2img-1.6.7
 # libcbor.
 tar -xf ../sources/libcbor-0.12.0.tar.gz
 pushd libcbor-0.12.0
@@ -5324,8 +5348,8 @@ install -t /usr/share/licenses/libglvnd -Dm644 COPYING
 popd
 rm -rf libglvnd-v1.7.0
 # Mesa.
-tar -xf ../sources/mesa-mesa-26.1.6.tar.bz2
-pushd mesa-mesa-26.1.6
+tar -xf ../sources/mesa-mesa-26.1.7.tar.bz2
+pushd mesa-mesa-26.1.7
 ## TODO: Remove this patch once xf86-video-vmware is no longer needed.
 patch -Np1 -i ../../patches/mesa-26.0.1-restore-gallium-xa.patch
 ## Try to only build drivers which are applicable to the target architecture.
@@ -5336,7 +5360,7 @@ ninja -C build
 ninja -C build install
 install -t /usr/share/licenses/mesa -Dm644 docs/license.rst licenses/{Apache-2.0,BSL-1.0,exceptions/Linux-Syscall-Note,GPL-1.0-or-later,GPL-2.0-only,MIT,SGI-B-2.0}
 popd
-rm -rf mesa-mesa-26.1.6
+rm -rf mesa-mesa-26.1.7
 # libva (rebuild to support Mesa).
 tar -xf ../sources/libva-2.24.1.tar.bz2
 pushd libva-2.24.1
@@ -6227,8 +6251,8 @@ install -t /usr/share/licenses/mtools -Dm644 COPYING
 popd
 rm -rf mtools-4.0.49
 # bcachefs-tools.
-tar -xf ../sources/bcachefs-tools-1.38.5.tar.gz
-pushd bcachefs-tools-1.38.5
+tar -xf ../sources/bcachefs-tools-1.39.2.tar.gz
+pushd bcachefs-tools-1.39.2
 ## Initramfs scripts are inappropriate for dracut - throw them away.
 ## bcachefs will be built as an external module later.
 make PREFIX=/usr ROOT_SBINDIR=/usr/bin INITRAMFS_DIR=/tmp/.mbs_trash DKMSDIR=/tmp/.mbs_trash
@@ -6238,7 +6262,7 @@ bcachefs completions zsh > /usr/share/zsh/site-functions/_bcachefs
 bcachefs completions fish > /usr/share/fish/vendor_completions.d/bcachefs.fish
 install -t /usr/share/licenses/bcachefs-tools -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.38.5
+rm -rf bcachefs-tools-1.39.2
 # Polkit.
 tar -xf ../sources/polkit-127.tar.gz
 pushd polkit-127
@@ -7609,13 +7633,13 @@ install -t /usr/share/licenses/maturin -Dm644 license-{apache,mit}
 popd
 rm -rf maturin-1.14.1
 # cryptography.
-tar -xf ../sources/cryptography-48.0.0.tar.gz
-pushd cryptography-48.0.0
+tar -xf ../sources/cryptography-50.0.1.tar.gz
+pushd cryptography-50.0.1
 CC=clang RUSTFLAGS="$RUSTFLAGS -Clinker-plugin-lto -Clinker=clang -Clink-arg=-fuse-ld=lld" python -m build -nw -o dist
 python -m installer --compile-bytecode 1 dist/*.whl
 install -t /usr/share/licenses/cryptography -Dm644 LICENSE{,.APACHE,.BSD}
 popd
-rm -rf cryptography-48.0.0
+rm -rf cryptography-50.0.1
 # pyopenssl.
 tar -xf ../sources/pyopenssl-25.0.0.tar.gz
 pushd pyopenssl-25.0.0
@@ -7876,7 +7900,7 @@ rm -rf NetworkManager-openvpn-1.12.0
 # UDisks.
 tar -xf ../sources/udisks-2.11.2.tar.bz2
 pushd udisks-2.11.2
-./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-static --enable-available-modules
+./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-static
 make
 make install
 install -t /usr/share/licenses/udisks -Dm644 COPYING
@@ -8852,7 +8876,7 @@ install -t /usr/share/licenses/clutter-gst -Dm644 COPYING
 popd
 rm -rf clutter-gst-3.0.27
 # libchamplain.
-tar -xf ../sources/libchamplain-0.12.21.tar.gz
+tar -xf ../sources/libchamplain-0.12.21.tar.xz
 pushd libchamplain-0.12.21
 meson setup build --prefix=/usr --sbindir=bin --buildtype=minsize
 ninja -C build
@@ -8990,15 +9014,16 @@ install -t /usr/share/licenses/busybox -Dm644 LICENSE
 popd
 rm -rf busybox-1.38.0
 # memtest86+ (only supported on x86_64 systems).
-tar -xf ../sources/memtest86plus-7.20.tar.gz
-pushd memtest86plus-7.20
-[ "$MBS_ARCH" != "x86_64" ] || make -C build64
-[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/memtest86+ -Dm644 build64/memtest.{bin,efi}
-[ "$MBS_ARCH" != "x86_64" ] || sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/memtest86+/memtest.efi
-[ "$MBS_ARCH" != "x86_64" ] || install -t /usr/share/licenses/memtest86+ -Dm644 LICENSE
-[ "$MBS_ARCH" = "x86_64" ] || sed -i '/^memtest86+$/d' /usr/share/massos/builtins
+tar -xf ../sources/memtest86plus-8.10-34-g7726853.tar.gz
+pushd memtest86plus-7726853667fad43f7ec163a99e41fbb9d90ac092
+sed -i 's/9.00/8.10-34-g7726853/' app/version.h
+make -C build/"$MBS_ARCH"
+install -Dm644 build/"$MBS_ARCH"/mt86plus /usr/lib/memtest86+/mt86plus.efi
+[ "$MBS_ARCH" != "x86_64" ] || cp /usr/lib/memtest86+/mt86plus.{efi,bin}
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/memtest86+/mt86plus.efi
+install -t /usr/share/licenses/memtest86+ -Dm644 LICENSE
 popd
-rm -rf memtest86plus-7.20
+rm -rf memtest86plus-7726853667fad43f7ec163a99e41fbb9d90ac092
 # iPXE.
 tar -xf ../sources/ipxe-2.0.0.tar.gz
 pushd ipxe-2.0.0
@@ -9021,9 +9046,24 @@ cat > src/config/local/general.h << "END"
 END
 [ "$MBS_ARCH" = "x86_64" ] || echo "#undef IMAGE_UCODE" >> src/config/local/general.h
 make -C src bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi NO_WERROR=1
+cp src/bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi .
+make -C src veryclean
+cat >> src/config/local/general.h << "END"
+#undef DOWNLOAD_PROTO_FTP
+#undef DOWNLOAD_PROTO_NFS
+#undef FCMGMT_CMD
+#undef IMAGE_CRYPT_CMD
+#undef IMAGE_MEM_CMD
+#undef IMAGE_PNM
+#undef IMAGE_UCODE
+#undef LOTEST_CMD
+#undef NET_PROTO_FCOE
+END
+make -C src bin-"$MBS_ARCH_GRUB"-efi-sb/ipxe.efi NO_WERROR=1
+cp src/bin-"$MBS_ARCH_GRUB"-efi-sb/ipxe.efi ipxe-secureboot.efi
 [ "$MBS_ARCH" != "x86_64" ] || install -t /usr/lib/ipxe -Dm644 ipxe.{lkrn,pxe}
-install -t /usr/lib/ipxe -Dm644 src/bin-"$MBS_ARCH_GRUB"-efi/ipxe.efi
-sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/ipxe/ipxe.efi
+install -t /usr/lib/ipxe -Dm644 ipxe{,-secureboot}.efi
+sbsign --key ../../extras/secureboot/db.key --cert ../../extras/secureboot/db.crt /usr/lib/ipxe/ipxe-secureboot.efi
 install -t /usr/share/licenses/ipxe -Dm644 COPYING{,.GPLv2,.UBDL}
 popd
 rm -rf ipxe-2.0.0
@@ -9036,7 +9076,7 @@ cp BaseTools/Conf/build_rule.template build_rule.txt
 make -C BaseTools
 echo -e '#!/bin/sh\nif test "$(uname -m)" = x86_64; then echo X64; elif test "$(uname -m)" = aarch64; then echo AARCH64; else echo UNKNOWN; fi' | install -m755 /dev/stdin edk2arch
 PATH="$PWD/BaseTools/BinWrappers/PosixLike:$PATH" WORKSPACE="$PWD" EDK_TOOLS_PATH="$PWD/BaseTools" build -p ShellPkg/ShellPkg.dsc -a "$(./edk2arch)" -b RELEASE -n "$(nproc)" -t GCC
-install -Dm644 Build/Shell/RELEASE_GCC/"$(./edk2arch)"/ShellPkg/Application/Shell/EA4BB293-2D7F-4456-A681-1F22F42CD0BC/OUTPUT/Shell.efi /usr/lib/edk2-shell/shell"$MBS_ARCH_EFI".efi
+install -Dm644 Build/Shell/RELEASE_GCC/"$(./edk2arch)"/ShellPkg/Application/Shell/EA4BB293-2D7F-4456-A681-1F22F42CD0BC/OUTPUT/Shell.efi /usr/lib/edk2-shell/shell.efi
 ## NOTE: The UEFI EDK2 Shell is intentionally not signed for secure boot by us.
 ## NOTE: This is because it is insecure by nature (it is a debugging tool).
 install -t /usr/share/licenses/edk2-shell -Dm644 License.txt
@@ -9052,8 +9092,8 @@ install -t /usr/share/licenses/virtiofsd -Dm644 LICENSE-{APACHE,BSD-3-Clause}
 popd
 rm -rf virtiofsd-v1.13.1
 # qemu-guest-agent.
-tar -xf ../sources/qemu-11.0.3.tar.xz
-pushd qemu-11.0.3
+tar -xf ../sources/qemu-11.1.1.tar.xz
+pushd qemu-11.1.1
 sed -i 's/b6910bec11614980a21e46fbccc35934b671bd81/9a1c801a1a3c102bf95c5339c9e985b26b823a21/' subprojects/dtc.wrap
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var --sbindir=/usr/bin --disable-docs --target-list="$MBS_ARCH-linux-user,$MBS_ARCH-softmmu"
 make
@@ -9073,7 +9113,7 @@ install -t /usr/lib/systemd/system -Dm644 contrib/systemd/qemu-guest-agent.servi
 echo 'SUBSYSTEM=="virtio-ports", ATTR{name}=="org.qemu.guest_agent.0", TAG+="systemd" ENV{SYSTEMD_WANTS}="qemu-guest-agent.service"' > /usr/lib/udev/rules.d/99-qemu-guest-agent.rules
 install -t /usr/share/licenses/qemu-guest-agent -Dm644 COPYING{,.LIB} LICENSE
 popd
-rm -rf qemu-11.0.3
+rm -rf qemu-11.1.1
 # spice-vdagent.
 tar -xf ../sources/spice-vdagent-0.22.1.tar.bz2
 pushd spice-vdagent-0.22.1
@@ -9100,16 +9140,16 @@ install -t /usr/share/licenses/open-vm-tools -Dm644 COPYING LICENSE
 popd
 rm -rf open-vm-tools-stable-13.0.10
 # Linux / Linux-Headers.
-tar -xf ../sources/linux-7.1.8.tar.xz
-pushd linux-7.1.8
+tar -xf ../sources/linux-7.2.2.tar.xz
+pushd linux-7.2.2
 patch -Np1 -i ../../patches/linux-6.17.5-uefisecureboot.patch
 sed -i 's/$(ZSTD) --rm -f -q/$(ZSTD) --ultra -22 --rm -f -q/' scripts/Makefile.modinst
 make mrproper
 cat ../../extras/secureboot/db.{key,crt} > certs/massos_signing.pem
 cat > sbat.csv << "END"
 sbat,1,SBAT Version,sbat,1,https://github.com/rhboot/shim/blob/main/SBAT.md
-linux,1,The Linux Kernel Developers,linux,7.1.8,https://kernel.org
-linux.massos,1,MassOS,linux,7.1.8,https://massos.org
+linux,1,The Linux Kernel Developers,linux,7.2.2,https://kernel.org
+linux.massos,1,MassOS,linux,7.2.2,https://massos.org
 END
 cp ../../extras/build-configs/linux-config."$MBS_ARCH" .config
 make olddefconfig
@@ -9146,6 +9186,8 @@ install -t /usr/lib/modules/"$(cat version)"/build/drivers/media/dvb-frontends -
 install -t /usr/lib/modules/"$(cat version)"/build/drivers/media/tuners -Dm644 drivers/media/tuners/*.h
 install -t /usr/lib/modules/"$(cat version)"/build/drivers/iio/common/hid-sensors -Dm644 drivers/iio/common/hid-sensors/*.h
 find . -name 'Kconfig*' -exec install -Dm644 {} /usr/lib/modules/"$(cat version)"/build/{} ';'
+install -t /usr/lib/modules/"$(cat version)"/build/rust -Dm755 rust/*.so
+install -t /usr/lib/modules/"$(cat version)"/build/rust -Dm644 rust/*.rmeta
 rm -rf /usr/lib/modules/"$(cat version)"/build/Documentation
 find -L /usr/lib/modules/"$(cat version)"/build -type l -delete
 find /usr/lib/modules/"$(cat version)"/build -type f -name '*.o' -delete
@@ -9170,7 +9212,7 @@ END
 install -t /usr/share/licenses/linux -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 install -t /usr/share/licenses/linux-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.8
+rm -rf linux-7.2.2
 # nvidia-modules-open (provides nvidia-modules).
 tar -xf ../sources/open-gpu-kernel-modules-610.57.04.tar.gz
 pushd open-gpu-kernel-modules-610.57.04
@@ -9187,8 +9229,8 @@ ln -sf nvidia-modules-open /usr/share/licenses/nvidia-modules
 popd
 rm -rf open-gpu-kernel-modules-610.57.04
 # bcachefs-module.
-tar -xf ../sources/bcachefs-tools-1.38.5.tar.gz
-pushd bcachefs-tools-1.38.5
+tar -xf ../sources/bcachefs-tools-1.39.2.tar.gz
+pushd bcachefs-tools-1.39.2
 mv fs mod
 mkdir -p fs
 mv mod fs/bcachefs
@@ -9200,10 +9242,10 @@ install -t /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -Dm644
 depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/bcachefs-module -Dm644 COPYING
 popd
-rm -rf bcachefs-tools-1.38.5
+rm -rf bcachefs-tools-1.39.2
 # apfs-rw-module.
-tar -xf ../sources/linux-apfs-rw-0.3.20.tar.gz
-pushd linux-apfs-rw-0.3.20
+tar -xf ../sources/linux-apfs-rw-0.3.21.tar.gz
+pushd linux-apfs-rw-0.3.21
 sed -i 's/?"$/"/' genver.sh
 make KERNEL_DIR=/usr/src/linux
 strip --strip-debug apfs.ko
@@ -9213,7 +9255,7 @@ install -t /usr/lib/modules/"$(cat /usr/share/massos/.krel)"/extramodules -Dm644
 depmod "$(cat /usr/share/massos/.krel)"
 install -t /usr/share/licenses/apfs-rw-module -Dm644 LICENSE
 popd
-rm -rf linux-apfs-rw-0.3.20
+rm -rf linux-apfs-rw-0.3.21
 # Linux-Firmware.
 tar -xf ../sources/linux-firmware-20260810.tar.xz
 pushd linux-firmware-20260810
@@ -9245,17 +9287,18 @@ install -t /usr/share/licenses/sof-firmware -Dm644 LICENCE.Intel LICENCE.NXP Not
 popd
 rm -rf sof-bin-2025.12.2
 # upgrade-massos.
-tar -xf ../sources/upgrade-massos-0.2.1.tar.gz
-pushd upgrade-massos-0.2.1
+tar -xf ../sources/upgrade-massos-0.2.3.tar.gz
+pushd upgrade-massos-0.2.3
 go build -trimpath ugm-install-helper.go
-sed -i "s|massos-builds|builds/$(uname -m)|" upgrade-massos.conf
+sed -i "s|builds/x86_64|builds/$(uname -m)|" upgrade-massos.conf
+grep -q dev /usr/lib/massos-release || sed -i 's/channel: "experimental"/channel: "stable"/' upgrade-massos.conf
 install -t /usr/bin -Dm755 upgrade-massos
 install -t /usr/libexec/upgrade-massos -Dm755 ugm-install-helper
 install -t /etc/upgrade-massos -Dm644 upgrade-massos.conf
 install -t /etc/upgrade-massos/trusted-keys -Dm644 trusted-keys/{*.asc,README.md}
 install -t /usr/share/licenses/upgrade-massos -Dm644 LICENSE
 popd
-rm -rf upgrade-massos-0.2.1
+rm -rf upgrade-massos-0.2.3
 # MassOS release detection utility.
 gcc $CFLAGS ../sources/massos-release.c -o massos-release
 install -t /usr/bin -Dm755 massos-release
@@ -9263,8 +9306,8 @@ install -t /usr/bin -Dm755 massos-release
 echo "1.20260408" > /usr/share/massos/.rpifwver
 echo "b26fd19facd534aab474cc64e25db4b120682c2c4c9a2a4bed97495ec578a645" > /usr/share/massos/.rpifwsum
 # Specify the version of osinstallgui that should be used by the Live CD.
-echo "0.14.2" > /usr/share/massos/.osinstallguiver
-echo "cb623f0f3cc1213d9ba1422619e349530c88cbc5b898f688d630af7baa3adf05" > /usr/share/massos/.osinstallguisum
+echo "0.14.5" > /usr/share/massos/.osinstallguiver
+echo "b8d9221afeac3c306c554e4ccbb37ba38fd37447b2d33bad4e3419facb67d8c4" > /usr/share/massos/.osinstallguisum
 # Set up the osinstallgui configuration file.
 cat > /usr/share/massos/.osinstallguicfg << "END"
 OSINSTALLGUI_ROOTFS="/run/initramfs/squashed.img"
@@ -9302,12 +9345,12 @@ cat > /usr/share/massos/snapdversion << "END"
 
 # The snapd version, see <https://github.com/canonical/snapd/releases>.
 # SHA256 checksum is for the source file named 'snapd_<VERSION>.vendor.tar.xz'.
-version: 2.76
-checksum: 78ad358dc685ab5a40b9ca0b3fc283ae7c8fbbabb4612182d512bde7efeef605
+version: 2.76.3
+checksum: d97627913cbe4ec0a72b507e561f7c9da87c4be5c59412a3e1a94bdc079fa838
 END
 # Number that defines this build's compatibility with create-livecd.sh.
 # Increment if create-livecd.sh needs updates to accomodate build changes.
-echo 7 > /usr/share/massos/.rootfs_compat
+echo 8 > /usr/share/massos/.rootfs_compat
 # Clean up the mbs directory and self-destruct.
 # Keep /root/mbs/extras as it can be used by stage 3.
 popd

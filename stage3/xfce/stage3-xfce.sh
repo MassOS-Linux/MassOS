@@ -627,8 +627,8 @@ systemctl enable lightdm
 popd
 rm -rf lightdm-gtk-greeter-2.0.9
 # Firefox.
-[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.4.tar.xz.1 -C /usr/lib
-[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-153.0.4.tar.xz -C /usr/lib
+[ "$MBS_ARCH" != "x86_64" ] || tar --no-same-owner -xf ../sources/firefox-155.0.tar.xz.1 -C /usr/lib
+[ "$MBS_ARCH" != "aarch64" ] || tar --no-same-owner -xf ../sources/firefox-155.0.tar.xz -C /usr/lib
 mkdir -p /usr/lib/firefox/distribution
 cat > /usr/lib/firefox/distribution/policies.json << "END"
 {
@@ -658,7 +658,5 @@ install -dm755 /usr/share/licenses/firefox
 cat > /usr/share/licenses/firefox/LICENSE << "END"
 Please type 'about:license' in the URL box to view the Mozilla Firefox license.
 END
-# Firefox compat libs with system FFmpeg 9.0+ (remove after Firefox 155).
-tar --no-same-owner -xf ../sources/firefox-153-ffmpeg-8.1.2-compat-libs.tar.xz -C /usr/lib/firefox --strip-components=2 firefox-153-ffmpeg-8.1.2-compat-libs/"$MBS_ARCH"
 # Goodbye, finalize.sh will do the rest.
 popd

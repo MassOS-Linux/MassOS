@@ -1,0 +1,121 @@
+From 558d78ebd00544626dcd93dc7a4ad044b07ec238 Mon Sep 17 00:00:00 2001
+From: Kai Engert <kaie@kuix.de>
+Date: Tue, 24 Mar 2026 14:39:00 +0100
+Subject: [PATCH 1/3] Fix build with Botan head and typos warnings
+
+- Add missing <cstring> include in mem.cpp
+- Rename cpy variables to copy in s2k_ossl.cpp and fingerprint.hpp
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+---
+ src/lib/crypto/mem.cpp      | 1 +
+ src/lib/crypto/s2k_ossl.cpp | 8 ++++----
+ src/lib/fingerprint.hpp     | 4 ++--
+ 3 files changed, 7 insertions(+), 6 deletions(-)
+
+diff --git a/src/lib/crypto/mem.cpp b/src/lib/crypto/mem.cpp
+index 94d90f5484..dbd2a143ed 100644
+--- a/src/lib/crypto/mem.cpp
++++ b/src/lib/crypto/mem.cpp
+@@ -25,6 +25,7 @@
+  */
+ 
+ #include <cstdio>
++#include <cstring>
+ #include "mem.h"
+ #include "logging.h"
+ #include <botan/ffi.h>
+diff --git a/src/lib/crypto/s2k_ossl.cpp b/src/lib/crypto/s2k_ossl.cpp
+index de05b83a62..b810f87336 100644
+--- a/src/lib/crypto/s2k_ossl.cpp
++++ b/src/lib/crypto/s2k_ossl.cpp
+@@ -76,10 +76,10 @@ pgp_s2k_iterated(pgp_hash_alg_t alg,
+                 }
+             }
+             auto   dgst = hash->sec_finish();
+-            size_t out_cpy = std::min(dgst.size(), output_len);
+-            memcpy(out, dgst.data(), out_cpy);
+-            output_len -= out_cpy;
+-            out += out_cpy;
++            size_t out_copy = std::min(dgst.size(), output_len);
++            memcpy(out, dgst.data(), out_copy);
++            output_len -= out_copy;
++            out += out_copy;
+             zeroes++;
+         }
+         return 0;
+diff --git a/src/lib/fingerprint.hpp b/src/lib/fingerprint.hpp
+index b9ff1581f2..5c41257ea7 100644
+--- a/src/lib/fingerprint.hpp
++++ b/src/lib/fingerprint.hpp
+@@ -88,8 +88,8 @@ template <> struct hash<pgp::Fingerprint> {
+     {
+         /* since fingerprint value is hash itself, we may use its low bytes */
+         size_t res = 0;
+-        size_t cpy = std::min(sizeof(res), fp.size());
+-        std::memcpy(&res, fp.data(), cpy);
++        size_t copy = std::min(sizeof(res), fp.size());
++        std::memcpy(&res, fp.data(), copy);
+         return res;
+     }
+ };
+
+From 70edc929e80b049752e80d328c6dd9d00facfb92 Mon Sep 17 00:00:00 2001
+From: Nickolay Olshevsky <o.nickolay@gmail.com>
+Date: Sat, 18 Apr 2026 15:16:16 +0300
+Subject: [PATCH 2/3] Fix typo: writeable->writable.
+
+---
+ src/tests/cli_tests.py   | 2 +-
+ src/tests/file-utils.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/tests/cli_tests.py b/src/tests/cli_tests.py
+index 7df10f4794..db3b042d5d 100755
+--- a/src/tests/cli_tests.py
++++ b/src/tests/cli_tests.py
+@@ -2785,7 +2785,7 @@ def test_homedir_accessibility(self):
+         self.assertRegex(err, RE_KEYSTORE_INFO)
+         os.mkdir(os.path.join(RNPDIR, 'existing'), 0o700)
+         ret, _, err = run_proc(RNPK, ['--homedir', os.path.join(RNPDIR, 'existing'), '--generate', '--password=none'])
+-        self.assertEqual(ret, 0, 'failed to use writeable and existing homedir')
++        self.assertEqual(ret, 0, 'failed to use writable and existing homedir')
+         self.assertNotRegex(err, r'(?s)^.*Home directory .* does not exist or is not writable!')
+         self.assertNotRegex(err, RE_KEYSTORE_INFO)
+ 
+diff --git a/src/tests/file-utils.cpp b/src/tests/file-utils.cpp
+index 508bd5c51d..0e6a1e7420 100644
+--- a/src/tests/file-utils.cpp
++++ b/src/tests/file-utils.cpp
+@@ -64,7 +64,7 @@ TEST_F(rnp_tests, test_rnp_access)
+     /* Should fail, but unfortunately _waccess() works this way */
+     assert_int_equal(0, rnp_access("C:\\Windows\\System32\\User32.dll", W_OK));
+ #else
+-    /* Assume we are running as non-root and root directory is non-writeable for us */
++    /* Assume we are running as non-root and root directory is non-writable for us */
+     assert_int_equal(0, rnp_access("/", F_OK));
+     assert_int_equal(0, rnp_access("/", R_OK));
+     assert_int_equal(-1, rnp_access("/", W_OK));
+
+From f4102aa224ebc2102674b8e94f127b8903823b11 Mon Sep 17 00:00:00 2001
+From: Nickolay Olshevsky <o.nickolay@gmail.com>
+Date: Sat, 18 Apr 2026 16:38:07 +0300
+Subject: [PATCH 3/3] Update test_cv25519_bit_fix in attempt to fix CI failures
+
+---
+ src/tests/cli_tests.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/tests/cli_tests.py b/src/tests/cli_tests.py
+index db3b042d5d..3ecfcac492 100755
+--- a/src/tests/cli_tests.py
++++ b/src/tests/cli_tests.py
+@@ -3370,6 +3370,8 @@ def test_cv25519_bit_fix(self):
+         self.assertRegex(out, r'(?s)^.*Cv25519 key bits are set correctly and do not require fixing.*$')
+         ret, _, _ = run_proc(RNP, ['--homedir', RNPDIR, '--password', 'password', '-d', data_path(MSG_ES_25519)])
+         self.assertEqual(ret, 0)
++        # Remove already existing key and import tweaked one again to make sure it works with GnuPG
++        ret, _, _ = run_proc(GPG, ['--batch', '--homedir', GPGHOME, '--yes', '--delete-secret-key', 'dde0ee539c017d2bd3f604a53176fc1486aa2528'])
+         ret, _, _ = run_proc(GPG, ['--batch', '--homedir', GPGHOME, '--batch', '--passphrase', 'password', '--import', os.path.join(RNPDIR, SECRING)])
+         self.assertEqual(ret, 0)
+         ret, _, _ = run_proc(GPG, ['--batch', '--homedir', GPGHOME, GPG_LOOPBACK, '--batch', '--passphrase', 'password',

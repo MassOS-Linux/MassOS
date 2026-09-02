@@ -1,0 +1,44 @@
+.TH "ROOTFS-IDMAP" "1" "August 2026" "rootfs-idmap" "MassOS System Utilities"
+.hy
+.SH NAME
+.PP
+rootfs-idmap - Create a map of non-root-owned files for a local rootfs tree.
+.SH SYNOPSIS
+.PP
+\f[B]rootfs-idmap\f[R] <\f[I]rootfs-path\f[R]>
+.SH DESCRIPTION
+.PP
+\f[B]rootfs-idmap\f[R] is a small utility which will create a map of non-root-owned files for a local rootfs tree. It is primarily intended for use within the MassOS build system, to generate a list of files which can be safely chown'ed as part of the MassOS system upgrade process, in case the numerical UID or GID of the file differs from the host system's /etc/group specification.
+
+\f[B]rootfs-idmap\f[R] takes care to only operate within the specified rootfs tree. It fetches the numerical UID and GID of each file on disk, and consults the rootfs tree's own /etc/group file to map those IDs to usernames and group names. This prevents any tainting from the host system in the case that the host system's ID for a given name differs from the rootfs tree's ID for that same name. This can happen due to dynamic ID allocation performed by systemd-sysusers.
+
+\f[B]rootfs-idmap\f[R] should either be run as root, or as a user who has full read access to the rootfs tree. This is because inaccessible files (due to permission denied errors) will be skipped from the map, and thus the map may become incomplete.
+
+Warnings produced by \f[B]rootfs-idmap\f[R] will be emitted on stderr as opposed to stdout. This ensures that creating the map by redirecting the program's output to a file will still succeed overall and will not be tainted due to error lines.
+.SH EXIT STATUS
+.PP
+\f[B]rootfs-idmap\f[R] will exit with 0 for success and >0 for failure.
+.SH EXAMPLES
+.TP
+\f[B]rootfs-idmap ~/MassOS/massos-rootfs > ~/MassOS/massos-rootfs/usr/share/massos/.nonrootfiles\f[R]
+Creates an ID map for a locally stored (extracted) rootfs tree and saves the output to a file within the rootfs tree.
+.TP
+\f[B]rootfs-idmap /\f[R]
+Creates an ID map for the current root filesystem.
+.SH SEE ALSO
+.TP
+mass-chroot(8)
+.SH BUGS
+.PP
+Report bugs to <https://github.com/MassOS-Linux/MassOS/issues>.
+
+NOTE: Please first check that your issue has not yet been fixed in the development branch!
+.SH COPYRIGHT
+.PP
+Copyright (C) 2026 Daniel Massey.
+
+This software is part of the MassOS system, and is licensed under the GNU GPLv3+.
+
+A copy of the license can be found at /usr/share/massos/LICENSE on a MassOS system.
+
+It can also be found at <https://www.gnu.org/licenses/gpl.html>.

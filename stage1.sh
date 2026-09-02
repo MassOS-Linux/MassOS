@@ -98,15 +98,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(unam
 popd; popd
 rm -rf gcc-16.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.1.8.tar.xz
-pushd linux-7.1.8
+tar -xf ../sources/linux-7.2.2.tar.xz
+pushd linux-7.2.2
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.1.8
+rm -rf linux-7.2.2
 # Glibc.
 tar -xf ../sources/glibc-2.44.tar.xz
 pushd glibc-2.44
@@ -181,7 +181,7 @@ ln -sfr "$MASSOS"/usr/lib/massos-release "$MASSOS"/etc/massos-release
 ln -sfr "$MASSOS"/usr/lib/os-release "$MASSOS"/etc/os-release
 ln -sfr "$MASSOS"/usr/lib/lsb-release "$MASSOS"/etc/lsb-release
 # Install MassOS system utilities.
-install -t "$MASSOS"/usr/bin -Dm755 utils/programs/{mass-chroot,massos-snapd,mbs,mkinitramfs,mklocales,{un,}zman}
+install -t "$MASSOS"/usr/bin -Dm755 utils/programs/{mass-chroot,massos-snapd,mbs,mkinitramfs,mklocales,rootfs-idmap,{un,}zman}
 # Install man pages for MassOS system utilities.
 install -t "$MASSOS"/usr/share/man/man1 -Dm644 utils/man/man1/*.1
 install -t "$MASSOS"/usr/share/man/man8 -Dm644 utils/man/man8/*.8
