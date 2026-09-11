@@ -2,6 +2,59 @@
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
 # Current Development
+
+Upgraded software (core):
+
+- Bubblewrap: `0.11.2 --> 0.12.0`
+- build: `1.5.1 --> 1.6.0`
+- Clang: `22.1.8 --> 23.1.0`
+- CMake: `4.4.2 --> 4.4.3`
+- compiler-rt: `22.1.8 --> 23.1.0`
+- curl: `8.21.0 --> 8.22.0`
+- Cython: `3.2.9 --> 3.3.0`
+- exiv2: `0.28.8 --> 0.28.9`
+- GnuPG: `2.5.21 --> 2.5.22`
+- GPGME: `2.1.2 --> 2.2.0`
+- gpgmepp: `2.1.0 --> 2.2.0`
+- HarfBuzz: `14.3.0 --> 14.4.0`
+- libaom: `3.14.1 --> 3.15.0`
+- libclc: `22.1.8 --> 23.1.0`
+- libc++: `22.1.8 --> 23.1.0`
+- libc++abi: `22.1.8 --> 23.1.0`
+- libde265: `1.1.1 --> 1.1.2`
+- libevdev: `1.13.6 --> 1.13.7`
+- libgcrypt: `1.12.2 --> 1.12.3`
+- libheif: `1.23.0 --> 1.23.3`
+- libksba: `1.8.0 --> 1.8.1`
+- libvpx: `1.16.0 --> 1.17.0`
+- Linux: `7.2.2 --> 7.2.4`
+- Linux-API-Headers: `7.2.2 --> 7.2.4`
+- Linux-Headers: `7.2.2 --> 7.2.4`
+- LLD: `22.1.8 --> 23.1.0`
+- LLVM: `22.1.8 --> 23.1.0`
+- Mesa: `26.1.7 --> 26.2.2`
+- NSS: `22.1.8 --> 23.1.0`
+- nv-codec-headers: `13.0.19.0 --> 13.1.15.0`
+- OpenMP: `22.1.8 --> 23.1.0`
+- Qpdf: `12.4.0 --> 12.4.1`
+- Pygments: `2.20.0 --> 2.21.0`
+- PyGObject: `3.56.3 --> 3.58.0`
+- Shadow: `4.19.4 --> 4.20.2`
+- simdutf: `9.0.0 --> 9.1.0`
+- SPIRV-LLVM-Translator: `22.1.5 --> 23.1.0`
+- utfcpp: `4.1.1 --> 4.2.0`
+- WirePlumber: `0.5.15 --> 0.5.16`
+- xpr: `1.2.0 --> 1.2.1`
+
+Upgraded software (Xfce):
+
+- Firefox: `155.0 --> 155.0.1`
+
+Upgraded software (extras - **NOT** installed by default):
+
+- Snapd: `2.76.3 --> 2.77`
+
+# MassOS 2026.09
 **IMPORTANT NOTICE:** It is NOT possible to perform an in-place upgrade from MassOS 2022.10 or older to this version. A clean reinstallation must be performed instead, though subsequent system upgrades will be possible using the [new MassOS upgrade utility](https://github.com/MassOS-Linux/upgrade-massos). Please see [this announcement](https://github.com/MassOS-Linux/MassOS/issues/54) for more information about the continuation of MassOS releases from September 2026.
 
 Changes:

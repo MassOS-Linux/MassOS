@@ -1,9 +1,0 @@
-Hardcode system user UID according to the MassOS 'USERIDS.md' specification.
-
---- a/dist/sysusers.d/tpm2-tss.conf
-+++ b/dist/sysusers.d/tpm2-tss.conf
-@@ -1,2 +1,2 @@
--#Type Name ID GECOS               Home directory Shell
--u     tss  -  "tss user for tpm2"
-+#Type Name ID  GECOS               Home directory Shell
-+u     tss  973 "tss user for tpm2"

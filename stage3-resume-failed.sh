@@ -68,7 +68,7 @@ echo "Done!"
 # Generate list of distribution-provided files, for 'upgrade-massos' utility.
 find "$MASSOS"/{boot,etc,usr,var} -type d,f,l -printf "%y:%p\n" | sed "s|$MASSOS||" | sort > "$MASSOS"/usr/share/massos/.distfiles
 # Generate a map of non-root files for 'upgrade-massos' ownership correction.
-rootfs-idmap "$MASSOS" | sort > "$MASSOS"/usr/share/massos/.nonrootfiles
+utils/programs/rootfs-idmap "$MASSOS" | sort > "$MASSOS"/usr/share/massos/.nonrootfiles
 # Finish the MassOS system.
 sync
 outfile="massos-$(cat "$MASSOS"/etc/massos-release)-rootfs-$(uname -m)-$1.tar"

@@ -1,8 +1,0 @@
-Hardcode system user UID according to the MassOS 'USERIDS.md' specification.
-
---- a/data/passim.sysusers.conf
-+++ b/data/passim.sysusers.conf
-@@ -1,2 +1,2 @@
- #Type Name   ID    GECOS                  Home directory   Shell
--u     passim -     "Local Caching Server" /usr/share/empty -
-+u     passim 962   "Local Caching Server" /usr/share/empty -

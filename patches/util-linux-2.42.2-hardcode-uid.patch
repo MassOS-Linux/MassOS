@@ -1,7 +1,0 @@
-Hardcode system user UID according to the MassOS 'USERIDS.md' specification.
-
---- a/misc-utils/uuidd-sysusers.conf.in
-+++ b/misc-utils/uuidd-sysusers.conf.in
-@@ -1 +1 @@
--u@SYSTEMD_USER_LOCK@ uuidd - "UUID generator helper daemon" @localstatedir@/lib/libuuid
-+u@SYSTEMD_USER_LOCK@ uuidd 974 "UUID generator helper daemon" @localstatedir@/lib/libuuid

@@ -98,15 +98,15 @@ cat ../gcc/{limitx,glimits,limity}.h > "$MASSOS"/root/mbs/stage1/lib/gcc/"$(unam
 popd; popd
 rm -rf gcc-16.2.0
 # Linux-API-Headers.
-tar -xf ../sources/linux-7.2.2.tar.xz
-pushd linux-7.2.2
+tar -xf ../sources/linux-7.2.4.tar.xz
+pushd linux-7.2.4
 make mrproper
 make headers
 find usr/include -type f ! -name \*.h -delete
 cp -r usr/include "$MASSOS"/usr
 install -t "$MASSOS"/usr/share/licenses/linux-api-headers -Dm644 COPYING LICENSES/exceptions/* LICENSES/preferred/*
 popd
-rm -rf linux-7.2.2
+rm -rf linux-7.2.4
 # Glibc.
 tar -xf ../sources/glibc-2.44.tar.xz
 pushd glibc-2.44
