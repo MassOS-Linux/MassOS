@@ -6,7 +6,14 @@
 mkdir -p sources
 pushd sources >/dev/null || true
 # Download sources using source-urls as a wget input file.
-wget -nc --continue --no-check-certificate --input-file=../source-urls
+# We should NOT need to use a custom user agent, but we now do thanks to Anubis
+# (on nearly EVERY SINGLE PROJECT's website/server) INCORRECTLY treating wget
+# as an AI scraper, and trying to serve it a challenge which it can't complete
+# because OBVIOUSLY command line downloaders do NOT have JavaScript support.
+# This causes downloads to "appear" to succeed, but in fact downloads an HTML
+# document (the Anubis challenge page) masqueraded as if it were a tarball. If
+# it wants to gaslight us, we will, WITHOUT HESITATION, gaslight it back.
+wget -nc --continue --no-check-certificate --user-agent="Git/2.55.0" --input-file=../source-urls
 STATUS=$?
 # Return out of the sources directory.
 popd >/dev/null || true

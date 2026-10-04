@@ -1,54 +1,145 @@
 # Full Changelog History
 This document contains the full changelog for every previous versions of MassOS, as well as the changes currently in development for the next upcoming version of MassOS (which may be subject to change before the version is finally released).
 
-# Current Development
+# MassOS 2026.10
+
+Changes:
+
+- Ensured that `mount` from util-linux uses the newer NTFSPlus driver by default for NTFS volumes, instead of NTFS3, thus avoiding the need to pass `-t ntfs`, and avoiding the need to use the `rootfstype=ntfs` kernel parameter for root-on-NTFS installations.
+- Updated upgrade utility to be able to correct system file ownerships based on IDs - system account IDs are no longer hardcoded.
 
 Upgraded software (core):
 
+- 7zip: `26.01 --> 26.03`
+- adwaita-icon-theme: `50.0 --> 51.0`
+- at-spi2-core: `2.60.6 --> 2.62.0.1`
+- bcachefs-module: `1.39.2 --> 1.39.6`
+- bcachefs-tools: `1.39.2 --> 1.39.6`
+- BIND-Utils: `9.20.26 --> 9.20.29`
 - Bubblewrap: `0.11.2 --> 0.12.0`
-- build: `1.5.1 --> 1.6.0`
-- Clang: `22.1.8 --> 23.1.0`
+- build: `1.5.1 --> 1.6.1`
+- Clang: `22.1.8 --> 23.1.2`
 - CMake: `4.4.2 --> 4.4.3`
-- compiler-rt: `22.1.8 --> 23.1.0`
+- compiler-rt: `22.1.8 --> 23.1.2`
+- cryptsetup: `2.8.7 --> 2.8.8`
 - curl: `8.21.0 --> 8.22.0`
 - Cython: `3.2.9 --> 3.3.0`
+- dconf: `0.40.0 --> 51.0`
+- Ed: `1.22.5 --> 1.22.6`
+- elfutils: `0.195 --> 0.196`
+- Enchant: `2.8.19 --> 2.8.21`
 - exiv2: `0.28.8 --> 0.28.9`
+- Expat: `2.8.2 --> 2.8.4`
+- fast-float: `8.2.9 --> 8.3.0`
+- fastfetch: `2.66.0 --> 2.68.1`
+- FFmpeg: `9.0.1 --> 9.0.2`
+- FUSE3: `3.18.2 --> 3.18.3`
+- Gcr4: `4.4.0.1 --> 4.4.1`
+- GDK-Pixbuf: `2.44.7 --> 2.44.8`
+- GhostScript: `10.07.0 --> 10.08.0`
+- GLib: `2.88.3 --> 2.90.0`
+- glib-networking: `2.80.1 --> 2.90.0`
+- GLibmm: `2.66.9 --> 2.66.10`
+- glslang: `16.5.0 --> 16.6.0`
+- glycin: `2.1.5 --> 2.2.1`
+- gnome-keyring: `48.0 --> 51.1`
 - GnuPG: `2.5.21 --> 2.5.22`
 - GPGME: `2.1.2 --> 2.2.0`
 - gpgmepp: `2.1.0 --> 2.2.0`
+- Graphviz: `15.1.1 --> 16.1.0`
+- GRUB: `2.14 --> 2.16`
+- gsettings-desktop-schemas: `50.1 --> 51.0`
+- gst-editing-services: `1.28.6 --> 1.28.7`
+- gst-libav: `1.28.6 --> 1.28.7`
+- gst-plugins-bad: `1.28.6 --> 1.28.7`
+- gst-plugins-base: `1.28.6 --> 1.28.7`
+- gst-plugins-good: `1.28.6 --> 1.28.7`
+- gst-plugins-ugly: `1.28.6 --> 1.28.7`
+- gst-python: `1.28.6 --> 1.28.7`
+- GStreamer: `1.28.6 --> 1.28.7`
+- GTK4: `4.22.4 --> 4.24.0`
+- gtksourceview5: `5.20.0 --> 5.22.0`
+- GVFS: `1.60.2 --> 1.62.0`
 - HarfBuzz: `14.3.0 --> 14.4.0`
+- hunspell: `1.7.2 --> 1.7.3`
+- hwdata: `0.410 --> 0.411`
+- iana-etc: `20260805 --> 20260911`
+- Intel-Microcode: `20260812 --> 20260925`
+- IPRoute2: `7.1.0 --> 7.2.0`
+- libadwaita: `1.9.3 --> 1.10.0`
 - libaom: `3.14.1 --> 3.15.0`
-- libclc: `22.1.8 --> 23.1.0`
-- libc++: `22.1.8 --> 23.1.0`
-- libc++abi: `22.1.8 --> 23.1.0`
-- libde265: `1.1.1 --> 1.1.2`
+- libbluray: `1.3.2 --> 1.5.1`
+- libclc: `22.1.8 --> 23.1.2`
+- libc++: `22.1.8 --> 23.1.2`
+- libc++abi: `22.1.8 --> 23.1.2`
+- libde265: `1.1.1 --> 1.1.3`
 - libevdev: `1.13.6 --> 1.13.7`
-- libgcrypt: `1.12.2 --> 1.12.3`
-- libheif: `1.23.0 --> 1.23.3`
+- libgcrypt: `1.12.2 --> 1.12.4`
+- libheif: `1.23.0 --> 1.23.4`
+- libinput: `1.31.3 --> 1.32.0`
 - libksba: `1.8.0 --> 1.8.1`
+- libldap: `2.7.0 --> 2.7.1`
+- libpaper: `2.2.8 --> 2.3.0`
+- libpcap: `1.10.6 --> 1.10.7`
+- librsvg: `2.62.3 --> 2.63.2`
+- libsecret: `0.21.7 --> 0.21.8.2`
+- libtirpc: `1.3.7 --> 1.3.8`
+- libudfread: `1.1.2 --> 1.2.0`
 - libvpx: `1.16.0 --> 1.17.0`
-- Linux: `7.2.2 --> 7.2.4`
-- Linux-API-Headers: `7.2.2 --> 7.2.4`
-- Linux-Headers: `7.2.2 --> 7.2.4`
-- LLD: `22.1.8 --> 23.1.0`
-- LLVM: `22.1.8 --> 23.1.0`
-- Mesa: `26.1.7 --> 26.2.2`
-- NSS: `22.1.8 --> 23.1.0`
+- libwacom: `2.19.1 --> 2.20.0`
+- libxml2: `2.15.3 --> 2.15.4`
+- Linux: `7.2.2 --> 7.2.9`
+- Linux-API-Headers: `7.2.2 --> 7.2.9`
+- Linux-Firmware: `20260810 --> 20260916`
+- Linux-Headers: `7.2.2 --> 7.2.9`
+- LLD: `22.1.8 --> 23.1.2`
+- LLVM: `22.1.8 --> 23.1.2`
+- lxml: `6.1.1 --> 6.1.3`
+- man-pages: `6.18 --> 6.19`
+- maturin: `1.14.1 --> 1.15.0`
+- Mesa: `26.1.7 --> 26.2.4`
+- NSS: `3.126 --> 3.129`
+- noto-fonts: `2026.07.01 --> 2026.10.01`
 - nv-codec-headers: `13.0.19.0 --> 13.1.15.0`
-- OpenMP: `22.1.8 --> 23.1.0`
+- OpenMP: `22.1.8 --> 23.1.2`
+- OpenSSL: `4.0.1 --> 4.0.2`
 - Qpdf: `12.4.0 --> 12.4.1`
+- PCRE2: `10.47 --> 10.48`
+- PipeWire: `1.6.8 --> 1.6.9`
+- Poppler: `26.08.0 --> 26.09.0`
 - Pygments: `2.20.0 --> 2.21.0`
 - PyGObject: `3.56.3 --> 3.58.0`
+- Ruby: `4.0.6 --> 4.0.7`
+- sdl2-compat: `2.32.70 --> 2.32.72`
+- SDL3: `3.4.14 --> 3.4.16`
+- setuptools: `83.0.0 --> 84.0.0`
+- shaderc: `2026.3 --> 2026.4`
 - Shadow: `4.19.4 --> 4.20.2`
-- simdutf: `9.0.0 --> 9.1.0`
-- SPIRV-LLVM-Translator: `22.1.5 --> 23.1.0`
+- simdutf: `9.0.0 --> 9.2.0`
+- sof-bin: `2025.12.2 --> 2026.09.1`
+- SPIRV-LLVM-Translator: `22.1.5 --> 23.1.1`
+- SWIG: `4.5.0 --> 4.5.1`
+- systemd: `261.2 --> 262`
+- Taglib: `2.3.1 --> 2.3.2`
+- tinysparql: `3.9.2 --> 3.12.0`
+- tzdata: `2026c --> 2026d`
+- upgrade-massos: `0.2.3 --> 0.3.0`
+- UPower: `1.91.3 --> 1.91.4`
+- Userspace-RCU: `0.15.6 --> 0.15.7`
 - utfcpp: `4.1.1 --> 4.2.0`
-- WirePlumber: `0.5.15 --> 0.5.16`
+- util-linux: `2.38.1 --> 2.42.3`
+- Vim: `9.2.0782 --> 9.2.1122`
+- WebKitGTK: `2.52.5 --> 2.54.0`
+- WirePlumber: `0.5.15 --> 0.5.17`
+- x265: `4.2 --> 4.3`
+- xfsprogs: `7.1.1 --> 7.2.0`
 - xpr: `1.2.0 --> 1.2.1`
+- xz: `5.8.2 --> 5.8.4`
+- yyjson: `0.12.0 --> 0.13.0`
 
 Upgraded software (Xfce):
 
-- Firefox: `155.0 --> 155.0.1`
+- Firefox: `155.0 --> 157.0`
 
 Upgraded software (extras - **NOT** installed by default):
 
